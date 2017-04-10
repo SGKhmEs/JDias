@@ -1,0 +1,96 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.sgkhmjaes.jdias",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "4.2.0",
+    "baseName": "JDias",
+    "packageName": "com.sgkhmjaes.jdias",
+    "packageFolder": "com/sgkhmjaes/jdias",
+    "serverPort": "8080",
+    "authenticationType": "session",
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": false,
+    "websocket": "spring-websocket",
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": "elasticsearch",
+    "messageBroker": "kafka",
+    "serviceDiscoveryType": false,
+    "buildTool": "gradle",
+    "enableSocialSignIn": true,
+    "rememberMeKey": "1d902fb70725a1d5966d805d8f55b91d2c057656",
+    "clientFramework": "angular2",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "applicationType": "monolith",
+    "testFrameworks": [
+      "gatling",
+      "cucumber",
+      "protractor"
+    ],
+    "jhiPrefix": "jhi",
+    "otherModules": [
+      {
+        "name": "generator-jhipster-docker",
+        "version": "2.2.0"
+      },
+      {
+        "name": "generator-jhipster-nav-element",
+        "version": "1.0.2"
+      },
+      {
+        "name": "generator-jhipster-ci",
+        "version": "1.0.0"
+      },
+      {
+        "name": "generator-jhipster-bootstrap-material-design",
+        "version": "3.5.1"
+      },
+      {
+        "name": "generator-jhipster-entity-audit",
+        "version": "2.4.0"
+      },
+      {
+        "name": "generator-jhipster-entity-audit-and-delete",
+        "version": "2.2.2"
+      },
+      {
+        "name": "generator-jhipster-elasticsearch-reindexer",
+        "version": "0.3.0"
+      },
+      {
+        "name": "generator-jhipster-spring-social-connectors",
+        "version": "0.0.1"
+      },
+      {
+        "name": "generator-jhipster-material",
+        "version": "0.0.0"
+      },
+      {
+        "name": "generator-jhipster-basic-auth",
+        "version": "1.0.1"
+      },
+      {
+        "name": "generator-jhipster-angular-ui",
+        "version": "0.0.2"
+      },
+      {
+        "name": "generator-jhipster-google-analytics",
+        "version": "0.0.1"
+      },
+      {
+        "name": "generator-jhipster-google-maps",
+        "version": "0.0.1"
+      }
+    ],
+    "enableTranslation": true,
+    "nativeLanguage": "en",
+    "languages": [
+      "en",
+      "ru"
+    ]
+  }
+}
