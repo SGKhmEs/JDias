@@ -6,9 +6,7 @@ services:
             - SPRING_PROFILES_ACTIVE=prod,swagger
             - SPRING_DATASOURCE_URL=jdbc:postgresql://jdias-postgresql:5432/JDias
             - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
-            - SPRING_DATA_ELAST ICSEARCH_CLUSTER_NODES=jdias-elasticsearch:9300
-            - SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=kafka
-            - SPRING_CLOUD_STREAM_KAFKA_BINDER_ZK_NODES=zookeeper
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=jdias-elasticsearch:9300
         ports:
             - 8080:8080
     jdias-postgresql:
@@ -19,13 +17,3 @@ services:
         extends:
             file: elasticsearch.yml
             service: jdias-elasticsearch
-    kafka:
-        extends:
-            file: kafka.yml
-            service: kafka
-        environment:
-            - KAFKA_ADVERTISED_HOST_NAME=kafka
-    zookeeper:
-        extends:
-            file: kafka.yml
-            service: zookeeper

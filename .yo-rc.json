@@ -4,7 +4,7 @@
       "packageName": "com.sgkhmjaes.jdias",
       "nativeLanguage": "en"
     },
-    "jhipsterVersion": "4.2.0",
+    "jhipsterVersion": "4.3.0",
     "baseName": "JDias",
     "packageName": "com.sgkhmjaes.jdias",
     "packageFolder": "com/sgkhmjaes/jdias",
@@ -17,14 +17,13 @@
     "devDatabaseType": "h2Disk",
     "prodDatabaseType": "postgresql",
     "searchEngine": "elasticsearch",
-    "messageBroker": "kafka",
     "serviceDiscoveryType": false,
     "buildTool": "gradle",
     "enableSocialSignIn": true,
     "rememberMeKey": "1d902fb70725a1d5966d805d8f55b91d2c057656",
     "clientFramework": "angular2",
     "useSass": true,
-    "clientPackageManager": "npm",
+    "clientPackageManager": "yarn",
     "applicationType": "monolith",
     "testFrameworks": [
       "gatling",
@@ -91,6 +90,7 @@
     "languages": [
       "en",
       "ru"
-    ]
+    ],
+    "messageBroker": false
   }
 }

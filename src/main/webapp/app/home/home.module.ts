@@ -5,7 +5,6 @@ import { JDiasSharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
 
-
 @NgModule({
     imports: [
         JDiasSharedModule,

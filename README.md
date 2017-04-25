@@ -1,5 +1,5 @@
 # JDias
-This application was generated using JHipster 4.2.0, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v4.2.0](https://jhipster.github.io/documentation-archive/v4.2.0).
+This application was generated using JHipster 4.3.0, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v4.3.0](https://jhipster.github.io/documentation-archive/v4.3.0).
 
 ## Development
 
@@ -7,36 +7,38 @@ Before you can build this project, you must install and configure the following 
 
 1. [Node.js][]: We use Node to run a development web server and build the project.
    Depending on your system, you can install Node either from source or as a pre-packaged bundle.
+2. [Yarn][]: We use Yarn to manage Node dependencies.
+   Depending on your system, you can install Yarn either from source or as a pre-packaged bundle.
 
 After installing Node, you should be able to run the following command to install development tools.
 You will only need to run this command when dependencies change in [package.json](package.json).
 
-    npm install
+    yarn install
 
-We use npm scripts and [Webpack][] as our build system.
+We use yarn scripts and [Webpack][] as our build system.
 
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
     ./gradlew
-    npm start
+    yarn start
 
-[Npm][] is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
-specifying a newer version in [package.json](package.json). You can also run `npm update` and `npm install` to manage dependencies.
-Add the `help` flag on any command to see how you can use it. For example, `npm help update`.
+[Yarn][] is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
+specifying a newer version in [package.json](package.json). You can also run `yarn update` and `yarn install` to manage dependencies.
+Add the `help` flag on any command to see how you can use it. For example, `yarn help update`.
 
-The `npm run` command will list all of the scripts available to run for this project.
+The `yarn run` command will list all of the scripts available to run for this project.
 
 ### Managing dependencies
 
 For example, to add [Leaflet][] library as a runtime dependency of your application, you would run following command:
 
-    npm install --save --save-exact leaflet
+    yarn add --exact leaflet
 
 To benefit from TypeScript type definitions from [DefinitelyTyped][] repository in development, you would run following command:
 
-    npm install --save-dev --save-exact @types/leaflet
+    yarn add --dev --exact @types/leaflet
 
 Then you would import the JS and CSS files specified in library's installation instructions so that [Webpack][] knows about them:
 
@@ -93,10 +95,10 @@ To launch your application's tests, run:
 
 Unit tests are run by [Karma][] and written with [Jasmine][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
 
-    npm test
+    yarn test
 
 UI end-to-end tests are powered by [Protractor][], which is built on top of WebDriverJS. They're located in [src/test/javascript/e2e](src/test/javascript/e2e)
-and can be run by starting Spring Boot in one terminal (`./gradlew bootRun`) and running the tests (`npm run e2e`) in a second one.
+and can be run by starting Spring Boot in one terminal (`./gradlew bootRun`) and running the tests (`yarn run e2e`) in a second one.
 ### Other tests
 
 Performance tests are run by [Gatling][] and written in Scala. They're located in [src/test/gatling](src/test/gatling) and can be run with:
@@ -132,13 +134,13 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To configure CI for your project, run the ci-cd sub-generator (`yo jhipster:ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [JHipster Homepage and latest documentation]: https://jhipster.github.io
-[JHipster 4.2.0 archive]: https://jhipster.github.io/documentation-archive/v4.2.0
+[JHipster 4.3.0 archive]: https://jhipster.github.io/documentation-archive/v4.3.0
 
-[Using JHipster in development]: https://jhipster.github.io/documentation-archive/v4.2.0/development/
-[Using Docker and Docker-Compose]: https://jhipster.github.io/documentation-archive/v4.2.0/docker-compose
-[Using JHipster in production]: https://jhipster.github.io/documentation-archive/v4.2.0/production/
-[Running tests page]: https://jhipster.github.io/documentation-archive/v4.2.0/running-tests/
-[Setting up Continuous Integration]: https://jhipster.github.io/documentation-archive/v4.2.0/setting-up-ci/
+[Using JHipster in development]: https://jhipster.github.io/documentation-archive/v4.3.0/development/
+[Using Docker and Docker-Compose]: https://jhipster.github.io/documentation-archive/v4.3.0/docker-compose
+[Using JHipster in production]: https://jhipster.github.io/documentation-archive/v4.3.0/production/
+[Running tests page]: https://jhipster.github.io/documentation-archive/v4.3.0/running-tests/
+[Setting up Continuous Integration]: https://jhipster.github.io/documentation-archive/v4.3.0/setting-up-ci/
 
 [Gatling]: http://gatling.io/
 [Node.js]: https://nodejs.org/

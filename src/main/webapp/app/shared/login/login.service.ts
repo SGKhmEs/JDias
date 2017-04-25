@@ -8,19 +8,19 @@ import { JhiTrackerService } from '../tracker/tracker.service';
 @Injectable()
 export class LoginService {
 
-    constructor (
+    constructor(
         private languageService: JhiLanguageService,
         private principal: Principal,
         private trackerService: JhiTrackerService,
         private authServerProvider: AuthServerProvider
     ) {}
 
-    login (credentials, callback?) {
-        let cb = callback || function() {};
+    login(credentials, callback?) {
+        const cb = callback || function() {};
 
         return new Promise((resolve, reject) => {
-            this.authServerProvider.login(credentials).subscribe(data => {
-                this.principal.identity(true).then(account => {
+            this.authServerProvider.login(credentials).subscribe((data) => {
+                this.principal.identity(true).then((account) => {
                     // After the login the language will be changed to
                     // the language selected by the user during his registration
                     if (account !== null) {
@@ -30,7 +30,7 @@ export class LoginService {
                     resolve(data);
                 });
                 return cb();
-            }, err => {
+            }, (err) => {
                 this.logout();
                 reject(err);
                 return cb(err);
@@ -38,7 +38,7 @@ export class LoginService {
         });
     }
 
-    logout () {
+    logout() {
         this.authServerProvider.logout().subscribe();
         this.principal.authenticate(null);
     }

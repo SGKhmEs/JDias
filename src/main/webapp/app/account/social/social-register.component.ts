@@ -16,7 +16,7 @@ export class SocialRegisterComponent implements OnInit  {
     providerLabel: string;
     modalRef: NgbModalRef;
 
-    constructor (
+    constructor(
         private route: ActivatedRoute,
         private jhiLanguageService: JhiLanguageService,
         private loginModalService: LoginModalService
@@ -25,10 +25,10 @@ export class SocialRegisterComponent implements OnInit  {
     }
 
     ngOnInit() {
-        this.route.queryParams.subscribe(queryParams => {
+        this.route.queryParams.subscribe((queryParams) => {
             this.success = queryParams['success'];
         });
-        this.route.params.subscribe(params => {
+        this.route.params.subscribe((params) => {
             this.provider = params['provider?{success:boolean}'];
         });
         this.error = !this.success;
