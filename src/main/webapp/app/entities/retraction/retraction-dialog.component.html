@@ -1,0 +1,61 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myRetractionLabel" jhiTranslate="jDiasApp.retraction.home.createOrEditLabel">Create or edit a Retraction</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!retraction.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="retraction.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.retraction.author" for="field_author">Author</label>
+            <input type="text" class="form-control" name="author" id="field_author"
+                [(ngModel)]="retraction.author"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.retraction.targetguid" for="field_targetguid">Targetguid</label>
+            <input type="text" class="form-control" name="targetguid" id="field_targetguid"
+                [(ngModel)]="retraction.targetguid"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.retraction.targettype" for="field_targettype">Targettype</label>
+            <select class="form-control" name="targettype" [(ngModel)]="retraction.targettype" id="field_targettype" >
+                <option value="ACCOUNTDELETION" jhiTranslate="jDiasApp.Type.ACCOUNTDELETION">ACCOUNTDELETION</option>
+                <option value="COMMENT" jhiTranslate="jDiasApp.Type.COMMENT">COMMENT</option>
+                <option value="CONTACT" jhiTranslate="jDiasApp.Type.CONTACT">CONTACT</option>
+                <option value="CONVERSATION" jhiTranslate="jDiasApp.Type.CONVERSATION">CONVERSATION</option>
+                <option value="EVENT" jhiTranslate="jDiasApp.Type.EVENT">EVENT</option>
+                <option value="EVENTPARTICIPATION" jhiTranslate="jDiasApp.Type.EVENTPARTICIPATION">EVENTPARTICIPATION</option>
+                <option value="LIKE" jhiTranslate="jDiasApp.Type.LIKE">LIKE</option>
+                <option value="LOCATION" jhiTranslate="jDiasApp.Type.LOCATION">LOCATION</option>
+                <option value="MESSAGE" jhiTranslate="jDiasApp.Type.MESSAGE">MESSAGE</option>
+                <option value="PARTICIPATION" jhiTranslate="jDiasApp.Type.PARTICIPATION">PARTICIPATION</option>
+                <option value="PHOTO" jhiTranslate="jDiasApp.Type.PHOTO">PHOTO</option>
+                <option value="POLL" jhiTranslate="jDiasApp.Type.POLL">POLL</option>
+                <option value="POLLANSWER" jhiTranslate="jDiasApp.Type.POLLANSWER">POLLANSWER</option>
+                <option value="POLLPARTICIPATION" jhiTranslate="jDiasApp.Type.POLLPARTICIPATION">POLLPARTICIPATION</option>
+                <option value="POST" jhiTranslate="jDiasApp.Type.POST">POST</option>
+                <option value="PROFILE" jhiTranslate="jDiasApp.Type.PROFILE">PROFILE</option>
+                <option value="RESHARE" jhiTranslate="jDiasApp.Type.RESHARE">RESHARE</option>
+                <option value="RETRACTION" jhiTranslate="jDiasApp.Type.RETRACTION">RETRACTION</option>
+                <option value="STATUSMESSAGE" jhiTranslate="jDiasApp.Type.STATUSMESSAGE">STATUSMESSAGE</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

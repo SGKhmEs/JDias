@@ -1,0 +1,29 @@
+{
+    "jDiasApp": {
+        "pollParticipation" : {
+            "home": {
+                "title": "Poll Participations",
+                "createLabel": "Create a new Poll Participation",
+                "createOrEditLabel": "Create or edit a Poll Participation",
+                "search": "Search for Poll Participation"
+            },
+            "created": "A new Poll Participation is created with identifier {{ param }}",
+            "updated": "A Poll Participation is updated with identifier {{ param }}",
+            "deleted": "A Poll Participation is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Poll Participation {{ id }}?"
+            },
+            "detail": {
+                "title": "Poll Participation"
+            },
+            "author": "Author",
+            "guid": "Guid",
+            "parentguid": "Parentguid",
+            "pollanswerguid": "Pollanswerguid",
+            "authorsignature": "Authorsignature",
+            "parentauthorsignature": "Parentauthorsignature",
+            "poll": "Poll",
+            "pollAnswer": "Poll Answer"
+        }
+    }
+}

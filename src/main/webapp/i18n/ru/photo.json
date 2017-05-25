@@ -1,0 +1,32 @@
+{
+    "jDiasApp": {
+        "photo" : {
+            "home": {
+                "title": "Photos",
+                "createLabel": "Создать новый Photo",
+                "createOrEditLabel": "Создать или отредактировать Photo",
+                "search": "Найти Photo"
+            },
+            "created": "Новый Photo создан с идентификатором {{ param }}",
+            "updated": "Photo обновлен с идентификатором {{ param }}",
+            "deleted": "Photo удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Photo {{ id }}?"
+            },
+            "detail": {
+                "title": "Photo"
+            },
+            "author": "Author",
+            "guid": "Guid",
+            "createdat": "Createdat",
+            "remotephotopath": "Remotephotopath",
+            "remotephotoname": "Remotephotoname",
+            "height": "Height",
+            "width": "Width",
+            "text": "Text",
+            "statusmessageguid": "Statusmessageguid",
+            "statusMessage": "Status Message",
+            "person": "Person"
+        }
+    }
+}

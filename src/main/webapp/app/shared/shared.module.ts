@@ -6,7 +6,6 @@ import {
     JDiasSharedLibsModule,
     JDiasSharedCommonModule,
     CSRFService,
-    AuthService,
     AuthServerProvider,
     AccountService,
     UserService,
@@ -42,7 +41,6 @@ import {
         JhiTrackerService,
         AuthServerProvider,
         SocialService,
-        AuthService,
         UserService,
         DatePipe
     ],

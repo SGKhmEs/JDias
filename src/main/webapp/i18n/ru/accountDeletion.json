@@ -1,0 +1,22 @@
+{
+    "jDiasApp": {
+        "accountDeletion" : {
+            "home": {
+                "title": "Account Deletions",
+                "createLabel": "Создать новый Account Deletion",
+                "createOrEditLabel": "Создать или отредактировать Account Deletion",
+                "search": "Найти Account Deletion"
+            },
+            "created": "Новый Account Deletion создан с идентификатором {{ param }}",
+            "updated": "Account Deletion обновлен с идентификатором {{ param }}",
+            "deleted": "Account Deletion удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Account Deletion {{ id }}?"
+            },
+            "detail": {
+                "title": "Account Deletion"
+            },
+            "author": "Author"
+        }
+    }
+}

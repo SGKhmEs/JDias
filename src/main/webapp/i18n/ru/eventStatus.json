@@ -1,0 +1,10 @@
+{
+    "jDiasApp": {
+        "EventStatus" : {
+            "null": "",
+            "ACCEPTED": "ACCEPTED",
+            "DECLINED": "DECLINED",
+            "TENTATIVE": "TENTATIVE"
+        }
+    }
+}

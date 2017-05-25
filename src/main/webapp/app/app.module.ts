@@ -10,12 +10,12 @@ import { JDiasAdminModule } from './admin/admin.module';
 import { JDiasAccountModule } from './account/account.module';
 import { JDiasEntityModule } from './entities/entity.module';
 
-import { LayoutRoutingModule } from './layouts';
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
 import {
     JhiMainComponent,
+    LayoutRoutingModule,
     NavbarComponent,
     FooterComponent,
     ProfileService,

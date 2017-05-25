@@ -1,0 +1,57 @@
+
+<div *ngIf="pollParticipation">
+    <h2><span jhiTranslate="jDiasApp.pollParticipation.detail.title">Poll Participation</span> {{pollParticipation.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.pollParticipation.author">Author</span></dt>
+        <dd>
+            <span>{{pollParticipation.author}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.pollParticipation.guid">Guid</span></dt>
+        <dd>
+            <span>{{pollParticipation.guid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.pollParticipation.parentguid">Parentguid</span></dt>
+        <dd>
+            <span>{{pollParticipation.parentguid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.pollParticipation.pollanswerguid">Pollanswerguid</span></dt>
+        <dd>
+            <span>{{pollParticipation.pollanswerguid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.pollParticipation.authorsignature">Authorsignature</span></dt>
+        <dd>
+            <span>{{pollParticipation.authorsignature}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.pollParticipation.parentauthorsignature">Parentauthorsignature</span></dt>
+        <dd>
+            <span>{{pollParticipation.parentauthorsignature}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.pollParticipation.poll">Poll</span></dt>
+        <dd>
+            <div *ngIf="pollParticipation.poll">
+                <a [routerLink]="['/poll', pollParticipation.poll?.id]">{{pollParticipation.poll?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.pollParticipation.pollAnswer">Poll Answer</span></dt>
+        <dd>
+            <div *ngIf="pollParticipation.pollAnswer">
+                <a [routerLink]="['/poll-answer', pollParticipation.pollAnswer?.id]">{{pollParticipation.pollAnswer?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'poll-participation/'+ pollParticipation.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

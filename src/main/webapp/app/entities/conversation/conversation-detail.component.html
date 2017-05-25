@@ -1,0 +1,47 @@
+
+<div *ngIf="conversation">
+    <h2><span jhiTranslate="jDiasApp.conversation.detail.title">Conversation</span> {{conversation.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.conversation.author">Author</span></dt>
+        <dd>
+            <span>{{conversation.author}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.conversation.guid">Guid</span></dt>
+        <dd>
+            <span>{{conversation.guid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.conversation.subject">Subject</span></dt>
+        <dd>
+            <span>{{conversation.subject}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.conversation.createdat">Createdat</span></dt>
+        <dd>
+            <span>{{conversation.createdat | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.conversation.message">Message</span></dt>
+        <dd>
+            <span>{{conversation.message}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.conversation.userAccount">User Account</span></dt>
+        <dd>
+            <div *ngIf="conversation.userAccount">
+                <a [routerLink]="['/user-account', conversation.userAccount?.id]">{{conversation.userAccount?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'conversation/'+ conversation.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

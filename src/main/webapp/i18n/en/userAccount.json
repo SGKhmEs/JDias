@@ -1,0 +1,51 @@
+{
+    "jDiasApp": {
+        "userAccount" : {
+            "home": {
+                "title": "User Accounts",
+                "createLabel": "Create a new User Account",
+                "createOrEditLabel": "Create or edit a User Account",
+                "search": "Search for User Account"
+            },
+            "created": "A new User Account is created with identifier {{ param }}",
+            "updated": "A User Account is updated with identifier {{ param }}",
+            "deleted": "A User Account is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete User Account {{ id }}?"
+            },
+            "detail": {
+                "title": "User Account"
+            },
+            "serializedPrivateKey": "Serialized Private Key",
+            "gettingStarted": "Getting Started",
+            "disableMail": "Disable Mail",
+            "language": "Language",
+            "rememberCreatedAt": "Remember Created At",
+            "signInCount": "Sign In Count",
+            "currentSignInAt": "Current Sign In At",
+            "lastSignInAt": "Last Sign In At",
+            "currentSignInIp": "Current Sign In Ip",
+            "lastSignInIp": "Last Sign In Ip",
+            "createdAt": "Created At",
+            "updatedAt": "Updated At",
+            "lockedAt": "Locked At",
+            "showCommunitySpotlightInStream": "Show Community Spotlight In Stream",
+            "autoFollowBack": "Auto Follow Back",
+            "autoFollowBackAspectId": "Auto Follow Back Aspect Id",
+            "hiddenShareables": "Hidden Shareables",
+            "lastSeen": "Last Seen",
+            "exportE": "Export E",
+            "exportedAt": "Exported At",
+            "exporting": "Exporting",
+            "stripExif": "Strip Exif",
+            "exportedPhotosFile": "Exported Photos File",
+            "exportedPhotosAt": "Exported Photos At",
+            "exportingPhotos": "Exporting Photos",
+            "colorTheme": "Color Theme",
+            "postDefaultPublic": "Post Default Public",
+            "user": "User",
+            "person": "Person",
+            "conversations": "Conversations"
+        }
+    }
+}

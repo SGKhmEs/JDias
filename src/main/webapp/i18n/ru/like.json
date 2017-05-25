@@ -1,0 +1,28 @@
+{
+    "jDiasApp": {
+        "like" : {
+            "home": {
+                "title": "Likes",
+                "createLabel": "Создать новый Like",
+                "createOrEditLabel": "Создать или отредактировать Like",
+                "search": "Найти Like"
+            },
+            "created": "Новый Like создан с идентификатором {{ param }}",
+            "updated": "Like обновлен с идентификатором {{ param }}",
+            "deleted": "Like удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Like {{ id }}?"
+            },
+            "detail": {
+                "title": "Like"
+            },
+            "author": "Author",
+            "guid": "Guid",
+            "parentguid": "Parentguid",
+            "parenttype": "Parenttype",
+            "positive": "Positive",
+            "authorsignature": "Authorsignature",
+            "parentauthorsignature": "Parentauthorsignature"
+        }
+    }
+}

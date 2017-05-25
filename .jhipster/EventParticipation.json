@@ -1,0 +1,49 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "event",
+            "otherEntityName": "event",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "person",
+            "otherEntityName": "person",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "author",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "guid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "parentguid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "EventStatus",
+            "fieldValues": "ACCEPTED,DECLINED,TENTATIVE"
+        },
+        {
+            "fieldName": "authorsignature",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "parentauthorsignature",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170525164606",
+    "entityTableName": "event_participation",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl"
+}

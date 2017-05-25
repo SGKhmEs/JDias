@@ -1,0 +1,142 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "userAccount"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "person",
+            "otherEntityName": "person",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "userAccount"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "conversations",
+            "otherEntityName": "conversation",
+            "otherEntityRelationshipName": "userAccount"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "serializedPrivateKey",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "gettingStarted",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "disableMail",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "language",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "rememberCreatedAt",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "signInCount",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "currentSignInAt",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "lastSignInAt",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "currentSignInIp",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lastSignInIp",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdAt",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "updatedAt",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "lockedAt",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "showCommunitySpotlightInStream",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "autoFollowBack",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "autoFollowBackAspectId",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "hiddenShareables",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lastSeen",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "exportE",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "exportedAt",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "exporting",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "stripExif",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "exportedPhotosFile",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "exportedPhotosAt",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "exportingPhotos",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "colorTheme",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "postDefaultPublic",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20170525164620",
+    "entityTableName": "user_account",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl"
+}

@@ -1,0 +1,9 @@
+{
+    "jDiasApp": {
+        "PostType" : {
+            "null": "",
+            "STATUSMESSAGE": "STATUSMESSAGE",
+            "RESHARE": "RESHARE"
+        }
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "person",
+            "otherEntityName": "person",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "author",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "guid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "parentguid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "parenttype",
+            "fieldType": "Type",
+            "fieldValues": "ACCOUNTDELETION,COMMENT,CONTACT,CONVERSATION,EVENT,EVENTPARTICIPATION,LIKE,LOCATION,MESSAGE,PARTICIPATION,PHOTO,POLL,POLLANSWER,POLLPARTICIPATION,POST,PROFILE,RESHARE,RETRACTION,STATUSMESSAGE"
+        }
+    ],
+    "changelogDate": "20170525164610",
+    "entityTableName": "participation",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl"
+}

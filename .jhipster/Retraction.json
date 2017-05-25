@@ -1,0 +1,24 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "author",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "targetguid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "targettype",
+            "fieldType": "Type",
+            "fieldValues": "ACCOUNTDELETION,COMMENT,CONTACT,CONVERSATION,EVENT,EVENTPARTICIPATION,LIKE,LOCATION,MESSAGE,PARTICIPATION,PHOTO,POLL,POLLANSWER,POLLPARTICIPATION,POST,PROFILE,RESHARE,RETRACTION,STATUSMESSAGE"
+        }
+    ],
+    "changelogDate": "20170525164618",
+    "entityTableName": "retraction",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl"
+}

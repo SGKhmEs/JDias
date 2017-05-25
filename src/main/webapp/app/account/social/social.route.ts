@@ -12,4 +12,3 @@ export const socialRegisterRoute: Route = {
     },
     canActivate: [UserRouteAccessService]
 };
-

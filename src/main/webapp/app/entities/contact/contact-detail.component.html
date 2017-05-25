@@ -1,0 +1,43 @@
+
+<div *ngIf="contact">
+    <h2><span jhiTranslate="jDiasApp.contact.detail.title">Contact</span> {{contact.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.contact.author">Author</span></dt>
+        <dd>
+            <span>{{contact.author}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.contact.recipient">Recipient</span></dt>
+        <dd>
+            <span>{{contact.recipient}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.contact.following">Following</span></dt>
+        <dd>
+            <span>{{contact.following}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.contact.sharing">Sharing</span></dt>
+        <dd>
+            <span>{{contact.sharing}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.contact.person">Person</span></dt>
+        <dd>
+            <div *ngIf="contact.person">
+                <a [routerLink]="['/person', contact.person?.id]">{{contact.person?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'contact/'+ contact.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

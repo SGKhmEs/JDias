@@ -1,0 +1,23 @@
+{
+    "jDiasApp": {
+        "reshare" : {
+            "home": {
+                "title": "Reshares",
+                "createLabel": "Create a new Reshare",
+                "createOrEditLabel": "Create or edit a Reshare",
+                "search": "Search for Reshare"
+            },
+            "created": "A new Reshare is created with identifier {{ param }}",
+            "updated": "A Reshare is updated with identifier {{ param }}",
+            "deleted": "A Reshare is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Reshare {{ id }}?"
+            },
+            "detail": {
+                "title": "Reshare"
+            },
+            "rootauthor": "Rootauthor",
+            "rootguid": "Rootguid"
+        }
+    }
+}

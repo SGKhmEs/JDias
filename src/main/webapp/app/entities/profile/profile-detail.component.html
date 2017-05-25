@@ -1,0 +1,73 @@
+
+<div *ngIf="profile">
+    <h2><span jhiTranslate="jDiasApp.profile.detail.title">Profile</span> {{profile.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.profile.author">Author</span></dt>
+        <dd>
+            <span>{{profile.author}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.profile.firstname">Firstname</span></dt>
+        <dd>
+            <span>{{profile.firstname}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.profile.lastname">Lastname</span></dt>
+        <dd>
+            <span>{{profile.lastname}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.profile.imageurl">Imageurl</span></dt>
+        <dd>
+            <span>{{profile.imageurl}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.profile.imageurlsmall">Imageurlsmall</span></dt>
+        <dd>
+            <span>{{profile.imageurlsmall}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.profile.imageurlmedium">Imageurlmedium</span></dt>
+        <dd>
+            <span>{{profile.imageurlmedium}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.profile.birthday">Birthday</span></dt>
+        <dd>
+            <span>{{profile.birthday | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.profile.gender">Gender</span></dt>
+        <dd>
+            <span>{{profile.gender}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.profile.bio">Bio</span></dt>
+        <dd>
+            <span>{{profile.bio}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.profile.location">Location</span></dt>
+        <dd>
+            <span>{{profile.location}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.profile.searchable">Searchable</span></dt>
+        <dd>
+            <span>{{profile.searchable}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.profile.nsfw">Nsfw</span></dt>
+        <dd>
+            <span>{{profile.nsfw}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.profile.tagstring">Tagstring</span></dt>
+        <dd>
+            <span>{{profile.tagstring}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'profile/'+ profile.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

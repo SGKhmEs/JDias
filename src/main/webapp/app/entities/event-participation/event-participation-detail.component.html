@@ -1,0 +1,57 @@
+
+<div *ngIf="eventParticipation">
+    <h2><span jhiTranslate="jDiasApp.eventParticipation.detail.title">Event Participation</span> {{eventParticipation.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.eventParticipation.author">Author</span></dt>
+        <dd>
+            <span>{{eventParticipation.author}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.eventParticipation.guid">Guid</span></dt>
+        <dd>
+            <span>{{eventParticipation.guid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.eventParticipation.parentguid">Parentguid</span></dt>
+        <dd>
+            <span>{{eventParticipation.parentguid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.eventParticipation.status">Status</span></dt>
+        <dd>
+            <span jhiTranslate="{{'jDiasApp.EventStatus.' + eventParticipation.status}}">{{eventParticipation.status}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.eventParticipation.authorsignature">Authorsignature</span></dt>
+        <dd>
+            <span>{{eventParticipation.authorsignature}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.eventParticipation.parentauthorsignature">Parentauthorsignature</span></dt>
+        <dd>
+            <span>{{eventParticipation.parentauthorsignature}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.eventParticipation.event">Event</span></dt>
+        <dd>
+            <div *ngIf="eventParticipation.event">
+                <a [routerLink]="['/event', eventParticipation.event?.id]">{{eventParticipation.event?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.eventParticipation.person">Person</span></dt>
+        <dd>
+            <div *ngIf="eventParticipation.person">
+                <a [routerLink]="['/person', eventParticipation.person?.id]">{{eventParticipation.person?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'event-participation/'+ eventParticipation.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

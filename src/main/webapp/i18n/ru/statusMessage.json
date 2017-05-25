@@ -1,0 +1,25 @@
+{
+    "jDiasApp": {
+        "statusMessage" : {
+            "home": {
+                "title": "Status Messages",
+                "createLabel": "Создать новый Status Message",
+                "createOrEditLabel": "Создать или отредактировать Status Message",
+                "search": "Найти Status Message"
+            },
+            "created": "Новый Status Message создан с идентификатором {{ param }}",
+            "updated": "Status Message обновлен с идентификатором {{ param }}",
+            "deleted": "Status Message удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Status Message {{ id }}?"
+            },
+            "detail": {
+                "title": "Status Message"
+            },
+            "text": "Text",
+            "location": "Location",
+            "poll": "Poll",
+            "photos": "Photos"
+        }
+    }
+}

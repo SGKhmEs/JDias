@@ -1,0 +1,32 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "poll",
+            "otherEntityName": "poll",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "pollanswers1",
+            "otherEntityName": "pollParticipation",
+            "otherEntityRelationshipName": "pollAnswer"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "guid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "answer",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170525164613",
+    "entityTableName": "poll_answer",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl"
+}

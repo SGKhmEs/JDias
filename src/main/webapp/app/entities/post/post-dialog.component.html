@@ -1,0 +1,87 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myPostLabel" jhiTranslate="jDiasApp.post.home.createOrEditLabel">Create or edit a Post</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!post.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="post.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.post.author" for="field_author">Author</label>
+            <input type="text" class="form-control" name="author" id="field_author"
+                [(ngModel)]="post.author"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.post.guid" for="field_guid">Guid</label>
+            <input type="text" class="form-control" name="guid" id="field_guid"
+                [(ngModel)]="post.guid"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.post.createdat" for="field_createdat">Createdat</label>
+            <div class="input-group">
+                <input id="field_createdat" type="text" class="form-control" name="createdat" ngbDatepicker  #createdatDp="ngbDatepicker" [(ngModel)]="post.createdat"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="createdatDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.post.pub" for="field_pub">Pub</label>
+            <input type="checkbox" class="form-control" name="pub" id="field_pub"
+                [(ngModel)]="post.pub"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.post.providerdisplayname" for="field_providerdisplayname">Providerdisplayname</label>
+            <input type="text" class="form-control" name="providerdisplayname" id="field_providerdisplayname"
+                [(ngModel)]="post.providerdisplayname"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.post.posttype" for="field_posttype">Posttype</label>
+            <select class="form-control" name="posttype" [(ngModel)]="post.posttype" id="field_posttype" >
+                <option value="STATUSMESSAGE" jhiTranslate="jDiasApp.PostType.STATUSMESSAGE">STATUSMESSAGE</option>
+                <option value="RESHARE" jhiTranslate="jDiasApp.PostType.RESHARE">RESHARE</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.post.statusMessage" for="field_statusMessage">Status Message</label>
+            <select class="form-control" id="field_statusMessage" name="statusMessage" [(ngModel)]="post.statusMessage">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="statusMessageOption.id === post.statusMessage?.id ? post.statusMessage : statusMessageOption" *ngFor="let statusMessageOption of statusmessages; trackBy: trackStatusMessageById">{{statusMessageOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.post.reshare" for="field_reshare">Reshare</label>
+            <select class="form-control" id="field_reshare" name="reshare" [(ngModel)]="post.reshare">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="reshareOption.id === post.reshare?.id ? post.reshare : reshareOption" *ngFor="let reshareOption of reshares; trackBy: trackReshareById">{{reshareOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.post.person" for="field_person">Person</label>
+            <select class="form-control" id="field_person" name="person" [(ngModel)]="post.person" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="personOption.id === post.person?.id ? post.person : personOption" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

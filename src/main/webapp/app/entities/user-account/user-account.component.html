@@ -1,0 +1,131 @@
+<div>
+    <h2>
+        <span jhiTranslate="jDiasApp.userAccount.home.title">User Accounts</span>
+        <button class="btn btn-primary float-right create-user-account" [routerLink]="['/', { outlets: { popup: ['user-account-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="jDiasApp.userAccount.home.createLabel">
+            Create new User Account
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'jDiasApp.userAccount.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="userAccounts">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="serializedPrivateKey"><span jhiTranslate="jDiasApp.userAccount.serializedPrivateKey">Serialized Private Key</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="gettingStarted"><span jhiTranslate="jDiasApp.userAccount.gettingStarted">Getting Started</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="disableMail"><span jhiTranslate="jDiasApp.userAccount.disableMail">Disable Mail</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="language"><span jhiTranslate="jDiasApp.userAccount.language">Language</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="rememberCreatedAt"><span jhiTranslate="jDiasApp.userAccount.rememberCreatedAt">Remember Created At</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="signInCount"><span jhiTranslate="jDiasApp.userAccount.signInCount">Sign In Count</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="currentSignInAt"><span jhiTranslate="jDiasApp.userAccount.currentSignInAt">Current Sign In At</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="lastSignInAt"><span jhiTranslate="jDiasApp.userAccount.lastSignInAt">Last Sign In At</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="currentSignInIp"><span jhiTranslate="jDiasApp.userAccount.currentSignInIp">Current Sign In Ip</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="lastSignInIp"><span jhiTranslate="jDiasApp.userAccount.lastSignInIp">Last Sign In Ip</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createdAt"><span jhiTranslate="jDiasApp.userAccount.createdAt">Created At</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="updatedAt"><span jhiTranslate="jDiasApp.userAccount.updatedAt">Updated At</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="lockedAt"><span jhiTranslate="jDiasApp.userAccount.lockedAt">Locked At</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="showCommunitySpotlightInStream"><span jhiTranslate="jDiasApp.userAccount.showCommunitySpotlightInStream">Show Community Spotlight In Stream</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="autoFollowBack"><span jhiTranslate="jDiasApp.userAccount.autoFollowBack">Auto Follow Back</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="autoFollowBackAspectId"><span jhiTranslate="jDiasApp.userAccount.autoFollowBackAspectId">Auto Follow Back Aspect Id</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="hiddenShareables"><span jhiTranslate="jDiasApp.userAccount.hiddenShareables">Hidden Shareables</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="lastSeen"><span jhiTranslate="jDiasApp.userAccount.lastSeen">Last Seen</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="exportE"><span jhiTranslate="jDiasApp.userAccount.exportE">Export E</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="exportedAt"><span jhiTranslate="jDiasApp.userAccount.exportedAt">Exported At</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="exporting"><span jhiTranslate="jDiasApp.userAccount.exporting">Exporting</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="stripExif"><span jhiTranslate="jDiasApp.userAccount.stripExif">Strip Exif</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="exportedPhotosFile"><span jhiTranslate="jDiasApp.userAccount.exportedPhotosFile">Exported Photos File</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="exportedPhotosAt"><span jhiTranslate="jDiasApp.userAccount.exportedPhotosAt">Exported Photos At</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="exportingPhotos"><span jhiTranslate="jDiasApp.userAccount.exportingPhotos">Exporting Photos</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="colorTheme"><span jhiTranslate="jDiasApp.userAccount.colorTheme">Color Theme</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="postDefaultPublic"><span jhiTranslate="jDiasApp.userAccount.postDefaultPublic">Post Default Public</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="user.id"><span jhiTranslate="jDiasApp.userAccount.user">User</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="person.id"><span jhiTranslate="jDiasApp.userAccount.person">Person</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let userAccount of userAccounts ;trackBy: trackId">
+                <td><a [routerLink]="['../user-account', userAccount.id ]">{{userAccount.id}}</a></td>
+                <td>{{userAccount.serializedPrivateKey}}</td>
+                <td>{{userAccount.gettingStarted}}</td>
+                <td>{{userAccount.disableMail}}</td>
+                <td>{{userAccount.language}}</td>
+                <td>{{userAccount.rememberCreatedAt | date:'medium'}}</td>
+                <td>{{userAccount.signInCount}}</td>
+                <td>{{userAccount.currentSignInAt | date:'medium'}}</td>
+                <td>{{userAccount.lastSignInAt | date:'medium'}}</td>
+                <td>{{userAccount.currentSignInIp}}</td>
+                <td>{{userAccount.lastSignInIp}}</td>
+                <td>{{userAccount.createdAt | date:'medium'}}</td>
+                <td>{{userAccount.updatedAt | date:'medium'}}</td>
+                <td>{{userAccount.lockedAt | date:'medium'}}</td>
+                <td>{{userAccount.showCommunitySpotlightInStream}}</td>
+                <td>{{userAccount.autoFollowBack}}</td>
+                <td>{{userAccount.autoFollowBackAspectId}}</td>
+                <td>{{userAccount.hiddenShareables}}</td>
+                <td>{{userAccount.lastSeen | date:'medium'}}</td>
+                <td>{{userAccount.exportE}}</td>
+                <td>{{userAccount.exportedAt | date:'medium'}}</td>
+                <td>{{userAccount.exporting}}</td>
+                <td>{{userAccount.stripExif}}</td>
+                <td>{{userAccount.exportedPhotosFile}}</td>
+                <td>{{userAccount.exportedPhotosAt | date:'medium'}}</td>
+                <td>{{userAccount.exportingPhotos}}</td>
+                <td>{{userAccount.colorTheme}}</td>
+                <td>{{userAccount.postDefaultPublic}}</td>
+                <td>
+                    {{userAccount.user?.id}}
+                </td>
+                <td>
+                    <div *ngIf="userAccount.person">
+                        <a [routerLink]="['../person', userAccount.person?.id ]" >{{userAccount.person?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../user-account', userAccount.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'user-account/'+ userAccount.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'user-account/'+ userAccount.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

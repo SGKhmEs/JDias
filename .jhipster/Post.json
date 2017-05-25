@@ -1,0 +1,65 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "statusMessage",
+            "otherEntityName": "statusMessage",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "reshare",
+            "otherEntityName": "reshare",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "comments",
+            "otherEntityName": "comment",
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipName": "person",
+            "otherEntityName": "person",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "author",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "guid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdat",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "pub",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "providerdisplayname",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "posttype",
+            "fieldType": "PostType",
+            "fieldValues": "STATUSMESSAGE,RESHARE"
+        }
+    ],
+    "changelogDate": "20170525164615",
+    "entityTableName": "post",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl"
+}

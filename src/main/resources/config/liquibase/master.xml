@@ -5,6 +5,40 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164601_added_entity_AccountDeletion.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164602_added_entity_Comment.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164603_added_entity_Contact.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164604_added_entity_Conversation.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164605_added_entity_Event.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164606_added_entity_EventParticipation.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164607_added_entity_Like.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164608_added_entity_Location.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164609_added_entity_Message.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164610_added_entity_Participation.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164611_added_entity_Photo.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164612_added_entity_Poll.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164613_added_entity_PollAnswer.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164614_added_entity_PollParticipation.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164615_added_entity_Post.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164616_added_entity_Profile.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164617_added_entity_Reshare.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164618_added_entity_Retraction.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164619_added_entity_StatusMessage.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164620_added_entity_UserAccount.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164621_added_entity_Person.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="classpath:config/liquibase/changelog/20170525164602_added_entity_constraints_Comment.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164603_added_entity_constraints_Contact.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164604_added_entity_constraints_Conversation.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164606_added_entity_constraints_EventParticipation.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164609_added_entity_constraints_Message.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164610_added_entity_constraints_Participation.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164611_added_entity_constraints_Photo.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164613_added_entity_constraints_PollAnswer.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164614_added_entity_constraints_PollParticipation.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164615_added_entity_constraints_Post.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164619_added_entity_constraints_StatusMessage.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164620_added_entity_constraints_UserAccount.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170525164621_added_entity_constraints_Person.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

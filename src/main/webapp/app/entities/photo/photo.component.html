@@ -1,0 +1,97 @@
+<div>
+    <h2>
+        <span jhiTranslate="jDiasApp.photo.home.title">Photos</span>
+        <button class="btn btn-primary float-right create-photo" [routerLink]="['/', { outlets: { popup: ['photo-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="jDiasApp.photo.home.createLabel">
+            Create new Photo
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'jDiasApp.photo.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="photos">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="author"><span jhiTranslate="jDiasApp.photo.author">Author</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="guid"><span jhiTranslate="jDiasApp.photo.guid">Guid</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createdat"><span jhiTranslate="jDiasApp.photo.createdat">Createdat</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="remotephotopath"><span jhiTranslate="jDiasApp.photo.remotephotopath">Remotephotopath</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="remotephotoname"><span jhiTranslate="jDiasApp.photo.remotephotoname">Remotephotoname</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="height"><span jhiTranslate="jDiasApp.photo.height">Height</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="width"><span jhiTranslate="jDiasApp.photo.width">Width</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="text"><span jhiTranslate="jDiasApp.photo.text">Text</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="statusmessageguid"><span jhiTranslate="jDiasApp.photo.statusmessageguid">Statusmessageguid</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="statusMessage.id"><span jhiTranslate="jDiasApp.photo.statusMessage">Status Message</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="person.id"><span jhiTranslate="jDiasApp.photo.person">Person</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let photo of photos ;trackBy: trackId">
+                <td><a [routerLink]="['../photo', photo.id ]">{{photo.id}}</a></td>
+                <td>{{photo.author}}</td>
+                <td>{{photo.guid}}</td>
+                <td>{{photo.createdat | date:'mediumDate'}}</td>
+                <td>{{photo.remotephotopath}}</td>
+                <td>{{photo.remotephotoname}}</td>
+                <td>{{photo.height}}</td>
+                <td>{{photo.width}}</td>
+                <td>{{photo.text}}</td>
+                <td>{{photo.statusmessageguid}}</td>
+                <td>
+                    <div *ngIf="photo.statusMessage">
+                        <a [routerLink]="['../status-message', photo.statusMessage?.id ]" >{{photo.statusMessage?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="photo.person">
+                        <a [routerLink]="['../person', photo.person?.id ]" >{{photo.person?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../photo', photo.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'photo/'+ photo.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'photo/'+ photo.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

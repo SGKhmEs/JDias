@@ -1,0 +1,19 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "rootauthor",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "rootguid",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170525164617",
+    "entityTableName": "reshare",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl"
+}

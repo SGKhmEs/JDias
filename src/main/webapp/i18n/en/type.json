@@ -1,0 +1,26 @@
+{
+    "jDiasApp": {
+        "Type" : {
+            "null": "",
+            "ACCOUNTDELETION": "ACCOUNTDELETION",
+            "COMMENT": "COMMENT",
+            "CONTACT": "CONTACT",
+            "CONVERSATION": "CONVERSATION",
+            "EVENT": "EVENT",
+            "EVENTPARTICIPATION": "EVENTPARTICIPATION",
+            "LIKE": "LIKE",
+            "LOCATION": "LOCATION",
+            "MESSAGE": "MESSAGE",
+            "PARTICIPATION": "PARTICIPATION",
+            "PHOTO": "PHOTO",
+            "POLL": "POLL",
+            "POLLANSWER": "POLLANSWER",
+            "POLLPARTICIPATION": "POLLPARTICIPATION",
+            "POST": "POST",
+            "PROFILE": "PROFILE",
+            "RESHARE": "RESHARE",
+            "RETRACTION": "RETRACTION",
+            "STATUSMESSAGE": "STATUSMESSAGE"
+        }
+    }
+}

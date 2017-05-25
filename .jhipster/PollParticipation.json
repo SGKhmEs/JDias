@@ -1,0 +1,48 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "poll",
+            "otherEntityName": "poll",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "pollAnswer",
+            "otherEntityName": "pollAnswer",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "author",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "guid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "parentguid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pollanswerguid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "authorsignature",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "parentauthorsignature",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170525164614",
+    "entityTableName": "poll_participation",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl"
+}

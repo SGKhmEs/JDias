@@ -1,0 +1,63 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "author",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "firstname",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lastname",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "imageurl",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "imageurlsmall",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "imageurlmedium",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "birthday",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "gender",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "bio",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "location",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "searchable",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "nsfw",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "tagstring",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170525164616",
+    "entityTableName": "profile",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl"
+}

@@ -1,0 +1,25 @@
+{
+    "jDiasApp": {
+        "poll" : {
+            "home": {
+                "title": "Polls",
+                "createLabel": "Create a new Poll",
+                "createOrEditLabel": "Create or edit a Poll",
+                "search": "Search for Poll"
+            },
+            "created": "A new Poll is created with identifier {{ param }}",
+            "updated": "A Poll is updated with identifier {{ param }}",
+            "deleted": "A Poll is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Poll {{ id }}?"
+            },
+            "detail": {
+                "title": "Poll"
+            },
+            "guid": "Guid",
+            "question": "Question",
+            "pollanswers": "Pollanswers",
+            "pollparticipants": "Pollparticipants"
+        }
+    }
+}

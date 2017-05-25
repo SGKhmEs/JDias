@@ -1,0 +1,49 @@
+
+<div *ngIf="like">
+    <h2><span jhiTranslate="jDiasApp.like.detail.title">Like</span> {{like.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.like.author">Author</span></dt>
+        <dd>
+            <span>{{like.author}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.like.guid">Guid</span></dt>
+        <dd>
+            <span>{{like.guid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.like.parentguid">Parentguid</span></dt>
+        <dd>
+            <span>{{like.parentguid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.like.parenttype">Parenttype</span></dt>
+        <dd>
+            <span jhiTranslate="{{'jDiasApp.Type.' + like.parenttype}}">{{like.parenttype}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.like.positive">Positive</span></dt>
+        <dd>
+            <span>{{like.positive}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.like.authorsignature">Authorsignature</span></dt>
+        <dd>
+            <span>{{like.authorsignature}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.like.parentauthorsignature">Parentauthorsignature</span></dt>
+        <dd>
+            <span>{{like.parentauthorsignature}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'like/'+ like.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

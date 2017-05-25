@@ -1,0 +1,26 @@
+{
+    "jDiasApp": {
+        "contact" : {
+            "home": {
+                "title": "Contacts",
+                "createLabel": "Создать новый Contact",
+                "createOrEditLabel": "Создать или отредактировать Contact",
+                "search": "Найти Contact"
+            },
+            "created": "Новый Contact создан с идентификатором {{ param }}",
+            "updated": "Contact обновлен с идентификатором {{ param }}",
+            "deleted": "Contact удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Contact {{ id }}?"
+            },
+            "detail": {
+                "title": "Contact"
+            },
+            "author": "Author",
+            "recipient": "Recipient",
+            "following": "Following",
+            "sharing": "Sharing",
+            "person": "Person"
+        }
+    }
+}

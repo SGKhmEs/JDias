@@ -1,0 +1,29 @@
+{
+    "jDiasApp": {
+        "conversation" : {
+            "home": {
+                "title": "Conversations",
+                "createLabel": "Создать новый Conversation",
+                "createOrEditLabel": "Создать или отредактировать Conversation",
+                "search": "Найти Conversation"
+            },
+            "created": "Новый Conversation создан с идентификатором {{ param }}",
+            "updated": "Conversation обновлен с идентификатором {{ param }}",
+            "deleted": "Conversation удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Conversation {{ id }}?"
+            },
+            "detail": {
+                "title": "Conversation"
+            },
+            "author": "Author",
+            "guid": "Guid",
+            "subject": "Subject",
+            "createdat": "Createdat",
+            "message": "Message",
+            "participants": "Participants",
+            "messages": "Messages",
+            "userAccount": "User Account"
+        }
+    }
+}

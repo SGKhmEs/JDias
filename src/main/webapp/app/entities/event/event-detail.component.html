@@ -1,0 +1,53 @@
+
+<div *ngIf="event">
+    <h2><span jhiTranslate="jDiasApp.event.detail.title">Event</span> {{event.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.event.author">Author</span></dt>
+        <dd>
+            <span>{{event.author}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.event.guid">Guid</span></dt>
+        <dd>
+            <span>{{event.guid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.event.summary">Summary</span></dt>
+        <dd>
+            <span>{{event.summary}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.event.start">Start</span></dt>
+        <dd>
+            <span>{{event.start | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.event.end">End</span></dt>
+        <dd>
+            <span>{{event.end | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.event.allday">Allday</span></dt>
+        <dd>
+            <span>{{event.allday}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.event.timezone">Timezone</span></dt>
+        <dd>
+            <span>{{event.timezone}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.event.description">Description</span></dt>
+        <dd>
+            <span>{{event.description}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'event/'+ event.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

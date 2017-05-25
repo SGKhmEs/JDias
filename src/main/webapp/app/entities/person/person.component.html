@@ -1,0 +1,101 @@
+<div>
+    <h2>
+        <span jhiTranslate="jDiasApp.person.home.title">People</span>
+        <button class="btn btn-primary float-right create-person" [routerLink]="['/', { outlets: { popup: ['person-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="jDiasApp.person.home.createLabel">
+            Create new Person
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'jDiasApp.person.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="people">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="guid"><span jhiTranslate="jDiasApp.person.guid">Guid</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="diasporaId"><span jhiTranslate="jDiasApp.person.diasporaId">Diaspora Id</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="serializedPublicKey"><span jhiTranslate="jDiasApp.person.serializedPublicKey">Serialized Public Key</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createdAt"><span jhiTranslate="jDiasApp.person.createdAt">Created At</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="updatedAt"><span jhiTranslate="jDiasApp.person.updatedAt">Updated At</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="closedAccount"><span jhiTranslate="jDiasApp.person.closedAccount">Closed Account</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="fetchStatus"><span jhiTranslate="jDiasApp.person.fetchStatus">Fetch Status</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="podId"><span jhiTranslate="jDiasApp.person.podId">Pod Id</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="conversation.id"><span jhiTranslate="jDiasApp.person.conversation">Conversation</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="profile.id"><span jhiTranslate="jDiasApp.person.profile">Profile</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="accountdeletion.id"><span jhiTranslate="jDiasApp.person.accountdeletion">Accountdeletion</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let person of people ;trackBy: trackId">
+                <td><a [routerLink]="['../person', person.id ]">{{person.id}}</a></td>
+                <td>{{person.guid}}</td>
+                <td>{{person.diasporaId}}</td>
+                <td>{{person.serializedPublicKey}}</td>
+                <td>{{person.createdAt | date:'medium'}}</td>
+                <td>{{person.updatedAt | date:'medium'}}</td>
+                <td>{{person.closedAccount}}</td>
+                <td>{{person.fetchStatus}}</td>
+                <td>{{person.podId}}</td>
+                <td>
+                    <div *ngIf="person.conversation">
+                        <a [routerLink]="['../conversation', person.conversation?.id ]" >{{person.conversation?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="person.profile">
+                        <a [routerLink]="['../profile', person.profile?.id ]" >{{person.profile?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="person.accountdeletion">
+                        <a [routerLink]="['../account-deletion', person.accountdeletion?.id ]" >{{person.accountdeletion?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../person', person.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'person/'+ person.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'person/'+ person.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
