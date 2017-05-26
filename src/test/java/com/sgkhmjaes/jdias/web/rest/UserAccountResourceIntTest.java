@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.UserAccount;
 import com.sgkhmjaes.jdias.repository.UserAccountRepository;
-import com.sgkhmjaes.jdias.service.UserAccountService;
 import com.sgkhmjaes.jdias.repository.search.UserAccountSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -129,9 +128,6 @@ public class UserAccountResourceIntTest {
     private UserAccountRepository userAccountRepository;
 
     @Autowired
-    private UserAccountService userAccountService;
-
-    @Autowired
     private UserAccountSearchRepository userAccountSearchRepository;
 
     @Autowired
@@ -153,7 +149,7 @@ public class UserAccountResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        UserAccountResource userAccountResource = new UserAccountResource(userAccountService);
+        UserAccountResource userAccountResource = new UserAccountResource(userAccountRepository, userAccountSearchRepository);
         this.restUserAccountMockMvc = MockMvcBuilders.standaloneSetup(userAccountResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -363,8 +359,8 @@ public class UserAccountResourceIntTest {
     @Transactional
     public void updateUserAccount() throws Exception {
         // Initialize the database
-        userAccountService.save(userAccount);
-
+        userAccountRepository.saveAndFlush(userAccount);
+        userAccountSearchRepository.save(userAccount);
         int databaseSizeBeforeUpdate = userAccountRepository.findAll().size();
 
         // Update the userAccount
@@ -462,8 +458,8 @@ public class UserAccountResourceIntTest {
     @Transactional
     public void deleteUserAccount() throws Exception {
         // Initialize the database
-        userAccountService.save(userAccount);
-
+        userAccountRepository.saveAndFlush(userAccount);
+        userAccountSearchRepository.save(userAccount);
         int databaseSizeBeforeDelete = userAccountRepository.findAll().size();
 
         // Get the userAccount
@@ -484,7 +480,8 @@ public class UserAccountResourceIntTest {
     @Transactional
     public void searchUserAccount() throws Exception {
         // Initialize the database
-        userAccountService.save(userAccount);
+        userAccountRepository.saveAndFlush(userAccount);
+        userAccountSearchRepository.save(userAccount);
 
         // Search the userAccount
         restUserAccountMockMvc.perform(get("/api/_search/user-accounts?query=id:" + userAccount.getId()))

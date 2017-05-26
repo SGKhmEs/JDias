@@ -2,7 +2,9 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Post;
-import com.sgkhmjaes.jdias.service.PostService;
+
+import com.sgkhmjaes.jdias.repository.PostRepository;
+import com.sgkhmjaes.jdias.repository.search.PostSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import com.sgkhmjaes.jdias.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -21,6 +23,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -36,10 +39,13 @@ public class PostResource {
 
     private static final String ENTITY_NAME = "post";
         
-    private final PostService postService;
+    private final PostRepository postRepository;
 
-    public PostResource(PostService postService) {
-        this.postService = postService;
+    private final PostSearchRepository postSearchRepository;
+
+    public PostResource(PostRepository postRepository, PostSearchRepository postSearchRepository) {
+        this.postRepository = postRepository;
+        this.postSearchRepository = postSearchRepository;
     }
 
     /**
@@ -56,7 +62,8 @@ public class PostResource {
         if (post.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new post cannot already have an ID")).body(null);
         }
-        Post result = postService.save(post);
+        Post result = postRepository.save(post);
+        postSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/posts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -78,7 +85,8 @@ public class PostResource {
         if (post.getId() == null) {
             return createPost(post);
         }
-        Post result = postService.save(post);
+        Post result = postRepository.save(post);
+        postSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, post.getId().toString()))
             .body(result);
@@ -94,7 +102,7 @@ public class PostResource {
     @Timed
     public ResponseEntity<List<Post>> getAllPosts(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Posts");
-        Page<Post> page = postService.findAll(pageable);
+        Page<Post> page = postRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/posts");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -109,7 +117,7 @@ public class PostResource {
     @Timed
     public ResponseEntity<Post> getPost(@PathVariable Long id) {
         log.debug("REST request to get Post : {}", id);
-        Post post = postService.findOne(id);
+        Post post = postRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(post));
     }
 
@@ -123,7 +131,8 @@ public class PostResource {
     @Timed
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         log.debug("REST request to delete Post : {}", id);
-        postService.delete(id);
+        postRepository.delete(id);
+        postSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -139,7 +148,7 @@ public class PostResource {
     @Timed
     public ResponseEntity<List<Post>> searchPosts(@RequestParam String query, @ApiParam Pageable pageable) {
         log.debug("REST request to search for a page of Posts for query {}", query);
-        Page<Post> page = postService.search(query, pageable);
+        Page<Post> page = postSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/posts");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

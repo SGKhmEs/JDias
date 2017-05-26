@@ -13,35 +13,18 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
     templateUrl: './poll-participation.component.html'
 })
 export class PollParticipationComponent implements OnInit, OnDestroy {
-
-    pollParticipations: PollParticipation[];
+pollParticipations: PollParticipation[];
     currentAccount: any;
     eventSubscriber: Subscription;
-    itemsPerPage: number;
-    links: any;
-    page: any;
-    predicate: any;
-    queryCount: any;
-    reverse: any;
-    totalItems: number;
     currentSearch: string;
 
     constructor(
         private pollParticipationService: PollParticipationService,
         private alertService: AlertService,
         private eventManager: EventManager,
-        private parseLinks: ParseLinks,
         private activatedRoute: ActivatedRoute,
         private principal: Principal
     ) {
-        this.pollParticipations = [];
-        this.itemsPerPage = ITEMS_PER_PAGE;
-        this.page = 0;
-        this.links = {
-            last: 0
-        };
-        this.predicate = 'id';
-        this.reverse = true;
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
     }
 
@@ -49,60 +32,31 @@ export class PollParticipationComponent implements OnInit, OnDestroy {
         if (this.currentSearch) {
             this.pollParticipationService.search({
                 query: this.currentSearch,
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            }).subscribe(
-                (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
-                (res: ResponseWrapper) => this.onError(res.json)
-            );
+                }).subscribe(
+                    (res: ResponseWrapper) => this.pollParticipations = res.json,
+                    (res: ResponseWrapper) => this.onError(res.json)
+                );
             return;
-        }
-        this.pollParticipationService.query({
-            page: this.page,
-            size: this.itemsPerPage,
-            sort: this.sort()
-        }).subscribe(
-            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+       }
+        this.pollParticipationService.query().subscribe(
+            (res: ResponseWrapper) => {
+                this.pollParticipations = res.json;
+                this.currentSearch = '';
+            },
             (res: ResponseWrapper) => this.onError(res.json)
         );
-    }
-
-    reset() {
-        this.page = 0;
-        this.pollParticipations = [];
-        this.loadAll();
-    }
-
-    loadPage(page) {
-        this.page = page;
-        this.loadAll();
-    }
-
-    clear() {
-        this.pollParticipations = [];
-        this.links = {
-            last: 0
-        };
-        this.page = 0;
-        this.predicate = 'id';
-        this.reverse = true;
-        this.currentSearch = '';
-        this.loadAll();
     }
 
     search(query) {
         if (!query) {
             return this.clear();
         }
-        this.pollParticipations = [];
-        this.links = {
-            last: 0
-        };
-        this.page = 0;
-        this.predicate = '_score';
-        this.reverse = false;
         this.currentSearch = query;
+        this.loadAll();
+    }
+
+    clear() {
+        this.currentSearch = '';
         this.loadAll();
     }
     ngOnInit() {
@@ -121,23 +75,7 @@ export class PollParticipationComponent implements OnInit, OnDestroy {
         return item.id;
     }
     registerChangeInPollParticipations() {
-        this.eventSubscriber = this.eventManager.subscribe('pollParticipationListModification', (response) => this.reset());
-    }
-
-    sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-        if (this.predicate !== 'id') {
-            result.push('id');
-        }
-        return result;
-    }
-
-    private onSuccess(data, headers) {
-        this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = headers.get('X-Total-Count');
-        for (let i = 0; i < data.length; i++) {
-            this.pollParticipations.push(data[i]);
-        }
+        this.eventSubscriber = this.eventManager.subscribe('pollParticipationListModification', (response) => this.loadAll());
     }
 
     private onError(error) {

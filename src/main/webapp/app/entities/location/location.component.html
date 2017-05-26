@@ -28,15 +28,15 @@
     <div class="table-responsive" *ngIf="locations">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="address"><span jhiTranslate="jDiasApp.location.address">Address</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="lat"><span jhiTranslate="jDiasApp.location.lat">Lat</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="lng"><span jhiTranslate="jDiasApp.location.lng">Lng</span> <span class="fa fa-sort"></span></th>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="jDiasApp.location.address">Address</span></th>
+            <th><span jhiTranslate="jDiasApp.location.lat">Lat</span></th>
+            <th><span jhiTranslate="jDiasApp.location.lng">Lng</span></th>
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let location of locations ;trackBy: trackId">
                 <td><a [routerLink]="['../location', location.id ]">{{location.id}}</a></td>
                 <td>{{location.address}}</td>

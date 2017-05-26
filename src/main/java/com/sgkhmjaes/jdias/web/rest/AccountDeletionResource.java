@@ -2,17 +2,13 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.AccountDeletion;
-import com.sgkhmjaes.jdias.service.AccountDeletionService;
+
+import com.sgkhmjaes.jdias.repository.AccountDeletionRepository;
+import com.sgkhmjaes.jdias.repository.search.AccountDeletionSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
-import com.sgkhmjaes.jdias.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +17,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -36,10 +33,13 @@ public class AccountDeletionResource {
 
     private static final String ENTITY_NAME = "accountDeletion";
         
-    private final AccountDeletionService accountDeletionService;
+    private final AccountDeletionRepository accountDeletionRepository;
 
-    public AccountDeletionResource(AccountDeletionService accountDeletionService) {
-        this.accountDeletionService = accountDeletionService;
+    private final AccountDeletionSearchRepository accountDeletionSearchRepository;
+
+    public AccountDeletionResource(AccountDeletionRepository accountDeletionRepository, AccountDeletionSearchRepository accountDeletionSearchRepository) {
+        this.accountDeletionRepository = accountDeletionRepository;
+        this.accountDeletionSearchRepository = accountDeletionSearchRepository;
     }
 
     /**
@@ -56,7 +56,8 @@ public class AccountDeletionResource {
         if (accountDeletion.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new accountDeletion cannot already have an ID")).body(null);
         }
-        AccountDeletion result = accountDeletionService.save(accountDeletion);
+        AccountDeletion result = accountDeletionRepository.save(accountDeletion);
+        accountDeletionSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/account-deletions/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -78,7 +79,8 @@ public class AccountDeletionResource {
         if (accountDeletion.getId() == null) {
             return createAccountDeletion(accountDeletion);
         }
-        AccountDeletion result = accountDeletionService.save(accountDeletion);
+        AccountDeletion result = accountDeletionRepository.save(accountDeletion);
+        accountDeletionSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, accountDeletion.getId().toString()))
             .body(result);
@@ -87,16 +89,14 @@ public class AccountDeletionResource {
     /**
      * GET  /account-deletions : get all the accountDeletions.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of accountDeletions in body
      */
     @GetMapping("/account-deletions")
     @Timed
-    public ResponseEntity<List<AccountDeletion>> getAllAccountDeletions(@ApiParam Pageable pageable) {
-        log.debug("REST request to get a page of AccountDeletions");
-        Page<AccountDeletion> page = accountDeletionService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/account-deletions");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<AccountDeletion> getAllAccountDeletions() {
+        log.debug("REST request to get all AccountDeletions");
+        List<AccountDeletion> accountDeletions = accountDeletionRepository.findAll();
+        return accountDeletions;
     }
 
     /**
@@ -109,7 +109,7 @@ public class AccountDeletionResource {
     @Timed
     public ResponseEntity<AccountDeletion> getAccountDeletion(@PathVariable Long id) {
         log.debug("REST request to get AccountDeletion : {}", id);
-        AccountDeletion accountDeletion = accountDeletionService.findOne(id);
+        AccountDeletion accountDeletion = accountDeletionRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(accountDeletion));
     }
 
@@ -123,7 +123,8 @@ public class AccountDeletionResource {
     @Timed
     public ResponseEntity<Void> deleteAccountDeletion(@PathVariable Long id) {
         log.debug("REST request to delete AccountDeletion : {}", id);
-        accountDeletionService.delete(id);
+        accountDeletionRepository.delete(id);
+        accountDeletionSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,16 +133,15 @@ public class AccountDeletionResource {
      * to the query.
      *
      * @param query the query of the accountDeletion search 
-     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/account-deletions")
     @Timed
-    public ResponseEntity<List<AccountDeletion>> searchAccountDeletions(@RequestParam String query, @ApiParam Pageable pageable) {
-        log.debug("REST request to search for a page of AccountDeletions for query {}", query);
-        Page<AccountDeletion> page = accountDeletionService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/account-deletions");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<AccountDeletion> searchAccountDeletions(@RequestParam String query) {
+        log.debug("REST request to search AccountDeletions for query {}", query);
+        return StreamSupport
+            .stream(accountDeletionSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 

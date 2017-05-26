@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Profile;
 import com.sgkhmjaes.jdias.repository.ProfileRepository;
-import com.sgkhmjaes.jdias.service.ProfileService;
 import com.sgkhmjaes.jdias.repository.search.ProfileSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -84,9 +83,6 @@ public class ProfileResourceIntTest {
     private ProfileRepository profileRepository;
 
     @Autowired
-    private ProfileService profileService;
-
-    @Autowired
     private ProfileSearchRepository profileSearchRepository;
 
     @Autowired
@@ -108,7 +104,7 @@ public class ProfileResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ProfileResource profileResource = new ProfileResource(profileService);
+        ProfileResource profileResource = new ProfileResource(profileRepository, profileSearchRepository);
         this.restProfileMockMvc = MockMvcBuilders.standaloneSetup(profileResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -262,8 +258,8 @@ public class ProfileResourceIntTest {
     @Transactional
     public void updateProfile() throws Exception {
         // Initialize the database
-        profileService.save(profile);
-
+        profileRepository.saveAndFlush(profile);
+        profileSearchRepository.save(profile);
         int databaseSizeBeforeUpdate = profileRepository.findAll().size();
 
         // Update the profile
@@ -333,8 +329,8 @@ public class ProfileResourceIntTest {
     @Transactional
     public void deleteProfile() throws Exception {
         // Initialize the database
-        profileService.save(profile);
-
+        profileRepository.saveAndFlush(profile);
+        profileSearchRepository.save(profile);
         int databaseSizeBeforeDelete = profileRepository.findAll().size();
 
         // Get the profile
@@ -355,7 +351,8 @@ public class ProfileResourceIntTest {
     @Transactional
     public void searchProfile() throws Exception {
         // Initialize the database
-        profileService.save(profile);
+        profileRepository.saveAndFlush(profile);
+        profileSearchRepository.save(profile);
 
         // Search the profile
         restProfileMockMvc.perform(get("/api/_search/profiles?query=id:" + profile.getId()))

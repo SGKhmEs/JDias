@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.PollAnswer;
 import com.sgkhmjaes.jdias.repository.PollAnswerRepository;
-import com.sgkhmjaes.jdias.service.PollAnswerService;
 import com.sgkhmjaes.jdias.repository.search.PollAnswerSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -49,9 +48,6 @@ public class PollAnswerResourceIntTest {
     private PollAnswerRepository pollAnswerRepository;
 
     @Autowired
-    private PollAnswerService pollAnswerService;
-
-    @Autowired
     private PollAnswerSearchRepository pollAnswerSearchRepository;
 
     @Autowired
@@ -73,7 +69,7 @@ public class PollAnswerResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PollAnswerResource pollAnswerResource = new PollAnswerResource(pollAnswerService);
+        PollAnswerResource pollAnswerResource = new PollAnswerResource(pollAnswerRepository, pollAnswerSearchRepository);
         this.restPollAnswerMockMvc = MockMvcBuilders.standaloneSetup(pollAnswerResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -183,8 +179,8 @@ public class PollAnswerResourceIntTest {
     @Transactional
     public void updatePollAnswer() throws Exception {
         // Initialize the database
-        pollAnswerService.save(pollAnswer);
-
+        pollAnswerRepository.saveAndFlush(pollAnswer);
+        pollAnswerSearchRepository.save(pollAnswer);
         int databaseSizeBeforeUpdate = pollAnswerRepository.findAll().size();
 
         // Update the pollAnswer
@@ -232,8 +228,8 @@ public class PollAnswerResourceIntTest {
     @Transactional
     public void deletePollAnswer() throws Exception {
         // Initialize the database
-        pollAnswerService.save(pollAnswer);
-
+        pollAnswerRepository.saveAndFlush(pollAnswer);
+        pollAnswerSearchRepository.save(pollAnswer);
         int databaseSizeBeforeDelete = pollAnswerRepository.findAll().size();
 
         // Get the pollAnswer
@@ -254,7 +250,8 @@ public class PollAnswerResourceIntTest {
     @Transactional
     public void searchPollAnswer() throws Exception {
         // Initialize the database
-        pollAnswerService.save(pollAnswer);
+        pollAnswerRepository.saveAndFlush(pollAnswer);
+        pollAnswerSearchRepository.save(pollAnswer);
 
         // Search the pollAnswer
         restPollAnswerMockMvc.perform(get("/api/_search/poll-answers?query=id:" + pollAnswer.getId()))

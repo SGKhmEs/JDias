@@ -2,17 +2,13 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Location;
-import com.sgkhmjaes.jdias.service.LocationService;
+
+import com.sgkhmjaes.jdias.repository.LocationRepository;
+import com.sgkhmjaes.jdias.repository.search.LocationSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
-import com.sgkhmjaes.jdias.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +17,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -36,10 +33,13 @@ public class LocationResource {
 
     private static final String ENTITY_NAME = "location";
         
-    private final LocationService locationService;
+    private final LocationRepository locationRepository;
 
-    public LocationResource(LocationService locationService) {
-        this.locationService = locationService;
+    private final LocationSearchRepository locationSearchRepository;
+
+    public LocationResource(LocationRepository locationRepository, LocationSearchRepository locationSearchRepository) {
+        this.locationRepository = locationRepository;
+        this.locationSearchRepository = locationSearchRepository;
     }
 
     /**
@@ -56,7 +56,8 @@ public class LocationResource {
         if (location.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new location cannot already have an ID")).body(null);
         }
-        Location result = locationService.save(location);
+        Location result = locationRepository.save(location);
+        locationSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/locations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -78,7 +79,8 @@ public class LocationResource {
         if (location.getId() == null) {
             return createLocation(location);
         }
-        Location result = locationService.save(location);
+        Location result = locationRepository.save(location);
+        locationSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, location.getId().toString()))
             .body(result);
@@ -87,16 +89,14 @@ public class LocationResource {
     /**
      * GET  /locations : get all the locations.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of locations in body
      */
     @GetMapping("/locations")
     @Timed
-    public ResponseEntity<List<Location>> getAllLocations(@ApiParam Pageable pageable) {
-        log.debug("REST request to get a page of Locations");
-        Page<Location> page = locationService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/locations");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<Location> getAllLocations() {
+        log.debug("REST request to get all Locations");
+        List<Location> locations = locationRepository.findAll();
+        return locations;
     }
 
     /**
@@ -109,7 +109,7 @@ public class LocationResource {
     @Timed
     public ResponseEntity<Location> getLocation(@PathVariable Long id) {
         log.debug("REST request to get Location : {}", id);
-        Location location = locationService.findOne(id);
+        Location location = locationRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(location));
     }
 
@@ -123,7 +123,8 @@ public class LocationResource {
     @Timed
     public ResponseEntity<Void> deleteLocation(@PathVariable Long id) {
         log.debug("REST request to delete Location : {}", id);
-        locationService.delete(id);
+        locationRepository.delete(id);
+        locationSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,16 +133,15 @@ public class LocationResource {
      * to the query.
      *
      * @param query the query of the location search 
-     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/locations")
     @Timed
-    public ResponseEntity<List<Location>> searchLocations(@RequestParam String query, @ApiParam Pageable pageable) {
-        log.debug("REST request to search for a page of Locations for query {}", query);
-        Page<Location> page = locationService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/locations");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<Location> searchLocations(@RequestParam String query) {
+        log.debug("REST request to search Locations for query {}", query);
+        return StreamSupport
+            .stream(locationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 

@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Participation;
 import com.sgkhmjaes.jdias.repository.ParticipationRepository;
-import com.sgkhmjaes.jdias.service.ParticipationService;
 import com.sgkhmjaes.jdias.repository.search.ParticipationSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -56,9 +55,6 @@ public class ParticipationResourceIntTest {
     private ParticipationRepository participationRepository;
 
     @Autowired
-    private ParticipationService participationService;
-
-    @Autowired
     private ParticipationSearchRepository participationSearchRepository;
 
     @Autowired
@@ -80,7 +76,7 @@ public class ParticipationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ParticipationResource participationResource = new ParticipationResource(participationService);
+        ParticipationResource participationResource = new ParticipationResource(participationRepository, participationSearchRepository);
         this.restParticipationMockMvc = MockMvcBuilders.standaloneSetup(participationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -198,8 +194,8 @@ public class ParticipationResourceIntTest {
     @Transactional
     public void updateParticipation() throws Exception {
         // Initialize the database
-        participationService.save(participation);
-
+        participationRepository.saveAndFlush(participation);
+        participationSearchRepository.save(participation);
         int databaseSizeBeforeUpdate = participationRepository.findAll().size();
 
         // Update the participation
@@ -251,8 +247,8 @@ public class ParticipationResourceIntTest {
     @Transactional
     public void deleteParticipation() throws Exception {
         // Initialize the database
-        participationService.save(participation);
-
+        participationRepository.saveAndFlush(participation);
+        participationSearchRepository.save(participation);
         int databaseSizeBeforeDelete = participationRepository.findAll().size();
 
         // Get the participation
@@ -273,7 +269,8 @@ public class ParticipationResourceIntTest {
     @Transactional
     public void searchParticipation() throws Exception {
         // Initialize the database
-        participationService.save(participation);
+        participationRepository.saveAndFlush(participation);
+        participationSearchRepository.save(participation);
 
         // Search the participation
         restParticipationMockMvc.perform(get("/api/_search/participations?query=id:" + participation.getId()))

@@ -2,17 +2,13 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.PollAnswer;
-import com.sgkhmjaes.jdias.service.PollAnswerService;
+
+import com.sgkhmjaes.jdias.repository.PollAnswerRepository;
+import com.sgkhmjaes.jdias.repository.search.PollAnswerSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
-import com.sgkhmjaes.jdias.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +17,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -36,10 +33,13 @@ public class PollAnswerResource {
 
     private static final String ENTITY_NAME = "pollAnswer";
         
-    private final PollAnswerService pollAnswerService;
+    private final PollAnswerRepository pollAnswerRepository;
 
-    public PollAnswerResource(PollAnswerService pollAnswerService) {
-        this.pollAnswerService = pollAnswerService;
+    private final PollAnswerSearchRepository pollAnswerSearchRepository;
+
+    public PollAnswerResource(PollAnswerRepository pollAnswerRepository, PollAnswerSearchRepository pollAnswerSearchRepository) {
+        this.pollAnswerRepository = pollAnswerRepository;
+        this.pollAnswerSearchRepository = pollAnswerSearchRepository;
     }
 
     /**
@@ -56,7 +56,8 @@ public class PollAnswerResource {
         if (pollAnswer.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new pollAnswer cannot already have an ID")).body(null);
         }
-        PollAnswer result = pollAnswerService.save(pollAnswer);
+        PollAnswer result = pollAnswerRepository.save(pollAnswer);
+        pollAnswerSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/poll-answers/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -78,7 +79,8 @@ public class PollAnswerResource {
         if (pollAnswer.getId() == null) {
             return createPollAnswer(pollAnswer);
         }
-        PollAnswer result = pollAnswerService.save(pollAnswer);
+        PollAnswer result = pollAnswerRepository.save(pollAnswer);
+        pollAnswerSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, pollAnswer.getId().toString()))
             .body(result);
@@ -87,16 +89,14 @@ public class PollAnswerResource {
     /**
      * GET  /poll-answers : get all the pollAnswers.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of pollAnswers in body
      */
     @GetMapping("/poll-answers")
     @Timed
-    public ResponseEntity<List<PollAnswer>> getAllPollAnswers(@ApiParam Pageable pageable) {
-        log.debug("REST request to get a page of PollAnswers");
-        Page<PollAnswer> page = pollAnswerService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/poll-answers");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<PollAnswer> getAllPollAnswers() {
+        log.debug("REST request to get all PollAnswers");
+        List<PollAnswer> pollAnswers = pollAnswerRepository.findAll();
+        return pollAnswers;
     }
 
     /**
@@ -109,7 +109,7 @@ public class PollAnswerResource {
     @Timed
     public ResponseEntity<PollAnswer> getPollAnswer(@PathVariable Long id) {
         log.debug("REST request to get PollAnswer : {}", id);
-        PollAnswer pollAnswer = pollAnswerService.findOne(id);
+        PollAnswer pollAnswer = pollAnswerRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(pollAnswer));
     }
 
@@ -123,7 +123,8 @@ public class PollAnswerResource {
     @Timed
     public ResponseEntity<Void> deletePollAnswer(@PathVariable Long id) {
         log.debug("REST request to delete PollAnswer : {}", id);
-        pollAnswerService.delete(id);
+        pollAnswerRepository.delete(id);
+        pollAnswerSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,16 +133,15 @@ public class PollAnswerResource {
      * to the query.
      *
      * @param query the query of the pollAnswer search 
-     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/poll-answers")
     @Timed
-    public ResponseEntity<List<PollAnswer>> searchPollAnswers(@RequestParam String query, @ApiParam Pageable pageable) {
-        log.debug("REST request to search for a page of PollAnswers for query {}", query);
-        Page<PollAnswer> page = pollAnswerService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/poll-answers");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<PollAnswer> searchPollAnswers(@RequestParam String query) {
+        log.debug("REST request to search PollAnswers for query {}", query);
+        return StreamSupport
+            .stream(pollAnswerSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 

@@ -2,17 +2,13 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Retraction;
-import com.sgkhmjaes.jdias.service.RetractionService;
+
+import com.sgkhmjaes.jdias.repository.RetractionRepository;
+import com.sgkhmjaes.jdias.repository.search.RetractionSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
-import com.sgkhmjaes.jdias.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +17,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -36,10 +33,13 @@ public class RetractionResource {
 
     private static final String ENTITY_NAME = "retraction";
         
-    private final RetractionService retractionService;
+    private final RetractionRepository retractionRepository;
 
-    public RetractionResource(RetractionService retractionService) {
-        this.retractionService = retractionService;
+    private final RetractionSearchRepository retractionSearchRepository;
+
+    public RetractionResource(RetractionRepository retractionRepository, RetractionSearchRepository retractionSearchRepository) {
+        this.retractionRepository = retractionRepository;
+        this.retractionSearchRepository = retractionSearchRepository;
     }
 
     /**
@@ -56,7 +56,8 @@ public class RetractionResource {
         if (retraction.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new retraction cannot already have an ID")).body(null);
         }
-        Retraction result = retractionService.save(retraction);
+        Retraction result = retractionRepository.save(retraction);
+        retractionSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/retractions/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -78,7 +79,8 @@ public class RetractionResource {
         if (retraction.getId() == null) {
             return createRetraction(retraction);
         }
-        Retraction result = retractionService.save(retraction);
+        Retraction result = retractionRepository.save(retraction);
+        retractionSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, retraction.getId().toString()))
             .body(result);
@@ -87,16 +89,14 @@ public class RetractionResource {
     /**
      * GET  /retractions : get all the retractions.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of retractions in body
      */
     @GetMapping("/retractions")
     @Timed
-    public ResponseEntity<List<Retraction>> getAllRetractions(@ApiParam Pageable pageable) {
-        log.debug("REST request to get a page of Retractions");
-        Page<Retraction> page = retractionService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/retractions");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<Retraction> getAllRetractions() {
+        log.debug("REST request to get all Retractions");
+        List<Retraction> retractions = retractionRepository.findAll();
+        return retractions;
     }
 
     /**
@@ -109,7 +109,7 @@ public class RetractionResource {
     @Timed
     public ResponseEntity<Retraction> getRetraction(@PathVariable Long id) {
         log.debug("REST request to get Retraction : {}", id);
-        Retraction retraction = retractionService.findOne(id);
+        Retraction retraction = retractionRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(retraction));
     }
 
@@ -123,7 +123,8 @@ public class RetractionResource {
     @Timed
     public ResponseEntity<Void> deleteRetraction(@PathVariable Long id) {
         log.debug("REST request to delete Retraction : {}", id);
-        retractionService.delete(id);
+        retractionRepository.delete(id);
+        retractionSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,16 +133,15 @@ public class RetractionResource {
      * to the query.
      *
      * @param query the query of the retraction search 
-     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/retractions")
     @Timed
-    public ResponseEntity<List<Retraction>> searchRetractions(@RequestParam String query, @ApiParam Pageable pageable) {
-        log.debug("REST request to search for a page of Retractions for query {}", query);
-        Page<Retraction> page = retractionService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/retractions");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<Retraction> searchRetractions(@RequestParam String query) {
+        log.debug("REST request to search Retractions for query {}", query);
+        return StreamSupport
+            .stream(retractionSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 

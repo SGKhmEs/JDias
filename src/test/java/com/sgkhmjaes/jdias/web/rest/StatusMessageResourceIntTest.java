@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.repository.StatusMessageRepository;
-import com.sgkhmjaes.jdias.service.StatusMessageService;
 import com.sgkhmjaes.jdias.repository.search.StatusMessageSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -46,9 +45,6 @@ public class StatusMessageResourceIntTest {
     private StatusMessageRepository statusMessageRepository;
 
     @Autowired
-    private StatusMessageService statusMessageService;
-
-    @Autowired
     private StatusMessageSearchRepository statusMessageSearchRepository;
 
     @Autowired
@@ -70,7 +66,7 @@ public class StatusMessageResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        StatusMessageResource statusMessageResource = new StatusMessageResource(statusMessageService);
+        StatusMessageResource statusMessageResource = new StatusMessageResource(statusMessageRepository, statusMessageSearchRepository);
         this.restStatusMessageMockMvc = MockMvcBuilders.standaloneSetup(statusMessageResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -176,8 +172,8 @@ public class StatusMessageResourceIntTest {
     @Transactional
     public void updateStatusMessage() throws Exception {
         // Initialize the database
-        statusMessageService.save(statusMessage);
-
+        statusMessageRepository.saveAndFlush(statusMessage);
+        statusMessageSearchRepository.save(statusMessage);
         int databaseSizeBeforeUpdate = statusMessageRepository.findAll().size();
 
         // Update the statusMessage
@@ -223,8 +219,8 @@ public class StatusMessageResourceIntTest {
     @Transactional
     public void deleteStatusMessage() throws Exception {
         // Initialize the database
-        statusMessageService.save(statusMessage);
-
+        statusMessageRepository.saveAndFlush(statusMessage);
+        statusMessageSearchRepository.save(statusMessage);
         int databaseSizeBeforeDelete = statusMessageRepository.findAll().size();
 
         // Get the statusMessage
@@ -245,7 +241,8 @@ public class StatusMessageResourceIntTest {
     @Transactional
     public void searchStatusMessage() throws Exception {
         // Initialize the database
-        statusMessageService.save(statusMessage);
+        statusMessageRepository.saveAndFlush(statusMessage);
+        statusMessageSearchRepository.save(statusMessage);
 
         // Search the statusMessage
         restStatusMessageMockMvc.perform(get("/api/_search/status-messages?query=id:" + statusMessage.getId()))

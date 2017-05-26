@@ -28,19 +28,19 @@
     <div class="table-responsive" *ngIf="likes">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="author"><span jhiTranslate="jDiasApp.like.author">Author</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="guid"><span jhiTranslate="jDiasApp.like.guid">Guid</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="parentguid"><span jhiTranslate="jDiasApp.like.parentguid">Parentguid</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="parenttype"><span jhiTranslate="jDiasApp.like.parenttype">Parenttype</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="positive"><span jhiTranslate="jDiasApp.like.positive">Positive</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="authorsignature"><span jhiTranslate="jDiasApp.like.authorsignature">Authorsignature</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="parentauthorsignature"><span jhiTranslate="jDiasApp.like.parentauthorsignature">Parentauthorsignature</span> <span class="fa fa-sort"></span></th>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="jDiasApp.like.author">Author</span></th>
+            <th><span jhiTranslate="jDiasApp.like.guid">Guid</span></th>
+            <th><span jhiTranslate="jDiasApp.like.parentguid">Parentguid</span></th>
+            <th><span jhiTranslate="jDiasApp.like.parenttype">Parenttype</span></th>
+            <th><span jhiTranslate="jDiasApp.like.positive">Positive</span></th>
+            <th><span jhiTranslate="jDiasApp.like.authorsignature">Authorsignature</span></th>
+            <th><span jhiTranslate="jDiasApp.like.parentauthorsignature">Parentauthorsignature</span></th>
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let like of likes ;trackBy: trackId">
                 <td><a [routerLink]="['../like', like.id ]">{{like.id}}</a></td>
                 <td>{{like.author}}</td>

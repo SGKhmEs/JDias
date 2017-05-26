@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Like;
 import com.sgkhmjaes.jdias.repository.LikeRepository;
-import com.sgkhmjaes.jdias.service.LikeService;
 import com.sgkhmjaes.jdias.repository.search.LikeSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -65,9 +64,6 @@ public class LikeResourceIntTest {
     private LikeRepository likeRepository;
 
     @Autowired
-    private LikeService likeService;
-
-    @Autowired
     private LikeSearchRepository likeSearchRepository;
 
     @Autowired
@@ -89,7 +85,7 @@ public class LikeResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        LikeResource likeResource = new LikeResource(likeService);
+        LikeResource likeResource = new LikeResource(likeRepository, likeSearchRepository);
         this.restLikeMockMvc = MockMvcBuilders.standaloneSetup(likeResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -219,8 +215,8 @@ public class LikeResourceIntTest {
     @Transactional
     public void updateLike() throws Exception {
         // Initialize the database
-        likeService.save(like);
-
+        likeRepository.saveAndFlush(like);
+        likeSearchRepository.save(like);
         int databaseSizeBeforeUpdate = likeRepository.findAll().size();
 
         // Update the like
@@ -278,8 +274,8 @@ public class LikeResourceIntTest {
     @Transactional
     public void deleteLike() throws Exception {
         // Initialize the database
-        likeService.save(like);
-
+        likeRepository.saveAndFlush(like);
+        likeSearchRepository.save(like);
         int databaseSizeBeforeDelete = likeRepository.findAll().size();
 
         // Get the like
@@ -300,7 +296,8 @@ public class LikeResourceIntTest {
     @Transactional
     public void searchLike() throws Exception {
         // Initialize the database
-        likeService.save(like);
+        likeRepository.saveAndFlush(like);
+        likeSearchRepository.save(like);
 
         // Search the like
         restLikeMockMvc.perform(get("/api/_search/likes?query=id:" + like.getId()))

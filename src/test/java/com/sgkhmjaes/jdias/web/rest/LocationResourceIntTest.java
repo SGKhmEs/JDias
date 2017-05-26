@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Location;
 import com.sgkhmjaes.jdias.repository.LocationRepository;
-import com.sgkhmjaes.jdias.service.LocationService;
 import com.sgkhmjaes.jdias.repository.search.LocationSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -52,9 +51,6 @@ public class LocationResourceIntTest {
     private LocationRepository locationRepository;
 
     @Autowired
-    private LocationService locationService;
-
-    @Autowired
     private LocationSearchRepository locationSearchRepository;
 
     @Autowired
@@ -76,7 +72,7 @@ public class LocationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        LocationResource locationResource = new LocationResource(locationService);
+        LocationResource locationResource = new LocationResource(locationRepository, locationSearchRepository);
         this.restLocationMockMvc = MockMvcBuilders.standaloneSetup(locationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -190,8 +186,8 @@ public class LocationResourceIntTest {
     @Transactional
     public void updateLocation() throws Exception {
         // Initialize the database
-        locationService.save(location);
-
+        locationRepository.saveAndFlush(location);
+        locationSearchRepository.save(location);
         int databaseSizeBeforeUpdate = locationRepository.findAll().size();
 
         // Update the location
@@ -241,8 +237,8 @@ public class LocationResourceIntTest {
     @Transactional
     public void deleteLocation() throws Exception {
         // Initialize the database
-        locationService.save(location);
-
+        locationRepository.saveAndFlush(location);
+        locationSearchRepository.save(location);
         int databaseSizeBeforeDelete = locationRepository.findAll().size();
 
         // Get the location
@@ -263,7 +259,8 @@ public class LocationResourceIntTest {
     @Transactional
     public void searchLocation() throws Exception {
         // Initialize the database
-        locationService.save(location);
+        locationRepository.saveAndFlush(location);
+        locationSearchRepository.save(location);
 
         // Search the location
         restLocationMockMvc.perform(get("/api/_search/locations?query=id:" + location.getId()))

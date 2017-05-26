@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Poll;
 import com.sgkhmjaes.jdias.repository.PollRepository;
-import com.sgkhmjaes.jdias.service.PollService;
 import com.sgkhmjaes.jdias.repository.search.PollSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -49,9 +48,6 @@ public class PollResourceIntTest {
     private PollRepository pollRepository;
 
     @Autowired
-    private PollService pollService;
-
-    @Autowired
     private PollSearchRepository pollSearchRepository;
 
     @Autowired
@@ -73,7 +69,7 @@ public class PollResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PollResource pollResource = new PollResource(pollService);
+        PollResource pollResource = new PollResource(pollRepository, pollSearchRepository);
         this.restPollMockMvc = MockMvcBuilders.standaloneSetup(pollResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -183,8 +179,8 @@ public class PollResourceIntTest {
     @Transactional
     public void updatePoll() throws Exception {
         // Initialize the database
-        pollService.save(poll);
-
+        pollRepository.saveAndFlush(poll);
+        pollSearchRepository.save(poll);
         int databaseSizeBeforeUpdate = pollRepository.findAll().size();
 
         // Update the poll
@@ -232,8 +228,8 @@ public class PollResourceIntTest {
     @Transactional
     public void deletePoll() throws Exception {
         // Initialize the database
-        pollService.save(poll);
-
+        pollRepository.saveAndFlush(poll);
+        pollSearchRepository.save(poll);
         int databaseSizeBeforeDelete = pollRepository.findAll().size();
 
         // Get the poll
@@ -254,7 +250,8 @@ public class PollResourceIntTest {
     @Transactional
     public void searchPoll() throws Exception {
         // Initialize the database
-        pollService.save(poll);
+        pollRepository.saveAndFlush(poll);
+        pollSearchRepository.save(poll);
 
         // Search the poll
         restPollMockMvc.perform(get("/api/_search/polls?query=id:" + poll.getId()))

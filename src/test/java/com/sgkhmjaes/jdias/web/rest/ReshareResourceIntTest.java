@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Reshare;
 import com.sgkhmjaes.jdias.repository.ReshareRepository;
-import com.sgkhmjaes.jdias.service.ReshareService;
 import com.sgkhmjaes.jdias.repository.search.ReshareSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -49,9 +48,6 @@ public class ReshareResourceIntTest {
     private ReshareRepository reshareRepository;
 
     @Autowired
-    private ReshareService reshareService;
-
-    @Autowired
     private ReshareSearchRepository reshareSearchRepository;
 
     @Autowired
@@ -73,7 +69,7 @@ public class ReshareResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ReshareResource reshareResource = new ReshareResource(reshareService);
+        ReshareResource reshareResource = new ReshareResource(reshareRepository, reshareSearchRepository);
         this.restReshareMockMvc = MockMvcBuilders.standaloneSetup(reshareResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -183,8 +179,8 @@ public class ReshareResourceIntTest {
     @Transactional
     public void updateReshare() throws Exception {
         // Initialize the database
-        reshareService.save(reshare);
-
+        reshareRepository.saveAndFlush(reshare);
+        reshareSearchRepository.save(reshare);
         int databaseSizeBeforeUpdate = reshareRepository.findAll().size();
 
         // Update the reshare
@@ -232,8 +228,8 @@ public class ReshareResourceIntTest {
     @Transactional
     public void deleteReshare() throws Exception {
         // Initialize the database
-        reshareService.save(reshare);
-
+        reshareRepository.saveAndFlush(reshare);
+        reshareSearchRepository.save(reshare);
         int databaseSizeBeforeDelete = reshareRepository.findAll().size();
 
         // Get the reshare
@@ -254,7 +250,8 @@ public class ReshareResourceIntTest {
     @Transactional
     public void searchReshare() throws Exception {
         // Initialize the database
-        reshareService.save(reshare);
+        reshareRepository.saveAndFlush(reshare);
+        reshareSearchRepository.save(reshare);
 
         // Search the reshare
         restReshareMockMvc.perform(get("/api/_search/reshares?query=id:" + reshare.getId()))

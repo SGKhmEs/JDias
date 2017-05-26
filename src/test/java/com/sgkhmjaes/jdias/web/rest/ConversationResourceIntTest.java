@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Conversation;
 import com.sgkhmjaes.jdias.repository.ConversationRepository;
-import com.sgkhmjaes.jdias.service.ConversationService;
 import com.sgkhmjaes.jdias.repository.search.ConversationSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -60,9 +59,6 @@ public class ConversationResourceIntTest {
     private ConversationRepository conversationRepository;
 
     @Autowired
-    private ConversationService conversationService;
-
-    @Autowired
     private ConversationSearchRepository conversationSearchRepository;
 
     @Autowired
@@ -84,7 +80,7 @@ public class ConversationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ConversationResource conversationResource = new ConversationResource(conversationService);
+        ConversationResource conversationResource = new ConversationResource(conversationRepository, conversationSearchRepository);
         this.restConversationMockMvc = MockMvcBuilders.standaloneSetup(conversationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -206,8 +202,8 @@ public class ConversationResourceIntTest {
     @Transactional
     public void updateConversation() throws Exception {
         // Initialize the database
-        conversationService.save(conversation);
-
+        conversationRepository.saveAndFlush(conversation);
+        conversationSearchRepository.save(conversation);
         int databaseSizeBeforeUpdate = conversationRepository.findAll().size();
 
         // Update the conversation
@@ -261,8 +257,8 @@ public class ConversationResourceIntTest {
     @Transactional
     public void deleteConversation() throws Exception {
         // Initialize the database
-        conversationService.save(conversation);
-
+        conversationRepository.saveAndFlush(conversation);
+        conversationSearchRepository.save(conversation);
         int databaseSizeBeforeDelete = conversationRepository.findAll().size();
 
         // Get the conversation
@@ -283,7 +279,8 @@ public class ConversationResourceIntTest {
     @Transactional
     public void searchConversation() throws Exception {
         // Initialize the database
-        conversationService.save(conversation);
+        conversationRepository.saveAndFlush(conversation);
+        conversationSearchRepository.save(conversation);
 
         // Search the conversation
         restConversationMockMvc.perform(get("/api/_search/conversations?query=id:" + conversation.getId()))

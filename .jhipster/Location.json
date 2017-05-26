@@ -19,6 +19,6 @@
     "javadoc": "not an ignored comment",
     "entityTableName": "location",
     "dto": "no",
-    "pagination": "infinite-scroll",
-    "service": "serviceImpl"
+    "pagination": "no",
+    "service": "no"
 }

@@ -58,6 +58,6 @@
     "changelogDate": "20170525164616",
     "entityTableName": "profile",
     "dto": "no",
-    "pagination": "infinite-scroll",
-    "service": "serviceImpl"
+    "pagination": "no",
+    "service": "no"
 }

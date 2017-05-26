@@ -2,17 +2,13 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Profile;
-import com.sgkhmjaes.jdias.service.ProfileService;
+
+import com.sgkhmjaes.jdias.repository.ProfileRepository;
+import com.sgkhmjaes.jdias.repository.search.ProfileSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
-import com.sgkhmjaes.jdias.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +17,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -36,10 +33,13 @@ public class ProfileResource {
 
     private static final String ENTITY_NAME = "profile";
         
-    private final ProfileService profileService;
+    private final ProfileRepository profileRepository;
 
-    public ProfileResource(ProfileService profileService) {
-        this.profileService = profileService;
+    private final ProfileSearchRepository profileSearchRepository;
+
+    public ProfileResource(ProfileRepository profileRepository, ProfileSearchRepository profileSearchRepository) {
+        this.profileRepository = profileRepository;
+        this.profileSearchRepository = profileSearchRepository;
     }
 
     /**
@@ -56,7 +56,8 @@ public class ProfileResource {
         if (profile.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new profile cannot already have an ID")).body(null);
         }
-        Profile result = profileService.save(profile);
+        Profile result = profileRepository.save(profile);
+        profileSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/profiles/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -78,7 +79,8 @@ public class ProfileResource {
         if (profile.getId() == null) {
             return createProfile(profile);
         }
-        Profile result = profileService.save(profile);
+        Profile result = profileRepository.save(profile);
+        profileSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, profile.getId().toString()))
             .body(result);
@@ -87,16 +89,14 @@ public class ProfileResource {
     /**
      * GET  /profiles : get all the profiles.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of profiles in body
      */
     @GetMapping("/profiles")
     @Timed
-    public ResponseEntity<List<Profile>> getAllProfiles(@ApiParam Pageable pageable) {
-        log.debug("REST request to get a page of Profiles");
-        Page<Profile> page = profileService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/profiles");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<Profile> getAllProfiles() {
+        log.debug("REST request to get all Profiles");
+        List<Profile> profiles = profileRepository.findAll();
+        return profiles;
     }
 
     /**
@@ -109,7 +109,7 @@ public class ProfileResource {
     @Timed
     public ResponseEntity<Profile> getProfile(@PathVariable Long id) {
         log.debug("REST request to get Profile : {}", id);
-        Profile profile = profileService.findOne(id);
+        Profile profile = profileRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(profile));
     }
 
@@ -123,7 +123,8 @@ public class ProfileResource {
     @Timed
     public ResponseEntity<Void> deleteProfile(@PathVariable Long id) {
         log.debug("REST request to delete Profile : {}", id);
-        profileService.delete(id);
+        profileRepository.delete(id);
+        profileSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,16 +133,15 @@ public class ProfileResource {
      * to the query.
      *
      * @param query the query of the profile search 
-     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/profiles")
     @Timed
-    public ResponseEntity<List<Profile>> searchProfiles(@RequestParam String query, @ApiParam Pageable pageable) {
-        log.debug("REST request to search for a page of Profiles for query {}", query);
-        Page<Profile> page = profileService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/profiles");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<Profile> searchProfiles(@RequestParam String query) {
+        log.debug("REST request to search Profiles for query {}", query);
+        return StreamSupport
+            .stream(profileSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 

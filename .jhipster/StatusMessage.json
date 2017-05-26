@@ -33,6 +33,6 @@
     "changelogDate": "20170525164619",
     "entityTableName": "status_message",
     "dto": "no",
-    "pagination": "infinite-scroll",
-    "service": "serviceImpl"
+    "pagination": "no",
+    "service": "no"
 }

@@ -35,6 +35,6 @@
     "changelogDate": "20170525164607",
     "entityTableName": "like",
     "dto": "no",
-    "pagination": "infinite-scroll",
-    "service": "serviceImpl"
+    "pagination": "no",
+    "service": "no"
 }

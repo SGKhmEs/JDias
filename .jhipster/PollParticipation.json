@@ -43,6 +43,6 @@
     "changelogDate": "20170525164614",
     "entityTableName": "poll_participation",
     "dto": "no",
-    "pagination": "infinite-scroll",
-    "service": "serviceImpl"
+    "pagination": "no",
+    "service": "no"
 }

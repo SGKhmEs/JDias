@@ -27,6 +27,6 @@
     "changelogDate": "20170525164613",
     "entityTableName": "poll_answer",
     "dto": "no",
-    "pagination": "infinite-scroll",
-    "service": "serviceImpl"
+    "pagination": "no",
+    "service": "no"
 }

@@ -2,17 +2,13 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.PollParticipation;
-import com.sgkhmjaes.jdias.service.PollParticipationService;
+
+import com.sgkhmjaes.jdias.repository.PollParticipationRepository;
+import com.sgkhmjaes.jdias.repository.search.PollParticipationSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
-import com.sgkhmjaes.jdias.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +17,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -36,10 +33,13 @@ public class PollParticipationResource {
 
     private static final String ENTITY_NAME = "pollParticipation";
         
-    private final PollParticipationService pollParticipationService;
+    private final PollParticipationRepository pollParticipationRepository;
 
-    public PollParticipationResource(PollParticipationService pollParticipationService) {
-        this.pollParticipationService = pollParticipationService;
+    private final PollParticipationSearchRepository pollParticipationSearchRepository;
+
+    public PollParticipationResource(PollParticipationRepository pollParticipationRepository, PollParticipationSearchRepository pollParticipationSearchRepository) {
+        this.pollParticipationRepository = pollParticipationRepository;
+        this.pollParticipationSearchRepository = pollParticipationSearchRepository;
     }
 
     /**
@@ -56,7 +56,8 @@ public class PollParticipationResource {
         if (pollParticipation.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new pollParticipation cannot already have an ID")).body(null);
         }
-        PollParticipation result = pollParticipationService.save(pollParticipation);
+        PollParticipation result = pollParticipationRepository.save(pollParticipation);
+        pollParticipationSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/poll-participations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -78,7 +79,8 @@ public class PollParticipationResource {
         if (pollParticipation.getId() == null) {
             return createPollParticipation(pollParticipation);
         }
-        PollParticipation result = pollParticipationService.save(pollParticipation);
+        PollParticipation result = pollParticipationRepository.save(pollParticipation);
+        pollParticipationSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, pollParticipation.getId().toString()))
             .body(result);
@@ -87,16 +89,14 @@ public class PollParticipationResource {
     /**
      * GET  /poll-participations : get all the pollParticipations.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of pollParticipations in body
      */
     @GetMapping("/poll-participations")
     @Timed
-    public ResponseEntity<List<PollParticipation>> getAllPollParticipations(@ApiParam Pageable pageable) {
-        log.debug("REST request to get a page of PollParticipations");
-        Page<PollParticipation> page = pollParticipationService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/poll-participations");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<PollParticipation> getAllPollParticipations() {
+        log.debug("REST request to get all PollParticipations");
+        List<PollParticipation> pollParticipations = pollParticipationRepository.findAll();
+        return pollParticipations;
     }
 
     /**
@@ -109,7 +109,7 @@ public class PollParticipationResource {
     @Timed
     public ResponseEntity<PollParticipation> getPollParticipation(@PathVariable Long id) {
         log.debug("REST request to get PollParticipation : {}", id);
-        PollParticipation pollParticipation = pollParticipationService.findOne(id);
+        PollParticipation pollParticipation = pollParticipationRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(pollParticipation));
     }
 
@@ -123,7 +123,8 @@ public class PollParticipationResource {
     @Timed
     public ResponseEntity<Void> deletePollParticipation(@PathVariable Long id) {
         log.debug("REST request to delete PollParticipation : {}", id);
-        pollParticipationService.delete(id);
+        pollParticipationRepository.delete(id);
+        pollParticipationSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,16 +133,15 @@ public class PollParticipationResource {
      * to the query.
      *
      * @param query the query of the pollParticipation search 
-     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/poll-participations")
     @Timed
-    public ResponseEntity<List<PollParticipation>> searchPollParticipations(@RequestParam String query, @ApiParam Pageable pageable) {
-        log.debug("REST request to search for a page of PollParticipations for query {}", query);
-        Page<PollParticipation> page = pollParticipationService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/poll-participations");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<PollParticipation> searchPollParticipations(@RequestParam String query) {
+        log.debug("REST request to search PollParticipations for query {}", query);
+        return StreamSupport
+            .stream(pollParticipationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 

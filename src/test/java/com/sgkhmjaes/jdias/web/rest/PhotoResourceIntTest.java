@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Photo;
 import com.sgkhmjaes.jdias.repository.PhotoRepository;
-import com.sgkhmjaes.jdias.service.PhotoService;
 import com.sgkhmjaes.jdias.repository.search.PhotoSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -72,9 +71,6 @@ public class PhotoResourceIntTest {
     private PhotoRepository photoRepository;
 
     @Autowired
-    private PhotoService photoService;
-
-    @Autowired
     private PhotoSearchRepository photoSearchRepository;
 
     @Autowired
@@ -96,7 +92,7 @@ public class PhotoResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PhotoResource photoResource = new PhotoResource(photoService);
+        PhotoResource photoResource = new PhotoResource(photoRepository, photoSearchRepository);
         this.restPhotoMockMvc = MockMvcBuilders.standaloneSetup(photoResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -234,8 +230,8 @@ public class PhotoResourceIntTest {
     @Transactional
     public void updatePhoto() throws Exception {
         // Initialize the database
-        photoService.save(photo);
-
+        photoRepository.saveAndFlush(photo);
+        photoSearchRepository.save(photo);
         int databaseSizeBeforeUpdate = photoRepository.findAll().size();
 
         // Update the photo
@@ -297,8 +293,8 @@ public class PhotoResourceIntTest {
     @Transactional
     public void deletePhoto() throws Exception {
         // Initialize the database
-        photoService.save(photo);
-
+        photoRepository.saveAndFlush(photo);
+        photoSearchRepository.save(photo);
         int databaseSizeBeforeDelete = photoRepository.findAll().size();
 
         // Get the photo
@@ -319,7 +315,8 @@ public class PhotoResourceIntTest {
     @Transactional
     public void searchPhoto() throws Exception {
         // Initialize the database
-        photoService.save(photo);
+        photoRepository.saveAndFlush(photo);
+        photoSearchRepository.save(photo);
 
         // Search the photo
         restPhotoMockMvc.perform(get("/api/_search/photos?query=id:" + photo.getId()))

@@ -29,6 +29,6 @@
     "changelogDate": "20170525164603",
     "entityTableName": "contact",
     "dto": "no",
-    "pagination": "infinite-scroll",
-    "service": "serviceImpl"
+    "pagination": "no",
+    "service": "no"
 }

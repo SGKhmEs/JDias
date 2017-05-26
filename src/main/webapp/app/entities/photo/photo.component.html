@@ -28,23 +28,23 @@
     <div class="table-responsive" *ngIf="photos">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="author"><span jhiTranslate="jDiasApp.photo.author">Author</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="guid"><span jhiTranslate="jDiasApp.photo.guid">Guid</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="createdat"><span jhiTranslate="jDiasApp.photo.createdat">Createdat</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="remotephotopath"><span jhiTranslate="jDiasApp.photo.remotephotopath">Remotephotopath</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="remotephotoname"><span jhiTranslate="jDiasApp.photo.remotephotoname">Remotephotoname</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="height"><span jhiTranslate="jDiasApp.photo.height">Height</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="width"><span jhiTranslate="jDiasApp.photo.width">Width</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="text"><span jhiTranslate="jDiasApp.photo.text">Text</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="statusmessageguid"><span jhiTranslate="jDiasApp.photo.statusmessageguid">Statusmessageguid</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="statusMessage.id"><span jhiTranslate="jDiasApp.photo.statusMessage">Status Message</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="person.id"><span jhiTranslate="jDiasApp.photo.person">Person</span> <span class="fa fa-sort"></span></th>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.author">Author</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.guid">Guid</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.createdat">Createdat</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.remotephotopath">Remotephotopath</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.remotephotoname">Remotephotoname</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.height">Height</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.width">Width</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.text">Text</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.statusmessageguid">Statusmessageguid</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.statusMessage">Status Message</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.person">Person</span></th>
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let photo of photos ;trackBy: trackId">
                 <td><a [routerLink]="['../photo', photo.id ]">{{photo.id}}</a></td>
                 <td>{{photo.author}}</td>

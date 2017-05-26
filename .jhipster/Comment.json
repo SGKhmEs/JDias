@@ -51,6 +51,6 @@
     "changelogDate": "20170525164602",
     "entityTableName": "comment",
     "dto": "no",
-    "pagination": "infinite-scroll",
-    "service": "serviceImpl"
+    "pagination": "no",
+    "service": "no"
 }

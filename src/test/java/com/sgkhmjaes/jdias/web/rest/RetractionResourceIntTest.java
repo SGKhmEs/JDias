@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Retraction;
 import com.sgkhmjaes.jdias.repository.RetractionRepository;
-import com.sgkhmjaes.jdias.service.RetractionService;
 import com.sgkhmjaes.jdias.repository.search.RetractionSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -53,9 +52,6 @@ public class RetractionResourceIntTest {
     private RetractionRepository retractionRepository;
 
     @Autowired
-    private RetractionService retractionService;
-
-    @Autowired
     private RetractionSearchRepository retractionSearchRepository;
 
     @Autowired
@@ -77,7 +73,7 @@ public class RetractionResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        RetractionResource retractionResource = new RetractionResource(retractionService);
+        RetractionResource retractionResource = new RetractionResource(retractionRepository, retractionSearchRepository);
         this.restRetractionMockMvc = MockMvcBuilders.standaloneSetup(retractionResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -191,8 +187,8 @@ public class RetractionResourceIntTest {
     @Transactional
     public void updateRetraction() throws Exception {
         // Initialize the database
-        retractionService.save(retraction);
-
+        retractionRepository.saveAndFlush(retraction);
+        retractionSearchRepository.save(retraction);
         int databaseSizeBeforeUpdate = retractionRepository.findAll().size();
 
         // Update the retraction
@@ -242,8 +238,8 @@ public class RetractionResourceIntTest {
     @Transactional
     public void deleteRetraction() throws Exception {
         // Initialize the database
-        retractionService.save(retraction);
-
+        retractionRepository.saveAndFlush(retraction);
+        retractionSearchRepository.save(retraction);
         int databaseSizeBeforeDelete = retractionRepository.findAll().size();
 
         // Get the retraction
@@ -264,7 +260,8 @@ public class RetractionResourceIntTest {
     @Transactional
     public void searchRetraction() throws Exception {
         // Initialize the database
-        retractionService.save(retraction);
+        retractionRepository.saveAndFlush(retraction);
+        retractionSearchRepository.save(retraction);
 
         // Search the retraction
         restRetractionMockMvc.perform(get("/api/_search/retractions?query=id:" + retraction.getId()))

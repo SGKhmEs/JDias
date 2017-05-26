@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Contact;
 import com.sgkhmjaes.jdias.repository.ContactRepository;
-import com.sgkhmjaes.jdias.service.ContactService;
 import com.sgkhmjaes.jdias.repository.search.ContactSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -55,9 +54,6 @@ public class ContactResourceIntTest {
     private ContactRepository contactRepository;
 
     @Autowired
-    private ContactService contactService;
-
-    @Autowired
     private ContactSearchRepository contactSearchRepository;
 
     @Autowired
@@ -79,7 +75,7 @@ public class ContactResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ContactResource contactResource = new ContactResource(contactService);
+        ContactResource contactResource = new ContactResource(contactRepository, contactSearchRepository);
         this.restContactMockMvc = MockMvcBuilders.standaloneSetup(contactResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -197,8 +193,8 @@ public class ContactResourceIntTest {
     @Transactional
     public void updateContact() throws Exception {
         // Initialize the database
-        contactService.save(contact);
-
+        contactRepository.saveAndFlush(contact);
+        contactSearchRepository.save(contact);
         int databaseSizeBeforeUpdate = contactRepository.findAll().size();
 
         // Update the contact
@@ -250,8 +246,8 @@ public class ContactResourceIntTest {
     @Transactional
     public void deleteContact() throws Exception {
         // Initialize the database
-        contactService.save(contact);
-
+        contactRepository.saveAndFlush(contact);
+        contactSearchRepository.save(contact);
         int databaseSizeBeforeDelete = contactRepository.findAll().size();
 
         // Get the contact
@@ -272,7 +268,8 @@ public class ContactResourceIntTest {
     @Transactional
     public void searchContact() throws Exception {
         // Initialize the database
-        contactService.save(contact);
+        contactRepository.saveAndFlush(contact);
+        contactSearchRepository.save(contact);
 
         // Search the contact
         restContactMockMvc.perform(get("/api/_search/contacts?query=id:" + contact.getId()))

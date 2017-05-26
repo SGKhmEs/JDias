@@ -2,17 +2,13 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.UserAccount;
-import com.sgkhmjaes.jdias.service.UserAccountService;
+
+import com.sgkhmjaes.jdias.repository.UserAccountRepository;
+import com.sgkhmjaes.jdias.repository.search.UserAccountSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
-import com.sgkhmjaes.jdias.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +17,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -36,10 +33,13 @@ public class UserAccountResource {
 
     private static final String ENTITY_NAME = "userAccount";
         
-    private final UserAccountService userAccountService;
+    private final UserAccountRepository userAccountRepository;
 
-    public UserAccountResource(UserAccountService userAccountService) {
-        this.userAccountService = userAccountService;
+    private final UserAccountSearchRepository userAccountSearchRepository;
+
+    public UserAccountResource(UserAccountRepository userAccountRepository, UserAccountSearchRepository userAccountSearchRepository) {
+        this.userAccountRepository = userAccountRepository;
+        this.userAccountSearchRepository = userAccountSearchRepository;
     }
 
     /**
@@ -56,7 +56,8 @@ public class UserAccountResource {
         if (userAccount.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new userAccount cannot already have an ID")).body(null);
         }
-        UserAccount result = userAccountService.save(userAccount);
+        UserAccount result = userAccountRepository.save(userAccount);
+        userAccountSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/user-accounts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -78,7 +79,8 @@ public class UserAccountResource {
         if (userAccount.getId() == null) {
             return createUserAccount(userAccount);
         }
-        UserAccount result = userAccountService.save(userAccount);
+        UserAccount result = userAccountRepository.save(userAccount);
+        userAccountSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, userAccount.getId().toString()))
             .body(result);
@@ -87,16 +89,14 @@ public class UserAccountResource {
     /**
      * GET  /user-accounts : get all the userAccounts.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of userAccounts in body
      */
     @GetMapping("/user-accounts")
     @Timed
-    public ResponseEntity<List<UserAccount>> getAllUserAccounts(@ApiParam Pageable pageable) {
-        log.debug("REST request to get a page of UserAccounts");
-        Page<UserAccount> page = userAccountService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/user-accounts");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<UserAccount> getAllUserAccounts() {
+        log.debug("REST request to get all UserAccounts");
+        List<UserAccount> userAccounts = userAccountRepository.findAll();
+        return userAccounts;
     }
 
     /**
@@ -109,7 +109,7 @@ public class UserAccountResource {
     @Timed
     public ResponseEntity<UserAccount> getUserAccount(@PathVariable Long id) {
         log.debug("REST request to get UserAccount : {}", id);
-        UserAccount userAccount = userAccountService.findOne(id);
+        UserAccount userAccount = userAccountRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(userAccount));
     }
 
@@ -123,7 +123,8 @@ public class UserAccountResource {
     @Timed
     public ResponseEntity<Void> deleteUserAccount(@PathVariable Long id) {
         log.debug("REST request to delete UserAccount : {}", id);
-        userAccountService.delete(id);
+        userAccountRepository.delete(id);
+        userAccountSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,16 +133,15 @@ public class UserAccountResource {
      * to the query.
      *
      * @param query the query of the userAccount search 
-     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/user-accounts")
     @Timed
-    public ResponseEntity<List<UserAccount>> searchUserAccounts(@RequestParam String query, @ApiParam Pageable pageable) {
-        log.debug("REST request to search for a page of UserAccounts for query {}", query);
-        Page<UserAccount> page = userAccountService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/user-accounts");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<UserAccount> searchUserAccounts(@RequestParam String query) {
+        log.debug("REST request to search UserAccounts for query {}", query);
+        return StreamSupport
+            .stream(userAccountSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 

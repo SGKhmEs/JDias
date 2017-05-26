@@ -137,6 +137,6 @@
     "changelogDate": "20170525164620",
     "entityTableName": "user_account",
     "dto": "no",
-    "pagination": "infinite-scroll",
-    "service": "serviceImpl"
+    "pagination": "no",
+    "service": "no"
 }

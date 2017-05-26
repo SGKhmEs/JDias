@@ -97,6 +97,6 @@
     "changelogDate": "20170525164621",
     "entityTableName": "person",
     "dto": "no",
-    "pagination": "infinite-scroll",
-    "service": "serviceImpl"
+    "pagination": "no",
+    "service": "no"
 }

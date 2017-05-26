@@ -212,6 +212,17 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.persistentTokens = persistentTokens;
     }
 
+    public Profile getProfile(User user){
+        Profile profile = new Profile();
+        profile.setAuthor(user.firstName + " " + user.lastName);
+        profile.setFirstname(user.firstName);
+        profile.setLastname(user.lastName);
+        profile.setImageurl(user.imageUrl);
+        profile.setImageurlsmall(user.imageUrl);
+        profile.setImageurlmedium(user.imageUrl);
+        return profile;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

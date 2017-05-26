@@ -28,15 +28,15 @@
     <div class="table-responsive" *ngIf="statusMessages">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="text"><span jhiTranslate="jDiasApp.statusMessage.text">Text</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="location.id"><span jhiTranslate="jDiasApp.statusMessage.location">Location</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="poll.id"><span jhiTranslate="jDiasApp.statusMessage.poll">Poll</span> <span class="fa fa-sort"></span></th>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="jDiasApp.statusMessage.text">Text</span></th>
+            <th><span jhiTranslate="jDiasApp.statusMessage.location">Location</span></th>
+            <th><span jhiTranslate="jDiasApp.statusMessage.poll">Poll</span></th>
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let statusMessage of statusMessages ;trackBy: trackId">
                 <td><a [routerLink]="['../status-message', statusMessage.id ]">{{statusMessage.id}}</a></td>
                 <td>{{statusMessage.text}}</td>

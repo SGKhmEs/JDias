@@ -61,5 +61,5 @@
     "entityTableName": "post",
     "dto": "no",
     "pagination": "infinite-scroll",
-    "service": "serviceImpl"
+    "service": "no"
 }

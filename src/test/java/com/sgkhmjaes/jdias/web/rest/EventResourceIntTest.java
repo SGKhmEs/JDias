@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Event;
 import com.sgkhmjaes.jdias.repository.EventRepository;
-import com.sgkhmjaes.jdias.service.EventService;
 import com.sgkhmjaes.jdias.repository.search.EventSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -69,9 +68,6 @@ public class EventResourceIntTest {
     private EventRepository eventRepository;
 
     @Autowired
-    private EventService eventService;
-
-    @Autowired
     private EventSearchRepository eventSearchRepository;
 
     @Autowired
@@ -93,7 +89,7 @@ public class EventResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        EventResource eventResource = new EventResource(eventService);
+        EventResource eventResource = new EventResource(eventRepository, eventSearchRepository);
         this.restEventMockMvc = MockMvcBuilders.standaloneSetup(eventResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -227,8 +223,8 @@ public class EventResourceIntTest {
     @Transactional
     public void updateEvent() throws Exception {
         // Initialize the database
-        eventService.save(event);
-
+        eventRepository.saveAndFlush(event);
+        eventSearchRepository.save(event);
         int databaseSizeBeforeUpdate = eventRepository.findAll().size();
 
         // Update the event
@@ -288,8 +284,8 @@ public class EventResourceIntTest {
     @Transactional
     public void deleteEvent() throws Exception {
         // Initialize the database
-        eventService.save(event);
-
+        eventRepository.saveAndFlush(event);
+        eventSearchRepository.save(event);
         int databaseSizeBeforeDelete = eventRepository.findAll().size();
 
         // Get the event
@@ -310,7 +306,8 @@ public class EventResourceIntTest {
     @Transactional
     public void searchEvent() throws Exception {
         // Initialize the database
-        eventService.save(event);
+        eventRepository.saveAndFlush(event);
+        eventSearchRepository.save(event);
 
         // Search the event
         restEventMockMvc.perform(get("/api/_search/events?query=id:" + event.getId()))

@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Message;
 import com.sgkhmjaes.jdias.repository.MessageRepository;
-import com.sgkhmjaes.jdias.service.MessageService;
 import com.sgkhmjaes.jdias.repository.search.MessageSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -60,9 +59,6 @@ public class MessageResourceIntTest {
     private MessageRepository messageRepository;
 
     @Autowired
-    private MessageService messageService;
-
-    @Autowired
     private MessageSearchRepository messageSearchRepository;
 
     @Autowired
@@ -84,7 +80,7 @@ public class MessageResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        MessageResource messageResource = new MessageResource(messageService);
+        MessageResource messageResource = new MessageResource(messageRepository, messageSearchRepository);
         this.restMessageMockMvc = MockMvcBuilders.standaloneSetup(messageResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -206,8 +202,8 @@ public class MessageResourceIntTest {
     @Transactional
     public void updateMessage() throws Exception {
         // Initialize the database
-        messageService.save(message);
-
+        messageRepository.saveAndFlush(message);
+        messageSearchRepository.save(message);
         int databaseSizeBeforeUpdate = messageRepository.findAll().size();
 
         // Update the message
@@ -261,8 +257,8 @@ public class MessageResourceIntTest {
     @Transactional
     public void deleteMessage() throws Exception {
         // Initialize the database
-        messageService.save(message);
-
+        messageRepository.saveAndFlush(message);
+        messageSearchRepository.save(message);
         int databaseSizeBeforeDelete = messageRepository.findAll().size();
 
         // Get the message
@@ -283,7 +279,8 @@ public class MessageResourceIntTest {
     @Transactional
     public void searchMessage() throws Exception {
         // Initialize the database
-        messageService.save(message);
+        messageRepository.saveAndFlush(message);
+        messageSearchRepository.save(message);
 
         // Search the message
         restMessageMockMvc.perform(get("/api/_search/messages?query=id:" + message.getId()))

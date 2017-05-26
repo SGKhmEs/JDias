@@ -28,20 +28,20 @@
     <div class="table-responsive" *ngIf="events">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="author"><span jhiTranslate="jDiasApp.event.author">Author</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="guid"><span jhiTranslate="jDiasApp.event.guid">Guid</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="summary"><span jhiTranslate="jDiasApp.event.summary">Summary</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="start"><span jhiTranslate="jDiasApp.event.start">Start</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="end"><span jhiTranslate="jDiasApp.event.end">End</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="allday"><span jhiTranslate="jDiasApp.event.allday">Allday</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="timezone"><span jhiTranslate="jDiasApp.event.timezone">Timezone</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="description"><span jhiTranslate="jDiasApp.event.description">Description</span> <span class="fa fa-sort"></span></th>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="jDiasApp.event.author">Author</span></th>
+            <th><span jhiTranslate="jDiasApp.event.guid">Guid</span></th>
+            <th><span jhiTranslate="jDiasApp.event.summary">Summary</span></th>
+            <th><span jhiTranslate="jDiasApp.event.start">Start</span></th>
+            <th><span jhiTranslate="jDiasApp.event.end">End</span></th>
+            <th><span jhiTranslate="jDiasApp.event.allday">Allday</span></th>
+            <th><span jhiTranslate="jDiasApp.event.timezone">Timezone</span></th>
+            <th><span jhiTranslate="jDiasApp.event.description">Description</span></th>
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let event of events ;trackBy: trackId">
                 <td><a [routerLink]="['../event', event.id ]">{{event.id}}</a></td>
                 <td>{{event.author}}</td>

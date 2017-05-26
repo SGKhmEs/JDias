@@ -28,14 +28,14 @@
     <div class="table-responsive" *ngIf="reshares">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="rootauthor"><span jhiTranslate="jDiasApp.reshare.rootauthor">Rootauthor</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="rootguid"><span jhiTranslate="jDiasApp.reshare.rootguid">Rootguid</span> <span class="fa fa-sort"></span></th>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="jDiasApp.reshare.rootauthor">Rootauthor</span></th>
+            <th><span jhiTranslate="jDiasApp.reshare.rootguid">Rootguid</span></th>
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let reshare of reshares ;trackBy: trackId">
                 <td><a [routerLink]="['../reshare', reshare.id ]">{{reshare.id}}</a></td>
                 <td>{{reshare.rootauthor}}</td>

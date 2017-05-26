@@ -290,12 +290,12 @@ relationship OneToMany {
 
 
 // Set pagination options
-paginate * with infinite-scroll
+paginate Post, Conversation, Message with infinite-scroll
 //paginate Job with pagination
 
 //dto * with mapstruct
 
 // Set service options to all except few
-service all with serviceImpl //except Employee, Job
+//service all with serviceImpl //except Employee, Job
 // Set an angular suffix
 //angularSuffix * with mySuffix

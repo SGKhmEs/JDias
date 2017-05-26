@@ -2,17 +2,13 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Like;
-import com.sgkhmjaes.jdias.service.LikeService;
+
+import com.sgkhmjaes.jdias.repository.LikeRepository;
+import com.sgkhmjaes.jdias.repository.search.LikeSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
-import com.sgkhmjaes.jdias.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +17,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -36,10 +33,13 @@ public class LikeResource {
 
     private static final String ENTITY_NAME = "like";
         
-    private final LikeService likeService;
+    private final LikeRepository likeRepository;
 
-    public LikeResource(LikeService likeService) {
-        this.likeService = likeService;
+    private final LikeSearchRepository likeSearchRepository;
+
+    public LikeResource(LikeRepository likeRepository, LikeSearchRepository likeSearchRepository) {
+        this.likeRepository = likeRepository;
+        this.likeSearchRepository = likeSearchRepository;
     }
 
     /**
@@ -56,7 +56,8 @@ public class LikeResource {
         if (like.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new like cannot already have an ID")).body(null);
         }
-        Like result = likeService.save(like);
+        Like result = likeRepository.save(like);
+        likeSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/likes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -78,7 +79,8 @@ public class LikeResource {
         if (like.getId() == null) {
             return createLike(like);
         }
-        Like result = likeService.save(like);
+        Like result = likeRepository.save(like);
+        likeSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, like.getId().toString()))
             .body(result);
@@ -87,16 +89,14 @@ public class LikeResource {
     /**
      * GET  /likes : get all the likes.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of likes in body
      */
     @GetMapping("/likes")
     @Timed
-    public ResponseEntity<List<Like>> getAllLikes(@ApiParam Pageable pageable) {
-        log.debug("REST request to get a page of Likes");
-        Page<Like> page = likeService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/likes");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<Like> getAllLikes() {
+        log.debug("REST request to get all Likes");
+        List<Like> likes = likeRepository.findAll();
+        return likes;
     }
 
     /**
@@ -109,7 +109,7 @@ public class LikeResource {
     @Timed
     public ResponseEntity<Like> getLike(@PathVariable Long id) {
         log.debug("REST request to get Like : {}", id);
-        Like like = likeService.findOne(id);
+        Like like = likeRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(like));
     }
 
@@ -123,7 +123,8 @@ public class LikeResource {
     @Timed
     public ResponseEntity<Void> deleteLike(@PathVariable Long id) {
         log.debug("REST request to delete Like : {}", id);
-        likeService.delete(id);
+        likeRepository.delete(id);
+        likeSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,16 +133,15 @@ public class LikeResource {
      * to the query.
      *
      * @param query the query of the like search 
-     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/likes")
     @Timed
-    public ResponseEntity<List<Like>> searchLikes(@RequestParam String query, @ApiParam Pageable pageable) {
-        log.debug("REST request to search for a page of Likes for query {}", query);
-        Page<Like> page = likeService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/likes");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<Like> searchLikes(@RequestParam String query) {
+        log.debug("REST request to search Likes for query {}", query);
+        return StreamSupport
+            .stream(likeSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 

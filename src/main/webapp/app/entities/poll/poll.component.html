@@ -28,14 +28,14 @@
     <div class="table-responsive" *ngIf="polls">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="guid"><span jhiTranslate="jDiasApp.poll.guid">Guid</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="question"><span jhiTranslate="jDiasApp.poll.question">Question</span> <span class="fa fa-sort"></span></th>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="jDiasApp.poll.guid">Guid</span></th>
+            <th><span jhiTranslate="jDiasApp.poll.question">Question</span></th>
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let poll of polls ;trackBy: trackId">
                 <td><a [routerLink]="['../poll', poll.id ]">{{poll.id}}</a></td>
                 <td>{{poll.guid}}</td>

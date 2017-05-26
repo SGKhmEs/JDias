@@ -28,25 +28,25 @@
     <div class="table-responsive" *ngIf="profiles">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="author"><span jhiTranslate="jDiasApp.profile.author">Author</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="firstname"><span jhiTranslate="jDiasApp.profile.firstname">Firstname</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="lastname"><span jhiTranslate="jDiasApp.profile.lastname">Lastname</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="imageurl"><span jhiTranslate="jDiasApp.profile.imageurl">Imageurl</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="imageurlsmall"><span jhiTranslate="jDiasApp.profile.imageurlsmall">Imageurlsmall</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="imageurlmedium"><span jhiTranslate="jDiasApp.profile.imageurlmedium">Imageurlmedium</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="birthday"><span jhiTranslate="jDiasApp.profile.birthday">Birthday</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="gender"><span jhiTranslate="jDiasApp.profile.gender">Gender</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="bio"><span jhiTranslate="jDiasApp.profile.bio">Bio</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="location"><span jhiTranslate="jDiasApp.profile.location">Location</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="searchable"><span jhiTranslate="jDiasApp.profile.searchable">Searchable</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="nsfw"><span jhiTranslate="jDiasApp.profile.nsfw">Nsfw</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="tagstring"><span jhiTranslate="jDiasApp.profile.tagstring">Tagstring</span> <span class="fa fa-sort"></span></th>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.author">Author</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.firstname">Firstname</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.lastname">Lastname</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.imageurl">Imageurl</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.imageurlsmall">Imageurlsmall</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.imageurlmedium">Imageurlmedium</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.birthday">Birthday</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.gender">Gender</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.bio">Bio</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.location">Location</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.searchable">Searchable</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.nsfw">Nsfw</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.tagstring">Tagstring</span></th>
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let profile of profiles ;trackBy: trackId">
                 <td><a [routerLink]="['../profile', profile.id ]">{{profile.id}}</a></td>
                 <td>{{profile.author}}</td>

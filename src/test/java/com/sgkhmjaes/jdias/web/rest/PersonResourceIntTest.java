@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Person;
 import com.sgkhmjaes.jdias.repository.PersonRepository;
-import com.sgkhmjaes.jdias.service.PersonService;
 import com.sgkhmjaes.jdias.repository.search.PersonSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -72,9 +71,6 @@ public class PersonResourceIntTest {
     private PersonRepository personRepository;
 
     @Autowired
-    private PersonService personService;
-
-    @Autowired
     private PersonSearchRepository personSearchRepository;
 
     @Autowired
@@ -96,7 +92,7 @@ public class PersonResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PersonResource personResource = new PersonResource(personService);
+        PersonResource personResource = new PersonResource(personRepository, personSearchRepository);
         this.restPersonMockMvc = MockMvcBuilders.standaloneSetup(personResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -230,8 +226,8 @@ public class PersonResourceIntTest {
     @Transactional
     public void updatePerson() throws Exception {
         // Initialize the database
-        personService.save(person);
-
+        personRepository.saveAndFlush(person);
+        personSearchRepository.save(person);
         int databaseSizeBeforeUpdate = personRepository.findAll().size();
 
         // Update the person
@@ -291,8 +287,8 @@ public class PersonResourceIntTest {
     @Transactional
     public void deletePerson() throws Exception {
         // Initialize the database
-        personService.save(person);
-
+        personRepository.saveAndFlush(person);
+        personSearchRepository.save(person);
         int databaseSizeBeforeDelete = personRepository.findAll().size();
 
         // Get the person
@@ -313,7 +309,8 @@ public class PersonResourceIntTest {
     @Transactional
     public void searchPerson() throws Exception {
         // Initialize the database
-        personService.save(person);
+        personRepository.saveAndFlush(person);
+        personSearchRepository.save(person);
 
         // Search the person
         restPersonMockMvc.perform(get("/api/_search/people?query=id:" + person.getId()))

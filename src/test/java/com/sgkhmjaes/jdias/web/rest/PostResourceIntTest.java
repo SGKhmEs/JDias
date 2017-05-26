@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.repository.PostRepository;
-import com.sgkhmjaes.jdias.service.PostService;
 import com.sgkhmjaes.jdias.repository.search.PostSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -64,9 +63,6 @@ public class PostResourceIntTest {
     private PostRepository postRepository;
 
     @Autowired
-    private PostService postService;
-
-    @Autowired
     private PostSearchRepository postSearchRepository;
 
     @Autowired
@@ -88,7 +84,7 @@ public class PostResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PostResource postResource = new PostResource(postService);
+        PostResource postResource = new PostResource(postRepository, postSearchRepository);
         this.restPostMockMvc = MockMvcBuilders.standaloneSetup(postResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -214,8 +210,8 @@ public class PostResourceIntTest {
     @Transactional
     public void updatePost() throws Exception {
         // Initialize the database
-        postService.save(post);
-
+        postRepository.saveAndFlush(post);
+        postSearchRepository.save(post);
         int databaseSizeBeforeUpdate = postRepository.findAll().size();
 
         // Update the post
@@ -271,8 +267,8 @@ public class PostResourceIntTest {
     @Transactional
     public void deletePost() throws Exception {
         // Initialize the database
-        postService.save(post);
-
+        postRepository.saveAndFlush(post);
+        postSearchRepository.save(post);
         int databaseSizeBeforeDelete = postRepository.findAll().size();
 
         // Get the post
@@ -293,7 +289,8 @@ public class PostResourceIntTest {
     @Transactional
     public void searchPost() throws Exception {
         // Initialize the database
-        postService.save(post);
+        postRepository.saveAndFlush(post);
+        postSearchRepository.save(post);
 
         // Search the post
         restPostMockMvc.perform(get("/api/_search/posts?query=id:" + post.getId()))

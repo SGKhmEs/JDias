@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Comment;
 import com.sgkhmjaes.jdias.repository.CommentRepository;
-import com.sgkhmjaes.jdias.service.CommentService;
 import com.sgkhmjaes.jdias.repository.search.CommentSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -69,9 +68,6 @@ public class CommentResourceIntTest {
     private CommentRepository commentRepository;
 
     @Autowired
-    private CommentService commentService;
-
-    @Autowired
     private CommentSearchRepository commentSearchRepository;
 
     @Autowired
@@ -93,7 +89,7 @@ public class CommentResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        CommentResource commentResource = new CommentResource(commentService);
+        CommentResource commentResource = new CommentResource(commentRepository, commentSearchRepository);
         this.restCommentMockMvc = MockMvcBuilders.standaloneSetup(commentResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -227,8 +223,8 @@ public class CommentResourceIntTest {
     @Transactional
     public void updateComment() throws Exception {
         // Initialize the database
-        commentService.save(comment);
-
+        commentRepository.saveAndFlush(comment);
+        commentSearchRepository.save(comment);
         int databaseSizeBeforeUpdate = commentRepository.findAll().size();
 
         // Update the comment
@@ -288,8 +284,8 @@ public class CommentResourceIntTest {
     @Transactional
     public void deleteComment() throws Exception {
         // Initialize the database
-        commentService.save(comment);
-
+        commentRepository.saveAndFlush(comment);
+        commentSearchRepository.save(comment);
         int databaseSizeBeforeDelete = commentRepository.findAll().size();
 
         // Get the comment
@@ -310,7 +306,8 @@ public class CommentResourceIntTest {
     @Transactional
     public void searchComment() throws Exception {
         // Initialize the database
-        commentService.save(comment);
+        commentRepository.saveAndFlush(comment);
+        commentSearchRepository.save(comment);
 
         // Search the comment
         restCommentMockMvc.perform(get("/api/_search/comments?query=id:" + comment.getId()))

@@ -19,6 +19,6 @@
     "changelogDate": "20170525164618",
     "entityTableName": "retraction",
     "dto": "no",
-    "pagination": "infinite-scroll",
-    "service": "serviceImpl"
+    "pagination": "no",
+    "service": "no"
 }

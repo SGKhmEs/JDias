@@ -30,6 +30,6 @@
     "changelogDate": "20170525164610",
     "entityTableName": "participation",
     "dto": "no",
-    "pagination": "infinite-scroll",
-    "service": "serviceImpl"
+    "pagination": "no",
+    "service": "no"
 }

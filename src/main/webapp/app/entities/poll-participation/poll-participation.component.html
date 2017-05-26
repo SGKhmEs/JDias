@@ -28,20 +28,20 @@
     <div class="table-responsive" *ngIf="pollParticipations">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="author"><span jhiTranslate="jDiasApp.pollParticipation.author">Author</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="guid"><span jhiTranslate="jDiasApp.pollParticipation.guid">Guid</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="parentguid"><span jhiTranslate="jDiasApp.pollParticipation.parentguid">Parentguid</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="pollanswerguid"><span jhiTranslate="jDiasApp.pollParticipation.pollanswerguid">Pollanswerguid</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="authorsignature"><span jhiTranslate="jDiasApp.pollParticipation.authorsignature">Authorsignature</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="parentauthorsignature"><span jhiTranslate="jDiasApp.pollParticipation.parentauthorsignature">Parentauthorsignature</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="poll.id"><span jhiTranslate="jDiasApp.pollParticipation.poll">Poll</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="pollAnswer.id"><span jhiTranslate="jDiasApp.pollParticipation.pollAnswer">Poll Answer</span> <span class="fa fa-sort"></span></th>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="jDiasApp.pollParticipation.author">Author</span></th>
+            <th><span jhiTranslate="jDiasApp.pollParticipation.guid">Guid</span></th>
+            <th><span jhiTranslate="jDiasApp.pollParticipation.parentguid">Parentguid</span></th>
+            <th><span jhiTranslate="jDiasApp.pollParticipation.pollanswerguid">Pollanswerguid</span></th>
+            <th><span jhiTranslate="jDiasApp.pollParticipation.authorsignature">Authorsignature</span></th>
+            <th><span jhiTranslate="jDiasApp.pollParticipation.parentauthorsignature">Parentauthorsignature</span></th>
+            <th><span jhiTranslate="jDiasApp.pollParticipation.poll">Poll</span></th>
+            <th><span jhiTranslate="jDiasApp.pollParticipation.pollAnswer">Poll Answer</span></th>
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let pollParticipation of pollParticipations ;trackBy: trackId">
                 <td><a [routerLink]="['../poll-participation', pollParticipation.id ]">{{pollParticipation.id}}</a></td>
                 <td>{{pollParticipation.author}}</td>
