@@ -67,7 +67,7 @@ class MessageGatlingTest extends Simulation {
             .exec(http("Create new message")
             .post("/api/messages")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":"SAMPLE_TEXT", "conversationguid":"SAMPLE_TEXT", "text":"SAMPLE_TEXT", "createdat":"2020-01-01T00:00:00.000Z"}""")).asJSON
+            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":"SAMPLE_TEXT", "conversationGuid":"SAMPLE_TEXT", "text":"SAMPLE_TEXT", "createdAt":"2020-01-01T00:00:00.000Z"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_message_url"))).exitHereIfFailed
             .pause(10)

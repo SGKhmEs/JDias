@@ -22,10 +22,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.List;
 
+import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -46,14 +49,14 @@ public class MessageResourceIntTest {
     private static final String DEFAULT_GUID = "AAAAAAAAAA";
     private static final String UPDATED_GUID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_CONVERSATIONGUID = "AAAAAAAAAA";
-    private static final String UPDATED_CONVERSATIONGUID = "BBBBBBBBBB";
+    private static final String DEFAULT_CONVERSATION_GUID = "AAAAAAAAAA";
+    private static final String UPDATED_CONVERSATION_GUID = "BBBBBBBBBB";
 
     private static final String DEFAULT_TEXT = "AAAAAAAAAA";
     private static final String UPDATED_TEXT = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_CREATEDAT = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATEDAT = LocalDate.now(ZoneId.systemDefault());
+    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     @Autowired
     private MessageRepository messageRepository;
@@ -97,9 +100,9 @@ public class MessageResourceIntTest {
         Message message = new Message()
             .author(DEFAULT_AUTHOR)
             .guid(DEFAULT_GUID)
-            .conversationguid(DEFAULT_CONVERSATIONGUID)
+            .conversationGuid(DEFAULT_CONVERSATION_GUID)
             .text(DEFAULT_TEXT)
-            .createdat(DEFAULT_CREATEDAT);
+            .createdAt(DEFAULT_CREATED_AT);
         return message;
     }
 
@@ -126,9 +129,9 @@ public class MessageResourceIntTest {
         Message testMessage = messageList.get(messageList.size() - 1);
         assertThat(testMessage.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
         assertThat(testMessage.getGuid()).isEqualTo(DEFAULT_GUID);
-        assertThat(testMessage.getConversationguid()).isEqualTo(DEFAULT_CONVERSATIONGUID);
+        assertThat(testMessage.getConversationGuid()).isEqualTo(DEFAULT_CONVERSATION_GUID);
         assertThat(testMessage.getText()).isEqualTo(DEFAULT_TEXT);
-        assertThat(testMessage.getCreatedat()).isEqualTo(DEFAULT_CREATEDAT);
+        assertThat(testMessage.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
 
         // Validate the Message in Elasticsearch
         Message messageEs = messageSearchRepository.findOne(testMessage.getId());
@@ -167,9 +170,9 @@ public class MessageResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(message.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].conversationguid").value(hasItem(DEFAULT_CONVERSATIONGUID.toString())))
+            .andExpect(jsonPath("$.[*].conversationGuid").value(hasItem(DEFAULT_CONVERSATION_GUID.toString())))
             .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-            .andExpect(jsonPath("$.[*].createdat").value(hasItem(DEFAULT_CREATEDAT.toString())));
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))));
     }
 
     @Test
@@ -185,9 +188,9 @@ public class MessageResourceIntTest {
             .andExpect(jsonPath("$.id").value(message.getId().intValue()))
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
             .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-            .andExpect(jsonPath("$.conversationguid").value(DEFAULT_CONVERSATIONGUID.toString()))
+            .andExpect(jsonPath("$.conversationGuid").value(DEFAULT_CONVERSATION_GUID.toString()))
             .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()))
-            .andExpect(jsonPath("$.createdat").value(DEFAULT_CREATEDAT.toString()));
+            .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)));
     }
 
     @Test
@@ -211,9 +214,9 @@ public class MessageResourceIntTest {
         updatedMessage
             .author(UPDATED_AUTHOR)
             .guid(UPDATED_GUID)
-            .conversationguid(UPDATED_CONVERSATIONGUID)
+            .conversationGuid(UPDATED_CONVERSATION_GUID)
             .text(UPDATED_TEXT)
-            .createdat(UPDATED_CREATEDAT);
+            .createdAt(UPDATED_CREATED_AT);
 
         restMessageMockMvc.perform(put("/api/messages")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -226,9 +229,9 @@ public class MessageResourceIntTest {
         Message testMessage = messageList.get(messageList.size() - 1);
         assertThat(testMessage.getAuthor()).isEqualTo(UPDATED_AUTHOR);
         assertThat(testMessage.getGuid()).isEqualTo(UPDATED_GUID);
-        assertThat(testMessage.getConversationguid()).isEqualTo(UPDATED_CONVERSATIONGUID);
+        assertThat(testMessage.getConversationGuid()).isEqualTo(UPDATED_CONVERSATION_GUID);
         assertThat(testMessage.getText()).isEqualTo(UPDATED_TEXT);
-        assertThat(testMessage.getCreatedat()).isEqualTo(UPDATED_CREATEDAT);
+        assertThat(testMessage.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
 
         // Validate the Message in Elasticsearch
         Message messageEs = messageSearchRepository.findOne(testMessage.getId());
@@ -289,9 +292,9 @@ public class MessageResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(message.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].conversationguid").value(hasItem(DEFAULT_CONVERSATIONGUID.toString())))
+            .andExpect(jsonPath("$.[*].conversationGuid").value(hasItem(DEFAULT_CONVERSATION_GUID.toString())))
             .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-            .andExpect(jsonPath("$.[*].createdat").value(hasItem(DEFAULT_CREATEDAT.toString())));
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))));
     }
 
     @Test

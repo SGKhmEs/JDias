@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Profile;
-
-import com.sgkhmjaes.jdias.repository.ProfileRepository;
-import com.sgkhmjaes.jdias.repository.search.ProfileSearchRepository;
+import com.sgkhmjaes.jdias.service.ProfileService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -33,13 +30,10 @@ public class ProfileResource {
 
     private static final String ENTITY_NAME = "profile";
         
-    private final ProfileRepository profileRepository;
+    private final ProfileService profileService;
 
-    private final ProfileSearchRepository profileSearchRepository;
-
-    public ProfileResource(ProfileRepository profileRepository, ProfileSearchRepository profileSearchRepository) {
-        this.profileRepository = profileRepository;
-        this.profileSearchRepository = profileSearchRepository;
+    public ProfileResource(ProfileService profileService) {
+        this.profileService = profileService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class ProfileResource {
         if (profile.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new profile cannot already have an ID")).body(null);
         }
-        Profile result = profileRepository.save(profile);
-        profileSearchRepository.save(result);
+        Profile result = profileService.save(profile);
         return ResponseEntity.created(new URI("/api/profiles/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class ProfileResource {
         if (profile.getId() == null) {
             return createProfile(profile);
         }
-        Profile result = profileRepository.save(profile);
-        profileSearchRepository.save(result);
+        Profile result = profileService.save(profile);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, profile.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class ProfileResource {
     @Timed
     public List<Profile> getAllProfiles() {
         log.debug("REST request to get all Profiles");
-        List<Profile> profiles = profileRepository.findAll();
-        return profiles;
+        return profileService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class ProfileResource {
     @Timed
     public ResponseEntity<Profile> getProfile(@PathVariable Long id) {
         log.debug("REST request to get Profile : {}", id);
-        Profile profile = profileRepository.findOne(id);
+        Profile profile = profileService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(profile));
     }
 
@@ -123,8 +114,7 @@ public class ProfileResource {
     @Timed
     public ResponseEntity<Void> deleteProfile(@PathVariable Long id) {
         log.debug("REST request to delete Profile : {}", id);
-        profileRepository.delete(id);
-        profileSearchRepository.delete(id);
+        profileService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -139,9 +129,7 @@ public class ProfileResource {
     @Timed
     public List<Profile> searchProfiles(@RequestParam String query) {
         log.debug("REST request to search Profiles for query {}", query);
-        return StreamSupport
-            .stream(profileSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return profileService.search(query);
     }
 
 

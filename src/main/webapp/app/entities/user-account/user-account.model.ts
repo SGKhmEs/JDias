@@ -1,6 +1,8 @@
 import { User } from '../../shared';
 import { Person } from '../person';
 import { Conversation } from '../conversation';
+import { AspectMembership } from '../aspect-membership';
+import { TagFollowing } from '../tag-following';
 export class UserAccount {
     constructor(
         public id?: number,
@@ -34,6 +36,8 @@ export class UserAccount {
         public user?: User,
         public person?: Person,
         public conversations?: Conversation,
+        public aspectmemberships?: AspectMembership,
+        public tagfollowings?: TagFollowing,
     ) {
         this.gettingStarted = false;
         this.disableMail = false;

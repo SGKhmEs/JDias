@@ -32,10 +32,10 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="author"><span jhiTranslate="jDiasApp.post.author">Author</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="guid"><span jhiTranslate="jDiasApp.post.guid">Guid</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="createdat"><span jhiTranslate="jDiasApp.post.createdat">Createdat</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createdAt"><span jhiTranslate="jDiasApp.post.createdAt">Created At</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="pub"><span jhiTranslate="jDiasApp.post.pub">Pub</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="providerdisplayname"><span jhiTranslate="jDiasApp.post.providerdisplayname">Providerdisplayname</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="posttype"><span jhiTranslate="jDiasApp.post.posttype">Posttype</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="providerDisplayName"><span jhiTranslate="jDiasApp.post.providerDisplayName">Provider Display Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="postType"><span jhiTranslate="jDiasApp.post.postType">Post Type</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="statusMessage.id"><span jhiTranslate="jDiasApp.post.statusMessage">Status Message</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="reshare.id"><span jhiTranslate="jDiasApp.post.reshare">Reshare</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="person.id"><span jhiTranslate="jDiasApp.post.person">Person</span> <span class="fa fa-sort"></span></th>
@@ -47,10 +47,10 @@
                 <td><a [routerLink]="['../post', post.id ]">{{post.id}}</a></td>
                 <td>{{post.author}}</td>
                 <td>{{post.guid}}</td>
-                <td>{{post.createdat | date:'mediumDate'}}</td>
+                <td>{{post.createdAt | date:'medium'}}</td>
                 <td>{{post.pub}}</td>
-                <td>{{post.providerdisplayname}}</td>
-                <td jhiTranslate="{{'jDiasApp.PostType.' + post.posttype}}">{{post.posttype}}</td>
+                <td>{{post.providerDisplayName}}</td>
+                <td jhiTranslate="{{'jDiasApp.PostType.' + post.postType}}">{{post.postType}}</td>
                 <td>
                     <div *ngIf="post.statusMessage">
                         <a [routerLink]="['../status-message', post.statusMessage?.id ]" >{{post.statusMessage?.id}}</a>

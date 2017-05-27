@@ -22,10 +22,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.List;
 
+import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -46,14 +49,14 @@ public class PhotoResourceIntTest {
     private static final Boolean DEFAULT_GUID = false;
     private static final Boolean UPDATED_GUID = true;
 
-    private static final LocalDate DEFAULT_CREATEDAT = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATEDAT = LocalDate.now(ZoneId.systemDefault());
+    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
-    private static final String DEFAULT_REMOTEPHOTOPATH = "AAAAAAAAAA";
-    private static final String UPDATED_REMOTEPHOTOPATH = "BBBBBBBBBB";
+    private static final String DEFAULT_REMOTE_PHOTO_PATH = "AAAAAAAAAA";
+    private static final String UPDATED_REMOTE_PHOTO_PATH = "BBBBBBBBBB";
 
-    private static final String DEFAULT_REMOTEPHOTONAME = "AAAAAAAAAA";
-    private static final String UPDATED_REMOTEPHOTONAME = "BBBBBBBBBB";
+    private static final String DEFAULT_REMOTE_PHOTO_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_REMOTE_PHOTO_NAME = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_HEIGHT = 1;
     private static final Integer UPDATED_HEIGHT = 2;
@@ -64,8 +67,8 @@ public class PhotoResourceIntTest {
     private static final String DEFAULT_TEXT = "AAAAAAAAAA";
     private static final String UPDATED_TEXT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_STATUSMESSAGEGUID = "AAAAAAAAAA";
-    private static final String UPDATED_STATUSMESSAGEGUID = "BBBBBBBBBB";
+    private static final String DEFAULT_STATUS_MESSAGE_GUID = "AAAAAAAAAA";
+    private static final String UPDATED_STATUS_MESSAGE_GUID = "BBBBBBBBBB";
 
     @Autowired
     private PhotoRepository photoRepository;
@@ -109,13 +112,13 @@ public class PhotoResourceIntTest {
         Photo photo = new Photo()
             .author(DEFAULT_AUTHOR)
             .guid(DEFAULT_GUID)
-            .createdat(DEFAULT_CREATEDAT)
-            .remotephotopath(DEFAULT_REMOTEPHOTOPATH)
-            .remotephotoname(DEFAULT_REMOTEPHOTONAME)
+            .createdAt(DEFAULT_CREATED_AT)
+            .remotePhotoPath(DEFAULT_REMOTE_PHOTO_PATH)
+            .remotePhotoName(DEFAULT_REMOTE_PHOTO_NAME)
             .height(DEFAULT_HEIGHT)
             .width(DEFAULT_WIDTH)
             .text(DEFAULT_TEXT)
-            .statusmessageguid(DEFAULT_STATUSMESSAGEGUID);
+            .statusMessageGuid(DEFAULT_STATUS_MESSAGE_GUID);
         return photo;
     }
 
@@ -142,13 +145,13 @@ public class PhotoResourceIntTest {
         Photo testPhoto = photoList.get(photoList.size() - 1);
         assertThat(testPhoto.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
         assertThat(testPhoto.isGuid()).isEqualTo(DEFAULT_GUID);
-        assertThat(testPhoto.getCreatedat()).isEqualTo(DEFAULT_CREATEDAT);
-        assertThat(testPhoto.getRemotephotopath()).isEqualTo(DEFAULT_REMOTEPHOTOPATH);
-        assertThat(testPhoto.getRemotephotoname()).isEqualTo(DEFAULT_REMOTEPHOTONAME);
+        assertThat(testPhoto.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
+        assertThat(testPhoto.getRemotePhotoPath()).isEqualTo(DEFAULT_REMOTE_PHOTO_PATH);
+        assertThat(testPhoto.getRemotePhotoName()).isEqualTo(DEFAULT_REMOTE_PHOTO_NAME);
         assertThat(testPhoto.getHeight()).isEqualTo(DEFAULT_HEIGHT);
         assertThat(testPhoto.getWidth()).isEqualTo(DEFAULT_WIDTH);
         assertThat(testPhoto.getText()).isEqualTo(DEFAULT_TEXT);
-        assertThat(testPhoto.getStatusmessageguid()).isEqualTo(DEFAULT_STATUSMESSAGEGUID);
+        assertThat(testPhoto.getStatusMessageGuid()).isEqualTo(DEFAULT_STATUS_MESSAGE_GUID);
 
         // Validate the Photo in Elasticsearch
         Photo photoEs = photoSearchRepository.findOne(testPhoto.getId());
@@ -187,13 +190,13 @@ public class PhotoResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(photo.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.booleanValue())))
-            .andExpect(jsonPath("$.[*].createdat").value(hasItem(DEFAULT_CREATEDAT.toString())))
-            .andExpect(jsonPath("$.[*].remotephotopath").value(hasItem(DEFAULT_REMOTEPHOTOPATH.toString())))
-            .andExpect(jsonPath("$.[*].remotephotoname").value(hasItem(DEFAULT_REMOTEPHOTONAME.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
+            .andExpect(jsonPath("$.[*].remotePhotoPath").value(hasItem(DEFAULT_REMOTE_PHOTO_PATH.toString())))
+            .andExpect(jsonPath("$.[*].remotePhotoName").value(hasItem(DEFAULT_REMOTE_PHOTO_NAME.toString())))
             .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT)))
             .andExpect(jsonPath("$.[*].width").value(hasItem(DEFAULT_WIDTH)))
             .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-            .andExpect(jsonPath("$.[*].statusmessageguid").value(hasItem(DEFAULT_STATUSMESSAGEGUID.toString())));
+            .andExpect(jsonPath("$.[*].statusMessageGuid").value(hasItem(DEFAULT_STATUS_MESSAGE_GUID.toString())));
     }
 
     @Test
@@ -209,13 +212,13 @@ public class PhotoResourceIntTest {
             .andExpect(jsonPath("$.id").value(photo.getId().intValue()))
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
             .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.booleanValue()))
-            .andExpect(jsonPath("$.createdat").value(DEFAULT_CREATEDAT.toString()))
-            .andExpect(jsonPath("$.remotephotopath").value(DEFAULT_REMOTEPHOTOPATH.toString()))
-            .andExpect(jsonPath("$.remotephotoname").value(DEFAULT_REMOTEPHOTONAME.toString()))
+            .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)))
+            .andExpect(jsonPath("$.remotePhotoPath").value(DEFAULT_REMOTE_PHOTO_PATH.toString()))
+            .andExpect(jsonPath("$.remotePhotoName").value(DEFAULT_REMOTE_PHOTO_NAME.toString()))
             .andExpect(jsonPath("$.height").value(DEFAULT_HEIGHT))
             .andExpect(jsonPath("$.width").value(DEFAULT_WIDTH))
             .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()))
-            .andExpect(jsonPath("$.statusmessageguid").value(DEFAULT_STATUSMESSAGEGUID.toString()));
+            .andExpect(jsonPath("$.statusMessageGuid").value(DEFAULT_STATUS_MESSAGE_GUID.toString()));
     }
 
     @Test
@@ -239,13 +242,13 @@ public class PhotoResourceIntTest {
         updatedPhoto
             .author(UPDATED_AUTHOR)
             .guid(UPDATED_GUID)
-            .createdat(UPDATED_CREATEDAT)
-            .remotephotopath(UPDATED_REMOTEPHOTOPATH)
-            .remotephotoname(UPDATED_REMOTEPHOTONAME)
+            .createdAt(UPDATED_CREATED_AT)
+            .remotePhotoPath(UPDATED_REMOTE_PHOTO_PATH)
+            .remotePhotoName(UPDATED_REMOTE_PHOTO_NAME)
             .height(UPDATED_HEIGHT)
             .width(UPDATED_WIDTH)
             .text(UPDATED_TEXT)
-            .statusmessageguid(UPDATED_STATUSMESSAGEGUID);
+            .statusMessageGuid(UPDATED_STATUS_MESSAGE_GUID);
 
         restPhotoMockMvc.perform(put("/api/photos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -258,13 +261,13 @@ public class PhotoResourceIntTest {
         Photo testPhoto = photoList.get(photoList.size() - 1);
         assertThat(testPhoto.getAuthor()).isEqualTo(UPDATED_AUTHOR);
         assertThat(testPhoto.isGuid()).isEqualTo(UPDATED_GUID);
-        assertThat(testPhoto.getCreatedat()).isEqualTo(UPDATED_CREATEDAT);
-        assertThat(testPhoto.getRemotephotopath()).isEqualTo(UPDATED_REMOTEPHOTOPATH);
-        assertThat(testPhoto.getRemotephotoname()).isEqualTo(UPDATED_REMOTEPHOTONAME);
+        assertThat(testPhoto.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testPhoto.getRemotePhotoPath()).isEqualTo(UPDATED_REMOTE_PHOTO_PATH);
+        assertThat(testPhoto.getRemotePhotoName()).isEqualTo(UPDATED_REMOTE_PHOTO_NAME);
         assertThat(testPhoto.getHeight()).isEqualTo(UPDATED_HEIGHT);
         assertThat(testPhoto.getWidth()).isEqualTo(UPDATED_WIDTH);
         assertThat(testPhoto.getText()).isEqualTo(UPDATED_TEXT);
-        assertThat(testPhoto.getStatusmessageguid()).isEqualTo(UPDATED_STATUSMESSAGEGUID);
+        assertThat(testPhoto.getStatusMessageGuid()).isEqualTo(UPDATED_STATUS_MESSAGE_GUID);
 
         // Validate the Photo in Elasticsearch
         Photo photoEs = photoSearchRepository.findOne(testPhoto.getId());
@@ -325,13 +328,13 @@ public class PhotoResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(photo.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.booleanValue())))
-            .andExpect(jsonPath("$.[*].createdat").value(hasItem(DEFAULT_CREATEDAT.toString())))
-            .andExpect(jsonPath("$.[*].remotephotopath").value(hasItem(DEFAULT_REMOTEPHOTOPATH.toString())))
-            .andExpect(jsonPath("$.[*].remotephotoname").value(hasItem(DEFAULT_REMOTEPHOTONAME.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
+            .andExpect(jsonPath("$.[*].remotePhotoPath").value(hasItem(DEFAULT_REMOTE_PHOTO_PATH.toString())))
+            .andExpect(jsonPath("$.[*].remotePhotoName").value(hasItem(DEFAULT_REMOTE_PHOTO_NAME.toString())))
             .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT)))
             .andExpect(jsonPath("$.[*].width").value(hasItem(DEFAULT_WIDTH)))
             .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-            .andExpect(jsonPath("$.[*].statusmessageguid").value(hasItem(DEFAULT_STATUSMESSAGEGUID.toString())));
+            .andExpect(jsonPath("$.[*].statusMessageGuid").value(hasItem(DEFAULT_STATUS_MESSAGE_GUID.toString())));
     }
 
     @Test

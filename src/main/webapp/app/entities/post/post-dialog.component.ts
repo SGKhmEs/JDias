@@ -29,7 +29,6 @@ export class PostDialogComponent implements OnInit {
     reshares: Reshare[];
 
     people: Person[];
-    createdatDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,

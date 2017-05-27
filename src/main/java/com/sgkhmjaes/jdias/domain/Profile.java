@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 /**
@@ -28,23 +28,23 @@ public class Profile implements Serializable {
     @Column(name = "author")
     private String author;
 
-    @Column(name = "firstname")
-    private String firstname;
+    @Column(name = "first_name")
+    private String firstName;
 
-    @Column(name = "lastname")
-    private String lastname;
+    @Column(name = "last_name")
+    private String lastName;
 
-    @Column(name = "imageurl")
-    private String imageurl;
+    @Column(name = "image_url")
+    private String imageUrl;
 
-    @Column(name = "imageurlsmall")
-    private String imageurlsmall;
+    @Column(name = "image_url_small")
+    private String imageUrlSmall;
 
-    @Column(name = "imageurlmedium")
-    private String imageurlmedium;
+    @Column(name = "image_url_medium")
+    private String imageUrlMedium;
 
     @Column(name = "birthday")
-    private LocalDate birthday;
+    private ZonedDateTime birthday;
 
     @Column(name = "gender")
     private String gender;
@@ -61,8 +61,8 @@ public class Profile implements Serializable {
     @Column(name = "nsfw")
     private Boolean nsfw;
 
-    @Column(name = "tagstring")
-    private String tagstring;
+    @Column(name = "tag_string")
+    private String tagString;
 
     public Long getId() {
         return id;
@@ -85,81 +85,81 @@ public class Profile implements Serializable {
         this.author = author;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public Profile firstname(String firstname) {
-        this.firstname = firstname;
+    public Profile firstName(String firstName) {
+        this.firstName = firstName;
         return this;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public Profile lastname(String lastname) {
-        this.lastname = lastname;
+    public Profile lastName(String lastName) {
+        this.lastName = lastName;
         return this;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getImageurl() {
-        return imageurl;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public Profile imageurl(String imageurl) {
-        this.imageurl = imageurl;
+    public Profile imageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
         return this;
     }
 
-    public void setImageurl(String imageurl) {
-        this.imageurl = imageurl;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public String getImageurlsmall() {
-        return imageurlsmall;
+    public String getImageUrlSmall() {
+        return imageUrlSmall;
     }
 
-    public Profile imageurlsmall(String imageurlsmall) {
-        this.imageurlsmall = imageurlsmall;
+    public Profile imageUrlSmall(String imageUrlSmall) {
+        this.imageUrlSmall = imageUrlSmall;
         return this;
     }
 
-    public void setImageurlsmall(String imageurlsmall) {
-        this.imageurlsmall = imageurlsmall;
+    public void setImageUrlSmall(String imageUrlSmall) {
+        this.imageUrlSmall = imageUrlSmall;
     }
 
-    public String getImageurlmedium() {
-        return imageurlmedium;
+    public String getImageUrlMedium() {
+        return imageUrlMedium;
     }
 
-    public Profile imageurlmedium(String imageurlmedium) {
-        this.imageurlmedium = imageurlmedium;
+    public Profile imageUrlMedium(String imageUrlMedium) {
+        this.imageUrlMedium = imageUrlMedium;
         return this;
     }
 
-    public void setImageurlmedium(String imageurlmedium) {
-        this.imageurlmedium = imageurlmedium;
+    public void setImageUrlMedium(String imageUrlMedium) {
+        this.imageUrlMedium = imageUrlMedium;
     }
 
-    public LocalDate getBirthday() {
+    public ZonedDateTime getBirthday() {
         return birthday;
     }
 
-    public Profile birthday(LocalDate birthday) {
+    public Profile birthday(ZonedDateTime birthday) {
         this.birthday = birthday;
         return this;
     }
 
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(ZonedDateTime birthday) {
         this.birthday = birthday;
     }
 
@@ -228,17 +228,17 @@ public class Profile implements Serializable {
         this.nsfw = nsfw;
     }
 
-    public String getTagstring() {
-        return tagstring;
+    public String getTagString() {
+        return tagString;
     }
 
-    public Profile tagstring(String tagstring) {
-        this.tagstring = tagstring;
+    public Profile tagString(String tagString) {
+        this.tagString = tagString;
         return this;
     }
 
-    public void setTagstring(String tagstring) {
-        this.tagstring = tagstring;
+    public void setTagString(String tagString) {
+        this.tagString = tagString;
     }
 
     @Override
@@ -266,18 +266,18 @@ public class Profile implements Serializable {
         return "Profile{" +
             "id=" + getId() +
             ", author='" + getAuthor() + "'" +
-            ", firstname='" + getFirstname() + "'" +
-            ", lastname='" + getLastname() + "'" +
-            ", imageurl='" + getImageurl() + "'" +
-            ", imageurlsmall='" + getImageurlsmall() + "'" +
-            ", imageurlmedium='" + getImageurlmedium() + "'" +
+            ", firstName='" + getFirstName() + "'" +
+            ", lastName='" + getLastName() + "'" +
+            ", imageUrl='" + getImageUrl() + "'" +
+            ", imageUrlSmall='" + getImageUrlSmall() + "'" +
+            ", imageUrlMedium='" + getImageUrlMedium() + "'" +
             ", birthday='" + getBirthday() + "'" +
             ", gender='" + getGender() + "'" +
             ", bio='" + getBio() + "'" +
             ", location='" + getLocation() + "'" +
             ", searchable='" + isSearchable() + "'" +
             ", nsfw='" + isNsfw() + "'" +
-            ", tagstring='" + getTagstring() + "'" +
+            ", tagString='" + getTagString() + "'" +
             "}";
     }
 }

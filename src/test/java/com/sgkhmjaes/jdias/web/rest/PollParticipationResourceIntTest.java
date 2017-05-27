@@ -44,17 +44,17 @@ public class PollParticipationResourceIntTest {
     private static final String DEFAULT_GUID = "AAAAAAAAAA";
     private static final String UPDATED_GUID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PARENTGUID = "AAAAAAAAAA";
-    private static final String UPDATED_PARENTGUID = "BBBBBBBBBB";
+    private static final String DEFAULT_PARENT_GUID = "AAAAAAAAAA";
+    private static final String UPDATED_PARENT_GUID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_POLLANSWERGUID = "AAAAAAAAAA";
-    private static final String UPDATED_POLLANSWERGUID = "BBBBBBBBBB";
+    private static final String DEFAULT_POLL_ANSWER_GUID = "AAAAAAAAAA";
+    private static final String UPDATED_POLL_ANSWER_GUID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_AUTHORSIGNATURE = "AAAAAAAAAA";
-    private static final String UPDATED_AUTHORSIGNATURE = "BBBBBBBBBB";
+    private static final String DEFAULT_AUTHOR_SIGNATURE = "AAAAAAAAAA";
+    private static final String UPDATED_AUTHOR_SIGNATURE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PARENTAUTHORSIGNATURE = "AAAAAAAAAA";
-    private static final String UPDATED_PARENTAUTHORSIGNATURE = "BBBBBBBBBB";
+    private static final String DEFAULT_PARENT_AUTHOR_SIGNATURE = "AAAAAAAAAA";
+    private static final String UPDATED_PARENT_AUTHOR_SIGNATURE = "BBBBBBBBBB";
 
     @Autowired
     private PollParticipationRepository pollParticipationRepository;
@@ -98,10 +98,10 @@ public class PollParticipationResourceIntTest {
         PollParticipation pollParticipation = new PollParticipation()
             .author(DEFAULT_AUTHOR)
             .guid(DEFAULT_GUID)
-            .parentguid(DEFAULT_PARENTGUID)
-            .pollanswerguid(DEFAULT_POLLANSWERGUID)
-            .authorsignature(DEFAULT_AUTHORSIGNATURE)
-            .parentauthorsignature(DEFAULT_PARENTAUTHORSIGNATURE);
+            .parentGuid(DEFAULT_PARENT_GUID)
+            .pollAnswerGuid(DEFAULT_POLL_ANSWER_GUID)
+            .authorSignature(DEFAULT_AUTHOR_SIGNATURE)
+            .parentAuthorSignature(DEFAULT_PARENT_AUTHOR_SIGNATURE);
         return pollParticipation;
     }
 
@@ -128,10 +128,10 @@ public class PollParticipationResourceIntTest {
         PollParticipation testPollParticipation = pollParticipationList.get(pollParticipationList.size() - 1);
         assertThat(testPollParticipation.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
         assertThat(testPollParticipation.getGuid()).isEqualTo(DEFAULT_GUID);
-        assertThat(testPollParticipation.getParentguid()).isEqualTo(DEFAULT_PARENTGUID);
-        assertThat(testPollParticipation.getPollanswerguid()).isEqualTo(DEFAULT_POLLANSWERGUID);
-        assertThat(testPollParticipation.getAuthorsignature()).isEqualTo(DEFAULT_AUTHORSIGNATURE);
-        assertThat(testPollParticipation.getParentauthorsignature()).isEqualTo(DEFAULT_PARENTAUTHORSIGNATURE);
+        assertThat(testPollParticipation.getParentGuid()).isEqualTo(DEFAULT_PARENT_GUID);
+        assertThat(testPollParticipation.getPollAnswerGuid()).isEqualTo(DEFAULT_POLL_ANSWER_GUID);
+        assertThat(testPollParticipation.getAuthorSignature()).isEqualTo(DEFAULT_AUTHOR_SIGNATURE);
+        assertThat(testPollParticipation.getParentAuthorSignature()).isEqualTo(DEFAULT_PARENT_AUTHOR_SIGNATURE);
 
         // Validate the PollParticipation in Elasticsearch
         PollParticipation pollParticipationEs = pollParticipationSearchRepository.findOne(testPollParticipation.getId());
@@ -170,10 +170,10 @@ public class PollParticipationResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(pollParticipation.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentguid").value(hasItem(DEFAULT_PARENTGUID.toString())))
-            .andExpect(jsonPath("$.[*].pollanswerguid").value(hasItem(DEFAULT_POLLANSWERGUID.toString())))
-            .andExpect(jsonPath("$.[*].authorsignature").value(hasItem(DEFAULT_AUTHORSIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].parentauthorsignature").value(hasItem(DEFAULT_PARENTAUTHORSIGNATURE.toString())));
+            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].pollAnswerGuid").value(hasItem(DEFAULT_POLL_ANSWER_GUID.toString())))
+            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
     }
 
     @Test
@@ -189,10 +189,10 @@ public class PollParticipationResourceIntTest {
             .andExpect(jsonPath("$.id").value(pollParticipation.getId().intValue()))
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
             .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-            .andExpect(jsonPath("$.parentguid").value(DEFAULT_PARENTGUID.toString()))
-            .andExpect(jsonPath("$.pollanswerguid").value(DEFAULT_POLLANSWERGUID.toString()))
-            .andExpect(jsonPath("$.authorsignature").value(DEFAULT_AUTHORSIGNATURE.toString()))
-            .andExpect(jsonPath("$.parentauthorsignature").value(DEFAULT_PARENTAUTHORSIGNATURE.toString()));
+            .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
+            .andExpect(jsonPath("$.pollAnswerGuid").value(DEFAULT_POLL_ANSWER_GUID.toString()))
+            .andExpect(jsonPath("$.authorSignature").value(DEFAULT_AUTHOR_SIGNATURE.toString()))
+            .andExpect(jsonPath("$.parentAuthorSignature").value(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString()));
     }
 
     @Test
@@ -216,10 +216,10 @@ public class PollParticipationResourceIntTest {
         updatedPollParticipation
             .author(UPDATED_AUTHOR)
             .guid(UPDATED_GUID)
-            .parentguid(UPDATED_PARENTGUID)
-            .pollanswerguid(UPDATED_POLLANSWERGUID)
-            .authorsignature(UPDATED_AUTHORSIGNATURE)
-            .parentauthorsignature(UPDATED_PARENTAUTHORSIGNATURE);
+            .parentGuid(UPDATED_PARENT_GUID)
+            .pollAnswerGuid(UPDATED_POLL_ANSWER_GUID)
+            .authorSignature(UPDATED_AUTHOR_SIGNATURE)
+            .parentAuthorSignature(UPDATED_PARENT_AUTHOR_SIGNATURE);
 
         restPollParticipationMockMvc.perform(put("/api/poll-participations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -232,10 +232,10 @@ public class PollParticipationResourceIntTest {
         PollParticipation testPollParticipation = pollParticipationList.get(pollParticipationList.size() - 1);
         assertThat(testPollParticipation.getAuthor()).isEqualTo(UPDATED_AUTHOR);
         assertThat(testPollParticipation.getGuid()).isEqualTo(UPDATED_GUID);
-        assertThat(testPollParticipation.getParentguid()).isEqualTo(UPDATED_PARENTGUID);
-        assertThat(testPollParticipation.getPollanswerguid()).isEqualTo(UPDATED_POLLANSWERGUID);
-        assertThat(testPollParticipation.getAuthorsignature()).isEqualTo(UPDATED_AUTHORSIGNATURE);
-        assertThat(testPollParticipation.getParentauthorsignature()).isEqualTo(UPDATED_PARENTAUTHORSIGNATURE);
+        assertThat(testPollParticipation.getParentGuid()).isEqualTo(UPDATED_PARENT_GUID);
+        assertThat(testPollParticipation.getPollAnswerGuid()).isEqualTo(UPDATED_POLL_ANSWER_GUID);
+        assertThat(testPollParticipation.getAuthorSignature()).isEqualTo(UPDATED_AUTHOR_SIGNATURE);
+        assertThat(testPollParticipation.getParentAuthorSignature()).isEqualTo(UPDATED_PARENT_AUTHOR_SIGNATURE);
 
         // Validate the PollParticipation in Elasticsearch
         PollParticipation pollParticipationEs = pollParticipationSearchRepository.findOne(testPollParticipation.getId());
@@ -296,10 +296,10 @@ public class PollParticipationResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(pollParticipation.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentguid").value(hasItem(DEFAULT_PARENTGUID.toString())))
-            .andExpect(jsonPath("$.[*].pollanswerguid").value(hasItem(DEFAULT_POLLANSWERGUID.toString())))
-            .andExpect(jsonPath("$.[*].authorsignature").value(hasItem(DEFAULT_AUTHORSIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].parentauthorsignature").value(hasItem(DEFAULT_PARENTAUTHORSIGNATURE.toString())));
+            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].pollAnswerGuid").value(hasItem(DEFAULT_POLL_ANSWER_GUID.toString())))
+            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
     }
 
     @Test

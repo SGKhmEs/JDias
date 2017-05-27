@@ -45,17 +45,17 @@ public class EventParticipationResourceIntTest {
     private static final String DEFAULT_GUID = "AAAAAAAAAA";
     private static final String UPDATED_GUID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PARENTGUID = "AAAAAAAAAA";
-    private static final String UPDATED_PARENTGUID = "BBBBBBBBBB";
+    private static final String DEFAULT_PARENT_GUID = "AAAAAAAAAA";
+    private static final String UPDATED_PARENT_GUID = "BBBBBBBBBB";
 
     private static final EventStatus DEFAULT_STATUS = EventStatus.ACCEPTED;
     private static final EventStatus UPDATED_STATUS = EventStatus.DECLINED;
 
-    private static final String DEFAULT_AUTHORSIGNATURE = "AAAAAAAAAA";
-    private static final String UPDATED_AUTHORSIGNATURE = "BBBBBBBBBB";
+    private static final String DEFAULT_AUTHOR_SIGNATURE = "AAAAAAAAAA";
+    private static final String UPDATED_AUTHOR_SIGNATURE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PARENTAUTHORSIGNATURE = "AAAAAAAAAA";
-    private static final String UPDATED_PARENTAUTHORSIGNATURE = "BBBBBBBBBB";
+    private static final String DEFAULT_PARENT_AUTHOR_SIGNATURE = "AAAAAAAAAA";
+    private static final String UPDATED_PARENT_AUTHOR_SIGNATURE = "BBBBBBBBBB";
 
     @Autowired
     private EventParticipationRepository eventParticipationRepository;
@@ -99,10 +99,10 @@ public class EventParticipationResourceIntTest {
         EventParticipation eventParticipation = new EventParticipation()
             .author(DEFAULT_AUTHOR)
             .guid(DEFAULT_GUID)
-            .parentguid(DEFAULT_PARENTGUID)
+            .parentGuid(DEFAULT_PARENT_GUID)
             .status(DEFAULT_STATUS)
-            .authorsignature(DEFAULT_AUTHORSIGNATURE)
-            .parentauthorsignature(DEFAULT_PARENTAUTHORSIGNATURE);
+            .authorSignature(DEFAULT_AUTHOR_SIGNATURE)
+            .parentAuthorSignature(DEFAULT_PARENT_AUTHOR_SIGNATURE);
         return eventParticipation;
     }
 
@@ -129,10 +129,10 @@ public class EventParticipationResourceIntTest {
         EventParticipation testEventParticipation = eventParticipationList.get(eventParticipationList.size() - 1);
         assertThat(testEventParticipation.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
         assertThat(testEventParticipation.getGuid()).isEqualTo(DEFAULT_GUID);
-        assertThat(testEventParticipation.getParentguid()).isEqualTo(DEFAULT_PARENTGUID);
+        assertThat(testEventParticipation.getParentGuid()).isEqualTo(DEFAULT_PARENT_GUID);
         assertThat(testEventParticipation.getStatus()).isEqualTo(DEFAULT_STATUS);
-        assertThat(testEventParticipation.getAuthorsignature()).isEqualTo(DEFAULT_AUTHORSIGNATURE);
-        assertThat(testEventParticipation.getParentauthorsignature()).isEqualTo(DEFAULT_PARENTAUTHORSIGNATURE);
+        assertThat(testEventParticipation.getAuthorSignature()).isEqualTo(DEFAULT_AUTHOR_SIGNATURE);
+        assertThat(testEventParticipation.getParentAuthorSignature()).isEqualTo(DEFAULT_PARENT_AUTHOR_SIGNATURE);
 
         // Validate the EventParticipation in Elasticsearch
         EventParticipation eventParticipationEs = eventParticipationSearchRepository.findOne(testEventParticipation.getId());
@@ -171,10 +171,10 @@ public class EventParticipationResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(eventParticipation.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentguid").value(hasItem(DEFAULT_PARENTGUID.toString())))
+            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].authorsignature").value(hasItem(DEFAULT_AUTHORSIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].parentauthorsignature").value(hasItem(DEFAULT_PARENTAUTHORSIGNATURE.toString())));
+            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
     }
 
     @Test
@@ -190,10 +190,10 @@ public class EventParticipationResourceIntTest {
             .andExpect(jsonPath("$.id").value(eventParticipation.getId().intValue()))
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
             .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-            .andExpect(jsonPath("$.parentguid").value(DEFAULT_PARENTGUID.toString()))
+            .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
-            .andExpect(jsonPath("$.authorsignature").value(DEFAULT_AUTHORSIGNATURE.toString()))
-            .andExpect(jsonPath("$.parentauthorsignature").value(DEFAULT_PARENTAUTHORSIGNATURE.toString()));
+            .andExpect(jsonPath("$.authorSignature").value(DEFAULT_AUTHOR_SIGNATURE.toString()))
+            .andExpect(jsonPath("$.parentAuthorSignature").value(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString()));
     }
 
     @Test
@@ -217,10 +217,10 @@ public class EventParticipationResourceIntTest {
         updatedEventParticipation
             .author(UPDATED_AUTHOR)
             .guid(UPDATED_GUID)
-            .parentguid(UPDATED_PARENTGUID)
+            .parentGuid(UPDATED_PARENT_GUID)
             .status(UPDATED_STATUS)
-            .authorsignature(UPDATED_AUTHORSIGNATURE)
-            .parentauthorsignature(UPDATED_PARENTAUTHORSIGNATURE);
+            .authorSignature(UPDATED_AUTHOR_SIGNATURE)
+            .parentAuthorSignature(UPDATED_PARENT_AUTHOR_SIGNATURE);
 
         restEventParticipationMockMvc.perform(put("/api/event-participations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -233,10 +233,10 @@ public class EventParticipationResourceIntTest {
         EventParticipation testEventParticipation = eventParticipationList.get(eventParticipationList.size() - 1);
         assertThat(testEventParticipation.getAuthor()).isEqualTo(UPDATED_AUTHOR);
         assertThat(testEventParticipation.getGuid()).isEqualTo(UPDATED_GUID);
-        assertThat(testEventParticipation.getParentguid()).isEqualTo(UPDATED_PARENTGUID);
+        assertThat(testEventParticipation.getParentGuid()).isEqualTo(UPDATED_PARENT_GUID);
         assertThat(testEventParticipation.getStatus()).isEqualTo(UPDATED_STATUS);
-        assertThat(testEventParticipation.getAuthorsignature()).isEqualTo(UPDATED_AUTHORSIGNATURE);
-        assertThat(testEventParticipation.getParentauthorsignature()).isEqualTo(UPDATED_PARENTAUTHORSIGNATURE);
+        assertThat(testEventParticipation.getAuthorSignature()).isEqualTo(UPDATED_AUTHOR_SIGNATURE);
+        assertThat(testEventParticipation.getParentAuthorSignature()).isEqualTo(UPDATED_PARENT_AUTHOR_SIGNATURE);
 
         // Validate the EventParticipation in Elasticsearch
         EventParticipation eventParticipationEs = eventParticipationSearchRepository.findOne(testEventParticipation.getId());
@@ -297,10 +297,10 @@ public class EventParticipationResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(eventParticipation.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentguid").value(hasItem(DEFAULT_PARENTGUID.toString())))
+            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].authorsignature").value(hasItem(DEFAULT_AUTHORSIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].parentauthorsignature").value(hasItem(DEFAULT_PARENTAUTHORSIGNATURE.toString())));
+            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
     }
 
     @Test

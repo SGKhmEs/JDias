@@ -8,6 +8,9 @@
             "entities": {
                 "main": "Сущности",
                 "accountDeletion": "Account Deletion",
+                "aspect": "Aspect",
+                "aspectMembership": "Aspect Membership",
+                "aspectVisiblity": "Aspect Visiblity",
                 "comment": "Comment",
                 "contact": "Contact",
                 "conversation": "Conversation",
@@ -26,6 +29,9 @@
                 "reshare": "Reshare",
                 "retraction": "Retraction",
                 "statusMessage": "Status Message",
+                "tag": "Tag",
+                "tagging": "Tagging",
+                "tagFollowing": "Tag Following",
                 "userAccount": "User Account",
                 "person": "Person",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"

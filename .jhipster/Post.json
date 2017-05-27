@@ -24,6 +24,24 @@
             "otherEntityRelationshipName": "post"
         },
         {
+            "relationshipType": "one-to-many",
+            "relationshipName": "aspectVisiblities",
+            "otherEntityName": "aspectVisiblity",
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "likes",
+            "otherEntityName": "like",
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "tags",
+            "otherEntityName": "tag",
+            "otherEntityRelationshipName": "post"
+        },
+        {
             "relationshipName": "person",
             "otherEntityName": "person",
             "relationshipType": "many-to-one",
@@ -40,26 +58,26 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "createdat",
-            "fieldType": "LocalDate"
+            "fieldName": "createdAt",
+            "fieldType": "ZonedDateTime"
         },
         {
             "fieldName": "pub",
             "fieldType": "Boolean"
         },
         {
-            "fieldName": "providerdisplayname",
+            "fieldName": "providerDisplayName",
             "fieldType": "String"
         },
         {
-            "fieldName": "posttype",
+            "fieldName": "postType",
             "fieldType": "PostType",
             "fieldValues": "STATUSMESSAGE,RESHARE"
         }
     ],
-    "changelogDate": "20170525164615",
+    "changelogDate": "20170527190332",
     "entityTableName": "post",
     "dto": "no",
     "pagination": "infinite-scroll",
-    "service": "no"
+    "service": "serviceImpl"
 }

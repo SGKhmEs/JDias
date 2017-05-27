@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -36,18 +36,18 @@ public class Post implements Serializable {
     @Column(name = "guid")
     private String guid;
 
-    @Column(name = "createdat")
-    private LocalDate createdat;
+    @Column(name = "created_at")
+    private ZonedDateTime createdAt;
 
     @Column(name = "pub")
     private Boolean pub;
 
-    @Column(name = "providerdisplayname")
-    private String providerdisplayname;
+    @Column(name = "provider_display_name")
+    private String providerDisplayName;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "posttype")
-    private PostType posttype;
+    @Column(name = "post_type")
+    private PostType postType;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -61,6 +61,21 @@ public class Post implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Comment> comments = new HashSet<>();
+
+    @OneToMany(mappedBy = "post")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<AspectVisiblity> aspectVisiblities = new HashSet<>();
+
+    @OneToMany(mappedBy = "post")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Like> likes = new HashSet<>();
+
+    @OneToMany(mappedBy = "post")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Tag> tags = new HashSet<>();
 
     @ManyToOne
     private Person person;
@@ -99,17 +114,17 @@ public class Post implements Serializable {
         this.guid = guid;
     }
 
-    public LocalDate getCreatedat() {
-        return createdat;
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public Post createdat(LocalDate createdat) {
-        this.createdat = createdat;
+    public Post createdAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
-    public void setCreatedat(LocalDate createdat) {
-        this.createdat = createdat;
+    public void setCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Boolean isPub() {
@@ -125,30 +140,30 @@ public class Post implements Serializable {
         this.pub = pub;
     }
 
-    public String getProviderdisplayname() {
-        return providerdisplayname;
+    public String getProviderDisplayName() {
+        return providerDisplayName;
     }
 
-    public Post providerdisplayname(String providerdisplayname) {
-        this.providerdisplayname = providerdisplayname;
+    public Post providerDisplayName(String providerDisplayName) {
+        this.providerDisplayName = providerDisplayName;
         return this;
     }
 
-    public void setProviderdisplayname(String providerdisplayname) {
-        this.providerdisplayname = providerdisplayname;
+    public void setProviderDisplayName(String providerDisplayName) {
+        this.providerDisplayName = providerDisplayName;
     }
 
-    public PostType getPosttype() {
-        return posttype;
+    public PostType getPostType() {
+        return postType;
     }
 
-    public Post posttype(PostType posttype) {
-        this.posttype = posttype;
+    public Post postType(PostType postType) {
+        this.postType = postType;
         return this;
     }
 
-    public void setPosttype(PostType posttype) {
-        this.posttype = posttype;
+    public void setPostType(PostType postType) {
+        this.postType = postType;
     }
 
     public StatusMessage getStatusMessage() {
@@ -202,6 +217,81 @@ public class Post implements Serializable {
         this.comments = comments;
     }
 
+    public Set<AspectVisiblity> getAspectVisiblities() {
+        return aspectVisiblities;
+    }
+
+    public Post aspectVisiblities(Set<AspectVisiblity> aspectVisiblities) {
+        this.aspectVisiblities = aspectVisiblities;
+        return this;
+    }
+
+    public Post addAspectVisiblities(AspectVisiblity aspectVisiblity) {
+        this.aspectVisiblities.add(aspectVisiblity);
+        aspectVisiblity.setPost(this);
+        return this;
+    }
+
+    public Post removeAspectVisiblities(AspectVisiblity aspectVisiblity) {
+        this.aspectVisiblities.remove(aspectVisiblity);
+        aspectVisiblity.setPost(null);
+        return this;
+    }
+
+    public void setAspectVisiblities(Set<AspectVisiblity> aspectVisiblities) {
+        this.aspectVisiblities = aspectVisiblities;
+    }
+
+    public Set<Like> getLikes() {
+        return likes;
+    }
+
+    public Post likes(Set<Like> likes) {
+        this.likes = likes;
+        return this;
+    }
+
+    public Post addLikes(Like like) {
+        this.likes.add(like);
+        like.setPost(this);
+        return this;
+    }
+
+    public Post removeLikes(Like like) {
+        this.likes.remove(like);
+        like.setPost(null);
+        return this;
+    }
+
+    public void setLikes(Set<Like> likes) {
+        this.likes = likes;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public Post tags(Set<Tag> tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    public Post addTags(Tag tag) {
+        this.tags.add(tag);
+        tag.setPost(this);
+        return this;
+    }
+
+    public Post removeTags(Tag tag) {
+        this.tags.remove(tag);
+        tag.setPost(null);
+        return this;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
     public Person getPerson() {
         return person;
     }
@@ -241,10 +331,10 @@ public class Post implements Serializable {
             "id=" + getId() +
             ", author='" + getAuthor() + "'" +
             ", guid='" + getGuid() + "'" +
-            ", createdat='" + getCreatedat() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
             ", pub='" + isPub() + "'" +
-            ", providerdisplayname='" + getProviderdisplayname() + "'" +
-            ", posttype='" + getPosttype() + "'" +
+            ", providerDisplayName='" + getProviderDisplayName() + "'" +
+            ", postType='" + getPostType() + "'" +
             "}";
     }
 }

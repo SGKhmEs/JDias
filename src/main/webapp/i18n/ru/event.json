@@ -21,10 +21,10 @@
             "summary": "Summary",
             "start": "Start",
             "end": "End",
-            "allday": "Allday",
+            "allDay": "All Day",
             "timezone": "Timezone",
             "description": "Description",
-            "events2": "Events 2"
+            "eventPatricipations": "Event Patricipations"
         }
     }
 }

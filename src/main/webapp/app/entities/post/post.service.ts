@@ -65,14 +65,14 @@ export class PostService {
     }
 
     private convertItemFromServer(entity: any) {
-        entity.createdat = this.dateUtils
-            .convertLocalDateFromServer(entity.createdat);
+        entity.createdAt = this.dateUtils
+            .convertDateTimeFromServer(entity.createdAt);
     }
 
     private convert(post: Post): Post {
         const copy: Post = Object.assign({}, post);
-        copy.createdat = this.dateUtils
-            .convertLocalDateToServer(post.createdat);
+
+        copy.createdAt = this.dateUtils.toDate(post.createdAt);
         return copy;
     }
 }

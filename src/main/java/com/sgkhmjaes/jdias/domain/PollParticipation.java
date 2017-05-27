@@ -30,17 +30,17 @@ public class PollParticipation implements Serializable {
     @Column(name = "guid")
     private String guid;
 
-    @Column(name = "parentguid")
-    private String parentguid;
+    @Column(name = "parent_guid")
+    private String parentGuid;
 
-    @Column(name = "pollanswerguid")
-    private String pollanswerguid;
+    @Column(name = "poll_answer_guid")
+    private String pollAnswerGuid;
 
-    @Column(name = "authorsignature")
-    private String authorsignature;
+    @Column(name = "author_signature")
+    private String authorSignature;
 
-    @Column(name = "parentauthorsignature")
-    private String parentauthorsignature;
+    @Column(name = "parent_author_signature")
+    private String parentAuthorSignature;
 
     @ManyToOne
     private Poll poll;
@@ -82,56 +82,56 @@ public class PollParticipation implements Serializable {
         this.guid = guid;
     }
 
-    public String getParentguid() {
-        return parentguid;
+    public String getParentGuid() {
+        return parentGuid;
     }
 
-    public PollParticipation parentguid(String parentguid) {
-        this.parentguid = parentguid;
+    public PollParticipation parentGuid(String parentGuid) {
+        this.parentGuid = parentGuid;
         return this;
     }
 
-    public void setParentguid(String parentguid) {
-        this.parentguid = parentguid;
+    public void setParentGuid(String parentGuid) {
+        this.parentGuid = parentGuid;
     }
 
-    public String getPollanswerguid() {
-        return pollanswerguid;
+    public String getPollAnswerGuid() {
+        return pollAnswerGuid;
     }
 
-    public PollParticipation pollanswerguid(String pollanswerguid) {
-        this.pollanswerguid = pollanswerguid;
+    public PollParticipation pollAnswerGuid(String pollAnswerGuid) {
+        this.pollAnswerGuid = pollAnswerGuid;
         return this;
     }
 
-    public void setPollanswerguid(String pollanswerguid) {
-        this.pollanswerguid = pollanswerguid;
+    public void setPollAnswerGuid(String pollAnswerGuid) {
+        this.pollAnswerGuid = pollAnswerGuid;
     }
 
-    public String getAuthorsignature() {
-        return authorsignature;
+    public String getAuthorSignature() {
+        return authorSignature;
     }
 
-    public PollParticipation authorsignature(String authorsignature) {
-        this.authorsignature = authorsignature;
+    public PollParticipation authorSignature(String authorSignature) {
+        this.authorSignature = authorSignature;
         return this;
     }
 
-    public void setAuthorsignature(String authorsignature) {
-        this.authorsignature = authorsignature;
+    public void setAuthorSignature(String authorSignature) {
+        this.authorSignature = authorSignature;
     }
 
-    public String getParentauthorsignature() {
-        return parentauthorsignature;
+    public String getParentAuthorSignature() {
+        return parentAuthorSignature;
     }
 
-    public PollParticipation parentauthorsignature(String parentauthorsignature) {
-        this.parentauthorsignature = parentauthorsignature;
+    public PollParticipation parentAuthorSignature(String parentAuthorSignature) {
+        this.parentAuthorSignature = parentAuthorSignature;
         return this;
     }
 
-    public void setParentauthorsignature(String parentauthorsignature) {
-        this.parentauthorsignature = parentauthorsignature;
+    public void setParentAuthorSignature(String parentAuthorSignature) {
+        this.parentAuthorSignature = parentAuthorSignature;
     }
 
     public Poll getPoll() {
@@ -186,10 +186,10 @@ public class PollParticipation implements Serializable {
             "id=" + getId() +
             ", author='" + getAuthor() + "'" +
             ", guid='" + getGuid() + "'" +
-            ", parentguid='" + getParentguid() + "'" +
-            ", pollanswerguid='" + getPollanswerguid() + "'" +
-            ", authorsignature='" + getAuthorsignature() + "'" +
-            ", parentauthorsignature='" + getParentauthorsignature() + "'" +
+            ", parentGuid='" + getParentGuid() + "'" +
+            ", pollAnswerGuid='" + getPollAnswerGuid() + "'" +
+            ", authorSignature='" + getAuthorSignature() + "'" +
+            ", parentAuthorSignature='" + getParentAuthorSignature() + "'" +
             "}";
     }
 }

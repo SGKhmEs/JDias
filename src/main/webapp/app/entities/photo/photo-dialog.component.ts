@@ -26,7 +26,6 @@ export class PhotoDialogComponent implements OnInit {
     statusmessages: StatusMessage[];
 
     people: Person[];
-    createdatDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,

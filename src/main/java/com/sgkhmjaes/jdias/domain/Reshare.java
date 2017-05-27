@@ -24,11 +24,11 @@ public class Reshare implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "rootauthor")
-    private String rootauthor;
+    @Column(name = "root_author")
+    private String rootAuthor;
 
-    @Column(name = "rootguid")
-    private String rootguid;
+    @Column(name = "root_guid")
+    private String rootGuid;
 
     public Long getId() {
         return id;
@@ -38,30 +38,30 @@ public class Reshare implements Serializable {
         this.id = id;
     }
 
-    public String getRootauthor() {
-        return rootauthor;
+    public String getRootAuthor() {
+        return rootAuthor;
     }
 
-    public Reshare rootauthor(String rootauthor) {
-        this.rootauthor = rootauthor;
+    public Reshare rootAuthor(String rootAuthor) {
+        this.rootAuthor = rootAuthor;
         return this;
     }
 
-    public void setRootauthor(String rootauthor) {
-        this.rootauthor = rootauthor;
+    public void setRootAuthor(String rootAuthor) {
+        this.rootAuthor = rootAuthor;
     }
 
-    public String getRootguid() {
-        return rootguid;
+    public String getRootGuid() {
+        return rootGuid;
     }
 
-    public Reshare rootguid(String rootguid) {
-        this.rootguid = rootguid;
+    public Reshare rootGuid(String rootGuid) {
+        this.rootGuid = rootGuid;
         return this;
     }
 
-    public void setRootguid(String rootguid) {
-        this.rootguid = rootguid;
+    public void setRootGuid(String rootGuid) {
+        this.rootGuid = rootGuid;
     }
 
     @Override
@@ -88,8 +88,8 @@ public class Reshare implements Serializable {
     public String toString() {
         return "Reshare{" +
             "id=" + getId() +
-            ", rootauthor='" + getRootauthor() + "'" +
-            ", rootguid='" + getRootguid() + "'" +
+            ", rootAuthor='" + getRootAuthor() + "'" +
+            ", rootGuid='" + getRootGuid() + "'" +
             "}";
     }
 }

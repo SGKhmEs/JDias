@@ -42,11 +42,11 @@ public class RetractionResourceIntTest {
     private static final String DEFAULT_AUTHOR = "AAAAAAAAAA";
     private static final String UPDATED_AUTHOR = "BBBBBBBBBB";
 
-    private static final String DEFAULT_TARGETGUID = "AAAAAAAAAA";
-    private static final String UPDATED_TARGETGUID = "BBBBBBBBBB";
+    private static final String DEFAULT_TARGET_GUID = "AAAAAAAAAA";
+    private static final String UPDATED_TARGET_GUID = "BBBBBBBBBB";
 
-    private static final Type DEFAULT_TARGETTYPE = Type.ACCOUNTDELETION;
-    private static final Type UPDATED_TARGETTYPE = Type.COMMENT;
+    private static final Type DEFAULT_TARGET_TYPE = Type.ACCOUNTDELETION;
+    private static final Type UPDATED_TARGET_TYPE = Type.COMMENT;
 
     @Autowired
     private RetractionRepository retractionRepository;
@@ -89,8 +89,8 @@ public class RetractionResourceIntTest {
     public static Retraction createEntity(EntityManager em) {
         Retraction retraction = new Retraction()
             .author(DEFAULT_AUTHOR)
-            .targetguid(DEFAULT_TARGETGUID)
-            .targettype(DEFAULT_TARGETTYPE);
+            .targetGuid(DEFAULT_TARGET_GUID)
+            .targetType(DEFAULT_TARGET_TYPE);
         return retraction;
     }
 
@@ -116,8 +116,8 @@ public class RetractionResourceIntTest {
         assertThat(retractionList).hasSize(databaseSizeBeforeCreate + 1);
         Retraction testRetraction = retractionList.get(retractionList.size() - 1);
         assertThat(testRetraction.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
-        assertThat(testRetraction.getTargetguid()).isEqualTo(DEFAULT_TARGETGUID);
-        assertThat(testRetraction.getTargettype()).isEqualTo(DEFAULT_TARGETTYPE);
+        assertThat(testRetraction.getTargetGuid()).isEqualTo(DEFAULT_TARGET_GUID);
+        assertThat(testRetraction.getTargetType()).isEqualTo(DEFAULT_TARGET_TYPE);
 
         // Validate the Retraction in Elasticsearch
         Retraction retractionEs = retractionSearchRepository.findOne(testRetraction.getId());
@@ -155,8 +155,8 @@ public class RetractionResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(retraction.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].targetguid").value(hasItem(DEFAULT_TARGETGUID.toString())))
-            .andExpect(jsonPath("$.[*].targettype").value(hasItem(DEFAULT_TARGETTYPE.toString())));
+            .andExpect(jsonPath("$.[*].targetGuid").value(hasItem(DEFAULT_TARGET_GUID.toString())))
+            .andExpect(jsonPath("$.[*].targetType").value(hasItem(DEFAULT_TARGET_TYPE.toString())));
     }
 
     @Test
@@ -171,8 +171,8 @@ public class RetractionResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(retraction.getId().intValue()))
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-            .andExpect(jsonPath("$.targetguid").value(DEFAULT_TARGETGUID.toString()))
-            .andExpect(jsonPath("$.targettype").value(DEFAULT_TARGETTYPE.toString()));
+            .andExpect(jsonPath("$.targetGuid").value(DEFAULT_TARGET_GUID.toString()))
+            .andExpect(jsonPath("$.targetType").value(DEFAULT_TARGET_TYPE.toString()));
     }
 
     @Test
@@ -195,8 +195,8 @@ public class RetractionResourceIntTest {
         Retraction updatedRetraction = retractionRepository.findOne(retraction.getId());
         updatedRetraction
             .author(UPDATED_AUTHOR)
-            .targetguid(UPDATED_TARGETGUID)
-            .targettype(UPDATED_TARGETTYPE);
+            .targetGuid(UPDATED_TARGET_GUID)
+            .targetType(UPDATED_TARGET_TYPE);
 
         restRetractionMockMvc.perform(put("/api/retractions")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -208,8 +208,8 @@ public class RetractionResourceIntTest {
         assertThat(retractionList).hasSize(databaseSizeBeforeUpdate);
         Retraction testRetraction = retractionList.get(retractionList.size() - 1);
         assertThat(testRetraction.getAuthor()).isEqualTo(UPDATED_AUTHOR);
-        assertThat(testRetraction.getTargetguid()).isEqualTo(UPDATED_TARGETGUID);
-        assertThat(testRetraction.getTargettype()).isEqualTo(UPDATED_TARGETTYPE);
+        assertThat(testRetraction.getTargetGuid()).isEqualTo(UPDATED_TARGET_GUID);
+        assertThat(testRetraction.getTargetType()).isEqualTo(UPDATED_TARGET_TYPE);
 
         // Validate the Retraction in Elasticsearch
         Retraction retractionEs = retractionSearchRepository.findOne(testRetraction.getId());
@@ -269,8 +269,8 @@ public class RetractionResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(retraction.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].targetguid").value(hasItem(DEFAULT_TARGETGUID.toString())))
-            .andExpect(jsonPath("$.[*].targettype").value(hasItem(DEFAULT_TARGETTYPE.toString())));
+            .andExpect(jsonPath("$.[*].targetGuid").value(hasItem(DEFAULT_TARGET_GUID.toString())))
+            .andExpect(jsonPath("$.[*].targetType").value(hasItem(DEFAULT_TARGET_TYPE.toString())));
     }
 
     @Test

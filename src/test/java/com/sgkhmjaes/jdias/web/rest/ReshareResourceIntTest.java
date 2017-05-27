@@ -38,11 +38,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = JDiasApp.class)
 public class ReshareResourceIntTest {
 
-    private static final String DEFAULT_ROOTAUTHOR = "AAAAAAAAAA";
-    private static final String UPDATED_ROOTAUTHOR = "BBBBBBBBBB";
+    private static final String DEFAULT_ROOT_AUTHOR = "AAAAAAAAAA";
+    private static final String UPDATED_ROOT_AUTHOR = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ROOTGUID = "AAAAAAAAAA";
-    private static final String UPDATED_ROOTGUID = "BBBBBBBBBB";
+    private static final String DEFAULT_ROOT_GUID = "AAAAAAAAAA";
+    private static final String UPDATED_ROOT_GUID = "BBBBBBBBBB";
 
     @Autowired
     private ReshareRepository reshareRepository;
@@ -84,8 +84,8 @@ public class ReshareResourceIntTest {
      */
     public static Reshare createEntity(EntityManager em) {
         Reshare reshare = new Reshare()
-            .rootauthor(DEFAULT_ROOTAUTHOR)
-            .rootguid(DEFAULT_ROOTGUID);
+            .rootAuthor(DEFAULT_ROOT_AUTHOR)
+            .rootGuid(DEFAULT_ROOT_GUID);
         return reshare;
     }
 
@@ -110,8 +110,8 @@ public class ReshareResourceIntTest {
         List<Reshare> reshareList = reshareRepository.findAll();
         assertThat(reshareList).hasSize(databaseSizeBeforeCreate + 1);
         Reshare testReshare = reshareList.get(reshareList.size() - 1);
-        assertThat(testReshare.getRootauthor()).isEqualTo(DEFAULT_ROOTAUTHOR);
-        assertThat(testReshare.getRootguid()).isEqualTo(DEFAULT_ROOTGUID);
+        assertThat(testReshare.getRootAuthor()).isEqualTo(DEFAULT_ROOT_AUTHOR);
+        assertThat(testReshare.getRootGuid()).isEqualTo(DEFAULT_ROOT_GUID);
 
         // Validate the Reshare in Elasticsearch
         Reshare reshareEs = reshareSearchRepository.findOne(testReshare.getId());
@@ -148,8 +148,8 @@ public class ReshareResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(reshare.getId().intValue())))
-            .andExpect(jsonPath("$.[*].rootauthor").value(hasItem(DEFAULT_ROOTAUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].rootguid").value(hasItem(DEFAULT_ROOTGUID.toString())));
+            .andExpect(jsonPath("$.[*].rootAuthor").value(hasItem(DEFAULT_ROOT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].rootGuid").value(hasItem(DEFAULT_ROOT_GUID.toString())));
     }
 
     @Test
@@ -163,8 +163,8 @@ public class ReshareResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(reshare.getId().intValue()))
-            .andExpect(jsonPath("$.rootauthor").value(DEFAULT_ROOTAUTHOR.toString()))
-            .andExpect(jsonPath("$.rootguid").value(DEFAULT_ROOTGUID.toString()));
+            .andExpect(jsonPath("$.rootAuthor").value(DEFAULT_ROOT_AUTHOR.toString()))
+            .andExpect(jsonPath("$.rootGuid").value(DEFAULT_ROOT_GUID.toString()));
     }
 
     @Test
@@ -186,8 +186,8 @@ public class ReshareResourceIntTest {
         // Update the reshare
         Reshare updatedReshare = reshareRepository.findOne(reshare.getId());
         updatedReshare
-            .rootauthor(UPDATED_ROOTAUTHOR)
-            .rootguid(UPDATED_ROOTGUID);
+            .rootAuthor(UPDATED_ROOT_AUTHOR)
+            .rootGuid(UPDATED_ROOT_GUID);
 
         restReshareMockMvc.perform(put("/api/reshares")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -198,8 +198,8 @@ public class ReshareResourceIntTest {
         List<Reshare> reshareList = reshareRepository.findAll();
         assertThat(reshareList).hasSize(databaseSizeBeforeUpdate);
         Reshare testReshare = reshareList.get(reshareList.size() - 1);
-        assertThat(testReshare.getRootauthor()).isEqualTo(UPDATED_ROOTAUTHOR);
-        assertThat(testReshare.getRootguid()).isEqualTo(UPDATED_ROOTGUID);
+        assertThat(testReshare.getRootAuthor()).isEqualTo(UPDATED_ROOT_AUTHOR);
+        assertThat(testReshare.getRootGuid()).isEqualTo(UPDATED_ROOT_GUID);
 
         // Validate the Reshare in Elasticsearch
         Reshare reshareEs = reshareSearchRepository.findOne(testReshare.getId());
@@ -258,8 +258,8 @@ public class ReshareResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(reshare.getId().intValue())))
-            .andExpect(jsonPath("$.[*].rootauthor").value(hasItem(DEFAULT_ROOTAUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].rootguid").value(hasItem(DEFAULT_ROOTGUID.toString())));
+            .andExpect(jsonPath("$.[*].rootAuthor").value(hasItem(DEFAULT_ROOT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].rootGuid").value(hasItem(DEFAULT_ROOT_GUID.toString())));
     }
 
     @Test

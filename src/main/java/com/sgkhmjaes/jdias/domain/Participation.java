@@ -32,12 +32,12 @@ public class Participation implements Serializable {
     @Column(name = "guid")
     private String guid;
 
-    @Column(name = "parentguid")
-    private String parentguid;
+    @Column(name = "parent_guid")
+    private String parentGuid;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "parenttype")
-    private Type parenttype;
+    @Column(name = "parent_type")
+    private Type parentType;
 
     @ManyToOne
     private Person person;
@@ -76,30 +76,30 @@ public class Participation implements Serializable {
         this.guid = guid;
     }
 
-    public String getParentguid() {
-        return parentguid;
+    public String getParentGuid() {
+        return parentGuid;
     }
 
-    public Participation parentguid(String parentguid) {
-        this.parentguid = parentguid;
+    public Participation parentGuid(String parentGuid) {
+        this.parentGuid = parentGuid;
         return this;
     }
 
-    public void setParentguid(String parentguid) {
-        this.parentguid = parentguid;
+    public void setParentGuid(String parentGuid) {
+        this.parentGuid = parentGuid;
     }
 
-    public Type getParenttype() {
-        return parenttype;
+    public Type getParentType() {
+        return parentType;
     }
 
-    public Participation parenttype(Type parenttype) {
-        this.parenttype = parenttype;
+    public Participation parentType(Type parentType) {
+        this.parentType = parentType;
         return this;
     }
 
-    public void setParenttype(Type parenttype) {
-        this.parenttype = parenttype;
+    public void setParentType(Type parentType) {
+        this.parentType = parentType;
     }
 
     public Person getPerson() {
@@ -141,8 +141,8 @@ public class Participation implements Serializable {
             "id=" + getId() +
             ", author='" + getAuthor() + "'" +
             ", guid='" + getGuid() + "'" +
-            ", parentguid='" + getParentguid() + "'" +
-            ", parenttype='" + getParenttype() + "'" +
+            ", parentGuid='" + getParentGuid() + "'" +
+            ", parentType='" + getParentType() + "'" +
             "}";
     }
 }

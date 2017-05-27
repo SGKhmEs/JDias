@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Conversation;
-
-import com.sgkhmjaes.jdias.repository.ConversationRepository;
-import com.sgkhmjaes.jdias.repository.search.ConversationSearchRepository;
+import com.sgkhmjaes.jdias.service.ConversationService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import com.sgkhmjaes.jdias.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -23,7 +21,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -39,13 +36,10 @@ public class ConversationResource {
 
     private static final String ENTITY_NAME = "conversation";
         
-    private final ConversationRepository conversationRepository;
+    private final ConversationService conversationService;
 
-    private final ConversationSearchRepository conversationSearchRepository;
-
-    public ConversationResource(ConversationRepository conversationRepository, ConversationSearchRepository conversationSearchRepository) {
-        this.conversationRepository = conversationRepository;
-        this.conversationSearchRepository = conversationSearchRepository;
+    public ConversationResource(ConversationService conversationService) {
+        this.conversationService = conversationService;
     }
 
     /**
@@ -62,8 +56,7 @@ public class ConversationResource {
         if (conversation.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new conversation cannot already have an ID")).body(null);
         }
-        Conversation result = conversationRepository.save(conversation);
-        conversationSearchRepository.save(result);
+        Conversation result = conversationService.save(conversation);
         return ResponseEntity.created(new URI("/api/conversations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -85,8 +78,7 @@ public class ConversationResource {
         if (conversation.getId() == null) {
             return createConversation(conversation);
         }
-        Conversation result = conversationRepository.save(conversation);
-        conversationSearchRepository.save(result);
+        Conversation result = conversationService.save(conversation);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, conversation.getId().toString()))
             .body(result);
@@ -102,7 +94,7 @@ public class ConversationResource {
     @Timed
     public ResponseEntity<List<Conversation>> getAllConversations(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Conversations");
-        Page<Conversation> page = conversationRepository.findAll(pageable);
+        Page<Conversation> page = conversationService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/conversations");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -117,7 +109,7 @@ public class ConversationResource {
     @Timed
     public ResponseEntity<Conversation> getConversation(@PathVariable Long id) {
         log.debug("REST request to get Conversation : {}", id);
-        Conversation conversation = conversationRepository.findOne(id);
+        Conversation conversation = conversationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(conversation));
     }
 
@@ -131,8 +123,7 @@ public class ConversationResource {
     @Timed
     public ResponseEntity<Void> deleteConversation(@PathVariable Long id) {
         log.debug("REST request to delete Conversation : {}", id);
-        conversationRepository.delete(id);
-        conversationSearchRepository.delete(id);
+        conversationService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -148,7 +139,7 @@ public class ConversationResource {
     @Timed
     public ResponseEntity<List<Conversation>> searchConversations(@RequestParam String query, @ApiParam Pageable pageable) {
         log.debug("REST request to search for a page of Conversations for query {}", query);
-        Page<Conversation> page = conversationSearchRepository.search(queryStringQuery(query), pageable);
+        Page<Conversation> page = conversationService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/conversations");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

@@ -65,14 +65,14 @@ export class PhotoService {
     }
 
     private convertItemFromServer(entity: any) {
-        entity.createdat = this.dateUtils
-            .convertLocalDateFromServer(entity.createdat);
+        entity.createdAt = this.dateUtils
+            .convertDateTimeFromServer(entity.createdAt);
     }
 
     private convert(photo: Photo): Photo {
         const copy: Photo = Object.assign({}, photo);
-        copy.createdat = this.dateUtils
-            .convertLocalDateToServer(photo.createdat);
+
+        copy.createdAt = this.dateUtils.toDate(photo.createdAt);
         return copy;
     }
 }

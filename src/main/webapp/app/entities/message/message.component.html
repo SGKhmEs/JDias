@@ -32,9 +32,9 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="author"><span jhiTranslate="jDiasApp.message.author">Author</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="guid"><span jhiTranslate="jDiasApp.message.guid">Guid</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="conversationguid"><span jhiTranslate="jDiasApp.message.conversationguid">Conversationguid</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="conversationGuid"><span jhiTranslate="jDiasApp.message.conversationGuid">Conversation Guid</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="text"><span jhiTranslate="jDiasApp.message.text">Text</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="createdat"><span jhiTranslate="jDiasApp.message.createdat">Createdat</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createdAt"><span jhiTranslate="jDiasApp.message.createdAt">Created At</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="conversation.id"><span jhiTranslate="jDiasApp.message.conversation">Conversation</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
@@ -44,9 +44,9 @@
                 <td><a [routerLink]="['../message', message.id ]">{{message.id}}</a></td>
                 <td>{{message.author}}</td>
                 <td>{{message.guid}}</td>
-                <td>{{message.conversationguid}}</td>
+                <td>{{message.conversationGuid}}</td>
                 <td>{{message.text}}</td>
-                <td>{{message.createdat | date:'mediumDate'}}</td>
+                <td>{{message.createdAt | date:'medium'}}</td>
                 <td>
                     <div *ngIf="message.conversation">
                         <a [routerLink]="['../conversation', message.conversation?.id ]" >{{message.conversation?.id}}</a>

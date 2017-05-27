@@ -15,7 +15,7 @@
             "fieldType": "Float"
         }
     ],
-    "changelogDate": "20170525164608",
+    "changelogDate": "20170527190325",
     "javadoc": "not an ignored comment",
     "entityTableName": "location",
     "dto": "no",

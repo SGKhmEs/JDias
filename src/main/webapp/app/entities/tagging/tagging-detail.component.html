@@ -1,0 +1,35 @@
+
+<div *ngIf="tagging">
+    <h2><span jhiTranslate="jDiasApp.tagging.detail.title">Tagging</span> {{tagging.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.tagging.context">Context</span></dt>
+        <dd>
+            <span>{{tagging.context}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.tagging.createdAt">Created At</span></dt>
+        <dd>
+            <span>{{tagging.createdAt | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.tagging.tag">Tag</span></dt>
+        <dd>
+            <div *ngIf="tagging.tag">
+                <a [routerLink]="['/tag', tagging.tag?.id]">{{tagging.tag?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'tagging/'+ tagging.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

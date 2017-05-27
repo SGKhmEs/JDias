@@ -67,7 +67,7 @@ class ParticipationGatlingTest extends Simulation {
             .exec(http("Create new participation")
             .post("/api/participations")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":"SAMPLE_TEXT", "parentguid":"SAMPLE_TEXT", "parenttype":null}""")).asJSON
+            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":"SAMPLE_TEXT", "parentGuid":"SAMPLE_TEXT", "parentType":null}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_participation_url"))).exitHereIfFailed
             .pause(10)

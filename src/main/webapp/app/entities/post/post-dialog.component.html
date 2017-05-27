@@ -25,13 +25,10 @@
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.post.createdat" for="field_createdat">Createdat</label>
-            <div class="input-group">
-                <input id="field_createdat" type="text" class="form-control" name="createdat" ngbDatepicker  #createdatDp="ngbDatepicker" [(ngModel)]="post.createdat"
-                />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="createdatDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
+            <label class="form-control-label" jhiTranslate="jDiasApp.post.createdAt" for="field_createdAt">Created At</label>
+            <div class="d-flex">
+                <input id="field_createdAt" type="datetime-local" class="form-control" name="createdAt" [(ngModel)]="post.createdAt"
+                  />
             </div>
         </div>
         <div class="form-group">
@@ -41,14 +38,14 @@
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.post.providerdisplayname" for="field_providerdisplayname">Providerdisplayname</label>
-            <input type="text" class="form-control" name="providerdisplayname" id="field_providerdisplayname"
-                [(ngModel)]="post.providerdisplayname"
+            <label class="form-control-label" jhiTranslate="jDiasApp.post.providerDisplayName" for="field_providerDisplayName">Provider Display Name</label>
+            <input type="text" class="form-control" name="providerDisplayName" id="field_providerDisplayName"
+                [(ngModel)]="post.providerDisplayName"
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.post.posttype" for="field_posttype">Posttype</label>
-            <select class="form-control" name="posttype" [(ngModel)]="post.posttype" id="field_posttype" >
+            <label class="form-control-label" jhiTranslate="jDiasApp.post.postType" for="field_postType">Post Type</label>
+            <select class="form-control" name="postType" [(ngModel)]="post.postType" id="field_postType" >
                 <option value="STATUSMESSAGE" jhiTranslate="jDiasApp.PostType.STATUSMESSAGE">STATUSMESSAGE</option>
                 <option value="RESHARE" jhiTranslate="jDiasApp.PostType.RESHARE">RESHARE</option>
             </select>

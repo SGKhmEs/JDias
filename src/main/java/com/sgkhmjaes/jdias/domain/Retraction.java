@@ -29,12 +29,12 @@ public class Retraction implements Serializable {
     @Column(name = "author")
     private String author;
 
-    @Column(name = "targetguid")
-    private String targetguid;
+    @Column(name = "target_guid")
+    private String targetGuid;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "targettype")
-    private Type targettype;
+    @Column(name = "target_type")
+    private Type targetType;
 
     public Long getId() {
         return id;
@@ -57,30 +57,30 @@ public class Retraction implements Serializable {
         this.author = author;
     }
 
-    public String getTargetguid() {
-        return targetguid;
+    public String getTargetGuid() {
+        return targetGuid;
     }
 
-    public Retraction targetguid(String targetguid) {
-        this.targetguid = targetguid;
+    public Retraction targetGuid(String targetGuid) {
+        this.targetGuid = targetGuid;
         return this;
     }
 
-    public void setTargetguid(String targetguid) {
-        this.targetguid = targetguid;
+    public void setTargetGuid(String targetGuid) {
+        this.targetGuid = targetGuid;
     }
 
-    public Type getTargettype() {
-        return targettype;
+    public Type getTargetType() {
+        return targetType;
     }
 
-    public Retraction targettype(Type targettype) {
-        this.targettype = targettype;
+    public Retraction targetType(Type targetType) {
+        this.targetType = targetType;
         return this;
     }
 
-    public void setTargettype(Type targettype) {
-        this.targettype = targettype;
+    public void setTargetType(Type targetType) {
+        this.targetType = targetType;
     }
 
     @Override
@@ -108,8 +108,8 @@ public class Retraction implements Serializable {
         return "Retraction{" +
             "id=" + getId() +
             ", author='" + getAuthor() + "'" +
-            ", targetguid='" + getTargetguid() + "'" +
-            ", targettype='" + getTargettype() + "'" +
+            ", targetGuid='" + getTargetGuid() + "'" +
+            ", targetType='" + getTargetType() + "'" +
             "}";
     }
 }

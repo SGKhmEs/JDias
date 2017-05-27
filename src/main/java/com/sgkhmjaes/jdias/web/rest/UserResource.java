@@ -2,18 +2,13 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.sgkhmjaes.jdias.config.Constants;
 import com.codahale.metrics.annotation.Timed;
-import com.sgkhmjaes.jdias.domain.Profile;
 import com.sgkhmjaes.jdias.domain.User;
-import com.sgkhmjaes.jdias.repository.ProfileRepository;
 import com.sgkhmjaes.jdias.repository.UserRepository;
-import com.sgkhmjaes.jdias.repository.search.ProfileSearchRepository;
 import com.sgkhmjaes.jdias.repository.search.UserSearchRepository;
 import com.sgkhmjaes.jdias.security.AuthoritiesConstants;
 import com.sgkhmjaes.jdias.service.MailService;
-import com.sgkhmjaes.jdias.service.ProfileService;
 import com.sgkhmjaes.jdias.service.UserService;
 import com.sgkhmjaes.jdias.service.dto.UserDTO;
-import com.sgkhmjaes.jdias.service.impl.ProfileServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.vm.ManagedUserVM;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import com.sgkhmjaes.jdias.web.rest.util.PaginationUtil;
@@ -79,16 +74,13 @@ public class UserResource {
 
     private final UserSearchRepository userSearchRepository;
 
-   // private final ProfileService profileService;
-
     public UserResource(UserRepository userRepository, MailService mailService,
-            UserService userService, UserSearchRepository userSearchRepository/*, ProfileService profileService*/) {
+            UserService userService, UserSearchRepository userSearchRepository) {
 
         this.userRepository = userRepository;
         this.mailService = mailService;
         this.userService = userService;
         this.userSearchRepository = userSearchRepository;
-        //this.profileService = profileService;
     }
 
     /**
@@ -124,9 +116,6 @@ public class UserResource {
                 .body(null);
         } else {
             User newUser = userService.createUser(managedUserVM);
-            /*Profile profile = newUser.getProfile(newUser);
-            ProfileResource profileResource = new ProfileResource(profileService);
-            profileResource.createProfile(profile);*/
             mailService.sendCreationEmail(newUser);
             return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
                 .headers(HeaderUtil.createAlert( "userManagement.created", newUser.getLogin()))

@@ -19,7 +19,6 @@ export class ProfileDialogComponent implements OnInit {
     profile: Profile;
     authorities: any[];
     isSaving: boolean;
-    birthdayDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,

@@ -16,8 +16,8 @@
             "detail": {
                 "title": "Reshare"
             },
-            "rootauthor": "Rootauthor",
-            "rootguid": "Rootguid"
+            "rootAuthor": "Root Author",
+            "rootGuid": "Root Guid"
         }
     }
 }

@@ -18,10 +18,10 @@
             },
             "author": "Author",
             "guid": "Guid",
-            "parentguid": "Parentguid",
+            "parentGuid": "Parent Guid",
             "status": "Status",
-            "authorsignature": "Authorsignature",
-            "parentauthorsignature": "Parentauthorsignature",
+            "authorSignature": "Author Signature",
+            "parentAuthorSignature": "Parent Author Signature",
             "event": "Event",
             "person": "Person"
         }

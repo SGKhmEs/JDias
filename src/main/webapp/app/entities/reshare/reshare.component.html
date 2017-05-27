@@ -30,16 +30,16 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="jDiasApp.reshare.rootauthor">Rootauthor</span></th>
-            <th><span jhiTranslate="jDiasApp.reshare.rootguid">Rootguid</span></th>
+            <th><span jhiTranslate="jDiasApp.reshare.rootAuthor">Root Author</span></th>
+            <th><span jhiTranslate="jDiasApp.reshare.rootGuid">Root Guid</span></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let reshare of reshares ;trackBy: trackId">
                 <td><a [routerLink]="['../reshare', reshare.id ]">{{reshare.id}}</a></td>
-                <td>{{reshare.rootauthor}}</td>
-                <td>{{reshare.rootguid}}</td>
+                <td>{{reshare.rootAuthor}}</td>
+                <td>{{reshare.rootGuid}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

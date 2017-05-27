@@ -24,15 +24,15 @@
             "fieldType": "Boolean"
         },
         {
-            "fieldName": "createdat",
-            "fieldType": "LocalDate"
+            "fieldName": "createdAt",
+            "fieldType": "ZonedDateTime"
         },
         {
-            "fieldName": "remotephotopath",
+            "fieldName": "remotePhotoPath",
             "fieldType": "String"
         },
         {
-            "fieldName": "remotephotoname",
+            "fieldName": "remotePhotoName",
             "fieldType": "String"
         },
         {
@@ -48,11 +48,11 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "statusmessageguid",
+            "fieldName": "statusMessageGuid",
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170525164611",
+    "changelogDate": "20170527190328",
     "entityTableName": "photo",
     "dto": "no",
     "pagination": "no",

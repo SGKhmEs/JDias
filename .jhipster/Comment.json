@@ -24,7 +24,7 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "parentguid",
+            "fieldName": "parentGuid",
             "fieldType": "String"
         },
         {
@@ -32,23 +32,23 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "createdat",
-            "fieldType": "LocalDate"
+            "fieldName": "createdAt",
+            "fieldType": "ZonedDateTime"
         },
         {
-            "fieldName": "authorsignature",
+            "fieldName": "authorSignature",
             "fieldType": "String"
         },
         {
-            "fieldName": "parentauthorsignature",
+            "fieldName": "parentAuthorSignature",
             "fieldType": "String"
         },
         {
-            "fieldName": "threadparentguid",
+            "fieldName": "threadParentGuid",
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170525164602",
+    "changelogDate": "20170527190319",
     "entityTableName": "comment",
     "dto": "no",
     "pagination": "no",

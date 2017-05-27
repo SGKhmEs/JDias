@@ -32,10 +32,10 @@
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="jDiasApp.eventParticipation.author">Author</span></th>
             <th><span jhiTranslate="jDiasApp.eventParticipation.guid">Guid</span></th>
-            <th><span jhiTranslate="jDiasApp.eventParticipation.parentguid">Parentguid</span></th>
+            <th><span jhiTranslate="jDiasApp.eventParticipation.parentGuid">Parent Guid</span></th>
             <th><span jhiTranslate="jDiasApp.eventParticipation.status">Status</span></th>
-            <th><span jhiTranslate="jDiasApp.eventParticipation.authorsignature">Authorsignature</span></th>
-            <th><span jhiTranslate="jDiasApp.eventParticipation.parentauthorsignature">Parentauthorsignature</span></th>
+            <th><span jhiTranslate="jDiasApp.eventParticipation.authorSignature">Author Signature</span></th>
+            <th><span jhiTranslate="jDiasApp.eventParticipation.parentAuthorSignature">Parent Author Signature</span></th>
             <th><span jhiTranslate="jDiasApp.eventParticipation.event">Event</span></th>
             <th><span jhiTranslate="jDiasApp.eventParticipation.person">Person</span></th>
             <th></th>
@@ -46,10 +46,10 @@
                 <td><a [routerLink]="['../event-participation', eventParticipation.id ]">{{eventParticipation.id}}</a></td>
                 <td>{{eventParticipation.author}}</td>
                 <td>{{eventParticipation.guid}}</td>
-                <td>{{eventParticipation.parentguid}}</td>
+                <td>{{eventParticipation.parentGuid}}</td>
                 <td jhiTranslate="{{'jDiasApp.EventStatus.' + eventParticipation.status}}">{{eventParticipation.status}}</td>
-                <td>{{eventParticipation.authorsignature}}</td>
-                <td>{{eventParticipation.parentauthorsignature}}</td>
+                <td>{{eventParticipation.authorSignature}}</td>
+                <td>{{eventParticipation.parentAuthorSignature}}</td>
                 <td>
                     <div *ngIf="eventParticipation.event">
                         <a [routerLink]="['../event', eventParticipation.event?.id ]" >{{eventParticipation.event?.id}}</a>

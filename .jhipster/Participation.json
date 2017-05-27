@@ -18,16 +18,16 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "parentguid",
+            "fieldName": "parentGuid",
             "fieldType": "String"
         },
         {
-            "fieldName": "parenttype",
+            "fieldName": "parentType",
             "fieldType": "Type",
             "fieldValues": "ACCOUNTDELETION,COMMENT,CONTACT,CONVERSATION,EVENT,EVENTPARTICIPATION,LIKE,LOCATION,MESSAGE,PARTICIPATION,PHOTO,POLL,POLLANSWER,POLLPARTICIPATION,POST,PROFILE,RESHARE,RETRACTION,STATUSMESSAGE"
         }
     ],
-    "changelogDate": "20170525164610",
+    "changelogDate": "20170527190327",
     "entityTableName": "participation",
     "dto": "no",
     "pagination": "no",

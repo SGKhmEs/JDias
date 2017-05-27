@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Conversation;
 import com.sgkhmjaes.jdias.repository.ConversationRepository;
+import com.sgkhmjaes.jdias.service.ConversationService;
 import com.sgkhmjaes.jdias.repository.search.ConversationSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -22,10 +23,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.List;
 
+import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -49,14 +53,17 @@ public class ConversationResourceIntTest {
     private static final String DEFAULT_SUBJECT = "AAAAAAAAAA";
     private static final String UPDATED_SUBJECT = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_CREATEDAT = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATEDAT = LocalDate.now(ZoneId.systemDefault());
+    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     private static final String DEFAULT_MESSAGE = "AAAAAAAAAA";
     private static final String UPDATED_MESSAGE = "BBBBBBBBBB";
 
     @Autowired
     private ConversationRepository conversationRepository;
+
+    @Autowired
+    private ConversationService conversationService;
 
     @Autowired
     private ConversationSearchRepository conversationSearchRepository;
@@ -80,7 +87,7 @@ public class ConversationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ConversationResource conversationResource = new ConversationResource(conversationRepository, conversationSearchRepository);
+        ConversationResource conversationResource = new ConversationResource(conversationService);
         this.restConversationMockMvc = MockMvcBuilders.standaloneSetup(conversationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -98,7 +105,7 @@ public class ConversationResourceIntTest {
             .author(DEFAULT_AUTHOR)
             .guid(DEFAULT_GUID)
             .subject(DEFAULT_SUBJECT)
-            .createdat(DEFAULT_CREATEDAT)
+            .createdAt(DEFAULT_CREATED_AT)
             .message(DEFAULT_MESSAGE);
         return conversation;
     }
@@ -127,7 +134,7 @@ public class ConversationResourceIntTest {
         assertThat(testConversation.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
         assertThat(testConversation.getGuid()).isEqualTo(DEFAULT_GUID);
         assertThat(testConversation.getSubject()).isEqualTo(DEFAULT_SUBJECT);
-        assertThat(testConversation.getCreatedat()).isEqualTo(DEFAULT_CREATEDAT);
+        assertThat(testConversation.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testConversation.getMessage()).isEqualTo(DEFAULT_MESSAGE);
 
         // Validate the Conversation in Elasticsearch
@@ -168,7 +175,7 @@ public class ConversationResourceIntTest {
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
             .andExpect(jsonPath("$.[*].subject").value(hasItem(DEFAULT_SUBJECT.toString())))
-            .andExpect(jsonPath("$.[*].createdat").value(hasItem(DEFAULT_CREATEDAT.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
             .andExpect(jsonPath("$.[*].message").value(hasItem(DEFAULT_MESSAGE.toString())));
     }
 
@@ -186,7 +193,7 @@ public class ConversationResourceIntTest {
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
             .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
             .andExpect(jsonPath("$.subject").value(DEFAULT_SUBJECT.toString()))
-            .andExpect(jsonPath("$.createdat").value(DEFAULT_CREATEDAT.toString()))
+            .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)))
             .andExpect(jsonPath("$.message").value(DEFAULT_MESSAGE.toString()));
     }
 
@@ -202,8 +209,8 @@ public class ConversationResourceIntTest {
     @Transactional
     public void updateConversation() throws Exception {
         // Initialize the database
-        conversationRepository.saveAndFlush(conversation);
-        conversationSearchRepository.save(conversation);
+        conversationService.save(conversation);
+
         int databaseSizeBeforeUpdate = conversationRepository.findAll().size();
 
         // Update the conversation
@@ -212,7 +219,7 @@ public class ConversationResourceIntTest {
             .author(UPDATED_AUTHOR)
             .guid(UPDATED_GUID)
             .subject(UPDATED_SUBJECT)
-            .createdat(UPDATED_CREATEDAT)
+            .createdAt(UPDATED_CREATED_AT)
             .message(UPDATED_MESSAGE);
 
         restConversationMockMvc.perform(put("/api/conversations")
@@ -227,7 +234,7 @@ public class ConversationResourceIntTest {
         assertThat(testConversation.getAuthor()).isEqualTo(UPDATED_AUTHOR);
         assertThat(testConversation.getGuid()).isEqualTo(UPDATED_GUID);
         assertThat(testConversation.getSubject()).isEqualTo(UPDATED_SUBJECT);
-        assertThat(testConversation.getCreatedat()).isEqualTo(UPDATED_CREATEDAT);
+        assertThat(testConversation.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testConversation.getMessage()).isEqualTo(UPDATED_MESSAGE);
 
         // Validate the Conversation in Elasticsearch
@@ -257,8 +264,8 @@ public class ConversationResourceIntTest {
     @Transactional
     public void deleteConversation() throws Exception {
         // Initialize the database
-        conversationRepository.saveAndFlush(conversation);
-        conversationSearchRepository.save(conversation);
+        conversationService.save(conversation);
+
         int databaseSizeBeforeDelete = conversationRepository.findAll().size();
 
         // Get the conversation
@@ -279,8 +286,7 @@ public class ConversationResourceIntTest {
     @Transactional
     public void searchConversation() throws Exception {
         // Initialize the database
-        conversationRepository.saveAndFlush(conversation);
-        conversationSearchRepository.save(conversation);
+        conversationService.save(conversation);
 
         // Search the conversation
         restConversationMockMvc.perform(get("/api/_search/conversations?query=id:" + conversation.getId()))
@@ -290,7 +296,7 @@ public class ConversationResourceIntTest {
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
             .andExpect(jsonPath("$.[*].subject").value(hasItem(DEFAULT_SUBJECT.toString())))
-            .andExpect(jsonPath("$.[*].createdat").value(hasItem(DEFAULT_CREATEDAT.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
             .andExpect(jsonPath("$.[*].message").value(hasItem(DEFAULT_MESSAGE.toString())));
     }
 

@@ -7,16 +7,16 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "targetguid",
+            "fieldName": "targetGuid",
             "fieldType": "String"
         },
         {
-            "fieldName": "targettype",
+            "fieldName": "targetType",
             "fieldType": "Type",
             "fieldValues": "ACCOUNTDELETION,COMMENT,CONTACT,CONVERSATION,EVENT,EVENTPARTICIPATION,LIKE,LOCATION,MESSAGE,PARTICIPATION,PHOTO,POLL,POLLANSWER,POLLPARTICIPATION,POST,PROFILE,RESHARE,RETRACTION,STATUSMESSAGE"
         }
     ],
-    "changelogDate": "20170525164618",
+    "changelogDate": "20170527190335",
     "entityTableName": "retraction",
     "dto": "no",
     "pagination": "no",

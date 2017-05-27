@@ -21,16 +21,18 @@ const enum Type {
     'STATUSMESSAGE'
 
 };
+import { Post } from '../post';
 export class Like {
     constructor(
         public id?: number,
         public author?: string,
         public guid?: string,
-        public parentguid?: string,
-        public parenttype?: Type,
+        public parentGuid?: string,
+        public parentType?: Type,
         public positive?: boolean,
-        public authorsignature?: string,
-        public parentauthorsignature?: string,
+        public authorSignature?: string,
+        public parentAuthorSignature?: string,
+        public post?: Post,
     ) {
         this.positive = false;
     }

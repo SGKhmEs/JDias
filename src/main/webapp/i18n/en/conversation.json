@@ -19,7 +19,7 @@
             "author": "Author",
             "guid": "Guid",
             "subject": "Subject",
-            "createdat": "Createdat",
+            "createdAt": "Created At",
             "message": "Message",
             "participants": "Participants",
             "messages": "Messages",

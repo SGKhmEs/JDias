@@ -19,8 +19,6 @@ export class EventDialogComponent implements OnInit {
     event: Event;
     authorities: any[];
     isSaving: boolean;
-    startDp: any;
-    endDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,

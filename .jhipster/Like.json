@@ -1,6 +1,13 @@
 {
     "fluentMethods": true,
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipName": "post",
+            "otherEntityName": "post",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
     "fields": [
         {
             "fieldName": "author",
@@ -11,11 +18,11 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "parentguid",
+            "fieldName": "parentGuid",
             "fieldType": "String"
         },
         {
-            "fieldName": "parenttype",
+            "fieldName": "parentType",
             "fieldType": "Type",
             "fieldValues": "ACCOUNTDELETION,COMMENT,CONTACT,CONVERSATION,EVENT,EVENTPARTICIPATION,LIKE,LOCATION,MESSAGE,PARTICIPATION,PHOTO,POLL,POLLANSWER,POLLPARTICIPATION,POST,PROFILE,RESHARE,RETRACTION,STATUSMESSAGE"
         },
@@ -24,15 +31,15 @@
             "fieldType": "Boolean"
         },
         {
-            "fieldName": "authorsignature",
+            "fieldName": "authorSignature",
             "fieldType": "String"
         },
         {
-            "fieldName": "parentauthorsignature",
+            "fieldName": "parentAuthorSignature",
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170525164607",
+    "changelogDate": "20170527190324",
     "entityTableName": "like",
     "dto": "no",
     "pagination": "no",

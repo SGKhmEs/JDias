@@ -66,17 +66,17 @@ export class EventService {
 
     private convertItemFromServer(entity: any) {
         entity.start = this.dateUtils
-            .convertLocalDateFromServer(entity.start);
+            .convertDateTimeFromServer(entity.start);
         entity.end = this.dateUtils
-            .convertLocalDateFromServer(entity.end);
+            .convertDateTimeFromServer(entity.end);
     }
 
     private convert(event: Event): Event {
         const copy: Event = Object.assign({}, event);
-        copy.start = this.dateUtils
-            .convertLocalDateToServer(event.start);
-        copy.end = this.dateUtils
-            .convertLocalDateToServer(event.end);
+
+        copy.start = this.dateUtils.toDate(event.start);
+
+        copy.end = this.dateUtils.toDate(event.end);
         return copy;
     }
 }

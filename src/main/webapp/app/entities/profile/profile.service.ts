@@ -66,13 +66,13 @@ export class ProfileService {
 
     private convertItemFromServer(entity: any) {
         entity.birthday = this.dateUtils
-            .convertLocalDateFromServer(entity.birthday);
+            .convertDateTimeFromServer(entity.birthday);
     }
 
     private convert(profile: Profile): Profile {
         const copy: Profile = Object.assign({}, profile);
-        copy.birthday = this.dateUtils
-            .convertLocalDateToServer(profile.birthday);
+
+        copy.birthday = this.dateUtils.toDate(profile.birthday);
         return copy;
     }
 }

@@ -23,7 +23,6 @@ export class ConversationDialogComponent implements OnInit {
     isSaving: boolean;
 
     useraccounts: UserAccount[];
-    createdatDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,

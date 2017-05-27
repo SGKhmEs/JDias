@@ -32,8 +32,8 @@
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="jDiasApp.participation.author">Author</span></th>
             <th><span jhiTranslate="jDiasApp.participation.guid">Guid</span></th>
-            <th><span jhiTranslate="jDiasApp.participation.parentguid">Parentguid</span></th>
-            <th><span jhiTranslate="jDiasApp.participation.parenttype">Parenttype</span></th>
+            <th><span jhiTranslate="jDiasApp.participation.parentGuid">Parent Guid</span></th>
+            <th><span jhiTranslate="jDiasApp.participation.parentType">Parent Type</span></th>
             <th><span jhiTranslate="jDiasApp.participation.person">Person</span></th>
             <th></th>
             </tr>
@@ -43,8 +43,8 @@
                 <td><a [routerLink]="['../participation', participation.id ]">{{participation.id}}</a></td>
                 <td>{{participation.author}}</td>
                 <td>{{participation.guid}}</td>
-                <td>{{participation.parentguid}}</td>
-                <td jhiTranslate="{{'jDiasApp.Type.' + participation.parenttype}}">{{participation.parenttype}}</td>
+                <td>{{participation.parentGuid}}</td>
+                <td jhiTranslate="{{'jDiasApp.Type.' + participation.parentType}}">{{participation.parentType}}</td>
                 <td>
                     <div *ngIf="participation.person">
                         <a [routerLink]="['../person', participation.person?.id ]" >{{participation.person?.id}}</a>

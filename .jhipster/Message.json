@@ -18,7 +18,7 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "conversationguid",
+            "fieldName": "conversationGuid",
             "fieldType": "String"
         },
         {
@@ -26,11 +26,11 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "createdat",
-            "fieldType": "LocalDate"
+            "fieldName": "createdAt",
+            "fieldType": "ZonedDateTime"
         }
     ],
-    "changelogDate": "20170525164609",
+    "changelogDate": "20170527190326",
     "entityTableName": "message",
     "dto": "no",
     "pagination": "infinite-scroll",

@@ -7,11 +7,11 @@ export class Event {
         public summary?: string,
         public start?: any,
         public end?: any,
-        public allday?: boolean,
+        public allDay?: boolean,
         public timezone?: string,
         public description?: string,
-        public events2?: EventParticipation,
+        public eventPatricipations?: EventParticipation,
     ) {
-        this.allday = false;
+        this.allDay = false;
     }
 }

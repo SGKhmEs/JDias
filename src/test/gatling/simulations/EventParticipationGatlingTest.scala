@@ -67,7 +67,7 @@ class EventParticipationGatlingTest extends Simulation {
             .exec(http("Create new eventParticipation")
             .post("/api/event-participations")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":"SAMPLE_TEXT", "parentguid":"SAMPLE_TEXT", "status":null, "authorsignature":"SAMPLE_TEXT", "parentauthorsignature":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":"SAMPLE_TEXT", "parentGuid":"SAMPLE_TEXT", "status":null, "authorSignature":"SAMPLE_TEXT", "parentAuthorSignature":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_eventParticipation_url"))).exitHereIfFailed
             .pause(10)

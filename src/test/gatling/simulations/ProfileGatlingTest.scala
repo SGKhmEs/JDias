@@ -67,7 +67,7 @@ class ProfileGatlingTest extends Simulation {
             .exec(http("Create new profile")
             .post("/api/profiles")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "firstname":"SAMPLE_TEXT", "lastname":"SAMPLE_TEXT", "imageurl":"SAMPLE_TEXT", "imageurlsmall":"SAMPLE_TEXT", "imageurlmedium":"SAMPLE_TEXT", "birthday":"2020-01-01T00:00:00.000Z", "gender":"SAMPLE_TEXT", "bio":"SAMPLE_TEXT", "location":"SAMPLE_TEXT", "searchable":null, "nsfw":null, "tagstring":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "firstName":"SAMPLE_TEXT", "lastName":"SAMPLE_TEXT", "imageUrl":"SAMPLE_TEXT", "imageUrlSmall":"SAMPLE_TEXT", "imageUrlMedium":"SAMPLE_TEXT", "birthday":"2020-01-01T00:00:00.000Z", "gender":"SAMPLE_TEXT", "bio":"SAMPLE_TEXT", "location":"SAMPLE_TEXT", "searchable":null, "nsfw":null, "tagString":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_profile_url"))).exitHereIfFailed
             .pause(10)

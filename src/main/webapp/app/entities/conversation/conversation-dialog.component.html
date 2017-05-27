@@ -31,13 +31,10 @@
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.conversation.createdat" for="field_createdat">Createdat</label>
-            <div class="input-group">
-                <input id="field_createdat" type="text" class="form-control" name="createdat" ngbDatepicker  #createdatDp="ngbDatepicker" [(ngModel)]="conversation.createdat"
-                />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="createdatDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
+            <label class="form-control-label" jhiTranslate="jDiasApp.conversation.createdAt" for="field_createdAt">Created At</label>
+            <div class="d-flex">
+                <input id="field_createdAt" type="datetime-local" class="form-control" name="createdAt" [(ngModel)]="conversation.createdAt"
+                  />
             </div>
         </div>
         <div class="form-group">

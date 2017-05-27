@@ -18,8 +18,8 @@
             },
             "author": "Author",
             "guid": "Guid",
-            "parentguid": "Parentguid",
-            "parenttype": "Parenttype",
+            "parentGuid": "Parent Guid",
+            "parentType": "Parent Type",
             "person": "Person"
         }
     }

@@ -18,10 +18,10 @@
             },
             "author": "Author",
             "guid": "Guid",
-            "parentguid": "Parentguid",
-            "pollanswerguid": "Pollanswerguid",
-            "authorsignature": "Authorsignature",
-            "parentauthorsignature": "Parentauthorsignature",
+            "parentGuid": "Parent Guid",
+            "pollAnswerGuid": "Poll Answer Guid",
+            "authorSignature": "Author Signature",
+            "parentAuthorSignature": "Parent Author Signature",
             "poll": "Poll",
             "pollAnswer": "Poll Answer"
         }

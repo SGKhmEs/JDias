@@ -3,15 +3,15 @@
     "relationships": [],
     "fields": [
         {
-            "fieldName": "rootauthor",
+            "fieldName": "rootAuthor",
             "fieldType": "String"
         },
         {
-            "fieldName": "rootguid",
+            "fieldName": "rootGuid",
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170525164617",
+    "changelogDate": "20170527190334",
     "entityTableName": "reshare",
     "dto": "no",
     "pagination": "no",

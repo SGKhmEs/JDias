@@ -18,13 +18,16 @@
             },
             "author": "Author",
             "guid": "Guid",
-            "createdat": "Createdat",
+            "createdAt": "Created At",
             "pub": "Pub",
-            "providerdisplayname": "Providerdisplayname",
-            "posttype": "Posttype",
+            "providerDisplayName": "Provider Display Name",
+            "postType": "Post Type",
             "statusMessage": "Status Message",
             "reshare": "Reshare",
             "comments": "Comments",
+            "aspectVisiblities": "Aspect Visiblities",
+            "likes": "Likes",
+            "tags": "Tags",
             "person": "Person"
         }
     }

@@ -65,14 +65,14 @@ export class CommentService {
     }
 
     private convertItemFromServer(entity: any) {
-        entity.createdat = this.dateUtils
-            .convertLocalDateFromServer(entity.createdat);
+        entity.createdAt = this.dateUtils
+            .convertDateTimeFromServer(entity.createdAt);
     }
 
     private convert(comment: Comment): Comment {
         const copy: Comment = Object.assign({}, comment);
-        copy.createdat = this.dateUtils
-            .convertLocalDateToServer(comment.createdat);
+
+        copy.createdAt = this.dateUtils.toDate(comment.createdAt);
         return copy;
     }
 }

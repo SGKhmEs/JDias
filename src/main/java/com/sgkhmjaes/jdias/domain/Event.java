@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -38,13 +38,13 @@ public class Event implements Serializable {
     private String summary;
 
     @Column(name = "jhi_start")
-    private LocalDate start;
+    private ZonedDateTime start;
 
     @Column(name = "jhi_end")
-    private LocalDate end;
+    private ZonedDateTime end;
 
-    @Column(name = "allday")
-    private Boolean allday;
+    @Column(name = "all_day")
+    private Boolean allDay;
 
     @Column(name = "timezone")
     private String timezone;
@@ -55,7 +55,7 @@ public class Event implements Serializable {
     @OneToMany(mappedBy = "event")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<EventParticipation> events2S = new HashSet<>();
+    private Set<EventParticipation> eventPatricipations = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -104,43 +104,43 @@ public class Event implements Serializable {
         this.summary = summary;
     }
 
-    public LocalDate getStart() {
+    public ZonedDateTime getStart() {
         return start;
     }
 
-    public Event start(LocalDate start) {
+    public Event start(ZonedDateTime start) {
         this.start = start;
         return this;
     }
 
-    public void setStart(LocalDate start) {
+    public void setStart(ZonedDateTime start) {
         this.start = start;
     }
 
-    public LocalDate getEnd() {
+    public ZonedDateTime getEnd() {
         return end;
     }
 
-    public Event end(LocalDate end) {
+    public Event end(ZonedDateTime end) {
         this.end = end;
         return this;
     }
 
-    public void setEnd(LocalDate end) {
+    public void setEnd(ZonedDateTime end) {
         this.end = end;
     }
 
-    public Boolean isAllday() {
-        return allday;
+    public Boolean isAllDay() {
+        return allDay;
     }
 
-    public Event allday(Boolean allday) {
-        this.allday = allday;
+    public Event allDay(Boolean allDay) {
+        this.allDay = allDay;
         return this;
     }
 
-    public void setAllday(Boolean allday) {
-        this.allday = allday;
+    public void setAllDay(Boolean allDay) {
+        this.allDay = allDay;
     }
 
     public String getTimezone() {
@@ -169,29 +169,29 @@ public class Event implements Serializable {
         this.description = description;
     }
 
-    public Set<EventParticipation> getEvents2S() {
-        return events2S;
+    public Set<EventParticipation> getEventPatricipations() {
+        return eventPatricipations;
     }
 
-    public Event events2S(Set<EventParticipation> eventParticipations) {
-        this.events2S = eventParticipations;
+    public Event eventPatricipations(Set<EventParticipation> eventParticipations) {
+        this.eventPatricipations = eventParticipations;
         return this;
     }
 
-    public Event addEvents2(EventParticipation eventParticipation) {
-        this.events2S.add(eventParticipation);
+    public Event addEventPatricipations(EventParticipation eventParticipation) {
+        this.eventPatricipations.add(eventParticipation);
         eventParticipation.setEvent(this);
         return this;
     }
 
-    public Event removeEvents2(EventParticipation eventParticipation) {
-        this.events2S.remove(eventParticipation);
+    public Event removeEventPatricipations(EventParticipation eventParticipation) {
+        this.eventPatricipations.remove(eventParticipation);
         eventParticipation.setEvent(null);
         return this;
     }
 
-    public void setEvents2S(Set<EventParticipation> eventParticipations) {
-        this.events2S = eventParticipations;
+    public void setEventPatricipations(Set<EventParticipation> eventParticipations) {
+        this.eventPatricipations = eventParticipations;
     }
 
     @Override
@@ -223,7 +223,7 @@ public class Event implements Serializable {
             ", summary='" + getSummary() + "'" +
             ", start='" + getStart() + "'" +
             ", end='" + getEnd() + "'" +
-            ", allday='" + isAllday() + "'" +
+            ", allDay='" + isAllDay() + "'" +
             ", timezone='" + getTimezone() + "'" +
             ", description='" + getDescription() + "'" +
             "}";

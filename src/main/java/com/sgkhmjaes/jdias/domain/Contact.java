@@ -1,11 +1,14 @@
 package com.sgkhmjaes.jdias.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -35,6 +38,11 @@ public class Contact implements Serializable {
 
     @Column(name = "sharing")
     private Boolean sharing;
+
+    @OneToMany(mappedBy = "contact")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<AspectMembership> aspectMemberships = new HashSet<>();
 
     @ManyToOne
     private Person person;
@@ -97,6 +105,31 @@ public class Contact implements Serializable {
 
     public void setSharing(Boolean sharing) {
         this.sharing = sharing;
+    }
+
+    public Set<AspectMembership> getAspectMemberships() {
+        return aspectMemberships;
+    }
+
+    public Contact aspectMemberships(Set<AspectMembership> aspectMemberships) {
+        this.aspectMemberships = aspectMemberships;
+        return this;
+    }
+
+    public Contact addAspectMemberships(AspectMembership aspectMembership) {
+        this.aspectMemberships.add(aspectMembership);
+        aspectMembership.setContact(this);
+        return this;
+    }
+
+    public Contact removeAspectMemberships(AspectMembership aspectMembership) {
+        this.aspectMemberships.remove(aspectMembership);
+        aspectMembership.setContact(null);
+        return this;
+    }
+
+    public void setAspectMemberships(Set<AspectMembership> aspectMemberships) {
+        this.aspectMemberships = aspectMemberships;
     }
 
     public Person getPerson() {

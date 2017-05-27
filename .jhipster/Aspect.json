@@ -1,0 +1,48 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "aspectMemberships",
+            "otherEntityName": "aspectMembership",
+            "otherEntityRelationshipName": "aspect"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "aspectVisibilities",
+            "otherEntityName": "aspectVisiblity",
+            "otherEntityRelationshipName": "aspect"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdAt",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "updatedAt",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "contactVisible",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "chatEnabled",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "postDefault",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20170527190316",
+    "entityTableName": "aspect",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

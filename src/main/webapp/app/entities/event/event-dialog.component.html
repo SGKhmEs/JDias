@@ -32,28 +32,22 @@
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.event.start" for="field_start">Start</label>
-            <div class="input-group">
-                <input id="field_start" type="text" class="form-control" name="start" ngbDatepicker  #startDp="ngbDatepicker" [(ngModel)]="event.start"
-                />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="startDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
+            <div class="d-flex">
+                <input id="field_start" type="datetime-local" class="form-control" name="start" [(ngModel)]="event.start"
+                  />
             </div>
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.event.end" for="field_end">End</label>
-            <div class="input-group">
-                <input id="field_end" type="text" class="form-control" name="end" ngbDatepicker  #endDp="ngbDatepicker" [(ngModel)]="event.end"
-                />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="endDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
+            <div class="d-flex">
+                <input id="field_end" type="datetime-local" class="form-control" name="end" [(ngModel)]="event.end"
+                  />
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.event.allday" for="field_allday">Allday</label>
-            <input type="checkbox" class="form-control" name="allday" id="field_allday"
-                [(ngModel)]="event.allday"
+            <label class="form-control-label" jhiTranslate="jDiasApp.event.allDay" for="field_allDay">All Day</label>
+            <input type="checkbox" class="form-control" name="allDay" id="field_allDay"
+                [(ngModel)]="event.allDay"
              />
         </div>
         <div class="form-group">

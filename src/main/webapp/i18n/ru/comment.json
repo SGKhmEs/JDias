@@ -18,12 +18,12 @@
             },
             "author": "Author",
             "guid": "Guid",
-            "parentguid": "Parentguid",
+            "parentGuid": "Parent Guid",
             "text": "Text",
-            "createdat": "Createdat",
-            "authorsignature": "Authorsignature",
-            "parentauthorsignature": "Parentauthorsignature",
-            "threadparentguid": "Threadparentguid",
+            "createdAt": "Created At",
+            "authorSignature": "Author Signature",
+            "parentAuthorSignature": "Parent Author Signature",
+            "threadParentGuid": "Thread Parent Guid",
             "post": "Post",
             "person": "Person"
         }

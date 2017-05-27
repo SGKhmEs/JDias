@@ -67,7 +67,7 @@ class EventGatlingTest extends Simulation {
             .exec(http("Create new event")
             .post("/api/events")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":"SAMPLE_TEXT", "summary":"SAMPLE_TEXT", "start":"2020-01-01T00:00:00.000Z", "end":"2020-01-01T00:00:00.000Z", "allday":null, "timezone":"SAMPLE_TEXT", "description":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":"SAMPLE_TEXT", "summary":"SAMPLE_TEXT", "start":"2020-01-01T00:00:00.000Z", "end":"2020-01-01T00:00:00.000Z", "allDay":null, "timezone":"SAMPLE_TEXT", "description":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_event_url"))).exitHereIfFailed
             .pause(10)

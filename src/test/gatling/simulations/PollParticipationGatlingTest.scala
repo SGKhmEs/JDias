@@ -67,7 +67,7 @@ class PollParticipationGatlingTest extends Simulation {
             .exec(http("Create new pollParticipation")
             .post("/api/poll-participations")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":"SAMPLE_TEXT", "parentguid":"SAMPLE_TEXT", "pollanswerguid":"SAMPLE_TEXT", "authorsignature":"SAMPLE_TEXT", "parentauthorsignature":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":"SAMPLE_TEXT", "parentGuid":"SAMPLE_TEXT", "pollAnswerGuid":"SAMPLE_TEXT", "authorSignature":"SAMPLE_TEXT", "parentAuthorSignature":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_pollParticipation_url"))).exitHereIfFailed
             .pause(10)

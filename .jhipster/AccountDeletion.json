@@ -7,7 +7,7 @@
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170525164601",
+    "changelogDate": "20170527190315",
     "entityTableName": "account_deletion",
     "dto": "no",
     "pagination": "no",

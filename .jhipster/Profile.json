@@ -7,28 +7,28 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "firstname",
+            "fieldName": "firstName",
             "fieldType": "String"
         },
         {
-            "fieldName": "lastname",
+            "fieldName": "lastName",
             "fieldType": "String"
         },
         {
-            "fieldName": "imageurl",
+            "fieldName": "imageUrl",
             "fieldType": "String"
         },
         {
-            "fieldName": "imageurlsmall",
+            "fieldName": "imageUrlSmall",
             "fieldType": "String"
         },
         {
-            "fieldName": "imageurlmedium",
+            "fieldName": "imageUrlMedium",
             "fieldType": "String"
         },
         {
             "fieldName": "birthday",
-            "fieldType": "LocalDate"
+            "fieldType": "ZonedDateTime"
         },
         {
             "fieldName": "gender",
@@ -51,13 +51,13 @@
             "fieldType": "Boolean"
         },
         {
-            "fieldName": "tagstring",
+            "fieldName": "tagString",
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170525164616",
+    "changelogDate": "20170527190333",
     "entityTableName": "profile",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl"
 }

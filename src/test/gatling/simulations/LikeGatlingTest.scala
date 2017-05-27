@@ -67,7 +67,7 @@ class LikeGatlingTest extends Simulation {
             .exec(http("Create new like")
             .post("/api/likes")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":"SAMPLE_TEXT", "parentguid":"SAMPLE_TEXT", "parenttype":null, "positive":null, "authorsignature":"SAMPLE_TEXT", "parentauthorsignature":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":"SAMPLE_TEXT", "parentGuid":"SAMPLE_TEXT", "parentType":null, "positive":null, "authorSignature":"SAMPLE_TEXT", "parentAuthorSignature":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_like_url"))).exitHereIfFailed
             .pause(10)

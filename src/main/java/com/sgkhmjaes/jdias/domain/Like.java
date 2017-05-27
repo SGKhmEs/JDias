@@ -32,21 +32,24 @@ public class Like implements Serializable {
     @Column(name = "guid")
     private String guid;
 
-    @Column(name = "parentguid")
-    private String parentguid;
+    @Column(name = "parent_guid")
+    private String parentGuid;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "parenttype")
-    private Type parenttype;
+    @Column(name = "parent_type")
+    private Type parentType;
 
     @Column(name = "positive")
     private Boolean positive;
 
-    @Column(name = "authorsignature")
-    private String authorsignature;
+    @Column(name = "author_signature")
+    private String authorSignature;
 
-    @Column(name = "parentauthorsignature")
-    private String parentauthorsignature;
+    @Column(name = "parent_author_signature")
+    private String parentAuthorSignature;
+
+    @ManyToOne
+    private Post post;
 
     public Long getId() {
         return id;
@@ -82,30 +85,30 @@ public class Like implements Serializable {
         this.guid = guid;
     }
 
-    public String getParentguid() {
-        return parentguid;
+    public String getParentGuid() {
+        return parentGuid;
     }
 
-    public Like parentguid(String parentguid) {
-        this.parentguid = parentguid;
+    public Like parentGuid(String parentGuid) {
+        this.parentGuid = parentGuid;
         return this;
     }
 
-    public void setParentguid(String parentguid) {
-        this.parentguid = parentguid;
+    public void setParentGuid(String parentGuid) {
+        this.parentGuid = parentGuid;
     }
 
-    public Type getParenttype() {
-        return parenttype;
+    public Type getParentType() {
+        return parentType;
     }
 
-    public Like parenttype(Type parenttype) {
-        this.parenttype = parenttype;
+    public Like parentType(Type parentType) {
+        this.parentType = parentType;
         return this;
     }
 
-    public void setParenttype(Type parenttype) {
-        this.parenttype = parenttype;
+    public void setParentType(Type parentType) {
+        this.parentType = parentType;
     }
 
     public Boolean isPositive() {
@@ -121,30 +124,43 @@ public class Like implements Serializable {
         this.positive = positive;
     }
 
-    public String getAuthorsignature() {
-        return authorsignature;
+    public String getAuthorSignature() {
+        return authorSignature;
     }
 
-    public Like authorsignature(String authorsignature) {
-        this.authorsignature = authorsignature;
+    public Like authorSignature(String authorSignature) {
+        this.authorSignature = authorSignature;
         return this;
     }
 
-    public void setAuthorsignature(String authorsignature) {
-        this.authorsignature = authorsignature;
+    public void setAuthorSignature(String authorSignature) {
+        this.authorSignature = authorSignature;
     }
 
-    public String getParentauthorsignature() {
-        return parentauthorsignature;
+    public String getParentAuthorSignature() {
+        return parentAuthorSignature;
     }
 
-    public Like parentauthorsignature(String parentauthorsignature) {
-        this.parentauthorsignature = parentauthorsignature;
+    public Like parentAuthorSignature(String parentAuthorSignature) {
+        this.parentAuthorSignature = parentAuthorSignature;
         return this;
     }
 
-    public void setParentauthorsignature(String parentauthorsignature) {
-        this.parentauthorsignature = parentauthorsignature;
+    public void setParentAuthorSignature(String parentAuthorSignature) {
+        this.parentAuthorSignature = parentAuthorSignature;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public Like post(Post post) {
+        this.post = post;
+        return this;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     @Override
@@ -173,11 +189,11 @@ public class Like implements Serializable {
             "id=" + getId() +
             ", author='" + getAuthor() + "'" +
             ", guid='" + getGuid() + "'" +
-            ", parentguid='" + getParentguid() + "'" +
-            ", parenttype='" + getParenttype() + "'" +
+            ", parentGuid='" + getParentGuid() + "'" +
+            ", parentType='" + getParentType() + "'" +
             ", positive='" + isPositive() + "'" +
-            ", authorsignature='" + getAuthorsignature() + "'" +
-            ", parentauthorsignature='" + getParentauthorsignature() + "'" +
+            ", authorSignature='" + getAuthorSignature() + "'" +
+            ", parentAuthorSignature='" + getParentAuthorSignature() + "'" +
             "}";
     }
 }

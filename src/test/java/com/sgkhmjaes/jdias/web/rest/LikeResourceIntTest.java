@@ -45,20 +45,20 @@ public class LikeResourceIntTest {
     private static final String DEFAULT_GUID = "AAAAAAAAAA";
     private static final String UPDATED_GUID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PARENTGUID = "AAAAAAAAAA";
-    private static final String UPDATED_PARENTGUID = "BBBBBBBBBB";
+    private static final String DEFAULT_PARENT_GUID = "AAAAAAAAAA";
+    private static final String UPDATED_PARENT_GUID = "BBBBBBBBBB";
 
-    private static final Type DEFAULT_PARENTTYPE = Type.ACCOUNTDELETION;
-    private static final Type UPDATED_PARENTTYPE = Type.COMMENT;
+    private static final Type DEFAULT_PARENT_TYPE = Type.ACCOUNTDELETION;
+    private static final Type UPDATED_PARENT_TYPE = Type.COMMENT;
 
     private static final Boolean DEFAULT_POSITIVE = false;
     private static final Boolean UPDATED_POSITIVE = true;
 
-    private static final String DEFAULT_AUTHORSIGNATURE = "AAAAAAAAAA";
-    private static final String UPDATED_AUTHORSIGNATURE = "BBBBBBBBBB";
+    private static final String DEFAULT_AUTHOR_SIGNATURE = "AAAAAAAAAA";
+    private static final String UPDATED_AUTHOR_SIGNATURE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PARENTAUTHORSIGNATURE = "AAAAAAAAAA";
-    private static final String UPDATED_PARENTAUTHORSIGNATURE = "BBBBBBBBBB";
+    private static final String DEFAULT_PARENT_AUTHOR_SIGNATURE = "AAAAAAAAAA";
+    private static final String UPDATED_PARENT_AUTHOR_SIGNATURE = "BBBBBBBBBB";
 
     @Autowired
     private LikeRepository likeRepository;
@@ -102,11 +102,11 @@ public class LikeResourceIntTest {
         Like like = new Like()
             .author(DEFAULT_AUTHOR)
             .guid(DEFAULT_GUID)
-            .parentguid(DEFAULT_PARENTGUID)
-            .parenttype(DEFAULT_PARENTTYPE)
+            .parentGuid(DEFAULT_PARENT_GUID)
+            .parentType(DEFAULT_PARENT_TYPE)
             .positive(DEFAULT_POSITIVE)
-            .authorsignature(DEFAULT_AUTHORSIGNATURE)
-            .parentauthorsignature(DEFAULT_PARENTAUTHORSIGNATURE);
+            .authorSignature(DEFAULT_AUTHOR_SIGNATURE)
+            .parentAuthorSignature(DEFAULT_PARENT_AUTHOR_SIGNATURE);
         return like;
     }
 
@@ -133,11 +133,11 @@ public class LikeResourceIntTest {
         Like testLike = likeList.get(likeList.size() - 1);
         assertThat(testLike.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
         assertThat(testLike.getGuid()).isEqualTo(DEFAULT_GUID);
-        assertThat(testLike.getParentguid()).isEqualTo(DEFAULT_PARENTGUID);
-        assertThat(testLike.getParenttype()).isEqualTo(DEFAULT_PARENTTYPE);
+        assertThat(testLike.getParentGuid()).isEqualTo(DEFAULT_PARENT_GUID);
+        assertThat(testLike.getParentType()).isEqualTo(DEFAULT_PARENT_TYPE);
         assertThat(testLike.isPositive()).isEqualTo(DEFAULT_POSITIVE);
-        assertThat(testLike.getAuthorsignature()).isEqualTo(DEFAULT_AUTHORSIGNATURE);
-        assertThat(testLike.getParentauthorsignature()).isEqualTo(DEFAULT_PARENTAUTHORSIGNATURE);
+        assertThat(testLike.getAuthorSignature()).isEqualTo(DEFAULT_AUTHOR_SIGNATURE);
+        assertThat(testLike.getParentAuthorSignature()).isEqualTo(DEFAULT_PARENT_AUTHOR_SIGNATURE);
 
         // Validate the Like in Elasticsearch
         Like likeEs = likeSearchRepository.findOne(testLike.getId());
@@ -176,11 +176,11 @@ public class LikeResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(like.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentguid").value(hasItem(DEFAULT_PARENTGUID.toString())))
-            .andExpect(jsonPath("$.[*].parenttype").value(hasItem(DEFAULT_PARENTTYPE.toString())))
+            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].parentType").value(hasItem(DEFAULT_PARENT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].positive").value(hasItem(DEFAULT_POSITIVE.booleanValue())))
-            .andExpect(jsonPath("$.[*].authorsignature").value(hasItem(DEFAULT_AUTHORSIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].parentauthorsignature").value(hasItem(DEFAULT_PARENTAUTHORSIGNATURE.toString())));
+            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
     }
 
     @Test
@@ -196,11 +196,11 @@ public class LikeResourceIntTest {
             .andExpect(jsonPath("$.id").value(like.getId().intValue()))
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
             .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-            .andExpect(jsonPath("$.parentguid").value(DEFAULT_PARENTGUID.toString()))
-            .andExpect(jsonPath("$.parenttype").value(DEFAULT_PARENTTYPE.toString()))
+            .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
+            .andExpect(jsonPath("$.parentType").value(DEFAULT_PARENT_TYPE.toString()))
             .andExpect(jsonPath("$.positive").value(DEFAULT_POSITIVE.booleanValue()))
-            .andExpect(jsonPath("$.authorsignature").value(DEFAULT_AUTHORSIGNATURE.toString()))
-            .andExpect(jsonPath("$.parentauthorsignature").value(DEFAULT_PARENTAUTHORSIGNATURE.toString()));
+            .andExpect(jsonPath("$.authorSignature").value(DEFAULT_AUTHOR_SIGNATURE.toString()))
+            .andExpect(jsonPath("$.parentAuthorSignature").value(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString()));
     }
 
     @Test
@@ -224,11 +224,11 @@ public class LikeResourceIntTest {
         updatedLike
             .author(UPDATED_AUTHOR)
             .guid(UPDATED_GUID)
-            .parentguid(UPDATED_PARENTGUID)
-            .parenttype(UPDATED_PARENTTYPE)
+            .parentGuid(UPDATED_PARENT_GUID)
+            .parentType(UPDATED_PARENT_TYPE)
             .positive(UPDATED_POSITIVE)
-            .authorsignature(UPDATED_AUTHORSIGNATURE)
-            .parentauthorsignature(UPDATED_PARENTAUTHORSIGNATURE);
+            .authorSignature(UPDATED_AUTHOR_SIGNATURE)
+            .parentAuthorSignature(UPDATED_PARENT_AUTHOR_SIGNATURE);
 
         restLikeMockMvc.perform(put("/api/likes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -241,11 +241,11 @@ public class LikeResourceIntTest {
         Like testLike = likeList.get(likeList.size() - 1);
         assertThat(testLike.getAuthor()).isEqualTo(UPDATED_AUTHOR);
         assertThat(testLike.getGuid()).isEqualTo(UPDATED_GUID);
-        assertThat(testLike.getParentguid()).isEqualTo(UPDATED_PARENTGUID);
-        assertThat(testLike.getParenttype()).isEqualTo(UPDATED_PARENTTYPE);
+        assertThat(testLike.getParentGuid()).isEqualTo(UPDATED_PARENT_GUID);
+        assertThat(testLike.getParentType()).isEqualTo(UPDATED_PARENT_TYPE);
         assertThat(testLike.isPositive()).isEqualTo(UPDATED_POSITIVE);
-        assertThat(testLike.getAuthorsignature()).isEqualTo(UPDATED_AUTHORSIGNATURE);
-        assertThat(testLike.getParentauthorsignature()).isEqualTo(UPDATED_PARENTAUTHORSIGNATURE);
+        assertThat(testLike.getAuthorSignature()).isEqualTo(UPDATED_AUTHOR_SIGNATURE);
+        assertThat(testLike.getParentAuthorSignature()).isEqualTo(UPDATED_PARENT_AUTHOR_SIGNATURE);
 
         // Validate the Like in Elasticsearch
         Like likeEs = likeSearchRepository.findOne(testLike.getId());
@@ -306,11 +306,11 @@ public class LikeResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(like.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentguid").value(hasItem(DEFAULT_PARENTGUID.toString())))
-            .andExpect(jsonPath("$.[*].parenttype").value(hasItem(DEFAULT_PARENTTYPE.toString())))
+            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].parentType").value(hasItem(DEFAULT_PARENT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].positive").value(hasItem(DEFAULT_POSITIVE.booleanValue())))
-            .andExpect(jsonPath("$.[*].authorsignature").value(hasItem(DEFAULT_AUTHORSIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].parentauthorsignature").value(hasItem(DEFAULT_PARENTAUTHORSIGNATURE.toString())));
+            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
     }
 
     @Test

@@ -25,9 +25,9 @@
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.comment.parentguid" for="field_parentguid">Parentguid</label>
-            <input type="text" class="form-control" name="parentguid" id="field_parentguid"
-                [(ngModel)]="comment.parentguid"
+            <label class="form-control-label" jhiTranslate="jDiasApp.comment.parentGuid" for="field_parentGuid">Parent Guid</label>
+            <input type="text" class="form-control" name="parentGuid" id="field_parentGuid"
+                [(ngModel)]="comment.parentGuid"
              />
         </div>
         <div class="form-group">
@@ -37,31 +37,28 @@
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.comment.createdat" for="field_createdat">Createdat</label>
-            <div class="input-group">
-                <input id="field_createdat" type="text" class="form-control" name="createdat" ngbDatepicker  #createdatDp="ngbDatepicker" [(ngModel)]="comment.createdat"
-                />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="createdatDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
+            <label class="form-control-label" jhiTranslate="jDiasApp.comment.createdAt" for="field_createdAt">Created At</label>
+            <div class="d-flex">
+                <input id="field_createdAt" type="datetime-local" class="form-control" name="createdAt" [(ngModel)]="comment.createdAt"
+                  />
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.comment.authorsignature" for="field_authorsignature">Authorsignature</label>
-            <input type="text" class="form-control" name="authorsignature" id="field_authorsignature"
-                [(ngModel)]="comment.authorsignature"
+            <label class="form-control-label" jhiTranslate="jDiasApp.comment.authorSignature" for="field_authorSignature">Author Signature</label>
+            <input type="text" class="form-control" name="authorSignature" id="field_authorSignature"
+                [(ngModel)]="comment.authorSignature"
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.comment.parentauthorsignature" for="field_parentauthorsignature">Parentauthorsignature</label>
-            <input type="text" class="form-control" name="parentauthorsignature" id="field_parentauthorsignature"
-                [(ngModel)]="comment.parentauthorsignature"
+            <label class="form-control-label" jhiTranslate="jDiasApp.comment.parentAuthorSignature" for="field_parentAuthorSignature">Parent Author Signature</label>
+            <input type="text" class="form-control" name="parentAuthorSignature" id="field_parentAuthorSignature"
+                [(ngModel)]="comment.parentAuthorSignature"
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.comment.threadparentguid" for="field_threadparentguid">Threadparentguid</label>
-            <input type="text" class="form-control" name="threadparentguid" id="field_threadparentguid"
-                [(ngModel)]="comment.threadparentguid"
+            <label class="form-control-label" jhiTranslate="jDiasApp.comment.threadParentGuid" for="field_threadParentGuid">Thread Parent Guid</label>
+            <input type="text" class="form-control" name="threadParentGuid" id="field_threadParentGuid"
+                [(ngModel)]="comment.threadParentGuid"
              />
         </div>
 

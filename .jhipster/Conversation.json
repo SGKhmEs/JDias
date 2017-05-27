@@ -34,17 +34,17 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "createdat",
-            "fieldType": "LocalDate"
+            "fieldName": "createdAt",
+            "fieldType": "ZonedDateTime"
         },
         {
             "fieldName": "message",
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170525164604",
+    "changelogDate": "20170527190321",
     "entityTableName": "conversation",
     "dto": "no",
     "pagination": "infinite-scroll",
-    "service": "no"
+    "service": "serviceImpl"
 }

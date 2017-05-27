@@ -1,3 +1,4 @@
+import { AspectMembership } from '../aspect-membership';
 import { Person } from '../person';
 export class Contact {
     constructor(
@@ -6,6 +7,7 @@ export class Contact {
         public recipient?: string,
         public following?: boolean,
         public sharing?: boolean,
+        public aspectMemberships?: AspectMembership,
         public person?: Person,
     ) {
         this.following = false;

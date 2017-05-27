@@ -32,10 +32,10 @@
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="jDiasApp.pollParticipation.author">Author</span></th>
             <th><span jhiTranslate="jDiasApp.pollParticipation.guid">Guid</span></th>
-            <th><span jhiTranslate="jDiasApp.pollParticipation.parentguid">Parentguid</span></th>
-            <th><span jhiTranslate="jDiasApp.pollParticipation.pollanswerguid">Pollanswerguid</span></th>
-            <th><span jhiTranslate="jDiasApp.pollParticipation.authorsignature">Authorsignature</span></th>
-            <th><span jhiTranslate="jDiasApp.pollParticipation.parentauthorsignature">Parentauthorsignature</span></th>
+            <th><span jhiTranslate="jDiasApp.pollParticipation.parentGuid">Parent Guid</span></th>
+            <th><span jhiTranslate="jDiasApp.pollParticipation.pollAnswerGuid">Poll Answer Guid</span></th>
+            <th><span jhiTranslate="jDiasApp.pollParticipation.authorSignature">Author Signature</span></th>
+            <th><span jhiTranslate="jDiasApp.pollParticipation.parentAuthorSignature">Parent Author Signature</span></th>
             <th><span jhiTranslate="jDiasApp.pollParticipation.poll">Poll</span></th>
             <th><span jhiTranslate="jDiasApp.pollParticipation.pollAnswer">Poll Answer</span></th>
             <th></th>
@@ -46,10 +46,10 @@
                 <td><a [routerLink]="['../poll-participation', pollParticipation.id ]">{{pollParticipation.id}}</a></td>
                 <td>{{pollParticipation.author}}</td>
                 <td>{{pollParticipation.guid}}</td>
-                <td>{{pollParticipation.parentguid}}</td>
-                <td>{{pollParticipation.pollanswerguid}}</td>
-                <td>{{pollParticipation.authorsignature}}</td>
-                <td>{{pollParticipation.parentauthorsignature}}</td>
+                <td>{{pollParticipation.parentGuid}}</td>
+                <td>{{pollParticipation.pollAnswerGuid}}</td>
+                <td>{{pollParticipation.authorSignature}}</td>
+                <td>{{pollParticipation.parentAuthorSignature}}</td>
                 <td>
                     <div *ngIf="pollParticipation.poll">
                         <a [routerLink]="['../poll', pollParticipation.poll?.id ]" >{{pollParticipation.poll?.id}}</a>

@@ -1,6 +1,9 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { JDiasAccountDeletionModule } from './account-deletion/account-deletion.module';
+import { JDiasAspectModule } from './aspect/aspect.module';
+import { JDiasAspectMembershipModule } from './aspect-membership/aspect-membership.module';
+import { JDiasAspectVisiblityModule } from './aspect-visiblity/aspect-visiblity.module';
 import { JDiasCommentModule } from './comment/comment.module';
 import { JDiasContactModule } from './contact/contact.module';
 import { JDiasConversationModule } from './conversation/conversation.module';
@@ -19,6 +22,9 @@ import { JDiasProfileModule } from './profile/profile.module';
 import { JDiasReshareModule } from './reshare/reshare.module';
 import { JDiasRetractionModule } from './retraction/retraction.module';
 import { JDiasStatusMessageModule } from './status-message/status-message.module';
+import { JDiasTagModule } from './tag/tag.module';
+import { JDiasTaggingModule } from './tagging/tagging.module';
+import { JDiasTagFollowingModule } from './tag-following/tag-following.module';
 import { JDiasUserAccountModule } from './user-account/user-account.module';
 import { JDiasPersonModule } from './person/person.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
@@ -26,6 +32,9 @@ import { JDiasPersonModule } from './person/person.module';
 @NgModule({
     imports: [
         JDiasAccountDeletionModule,
+        JDiasAspectModule,
+        JDiasAspectMembershipModule,
+        JDiasAspectVisiblityModule,
         JDiasCommentModule,
         JDiasContactModule,
         JDiasConversationModule,
@@ -44,6 +53,9 @@ import { JDiasPersonModule } from './person/person.module';
         JDiasReshareModule,
         JDiasRetractionModule,
         JDiasStatusMessageModule,
+        JDiasTagModule,
+        JDiasTaggingModule,
+        JDiasTagFollowingModule,
         JDiasUserAccountModule,
         JDiasPersonModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */

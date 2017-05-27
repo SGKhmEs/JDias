@@ -67,7 +67,7 @@ class PhotoGatlingTest extends Simulation {
             .exec(http("Create new photo")
             .post("/api/photos")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":null, "createdat":"2020-01-01T00:00:00.000Z", "remotephotopath":"SAMPLE_TEXT", "remotephotoname":"SAMPLE_TEXT", "height":"0", "width":"0", "text":"SAMPLE_TEXT", "statusmessageguid":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "guid":null, "createdAt":"2020-01-01T00:00:00.000Z", "remotePhotoPath":"SAMPLE_TEXT", "remotePhotoName":"SAMPLE_TEXT", "height":"0", "width":"0", "text":"SAMPLE_TEXT", "statusMessageGuid":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_photo_url"))).exitHereIfFailed
             .pause(10)

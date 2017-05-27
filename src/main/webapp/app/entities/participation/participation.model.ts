@@ -27,8 +27,8 @@ export class Participation {
         public id?: number,
         public author?: string,
         public guid?: string,
-        public parentguid?: string,
-        public parenttype?: Type,
+        public parentGuid?: string,
+        public parentType?: Type,
         public person?: Person,
     ) {
     }

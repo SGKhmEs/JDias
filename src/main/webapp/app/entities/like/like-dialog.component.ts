@@ -9,6 +9,8 @@ import { EventManager, AlertService } from 'ng-jhipster';
 import { Like } from './like.model';
 import { LikePopupService } from './like-popup.service';
 import { LikeService } from './like.service';
+import { Post, PostService } from '../post';
+import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-like-dialog',
@@ -20,10 +22,13 @@ export class LikeDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
+    posts: Post[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: AlertService,
         private likeService: LikeService,
+        private postService: PostService,
         private eventManager: EventManager
     ) {
     }
@@ -31,6 +36,8 @@ export class LikeDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
+        this.postService.query()
+            .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
     clear() {
         this.activeModal.dismiss('cancel');
@@ -70,6 +77,10 @@ export class LikeDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
+    }
+
+    trackPostById(index: number, item: Post) {
+        return item.id;
     }
 }
 

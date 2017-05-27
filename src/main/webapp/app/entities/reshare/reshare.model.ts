@@ -1,8 +1,8 @@
 export class Reshare {
     constructor(
         public id?: number,
-        public rootauthor?: string,
-        public rootguid?: string,
+        public rootAuthor?: string,
+        public rootGuid?: string,
     ) {
     }
 }

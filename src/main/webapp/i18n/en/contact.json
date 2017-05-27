@@ -20,6 +20,7 @@
             "recipient": "Recipient",
             "following": "Following",
             "sharing": "Sharing",
+            "aspectMemberships": "Aspect Memberships",
             "person": "Person"
         }
     }

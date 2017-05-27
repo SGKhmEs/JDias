@@ -23,7 +23,6 @@ export class MessageDialogComponent implements OnInit {
     isSaving: boolean;
 
     conversations: Conversation[];
-    createdatDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,

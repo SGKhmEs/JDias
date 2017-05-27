@@ -32,13 +32,13 @@
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="jDiasApp.photo.author">Author</span></th>
             <th><span jhiTranslate="jDiasApp.photo.guid">Guid</span></th>
-            <th><span jhiTranslate="jDiasApp.photo.createdat">Createdat</span></th>
-            <th><span jhiTranslate="jDiasApp.photo.remotephotopath">Remotephotopath</span></th>
-            <th><span jhiTranslate="jDiasApp.photo.remotephotoname">Remotephotoname</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.createdAt">Created At</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.remotePhotoPath">Remote Photo Path</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.remotePhotoName">Remote Photo Name</span></th>
             <th><span jhiTranslate="jDiasApp.photo.height">Height</span></th>
             <th><span jhiTranslate="jDiasApp.photo.width">Width</span></th>
             <th><span jhiTranslate="jDiasApp.photo.text">Text</span></th>
-            <th><span jhiTranslate="jDiasApp.photo.statusmessageguid">Statusmessageguid</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.statusMessageGuid">Status Message Guid</span></th>
             <th><span jhiTranslate="jDiasApp.photo.statusMessage">Status Message</span></th>
             <th><span jhiTranslate="jDiasApp.photo.person">Person</span></th>
             <th></th>
@@ -49,13 +49,13 @@
                 <td><a [routerLink]="['../photo', photo.id ]">{{photo.id}}</a></td>
                 <td>{{photo.author}}</td>
                 <td>{{photo.guid}}</td>
-                <td>{{photo.createdat | date:'mediumDate'}}</td>
-                <td>{{photo.remotephotopath}}</td>
-                <td>{{photo.remotephotoname}}</td>
+                <td>{{photo.createdAt | date:'medium'}}</td>
+                <td>{{photo.remotePhotoPath}}</td>
+                <td>{{photo.remotePhotoName}}</td>
                 <td>{{photo.height}}</td>
                 <td>{{photo.width}}</td>
                 <td>{{photo.text}}</td>
-                <td>{{photo.statusmessageguid}}</td>
+                <td>{{photo.statusMessageGuid}}</td>
                 <td>
                     <div *ngIf="photo.statusMessage">
                         <a [routerLink]="['../status-message', photo.statusMessage?.id ]" >{{photo.statusMessage?.id}}</a>

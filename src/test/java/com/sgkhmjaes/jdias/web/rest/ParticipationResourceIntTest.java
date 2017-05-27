@@ -45,11 +45,11 @@ public class ParticipationResourceIntTest {
     private static final String DEFAULT_GUID = "AAAAAAAAAA";
     private static final String UPDATED_GUID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PARENTGUID = "AAAAAAAAAA";
-    private static final String UPDATED_PARENTGUID = "BBBBBBBBBB";
+    private static final String DEFAULT_PARENT_GUID = "AAAAAAAAAA";
+    private static final String UPDATED_PARENT_GUID = "BBBBBBBBBB";
 
-    private static final Type DEFAULT_PARENTTYPE = Type.ACCOUNTDELETION;
-    private static final Type UPDATED_PARENTTYPE = Type.COMMENT;
+    private static final Type DEFAULT_PARENT_TYPE = Type.ACCOUNTDELETION;
+    private static final Type UPDATED_PARENT_TYPE = Type.COMMENT;
 
     @Autowired
     private ParticipationRepository participationRepository;
@@ -93,8 +93,8 @@ public class ParticipationResourceIntTest {
         Participation participation = new Participation()
             .author(DEFAULT_AUTHOR)
             .guid(DEFAULT_GUID)
-            .parentguid(DEFAULT_PARENTGUID)
-            .parenttype(DEFAULT_PARENTTYPE);
+            .parentGuid(DEFAULT_PARENT_GUID)
+            .parentType(DEFAULT_PARENT_TYPE);
         return participation;
     }
 
@@ -121,8 +121,8 @@ public class ParticipationResourceIntTest {
         Participation testParticipation = participationList.get(participationList.size() - 1);
         assertThat(testParticipation.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
         assertThat(testParticipation.getGuid()).isEqualTo(DEFAULT_GUID);
-        assertThat(testParticipation.getParentguid()).isEqualTo(DEFAULT_PARENTGUID);
-        assertThat(testParticipation.getParenttype()).isEqualTo(DEFAULT_PARENTTYPE);
+        assertThat(testParticipation.getParentGuid()).isEqualTo(DEFAULT_PARENT_GUID);
+        assertThat(testParticipation.getParentType()).isEqualTo(DEFAULT_PARENT_TYPE);
 
         // Validate the Participation in Elasticsearch
         Participation participationEs = participationSearchRepository.findOne(testParticipation.getId());
@@ -161,8 +161,8 @@ public class ParticipationResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(participation.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentguid").value(hasItem(DEFAULT_PARENTGUID.toString())))
-            .andExpect(jsonPath("$.[*].parenttype").value(hasItem(DEFAULT_PARENTTYPE.toString())));
+            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].parentType").value(hasItem(DEFAULT_PARENT_TYPE.toString())));
     }
 
     @Test
@@ -178,8 +178,8 @@ public class ParticipationResourceIntTest {
             .andExpect(jsonPath("$.id").value(participation.getId().intValue()))
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
             .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-            .andExpect(jsonPath("$.parentguid").value(DEFAULT_PARENTGUID.toString()))
-            .andExpect(jsonPath("$.parenttype").value(DEFAULT_PARENTTYPE.toString()));
+            .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
+            .andExpect(jsonPath("$.parentType").value(DEFAULT_PARENT_TYPE.toString()));
     }
 
     @Test
@@ -203,8 +203,8 @@ public class ParticipationResourceIntTest {
         updatedParticipation
             .author(UPDATED_AUTHOR)
             .guid(UPDATED_GUID)
-            .parentguid(UPDATED_PARENTGUID)
-            .parenttype(UPDATED_PARENTTYPE);
+            .parentGuid(UPDATED_PARENT_GUID)
+            .parentType(UPDATED_PARENT_TYPE);
 
         restParticipationMockMvc.perform(put("/api/participations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -217,8 +217,8 @@ public class ParticipationResourceIntTest {
         Participation testParticipation = participationList.get(participationList.size() - 1);
         assertThat(testParticipation.getAuthor()).isEqualTo(UPDATED_AUTHOR);
         assertThat(testParticipation.getGuid()).isEqualTo(UPDATED_GUID);
-        assertThat(testParticipation.getParentguid()).isEqualTo(UPDATED_PARENTGUID);
-        assertThat(testParticipation.getParenttype()).isEqualTo(UPDATED_PARENTTYPE);
+        assertThat(testParticipation.getParentGuid()).isEqualTo(UPDATED_PARENT_GUID);
+        assertThat(testParticipation.getParentType()).isEqualTo(UPDATED_PARENT_TYPE);
 
         // Validate the Participation in Elasticsearch
         Participation participationEs = participationSearchRepository.findOne(testParticipation.getId());
@@ -279,8 +279,8 @@ public class ParticipationResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(participation.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentguid").value(hasItem(DEFAULT_PARENTGUID.toString())))
-            .andExpect(jsonPath("$.[*].parenttype").value(hasItem(DEFAULT_PARENTTYPE.toString())));
+            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].parentType").value(hasItem(DEFAULT_PARENT_TYPE.toString())));
     }
 
     @Test

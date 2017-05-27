@@ -25,8 +25,8 @@ export class Retraction {
     constructor(
         public id?: number,
         public author?: string,
-        public targetguid?: string,
-        public targettype?: Type,
+        public targetGuid?: string,
+        public targetType?: Type,
     ) {
     }
 }

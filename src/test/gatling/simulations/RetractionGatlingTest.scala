@@ -67,7 +67,7 @@ class RetractionGatlingTest extends Simulation {
             .exec(http("Create new retraction")
             .post("/api/retractions")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "targetguid":"SAMPLE_TEXT", "targettype":null}""")).asJSON
+            .body(StringBody("""{"id":null, "author":"SAMPLE_TEXT", "targetGuid":"SAMPLE_TEXT", "targetType":null}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_retraction_url"))).exitHereIfFailed
             .pause(10)

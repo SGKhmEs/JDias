@@ -1,0 +1,29 @@
+{
+    "jDiasApp": {
+        "aspect" : {
+            "home": {
+                "title": "Aspects",
+                "createLabel": "Создать новый Aspect",
+                "createOrEditLabel": "Создать или отредактировать Aspect",
+                "search": "Найти Aspect"
+            },
+            "created": "Новый Aspect создан с идентификатором {{ param }}",
+            "updated": "Aspect обновлен с идентификатором {{ param }}",
+            "deleted": "Aspect удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Aspect {{ id }}?"
+            },
+            "detail": {
+                "title": "Aspect"
+            },
+            "name": "Name",
+            "createdAt": "Created At",
+            "updatedAt": "Updated At",
+            "contactVisible": "Contact Visible",
+            "chatEnabled": "Chat Enabled",
+            "postDefault": "Post Default",
+            "aspectMemberships": "Aspect Memberships",
+            "aspectVisibilities": "Aspect Visibilities"
+        }
+    }
+}

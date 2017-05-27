@@ -24,7 +24,7 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "parentguid",
+            "fieldName": "parentGuid",
             "fieldType": "String"
         },
         {
@@ -33,15 +33,15 @@
             "fieldValues": "ACCEPTED,DECLINED,TENTATIVE"
         },
         {
-            "fieldName": "authorsignature",
+            "fieldName": "authorSignature",
             "fieldType": "String"
         },
         {
-            "fieldName": "parentauthorsignature",
+            "fieldName": "parentAuthorSignature",
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170525164606",
+    "changelogDate": "20170527190323",
     "entityTableName": "event_participation",
     "dto": "no",
     "pagination": "no",

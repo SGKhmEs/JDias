@@ -24,7 +24,7 @@
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170525164613",
+    "changelogDate": "20170527190330",
     "entityTableName": "poll_answer",
     "dto": "no",
     "pagination": "no",

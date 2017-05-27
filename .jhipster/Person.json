@@ -94,7 +94,7 @@
             "fieldType": "Integer"
         }
     ],
-    "changelogDate": "20170525164621",
+    "changelogDate": "20170527190341",
     "entityTableName": "person",
     "dto": "no",
     "pagination": "no",

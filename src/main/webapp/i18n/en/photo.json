@@ -18,13 +18,13 @@
             },
             "author": "Author",
             "guid": "Guid",
-            "createdat": "Createdat",
-            "remotephotopath": "Remotephotopath",
-            "remotephotoname": "Remotephotoname",
+            "createdAt": "Created At",
+            "remotePhotoPath": "Remote Photo Path",
+            "remotePhotoName": "Remote Photo Name",
             "height": "Height",
             "width": "Width",
             "text": "Text",
-            "statusmessageguid": "Statusmessageguid",
+            "statusMessageGuid": "Status Message Guid",
             "statusMessage": "Status Message",
             "person": "Person"
         }

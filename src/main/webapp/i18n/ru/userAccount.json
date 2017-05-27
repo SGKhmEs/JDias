@@ -45,7 +45,9 @@
             "postDefaultPublic": "Post Default Public",
             "user": "User",
             "person": "Person",
-            "conversations": "Conversations"
+            "conversations": "Conversations",
+            "aspectmemberships": "Aspectmemberships",
+            "tagfollowings": "Tagfollowings"
         }
     }
 }

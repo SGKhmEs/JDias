@@ -32,18 +32,18 @@ public class EventParticipation implements Serializable {
     @Column(name = "guid")
     private String guid;
 
-    @Column(name = "parentguid")
-    private String parentguid;
+    @Column(name = "parent_guid")
+    private String parentGuid;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private EventStatus status;
 
-    @Column(name = "authorsignature")
-    private String authorsignature;
+    @Column(name = "author_signature")
+    private String authorSignature;
 
-    @Column(name = "parentauthorsignature")
-    private String parentauthorsignature;
+    @Column(name = "parent_author_signature")
+    private String parentAuthorSignature;
 
     @ManyToOne
     private Event event;
@@ -85,17 +85,17 @@ public class EventParticipation implements Serializable {
         this.guid = guid;
     }
 
-    public String getParentguid() {
-        return parentguid;
+    public String getParentGuid() {
+        return parentGuid;
     }
 
-    public EventParticipation parentguid(String parentguid) {
-        this.parentguid = parentguid;
+    public EventParticipation parentGuid(String parentGuid) {
+        this.parentGuid = parentGuid;
         return this;
     }
 
-    public void setParentguid(String parentguid) {
-        this.parentguid = parentguid;
+    public void setParentGuid(String parentGuid) {
+        this.parentGuid = parentGuid;
     }
 
     public EventStatus getStatus() {
@@ -111,30 +111,30 @@ public class EventParticipation implements Serializable {
         this.status = status;
     }
 
-    public String getAuthorsignature() {
-        return authorsignature;
+    public String getAuthorSignature() {
+        return authorSignature;
     }
 
-    public EventParticipation authorsignature(String authorsignature) {
-        this.authorsignature = authorsignature;
+    public EventParticipation authorSignature(String authorSignature) {
+        this.authorSignature = authorSignature;
         return this;
     }
 
-    public void setAuthorsignature(String authorsignature) {
-        this.authorsignature = authorsignature;
+    public void setAuthorSignature(String authorSignature) {
+        this.authorSignature = authorSignature;
     }
 
-    public String getParentauthorsignature() {
-        return parentauthorsignature;
+    public String getParentAuthorSignature() {
+        return parentAuthorSignature;
     }
 
-    public EventParticipation parentauthorsignature(String parentauthorsignature) {
-        this.parentauthorsignature = parentauthorsignature;
+    public EventParticipation parentAuthorSignature(String parentAuthorSignature) {
+        this.parentAuthorSignature = parentAuthorSignature;
         return this;
     }
 
-    public void setParentauthorsignature(String parentauthorsignature) {
-        this.parentauthorsignature = parentauthorsignature;
+    public void setParentAuthorSignature(String parentAuthorSignature) {
+        this.parentAuthorSignature = parentAuthorSignature;
     }
 
     public Event getEvent() {
@@ -189,10 +189,10 @@ public class EventParticipation implements Serializable {
             "id=" + getId() +
             ", author='" + getAuthor() + "'" +
             ", guid='" + getGuid() + "'" +
-            ", parentguid='" + getParentguid() + "'" +
+            ", parentGuid='" + getParentGuid() + "'" +
             ", status='" + getStatus() + "'" +
-            ", authorsignature='" + getAuthorsignature() + "'" +
-            ", parentauthorsignature='" + getParentauthorsignature() + "'" +
+            ", authorSignature='" + getAuthorSignature() + "'" +
+            ", parentAuthorSignature='" + getParentAuthorSignature() + "'" +
             "}";
     }
 }

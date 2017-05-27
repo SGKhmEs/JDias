@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.repository.PostRepository;
+import com.sgkhmjaes.jdias.service.PostService;
 import com.sgkhmjaes.jdias.repository.search.PostSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -22,10 +23,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.List;
 
+import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -47,20 +51,23 @@ public class PostResourceIntTest {
     private static final String DEFAULT_GUID = "AAAAAAAAAA";
     private static final String UPDATED_GUID = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_CREATEDAT = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATEDAT = LocalDate.now(ZoneId.systemDefault());
+    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     private static final Boolean DEFAULT_PUB = false;
     private static final Boolean UPDATED_PUB = true;
 
-    private static final String DEFAULT_PROVIDERDISPLAYNAME = "AAAAAAAAAA";
-    private static final String UPDATED_PROVIDERDISPLAYNAME = "BBBBBBBBBB";
+    private static final String DEFAULT_PROVIDER_DISPLAY_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_PROVIDER_DISPLAY_NAME = "BBBBBBBBBB";
 
-    private static final PostType DEFAULT_POSTTYPE = PostType.STATUSMESSAGE;
-    private static final PostType UPDATED_POSTTYPE = PostType.RESHARE;
+    private static final PostType DEFAULT_POST_TYPE = PostType.STATUSMESSAGE;
+    private static final PostType UPDATED_POST_TYPE = PostType.RESHARE;
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private PostService postService;
 
     @Autowired
     private PostSearchRepository postSearchRepository;
@@ -84,7 +91,7 @@ public class PostResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PostResource postResource = new PostResource(postRepository, postSearchRepository);
+        PostResource postResource = new PostResource(postService);
         this.restPostMockMvc = MockMvcBuilders.standaloneSetup(postResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -101,10 +108,10 @@ public class PostResourceIntTest {
         Post post = new Post()
             .author(DEFAULT_AUTHOR)
             .guid(DEFAULT_GUID)
-            .createdat(DEFAULT_CREATEDAT)
+            .createdAt(DEFAULT_CREATED_AT)
             .pub(DEFAULT_PUB)
-            .providerdisplayname(DEFAULT_PROVIDERDISPLAYNAME)
-            .posttype(DEFAULT_POSTTYPE);
+            .providerDisplayName(DEFAULT_PROVIDER_DISPLAY_NAME)
+            .postType(DEFAULT_POST_TYPE);
         return post;
     }
 
@@ -131,10 +138,10 @@ public class PostResourceIntTest {
         Post testPost = postList.get(postList.size() - 1);
         assertThat(testPost.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
         assertThat(testPost.getGuid()).isEqualTo(DEFAULT_GUID);
-        assertThat(testPost.getCreatedat()).isEqualTo(DEFAULT_CREATEDAT);
+        assertThat(testPost.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testPost.isPub()).isEqualTo(DEFAULT_PUB);
-        assertThat(testPost.getProviderdisplayname()).isEqualTo(DEFAULT_PROVIDERDISPLAYNAME);
-        assertThat(testPost.getPosttype()).isEqualTo(DEFAULT_POSTTYPE);
+        assertThat(testPost.getProviderDisplayName()).isEqualTo(DEFAULT_PROVIDER_DISPLAY_NAME);
+        assertThat(testPost.getPostType()).isEqualTo(DEFAULT_POST_TYPE);
 
         // Validate the Post in Elasticsearch
         Post postEs = postSearchRepository.findOne(testPost.getId());
@@ -173,10 +180,10 @@ public class PostResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(post.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].createdat").value(hasItem(DEFAULT_CREATEDAT.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
             .andExpect(jsonPath("$.[*].pub").value(hasItem(DEFAULT_PUB.booleanValue())))
-            .andExpect(jsonPath("$.[*].providerdisplayname").value(hasItem(DEFAULT_PROVIDERDISPLAYNAME.toString())))
-            .andExpect(jsonPath("$.[*].posttype").value(hasItem(DEFAULT_POSTTYPE.toString())));
+            .andExpect(jsonPath("$.[*].providerDisplayName").value(hasItem(DEFAULT_PROVIDER_DISPLAY_NAME.toString())))
+            .andExpect(jsonPath("$.[*].postType").value(hasItem(DEFAULT_POST_TYPE.toString())));
     }
 
     @Test
@@ -192,10 +199,10 @@ public class PostResourceIntTest {
             .andExpect(jsonPath("$.id").value(post.getId().intValue()))
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
             .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-            .andExpect(jsonPath("$.createdat").value(DEFAULT_CREATEDAT.toString()))
+            .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)))
             .andExpect(jsonPath("$.pub").value(DEFAULT_PUB.booleanValue()))
-            .andExpect(jsonPath("$.providerdisplayname").value(DEFAULT_PROVIDERDISPLAYNAME.toString()))
-            .andExpect(jsonPath("$.posttype").value(DEFAULT_POSTTYPE.toString()));
+            .andExpect(jsonPath("$.providerDisplayName").value(DEFAULT_PROVIDER_DISPLAY_NAME.toString()))
+            .andExpect(jsonPath("$.postType").value(DEFAULT_POST_TYPE.toString()));
     }
 
     @Test
@@ -210,8 +217,8 @@ public class PostResourceIntTest {
     @Transactional
     public void updatePost() throws Exception {
         // Initialize the database
-        postRepository.saveAndFlush(post);
-        postSearchRepository.save(post);
+        postService.save(post);
+
         int databaseSizeBeforeUpdate = postRepository.findAll().size();
 
         // Update the post
@@ -219,10 +226,10 @@ public class PostResourceIntTest {
         updatedPost
             .author(UPDATED_AUTHOR)
             .guid(UPDATED_GUID)
-            .createdat(UPDATED_CREATEDAT)
+            .createdAt(UPDATED_CREATED_AT)
             .pub(UPDATED_PUB)
-            .providerdisplayname(UPDATED_PROVIDERDISPLAYNAME)
-            .posttype(UPDATED_POSTTYPE);
+            .providerDisplayName(UPDATED_PROVIDER_DISPLAY_NAME)
+            .postType(UPDATED_POST_TYPE);
 
         restPostMockMvc.perform(put("/api/posts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -235,10 +242,10 @@ public class PostResourceIntTest {
         Post testPost = postList.get(postList.size() - 1);
         assertThat(testPost.getAuthor()).isEqualTo(UPDATED_AUTHOR);
         assertThat(testPost.getGuid()).isEqualTo(UPDATED_GUID);
-        assertThat(testPost.getCreatedat()).isEqualTo(UPDATED_CREATEDAT);
+        assertThat(testPost.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testPost.isPub()).isEqualTo(UPDATED_PUB);
-        assertThat(testPost.getProviderdisplayname()).isEqualTo(UPDATED_PROVIDERDISPLAYNAME);
-        assertThat(testPost.getPosttype()).isEqualTo(UPDATED_POSTTYPE);
+        assertThat(testPost.getProviderDisplayName()).isEqualTo(UPDATED_PROVIDER_DISPLAY_NAME);
+        assertThat(testPost.getPostType()).isEqualTo(UPDATED_POST_TYPE);
 
         // Validate the Post in Elasticsearch
         Post postEs = postSearchRepository.findOne(testPost.getId());
@@ -267,8 +274,8 @@ public class PostResourceIntTest {
     @Transactional
     public void deletePost() throws Exception {
         // Initialize the database
-        postRepository.saveAndFlush(post);
-        postSearchRepository.save(post);
+        postService.save(post);
+
         int databaseSizeBeforeDelete = postRepository.findAll().size();
 
         // Get the post
@@ -289,8 +296,7 @@ public class PostResourceIntTest {
     @Transactional
     public void searchPost() throws Exception {
         // Initialize the database
-        postRepository.saveAndFlush(post);
-        postSearchRepository.save(post);
+        postService.save(post);
 
         // Search the post
         restPostMockMvc.perform(get("/api/_search/posts?query=id:" + post.getId()))
@@ -299,10 +305,10 @@ public class PostResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(post.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].createdat").value(hasItem(DEFAULT_CREATEDAT.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
             .andExpect(jsonPath("$.[*].pub").value(hasItem(DEFAULT_PUB.booleanValue())))
-            .andExpect(jsonPath("$.[*].providerdisplayname").value(hasItem(DEFAULT_PROVIDERDISPLAYNAME.toString())))
-            .andExpect(jsonPath("$.[*].posttype").value(hasItem(DEFAULT_POSTTYPE.toString())));
+            .andExpect(jsonPath("$.[*].providerDisplayName").value(hasItem(DEFAULT_PROVIDER_DISPLAY_NAME.toString())))
+            .andExpect(jsonPath("$.[*].postType").value(hasItem(DEFAULT_POST_TYPE.toString())));
     }
 
     @Test

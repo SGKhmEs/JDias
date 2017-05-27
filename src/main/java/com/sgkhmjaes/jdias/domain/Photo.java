@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 /**
@@ -31,14 +31,14 @@ public class Photo implements Serializable {
     @Column(name = "guid")
     private Boolean guid;
 
-    @Column(name = "createdat")
-    private LocalDate createdat;
+    @Column(name = "created_at")
+    private ZonedDateTime createdAt;
 
-    @Column(name = "remotephotopath")
-    private String remotephotopath;
+    @Column(name = "remote_photo_path")
+    private String remotePhotoPath;
 
-    @Column(name = "remotephotoname")
-    private String remotephotoname;
+    @Column(name = "remote_photo_name")
+    private String remotePhotoName;
 
     @Column(name = "height")
     private Integer height;
@@ -49,8 +49,8 @@ public class Photo implements Serializable {
     @Column(name = "text")
     private String text;
 
-    @Column(name = "statusmessageguid")
-    private String statusmessageguid;
+    @Column(name = "status_message_guid")
+    private String statusMessageGuid;
 
     @ManyToOne
     private StatusMessage statusMessage;
@@ -92,43 +92,43 @@ public class Photo implements Serializable {
         this.guid = guid;
     }
 
-    public LocalDate getCreatedat() {
-        return createdat;
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public Photo createdat(LocalDate createdat) {
-        this.createdat = createdat;
+    public Photo createdAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
-    public void setCreatedat(LocalDate createdat) {
-        this.createdat = createdat;
+    public void setCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getRemotephotopath() {
-        return remotephotopath;
+    public String getRemotePhotoPath() {
+        return remotePhotoPath;
     }
 
-    public Photo remotephotopath(String remotephotopath) {
-        this.remotephotopath = remotephotopath;
+    public Photo remotePhotoPath(String remotePhotoPath) {
+        this.remotePhotoPath = remotePhotoPath;
         return this;
     }
 
-    public void setRemotephotopath(String remotephotopath) {
-        this.remotephotopath = remotephotopath;
+    public void setRemotePhotoPath(String remotePhotoPath) {
+        this.remotePhotoPath = remotePhotoPath;
     }
 
-    public String getRemotephotoname() {
-        return remotephotoname;
+    public String getRemotePhotoName() {
+        return remotePhotoName;
     }
 
-    public Photo remotephotoname(String remotephotoname) {
-        this.remotephotoname = remotephotoname;
+    public Photo remotePhotoName(String remotePhotoName) {
+        this.remotePhotoName = remotePhotoName;
         return this;
     }
 
-    public void setRemotephotoname(String remotephotoname) {
-        this.remotephotoname = remotephotoname;
+    public void setRemotePhotoName(String remotePhotoName) {
+        this.remotePhotoName = remotePhotoName;
     }
 
     public Integer getHeight() {
@@ -170,17 +170,17 @@ public class Photo implements Serializable {
         this.text = text;
     }
 
-    public String getStatusmessageguid() {
-        return statusmessageguid;
+    public String getStatusMessageGuid() {
+        return statusMessageGuid;
     }
 
-    public Photo statusmessageguid(String statusmessageguid) {
-        this.statusmessageguid = statusmessageguid;
+    public Photo statusMessageGuid(String statusMessageGuid) {
+        this.statusMessageGuid = statusMessageGuid;
         return this;
     }
 
-    public void setStatusmessageguid(String statusmessageguid) {
-        this.statusmessageguid = statusmessageguid;
+    public void setStatusMessageGuid(String statusMessageGuid) {
+        this.statusMessageGuid = statusMessageGuid;
     }
 
     public StatusMessage getStatusMessage() {
@@ -235,13 +235,13 @@ public class Photo implements Serializable {
             "id=" + getId() +
             ", author='" + getAuthor() + "'" +
             ", guid='" + isGuid() + "'" +
-            ", createdat='" + getCreatedat() + "'" +
-            ", remotephotopath='" + getRemotephotopath() + "'" +
-            ", remotephotoname='" + getRemotephotoname() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", remotePhotoPath='" + getRemotePhotoPath() + "'" +
+            ", remotePhotoName='" + getRemotePhotoName() + "'" +
             ", height='" + getHeight() + "'" +
             ", width='" + getWidth() + "'" +
             ", text='" + getText() + "'" +
-            ", statusmessageguid='" + getStatusmessageguid() + "'" +
+            ", statusMessageGuid='" + getStatusMessageGuid() + "'" +
             "}";
     }
 }

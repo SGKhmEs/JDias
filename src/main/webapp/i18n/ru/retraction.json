@@ -17,8 +17,8 @@
                 "title": "Retraction"
             },
             "author": "Author",
-            "targetguid": "Targetguid",
-            "targettype": "Targettype"
+            "targetGuid": "Target Guid",
+            "targetType": "Target Type"
         }
     }
 }

@@ -31,8 +31,8 @@
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="jDiasApp.retraction.author">Author</span></th>
-            <th><span jhiTranslate="jDiasApp.retraction.targetguid">Targetguid</span></th>
-            <th><span jhiTranslate="jDiasApp.retraction.targettype">Targettype</span></th>
+            <th><span jhiTranslate="jDiasApp.retraction.targetGuid">Target Guid</span></th>
+            <th><span jhiTranslate="jDiasApp.retraction.targetType">Target Type</span></th>
             <th></th>
             </tr>
             </thead>
@@ -40,8 +40,8 @@
             <tr *ngFor="let retraction of retractions ;trackBy: trackId">
                 <td><a [routerLink]="['../retraction', retraction.id ]">{{retraction.id}}</a></td>
                 <td>{{retraction.author}}</td>
-                <td>{{retraction.targetguid}}</td>
-                <td jhiTranslate="{{'jDiasApp.Type.' + retraction.targettype}}">{{retraction.targettype}}</td>
+                <td>{{retraction.targetGuid}}</td>
+                <td jhiTranslate="{{'jDiasApp.Type.' + retraction.targetType}}">{{retraction.targetType}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

@@ -2,6 +2,12 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "one-to-many",
+            "relationshipName": "aspectMemberships",
+            "otherEntityName": "aspectMembership",
+            "otherEntityRelationshipName": "contact"
+        },
+        {
             "relationshipName": "person",
             "otherEntityName": "person",
             "relationshipType": "many-to-one",
@@ -26,7 +32,7 @@
             "fieldType": "Boolean"
         }
     ],
-    "changelogDate": "20170525164603",
+    "changelogDate": "20170527190320",
     "entityTableName": "contact",
     "dto": "no",
     "pagination": "no",

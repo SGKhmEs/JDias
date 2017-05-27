@@ -67,7 +67,7 @@ class ReshareGatlingTest extends Simulation {
             .exec(http("Create new reshare")
             .post("/api/reshares")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "rootauthor":"SAMPLE_TEXT", "rootguid":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "rootAuthor":"SAMPLE_TEXT", "rootGuid":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_reshare_url"))).exitHereIfFailed
             .pause(10)

@@ -22,10 +22,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.List;
 
+import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -46,23 +49,23 @@ public class CommentResourceIntTest {
     private static final String DEFAULT_GUID = "AAAAAAAAAA";
     private static final String UPDATED_GUID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PARENTGUID = "AAAAAAAAAA";
-    private static final String UPDATED_PARENTGUID = "BBBBBBBBBB";
+    private static final String DEFAULT_PARENT_GUID = "AAAAAAAAAA";
+    private static final String UPDATED_PARENT_GUID = "BBBBBBBBBB";
 
     private static final String DEFAULT_TEXT = "AAAAAAAAAA";
     private static final String UPDATED_TEXT = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_CREATEDAT = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATEDAT = LocalDate.now(ZoneId.systemDefault());
+    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
-    private static final String DEFAULT_AUTHORSIGNATURE = "AAAAAAAAAA";
-    private static final String UPDATED_AUTHORSIGNATURE = "BBBBBBBBBB";
+    private static final String DEFAULT_AUTHOR_SIGNATURE = "AAAAAAAAAA";
+    private static final String UPDATED_AUTHOR_SIGNATURE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PARENTAUTHORSIGNATURE = "AAAAAAAAAA";
-    private static final String UPDATED_PARENTAUTHORSIGNATURE = "BBBBBBBBBB";
+    private static final String DEFAULT_PARENT_AUTHOR_SIGNATURE = "AAAAAAAAAA";
+    private static final String UPDATED_PARENT_AUTHOR_SIGNATURE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_THREADPARENTGUID = "AAAAAAAAAA";
-    private static final String UPDATED_THREADPARENTGUID = "BBBBBBBBBB";
+    private static final String DEFAULT_THREAD_PARENT_GUID = "AAAAAAAAAA";
+    private static final String UPDATED_THREAD_PARENT_GUID = "BBBBBBBBBB";
 
     @Autowired
     private CommentRepository commentRepository;
@@ -106,12 +109,12 @@ public class CommentResourceIntTest {
         Comment comment = new Comment()
             .author(DEFAULT_AUTHOR)
             .guid(DEFAULT_GUID)
-            .parentguid(DEFAULT_PARENTGUID)
+            .parentGuid(DEFAULT_PARENT_GUID)
             .text(DEFAULT_TEXT)
-            .createdat(DEFAULT_CREATEDAT)
-            .authorsignature(DEFAULT_AUTHORSIGNATURE)
-            .parentauthorsignature(DEFAULT_PARENTAUTHORSIGNATURE)
-            .threadparentguid(DEFAULT_THREADPARENTGUID);
+            .createdAt(DEFAULT_CREATED_AT)
+            .authorSignature(DEFAULT_AUTHOR_SIGNATURE)
+            .parentAuthorSignature(DEFAULT_PARENT_AUTHOR_SIGNATURE)
+            .threadParentGuid(DEFAULT_THREAD_PARENT_GUID);
         return comment;
     }
 
@@ -138,12 +141,12 @@ public class CommentResourceIntTest {
         Comment testComment = commentList.get(commentList.size() - 1);
         assertThat(testComment.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
         assertThat(testComment.getGuid()).isEqualTo(DEFAULT_GUID);
-        assertThat(testComment.getParentguid()).isEqualTo(DEFAULT_PARENTGUID);
+        assertThat(testComment.getParentGuid()).isEqualTo(DEFAULT_PARENT_GUID);
         assertThat(testComment.getText()).isEqualTo(DEFAULT_TEXT);
-        assertThat(testComment.getCreatedat()).isEqualTo(DEFAULT_CREATEDAT);
-        assertThat(testComment.getAuthorsignature()).isEqualTo(DEFAULT_AUTHORSIGNATURE);
-        assertThat(testComment.getParentauthorsignature()).isEqualTo(DEFAULT_PARENTAUTHORSIGNATURE);
-        assertThat(testComment.getThreadparentguid()).isEqualTo(DEFAULT_THREADPARENTGUID);
+        assertThat(testComment.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
+        assertThat(testComment.getAuthorSignature()).isEqualTo(DEFAULT_AUTHOR_SIGNATURE);
+        assertThat(testComment.getParentAuthorSignature()).isEqualTo(DEFAULT_PARENT_AUTHOR_SIGNATURE);
+        assertThat(testComment.getThreadParentGuid()).isEqualTo(DEFAULT_THREAD_PARENT_GUID);
 
         // Validate the Comment in Elasticsearch
         Comment commentEs = commentSearchRepository.findOne(testComment.getId());
@@ -182,12 +185,12 @@ public class CommentResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(comment.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentguid").value(hasItem(DEFAULT_PARENTGUID.toString())))
+            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
             .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-            .andExpect(jsonPath("$.[*].createdat").value(hasItem(DEFAULT_CREATEDAT.toString())))
-            .andExpect(jsonPath("$.[*].authorsignature").value(hasItem(DEFAULT_AUTHORSIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].parentauthorsignature").value(hasItem(DEFAULT_PARENTAUTHORSIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].threadparentguid").value(hasItem(DEFAULT_THREADPARENTGUID.toString())));
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
+            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())))
+            .andExpect(jsonPath("$.[*].threadParentGuid").value(hasItem(DEFAULT_THREAD_PARENT_GUID.toString())));
     }
 
     @Test
@@ -203,12 +206,12 @@ public class CommentResourceIntTest {
             .andExpect(jsonPath("$.id").value(comment.getId().intValue()))
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
             .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-            .andExpect(jsonPath("$.parentguid").value(DEFAULT_PARENTGUID.toString()))
+            .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
             .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()))
-            .andExpect(jsonPath("$.createdat").value(DEFAULT_CREATEDAT.toString()))
-            .andExpect(jsonPath("$.authorsignature").value(DEFAULT_AUTHORSIGNATURE.toString()))
-            .andExpect(jsonPath("$.parentauthorsignature").value(DEFAULT_PARENTAUTHORSIGNATURE.toString()))
-            .andExpect(jsonPath("$.threadparentguid").value(DEFAULT_THREADPARENTGUID.toString()));
+            .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)))
+            .andExpect(jsonPath("$.authorSignature").value(DEFAULT_AUTHOR_SIGNATURE.toString()))
+            .andExpect(jsonPath("$.parentAuthorSignature").value(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString()))
+            .andExpect(jsonPath("$.threadParentGuid").value(DEFAULT_THREAD_PARENT_GUID.toString()));
     }
 
     @Test
@@ -232,12 +235,12 @@ public class CommentResourceIntTest {
         updatedComment
             .author(UPDATED_AUTHOR)
             .guid(UPDATED_GUID)
-            .parentguid(UPDATED_PARENTGUID)
+            .parentGuid(UPDATED_PARENT_GUID)
             .text(UPDATED_TEXT)
-            .createdat(UPDATED_CREATEDAT)
-            .authorsignature(UPDATED_AUTHORSIGNATURE)
-            .parentauthorsignature(UPDATED_PARENTAUTHORSIGNATURE)
-            .threadparentguid(UPDATED_THREADPARENTGUID);
+            .createdAt(UPDATED_CREATED_AT)
+            .authorSignature(UPDATED_AUTHOR_SIGNATURE)
+            .parentAuthorSignature(UPDATED_PARENT_AUTHOR_SIGNATURE)
+            .threadParentGuid(UPDATED_THREAD_PARENT_GUID);
 
         restCommentMockMvc.perform(put("/api/comments")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -250,12 +253,12 @@ public class CommentResourceIntTest {
         Comment testComment = commentList.get(commentList.size() - 1);
         assertThat(testComment.getAuthor()).isEqualTo(UPDATED_AUTHOR);
         assertThat(testComment.getGuid()).isEqualTo(UPDATED_GUID);
-        assertThat(testComment.getParentguid()).isEqualTo(UPDATED_PARENTGUID);
+        assertThat(testComment.getParentGuid()).isEqualTo(UPDATED_PARENT_GUID);
         assertThat(testComment.getText()).isEqualTo(UPDATED_TEXT);
-        assertThat(testComment.getCreatedat()).isEqualTo(UPDATED_CREATEDAT);
-        assertThat(testComment.getAuthorsignature()).isEqualTo(UPDATED_AUTHORSIGNATURE);
-        assertThat(testComment.getParentauthorsignature()).isEqualTo(UPDATED_PARENTAUTHORSIGNATURE);
-        assertThat(testComment.getThreadparentguid()).isEqualTo(UPDATED_THREADPARENTGUID);
+        assertThat(testComment.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testComment.getAuthorSignature()).isEqualTo(UPDATED_AUTHOR_SIGNATURE);
+        assertThat(testComment.getParentAuthorSignature()).isEqualTo(UPDATED_PARENT_AUTHOR_SIGNATURE);
+        assertThat(testComment.getThreadParentGuid()).isEqualTo(UPDATED_THREAD_PARENT_GUID);
 
         // Validate the Comment in Elasticsearch
         Comment commentEs = commentSearchRepository.findOne(testComment.getId());
@@ -316,12 +319,12 @@ public class CommentResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(comment.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentguid").value(hasItem(DEFAULT_PARENTGUID.toString())))
+            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
             .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-            .andExpect(jsonPath("$.[*].createdat").value(hasItem(DEFAULT_CREATEDAT.toString())))
-            .andExpect(jsonPath("$.[*].authorsignature").value(hasItem(DEFAULT_AUTHORSIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].parentauthorsignature").value(hasItem(DEFAULT_PARENTAUTHORSIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].threadparentguid").value(hasItem(DEFAULT_THREADPARENTGUID.toString())));
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
+            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())))
+            .andExpect(jsonPath("$.[*].threadParentGuid").value(hasItem(DEFAULT_THREAD_PARENT_GUID.toString())));
     }
 
     @Test

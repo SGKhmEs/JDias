@@ -4,9 +4,9 @@ export class Message {
         public id?: number,
         public author?: string,
         public guid?: string,
-        public conversationguid?: string,
+        public conversationGuid?: string,
         public text?: string,
-        public createdat?: any,
+        public createdAt?: any,
         public conversation?: Conversation,
     ) {
     }

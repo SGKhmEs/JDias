@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -37,8 +37,8 @@ public class Conversation implements Serializable {
     @Column(name = "subject")
     private String subject;
 
-    @Column(name = "createdat")
-    private LocalDate createdat;
+    @Column(name = "created_at")
+    private ZonedDateTime createdAt;
 
     @Column(name = "message")
     private String message;
@@ -103,17 +103,17 @@ public class Conversation implements Serializable {
         this.subject = subject;
     }
 
-    public LocalDate getCreatedat() {
-        return createdat;
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public Conversation createdat(LocalDate createdat) {
-        this.createdat = createdat;
+    public Conversation createdAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
-    public void setCreatedat(LocalDate createdat) {
-        this.createdat = createdat;
+    public void setCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getMessage() {
@@ -219,7 +219,7 @@ public class Conversation implements Serializable {
             ", author='" + getAuthor() + "'" +
             ", guid='" + getGuid() + "'" +
             ", subject='" + getSubject() + "'" +
-            ", createdat='" + getCreatedat() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
             ", message='" + getMessage() + "'" +
             "}";
     }

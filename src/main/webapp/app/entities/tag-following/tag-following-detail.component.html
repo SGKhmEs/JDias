@@ -1,0 +1,41 @@
+
+<div *ngIf="tagFollowing">
+    <h2><span jhiTranslate="jDiasApp.tagFollowing.detail.title">Tag Following</span> {{tagFollowing.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.tagFollowing.createdAt">Created At</span></dt>
+        <dd>
+            <span>{{tagFollowing.createdAt | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.tagFollowing.updatedAt">Updated At</span></dt>
+        <dd>
+            <span>{{tagFollowing.updatedAt | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.tagFollowing.tag">Tag</span></dt>
+        <dd>
+            <div *ngIf="tagFollowing.tag">
+                <a [routerLink]="['/tag', tagFollowing.tag?.id]">{{tagFollowing.tag?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.tagFollowing.userAccount">User Account</span></dt>
+        <dd>
+            <div *ngIf="tagFollowing.userAccount">
+                <a [routerLink]="['/user-account', tagFollowing.userAccount?.id]">{{tagFollowing.userAccount?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'tag-following/'+ tagFollowing.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

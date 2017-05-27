@@ -12,25 +12,31 @@
         <dd>
             <span>{{like.guid}}</span>
         </dd>
-        <dt><span jhiTranslate="jDiasApp.like.parentguid">Parentguid</span></dt>
+        <dt><span jhiTranslate="jDiasApp.like.parentGuid">Parent Guid</span></dt>
         <dd>
-            <span>{{like.parentguid}}</span>
+            <span>{{like.parentGuid}}</span>
         </dd>
-        <dt><span jhiTranslate="jDiasApp.like.parenttype">Parenttype</span></dt>
+        <dt><span jhiTranslate="jDiasApp.like.parentType">Parent Type</span></dt>
         <dd>
-            <span jhiTranslate="{{'jDiasApp.Type.' + like.parenttype}}">{{like.parenttype}}</span>
+            <span jhiTranslate="{{'jDiasApp.Type.' + like.parentType}}">{{like.parentType}}</span>
         </dd>
         <dt><span jhiTranslate="jDiasApp.like.positive">Positive</span></dt>
         <dd>
             <span>{{like.positive}}</span>
         </dd>
-        <dt><span jhiTranslate="jDiasApp.like.authorsignature">Authorsignature</span></dt>
+        <dt><span jhiTranslate="jDiasApp.like.authorSignature">Author Signature</span></dt>
         <dd>
-            <span>{{like.authorsignature}}</span>
+            <span>{{like.authorSignature}}</span>
         </dd>
-        <dt><span jhiTranslate="jDiasApp.like.parentauthorsignature">Parentauthorsignature</span></dt>
+        <dt><span jhiTranslate="jDiasApp.like.parentAuthorSignature">Parent Author Signature</span></dt>
         <dd>
-            <span>{{like.parentauthorsignature}}</span>
+            <span>{{like.parentAuthorSignature}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.like.post">Post</span></dt>
+        <dd>
+            <div *ngIf="like.post">
+                <a [routerLink]="['/post', like.post?.id]">{{like.post?.id}}</a>
+            </div>
         </dd>
     </dl>
 

@@ -35,7 +35,7 @@
             <th><span jhiTranslate="jDiasApp.event.summary">Summary</span></th>
             <th><span jhiTranslate="jDiasApp.event.start">Start</span></th>
             <th><span jhiTranslate="jDiasApp.event.end">End</span></th>
-            <th><span jhiTranslate="jDiasApp.event.allday">Allday</span></th>
+            <th><span jhiTranslate="jDiasApp.event.allDay">All Day</span></th>
             <th><span jhiTranslate="jDiasApp.event.timezone">Timezone</span></th>
             <th><span jhiTranslate="jDiasApp.event.description">Description</span></th>
             <th></th>
@@ -47,9 +47,9 @@
                 <td>{{event.author}}</td>
                 <td>{{event.guid}}</td>
                 <td>{{event.summary}}</td>
-                <td>{{event.start | date:'mediumDate'}}</td>
-                <td>{{event.end | date:'mediumDate'}}</td>
-                <td>{{event.allday}}</td>
+                <td>{{event.start | date:'medium'}}</td>
+                <td>{{event.end | date:'medium'}}</td>
+                <td>{{event.allDay}}</td>
                 <td>{{event.timezone}}</td>
                 <td>{{event.description}}</td>
                 <td class="text-right">

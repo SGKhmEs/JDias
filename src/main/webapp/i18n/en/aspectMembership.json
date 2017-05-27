@@ -1,0 +1,26 @@
+{
+    "jDiasApp": {
+        "aspectMembership" : {
+            "home": {
+                "title": "Aspect Memberships",
+                "createLabel": "Create a new Aspect Membership",
+                "createOrEditLabel": "Create or edit a Aspect Membership",
+                "search": "Search for Aspect Membership"
+            },
+            "created": "A new Aspect Membership is created with identifier {{ param }}",
+            "updated": "A Aspect Membership is updated with identifier {{ param }}",
+            "deleted": "A Aspect Membership is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Aspect Membership {{ id }}?"
+            },
+            "detail": {
+                "title": "Aspect Membership"
+            },
+            "createdAt": "Created At",
+            "updatedAt": "Updated At",
+            "aspect": "Aspect",
+            "contact": "Contact",
+            "userAccount": "User Account"
+        }
+    }
+}

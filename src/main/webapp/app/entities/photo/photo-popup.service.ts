@@ -1,12 +1,14 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 import { Photo } from './photo.model';
 import { PhotoService } from './photo.service';
 @Injectable()
 export class PhotoPopupService {
     private isOpen = false;
     constructor(
+        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private photoService: PhotoService
@@ -21,13 +23,8 @@ export class PhotoPopupService {
 
         if (id) {
             this.photoService.find(id).subscribe((photo) => {
-                if (photo.createdat) {
-                    photo.createdat = {
-                        year: photo.createdat.getFullYear(),
-                        month: photo.createdat.getMonth() + 1,
-                        day: photo.createdat.getDate()
-                    };
-                }
+                photo.createdAt = this.datePipe
+                    .transform(photo.createdAt, 'yyyy-MM-ddThh:mm');
                 this.photoModalRef(component, photo);
             });
         } else {

@@ -18,11 +18,12 @@
             },
             "author": "Author",
             "guid": "Guid",
-            "parentguid": "Parentguid",
-            "parenttype": "Parenttype",
+            "parentGuid": "Parent Guid",
+            "parentType": "Parent Type",
             "positive": "Positive",
-            "authorsignature": "Authorsignature",
-            "parentauthorsignature": "Parentauthorsignature"
+            "authorSignature": "Author Signature",
+            "parentAuthorSignature": "Parent Author Signature",
+            "post": "Post"
         }
     }
 }

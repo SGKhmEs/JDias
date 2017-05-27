@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 /**
@@ -31,14 +31,14 @@ public class Message implements Serializable {
     @Column(name = "guid")
     private String guid;
 
-    @Column(name = "conversationguid")
-    private String conversationguid;
+    @Column(name = "conversation_guid")
+    private String conversationGuid;
 
     @Column(name = "text")
     private String text;
 
-    @Column(name = "createdat")
-    private LocalDate createdat;
+    @Column(name = "created_at")
+    private ZonedDateTime createdAt;
 
     @ManyToOne
     private Conversation conversation;
@@ -77,17 +77,17 @@ public class Message implements Serializable {
         this.guid = guid;
     }
 
-    public String getConversationguid() {
-        return conversationguid;
+    public String getConversationGuid() {
+        return conversationGuid;
     }
 
-    public Message conversationguid(String conversationguid) {
-        this.conversationguid = conversationguid;
+    public Message conversationGuid(String conversationGuid) {
+        this.conversationGuid = conversationGuid;
         return this;
     }
 
-    public void setConversationguid(String conversationguid) {
-        this.conversationguid = conversationguid;
+    public void setConversationGuid(String conversationGuid) {
+        this.conversationGuid = conversationGuid;
     }
 
     public String getText() {
@@ -103,17 +103,17 @@ public class Message implements Serializable {
         this.text = text;
     }
 
-    public LocalDate getCreatedat() {
-        return createdat;
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public Message createdat(LocalDate createdat) {
-        this.createdat = createdat;
+    public Message createdAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
-    public void setCreatedat(LocalDate createdat) {
-        this.createdat = createdat;
+    public void setCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Conversation getConversation() {
@@ -155,9 +155,9 @@ public class Message implements Serializable {
             "id=" + getId() +
             ", author='" + getAuthor() + "'" +
             ", guid='" + getGuid() + "'" +
-            ", conversationguid='" + getConversationguid() + "'" +
+            ", conversationGuid='" + getConversationGuid() + "'" +
             ", text='" + getText() + "'" +
-            ", createdat='" + getCreatedat() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
             "}";
     }
 }

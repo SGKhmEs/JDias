@@ -25,14 +25,14 @@
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.like.parentguid" for="field_parentguid">Parentguid</label>
-            <input type="text" class="form-control" name="parentguid" id="field_parentguid"
-                [(ngModel)]="like.parentguid"
+            <label class="form-control-label" jhiTranslate="jDiasApp.like.parentGuid" for="field_parentGuid">Parent Guid</label>
+            <input type="text" class="form-control" name="parentGuid" id="field_parentGuid"
+                [(ngModel)]="like.parentGuid"
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.like.parenttype" for="field_parenttype">Parenttype</label>
-            <select class="form-control" name="parenttype" [(ngModel)]="like.parenttype" id="field_parenttype" >
+            <label class="form-control-label" jhiTranslate="jDiasApp.like.parentType" for="field_parentType">Parent Type</label>
+            <select class="form-control" name="parentType" [(ngModel)]="like.parentType" id="field_parentType" >
                 <option value="ACCOUNTDELETION" jhiTranslate="jDiasApp.Type.ACCOUNTDELETION">ACCOUNTDELETION</option>
                 <option value="COMMENT" jhiTranslate="jDiasApp.Type.COMMENT">COMMENT</option>
                 <option value="CONTACT" jhiTranslate="jDiasApp.Type.CONTACT">CONTACT</option>
@@ -61,18 +61,25 @@
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.like.authorsignature" for="field_authorsignature">Authorsignature</label>
-            <input type="text" class="form-control" name="authorsignature" id="field_authorsignature"
-                [(ngModel)]="like.authorsignature"
+            <label class="form-control-label" jhiTranslate="jDiasApp.like.authorSignature" for="field_authorSignature">Author Signature</label>
+            <input type="text" class="form-control" name="authorSignature" id="field_authorSignature"
+                [(ngModel)]="like.authorSignature"
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.like.parentauthorsignature" for="field_parentauthorsignature">Parentauthorsignature</label>
-            <input type="text" class="form-control" name="parentauthorsignature" id="field_parentauthorsignature"
-                [(ngModel)]="like.parentauthorsignature"
+            <label class="form-control-label" jhiTranslate="jDiasApp.like.parentAuthorSignature" for="field_parentAuthorSignature">Parent Author Signature</label>
+            <input type="text" class="form-control" name="parentAuthorSignature" id="field_parentAuthorSignature"
+                [(ngModel)]="like.parentAuthorSignature"
              />
         </div>
 
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.like.post" for="field_post">Post</label>
+            <select class="form-control" id="field_post" name="post" [(ngModel)]="like.post" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="postOption.id === like.post?.id ? like.post : postOption" *ngFor="let postOption of posts; trackBy: trackPostById">{{postOption.id}}</option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

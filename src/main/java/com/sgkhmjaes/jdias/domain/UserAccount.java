@@ -122,6 +122,16 @@ public class UserAccount implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Conversation> conversations = new HashSet<>();
 
+    @OneToMany(mappedBy = "userAccount")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<AspectMembership> aspectmemberships = new HashSet<>();
+
+    @OneToMany(mappedBy = "userAccount")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<TagFollowing> tagfollowings = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -530,6 +540,56 @@ public class UserAccount implements Serializable {
 
     public void setConversations(Set<Conversation> conversations) {
         this.conversations = conversations;
+    }
+
+    public Set<AspectMembership> getAspectmemberships() {
+        return aspectmemberships;
+    }
+
+    public UserAccount aspectmemberships(Set<AspectMembership> aspectMemberships) {
+        this.aspectmemberships = aspectMemberships;
+        return this;
+    }
+
+    public UserAccount addAspectmemberships(AspectMembership aspectMembership) {
+        this.aspectmemberships.add(aspectMembership);
+        aspectMembership.setUserAccount(this);
+        return this;
+    }
+
+    public UserAccount removeAspectmemberships(AspectMembership aspectMembership) {
+        this.aspectmemberships.remove(aspectMembership);
+        aspectMembership.setUserAccount(null);
+        return this;
+    }
+
+    public void setAspectmemberships(Set<AspectMembership> aspectMemberships) {
+        this.aspectmemberships = aspectMemberships;
+    }
+
+    public Set<TagFollowing> getTagfollowings() {
+        return tagfollowings;
+    }
+
+    public UserAccount tagfollowings(Set<TagFollowing> tagFollowings) {
+        this.tagfollowings = tagFollowings;
+        return this;
+    }
+
+    public UserAccount addTagfollowings(TagFollowing tagFollowing) {
+        this.tagfollowings.add(tagFollowing);
+        tagFollowing.setUserAccount(this);
+        return this;
+    }
+
+    public UserAccount removeTagfollowings(TagFollowing tagFollowing) {
+        this.tagfollowings.remove(tagFollowing);
+        tagFollowing.setUserAccount(null);
+        return this;
+    }
+
+    public void setTagfollowings(Set<TagFollowing> tagFollowings) {
+        this.tagfollowings = tagFollowings;
     }
 
     @Override

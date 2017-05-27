@@ -12,10 +12,10 @@ export class EventParticipation {
         public id?: number,
         public author?: string,
         public guid?: string,
-        public parentguid?: string,
+        public parentGuid?: string,
         public status?: EventStatus,
-        public authorsignature?: string,
-        public parentauthorsignature?: string,
+        public authorSignature?: string,
+        public parentAuthorSignature?: string,
         public event?: Event,
         public person?: Person,
     ) {

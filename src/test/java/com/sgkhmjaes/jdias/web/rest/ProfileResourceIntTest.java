@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Profile;
 import com.sgkhmjaes.jdias.repository.ProfileRepository;
+import com.sgkhmjaes.jdias.service.ProfileService;
 import com.sgkhmjaes.jdias.repository.search.ProfileSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -22,10 +23,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.List;
 
+import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -43,23 +47,23 @@ public class ProfileResourceIntTest {
     private static final String DEFAULT_AUTHOR = "AAAAAAAAAA";
     private static final String UPDATED_AUTHOR = "BBBBBBBBBB";
 
-    private static final String DEFAULT_FIRSTNAME = "AAAAAAAAAA";
-    private static final String UPDATED_FIRSTNAME = "BBBBBBBBBB";
+    private static final String DEFAULT_FIRST_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_FIRST_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_LASTNAME = "AAAAAAAAAA";
-    private static final String UPDATED_LASTNAME = "BBBBBBBBBB";
+    private static final String DEFAULT_LAST_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_IMAGEURL = "AAAAAAAAAA";
-    private static final String UPDATED_IMAGEURL = "BBBBBBBBBB";
+    private static final String DEFAULT_IMAGE_URL = "AAAAAAAAAA";
+    private static final String UPDATED_IMAGE_URL = "BBBBBBBBBB";
 
-    private static final String DEFAULT_IMAGEURLSMALL = "AAAAAAAAAA";
-    private static final String UPDATED_IMAGEURLSMALL = "BBBBBBBBBB";
+    private static final String DEFAULT_IMAGE_URL_SMALL = "AAAAAAAAAA";
+    private static final String UPDATED_IMAGE_URL_SMALL = "BBBBBBBBBB";
 
-    private static final String DEFAULT_IMAGEURLMEDIUM = "AAAAAAAAAA";
-    private static final String UPDATED_IMAGEURLMEDIUM = "BBBBBBBBBB";
+    private static final String DEFAULT_IMAGE_URL_MEDIUM = "AAAAAAAAAA";
+    private static final String UPDATED_IMAGE_URL_MEDIUM = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_BIRTHDAY = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_BIRTHDAY = LocalDate.now(ZoneId.systemDefault());
+    private static final ZonedDateTime DEFAULT_BIRTHDAY = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_BIRTHDAY = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     private static final String DEFAULT_GENDER = "AAAAAAAAAA";
     private static final String UPDATED_GENDER = "BBBBBBBBBB";
@@ -76,11 +80,14 @@ public class ProfileResourceIntTest {
     private static final Boolean DEFAULT_NSFW = false;
     private static final Boolean UPDATED_NSFW = true;
 
-    private static final String DEFAULT_TAGSTRING = "AAAAAAAAAA";
-    private static final String UPDATED_TAGSTRING = "BBBBBBBBBB";
+    private static final String DEFAULT_TAG_STRING = "AAAAAAAAAA";
+    private static final String UPDATED_TAG_STRING = "BBBBBBBBBB";
 
     @Autowired
     private ProfileRepository profileRepository;
+
+    @Autowired
+    private ProfileService profileService;
 
     @Autowired
     private ProfileSearchRepository profileSearchRepository;
@@ -104,7 +111,7 @@ public class ProfileResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ProfileResource profileResource = new ProfileResource(profileRepository, profileSearchRepository);
+        ProfileResource profileResource = new ProfileResource(profileService);
         this.restProfileMockMvc = MockMvcBuilders.standaloneSetup(profileResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -120,18 +127,18 @@ public class ProfileResourceIntTest {
     public static Profile createEntity(EntityManager em) {
         Profile profile = new Profile()
             .author(DEFAULT_AUTHOR)
-            .firstname(DEFAULT_FIRSTNAME)
-            .lastname(DEFAULT_LASTNAME)
-            .imageurl(DEFAULT_IMAGEURL)
-            .imageurlsmall(DEFAULT_IMAGEURLSMALL)
-            .imageurlmedium(DEFAULT_IMAGEURLMEDIUM)
+            .firstName(DEFAULT_FIRST_NAME)
+            .lastName(DEFAULT_LAST_NAME)
+            .imageUrl(DEFAULT_IMAGE_URL)
+            .imageUrlSmall(DEFAULT_IMAGE_URL_SMALL)
+            .imageUrlMedium(DEFAULT_IMAGE_URL_MEDIUM)
             .birthday(DEFAULT_BIRTHDAY)
             .gender(DEFAULT_GENDER)
             .bio(DEFAULT_BIO)
             .location(DEFAULT_LOCATION)
             .searchable(DEFAULT_SEARCHABLE)
             .nsfw(DEFAULT_NSFW)
-            .tagstring(DEFAULT_TAGSTRING);
+            .tagString(DEFAULT_TAG_STRING);
         return profile;
     }
 
@@ -157,18 +164,18 @@ public class ProfileResourceIntTest {
         assertThat(profileList).hasSize(databaseSizeBeforeCreate + 1);
         Profile testProfile = profileList.get(profileList.size() - 1);
         assertThat(testProfile.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
-        assertThat(testProfile.getFirstname()).isEqualTo(DEFAULT_FIRSTNAME);
-        assertThat(testProfile.getLastname()).isEqualTo(DEFAULT_LASTNAME);
-        assertThat(testProfile.getImageurl()).isEqualTo(DEFAULT_IMAGEURL);
-        assertThat(testProfile.getImageurlsmall()).isEqualTo(DEFAULT_IMAGEURLSMALL);
-        assertThat(testProfile.getImageurlmedium()).isEqualTo(DEFAULT_IMAGEURLMEDIUM);
+        assertThat(testProfile.getFirstName()).isEqualTo(DEFAULT_FIRST_NAME);
+        assertThat(testProfile.getLastName()).isEqualTo(DEFAULT_LAST_NAME);
+        assertThat(testProfile.getImageUrl()).isEqualTo(DEFAULT_IMAGE_URL);
+        assertThat(testProfile.getImageUrlSmall()).isEqualTo(DEFAULT_IMAGE_URL_SMALL);
+        assertThat(testProfile.getImageUrlMedium()).isEqualTo(DEFAULT_IMAGE_URL_MEDIUM);
         assertThat(testProfile.getBirthday()).isEqualTo(DEFAULT_BIRTHDAY);
         assertThat(testProfile.getGender()).isEqualTo(DEFAULT_GENDER);
         assertThat(testProfile.getBio()).isEqualTo(DEFAULT_BIO);
         assertThat(testProfile.getLocation()).isEqualTo(DEFAULT_LOCATION);
         assertThat(testProfile.isSearchable()).isEqualTo(DEFAULT_SEARCHABLE);
         assertThat(testProfile.isNsfw()).isEqualTo(DEFAULT_NSFW);
-        assertThat(testProfile.getTagstring()).isEqualTo(DEFAULT_TAGSTRING);
+        assertThat(testProfile.getTagString()).isEqualTo(DEFAULT_TAG_STRING);
 
         // Validate the Profile in Elasticsearch
         Profile profileEs = profileSearchRepository.findOne(testProfile.getId());
@@ -206,18 +213,18 @@ public class ProfileResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(profile.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].firstname").value(hasItem(DEFAULT_FIRSTNAME.toString())))
-            .andExpect(jsonPath("$.[*].lastname").value(hasItem(DEFAULT_LASTNAME.toString())))
-            .andExpect(jsonPath("$.[*].imageurl").value(hasItem(DEFAULT_IMAGEURL.toString())))
-            .andExpect(jsonPath("$.[*].imageurlsmall").value(hasItem(DEFAULT_IMAGEURLSMALL.toString())))
-            .andExpect(jsonPath("$.[*].imageurlmedium").value(hasItem(DEFAULT_IMAGEURLMEDIUM.toString())))
-            .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
+            .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME.toString())))
+            .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME.toString())))
+            .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL.toString())))
+            .andExpect(jsonPath("$.[*].imageUrlSmall").value(hasItem(DEFAULT_IMAGE_URL_SMALL.toString())))
+            .andExpect(jsonPath("$.[*].imageUrlMedium").value(hasItem(DEFAULT_IMAGE_URL_MEDIUM.toString())))
+            .andExpect(jsonPath("$.[*].birthday").value(hasItem(sameInstant(DEFAULT_BIRTHDAY))))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
             .andExpect(jsonPath("$.[*].bio").value(hasItem(DEFAULT_BIO.toString())))
             .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION.toString())))
             .andExpect(jsonPath("$.[*].searchable").value(hasItem(DEFAULT_SEARCHABLE.booleanValue())))
             .andExpect(jsonPath("$.[*].nsfw").value(hasItem(DEFAULT_NSFW.booleanValue())))
-            .andExpect(jsonPath("$.[*].tagstring").value(hasItem(DEFAULT_TAGSTRING.toString())));
+            .andExpect(jsonPath("$.[*].tagString").value(hasItem(DEFAULT_TAG_STRING.toString())));
     }
 
     @Test
@@ -232,18 +239,18 @@ public class ProfileResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(profile.getId().intValue()))
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-            .andExpect(jsonPath("$.firstname").value(DEFAULT_FIRSTNAME.toString()))
-            .andExpect(jsonPath("$.lastname").value(DEFAULT_LASTNAME.toString()))
-            .andExpect(jsonPath("$.imageurl").value(DEFAULT_IMAGEURL.toString()))
-            .andExpect(jsonPath("$.imageurlsmall").value(DEFAULT_IMAGEURLSMALL.toString()))
-            .andExpect(jsonPath("$.imageurlmedium").value(DEFAULT_IMAGEURLMEDIUM.toString()))
-            .andExpect(jsonPath("$.birthday").value(DEFAULT_BIRTHDAY.toString()))
+            .andExpect(jsonPath("$.firstName").value(DEFAULT_FIRST_NAME.toString()))
+            .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME.toString()))
+            .andExpect(jsonPath("$.imageUrl").value(DEFAULT_IMAGE_URL.toString()))
+            .andExpect(jsonPath("$.imageUrlSmall").value(DEFAULT_IMAGE_URL_SMALL.toString()))
+            .andExpect(jsonPath("$.imageUrlMedium").value(DEFAULT_IMAGE_URL_MEDIUM.toString()))
+            .andExpect(jsonPath("$.birthday").value(sameInstant(DEFAULT_BIRTHDAY)))
             .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()))
             .andExpect(jsonPath("$.bio").value(DEFAULT_BIO.toString()))
             .andExpect(jsonPath("$.location").value(DEFAULT_LOCATION.toString()))
             .andExpect(jsonPath("$.searchable").value(DEFAULT_SEARCHABLE.booleanValue()))
             .andExpect(jsonPath("$.nsfw").value(DEFAULT_NSFW.booleanValue()))
-            .andExpect(jsonPath("$.tagstring").value(DEFAULT_TAGSTRING.toString()));
+            .andExpect(jsonPath("$.tagString").value(DEFAULT_TAG_STRING.toString()));
     }
 
     @Test
@@ -258,26 +265,26 @@ public class ProfileResourceIntTest {
     @Transactional
     public void updateProfile() throws Exception {
         // Initialize the database
-        profileRepository.saveAndFlush(profile);
-        profileSearchRepository.save(profile);
+        profileService.save(profile);
+
         int databaseSizeBeforeUpdate = profileRepository.findAll().size();
 
         // Update the profile
         Profile updatedProfile = profileRepository.findOne(profile.getId());
         updatedProfile
             .author(UPDATED_AUTHOR)
-            .firstname(UPDATED_FIRSTNAME)
-            .lastname(UPDATED_LASTNAME)
-            .imageurl(UPDATED_IMAGEURL)
-            .imageurlsmall(UPDATED_IMAGEURLSMALL)
-            .imageurlmedium(UPDATED_IMAGEURLMEDIUM)
+            .firstName(UPDATED_FIRST_NAME)
+            .lastName(UPDATED_LAST_NAME)
+            .imageUrl(UPDATED_IMAGE_URL)
+            .imageUrlSmall(UPDATED_IMAGE_URL_SMALL)
+            .imageUrlMedium(UPDATED_IMAGE_URL_MEDIUM)
             .birthday(UPDATED_BIRTHDAY)
             .gender(UPDATED_GENDER)
             .bio(UPDATED_BIO)
             .location(UPDATED_LOCATION)
             .searchable(UPDATED_SEARCHABLE)
             .nsfw(UPDATED_NSFW)
-            .tagstring(UPDATED_TAGSTRING);
+            .tagString(UPDATED_TAG_STRING);
 
         restProfileMockMvc.perform(put("/api/profiles")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -289,18 +296,18 @@ public class ProfileResourceIntTest {
         assertThat(profileList).hasSize(databaseSizeBeforeUpdate);
         Profile testProfile = profileList.get(profileList.size() - 1);
         assertThat(testProfile.getAuthor()).isEqualTo(UPDATED_AUTHOR);
-        assertThat(testProfile.getFirstname()).isEqualTo(UPDATED_FIRSTNAME);
-        assertThat(testProfile.getLastname()).isEqualTo(UPDATED_LASTNAME);
-        assertThat(testProfile.getImageurl()).isEqualTo(UPDATED_IMAGEURL);
-        assertThat(testProfile.getImageurlsmall()).isEqualTo(UPDATED_IMAGEURLSMALL);
-        assertThat(testProfile.getImageurlmedium()).isEqualTo(UPDATED_IMAGEURLMEDIUM);
+        assertThat(testProfile.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
+        assertThat(testProfile.getLastName()).isEqualTo(UPDATED_LAST_NAME);
+        assertThat(testProfile.getImageUrl()).isEqualTo(UPDATED_IMAGE_URL);
+        assertThat(testProfile.getImageUrlSmall()).isEqualTo(UPDATED_IMAGE_URL_SMALL);
+        assertThat(testProfile.getImageUrlMedium()).isEqualTo(UPDATED_IMAGE_URL_MEDIUM);
         assertThat(testProfile.getBirthday()).isEqualTo(UPDATED_BIRTHDAY);
         assertThat(testProfile.getGender()).isEqualTo(UPDATED_GENDER);
         assertThat(testProfile.getBio()).isEqualTo(UPDATED_BIO);
         assertThat(testProfile.getLocation()).isEqualTo(UPDATED_LOCATION);
         assertThat(testProfile.isSearchable()).isEqualTo(UPDATED_SEARCHABLE);
         assertThat(testProfile.isNsfw()).isEqualTo(UPDATED_NSFW);
-        assertThat(testProfile.getTagstring()).isEqualTo(UPDATED_TAGSTRING);
+        assertThat(testProfile.getTagString()).isEqualTo(UPDATED_TAG_STRING);
 
         // Validate the Profile in Elasticsearch
         Profile profileEs = profileSearchRepository.findOne(testProfile.getId());
@@ -329,8 +336,8 @@ public class ProfileResourceIntTest {
     @Transactional
     public void deleteProfile() throws Exception {
         // Initialize the database
-        profileRepository.saveAndFlush(profile);
-        profileSearchRepository.save(profile);
+        profileService.save(profile);
+
         int databaseSizeBeforeDelete = profileRepository.findAll().size();
 
         // Get the profile
@@ -351,8 +358,7 @@ public class ProfileResourceIntTest {
     @Transactional
     public void searchProfile() throws Exception {
         // Initialize the database
-        profileRepository.saveAndFlush(profile);
-        profileSearchRepository.save(profile);
+        profileService.save(profile);
 
         // Search the profile
         restProfileMockMvc.perform(get("/api/_search/profiles?query=id:" + profile.getId()))
@@ -360,18 +366,18 @@ public class ProfileResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(profile.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].firstname").value(hasItem(DEFAULT_FIRSTNAME.toString())))
-            .andExpect(jsonPath("$.[*].lastname").value(hasItem(DEFAULT_LASTNAME.toString())))
-            .andExpect(jsonPath("$.[*].imageurl").value(hasItem(DEFAULT_IMAGEURL.toString())))
-            .andExpect(jsonPath("$.[*].imageurlsmall").value(hasItem(DEFAULT_IMAGEURLSMALL.toString())))
-            .andExpect(jsonPath("$.[*].imageurlmedium").value(hasItem(DEFAULT_IMAGEURLMEDIUM.toString())))
-            .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
+            .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME.toString())))
+            .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME.toString())))
+            .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL.toString())))
+            .andExpect(jsonPath("$.[*].imageUrlSmall").value(hasItem(DEFAULT_IMAGE_URL_SMALL.toString())))
+            .andExpect(jsonPath("$.[*].imageUrlMedium").value(hasItem(DEFAULT_IMAGE_URL_MEDIUM.toString())))
+            .andExpect(jsonPath("$.[*].birthday").value(hasItem(sameInstant(DEFAULT_BIRTHDAY))))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
             .andExpect(jsonPath("$.[*].bio").value(hasItem(DEFAULT_BIO.toString())))
             .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION.toString())))
             .andExpect(jsonPath("$.[*].searchable").value(hasItem(DEFAULT_SEARCHABLE.booleanValue())))
             .andExpect(jsonPath("$.[*].nsfw").value(hasItem(DEFAULT_NSFW.booleanValue())))
-            .andExpect(jsonPath("$.[*].tagstring").value(hasItem(DEFAULT_TAGSTRING.toString())));
+            .andExpect(jsonPath("$.[*].tagString").value(hasItem(DEFAULT_TAG_STRING.toString())));
     }
 
     @Test

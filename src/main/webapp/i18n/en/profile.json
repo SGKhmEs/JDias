@@ -17,18 +17,18 @@
                 "title": "Profile"
             },
             "author": "Author",
-            "firstname": "Firstname",
-            "lastname": "Lastname",
-            "imageurl": "Imageurl",
-            "imageurlsmall": "Imageurlsmall",
-            "imageurlmedium": "Imageurlmedium",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "imageUrl": "Image Url",
+            "imageUrlSmall": "Image Url Small",
+            "imageUrlMedium": "Image Url Medium",
             "birthday": "Birthday",
             "gender": "Gender",
             "bio": "Bio",
             "location": "Location",
             "searchable": "Searchable",
             "nsfw": "Nsfw",
-            "tagstring": "Tagstring"
+            "tagString": "Tag String"
         }
     }
 }

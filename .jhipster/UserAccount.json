@@ -22,6 +22,18 @@
             "relationshipName": "conversations",
             "otherEntityName": "conversation",
             "otherEntityRelationshipName": "userAccount"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "aspectmemberships",
+            "otherEntityName": "aspectMembership",
+            "otherEntityRelationshipName": "userAccount"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "tagfollowings",
+            "otherEntityName": "tagFollowing",
+            "otherEntityRelationshipName": "userAccount"
         }
     ],
     "fields": [
@@ -134,7 +146,7 @@
             "fieldType": "Boolean"
         }
     ],
-    "changelogDate": "20170525164620",
+    "changelogDate": "20170527190340",
     "entityTableName": "user_account",
     "dto": "no",
     "pagination": "no",

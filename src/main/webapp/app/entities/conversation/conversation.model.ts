@@ -7,7 +7,7 @@ export class Conversation {
         public author?: string,
         public guid?: string,
         public subject?: string,
-        public createdat?: any,
+        public createdAt?: any,
         public message?: string,
         public participants?: Person,
         public messages?: Message,

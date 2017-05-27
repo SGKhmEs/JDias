@@ -25,25 +25,22 @@
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.photo.createdat" for="field_createdat">Createdat</label>
-            <div class="input-group">
-                <input id="field_createdat" type="text" class="form-control" name="createdat" ngbDatepicker  #createdatDp="ngbDatepicker" [(ngModel)]="photo.createdat"
-                />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="createdatDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
+            <label class="form-control-label" jhiTranslate="jDiasApp.photo.createdAt" for="field_createdAt">Created At</label>
+            <div class="d-flex">
+                <input id="field_createdAt" type="datetime-local" class="form-control" name="createdAt" [(ngModel)]="photo.createdAt"
+                  />
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.photo.remotephotopath" for="field_remotephotopath">Remotephotopath</label>
-            <input type="text" class="form-control" name="remotephotopath" id="field_remotephotopath"
-                [(ngModel)]="photo.remotephotopath"
+            <label class="form-control-label" jhiTranslate="jDiasApp.photo.remotePhotoPath" for="field_remotePhotoPath">Remote Photo Path</label>
+            <input type="text" class="form-control" name="remotePhotoPath" id="field_remotePhotoPath"
+                [(ngModel)]="photo.remotePhotoPath"
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.photo.remotephotoname" for="field_remotephotoname">Remotephotoname</label>
-            <input type="text" class="form-control" name="remotephotoname" id="field_remotephotoname"
-                [(ngModel)]="photo.remotephotoname"
+            <label class="form-control-label" jhiTranslate="jDiasApp.photo.remotePhotoName" for="field_remotePhotoName">Remote Photo Name</label>
+            <input type="text" class="form-control" name="remotePhotoName" id="field_remotePhotoName"
+                [(ngModel)]="photo.remotePhotoName"
              />
         </div>
         <div class="form-group">
@@ -65,9 +62,9 @@
              />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.photo.statusmessageguid" for="field_statusmessageguid">Statusmessageguid</label>
-            <input type="text" class="form-control" name="statusmessageguid" id="field_statusmessageguid"
-                [(ngModel)]="photo.statusmessageguid"
+            <label class="form-control-label" jhiTranslate="jDiasApp.photo.statusMessageGuid" for="field_statusMessageGuid">Status Message Guid</label>
+            <input type="text" class="form-control" name="statusMessageGuid" id="field_statusMessageGuid"
+                [(ngModel)]="photo.statusMessageGuid"
              />
         </div>
 

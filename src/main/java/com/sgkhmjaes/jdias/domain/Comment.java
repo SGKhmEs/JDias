@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 /**
@@ -31,23 +31,23 @@ public class Comment implements Serializable {
     @Column(name = "guid")
     private String guid;
 
-    @Column(name = "parentguid")
-    private String parentguid;
+    @Column(name = "parent_guid")
+    private String parentGuid;
 
     @Column(name = "text")
     private String text;
 
-    @Column(name = "createdat")
-    private LocalDate createdat;
+    @Column(name = "created_at")
+    private ZonedDateTime createdAt;
 
-    @Column(name = "authorsignature")
-    private String authorsignature;
+    @Column(name = "author_signature")
+    private String authorSignature;
 
-    @Column(name = "parentauthorsignature")
-    private String parentauthorsignature;
+    @Column(name = "parent_author_signature")
+    private String parentAuthorSignature;
 
-    @Column(name = "threadparentguid")
-    private String threadparentguid;
+    @Column(name = "thread_parent_guid")
+    private String threadParentGuid;
 
     @ManyToOne
     private Post post;
@@ -89,17 +89,17 @@ public class Comment implements Serializable {
         this.guid = guid;
     }
 
-    public String getParentguid() {
-        return parentguid;
+    public String getParentGuid() {
+        return parentGuid;
     }
 
-    public Comment parentguid(String parentguid) {
-        this.parentguid = parentguid;
+    public Comment parentGuid(String parentGuid) {
+        this.parentGuid = parentGuid;
         return this;
     }
 
-    public void setParentguid(String parentguid) {
-        this.parentguid = parentguid;
+    public void setParentGuid(String parentGuid) {
+        this.parentGuid = parentGuid;
     }
 
     public String getText() {
@@ -115,56 +115,56 @@ public class Comment implements Serializable {
         this.text = text;
     }
 
-    public LocalDate getCreatedat() {
-        return createdat;
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public Comment createdat(LocalDate createdat) {
-        this.createdat = createdat;
+    public Comment createdAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
-    public void setCreatedat(LocalDate createdat) {
-        this.createdat = createdat;
+    public void setCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getAuthorsignature() {
-        return authorsignature;
+    public String getAuthorSignature() {
+        return authorSignature;
     }
 
-    public Comment authorsignature(String authorsignature) {
-        this.authorsignature = authorsignature;
+    public Comment authorSignature(String authorSignature) {
+        this.authorSignature = authorSignature;
         return this;
     }
 
-    public void setAuthorsignature(String authorsignature) {
-        this.authorsignature = authorsignature;
+    public void setAuthorSignature(String authorSignature) {
+        this.authorSignature = authorSignature;
     }
 
-    public String getParentauthorsignature() {
-        return parentauthorsignature;
+    public String getParentAuthorSignature() {
+        return parentAuthorSignature;
     }
 
-    public Comment parentauthorsignature(String parentauthorsignature) {
-        this.parentauthorsignature = parentauthorsignature;
+    public Comment parentAuthorSignature(String parentAuthorSignature) {
+        this.parentAuthorSignature = parentAuthorSignature;
         return this;
     }
 
-    public void setParentauthorsignature(String parentauthorsignature) {
-        this.parentauthorsignature = parentauthorsignature;
+    public void setParentAuthorSignature(String parentAuthorSignature) {
+        this.parentAuthorSignature = parentAuthorSignature;
     }
 
-    public String getThreadparentguid() {
-        return threadparentguid;
+    public String getThreadParentGuid() {
+        return threadParentGuid;
     }
 
-    public Comment threadparentguid(String threadparentguid) {
-        this.threadparentguid = threadparentguid;
+    public Comment threadParentGuid(String threadParentGuid) {
+        this.threadParentGuid = threadParentGuid;
         return this;
     }
 
-    public void setThreadparentguid(String threadparentguid) {
-        this.threadparentguid = threadparentguid;
+    public void setThreadParentGuid(String threadParentGuid) {
+        this.threadParentGuid = threadParentGuid;
     }
 
     public Post getPost() {
@@ -219,12 +219,12 @@ public class Comment implements Serializable {
             "id=" + getId() +
             ", author='" + getAuthor() + "'" +
             ", guid='" + getGuid() + "'" +
-            ", parentguid='" + getParentguid() + "'" +
+            ", parentGuid='" + getParentGuid() + "'" +
             ", text='" + getText() + "'" +
-            ", createdat='" + getCreatedat() + "'" +
-            ", authorsignature='" + getAuthorsignature() + "'" +
-            ", parentauthorsignature='" + getParentauthorsignature() + "'" +
-            ", threadparentguid='" + getThreadparentguid() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", authorSignature='" + getAuthorSignature() + "'" +
+            ", parentAuthorSignature='" + getParentAuthorSignature() + "'" +
+            ", threadParentGuid='" + getThreadParentGuid() + "'" +
             "}";
     }
 }

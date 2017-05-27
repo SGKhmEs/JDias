@@ -33,7 +33,7 @@
             <th jhiSortBy="author"><span jhiTranslate="jDiasApp.conversation.author">Author</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="guid"><span jhiTranslate="jDiasApp.conversation.guid">Guid</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="subject"><span jhiTranslate="jDiasApp.conversation.subject">Subject</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="createdat"><span jhiTranslate="jDiasApp.conversation.createdat">Createdat</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createdAt"><span jhiTranslate="jDiasApp.conversation.createdAt">Created At</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="message"><span jhiTranslate="jDiasApp.conversation.message">Message</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="userAccount.id"><span jhiTranslate="jDiasApp.conversation.userAccount">User Account</span> <span class="fa fa-sort"></span></th>
             <th></th>
@@ -45,7 +45,7 @@
                 <td>{{conversation.author}}</td>
                 <td>{{conversation.guid}}</td>
                 <td>{{conversation.subject}}</td>
-                <td>{{conversation.createdat | date:'mediumDate'}}</td>
+                <td>{{conversation.createdAt | date:'medium'}}</td>
                 <td>{{conversation.message}}</td>
                 <td>
                     <div *ngIf="conversation.userAccount">

@@ -18,9 +18,9 @@
             },
             "author": "Author",
             "guid": "Guid",
-            "conversationguid": "Conversationguid",
+            "conversationGuid": "Conversation Guid",
             "text": "Text",
-            "createdat": "Createdat",
+            "createdAt": "Created At",
             "conversation": "Conversation"
         }
     }

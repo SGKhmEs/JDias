@@ -30,7 +30,7 @@
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170525164619",
+    "changelogDate": "20170527190336",
     "entityTableName": "status_message",
     "dto": "no",
     "pagination": "no",

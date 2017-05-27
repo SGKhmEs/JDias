@@ -26,7 +26,6 @@ export class CommentDialogComponent implements OnInit {
     posts: Post[];
 
     people: Person[];
-    createdatDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
