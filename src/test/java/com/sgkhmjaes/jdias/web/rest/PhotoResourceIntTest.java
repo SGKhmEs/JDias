@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Photo;
 import com.sgkhmjaes.jdias.repository.PhotoRepository;
+import com.sgkhmjaes.jdias.service.PhotoService;
 import com.sgkhmjaes.jdias.repository.search.PhotoSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -22,13 +23,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -49,8 +47,8 @@ public class PhotoResourceIntTest {
     private static final Boolean DEFAULT_GUID = false;
     private static final Boolean UPDATED_GUID = true;
 
-    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_REMOTE_PHOTO_PATH = "AAAAAAAAAA";
     private static final String UPDATED_REMOTE_PHOTO_PATH = "BBBBBBBBBB";
@@ -74,6 +72,9 @@ public class PhotoResourceIntTest {
     private PhotoRepository photoRepository;
 
     @Autowired
+    private PhotoService photoService;
+
+    @Autowired
     private PhotoSearchRepository photoSearchRepository;
 
     @Autowired
@@ -95,7 +96,7 @@ public class PhotoResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PhotoResource photoResource = new PhotoResource(photoRepository, photoSearchRepository);
+        PhotoResource photoResource = new PhotoResource(photoService);
         this.restPhotoMockMvc = MockMvcBuilders.standaloneSetup(photoResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -190,7 +191,7 @@ public class PhotoResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(photo.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.booleanValue())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].remotePhotoPath").value(hasItem(DEFAULT_REMOTE_PHOTO_PATH.toString())))
             .andExpect(jsonPath("$.[*].remotePhotoName").value(hasItem(DEFAULT_REMOTE_PHOTO_NAME.toString())))
             .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT)))
@@ -212,7 +213,7 @@ public class PhotoResourceIntTest {
             .andExpect(jsonPath("$.id").value(photo.getId().intValue()))
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
             .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.booleanValue()))
-            .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
             .andExpect(jsonPath("$.remotePhotoPath").value(DEFAULT_REMOTE_PHOTO_PATH.toString()))
             .andExpect(jsonPath("$.remotePhotoName").value(DEFAULT_REMOTE_PHOTO_NAME.toString()))
             .andExpect(jsonPath("$.height").value(DEFAULT_HEIGHT))
@@ -233,8 +234,8 @@ public class PhotoResourceIntTest {
     @Transactional
     public void updatePhoto() throws Exception {
         // Initialize the database
-        photoRepository.saveAndFlush(photo);
-        photoSearchRepository.save(photo);
+        photoService.save(photo);
+
         int databaseSizeBeforeUpdate = photoRepository.findAll().size();
 
         // Update the photo
@@ -296,8 +297,8 @@ public class PhotoResourceIntTest {
     @Transactional
     public void deletePhoto() throws Exception {
         // Initialize the database
-        photoRepository.saveAndFlush(photo);
-        photoSearchRepository.save(photo);
+        photoService.save(photo);
+
         int databaseSizeBeforeDelete = photoRepository.findAll().size();
 
         // Get the photo
@@ -318,8 +319,7 @@ public class PhotoResourceIntTest {
     @Transactional
     public void searchPhoto() throws Exception {
         // Initialize the database
-        photoRepository.saveAndFlush(photo);
-        photoSearchRepository.save(photo);
+        photoService.save(photo);
 
         // Search the photo
         restPhotoMockMvc.perform(get("/api/_search/photos?query=id:" + photo.getId()))
@@ -328,7 +328,7 @@ public class PhotoResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(photo.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.booleanValue())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].remotePhotoPath").value(hasItem(DEFAULT_REMOTE_PHOTO_PATH.toString())))
             .andExpect(jsonPath("$.[*].remotePhotoName").value(hasItem(DEFAULT_REMOTE_PHOTO_NAME.toString())))
             .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT)))

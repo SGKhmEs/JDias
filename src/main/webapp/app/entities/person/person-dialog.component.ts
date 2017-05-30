@@ -29,6 +29,8 @@ export class PersonDialogComponent implements OnInit {
     profiles: Profile[];
 
     accountdeletions: AccountDeletion[];
+    createdAtDp: any;
+    updatedAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -81,19 +83,24 @@ export class PersonDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.person.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.personService.update(this.person));
+                this.personService.update(this.person), false);
         } else {
             this.subscribeToSaveResponse(
-                this.personService.create(this.person));
+                this.personService.create(this.person), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Person>) {
+    private subscribeToSaveResponse(result: Observable<Person>, isCreated: boolean) {
         result.subscribe((res: Person) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Person) {
+    private onSaveSuccess(result: Person, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.person.created'
+            : 'jDiasApp.person.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'personListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

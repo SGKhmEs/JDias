@@ -28,5 +28,5 @@
     "entityTableName": "poll_answer",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl"
 }

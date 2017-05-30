@@ -23,6 +23,7 @@ export class TaggingDialogComponent implements OnInit {
     isSaving: boolean;
 
     tags: Tag[];
+    createdAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -47,19 +48,24 @@ export class TaggingDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.tagging.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.taggingService.update(this.tagging));
+                this.taggingService.update(this.tagging), false);
         } else {
             this.subscribeToSaveResponse(
-                this.taggingService.create(this.tagging));
+                this.taggingService.create(this.tagging), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Tagging>) {
+    private subscribeToSaveResponse(result: Observable<Tagging>, isCreated: boolean) {
         result.subscribe((res: Tagging) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Tagging) {
+    private onSaveSuccess(result: Tagging, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.tagging.created'
+            : 'jDiasApp.tagging.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'taggingListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

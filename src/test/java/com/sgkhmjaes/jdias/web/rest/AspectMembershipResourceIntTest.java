@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.AspectMembership;
 import com.sgkhmjaes.jdias.repository.AspectMembershipRepository;
+import com.sgkhmjaes.jdias.service.AspectMembershipService;
 import com.sgkhmjaes.jdias.repository.search.AspectMembershipSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -22,13 +23,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -43,14 +41,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = JDiasApp.class)
 public class AspectMembershipResourceIntTest {
 
-    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
 
-    private static final ZonedDateTime DEFAULT_UPDATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_UPDATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_UPDATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_UPDATED_AT = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private AspectMembershipRepository aspectMembershipRepository;
+
+    @Autowired
+    private AspectMembershipService aspectMembershipService;
 
     @Autowired
     private AspectMembershipSearchRepository aspectMembershipSearchRepository;
@@ -74,7 +75,7 @@ public class AspectMembershipResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        AspectMembershipResource aspectMembershipResource = new AspectMembershipResource(aspectMembershipRepository, aspectMembershipSearchRepository);
+        AspectMembershipResource aspectMembershipResource = new AspectMembershipResource(aspectMembershipService);
         this.restAspectMembershipMockMvc = MockMvcBuilders.standaloneSetup(aspectMembershipResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -153,8 +154,8 @@ public class AspectMembershipResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(aspectMembership.getId().intValue())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))));
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
 
     @Test
@@ -168,8 +169,8 @@ public class AspectMembershipResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(aspectMembership.getId().intValue()))
-            .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)))
-            .andExpect(jsonPath("$.updatedAt").value(sameInstant(DEFAULT_UPDATED_AT)));
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
     }
 
     @Test
@@ -184,8 +185,8 @@ public class AspectMembershipResourceIntTest {
     @Transactional
     public void updateAspectMembership() throws Exception {
         // Initialize the database
-        aspectMembershipRepository.saveAndFlush(aspectMembership);
-        aspectMembershipSearchRepository.save(aspectMembership);
+        aspectMembershipService.save(aspectMembership);
+
         int databaseSizeBeforeUpdate = aspectMembershipRepository.findAll().size();
 
         // Update the aspectMembership
@@ -233,8 +234,8 @@ public class AspectMembershipResourceIntTest {
     @Transactional
     public void deleteAspectMembership() throws Exception {
         // Initialize the database
-        aspectMembershipRepository.saveAndFlush(aspectMembership);
-        aspectMembershipSearchRepository.save(aspectMembership);
+        aspectMembershipService.save(aspectMembership);
+
         int databaseSizeBeforeDelete = aspectMembershipRepository.findAll().size();
 
         // Get the aspectMembership
@@ -255,16 +256,15 @@ public class AspectMembershipResourceIntTest {
     @Transactional
     public void searchAspectMembership() throws Exception {
         // Initialize the database
-        aspectMembershipRepository.saveAndFlush(aspectMembership);
-        aspectMembershipSearchRepository.save(aspectMembership);
+        aspectMembershipService.save(aspectMembership);
 
         // Search the aspectMembership
         restAspectMembershipMockMvc.perform(get("/api/_search/aspect-memberships?query=id:" + aspectMembership.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(aspectMembership.getId().intValue())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))));
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
 
     @Test

@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Location;
-
-import com.sgkhmjaes.jdias.repository.LocationRepository;
-import com.sgkhmjaes.jdias.repository.search.LocationSearchRepository;
+import com.sgkhmjaes.jdias.service.LocationService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class LocationResource {
     private final Logger log = LoggerFactory.getLogger(LocationResource.class);
 
     private static final String ENTITY_NAME = "location";
-        
-    private final LocationRepository locationRepository;
 
-    private final LocationSearchRepository locationSearchRepository;
+    private final LocationService locationService;
 
-    public LocationResource(LocationRepository locationRepository, LocationSearchRepository locationSearchRepository) {
-        this.locationRepository = locationRepository;
-        this.locationSearchRepository = locationSearchRepository;
+    public LocationResource(LocationService locationService) {
+        this.locationService = locationService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class LocationResource {
         if (location.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new location cannot already have an ID")).body(null);
         }
-        Location result = locationRepository.save(location);
-        locationSearchRepository.save(result);
+        Location result = locationService.save(location);
         return ResponseEntity.created(new URI("/api/locations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class LocationResource {
         if (location.getId() == null) {
             return createLocation(location);
         }
-        Location result = locationRepository.save(location);
-        locationSearchRepository.save(result);
+        Location result = locationService.save(location);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, location.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class LocationResource {
     @Timed
     public List<Location> getAllLocations() {
         log.debug("REST request to get all Locations");
-        List<Location> locations = locationRepository.findAll();
-        return locations;
+        return locationService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class LocationResource {
     @Timed
     public ResponseEntity<Location> getLocation(@PathVariable Long id) {
         log.debug("REST request to get Location : {}", id);
-        Location location = locationRepository.findOne(id);
+        Location location = locationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(location));
     }
 
@@ -123,8 +114,7 @@ public class LocationResource {
     @Timed
     public ResponseEntity<Void> deleteLocation(@PathVariable Long id) {
         log.debug("REST request to delete Location : {}", id);
-        locationRepository.delete(id);
-        locationSearchRepository.delete(id);
+        locationService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class LocationResource {
      * SEARCH  /_search/locations?query=:query : search for the location corresponding
      * to the query.
      *
-     * @param query the query of the location search 
+     * @param query the query of the location search
      * @return the result of the search
      */
     @GetMapping("/_search/locations")
     @Timed
     public List<Location> searchLocations(@RequestParam String query) {
         log.debug("REST request to search Locations for query {}", query);
-        return StreamSupport
-            .stream(locationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return locationService.search(query);
     }
-
 
 }

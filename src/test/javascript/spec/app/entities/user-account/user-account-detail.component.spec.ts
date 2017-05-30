@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     UserAccountService,
                     EventManager
                 ]
-            }).overrideComponent(UserAccountDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(UserAccountDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

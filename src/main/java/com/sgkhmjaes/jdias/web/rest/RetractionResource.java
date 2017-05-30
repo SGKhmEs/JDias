@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Retraction;
-
-import com.sgkhmjaes.jdias.repository.RetractionRepository;
-import com.sgkhmjaes.jdias.repository.search.RetractionSearchRepository;
+import com.sgkhmjaes.jdias.service.RetractionService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class RetractionResource {
     private final Logger log = LoggerFactory.getLogger(RetractionResource.class);
 
     private static final String ENTITY_NAME = "retraction";
-        
-    private final RetractionRepository retractionRepository;
 
-    private final RetractionSearchRepository retractionSearchRepository;
+    private final RetractionService retractionService;
 
-    public RetractionResource(RetractionRepository retractionRepository, RetractionSearchRepository retractionSearchRepository) {
-        this.retractionRepository = retractionRepository;
-        this.retractionSearchRepository = retractionSearchRepository;
+    public RetractionResource(RetractionService retractionService) {
+        this.retractionService = retractionService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class RetractionResource {
         if (retraction.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new retraction cannot already have an ID")).body(null);
         }
-        Retraction result = retractionRepository.save(retraction);
-        retractionSearchRepository.save(result);
+        Retraction result = retractionService.save(retraction);
         return ResponseEntity.created(new URI("/api/retractions/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class RetractionResource {
         if (retraction.getId() == null) {
             return createRetraction(retraction);
         }
-        Retraction result = retractionRepository.save(retraction);
-        retractionSearchRepository.save(result);
+        Retraction result = retractionService.save(retraction);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, retraction.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class RetractionResource {
     @Timed
     public List<Retraction> getAllRetractions() {
         log.debug("REST request to get all Retractions");
-        List<Retraction> retractions = retractionRepository.findAll();
-        return retractions;
+        return retractionService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class RetractionResource {
     @Timed
     public ResponseEntity<Retraction> getRetraction(@PathVariable Long id) {
         log.debug("REST request to get Retraction : {}", id);
-        Retraction retraction = retractionRepository.findOne(id);
+        Retraction retraction = retractionService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(retraction));
     }
 
@@ -123,8 +114,7 @@ public class RetractionResource {
     @Timed
     public ResponseEntity<Void> deleteRetraction(@PathVariable Long id) {
         log.debug("REST request to delete Retraction : {}", id);
-        retractionRepository.delete(id);
-        retractionSearchRepository.delete(id);
+        retractionService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class RetractionResource {
      * SEARCH  /_search/retractions?query=:query : search for the retraction corresponding
      * to the query.
      *
-     * @param query the query of the retraction search 
+     * @param query the query of the retraction search
      * @return the result of the search
      */
     @GetMapping("/_search/retractions")
     @Timed
     public List<Retraction> searchRetractions(@RequestParam String query) {
         log.debug("REST request to search Retractions for query {}", query);
-        return StreamSupport
-            .stream(retractionSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return retractionService.search(query);
     }
-
 
 }

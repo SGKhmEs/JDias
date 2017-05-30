@@ -47,19 +47,24 @@ export class LikeDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.like.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.likeService.update(this.like));
+                this.likeService.update(this.like), false);
         } else {
             this.subscribeToSaveResponse(
-                this.likeService.create(this.like));
+                this.likeService.create(this.like), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Like>) {
+    private subscribeToSaveResponse(result: Observable<Like>, isCreated: boolean) {
         result.subscribe((res: Like) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Like) {
+    private onSaveSuccess(result: Like, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.like.created'
+            : 'jDiasApp.like.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'likeListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.AccountDeletion;
-
-import com.sgkhmjaes.jdias.repository.AccountDeletionRepository;
-import com.sgkhmjaes.jdias.repository.search.AccountDeletionSearchRepository;
+import com.sgkhmjaes.jdias.service.AccountDeletionService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class AccountDeletionResource {
     private final Logger log = LoggerFactory.getLogger(AccountDeletionResource.class);
 
     private static final String ENTITY_NAME = "accountDeletion";
-        
-    private final AccountDeletionRepository accountDeletionRepository;
 
-    private final AccountDeletionSearchRepository accountDeletionSearchRepository;
+    private final AccountDeletionService accountDeletionService;
 
-    public AccountDeletionResource(AccountDeletionRepository accountDeletionRepository, AccountDeletionSearchRepository accountDeletionSearchRepository) {
-        this.accountDeletionRepository = accountDeletionRepository;
-        this.accountDeletionSearchRepository = accountDeletionSearchRepository;
+    public AccountDeletionResource(AccountDeletionService accountDeletionService) {
+        this.accountDeletionService = accountDeletionService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class AccountDeletionResource {
         if (accountDeletion.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new accountDeletion cannot already have an ID")).body(null);
         }
-        AccountDeletion result = accountDeletionRepository.save(accountDeletion);
-        accountDeletionSearchRepository.save(result);
+        AccountDeletion result = accountDeletionService.save(accountDeletion);
         return ResponseEntity.created(new URI("/api/account-deletions/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class AccountDeletionResource {
         if (accountDeletion.getId() == null) {
             return createAccountDeletion(accountDeletion);
         }
-        AccountDeletion result = accountDeletionRepository.save(accountDeletion);
-        accountDeletionSearchRepository.save(result);
+        AccountDeletion result = accountDeletionService.save(accountDeletion);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, accountDeletion.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class AccountDeletionResource {
     @Timed
     public List<AccountDeletion> getAllAccountDeletions() {
         log.debug("REST request to get all AccountDeletions");
-        List<AccountDeletion> accountDeletions = accountDeletionRepository.findAll();
-        return accountDeletions;
+        return accountDeletionService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class AccountDeletionResource {
     @Timed
     public ResponseEntity<AccountDeletion> getAccountDeletion(@PathVariable Long id) {
         log.debug("REST request to get AccountDeletion : {}", id);
-        AccountDeletion accountDeletion = accountDeletionRepository.findOne(id);
+        AccountDeletion accountDeletion = accountDeletionService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(accountDeletion));
     }
 
@@ -123,8 +114,7 @@ public class AccountDeletionResource {
     @Timed
     public ResponseEntity<Void> deleteAccountDeletion(@PathVariable Long id) {
         log.debug("REST request to delete AccountDeletion : {}", id);
-        accountDeletionRepository.delete(id);
-        accountDeletionSearchRepository.delete(id);
+        accountDeletionService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class AccountDeletionResource {
      * SEARCH  /_search/account-deletions?query=:query : search for the accountDeletion corresponding
      * to the query.
      *
-     * @param query the query of the accountDeletion search 
+     * @param query the query of the accountDeletion search
      * @return the result of the search
      */
     @GetMapping("/_search/account-deletions")
     @Timed
     public List<AccountDeletion> searchAccountDeletions(@RequestParam String query) {
         log.debug("REST request to search AccountDeletions for query {}", query);
-        return StreamSupport
-            .stream(accountDeletionSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return accountDeletionService.search(query);
     }
-
 
 }

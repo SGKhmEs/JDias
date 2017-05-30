@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     TaggingService,
                     EventManager
                 ]
-            }).overrideComponent(TaggingDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(TaggingDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager } from 'ng-jhipster';
+import { AlertService, EventManager } from 'ng-jhipster';
 
 import { Reshare } from './reshare.model';
 import { ResharePopupService } from './reshare-popup.service';
@@ -19,6 +19,7 @@ export class ReshareDeleteDialogComponent {
     constructor(
         private reshareService: ReshareService,
         public activeModal: NgbActiveModal,
+        private alertService: AlertService,
         private eventManager: EventManager
     ) {
     }
@@ -35,6 +36,7 @@ export class ReshareDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
+        this.alertService.success('jDiasApp.reshare.deleted', { param : id }, null);
     }
 }
 

@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Tagging;
-
-import com.sgkhmjaes.jdias.repository.TaggingRepository;
-import com.sgkhmjaes.jdias.repository.search.TaggingSearchRepository;
+import com.sgkhmjaes.jdias.service.TaggingService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class TaggingResource {
     private final Logger log = LoggerFactory.getLogger(TaggingResource.class);
 
     private static final String ENTITY_NAME = "tagging";
-        
-    private final TaggingRepository taggingRepository;
 
-    private final TaggingSearchRepository taggingSearchRepository;
+    private final TaggingService taggingService;
 
-    public TaggingResource(TaggingRepository taggingRepository, TaggingSearchRepository taggingSearchRepository) {
-        this.taggingRepository = taggingRepository;
-        this.taggingSearchRepository = taggingSearchRepository;
+    public TaggingResource(TaggingService taggingService) {
+        this.taggingService = taggingService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class TaggingResource {
         if (tagging.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new tagging cannot already have an ID")).body(null);
         }
-        Tagging result = taggingRepository.save(tagging);
-        taggingSearchRepository.save(result);
+        Tagging result = taggingService.save(tagging);
         return ResponseEntity.created(new URI("/api/taggings/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class TaggingResource {
         if (tagging.getId() == null) {
             return createTagging(tagging);
         }
-        Tagging result = taggingRepository.save(tagging);
-        taggingSearchRepository.save(result);
+        Tagging result = taggingService.save(tagging);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tagging.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class TaggingResource {
     @Timed
     public List<Tagging> getAllTaggings() {
         log.debug("REST request to get all Taggings");
-        List<Tagging> taggings = taggingRepository.findAll();
-        return taggings;
+        return taggingService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class TaggingResource {
     @Timed
     public ResponseEntity<Tagging> getTagging(@PathVariable Long id) {
         log.debug("REST request to get Tagging : {}", id);
-        Tagging tagging = taggingRepository.findOne(id);
+        Tagging tagging = taggingService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(tagging));
     }
 
@@ -123,8 +114,7 @@ public class TaggingResource {
     @Timed
     public ResponseEntity<Void> deleteTagging(@PathVariable Long id) {
         log.debug("REST request to delete Tagging : {}", id);
-        taggingRepository.delete(id);
-        taggingSearchRepository.delete(id);
+        taggingService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class TaggingResource {
      * SEARCH  /_search/taggings?query=:query : search for the tagging corresponding
      * to the query.
      *
-     * @param query the query of the tagging search 
+     * @param query the query of the tagging search
      * @return the result of the search
      */
     @GetMapping("/_search/taggings")
     @Timed
     public List<Tagging> searchTaggings(@RequestParam String query) {
         log.debug("REST request to search Taggings for query {}", query);
-        return StreamSupport
-            .stream(taggingSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return taggingService.search(query);
     }
-
 
 }

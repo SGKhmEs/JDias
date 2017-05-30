@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.UserAccount;
-
-import com.sgkhmjaes.jdias.repository.UserAccountRepository;
-import com.sgkhmjaes.jdias.repository.search.UserAccountSearchRepository;
+import com.sgkhmjaes.jdias.service.UserAccountService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class UserAccountResource {
     private final Logger log = LoggerFactory.getLogger(UserAccountResource.class);
 
     private static final String ENTITY_NAME = "userAccount";
-        
-    private final UserAccountRepository userAccountRepository;
 
-    private final UserAccountSearchRepository userAccountSearchRepository;
+    private final UserAccountService userAccountService;
 
-    public UserAccountResource(UserAccountRepository userAccountRepository, UserAccountSearchRepository userAccountSearchRepository) {
-        this.userAccountRepository = userAccountRepository;
-        this.userAccountSearchRepository = userAccountSearchRepository;
+    public UserAccountResource(UserAccountService userAccountService) {
+        this.userAccountService = userAccountService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class UserAccountResource {
         if (userAccount.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new userAccount cannot already have an ID")).body(null);
         }
-        UserAccount result = userAccountRepository.save(userAccount);
-        userAccountSearchRepository.save(result);
+        UserAccount result = userAccountService.save(userAccount);
         return ResponseEntity.created(new URI("/api/user-accounts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class UserAccountResource {
         if (userAccount.getId() == null) {
             return createUserAccount(userAccount);
         }
-        UserAccount result = userAccountRepository.save(userAccount);
-        userAccountSearchRepository.save(result);
+        UserAccount result = userAccountService.save(userAccount);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, userAccount.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class UserAccountResource {
     @Timed
     public List<UserAccount> getAllUserAccounts() {
         log.debug("REST request to get all UserAccounts");
-        List<UserAccount> userAccounts = userAccountRepository.findAll();
-        return userAccounts;
+        return userAccountService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class UserAccountResource {
     @Timed
     public ResponseEntity<UserAccount> getUserAccount(@PathVariable Long id) {
         log.debug("REST request to get UserAccount : {}", id);
-        UserAccount userAccount = userAccountRepository.findOne(id);
+        UserAccount userAccount = userAccountService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(userAccount));
     }
 
@@ -123,8 +114,7 @@ public class UserAccountResource {
     @Timed
     public ResponseEntity<Void> deleteUserAccount(@PathVariable Long id) {
         log.debug("REST request to delete UserAccount : {}", id);
-        userAccountRepository.delete(id);
-        userAccountSearchRepository.delete(id);
+        userAccountService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class UserAccountResource {
      * SEARCH  /_search/user-accounts?query=:query : search for the userAccount corresponding
      * to the query.
      *
-     * @param query the query of the userAccount search 
+     * @param query the query of the userAccount search
      * @return the result of the search
      */
     @GetMapping("/_search/user-accounts")
     @Timed
     public List<UserAccount> searchUserAccounts(@RequestParam String query) {
         log.debug("REST request to search UserAccounts for query {}", query);
-        return StreamSupport
-            .stream(userAccountSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return userAccountService.search(query);
     }
-
 
 }

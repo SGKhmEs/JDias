@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -41,16 +41,16 @@ public class UserAccount implements Serializable {
     private String language;
 
     @Column(name = "remember_created_at")
-    private ZonedDateTime rememberCreatedAt;
+    private LocalDate rememberCreatedAt;
 
     @Column(name = "sign_in_count")
     private Integer signInCount;
 
     @Column(name = "current_sign_in_at")
-    private ZonedDateTime currentSignInAt;
+    private LocalDate currentSignInAt;
 
     @Column(name = "last_sign_in_at")
-    private ZonedDateTime lastSignInAt;
+    private LocalDate lastSignInAt;
 
     @Column(name = "current_sign_in_ip")
     private String currentSignInIp;
@@ -59,13 +59,13 @@ public class UserAccount implements Serializable {
     private String lastSignInIp;
 
     @Column(name = "created_at")
-    private ZonedDateTime createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "updated_at")
-    private ZonedDateTime updatedAt;
+    private LocalDate updatedAt;
 
     @Column(name = "locked_at")
-    private ZonedDateTime lockedAt;
+    private LocalDate lockedAt;
 
     @Column(name = "show_community_spotlight_in_stream")
     private Boolean showCommunitySpotlightInStream;
@@ -80,13 +80,13 @@ public class UserAccount implements Serializable {
     private String hiddenShareables;
 
     @Column(name = "last_seen")
-    private ZonedDateTime lastSeen;
+    private LocalDate lastSeen;
 
     @Column(name = "export_e")
     private String exportE;
 
     @Column(name = "exported_at")
-    private ZonedDateTime exportedAt;
+    private LocalDate exportedAt;
 
     @Column(name = "exporting")
     private Boolean exporting;
@@ -98,7 +98,7 @@ public class UserAccount implements Serializable {
     private String exportedPhotosFile;
 
     @Column(name = "exported_photos_at")
-    private ZonedDateTime exportedPhotosAt;
+    private LocalDate exportedPhotosAt;
 
     @Column(name = "exporting_photos")
     private Boolean exportingPhotos;
@@ -192,16 +192,16 @@ public class UserAccount implements Serializable {
         this.language = language;
     }
 
-    public ZonedDateTime getRememberCreatedAt() {
+    public LocalDate getRememberCreatedAt() {
         return rememberCreatedAt;
     }
 
-    public UserAccount rememberCreatedAt(ZonedDateTime rememberCreatedAt) {
+    public UserAccount rememberCreatedAt(LocalDate rememberCreatedAt) {
         this.rememberCreatedAt = rememberCreatedAt;
         return this;
     }
 
-    public void setRememberCreatedAt(ZonedDateTime rememberCreatedAt) {
+    public void setRememberCreatedAt(LocalDate rememberCreatedAt) {
         this.rememberCreatedAt = rememberCreatedAt;
     }
 
@@ -218,29 +218,29 @@ public class UserAccount implements Serializable {
         this.signInCount = signInCount;
     }
 
-    public ZonedDateTime getCurrentSignInAt() {
+    public LocalDate getCurrentSignInAt() {
         return currentSignInAt;
     }
 
-    public UserAccount currentSignInAt(ZonedDateTime currentSignInAt) {
+    public UserAccount currentSignInAt(LocalDate currentSignInAt) {
         this.currentSignInAt = currentSignInAt;
         return this;
     }
 
-    public void setCurrentSignInAt(ZonedDateTime currentSignInAt) {
+    public void setCurrentSignInAt(LocalDate currentSignInAt) {
         this.currentSignInAt = currentSignInAt;
     }
 
-    public ZonedDateTime getLastSignInAt() {
+    public LocalDate getLastSignInAt() {
         return lastSignInAt;
     }
 
-    public UserAccount lastSignInAt(ZonedDateTime lastSignInAt) {
+    public UserAccount lastSignInAt(LocalDate lastSignInAt) {
         this.lastSignInAt = lastSignInAt;
         return this;
     }
 
-    public void setLastSignInAt(ZonedDateTime lastSignInAt) {
+    public void setLastSignInAt(LocalDate lastSignInAt) {
         this.lastSignInAt = lastSignInAt;
     }
 
@@ -270,42 +270,42 @@ public class UserAccount implements Serializable {
         this.lastSignInIp = lastSignInIp;
     }
 
-    public ZonedDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public UserAccount createdAt(ZonedDateTime createdAt) {
+    public UserAccount createdAt(LocalDate createdAt) {
         this.createdAt = createdAt;
         return this;
     }
 
-    public void setCreatedAt(ZonedDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public ZonedDateTime getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public UserAccount updatedAt(ZonedDateTime updatedAt) {
+    public UserAccount updatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
         return this;
     }
 
-    public void setUpdatedAt(ZonedDateTime updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    public ZonedDateTime getLockedAt() {
+    public LocalDate getLockedAt() {
         return lockedAt;
     }
 
-    public UserAccount lockedAt(ZonedDateTime lockedAt) {
+    public UserAccount lockedAt(LocalDate lockedAt) {
         this.lockedAt = lockedAt;
         return this;
     }
 
-    public void setLockedAt(ZonedDateTime lockedAt) {
+    public void setLockedAt(LocalDate lockedAt) {
         this.lockedAt = lockedAt;
     }
 
@@ -361,16 +361,16 @@ public class UserAccount implements Serializable {
         this.hiddenShareables = hiddenShareables;
     }
 
-    public ZonedDateTime getLastSeen() {
+    public LocalDate getLastSeen() {
         return lastSeen;
     }
 
-    public UserAccount lastSeen(ZonedDateTime lastSeen) {
+    public UserAccount lastSeen(LocalDate lastSeen) {
         this.lastSeen = lastSeen;
         return this;
     }
 
-    public void setLastSeen(ZonedDateTime lastSeen) {
+    public void setLastSeen(LocalDate lastSeen) {
         this.lastSeen = lastSeen;
     }
 
@@ -387,16 +387,16 @@ public class UserAccount implements Serializable {
         this.exportE = exportE;
     }
 
-    public ZonedDateTime getExportedAt() {
+    public LocalDate getExportedAt() {
         return exportedAt;
     }
 
-    public UserAccount exportedAt(ZonedDateTime exportedAt) {
+    public UserAccount exportedAt(LocalDate exportedAt) {
         this.exportedAt = exportedAt;
         return this;
     }
 
-    public void setExportedAt(ZonedDateTime exportedAt) {
+    public void setExportedAt(LocalDate exportedAt) {
         this.exportedAt = exportedAt;
     }
 
@@ -439,16 +439,16 @@ public class UserAccount implements Serializable {
         this.exportedPhotosFile = exportedPhotosFile;
     }
 
-    public ZonedDateTime getExportedPhotosAt() {
+    public LocalDate getExportedPhotosAt() {
         return exportedPhotosAt;
     }
 
-    public UserAccount exportedPhotosAt(ZonedDateTime exportedPhotosAt) {
+    public UserAccount exportedPhotosAt(LocalDate exportedPhotosAt) {
         this.exportedPhotosAt = exportedPhotosAt;
         return this;
     }
 
-    public void setExportedPhotosAt(ZonedDateTime exportedPhotosAt) {
+    public void setExportedPhotosAt(LocalDate exportedPhotosAt) {
         this.exportedPhotosAt = exportedPhotosAt;
     }
 

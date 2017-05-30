@@ -33,11 +33,11 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="jhi_start" type="timestamp">
+            <column name="jhi_start" type="date">
                 <constraints nullable="true" />
             </column>
 
-            <column name="jhi_end" type="timestamp">
+            <column name="jhi_end" type="date">
                 <constraints nullable="true" />
             </column>
 
@@ -55,8 +55,6 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="event" columnName="jhi_start" columnDataType="datetime"/>
-        <dropDefaultValue tableName="event" columnName="jhi_end" columnDataType="datetime"/>
         
     </changeSet>
 </databaseChangeLog>

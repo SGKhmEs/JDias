@@ -19,7 +19,7 @@ public interface ConversationService {
 
     /**
      *  Get all the conversations.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */

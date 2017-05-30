@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     AspectService,
                     EventManager
                 ]
-            }).overrideComponent(AspectDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(AspectDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

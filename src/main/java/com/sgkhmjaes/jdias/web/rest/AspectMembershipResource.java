@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.AspectMembership;
-
-import com.sgkhmjaes.jdias.repository.AspectMembershipRepository;
-import com.sgkhmjaes.jdias.repository.search.AspectMembershipSearchRepository;
+import com.sgkhmjaes.jdias.service.AspectMembershipService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class AspectMembershipResource {
     private final Logger log = LoggerFactory.getLogger(AspectMembershipResource.class);
 
     private static final String ENTITY_NAME = "aspectMembership";
-        
-    private final AspectMembershipRepository aspectMembershipRepository;
 
-    private final AspectMembershipSearchRepository aspectMembershipSearchRepository;
+    private final AspectMembershipService aspectMembershipService;
 
-    public AspectMembershipResource(AspectMembershipRepository aspectMembershipRepository, AspectMembershipSearchRepository aspectMembershipSearchRepository) {
-        this.aspectMembershipRepository = aspectMembershipRepository;
-        this.aspectMembershipSearchRepository = aspectMembershipSearchRepository;
+    public AspectMembershipResource(AspectMembershipService aspectMembershipService) {
+        this.aspectMembershipService = aspectMembershipService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class AspectMembershipResource {
         if (aspectMembership.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new aspectMembership cannot already have an ID")).body(null);
         }
-        AspectMembership result = aspectMembershipRepository.save(aspectMembership);
-        aspectMembershipSearchRepository.save(result);
+        AspectMembership result = aspectMembershipService.save(aspectMembership);
         return ResponseEntity.created(new URI("/api/aspect-memberships/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class AspectMembershipResource {
         if (aspectMembership.getId() == null) {
             return createAspectMembership(aspectMembership);
         }
-        AspectMembership result = aspectMembershipRepository.save(aspectMembership);
-        aspectMembershipSearchRepository.save(result);
+        AspectMembership result = aspectMembershipService.save(aspectMembership);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, aspectMembership.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class AspectMembershipResource {
     @Timed
     public List<AspectMembership> getAllAspectMemberships() {
         log.debug("REST request to get all AspectMemberships");
-        List<AspectMembership> aspectMemberships = aspectMembershipRepository.findAll();
-        return aspectMemberships;
+        return aspectMembershipService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class AspectMembershipResource {
     @Timed
     public ResponseEntity<AspectMembership> getAspectMembership(@PathVariable Long id) {
         log.debug("REST request to get AspectMembership : {}", id);
-        AspectMembership aspectMembership = aspectMembershipRepository.findOne(id);
+        AspectMembership aspectMembership = aspectMembershipService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(aspectMembership));
     }
 
@@ -123,8 +114,7 @@ public class AspectMembershipResource {
     @Timed
     public ResponseEntity<Void> deleteAspectMembership(@PathVariable Long id) {
         log.debug("REST request to delete AspectMembership : {}", id);
-        aspectMembershipRepository.delete(id);
-        aspectMembershipSearchRepository.delete(id);
+        aspectMembershipService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class AspectMembershipResource {
      * SEARCH  /_search/aspect-memberships?query=:query : search for the aspectMembership corresponding
      * to the query.
      *
-     * @param query the query of the aspectMembership search 
+     * @param query the query of the aspectMembership search
      * @return the result of the search
      */
     @GetMapping("/_search/aspect-memberships")
     @Timed
     public List<AspectMembership> searchAspectMemberships(@RequestParam String query) {
         log.debug("REST request to search AspectMemberships for query {}", query);
-        return StreamSupport
-            .stream(aspectMembershipSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return aspectMembershipService.search(query);
     }
-
 
 }

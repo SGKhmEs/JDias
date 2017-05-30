@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Poll;
-
-import com.sgkhmjaes.jdias.repository.PollRepository;
-import com.sgkhmjaes.jdias.repository.search.PollSearchRepository;
+import com.sgkhmjaes.jdias.service.PollService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class PollResource {
     private final Logger log = LoggerFactory.getLogger(PollResource.class);
 
     private static final String ENTITY_NAME = "poll";
-        
-    private final PollRepository pollRepository;
 
-    private final PollSearchRepository pollSearchRepository;
+    private final PollService pollService;
 
-    public PollResource(PollRepository pollRepository, PollSearchRepository pollSearchRepository) {
-        this.pollRepository = pollRepository;
-        this.pollSearchRepository = pollSearchRepository;
+    public PollResource(PollService pollService) {
+        this.pollService = pollService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class PollResource {
         if (poll.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new poll cannot already have an ID")).body(null);
         }
-        Poll result = pollRepository.save(poll);
-        pollSearchRepository.save(result);
+        Poll result = pollService.save(poll);
         return ResponseEntity.created(new URI("/api/polls/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class PollResource {
         if (poll.getId() == null) {
             return createPoll(poll);
         }
-        Poll result = pollRepository.save(poll);
-        pollSearchRepository.save(result);
+        Poll result = pollService.save(poll);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, poll.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class PollResource {
     @Timed
     public List<Poll> getAllPolls() {
         log.debug("REST request to get all Polls");
-        List<Poll> polls = pollRepository.findAll();
-        return polls;
+        return pollService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class PollResource {
     @Timed
     public ResponseEntity<Poll> getPoll(@PathVariable Long id) {
         log.debug("REST request to get Poll : {}", id);
-        Poll poll = pollRepository.findOne(id);
+        Poll poll = pollService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(poll));
     }
 
@@ -123,8 +114,7 @@ public class PollResource {
     @Timed
     public ResponseEntity<Void> deletePoll(@PathVariable Long id) {
         log.debug("REST request to delete Poll : {}", id);
-        pollRepository.delete(id);
-        pollSearchRepository.delete(id);
+        pollService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class PollResource {
      * SEARCH  /_search/polls?query=:query : search for the poll corresponding
      * to the query.
      *
-     * @param query the query of the poll search 
+     * @param query the query of the poll search
      * @return the result of the search
      */
     @GetMapping("/_search/polls")
     @Timed
     public List<Poll> searchPolls(@RequestParam String query) {
         log.debug("REST request to search Polls for query {}", query);
-        return StreamSupport
-            .stream(pollSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return pollService.search(query);
     }
-
 
 }

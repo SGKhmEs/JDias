@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -32,10 +32,10 @@ public class Aspect implements Serializable {
     private String name;
 
     @Column(name = "created_at")
-    private ZonedDateTime createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "updated_at")
-    private ZonedDateTime updatedAt;
+    private LocalDate updatedAt;
 
     @Column(name = "contact_visible")
     private Boolean contactVisible;
@@ -77,29 +77,29 @@ public class Aspect implements Serializable {
         this.name = name;
     }
 
-    public ZonedDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public Aspect createdAt(ZonedDateTime createdAt) {
+    public Aspect createdAt(LocalDate createdAt) {
         this.createdAt = createdAt;
         return this;
     }
 
-    public void setCreatedAt(ZonedDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public ZonedDateTime getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public Aspect updatedAt(ZonedDateTime updatedAt) {
+    public Aspect updatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
         return this;
     }
 
-    public void setUpdatedAt(ZonedDateTime updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 

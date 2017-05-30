@@ -61,18 +61,18 @@ export class PhotoService {
         for (let i = 0; i < jsonResponse.length; i++) {
             this.convertItemFromServer(jsonResponse[i]);
         }
-        return new ResponseWrapper(res.headers, jsonResponse);
+        return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
     private convertItemFromServer(entity: any) {
         entity.createdAt = this.dateUtils
-            .convertDateTimeFromServer(entity.createdAt);
+            .convertLocalDateFromServer(entity.createdAt);
     }
 
     private convert(photo: Photo): Photo {
         const copy: Photo = Object.assign({}, photo);
-
-        copy.createdAt = this.dateUtils.toDate(photo.createdAt);
+        copy.createdAt = this.dateUtils
+            .convertLocalDateToServer(photo.createdAt);
         return copy;
     }
 }

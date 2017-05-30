@@ -61,18 +61,18 @@ export class ProfileService {
         for (let i = 0; i < jsonResponse.length; i++) {
             this.convertItemFromServer(jsonResponse[i]);
         }
-        return new ResponseWrapper(res.headers, jsonResponse);
+        return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
     private convertItemFromServer(entity: any) {
         entity.birthday = this.dateUtils
-            .convertDateTimeFromServer(entity.birthday);
+            .convertLocalDateFromServer(entity.birthday);
     }
 
     private convert(profile: Profile): Profile {
         const copy: Profile = Object.assign({}, profile);
-
-        copy.birthday = this.dateUtils.toDate(profile.birthday);
+        copy.birthday = this.dateUtils
+            .convertLocalDateToServer(profile.birthday);
         return copy;
     }
 }

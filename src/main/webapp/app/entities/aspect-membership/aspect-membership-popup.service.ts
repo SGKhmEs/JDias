@@ -1,14 +1,12 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
 import { AspectMembership } from './aspect-membership.model';
 import { AspectMembershipService } from './aspect-membership.service';
 @Injectable()
 export class AspectMembershipPopupService {
     private isOpen = false;
     constructor(
-        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private aspectMembershipService: AspectMembershipService
@@ -23,10 +21,20 @@ export class AspectMembershipPopupService {
 
         if (id) {
             this.aspectMembershipService.find(id).subscribe((aspectMembership) => {
-                aspectMembership.createdAt = this.datePipe
-                    .transform(aspectMembership.createdAt, 'yyyy-MM-ddThh:mm');
-                aspectMembership.updatedAt = this.datePipe
-                    .transform(aspectMembership.updatedAt, 'yyyy-MM-ddThh:mm');
+                if (aspectMembership.createdAt) {
+                    aspectMembership.createdAt = {
+                        year: aspectMembership.createdAt.getFullYear(),
+                        month: aspectMembership.createdAt.getMonth() + 1,
+                        day: aspectMembership.createdAt.getDate()
+                    };
+                }
+                if (aspectMembership.updatedAt) {
+                    aspectMembership.updatedAt = {
+                        year: aspectMembership.updatedAt.getFullYear(),
+                        month: aspectMembership.updatedAt.getMonth() + 1,
+                        day: aspectMembership.updatedAt.getDate()
+                    };
+                }
                 this.aspectMembershipModalRef(component, aspectMembership);
             });
         } else {

@@ -1,14 +1,12 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
 import { Event } from './event.model';
 import { EventService } from './event.service';
 @Injectable()
 export class EventPopupService {
     private isOpen = false;
     constructor(
-        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private eventService: EventService
@@ -23,10 +21,20 @@ export class EventPopupService {
 
         if (id) {
             this.eventService.find(id).subscribe((event) => {
-                event.start = this.datePipe
-                    .transform(event.start, 'yyyy-MM-ddThh:mm');
-                event.end = this.datePipe
-                    .transform(event.end, 'yyyy-MM-ddThh:mm');
+                if (event.start) {
+                    event.start = {
+                        year: event.start.getFullYear(),
+                        month: event.start.getMonth() + 1,
+                        day: event.start.getDate()
+                    };
+                }
+                if (event.end) {
+                    event.end = {
+                        year: event.end.getFullYear(),
+                        month: event.end.getMonth() + 1,
+                        day: event.end.getDate()
+                    };
+                }
                 this.eventModalRef(component, event);
             });
         } else {

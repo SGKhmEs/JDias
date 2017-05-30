@@ -40,19 +40,24 @@ export class AccountDeletionDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.accountDeletion.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.accountDeletionService.update(this.accountDeletion));
+                this.accountDeletionService.update(this.accountDeletion), false);
         } else {
             this.subscribeToSaveResponse(
-                this.accountDeletionService.create(this.accountDeletion));
+                this.accountDeletionService.create(this.accountDeletion), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<AccountDeletion>) {
+    private subscribeToSaveResponse(result: Observable<AccountDeletion>, isCreated: boolean) {
         result.subscribe((res: AccountDeletion) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: AccountDeletion) {
+    private onSaveSuccess(result: AccountDeletion, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.accountDeletion.created'
+            : 'jDiasApp.accountDeletion.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'accountDeletionListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

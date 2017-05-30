@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Reshare;
-
-import com.sgkhmjaes.jdias.repository.ReshareRepository;
-import com.sgkhmjaes.jdias.repository.search.ReshareSearchRepository;
+import com.sgkhmjaes.jdias.service.ReshareService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class ReshareResource {
     private final Logger log = LoggerFactory.getLogger(ReshareResource.class);
 
     private static final String ENTITY_NAME = "reshare";
-        
-    private final ReshareRepository reshareRepository;
 
-    private final ReshareSearchRepository reshareSearchRepository;
+    private final ReshareService reshareService;
 
-    public ReshareResource(ReshareRepository reshareRepository, ReshareSearchRepository reshareSearchRepository) {
-        this.reshareRepository = reshareRepository;
-        this.reshareSearchRepository = reshareSearchRepository;
+    public ReshareResource(ReshareService reshareService) {
+        this.reshareService = reshareService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class ReshareResource {
         if (reshare.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new reshare cannot already have an ID")).body(null);
         }
-        Reshare result = reshareRepository.save(reshare);
-        reshareSearchRepository.save(result);
+        Reshare result = reshareService.save(reshare);
         return ResponseEntity.created(new URI("/api/reshares/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class ReshareResource {
         if (reshare.getId() == null) {
             return createReshare(reshare);
         }
-        Reshare result = reshareRepository.save(reshare);
-        reshareSearchRepository.save(result);
+        Reshare result = reshareService.save(reshare);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, reshare.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class ReshareResource {
     @Timed
     public List<Reshare> getAllReshares() {
         log.debug("REST request to get all Reshares");
-        List<Reshare> reshares = reshareRepository.findAll();
-        return reshares;
+        return reshareService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class ReshareResource {
     @Timed
     public ResponseEntity<Reshare> getReshare(@PathVariable Long id) {
         log.debug("REST request to get Reshare : {}", id);
-        Reshare reshare = reshareRepository.findOne(id);
+        Reshare reshare = reshareService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(reshare));
     }
 
@@ -123,8 +114,7 @@ public class ReshareResource {
     @Timed
     public ResponseEntity<Void> deleteReshare(@PathVariable Long id) {
         log.debug("REST request to delete Reshare : {}", id);
-        reshareRepository.delete(id);
-        reshareSearchRepository.delete(id);
+        reshareService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class ReshareResource {
      * SEARCH  /_search/reshares?query=:query : search for the reshare corresponding
      * to the query.
      *
-     * @param query the query of the reshare search 
+     * @param query the query of the reshare search
      * @return the result of the search
      */
     @GetMapping("/_search/reshares")
     @Timed
     public List<Reshare> searchReshares(@RequestParam String query) {
         log.debug("REST request to search Reshares for query {}", query);
-        return StreamSupport
-            .stream(reshareSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return reshareService.search(query);
     }
-
 
 }

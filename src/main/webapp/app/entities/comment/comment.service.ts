@@ -61,18 +61,18 @@ export class CommentService {
         for (let i = 0; i < jsonResponse.length; i++) {
             this.convertItemFromServer(jsonResponse[i]);
         }
-        return new ResponseWrapper(res.headers, jsonResponse);
+        return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
     private convertItemFromServer(entity: any) {
         entity.createdAt = this.dateUtils
-            .convertDateTimeFromServer(entity.createdAt);
+            .convertLocalDateFromServer(entity.createdAt);
     }
 
     private convert(comment: Comment): Comment {
         const copy: Comment = Object.assign({}, comment);
-
-        copy.createdAt = this.dateUtils.toDate(comment.createdAt);
+        copy.createdAt = this.dateUtils
+            .convertLocalDateToServer(comment.createdAt);
         return copy;
     }
 }

@@ -21,11 +21,11 @@
         },
         {
             "fieldName": "createdAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "updatedAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "contactVisible",
@@ -44,5 +44,5 @@
     "entityTableName": "aspect",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl"
 }

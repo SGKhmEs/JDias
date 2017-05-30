@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Message;
-
-import com.sgkhmjaes.jdias.repository.MessageRepository;
-import com.sgkhmjaes.jdias.repository.search.MessageSearchRepository;
+import com.sgkhmjaes.jdias.service.MessageService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import com.sgkhmjaes.jdias.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -23,7 +21,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -38,14 +35,11 @@ public class MessageResource {
     private final Logger log = LoggerFactory.getLogger(MessageResource.class);
 
     private static final String ENTITY_NAME = "message";
-        
-    private final MessageRepository messageRepository;
 
-    private final MessageSearchRepository messageSearchRepository;
+    private final MessageService messageService;
 
-    public MessageResource(MessageRepository messageRepository, MessageSearchRepository messageSearchRepository) {
-        this.messageRepository = messageRepository;
-        this.messageSearchRepository = messageSearchRepository;
+    public MessageResource(MessageService messageService) {
+        this.messageService = messageService;
     }
 
     /**
@@ -62,8 +56,7 @@ public class MessageResource {
         if (message.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new message cannot already have an ID")).body(null);
         }
-        Message result = messageRepository.save(message);
-        messageSearchRepository.save(result);
+        Message result = messageService.save(message);
         return ResponseEntity.created(new URI("/api/messages/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -85,8 +78,7 @@ public class MessageResource {
         if (message.getId() == null) {
             return createMessage(message);
         }
-        Message result = messageRepository.save(message);
-        messageSearchRepository.save(result);
+        Message result = messageService.save(message);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, message.getId().toString()))
             .body(result);
@@ -102,7 +94,7 @@ public class MessageResource {
     @Timed
     public ResponseEntity<List<Message>> getAllMessages(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Messages");
-        Page<Message> page = messageRepository.findAll(pageable);
+        Page<Message> page = messageService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/messages");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -117,7 +109,7 @@ public class MessageResource {
     @Timed
     public ResponseEntity<Message> getMessage(@PathVariable Long id) {
         log.debug("REST request to get Message : {}", id);
-        Message message = messageRepository.findOne(id);
+        Message message = messageService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(message));
     }
 
@@ -131,8 +123,7 @@ public class MessageResource {
     @Timed
     public ResponseEntity<Void> deleteMessage(@PathVariable Long id) {
         log.debug("REST request to delete Message : {}", id);
-        messageRepository.delete(id);
-        messageSearchRepository.delete(id);
+        messageService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -140,7 +131,7 @@ public class MessageResource {
      * SEARCH  /_search/messages?query=:query : search for the message corresponding
      * to the query.
      *
-     * @param query the query of the message search 
+     * @param query the query of the message search
      * @param pageable the pagination information
      * @return the result of the search
      */
@@ -148,10 +139,9 @@ public class MessageResource {
     @Timed
     public ResponseEntity<List<Message>> searchMessages(@RequestParam String query, @ApiParam Pageable pageable) {
         log.debug("REST request to search for a page of Messages for query {}", query);
-        Page<Message> page = messageSearchRepository.search(queryStringQuery(query), pageable);
+        Page<Message> page = messageService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/messages");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-
 
 }

@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.AccountDeletion;
 import com.sgkhmjaes.jdias.repository.AccountDeletionRepository;
+import com.sgkhmjaes.jdias.service.AccountDeletionService;
 import com.sgkhmjaes.jdias.repository.search.AccountDeletionSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -45,6 +46,9 @@ public class AccountDeletionResourceIntTest {
     private AccountDeletionRepository accountDeletionRepository;
 
     @Autowired
+    private AccountDeletionService accountDeletionService;
+
+    @Autowired
     private AccountDeletionSearchRepository accountDeletionSearchRepository;
 
     @Autowired
@@ -66,7 +70,7 @@ public class AccountDeletionResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        AccountDeletionResource accountDeletionResource = new AccountDeletionResource(accountDeletionRepository, accountDeletionSearchRepository);
+        AccountDeletionResource accountDeletionResource = new AccountDeletionResource(accountDeletionService);
         this.restAccountDeletionMockMvc = MockMvcBuilders.standaloneSetup(accountDeletionResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -172,8 +176,8 @@ public class AccountDeletionResourceIntTest {
     @Transactional
     public void updateAccountDeletion() throws Exception {
         // Initialize the database
-        accountDeletionRepository.saveAndFlush(accountDeletion);
-        accountDeletionSearchRepository.save(accountDeletion);
+        accountDeletionService.save(accountDeletion);
+
         int databaseSizeBeforeUpdate = accountDeletionRepository.findAll().size();
 
         // Update the accountDeletion
@@ -219,8 +223,8 @@ public class AccountDeletionResourceIntTest {
     @Transactional
     public void deleteAccountDeletion() throws Exception {
         // Initialize the database
-        accountDeletionRepository.saveAndFlush(accountDeletion);
-        accountDeletionSearchRepository.save(accountDeletion);
+        accountDeletionService.save(accountDeletion);
+
         int databaseSizeBeforeDelete = accountDeletionRepository.findAll().size();
 
         // Get the accountDeletion
@@ -241,8 +245,7 @@ public class AccountDeletionResourceIntTest {
     @Transactional
     public void searchAccountDeletion() throws Exception {
         // Initialize the database
-        accountDeletionRepository.saveAndFlush(accountDeletion);
-        accountDeletionSearchRepository.save(accountDeletion);
+        accountDeletionService.save(accountDeletion);
 
         // Search the accountDeletion
         restAccountDeletionMockMvc.perform(get("/api/_search/account-deletions?query=id:" + accountDeletion.getId()))

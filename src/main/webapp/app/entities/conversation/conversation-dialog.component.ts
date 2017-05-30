@@ -23,6 +23,7 @@ export class ConversationDialogComponent implements OnInit {
     isSaving: boolean;
 
     useraccounts: UserAccount[];
+    createdAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -47,19 +48,24 @@ export class ConversationDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.conversation.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.conversationService.update(this.conversation));
+                this.conversationService.update(this.conversation), false);
         } else {
             this.subscribeToSaveResponse(
-                this.conversationService.create(this.conversation));
+                this.conversationService.create(this.conversation), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Conversation>) {
+    private subscribeToSaveResponse(result: Observable<Conversation>, isCreated: boolean) {
         result.subscribe((res: Conversation) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Conversation) {
+    private onSaveSuccess(result: Conversation, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.conversation.created'
+            : 'jDiasApp.conversation.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'conversationListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

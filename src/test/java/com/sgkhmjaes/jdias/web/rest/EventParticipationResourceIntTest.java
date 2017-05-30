@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.EventParticipation;
 import com.sgkhmjaes.jdias.repository.EventParticipationRepository;
+import com.sgkhmjaes.jdias.service.EventParticipationService;
 import com.sgkhmjaes.jdias.repository.search.EventParticipationSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -61,6 +62,9 @@ public class EventParticipationResourceIntTest {
     private EventParticipationRepository eventParticipationRepository;
 
     @Autowired
+    private EventParticipationService eventParticipationService;
+
+    @Autowired
     private EventParticipationSearchRepository eventParticipationSearchRepository;
 
     @Autowired
@@ -82,7 +86,7 @@ public class EventParticipationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        EventParticipationResource eventParticipationResource = new EventParticipationResource(eventParticipationRepository, eventParticipationSearchRepository);
+        EventParticipationResource eventParticipationResource = new EventParticipationResource(eventParticipationService);
         this.restEventParticipationMockMvc = MockMvcBuilders.standaloneSetup(eventParticipationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -208,8 +212,8 @@ public class EventParticipationResourceIntTest {
     @Transactional
     public void updateEventParticipation() throws Exception {
         // Initialize the database
-        eventParticipationRepository.saveAndFlush(eventParticipation);
-        eventParticipationSearchRepository.save(eventParticipation);
+        eventParticipationService.save(eventParticipation);
+
         int databaseSizeBeforeUpdate = eventParticipationRepository.findAll().size();
 
         // Update the eventParticipation
@@ -265,8 +269,8 @@ public class EventParticipationResourceIntTest {
     @Transactional
     public void deleteEventParticipation() throws Exception {
         // Initialize the database
-        eventParticipationRepository.saveAndFlush(eventParticipation);
-        eventParticipationSearchRepository.save(eventParticipation);
+        eventParticipationService.save(eventParticipation);
+
         int databaseSizeBeforeDelete = eventParticipationRepository.findAll().size();
 
         // Get the eventParticipation
@@ -287,8 +291,7 @@ public class EventParticipationResourceIntTest {
     @Transactional
     public void searchEventParticipation() throws Exception {
         // Initialize the database
-        eventParticipationRepository.saveAndFlush(eventParticipation);
-        eventParticipationSearchRepository.save(eventParticipation);
+        eventParticipationService.save(eventParticipation);
 
         // Search the eventParticipation
         restEventParticipationMockMvc.perform(get("/api/_search/event-participations?query=id:" + eventParticipation.getId()))

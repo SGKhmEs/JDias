@@ -6,8 +6,8 @@ entity AccountDeletion {
 
 entity Aspect {
 	name String,
-    createdAt ZonedDateTime,
-    updatedAt ZonedDateTime,
+    createdAt LocalDate,
+    updatedAt LocalDate,
     contactVisible Boolean,
     chatEnabled Boolean,
     postDefault Boolean
@@ -19,8 +19,8 @@ relationship OneToMany {
 }
 
 entity AspectMembership {
-    createdAt ZonedDateTime,
-    updatedAt ZonedDateTime
+    createdAt LocalDate,
+    updatedAt LocalDate
 }
 
 
@@ -34,7 +34,7 @@ entity Comment {
     guid String,
     parentGuid String,
     text String,
-    createdAt ZonedDateTime,
+    createdAt LocalDate,
     authorSignature String,
     parentAuthorSignature String,
     threadParentGuid String
@@ -56,7 +56,7 @@ entity Conversation {
 	author String, //DiasporaID
     guid String,
     subject String, //255 ch
-    createdAt ZonedDateTime, // Timestamp
+    createdAt LocalDate, // Timestamp
     //participants String, //DiasporaID Person
     message String //Message
     //has many Participants
@@ -72,8 +72,8 @@ entity Event {
 	author String,
     guid String,
     summary String,
-    start ZonedDateTime, //TimeStamp
-    end ZonedDateTime, //TimeStamp
+    start LocalDate, //TimeStamp
+    end LocalDate, //TimeStamp
     allDay Boolean,
     timezone String, //TimeZone
     description String, //Markdown
@@ -116,7 +116,7 @@ entity Message {
     guid String,
     conversationGuid String,
     text String, //Markdown
-    createdAt ZonedDateTime //Timestamp
+    createdAt LocalDate //Timestamp
 }
 
 entity Participation {
@@ -130,7 +130,7 @@ entity Photo {
 	author String,
     guid String,
     guid Boolean,
-    createdAt ZonedDateTime, // Timestamp,
+    createdAt LocalDate, // Timestamp,
     remotePhotoPath String, //URL
     remotePhotoName String,
     height Integer,
@@ -175,7 +175,7 @@ entity PollParticipation {
 entity Post {
 	author String,
     guid String,
-    createdAt ZonedDateTime, //TimeStamp
+    createdAt LocalDate, //TimeStamp
     pub Boolean,
     
     providerDisplayName String,
@@ -204,7 +204,7 @@ entity Profile {
      imageUrl String,
      imageUrlSmall String,
      imageUrlMedium String,
-     birthday ZonedDateTime,
+     birthday LocalDate,
      gender String,
      bio String,
      location String,
@@ -251,14 +251,14 @@ relationship OneToMany {
 
 entity Tagging {
 	context String,
-    createdAt ZonedDateTime
+    createdAt LocalDate
 }
 
 
 
 entity TagFollowing {
-	createdAt ZonedDateTime,
-    updatedAt ZonedDateTime
+	createdAt LocalDate,
+    updatedAt LocalDate
 }
 
 
@@ -269,26 +269,26 @@ entity UserAccount {
 	gettingStarted Boolean,
 	disableMail Boolean,
 	language String,
-	rememberCreatedAt ZonedDateTime,
+	rememberCreatedAt LocalDate,
 	signInCount Integer,
-	currentSignInAt ZonedDateTime,
-	lastSignInAt ZonedDateTime,
+	currentSignInAt LocalDate,
+	lastSignInAt LocalDate,
 	currentSignInIp String,
 	lastSignInIp String,
-	createdAt ZonedDateTime,
-	updatedAt ZonedDateTime,
-	lockedAt ZonedDateTime,
+	createdAt LocalDate,
+	updatedAt LocalDate,
+	lockedAt LocalDate,
 	showCommunitySpotlightInStream Boolean,
 	autoFollowBack Boolean,
 	autoFollowBackAspectId Integer,
 	hiddenShareables String,
-	lastSeen ZonedDateTime,
+	lastSeen LocalDate,
 	exportE String,
-	exportedAt ZonedDateTime,
+	exportedAt LocalDate,
 	exporting Boolean,
 	stripExif Boolean
 	exportedPhotosFile String,
-	exportedPhotosAt ZonedDateTime,
+	exportedPhotosAt LocalDate,
 	exportingPhotos Boolean,
 	colorTheme String,
 	postDefaultPublic Boolean
@@ -310,8 +310,8 @@ entity Person {
 	guid String,
 	diasporaId String,
 	serializedPublicKey String,
-	createdAt ZonedDateTime,
-	updatedAt ZonedDateTime,  
+	createdAt LocalDate,
+	updatedAt LocalDate,  
 	closedAccount Boolean,
 	fetchStatus Integer,
 	podId Integer
@@ -373,6 +373,6 @@ paginate Post, Conversation, Message with infinite-scroll
 //dto Profile, Post with mapstruct
 
 // Set service options to all except few
-service Profile, Post, Conversation with serviceImpl //except Employee, Job
+service * with serviceImpl //except Employee, Job
 // Set an angular suffix
 //angularSuffix * with mySuffix

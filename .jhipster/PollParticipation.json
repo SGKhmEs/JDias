@@ -44,5 +44,5 @@
     "entityTableName": "poll_participation",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl"
 }

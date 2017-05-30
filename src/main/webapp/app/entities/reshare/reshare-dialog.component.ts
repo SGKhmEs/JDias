@@ -40,19 +40,24 @@ export class ReshareDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.reshare.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.reshareService.update(this.reshare));
+                this.reshareService.update(this.reshare), false);
         } else {
             this.subscribeToSaveResponse(
-                this.reshareService.create(this.reshare));
+                this.reshareService.create(this.reshare), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Reshare>) {
+    private subscribeToSaveResponse(result: Observable<Reshare>, isCreated: boolean) {
         result.subscribe((res: Reshare) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Reshare) {
+    private onSaveSuccess(result: Reshare, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.reshare.created'
+            : 'jDiasApp.reshare.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'reshareListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

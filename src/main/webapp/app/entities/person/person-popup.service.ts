@@ -1,14 +1,12 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
 import { Person } from './person.model';
 import { PersonService } from './person.service';
 @Injectable()
 export class PersonPopupService {
     private isOpen = false;
     constructor(
-        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private personService: PersonService
@@ -23,10 +21,20 @@ export class PersonPopupService {
 
         if (id) {
             this.personService.find(id).subscribe((person) => {
-                person.createdAt = this.datePipe
-                    .transform(person.createdAt, 'yyyy-MM-ddThh:mm');
-                person.updatedAt = this.datePipe
-                    .transform(person.updatedAt, 'yyyy-MM-ddThh:mm');
+                if (person.createdAt) {
+                    person.createdAt = {
+                        year: person.createdAt.getFullYear(),
+                        month: person.createdAt.getMonth() + 1,
+                        day: person.createdAt.getDate()
+                    };
+                }
+                if (person.updatedAt) {
+                    person.updatedAt = {
+                        year: person.updatedAt.getFullYear(),
+                        month: person.updatedAt.getMonth() + 1,
+                        day: person.updatedAt.getDate()
+                    };
+                }
                 this.personModalRef(component, person);
             });
         } else {

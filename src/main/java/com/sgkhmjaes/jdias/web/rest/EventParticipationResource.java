@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.EventParticipation;
-
-import com.sgkhmjaes.jdias.repository.EventParticipationRepository;
-import com.sgkhmjaes.jdias.repository.search.EventParticipationSearchRepository;
+import com.sgkhmjaes.jdias.service.EventParticipationService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class EventParticipationResource {
     private final Logger log = LoggerFactory.getLogger(EventParticipationResource.class);
 
     private static final String ENTITY_NAME = "eventParticipation";
-        
-    private final EventParticipationRepository eventParticipationRepository;
 
-    private final EventParticipationSearchRepository eventParticipationSearchRepository;
+    private final EventParticipationService eventParticipationService;
 
-    public EventParticipationResource(EventParticipationRepository eventParticipationRepository, EventParticipationSearchRepository eventParticipationSearchRepository) {
-        this.eventParticipationRepository = eventParticipationRepository;
-        this.eventParticipationSearchRepository = eventParticipationSearchRepository;
+    public EventParticipationResource(EventParticipationService eventParticipationService) {
+        this.eventParticipationService = eventParticipationService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class EventParticipationResource {
         if (eventParticipation.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new eventParticipation cannot already have an ID")).body(null);
         }
-        EventParticipation result = eventParticipationRepository.save(eventParticipation);
-        eventParticipationSearchRepository.save(result);
+        EventParticipation result = eventParticipationService.save(eventParticipation);
         return ResponseEntity.created(new URI("/api/event-participations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class EventParticipationResource {
         if (eventParticipation.getId() == null) {
             return createEventParticipation(eventParticipation);
         }
-        EventParticipation result = eventParticipationRepository.save(eventParticipation);
-        eventParticipationSearchRepository.save(result);
+        EventParticipation result = eventParticipationService.save(eventParticipation);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, eventParticipation.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class EventParticipationResource {
     @Timed
     public List<EventParticipation> getAllEventParticipations() {
         log.debug("REST request to get all EventParticipations");
-        List<EventParticipation> eventParticipations = eventParticipationRepository.findAll();
-        return eventParticipations;
+        return eventParticipationService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class EventParticipationResource {
     @Timed
     public ResponseEntity<EventParticipation> getEventParticipation(@PathVariable Long id) {
         log.debug("REST request to get EventParticipation : {}", id);
-        EventParticipation eventParticipation = eventParticipationRepository.findOne(id);
+        EventParticipation eventParticipation = eventParticipationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(eventParticipation));
     }
 
@@ -123,8 +114,7 @@ public class EventParticipationResource {
     @Timed
     public ResponseEntity<Void> deleteEventParticipation(@PathVariable Long id) {
         log.debug("REST request to delete EventParticipation : {}", id);
-        eventParticipationRepository.delete(id);
-        eventParticipationSearchRepository.delete(id);
+        eventParticipationService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class EventParticipationResource {
      * SEARCH  /_search/event-participations?query=:query : search for the eventParticipation corresponding
      * to the query.
      *
-     * @param query the query of the eventParticipation search 
+     * @param query the query of the eventParticipation search
      * @return the result of the search
      */
     @GetMapping("/_search/event-participations")
     @Timed
     public List<EventParticipation> searchEventParticipations(@RequestParam String query) {
         log.debug("REST request to search EventParticipations for query {}", query);
-        return StreamSupport
-            .stream(eventParticipationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return eventParticipationService.search(query);
     }
-
 
 }

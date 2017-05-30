@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     AspectVisiblityService,
                     EventManager
                 ]
-            }).overrideComponent(AspectVisiblityDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(AspectVisiblityDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

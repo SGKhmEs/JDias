@@ -1,14 +1,12 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
 import { TagFollowing } from './tag-following.model';
 import { TagFollowingService } from './tag-following.service';
 @Injectable()
 export class TagFollowingPopupService {
     private isOpen = false;
     constructor(
-        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private tagFollowingService: TagFollowingService
@@ -23,10 +21,20 @@ export class TagFollowingPopupService {
 
         if (id) {
             this.tagFollowingService.find(id).subscribe((tagFollowing) => {
-                tagFollowing.createdAt = this.datePipe
-                    .transform(tagFollowing.createdAt, 'yyyy-MM-ddThh:mm');
-                tagFollowing.updatedAt = this.datePipe
-                    .transform(tagFollowing.updatedAt, 'yyyy-MM-ddThh:mm');
+                if (tagFollowing.createdAt) {
+                    tagFollowing.createdAt = {
+                        year: tagFollowing.createdAt.getFullYear(),
+                        month: tagFollowing.createdAt.getMonth() + 1,
+                        day: tagFollowing.createdAt.getDate()
+                    };
+                }
+                if (tagFollowing.updatedAt) {
+                    tagFollowing.updatedAt = {
+                        year: tagFollowing.updatedAt.getFullYear(),
+                        month: tagFollowing.updatedAt.getMonth() + 1,
+                        day: tagFollowing.updatedAt.getDate()
+                    };
+                }
                 this.tagFollowingModalRef(component, tagFollowing);
             });
         } else {

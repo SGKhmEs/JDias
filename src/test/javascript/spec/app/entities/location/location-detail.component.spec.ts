@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     LocationService,
                     EventManager
                 ]
-            }).overrideComponent(LocationDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(LocationDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

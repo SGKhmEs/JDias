@@ -6,8 +6,8 @@ import com.sgkhmjaes.jdias.repository.ProfileRepository;
 import com.sgkhmjaes.jdias.repository.search.ProfileSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +23,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class ProfileServiceImpl implements ProfileService{
 
     private final Logger log = LoggerFactory.getLogger(ProfileServiceImpl.class);
-    
+
     private final ProfileRepository profileRepository;
 
     private final ProfileSearchRepository profileSearchRepository;
@@ -49,16 +49,14 @@ public class ProfileServiceImpl implements ProfileService{
 
     /**
      *  Get all the profiles.
-     *  
+     *
      *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Profile> findAll() {
         log.debug("Request to get all Profiles");
-        List<Profile> result = profileRepository.findAll();
-
-        return result;
+        return profileRepository.findAll();
     }
 
     /**
@@ -71,8 +69,7 @@ public class ProfileServiceImpl implements ProfileService{
     @Transactional(readOnly = true)
     public Profile findOne(Long id) {
         log.debug("Request to get Profile : {}", id);
-        Profile profile = profileRepository.findOne(id);
-        return profile;
+        return profileRepository.findOne(id);
     }
 
     /**

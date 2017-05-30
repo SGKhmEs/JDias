@@ -61,18 +61,18 @@ export class PostService {
         for (let i = 0; i < jsonResponse.length; i++) {
             this.convertItemFromServer(jsonResponse[i]);
         }
-        return new ResponseWrapper(res.headers, jsonResponse);
+        return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
     private convertItemFromServer(entity: any) {
         entity.createdAt = this.dateUtils
-            .convertDateTimeFromServer(entity.createdAt);
+            .convertLocalDateFromServer(entity.createdAt);
     }
 
     private convert(post: Post): Post {
         const copy: Post = Object.assign({}, post);
-
-        copy.createdAt = this.dateUtils.toDate(post.createdAt);
+        copy.createdAt = this.dateUtils
+            .convertLocalDateToServer(post.createdAt);
         return copy;
     }
 }

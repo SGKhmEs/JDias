@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Contact;
-
-import com.sgkhmjaes.jdias.repository.ContactRepository;
-import com.sgkhmjaes.jdias.repository.search.ContactSearchRepository;
+import com.sgkhmjaes.jdias.service.ContactService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class ContactResource {
     private final Logger log = LoggerFactory.getLogger(ContactResource.class);
 
     private static final String ENTITY_NAME = "contact";
-        
-    private final ContactRepository contactRepository;
 
-    private final ContactSearchRepository contactSearchRepository;
+    private final ContactService contactService;
 
-    public ContactResource(ContactRepository contactRepository, ContactSearchRepository contactSearchRepository) {
-        this.contactRepository = contactRepository;
-        this.contactSearchRepository = contactSearchRepository;
+    public ContactResource(ContactService contactService) {
+        this.contactService = contactService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class ContactResource {
         if (contact.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new contact cannot already have an ID")).body(null);
         }
-        Contact result = contactRepository.save(contact);
-        contactSearchRepository.save(result);
+        Contact result = contactService.save(contact);
         return ResponseEntity.created(new URI("/api/contacts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class ContactResource {
         if (contact.getId() == null) {
             return createContact(contact);
         }
-        Contact result = contactRepository.save(contact);
-        contactSearchRepository.save(result);
+        Contact result = contactService.save(contact);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, contact.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class ContactResource {
     @Timed
     public List<Contact> getAllContacts() {
         log.debug("REST request to get all Contacts");
-        List<Contact> contacts = contactRepository.findAll();
-        return contacts;
+        return contactService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class ContactResource {
     @Timed
     public ResponseEntity<Contact> getContact(@PathVariable Long id) {
         log.debug("REST request to get Contact : {}", id);
-        Contact contact = contactRepository.findOne(id);
+        Contact contact = contactService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(contact));
     }
 
@@ -123,8 +114,7 @@ public class ContactResource {
     @Timed
     public ResponseEntity<Void> deleteContact(@PathVariable Long id) {
         log.debug("REST request to delete Contact : {}", id);
-        contactRepository.delete(id);
-        contactSearchRepository.delete(id);
+        contactService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class ContactResource {
      * SEARCH  /_search/contacts?query=:query : search for the contact corresponding
      * to the query.
      *
-     * @param query the query of the contact search 
+     * @param query the query of the contact search
      * @return the result of the search
      */
     @GetMapping("/_search/contacts")
     @Timed
     public List<Contact> searchContacts(@RequestParam String query) {
         log.debug("REST request to search Contacts for query {}", query);
-        return StreamSupport
-            .stream(contactSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return contactService.search(query);
     }
-
 
 }

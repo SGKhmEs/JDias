@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -44,7 +44,7 @@ public class Profile implements Serializable {
     private String imageUrlMedium;
 
     @Column(name = "birthday")
-    private ZonedDateTime birthday;
+    private LocalDate birthday;
 
     @Column(name = "gender")
     private String gender;
@@ -150,16 +150,16 @@ public class Profile implements Serializable {
         this.imageUrlMedium = imageUrlMedium;
     }
 
-    public ZonedDateTime getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public Profile birthday(ZonedDateTime birthday) {
+    public Profile birthday(LocalDate birthday) {
         this.birthday = birthday;
         return this;
     }
 
-    public void setBirthday(ZonedDateTime birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

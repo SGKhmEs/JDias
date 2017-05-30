@@ -26,6 +26,15 @@ export class UserAccountDialogComponent implements OnInit {
     users: User[];
 
     people: Person[];
+    rememberCreatedAtDp: any;
+    currentSignInAtDp: any;
+    lastSignInAtDp: any;
+    createdAtDp: any;
+    updatedAtDp: any;
+    lockedAtDp: any;
+    lastSeenDp: any;
+    exportedAtDp: any;
+    exportedPhotosAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -64,19 +73,24 @@ export class UserAccountDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.userAccount.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.userAccountService.update(this.userAccount));
+                this.userAccountService.update(this.userAccount), false);
         } else {
             this.subscribeToSaveResponse(
-                this.userAccountService.create(this.userAccount));
+                this.userAccountService.create(this.userAccount), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<UserAccount>) {
+    private subscribeToSaveResponse(result: Observable<UserAccount>, isCreated: boolean) {
         result.subscribe((res: UserAccount) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: UserAccount) {
+    private onSaveSuccess(result: UserAccount, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.userAccount.created'
+            : 'jDiasApp.userAccount.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'userAccountListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

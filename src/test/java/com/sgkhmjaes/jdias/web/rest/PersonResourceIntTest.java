@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Person;
 import com.sgkhmjaes.jdias.repository.PersonRepository;
+import com.sgkhmjaes.jdias.service.PersonService;
 import com.sgkhmjaes.jdias.repository.search.PersonSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -22,13 +23,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -52,11 +50,11 @@ public class PersonResourceIntTest {
     private static final String DEFAULT_SERIALIZED_PUBLIC_KEY = "AAAAAAAAAA";
     private static final String UPDATED_SERIALIZED_PUBLIC_KEY = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
 
-    private static final ZonedDateTime DEFAULT_UPDATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_UPDATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_UPDATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_UPDATED_AT = LocalDate.now(ZoneId.systemDefault());
 
     private static final Boolean DEFAULT_CLOSED_ACCOUNT = false;
     private static final Boolean UPDATED_CLOSED_ACCOUNT = true;
@@ -69,6 +67,9 @@ public class PersonResourceIntTest {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private PersonService personService;
 
     @Autowired
     private PersonSearchRepository personSearchRepository;
@@ -92,7 +93,7 @@ public class PersonResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PersonResource personResource = new PersonResource(personRepository, personSearchRepository);
+        PersonResource personResource = new PersonResource(personService);
         this.restPersonMockMvc = MockMvcBuilders.standaloneSetup(personResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -186,8 +187,8 @@ public class PersonResourceIntTest {
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
             .andExpect(jsonPath("$.[*].diasporaId").value(hasItem(DEFAULT_DIASPORA_ID.toString())))
             .andExpect(jsonPath("$.[*].serializedPublicKey").value(hasItem(DEFAULT_SERIALIZED_PUBLIC_KEY.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
             .andExpect(jsonPath("$.[*].closedAccount").value(hasItem(DEFAULT_CLOSED_ACCOUNT.booleanValue())))
             .andExpect(jsonPath("$.[*].fetchStatus").value(hasItem(DEFAULT_FETCH_STATUS)))
             .andExpect(jsonPath("$.[*].podId").value(hasItem(DEFAULT_POD_ID)));
@@ -207,8 +208,8 @@ public class PersonResourceIntTest {
             .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
             .andExpect(jsonPath("$.diasporaId").value(DEFAULT_DIASPORA_ID.toString()))
             .andExpect(jsonPath("$.serializedPublicKey").value(DEFAULT_SERIALIZED_PUBLIC_KEY.toString()))
-            .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)))
-            .andExpect(jsonPath("$.updatedAt").value(sameInstant(DEFAULT_UPDATED_AT)))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
             .andExpect(jsonPath("$.closedAccount").value(DEFAULT_CLOSED_ACCOUNT.booleanValue()))
             .andExpect(jsonPath("$.fetchStatus").value(DEFAULT_FETCH_STATUS))
             .andExpect(jsonPath("$.podId").value(DEFAULT_POD_ID));
@@ -226,8 +227,8 @@ public class PersonResourceIntTest {
     @Transactional
     public void updatePerson() throws Exception {
         // Initialize the database
-        personRepository.saveAndFlush(person);
-        personSearchRepository.save(person);
+        personService.save(person);
+
         int databaseSizeBeforeUpdate = personRepository.findAll().size();
 
         // Update the person
@@ -287,8 +288,8 @@ public class PersonResourceIntTest {
     @Transactional
     public void deletePerson() throws Exception {
         // Initialize the database
-        personRepository.saveAndFlush(person);
-        personSearchRepository.save(person);
+        personService.save(person);
+
         int databaseSizeBeforeDelete = personRepository.findAll().size();
 
         // Get the person
@@ -309,8 +310,7 @@ public class PersonResourceIntTest {
     @Transactional
     public void searchPerson() throws Exception {
         // Initialize the database
-        personRepository.saveAndFlush(person);
-        personSearchRepository.save(person);
+        personService.save(person);
 
         // Search the person
         restPersonMockMvc.perform(get("/api/_search/people?query=id:" + person.getId()))
@@ -320,8 +320,8 @@ public class PersonResourceIntTest {
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
             .andExpect(jsonPath("$.[*].diasporaId").value(hasItem(DEFAULT_DIASPORA_ID.toString())))
             .andExpect(jsonPath("$.[*].serializedPublicKey").value(hasItem(DEFAULT_SERIALIZED_PUBLIC_KEY.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
             .andExpect(jsonPath("$.[*].closedAccount").value(hasItem(DEFAULT_CLOSED_ACCOUNT.booleanValue())))
             .andExpect(jsonPath("$.[*].fetchStatus").value(hasItem(DEFAULT_FETCH_STATUS)))
             .andExpect(jsonPath("$.[*].podId").value(hasItem(DEFAULT_POD_ID)));

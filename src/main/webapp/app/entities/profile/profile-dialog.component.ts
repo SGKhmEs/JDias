@@ -19,6 +19,7 @@ export class ProfileDialogComponent implements OnInit {
     profile: Profile;
     authorities: any[];
     isSaving: boolean;
+    birthdayDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -40,19 +41,24 @@ export class ProfileDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.profile.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.profileService.update(this.profile));
+                this.profileService.update(this.profile), false);
         } else {
             this.subscribeToSaveResponse(
-                this.profileService.create(this.profile));
+                this.profileService.create(this.profile), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Profile>) {
+    private subscribeToSaveResponse(result: Observable<Profile>, isCreated: boolean) {
         result.subscribe((res: Profile) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Profile) {
+    private onSaveSuccess(result: Profile, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.profile.created'
+            : 'jDiasApp.profile.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'profileListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

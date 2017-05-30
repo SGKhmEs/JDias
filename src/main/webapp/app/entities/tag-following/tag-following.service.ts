@@ -61,22 +61,22 @@ export class TagFollowingService {
         for (let i = 0; i < jsonResponse.length; i++) {
             this.convertItemFromServer(jsonResponse[i]);
         }
-        return new ResponseWrapper(res.headers, jsonResponse);
+        return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
     private convertItemFromServer(entity: any) {
         entity.createdAt = this.dateUtils
-            .convertDateTimeFromServer(entity.createdAt);
+            .convertLocalDateFromServer(entity.createdAt);
         entity.updatedAt = this.dateUtils
-            .convertDateTimeFromServer(entity.updatedAt);
+            .convertLocalDateFromServer(entity.updatedAt);
     }
 
     private convert(tagFollowing: TagFollowing): TagFollowing {
         const copy: TagFollowing = Object.assign({}, tagFollowing);
-
-        copy.createdAt = this.dateUtils.toDate(tagFollowing.createdAt);
-
-        copy.updatedAt = this.dateUtils.toDate(tagFollowing.updatedAt);
+        copy.createdAt = this.dateUtils
+            .convertLocalDateToServer(tagFollowing.createdAt);
+        copy.updatedAt = this.dateUtils
+            .convertLocalDateToServer(tagFollowing.updatedAt);
         return copy;
     }
 }

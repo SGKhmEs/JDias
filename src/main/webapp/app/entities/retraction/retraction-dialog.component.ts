@@ -40,19 +40,24 @@ export class RetractionDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.retraction.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.retractionService.update(this.retraction));
+                this.retractionService.update(this.retraction), false);
         } else {
             this.subscribeToSaveResponse(
-                this.retractionService.create(this.retraction));
+                this.retractionService.create(this.retraction), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Retraction>) {
+    private subscribeToSaveResponse(result: Observable<Retraction>, isCreated: boolean) {
         result.subscribe((res: Retraction) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Retraction) {
+    private onSaveSuccess(result: Retraction, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.retraction.created'
+            : 'jDiasApp.retraction.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'retractionListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

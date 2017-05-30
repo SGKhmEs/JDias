@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     EventParticipationService,
                     EventManager
                 ]
-            }).overrideComponent(EventParticipationDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(EventParticipationDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

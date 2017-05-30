@@ -55,7 +55,7 @@
         },
         {
             "fieldName": "rememberCreatedAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "signInCount",
@@ -63,11 +63,11 @@
         },
         {
             "fieldName": "currentSignInAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "lastSignInAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "currentSignInIp",
@@ -79,15 +79,15 @@
         },
         {
             "fieldName": "createdAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "updatedAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "lockedAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "showCommunitySpotlightInStream",
@@ -107,7 +107,7 @@
         },
         {
             "fieldName": "lastSeen",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "exportE",
@@ -115,7 +115,7 @@
         },
         {
             "fieldName": "exportedAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "exporting",
@@ -131,7 +131,7 @@
         },
         {
             "fieldName": "exportedPhotosAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "exportingPhotos",
@@ -150,5 +150,5 @@
     "entityTableName": "user_account",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl"
 }

@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Participation;
-
-import com.sgkhmjaes.jdias.repository.ParticipationRepository;
-import com.sgkhmjaes.jdias.repository.search.ParticipationSearchRepository;
+import com.sgkhmjaes.jdias.service.ParticipationService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class ParticipationResource {
     private final Logger log = LoggerFactory.getLogger(ParticipationResource.class);
 
     private static final String ENTITY_NAME = "participation";
-        
-    private final ParticipationRepository participationRepository;
 
-    private final ParticipationSearchRepository participationSearchRepository;
+    private final ParticipationService participationService;
 
-    public ParticipationResource(ParticipationRepository participationRepository, ParticipationSearchRepository participationSearchRepository) {
-        this.participationRepository = participationRepository;
-        this.participationSearchRepository = participationSearchRepository;
+    public ParticipationResource(ParticipationService participationService) {
+        this.participationService = participationService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class ParticipationResource {
         if (participation.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new participation cannot already have an ID")).body(null);
         }
-        Participation result = participationRepository.save(participation);
-        participationSearchRepository.save(result);
+        Participation result = participationService.save(participation);
         return ResponseEntity.created(new URI("/api/participations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class ParticipationResource {
         if (participation.getId() == null) {
             return createParticipation(participation);
         }
-        Participation result = participationRepository.save(participation);
-        participationSearchRepository.save(result);
+        Participation result = participationService.save(participation);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, participation.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class ParticipationResource {
     @Timed
     public List<Participation> getAllParticipations() {
         log.debug("REST request to get all Participations");
-        List<Participation> participations = participationRepository.findAll();
-        return participations;
+        return participationService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class ParticipationResource {
     @Timed
     public ResponseEntity<Participation> getParticipation(@PathVariable Long id) {
         log.debug("REST request to get Participation : {}", id);
-        Participation participation = participationRepository.findOne(id);
+        Participation participation = participationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(participation));
     }
 
@@ -123,8 +114,7 @@ public class ParticipationResource {
     @Timed
     public ResponseEntity<Void> deleteParticipation(@PathVariable Long id) {
         log.debug("REST request to delete Participation : {}", id);
-        participationRepository.delete(id);
-        participationSearchRepository.delete(id);
+        participationService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class ParticipationResource {
      * SEARCH  /_search/participations?query=:query : search for the participation corresponding
      * to the query.
      *
-     * @param query the query of the participation search 
+     * @param query the query of the participation search
      * @return the result of the search
      */
     @GetMapping("/_search/participations")
     @Timed
     public List<Participation> searchParticipations(@RequestParam String query) {
         log.debug("REST request to search Participations for query {}", query);
-        return StreamSupport
-            .stream(participationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return participationService.search(query);
     }
-
 
 }

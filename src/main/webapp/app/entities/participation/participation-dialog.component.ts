@@ -47,19 +47,24 @@ export class ParticipationDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.participation.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.participationService.update(this.participation));
+                this.participationService.update(this.participation), false);
         } else {
             this.subscribeToSaveResponse(
-                this.participationService.create(this.participation));
+                this.participationService.create(this.participation), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Participation>) {
+    private subscribeToSaveResponse(result: Observable<Participation>, isCreated: boolean) {
         result.subscribe((res: Participation) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Participation) {
+    private onSaveSuccess(result: Participation, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.participation.created'
+            : 'jDiasApp.participation.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'participationListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager } from 'ng-jhipster';
+import { AlertService, EventManager } from 'ng-jhipster';
 
 import { Person } from './person.model';
 import { PersonPopupService } from './person-popup.service';
@@ -19,6 +19,7 @@ export class PersonDeleteDialogComponent {
     constructor(
         private personService: PersonService,
         public activeModal: NgbActiveModal,
+        private alertService: AlertService,
         private eventManager: EventManager
     ) {
     }
@@ -35,6 +36,7 @@ export class PersonDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
+        this.alertService.success('jDiasApp.person.deleted', { param : id }, null);
     }
 }
 

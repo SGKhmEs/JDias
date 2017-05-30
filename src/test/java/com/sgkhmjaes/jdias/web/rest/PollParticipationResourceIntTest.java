@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.PollParticipation;
 import com.sgkhmjaes.jdias.repository.PollParticipationRepository;
+import com.sgkhmjaes.jdias.service.PollParticipationService;
 import com.sgkhmjaes.jdias.repository.search.PollParticipationSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -60,6 +61,9 @@ public class PollParticipationResourceIntTest {
     private PollParticipationRepository pollParticipationRepository;
 
     @Autowired
+    private PollParticipationService pollParticipationService;
+
+    @Autowired
     private PollParticipationSearchRepository pollParticipationSearchRepository;
 
     @Autowired
@@ -81,7 +85,7 @@ public class PollParticipationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PollParticipationResource pollParticipationResource = new PollParticipationResource(pollParticipationRepository, pollParticipationSearchRepository);
+        PollParticipationResource pollParticipationResource = new PollParticipationResource(pollParticipationService);
         this.restPollParticipationMockMvc = MockMvcBuilders.standaloneSetup(pollParticipationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -207,8 +211,8 @@ public class PollParticipationResourceIntTest {
     @Transactional
     public void updatePollParticipation() throws Exception {
         // Initialize the database
-        pollParticipationRepository.saveAndFlush(pollParticipation);
-        pollParticipationSearchRepository.save(pollParticipation);
+        pollParticipationService.save(pollParticipation);
+
         int databaseSizeBeforeUpdate = pollParticipationRepository.findAll().size();
 
         // Update the pollParticipation
@@ -264,8 +268,8 @@ public class PollParticipationResourceIntTest {
     @Transactional
     public void deletePollParticipation() throws Exception {
         // Initialize the database
-        pollParticipationRepository.saveAndFlush(pollParticipation);
-        pollParticipationSearchRepository.save(pollParticipation);
+        pollParticipationService.save(pollParticipation);
+
         int databaseSizeBeforeDelete = pollParticipationRepository.findAll().size();
 
         // Get the pollParticipation
@@ -286,8 +290,7 @@ public class PollParticipationResourceIntTest {
     @Transactional
     public void searchPollParticipation() throws Exception {
         // Initialize the database
-        pollParticipationRepository.saveAndFlush(pollParticipation);
-        pollParticipationSearchRepository.save(pollParticipation);
+        pollParticipationService.save(pollParticipation);
 
         // Search the pollParticipation
         restPollParticipationMockMvc.perform(get("/api/_search/poll-participations?query=id:" + pollParticipation.getId()))

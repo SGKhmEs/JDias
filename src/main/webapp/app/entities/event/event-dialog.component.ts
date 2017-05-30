@@ -19,6 +19,8 @@ export class EventDialogComponent implements OnInit {
     event: Event;
     authorities: any[];
     isSaving: boolean;
+    startDp: any;
+    endDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -40,19 +42,24 @@ export class EventDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.event.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.eventService.update(this.event));
+                this.eventService.update(this.event), false);
         } else {
             this.subscribeToSaveResponse(
-                this.eventService.create(this.event));
+                this.eventService.create(this.event), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Event>) {
+    private subscribeToSaveResponse(result: Observable<Event>, isCreated: boolean) {
         result.subscribe((res: Event) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Event) {
+    private onSaveSuccess(result: Event, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.event.created'
+            : 'jDiasApp.event.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'eventListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

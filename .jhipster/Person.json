@@ -75,11 +75,11 @@
         },
         {
             "fieldName": "createdAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "updatedAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "closedAccount",
@@ -98,5 +98,5 @@
     "entityTableName": "person",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl"
 }

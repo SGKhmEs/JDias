@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Event;
 import com.sgkhmjaes.jdias.repository.EventRepository;
+import com.sgkhmjaes.jdias.service.EventService;
 import com.sgkhmjaes.jdias.repository.search.EventSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -22,13 +23,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -52,11 +50,11 @@ public class EventResourceIntTest {
     private static final String DEFAULT_SUMMARY = "AAAAAAAAAA";
     private static final String UPDATED_SUMMARY = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_START = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_START = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_START = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_START = LocalDate.now(ZoneId.systemDefault());
 
-    private static final ZonedDateTime DEFAULT_END = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_END = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_END = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_END = LocalDate.now(ZoneId.systemDefault());
 
     private static final Boolean DEFAULT_ALL_DAY = false;
     private static final Boolean UPDATED_ALL_DAY = true;
@@ -69,6 +67,9 @@ public class EventResourceIntTest {
 
     @Autowired
     private EventRepository eventRepository;
+
+    @Autowired
+    private EventService eventService;
 
     @Autowired
     private EventSearchRepository eventSearchRepository;
@@ -92,7 +93,7 @@ public class EventResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        EventResource eventResource = new EventResource(eventRepository, eventSearchRepository);
+        EventResource eventResource = new EventResource(eventService);
         this.restEventMockMvc = MockMvcBuilders.standaloneSetup(eventResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -186,8 +187,8 @@ public class EventResourceIntTest {
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
             .andExpect(jsonPath("$.[*].summary").value(hasItem(DEFAULT_SUMMARY.toString())))
-            .andExpect(jsonPath("$.[*].start").value(hasItem(sameInstant(DEFAULT_START))))
-            .andExpect(jsonPath("$.[*].end").value(hasItem(sameInstant(DEFAULT_END))))
+            .andExpect(jsonPath("$.[*].start").value(hasItem(DEFAULT_START.toString())))
+            .andExpect(jsonPath("$.[*].end").value(hasItem(DEFAULT_END.toString())))
             .andExpect(jsonPath("$.[*].allDay").value(hasItem(DEFAULT_ALL_DAY.booleanValue())))
             .andExpect(jsonPath("$.[*].timezone").value(hasItem(DEFAULT_TIMEZONE.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
@@ -207,8 +208,8 @@ public class EventResourceIntTest {
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
             .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
             .andExpect(jsonPath("$.summary").value(DEFAULT_SUMMARY.toString()))
-            .andExpect(jsonPath("$.start").value(sameInstant(DEFAULT_START)))
-            .andExpect(jsonPath("$.end").value(sameInstant(DEFAULT_END)))
+            .andExpect(jsonPath("$.start").value(DEFAULT_START.toString()))
+            .andExpect(jsonPath("$.end").value(DEFAULT_END.toString()))
             .andExpect(jsonPath("$.allDay").value(DEFAULT_ALL_DAY.booleanValue()))
             .andExpect(jsonPath("$.timezone").value(DEFAULT_TIMEZONE.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
@@ -226,8 +227,8 @@ public class EventResourceIntTest {
     @Transactional
     public void updateEvent() throws Exception {
         // Initialize the database
-        eventRepository.saveAndFlush(event);
-        eventSearchRepository.save(event);
+        eventService.save(event);
+
         int databaseSizeBeforeUpdate = eventRepository.findAll().size();
 
         // Update the event
@@ -287,8 +288,8 @@ public class EventResourceIntTest {
     @Transactional
     public void deleteEvent() throws Exception {
         // Initialize the database
-        eventRepository.saveAndFlush(event);
-        eventSearchRepository.save(event);
+        eventService.save(event);
+
         int databaseSizeBeforeDelete = eventRepository.findAll().size();
 
         // Get the event
@@ -309,8 +310,7 @@ public class EventResourceIntTest {
     @Transactional
     public void searchEvent() throws Exception {
         // Initialize the database
-        eventRepository.saveAndFlush(event);
-        eventSearchRepository.save(event);
+        eventService.save(event);
 
         // Search the event
         restEventMockMvc.perform(get("/api/_search/events?query=id:" + event.getId()))
@@ -320,8 +320,8 @@ public class EventResourceIntTest {
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
             .andExpect(jsonPath("$.[*].summary").value(hasItem(DEFAULT_SUMMARY.toString())))
-            .andExpect(jsonPath("$.[*].start").value(hasItem(sameInstant(DEFAULT_START))))
-            .andExpect(jsonPath("$.[*].end").value(hasItem(sameInstant(DEFAULT_END))))
+            .andExpect(jsonPath("$.[*].start").value(hasItem(DEFAULT_START.toString())))
+            .andExpect(jsonPath("$.[*].end").value(hasItem(DEFAULT_END.toString())))
             .andExpect(jsonPath("$.[*].allDay").value(hasItem(DEFAULT_ALL_DAY.booleanValue())))
             .andExpect(jsonPath("$.[*].timezone").value(hasItem(DEFAULT_TIMEZONE.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));

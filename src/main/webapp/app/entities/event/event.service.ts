@@ -61,22 +61,22 @@ export class EventService {
         for (let i = 0; i < jsonResponse.length; i++) {
             this.convertItemFromServer(jsonResponse[i]);
         }
-        return new ResponseWrapper(res.headers, jsonResponse);
+        return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
     private convertItemFromServer(entity: any) {
         entity.start = this.dateUtils
-            .convertDateTimeFromServer(entity.start);
+            .convertLocalDateFromServer(entity.start);
         entity.end = this.dateUtils
-            .convertDateTimeFromServer(entity.end);
+            .convertLocalDateFromServer(entity.end);
     }
 
     private convert(event: Event): Event {
         const copy: Event = Object.assign({}, event);
-
-        copy.start = this.dateUtils.toDate(event.start);
-
-        copy.end = this.dateUtils.toDate(event.end);
+        copy.start = this.dateUtils
+            .convertLocalDateToServer(event.start);
+        copy.end = this.dateUtils
+            .convertLocalDateToServer(event.end);
         return copy;
     }
 }

@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     LikeService,
                     EventManager
                 ]
-            }).overrideComponent(LikeDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(LikeDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     RetractionService,
                     EventManager
                 ]
-            }).overrideComponent(RetractionDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(RetractionDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

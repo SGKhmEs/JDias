@@ -33,11 +33,11 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="created_at" type="timestamp">
+            <column name="created_at" type="date">
                 <constraints nullable="true" />
             </column>
 
-            <column name="updated_at" type="timestamp">
+            <column name="updated_at" type="date">
                 <constraints nullable="true" />
             </column>
 
@@ -63,8 +63,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="person" columnName="created_at" columnDataType="datetime"/>
-        <dropDefaultValue tableName="person" columnName="updated_at" columnDataType="datetime"/>
         
     </changeSet>
 </databaseChangeLog>

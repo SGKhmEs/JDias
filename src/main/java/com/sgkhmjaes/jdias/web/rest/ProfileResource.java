@@ -29,7 +29,7 @@ public class ProfileResource {
     private final Logger log = LoggerFactory.getLogger(ProfileResource.class);
 
     private static final String ENTITY_NAME = "profile";
-        
+
     private final ProfileService profileService;
 
     public ProfileResource(ProfileService profileService) {
@@ -122,7 +122,7 @@ public class ProfileResource {
      * SEARCH  /_search/profiles?query=:query : search for the profile corresponding
      * to the query.
      *
-     * @param query the query of the profile search 
+     * @param query the query of the profile search
      * @return the result of the search
      */
     @GetMapping("/_search/profiles")
@@ -131,6 +131,5 @@ public class ProfileResource {
         log.debug("REST request to search Profiles for query {}", query);
         return profileService.search(query);
     }
-
 
 }

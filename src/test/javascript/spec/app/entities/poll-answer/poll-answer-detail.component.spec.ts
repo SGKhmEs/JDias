@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     PollAnswerService,
                     EventManager
                 ]
-            }).overrideComponent(PollAnswerDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(PollAnswerDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

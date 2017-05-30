@@ -25,5 +25,5 @@
     "entityTableName": "aspect_visiblity",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl"
 }

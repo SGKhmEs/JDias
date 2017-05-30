@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.UserAccount;
 import com.sgkhmjaes.jdias.repository.UserAccountRepository;
+import com.sgkhmjaes.jdias.service.UserAccountService;
 import com.sgkhmjaes.jdias.repository.search.UserAccountSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -22,13 +23,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -55,17 +53,17 @@ public class UserAccountResourceIntTest {
     private static final String DEFAULT_LANGUAGE = "AAAAAAAAAA";
     private static final String UPDATED_LANGUAGE = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_REMEMBER_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_REMEMBER_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_REMEMBER_CREATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_REMEMBER_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
 
     private static final Integer DEFAULT_SIGN_IN_COUNT = 1;
     private static final Integer UPDATED_SIGN_IN_COUNT = 2;
 
-    private static final ZonedDateTime DEFAULT_CURRENT_SIGN_IN_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_CURRENT_SIGN_IN_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_CURRENT_SIGN_IN_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CURRENT_SIGN_IN_AT = LocalDate.now(ZoneId.systemDefault());
 
-    private static final ZonedDateTime DEFAULT_LAST_SIGN_IN_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_LAST_SIGN_IN_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_LAST_SIGN_IN_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_SIGN_IN_AT = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_CURRENT_SIGN_IN_IP = "AAAAAAAAAA";
     private static final String UPDATED_CURRENT_SIGN_IN_IP = "BBBBBBBBBB";
@@ -73,14 +71,14 @@ public class UserAccountResourceIntTest {
     private static final String DEFAULT_LAST_SIGN_IN_IP = "AAAAAAAAAA";
     private static final String UPDATED_LAST_SIGN_IN_IP = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
 
-    private static final ZonedDateTime DEFAULT_UPDATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_UPDATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_UPDATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_UPDATED_AT = LocalDate.now(ZoneId.systemDefault());
 
-    private static final ZonedDateTime DEFAULT_LOCKED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_LOCKED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_LOCKED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LOCKED_AT = LocalDate.now(ZoneId.systemDefault());
 
     private static final Boolean DEFAULT_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM = false;
     private static final Boolean UPDATED_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM = true;
@@ -94,14 +92,14 @@ public class UserAccountResourceIntTest {
     private static final String DEFAULT_HIDDEN_SHAREABLES = "AAAAAAAAAA";
     private static final String UPDATED_HIDDEN_SHAREABLES = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_LAST_SEEN = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_LAST_SEEN = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_LAST_SEEN = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_SEEN = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_EXPORT_E = "AAAAAAAAAA";
     private static final String UPDATED_EXPORT_E = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_EXPORTED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_EXPORTED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_EXPORTED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_EXPORTED_AT = LocalDate.now(ZoneId.systemDefault());
 
     private static final Boolean DEFAULT_EXPORTING = false;
     private static final Boolean UPDATED_EXPORTING = true;
@@ -112,8 +110,8 @@ public class UserAccountResourceIntTest {
     private static final String DEFAULT_EXPORTED_PHOTOS_FILE = "AAAAAAAAAA";
     private static final String UPDATED_EXPORTED_PHOTOS_FILE = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_EXPORTED_PHOTOS_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_EXPORTED_PHOTOS_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_EXPORTED_PHOTOS_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_EXPORTED_PHOTOS_AT = LocalDate.now(ZoneId.systemDefault());
 
     private static final Boolean DEFAULT_EXPORTING_PHOTOS = false;
     private static final Boolean UPDATED_EXPORTING_PHOTOS = true;
@@ -126,6 +124,9 @@ public class UserAccountResourceIntTest {
 
     @Autowired
     private UserAccountRepository userAccountRepository;
+
+    @Autowired
+    private UserAccountService userAccountService;
 
     @Autowired
     private UserAccountSearchRepository userAccountSearchRepository;
@@ -149,7 +150,7 @@ public class UserAccountResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        UserAccountResource userAccountResource = new UserAccountResource(userAccountRepository, userAccountSearchRepository);
+        UserAccountResource userAccountResource = new UserAccountResource(userAccountService);
         this.restUserAccountMockMvc = MockMvcBuilders.standaloneSetup(userAccountResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -282,26 +283,26 @@ public class UserAccountResourceIntTest {
             .andExpect(jsonPath("$.[*].gettingStarted").value(hasItem(DEFAULT_GETTING_STARTED.booleanValue())))
             .andExpect(jsonPath("$.[*].disableMail").value(hasItem(DEFAULT_DISABLE_MAIL.booleanValue())))
             .andExpect(jsonPath("$.[*].language").value(hasItem(DEFAULT_LANGUAGE.toString())))
-            .andExpect(jsonPath("$.[*].rememberCreatedAt").value(hasItem(sameInstant(DEFAULT_REMEMBER_CREATED_AT))))
+            .andExpect(jsonPath("$.[*].rememberCreatedAt").value(hasItem(DEFAULT_REMEMBER_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].signInCount").value(hasItem(DEFAULT_SIGN_IN_COUNT)))
-            .andExpect(jsonPath("$.[*].currentSignInAt").value(hasItem(sameInstant(DEFAULT_CURRENT_SIGN_IN_AT))))
-            .andExpect(jsonPath("$.[*].lastSignInAt").value(hasItem(sameInstant(DEFAULT_LAST_SIGN_IN_AT))))
+            .andExpect(jsonPath("$.[*].currentSignInAt").value(hasItem(DEFAULT_CURRENT_SIGN_IN_AT.toString())))
+            .andExpect(jsonPath("$.[*].lastSignInAt").value(hasItem(DEFAULT_LAST_SIGN_IN_AT.toString())))
             .andExpect(jsonPath("$.[*].currentSignInIp").value(hasItem(DEFAULT_CURRENT_SIGN_IN_IP.toString())))
             .andExpect(jsonPath("$.[*].lastSignInIp").value(hasItem(DEFAULT_LAST_SIGN_IN_IP.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))))
-            .andExpect(jsonPath("$.[*].lockedAt").value(hasItem(sameInstant(DEFAULT_LOCKED_AT))))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].lockedAt").value(hasItem(DEFAULT_LOCKED_AT.toString())))
             .andExpect(jsonPath("$.[*].showCommunitySpotlightInStream").value(hasItem(DEFAULT_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM.booleanValue())))
             .andExpect(jsonPath("$.[*].autoFollowBack").value(hasItem(DEFAULT_AUTO_FOLLOW_BACK.booleanValue())))
             .andExpect(jsonPath("$.[*].autoFollowBackAspectId").value(hasItem(DEFAULT_AUTO_FOLLOW_BACK_ASPECT_ID)))
             .andExpect(jsonPath("$.[*].hiddenShareables").value(hasItem(DEFAULT_HIDDEN_SHAREABLES.toString())))
-            .andExpect(jsonPath("$.[*].lastSeen").value(hasItem(sameInstant(DEFAULT_LAST_SEEN))))
+            .andExpect(jsonPath("$.[*].lastSeen").value(hasItem(DEFAULT_LAST_SEEN.toString())))
             .andExpect(jsonPath("$.[*].exportE").value(hasItem(DEFAULT_EXPORT_E.toString())))
-            .andExpect(jsonPath("$.[*].exportedAt").value(hasItem(sameInstant(DEFAULT_EXPORTED_AT))))
+            .andExpect(jsonPath("$.[*].exportedAt").value(hasItem(DEFAULT_EXPORTED_AT.toString())))
             .andExpect(jsonPath("$.[*].exporting").value(hasItem(DEFAULT_EXPORTING.booleanValue())))
             .andExpect(jsonPath("$.[*].stripExif").value(hasItem(DEFAULT_STRIP_EXIF.booleanValue())))
             .andExpect(jsonPath("$.[*].exportedPhotosFile").value(hasItem(DEFAULT_EXPORTED_PHOTOS_FILE.toString())))
-            .andExpect(jsonPath("$.[*].exportedPhotosAt").value(hasItem(sameInstant(DEFAULT_EXPORTED_PHOTOS_AT))))
+            .andExpect(jsonPath("$.[*].exportedPhotosAt").value(hasItem(DEFAULT_EXPORTED_PHOTOS_AT.toString())))
             .andExpect(jsonPath("$.[*].exportingPhotos").value(hasItem(DEFAULT_EXPORTING_PHOTOS.booleanValue())))
             .andExpect(jsonPath("$.[*].colorTheme").value(hasItem(DEFAULT_COLOR_THEME.toString())))
             .andExpect(jsonPath("$.[*].postDefaultPublic").value(hasItem(DEFAULT_POST_DEFAULT_PUBLIC.booleanValue())));
@@ -322,26 +323,26 @@ public class UserAccountResourceIntTest {
             .andExpect(jsonPath("$.gettingStarted").value(DEFAULT_GETTING_STARTED.booleanValue()))
             .andExpect(jsonPath("$.disableMail").value(DEFAULT_DISABLE_MAIL.booleanValue()))
             .andExpect(jsonPath("$.language").value(DEFAULT_LANGUAGE.toString()))
-            .andExpect(jsonPath("$.rememberCreatedAt").value(sameInstant(DEFAULT_REMEMBER_CREATED_AT)))
+            .andExpect(jsonPath("$.rememberCreatedAt").value(DEFAULT_REMEMBER_CREATED_AT.toString()))
             .andExpect(jsonPath("$.signInCount").value(DEFAULT_SIGN_IN_COUNT))
-            .andExpect(jsonPath("$.currentSignInAt").value(sameInstant(DEFAULT_CURRENT_SIGN_IN_AT)))
-            .andExpect(jsonPath("$.lastSignInAt").value(sameInstant(DEFAULT_LAST_SIGN_IN_AT)))
+            .andExpect(jsonPath("$.currentSignInAt").value(DEFAULT_CURRENT_SIGN_IN_AT.toString()))
+            .andExpect(jsonPath("$.lastSignInAt").value(DEFAULT_LAST_SIGN_IN_AT.toString()))
             .andExpect(jsonPath("$.currentSignInIp").value(DEFAULT_CURRENT_SIGN_IN_IP.toString()))
             .andExpect(jsonPath("$.lastSignInIp").value(DEFAULT_LAST_SIGN_IN_IP.toString()))
-            .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)))
-            .andExpect(jsonPath("$.updatedAt").value(sameInstant(DEFAULT_UPDATED_AT)))
-            .andExpect(jsonPath("$.lockedAt").value(sameInstant(DEFAULT_LOCKED_AT)))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
+            .andExpect(jsonPath("$.lockedAt").value(DEFAULT_LOCKED_AT.toString()))
             .andExpect(jsonPath("$.showCommunitySpotlightInStream").value(DEFAULT_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM.booleanValue()))
             .andExpect(jsonPath("$.autoFollowBack").value(DEFAULT_AUTO_FOLLOW_BACK.booleanValue()))
             .andExpect(jsonPath("$.autoFollowBackAspectId").value(DEFAULT_AUTO_FOLLOW_BACK_ASPECT_ID))
             .andExpect(jsonPath("$.hiddenShareables").value(DEFAULT_HIDDEN_SHAREABLES.toString()))
-            .andExpect(jsonPath("$.lastSeen").value(sameInstant(DEFAULT_LAST_SEEN)))
+            .andExpect(jsonPath("$.lastSeen").value(DEFAULT_LAST_SEEN.toString()))
             .andExpect(jsonPath("$.exportE").value(DEFAULT_EXPORT_E.toString()))
-            .andExpect(jsonPath("$.exportedAt").value(sameInstant(DEFAULT_EXPORTED_AT)))
+            .andExpect(jsonPath("$.exportedAt").value(DEFAULT_EXPORTED_AT.toString()))
             .andExpect(jsonPath("$.exporting").value(DEFAULT_EXPORTING.booleanValue()))
             .andExpect(jsonPath("$.stripExif").value(DEFAULT_STRIP_EXIF.booleanValue()))
             .andExpect(jsonPath("$.exportedPhotosFile").value(DEFAULT_EXPORTED_PHOTOS_FILE.toString()))
-            .andExpect(jsonPath("$.exportedPhotosAt").value(sameInstant(DEFAULT_EXPORTED_PHOTOS_AT)))
+            .andExpect(jsonPath("$.exportedPhotosAt").value(DEFAULT_EXPORTED_PHOTOS_AT.toString()))
             .andExpect(jsonPath("$.exportingPhotos").value(DEFAULT_EXPORTING_PHOTOS.booleanValue()))
             .andExpect(jsonPath("$.colorTheme").value(DEFAULT_COLOR_THEME.toString()))
             .andExpect(jsonPath("$.postDefaultPublic").value(DEFAULT_POST_DEFAULT_PUBLIC.booleanValue()));
@@ -359,8 +360,8 @@ public class UserAccountResourceIntTest {
     @Transactional
     public void updateUserAccount() throws Exception {
         // Initialize the database
-        userAccountRepository.saveAndFlush(userAccount);
-        userAccountSearchRepository.save(userAccount);
+        userAccountService.save(userAccount);
+
         int databaseSizeBeforeUpdate = userAccountRepository.findAll().size();
 
         // Update the userAccount
@@ -458,8 +459,8 @@ public class UserAccountResourceIntTest {
     @Transactional
     public void deleteUserAccount() throws Exception {
         // Initialize the database
-        userAccountRepository.saveAndFlush(userAccount);
-        userAccountSearchRepository.save(userAccount);
+        userAccountService.save(userAccount);
+
         int databaseSizeBeforeDelete = userAccountRepository.findAll().size();
 
         // Get the userAccount
@@ -480,8 +481,7 @@ public class UserAccountResourceIntTest {
     @Transactional
     public void searchUserAccount() throws Exception {
         // Initialize the database
-        userAccountRepository.saveAndFlush(userAccount);
-        userAccountSearchRepository.save(userAccount);
+        userAccountService.save(userAccount);
 
         // Search the userAccount
         restUserAccountMockMvc.perform(get("/api/_search/user-accounts?query=id:" + userAccount.getId()))
@@ -492,26 +492,26 @@ public class UserAccountResourceIntTest {
             .andExpect(jsonPath("$.[*].gettingStarted").value(hasItem(DEFAULT_GETTING_STARTED.booleanValue())))
             .andExpect(jsonPath("$.[*].disableMail").value(hasItem(DEFAULT_DISABLE_MAIL.booleanValue())))
             .andExpect(jsonPath("$.[*].language").value(hasItem(DEFAULT_LANGUAGE.toString())))
-            .andExpect(jsonPath("$.[*].rememberCreatedAt").value(hasItem(sameInstant(DEFAULT_REMEMBER_CREATED_AT))))
+            .andExpect(jsonPath("$.[*].rememberCreatedAt").value(hasItem(DEFAULT_REMEMBER_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].signInCount").value(hasItem(DEFAULT_SIGN_IN_COUNT)))
-            .andExpect(jsonPath("$.[*].currentSignInAt").value(hasItem(sameInstant(DEFAULT_CURRENT_SIGN_IN_AT))))
-            .andExpect(jsonPath("$.[*].lastSignInAt").value(hasItem(sameInstant(DEFAULT_LAST_SIGN_IN_AT))))
+            .andExpect(jsonPath("$.[*].currentSignInAt").value(hasItem(DEFAULT_CURRENT_SIGN_IN_AT.toString())))
+            .andExpect(jsonPath("$.[*].lastSignInAt").value(hasItem(DEFAULT_LAST_SIGN_IN_AT.toString())))
             .andExpect(jsonPath("$.[*].currentSignInIp").value(hasItem(DEFAULT_CURRENT_SIGN_IN_IP.toString())))
             .andExpect(jsonPath("$.[*].lastSignInIp").value(hasItem(DEFAULT_LAST_SIGN_IN_IP.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))))
-            .andExpect(jsonPath("$.[*].lockedAt").value(hasItem(sameInstant(DEFAULT_LOCKED_AT))))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].lockedAt").value(hasItem(DEFAULT_LOCKED_AT.toString())))
             .andExpect(jsonPath("$.[*].showCommunitySpotlightInStream").value(hasItem(DEFAULT_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM.booleanValue())))
             .andExpect(jsonPath("$.[*].autoFollowBack").value(hasItem(DEFAULT_AUTO_FOLLOW_BACK.booleanValue())))
             .andExpect(jsonPath("$.[*].autoFollowBackAspectId").value(hasItem(DEFAULT_AUTO_FOLLOW_BACK_ASPECT_ID)))
             .andExpect(jsonPath("$.[*].hiddenShareables").value(hasItem(DEFAULT_HIDDEN_SHAREABLES.toString())))
-            .andExpect(jsonPath("$.[*].lastSeen").value(hasItem(sameInstant(DEFAULT_LAST_SEEN))))
+            .andExpect(jsonPath("$.[*].lastSeen").value(hasItem(DEFAULT_LAST_SEEN.toString())))
             .andExpect(jsonPath("$.[*].exportE").value(hasItem(DEFAULT_EXPORT_E.toString())))
-            .andExpect(jsonPath("$.[*].exportedAt").value(hasItem(sameInstant(DEFAULT_EXPORTED_AT))))
+            .andExpect(jsonPath("$.[*].exportedAt").value(hasItem(DEFAULT_EXPORTED_AT.toString())))
             .andExpect(jsonPath("$.[*].exporting").value(hasItem(DEFAULT_EXPORTING.booleanValue())))
             .andExpect(jsonPath("$.[*].stripExif").value(hasItem(DEFAULT_STRIP_EXIF.booleanValue())))
             .andExpect(jsonPath("$.[*].exportedPhotosFile").value(hasItem(DEFAULT_EXPORTED_PHOTOS_FILE.toString())))
-            .andExpect(jsonPath("$.[*].exportedPhotosAt").value(hasItem(sameInstant(DEFAULT_EXPORTED_PHOTOS_AT))))
+            .andExpect(jsonPath("$.[*].exportedPhotosAt").value(hasItem(DEFAULT_EXPORTED_PHOTOS_AT.toString())))
             .andExpect(jsonPath("$.[*].exportingPhotos").value(hasItem(DEFAULT_EXPORTING_PHOTOS.booleanValue())))
             .andExpect(jsonPath("$.[*].colorTheme").value(hasItem(DEFAULT_COLOR_THEME.toString())))
             .andExpect(jsonPath("$.[*].postDefaultPublic").value(hasItem(DEFAULT_POST_DEFAULT_PUBLIC.booleanValue())));

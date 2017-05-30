@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     ReshareService,
                     EventManager
                 ]
-            }).overrideComponent(ReshareDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(ReshareDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

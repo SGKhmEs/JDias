@@ -40,8 +40,8 @@
             <tbody>
             <tr *ngFor="let tagFollowing of tagFollowings ;trackBy: trackId">
                 <td><a [routerLink]="['../tag-following', tagFollowing.id ]">{{tagFollowing.id}}</a></td>
-                <td>{{tagFollowing.createdAt | date:'medium'}}</td>
-                <td>{{tagFollowing.updatedAt | date:'medium'}}</td>
+                <td>{{tagFollowing.createdAt | date:'mediumDate'}}</td>
+                <td>{{tagFollowing.updatedAt | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="tagFollowing.tag">
                         <a [routerLink]="['../tag', tagFollowing.tag?.id ]" >{{tagFollowing.tag?.id}}</a>

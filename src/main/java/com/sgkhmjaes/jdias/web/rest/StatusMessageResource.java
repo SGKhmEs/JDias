@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.StatusMessage;
-
-import com.sgkhmjaes.jdias.repository.StatusMessageRepository;
-import com.sgkhmjaes.jdias.repository.search.StatusMessageSearchRepository;
+import com.sgkhmjaes.jdias.service.StatusMessageService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class StatusMessageResource {
     private final Logger log = LoggerFactory.getLogger(StatusMessageResource.class);
 
     private static final String ENTITY_NAME = "statusMessage";
-        
-    private final StatusMessageRepository statusMessageRepository;
 
-    private final StatusMessageSearchRepository statusMessageSearchRepository;
+    private final StatusMessageService statusMessageService;
 
-    public StatusMessageResource(StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository) {
-        this.statusMessageRepository = statusMessageRepository;
-        this.statusMessageSearchRepository = statusMessageSearchRepository;
+    public StatusMessageResource(StatusMessageService statusMessageService) {
+        this.statusMessageService = statusMessageService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class StatusMessageResource {
         if (statusMessage.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new statusMessage cannot already have an ID")).body(null);
         }
-        StatusMessage result = statusMessageRepository.save(statusMessage);
-        statusMessageSearchRepository.save(result);
+        StatusMessage result = statusMessageService.save(statusMessage);
         return ResponseEntity.created(new URI("/api/status-messages/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class StatusMessageResource {
         if (statusMessage.getId() == null) {
             return createStatusMessage(statusMessage);
         }
-        StatusMessage result = statusMessageRepository.save(statusMessage);
-        statusMessageSearchRepository.save(result);
+        StatusMessage result = statusMessageService.save(statusMessage);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, statusMessage.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class StatusMessageResource {
     @Timed
     public List<StatusMessage> getAllStatusMessages() {
         log.debug("REST request to get all StatusMessages");
-        List<StatusMessage> statusMessages = statusMessageRepository.findAll();
-        return statusMessages;
+        return statusMessageService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class StatusMessageResource {
     @Timed
     public ResponseEntity<StatusMessage> getStatusMessage(@PathVariable Long id) {
         log.debug("REST request to get StatusMessage : {}", id);
-        StatusMessage statusMessage = statusMessageRepository.findOne(id);
+        StatusMessage statusMessage = statusMessageService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(statusMessage));
     }
 
@@ -123,8 +114,7 @@ public class StatusMessageResource {
     @Timed
     public ResponseEntity<Void> deleteStatusMessage(@PathVariable Long id) {
         log.debug("REST request to delete StatusMessage : {}", id);
-        statusMessageRepository.delete(id);
-        statusMessageSearchRepository.delete(id);
+        statusMessageService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class StatusMessageResource {
      * SEARCH  /_search/status-messages?query=:query : search for the statusMessage corresponding
      * to the query.
      *
-     * @param query the query of the statusMessage search 
+     * @param query the query of the statusMessage search
      * @return the result of the search
      */
     @GetMapping("/_search/status-messages")
     @Timed
     public List<StatusMessage> searchStatusMessages(@RequestParam String query) {
         log.debug("REST request to search StatusMessages for query {}", query);
-        return StreamSupport
-            .stream(statusMessageSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return statusMessageService.search(query);
     }
-
 
 }

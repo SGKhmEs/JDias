@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     PostService,
                     EventManager
                 ]
-            }).overrideComponent(PostDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(PostDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

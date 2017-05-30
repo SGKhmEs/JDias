@@ -61,18 +61,18 @@ export class TaggingService {
         for (let i = 0; i < jsonResponse.length; i++) {
             this.convertItemFromServer(jsonResponse[i]);
         }
-        return new ResponseWrapper(res.headers, jsonResponse);
+        return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
     private convertItemFromServer(entity: any) {
         entity.createdAt = this.dateUtils
-            .convertDateTimeFromServer(entity.createdAt);
+            .convertLocalDateFromServer(entity.createdAt);
     }
 
     private convert(tagging: Tagging): Tagging {
         const copy: Tagging = Object.assign({}, tagging);
-
-        copy.createdAt = this.dateUtils.toDate(tagging.createdAt);
+        copy.createdAt = this.dateUtils
+            .convertLocalDateToServer(tagging.createdAt);
         return copy;
     }
 }

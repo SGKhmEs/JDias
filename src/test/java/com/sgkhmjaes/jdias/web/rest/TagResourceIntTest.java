@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Tag;
 import com.sgkhmjaes.jdias.repository.TagRepository;
+import com.sgkhmjaes.jdias.service.TagService;
 import com.sgkhmjaes.jdias.repository.search.TagSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -45,6 +46,9 @@ public class TagResourceIntTest {
     private TagRepository tagRepository;
 
     @Autowired
+    private TagService tagService;
+
+    @Autowired
     private TagSearchRepository tagSearchRepository;
 
     @Autowired
@@ -66,7 +70,7 @@ public class TagResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        TagResource tagResource = new TagResource(tagRepository, tagSearchRepository);
+        TagResource tagResource = new TagResource(tagService);
         this.restTagMockMvc = MockMvcBuilders.standaloneSetup(tagResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -172,8 +176,8 @@ public class TagResourceIntTest {
     @Transactional
     public void updateTag() throws Exception {
         // Initialize the database
-        tagRepository.saveAndFlush(tag);
-        tagSearchRepository.save(tag);
+        tagService.save(tag);
+
         int databaseSizeBeforeUpdate = tagRepository.findAll().size();
 
         // Update the tag
@@ -219,8 +223,8 @@ public class TagResourceIntTest {
     @Transactional
     public void deleteTag() throws Exception {
         // Initialize the database
-        tagRepository.saveAndFlush(tag);
-        tagSearchRepository.save(tag);
+        tagService.save(tag);
+
         int databaseSizeBeforeDelete = tagRepository.findAll().size();
 
         // Get the tag
@@ -241,8 +245,7 @@ public class TagResourceIntTest {
     @Transactional
     public void searchTag() throws Exception {
         // Initialize the database
-        tagRepository.saveAndFlush(tag);
-        tagSearchRepository.save(tag);
+        tagService.save(tag);
 
         // Search the tag
         restTagMockMvc.perform(get("/api/_search/tags?query=id:" + tag.getId()))

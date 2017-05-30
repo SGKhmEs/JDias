@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.AspectVisiblity;
-
-import com.sgkhmjaes.jdias.repository.AspectVisiblityRepository;
-import com.sgkhmjaes.jdias.repository.search.AspectVisiblitySearchRepository;
+import com.sgkhmjaes.jdias.service.AspectVisiblityService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class AspectVisiblityResource {
     private final Logger log = LoggerFactory.getLogger(AspectVisiblityResource.class);
 
     private static final String ENTITY_NAME = "aspectVisiblity";
-        
-    private final AspectVisiblityRepository aspectVisiblityRepository;
 
-    private final AspectVisiblitySearchRepository aspectVisiblitySearchRepository;
+    private final AspectVisiblityService aspectVisiblityService;
 
-    public AspectVisiblityResource(AspectVisiblityRepository aspectVisiblityRepository, AspectVisiblitySearchRepository aspectVisiblitySearchRepository) {
-        this.aspectVisiblityRepository = aspectVisiblityRepository;
-        this.aspectVisiblitySearchRepository = aspectVisiblitySearchRepository;
+    public AspectVisiblityResource(AspectVisiblityService aspectVisiblityService) {
+        this.aspectVisiblityService = aspectVisiblityService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class AspectVisiblityResource {
         if (aspectVisiblity.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new aspectVisiblity cannot already have an ID")).body(null);
         }
-        AspectVisiblity result = aspectVisiblityRepository.save(aspectVisiblity);
-        aspectVisiblitySearchRepository.save(result);
+        AspectVisiblity result = aspectVisiblityService.save(aspectVisiblity);
         return ResponseEntity.created(new URI("/api/aspect-visiblities/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class AspectVisiblityResource {
         if (aspectVisiblity.getId() == null) {
             return createAspectVisiblity(aspectVisiblity);
         }
-        AspectVisiblity result = aspectVisiblityRepository.save(aspectVisiblity);
-        aspectVisiblitySearchRepository.save(result);
+        AspectVisiblity result = aspectVisiblityService.save(aspectVisiblity);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, aspectVisiblity.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class AspectVisiblityResource {
     @Timed
     public List<AspectVisiblity> getAllAspectVisiblities() {
         log.debug("REST request to get all AspectVisiblities");
-        List<AspectVisiblity> aspectVisiblities = aspectVisiblityRepository.findAll();
-        return aspectVisiblities;
+        return aspectVisiblityService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class AspectVisiblityResource {
     @Timed
     public ResponseEntity<AspectVisiblity> getAspectVisiblity(@PathVariable Long id) {
         log.debug("REST request to get AspectVisiblity : {}", id);
-        AspectVisiblity aspectVisiblity = aspectVisiblityRepository.findOne(id);
+        AspectVisiblity aspectVisiblity = aspectVisiblityService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(aspectVisiblity));
     }
 
@@ -123,8 +114,7 @@ public class AspectVisiblityResource {
     @Timed
     public ResponseEntity<Void> deleteAspectVisiblity(@PathVariable Long id) {
         log.debug("REST request to delete AspectVisiblity : {}", id);
-        aspectVisiblityRepository.delete(id);
-        aspectVisiblitySearchRepository.delete(id);
+        aspectVisiblityService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class AspectVisiblityResource {
      * SEARCH  /_search/aspect-visiblities?query=:query : search for the aspectVisiblity corresponding
      * to the query.
      *
-     * @param query the query of the aspectVisiblity search 
+     * @param query the query of the aspectVisiblity search
      * @return the result of the search
      */
     @GetMapping("/_search/aspect-visiblities")
     @Timed
     public List<AspectVisiblity> searchAspectVisiblities(@RequestParam String query) {
         log.debug("REST request to search AspectVisiblities for query {}", query);
-        return StreamSupport
-            .stream(aspectVisiblitySearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return aspectVisiblityService.search(query);
     }
-
 
 }

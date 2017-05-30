@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.PollParticipation;
-
-import com.sgkhmjaes.jdias.repository.PollParticipationRepository;
-import com.sgkhmjaes.jdias.repository.search.PollParticipationSearchRepository;
+import com.sgkhmjaes.jdias.service.PollParticipationService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class PollParticipationResource {
     private final Logger log = LoggerFactory.getLogger(PollParticipationResource.class);
 
     private static final String ENTITY_NAME = "pollParticipation";
-        
-    private final PollParticipationRepository pollParticipationRepository;
 
-    private final PollParticipationSearchRepository pollParticipationSearchRepository;
+    private final PollParticipationService pollParticipationService;
 
-    public PollParticipationResource(PollParticipationRepository pollParticipationRepository, PollParticipationSearchRepository pollParticipationSearchRepository) {
-        this.pollParticipationRepository = pollParticipationRepository;
-        this.pollParticipationSearchRepository = pollParticipationSearchRepository;
+    public PollParticipationResource(PollParticipationService pollParticipationService) {
+        this.pollParticipationService = pollParticipationService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class PollParticipationResource {
         if (pollParticipation.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new pollParticipation cannot already have an ID")).body(null);
         }
-        PollParticipation result = pollParticipationRepository.save(pollParticipation);
-        pollParticipationSearchRepository.save(result);
+        PollParticipation result = pollParticipationService.save(pollParticipation);
         return ResponseEntity.created(new URI("/api/poll-participations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class PollParticipationResource {
         if (pollParticipation.getId() == null) {
             return createPollParticipation(pollParticipation);
         }
-        PollParticipation result = pollParticipationRepository.save(pollParticipation);
-        pollParticipationSearchRepository.save(result);
+        PollParticipation result = pollParticipationService.save(pollParticipation);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, pollParticipation.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class PollParticipationResource {
     @Timed
     public List<PollParticipation> getAllPollParticipations() {
         log.debug("REST request to get all PollParticipations");
-        List<PollParticipation> pollParticipations = pollParticipationRepository.findAll();
-        return pollParticipations;
+        return pollParticipationService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class PollParticipationResource {
     @Timed
     public ResponseEntity<PollParticipation> getPollParticipation(@PathVariable Long id) {
         log.debug("REST request to get PollParticipation : {}", id);
-        PollParticipation pollParticipation = pollParticipationRepository.findOne(id);
+        PollParticipation pollParticipation = pollParticipationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(pollParticipation));
     }
 
@@ -123,8 +114,7 @@ public class PollParticipationResource {
     @Timed
     public ResponseEntity<Void> deletePollParticipation(@PathVariable Long id) {
         log.debug("REST request to delete PollParticipation : {}", id);
-        pollParticipationRepository.delete(id);
-        pollParticipationSearchRepository.delete(id);
+        pollParticipationService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class PollParticipationResource {
      * SEARCH  /_search/poll-participations?query=:query : search for the pollParticipation corresponding
      * to the query.
      *
-     * @param query the query of the pollParticipation search 
+     * @param query the query of the pollParticipation search
      * @return the result of the search
      */
     @GetMapping("/_search/poll-participations")
     @Timed
     public List<PollParticipation> searchPollParticipations(@RequestParam String query) {
         log.debug("REST request to search PollParticipations for query {}", query);
-        return StreamSupport
-            .stream(pollParticipationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return pollParticipationService.search(query);
     }
-
 
 }

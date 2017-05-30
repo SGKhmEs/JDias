@@ -45,7 +45,7 @@
                 <td>{{conversation.author}}</td>
                 <td>{{conversation.guid}}</td>
                 <td>{{conversation.subject}}</td>
-                <td>{{conversation.createdAt | date:'medium'}}</td>
+                <td>{{conversation.createdAt | date:'mediumDate'}}</td>
                 <td>{{conversation.message}}</td>
                 <td>
                     <div *ngIf="conversation.userAccount">

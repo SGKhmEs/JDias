@@ -23,6 +23,7 @@ export class MessageDialogComponent implements OnInit {
     isSaving: boolean;
 
     conversations: Conversation[];
+    createdAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -47,19 +48,24 @@ export class MessageDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.message.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.messageService.update(this.message));
+                this.messageService.update(this.message), false);
         } else {
             this.subscribeToSaveResponse(
-                this.messageService.create(this.message));
+                this.messageService.create(this.message), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Message>) {
+    private subscribeToSaveResponse(result: Observable<Message>, isCreated: boolean) {
         result.subscribe((res: Message) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Message) {
+    private onSaveSuccess(result: Message, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.message.created'
+            : 'jDiasApp.message.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'messageListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

@@ -37,7 +37,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="remember_created_at" type="timestamp">
+            <column name="remember_created_at" type="date">
                 <constraints nullable="true" />
             </column>
 
@@ -45,11 +45,11 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="current_sign_in_at" type="timestamp">
+            <column name="current_sign_in_at" type="date">
                 <constraints nullable="true" />
             </column>
 
-            <column name="last_sign_in_at" type="timestamp">
+            <column name="last_sign_in_at" type="date">
                 <constraints nullable="true" />
             </column>
 
@@ -61,15 +61,15 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="created_at" type="timestamp">
+            <column name="created_at" type="date">
                 <constraints nullable="true" />
             </column>
 
-            <column name="updated_at" type="timestamp">
+            <column name="updated_at" type="date">
                 <constraints nullable="true" />
             </column>
 
-            <column name="locked_at" type="timestamp">
+            <column name="locked_at" type="date">
                 <constraints nullable="true" />
             </column>
 
@@ -89,7 +89,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="last_seen" type="timestamp">
+            <column name="last_seen" type="date">
                 <constraints nullable="true" />
             </column>
 
@@ -97,7 +97,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="exported_at" type="timestamp">
+            <column name="exported_at" type="date">
                 <constraints nullable="true" />
             </column>
 
@@ -113,7 +113,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="exported_photos_at" type="timestamp">
+            <column name="exported_photos_at" type="date">
                 <constraints nullable="true" />
             </column>
 
@@ -135,15 +135,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="user_account" columnName="remember_created_at" columnDataType="datetime"/>
-        <dropDefaultValue tableName="user_account" columnName="current_sign_in_at" columnDataType="datetime"/>
-        <dropDefaultValue tableName="user_account" columnName="last_sign_in_at" columnDataType="datetime"/>
-        <dropDefaultValue tableName="user_account" columnName="created_at" columnDataType="datetime"/>
-        <dropDefaultValue tableName="user_account" columnName="updated_at" columnDataType="datetime"/>
-        <dropDefaultValue tableName="user_account" columnName="locked_at" columnDataType="datetime"/>
-        <dropDefaultValue tableName="user_account" columnName="last_seen" columnDataType="datetime"/>
-        <dropDefaultValue tableName="user_account" columnName="exported_at" columnDataType="datetime"/>
-        <dropDefaultValue tableName="user_account" columnName="exported_photos_at" columnDataType="datetime"/>
         
     </changeSet>
 </databaseChangeLog>

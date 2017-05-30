@@ -1,14 +1,12 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
 import { Comment } from './comment.model';
 import { CommentService } from './comment.service';
 @Injectable()
 export class CommentPopupService {
     private isOpen = false;
     constructor(
-        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private commentService: CommentService
@@ -23,8 +21,13 @@ export class CommentPopupService {
 
         if (id) {
             this.commentService.find(id).subscribe((comment) => {
-                comment.createdAt = this.datePipe
-                    .transform(comment.createdAt, 'yyyy-MM-ddThh:mm');
+                if (comment.createdAt) {
+                    comment.createdAt = {
+                        year: comment.createdAt.getFullYear(),
+                        month: comment.createdAt.getMonth() + 1,
+                        day: comment.createdAt.getDate()
+                    };
+                }
                 this.commentModalRef(component, comment);
             });
         } else {

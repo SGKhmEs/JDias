@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Comment;
 import com.sgkhmjaes.jdias.repository.CommentRepository;
+import com.sgkhmjaes.jdias.service.CommentService;
 import com.sgkhmjaes.jdias.repository.search.CommentSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -22,13 +23,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -55,8 +53,8 @@ public class CommentResourceIntTest {
     private static final String DEFAULT_TEXT = "AAAAAAAAAA";
     private static final String UPDATED_TEXT = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_AUTHOR_SIGNATURE = "AAAAAAAAAA";
     private static final String UPDATED_AUTHOR_SIGNATURE = "BBBBBBBBBB";
@@ -69,6 +67,9 @@ public class CommentResourceIntTest {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private CommentSearchRepository commentSearchRepository;
@@ -92,7 +93,7 @@ public class CommentResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        CommentResource commentResource = new CommentResource(commentRepository, commentSearchRepository);
+        CommentResource commentResource = new CommentResource(commentService);
         this.restCommentMockMvc = MockMvcBuilders.standaloneSetup(commentResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -187,7 +188,7 @@ public class CommentResourceIntTest {
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
             .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
             .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
             .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())))
             .andExpect(jsonPath("$.[*].threadParentGuid").value(hasItem(DEFAULT_THREAD_PARENT_GUID.toString())));
@@ -208,7 +209,7 @@ public class CommentResourceIntTest {
             .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
             .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
             .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()))
-            .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
             .andExpect(jsonPath("$.authorSignature").value(DEFAULT_AUTHOR_SIGNATURE.toString()))
             .andExpect(jsonPath("$.parentAuthorSignature").value(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString()))
             .andExpect(jsonPath("$.threadParentGuid").value(DEFAULT_THREAD_PARENT_GUID.toString()));
@@ -226,8 +227,8 @@ public class CommentResourceIntTest {
     @Transactional
     public void updateComment() throws Exception {
         // Initialize the database
-        commentRepository.saveAndFlush(comment);
-        commentSearchRepository.save(comment);
+        commentService.save(comment);
+
         int databaseSizeBeforeUpdate = commentRepository.findAll().size();
 
         // Update the comment
@@ -287,8 +288,8 @@ public class CommentResourceIntTest {
     @Transactional
     public void deleteComment() throws Exception {
         // Initialize the database
-        commentRepository.saveAndFlush(comment);
-        commentSearchRepository.save(comment);
+        commentService.save(comment);
+
         int databaseSizeBeforeDelete = commentRepository.findAll().size();
 
         // Get the comment
@@ -309,8 +310,7 @@ public class CommentResourceIntTest {
     @Transactional
     public void searchComment() throws Exception {
         // Initialize the database
-        commentRepository.saveAndFlush(comment);
-        commentSearchRepository.save(comment);
+        commentService.save(comment);
 
         // Search the comment
         restCommentMockMvc.perform(get("/api/_search/comments?query=id:" + comment.getId()))
@@ -321,7 +321,7 @@ public class CommentResourceIntTest {
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
             .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
             .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
             .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())))
             .andExpect(jsonPath("$.[*].threadParentGuid").value(hasItem(DEFAULT_THREAD_PARENT_GUID.toString())));

@@ -53,19 +53,24 @@ export class PollParticipationDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.pollParticipation.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.pollParticipationService.update(this.pollParticipation));
+                this.pollParticipationService.update(this.pollParticipation), false);
         } else {
             this.subscribeToSaveResponse(
-                this.pollParticipationService.create(this.pollParticipation));
+                this.pollParticipationService.create(this.pollParticipation), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<PollParticipation>) {
+    private subscribeToSaveResponse(result: Observable<PollParticipation>, isCreated: boolean) {
         result.subscribe((res: PollParticipation) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: PollParticipation) {
+    private onSaveSuccess(result: PollParticipation, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.pollParticipation.created'
+            : 'jDiasApp.pollParticipation.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'pollParticipationListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

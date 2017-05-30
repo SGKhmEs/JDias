@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     CommentService,
                     EventManager
                 ]
-            }).overrideComponent(CommentDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(CommentDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

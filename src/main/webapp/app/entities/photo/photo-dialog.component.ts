@@ -26,6 +26,7 @@ export class PhotoDialogComponent implements OnInit {
     statusmessages: StatusMessage[];
 
     people: Person[];
+    createdAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -53,19 +54,24 @@ export class PhotoDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.photo.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.photoService.update(this.photo));
+                this.photoService.update(this.photo), false);
         } else {
             this.subscribeToSaveResponse(
-                this.photoService.create(this.photo));
+                this.photoService.create(this.photo), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Photo>) {
+    private subscribeToSaveResponse(result: Observable<Photo>, isCreated: boolean) {
         result.subscribe((res: Photo) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Photo) {
+    private onSaveSuccess(result: Photo, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.photo.created'
+            : 'jDiasApp.photo.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'photoListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

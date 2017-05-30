@@ -29,6 +29,8 @@ export class AspectMembershipDialogComponent implements OnInit {
     contacts: Contact[];
 
     useraccounts: UserAccount[];
+    createdAtDp: any;
+    updatedAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -59,19 +61,24 @@ export class AspectMembershipDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.aspectMembership.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.aspectMembershipService.update(this.aspectMembership));
+                this.aspectMembershipService.update(this.aspectMembership), false);
         } else {
             this.subscribeToSaveResponse(
-                this.aspectMembershipService.create(this.aspectMembership));
+                this.aspectMembershipService.create(this.aspectMembership), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<AspectMembership>) {
+    private subscribeToSaveResponse(result: Observable<AspectMembership>, isCreated: boolean) {
         result.subscribe((res: AspectMembership) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: AspectMembership) {
+    private onSaveSuccess(result: AspectMembership, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.aspectMembership.created'
+            : 'jDiasApp.aspectMembership.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'aspectMembershipListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

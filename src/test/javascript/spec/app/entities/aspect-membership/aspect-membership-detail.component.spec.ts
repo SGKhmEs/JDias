@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     AspectMembershipService,
                     EventManager
                 ]
-            }).overrideComponent(AspectMembershipDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(AspectMembershipDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

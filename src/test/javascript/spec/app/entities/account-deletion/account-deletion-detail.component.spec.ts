@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     AccountDeletionService,
                     EventManager
                 ]
-            }).overrideComponent(AccountDeletionDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(AccountDeletionDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

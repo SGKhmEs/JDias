@@ -19,6 +19,8 @@ export class AspectDialogComponent implements OnInit {
     aspect: Aspect;
     authorities: any[];
     isSaving: boolean;
+    createdAtDp: any;
+    updatedAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -40,19 +42,24 @@ export class AspectDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.aspect.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.aspectService.update(this.aspect));
+                this.aspectService.update(this.aspect), false);
         } else {
             this.subscribeToSaveResponse(
-                this.aspectService.create(this.aspect));
+                this.aspectService.create(this.aspect), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Aspect>) {
+    private subscribeToSaveResponse(result: Observable<Aspect>, isCreated: boolean) {
         result.subscribe((res: Aspect) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Aspect) {
+    private onSaveSuccess(result: Aspect, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.aspect.created'
+            : 'jDiasApp.aspect.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'aspectListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

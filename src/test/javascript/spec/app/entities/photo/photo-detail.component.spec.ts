@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     PhotoService,
                     EventManager
                 ]
-            }).overrideComponent(PhotoDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(PhotoDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

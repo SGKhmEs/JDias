@@ -33,7 +33,7 @@
         },
         {
             "fieldName": "createdAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "authorSignature",
@@ -52,5 +52,5 @@
     "entityTableName": "comment",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl"
 }

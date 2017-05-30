@@ -34,5 +34,5 @@
     "entityTableName": "status_message",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl"
 }

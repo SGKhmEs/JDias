@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Person;
-
-import com.sgkhmjaes.jdias.repository.PersonRepository;
-import com.sgkhmjaes.jdias.repository.search.PersonSearchRepository;
+import com.sgkhmjaes.jdias.service.PersonService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class PersonResource {
     private final Logger log = LoggerFactory.getLogger(PersonResource.class);
 
     private static final String ENTITY_NAME = "person";
-        
-    private final PersonRepository personRepository;
 
-    private final PersonSearchRepository personSearchRepository;
+    private final PersonService personService;
 
-    public PersonResource(PersonRepository personRepository, PersonSearchRepository personSearchRepository) {
-        this.personRepository = personRepository;
-        this.personSearchRepository = personSearchRepository;
+    public PersonResource(PersonService personService) {
+        this.personService = personService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class PersonResource {
         if (person.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new person cannot already have an ID")).body(null);
         }
-        Person result = personRepository.save(person);
-        personSearchRepository.save(result);
+        Person result = personService.save(person);
         return ResponseEntity.created(new URI("/api/people/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class PersonResource {
         if (person.getId() == null) {
             return createPerson(person);
         }
-        Person result = personRepository.save(person);
-        personSearchRepository.save(result);
+        Person result = personService.save(person);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, person.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class PersonResource {
     @Timed
     public List<Person> getAllPeople() {
         log.debug("REST request to get all People");
-        List<Person> people = personRepository.findAll();
-        return people;
+        return personService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class PersonResource {
     @Timed
     public ResponseEntity<Person> getPerson(@PathVariable Long id) {
         log.debug("REST request to get Person : {}", id);
-        Person person = personRepository.findOne(id);
+        Person person = personService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(person));
     }
 
@@ -123,8 +114,7 @@ public class PersonResource {
     @Timed
     public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
         log.debug("REST request to delete Person : {}", id);
-        personRepository.delete(id);
-        personSearchRepository.delete(id);
+        personService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class PersonResource {
      * SEARCH  /_search/people?query=:query : search for the person corresponding
      * to the query.
      *
-     * @param query the query of the person search 
+     * @param query the query of the person search
      * @return the result of the search
      */
     @GetMapping("/_search/people")
     @Timed
     public List<Person> searchPeople(@RequestParam String query) {
         log.debug("REST request to search People for query {}", query);
-        return StreamSupport
-            .stream(personSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return personService.search(query);
     }
-
 
 }

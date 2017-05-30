@@ -25,7 +25,7 @@
         },
         {
             "fieldName": "createdAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "remotePhotoPath",
@@ -56,5 +56,5 @@
     "entityTableName": "photo",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl"
 }

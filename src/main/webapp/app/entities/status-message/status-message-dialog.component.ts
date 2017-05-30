@@ -75,19 +75,24 @@ export class StatusMessageDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.statusMessage.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.statusMessageService.update(this.statusMessage));
+                this.statusMessageService.update(this.statusMessage), false);
         } else {
             this.subscribeToSaveResponse(
-                this.statusMessageService.create(this.statusMessage));
+                this.statusMessageService.create(this.statusMessage), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<StatusMessage>) {
+    private subscribeToSaveResponse(result: Observable<StatusMessage>, isCreated: boolean) {
         result.subscribe((res: StatusMessage) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: StatusMessage) {
+    private onSaveSuccess(result: StatusMessage, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.statusMessage.created'
+            : 'jDiasApp.statusMessage.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'statusMessageListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

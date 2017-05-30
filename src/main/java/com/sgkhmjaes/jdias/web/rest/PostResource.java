@@ -35,7 +35,7 @@ public class PostResource {
     private final Logger log = LoggerFactory.getLogger(PostResource.class);
 
     private static final String ENTITY_NAME = "post";
-        
+
     private final PostService postService;
 
     public PostResource(PostService postService) {
@@ -131,7 +131,7 @@ public class PostResource {
      * SEARCH  /_search/posts?query=:query : search for the post corresponding
      * to the query.
      *
-     * @param query the query of the post search 
+     * @param query the query of the post search
      * @param pageable the pagination information
      * @return the result of the search
      */
@@ -143,6 +143,5 @@ public class PostResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/posts");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-
 
 }

@@ -40,19 +40,24 @@ export class LocationDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.location.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.locationService.update(this.location));
+                this.locationService.update(this.location), false);
         } else {
             this.subscribeToSaveResponse(
-                this.locationService.create(this.location));
+                this.locationService.create(this.location), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Location>) {
+    private subscribeToSaveResponse(result: Observable<Location>, isCreated: boolean) {
         result.subscribe((res: Location) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Location) {
+    private onSaveSuccess(result: Location, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.location.created'
+            : 'jDiasApp.location.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'locationListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

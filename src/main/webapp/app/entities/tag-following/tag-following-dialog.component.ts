@@ -26,6 +26,8 @@ export class TagFollowingDialogComponent implements OnInit {
     tags: Tag[];
 
     useraccounts: UserAccount[];
+    createdAtDp: any;
+    updatedAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -53,19 +55,24 @@ export class TagFollowingDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.tagFollowing.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.tagFollowingService.update(this.tagFollowing));
+                this.tagFollowingService.update(this.tagFollowing), false);
         } else {
             this.subscribeToSaveResponse(
-                this.tagFollowingService.create(this.tagFollowing));
+                this.tagFollowingService.create(this.tagFollowing), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<TagFollowing>) {
+    private subscribeToSaveResponse(result: Observable<TagFollowing>, isCreated: boolean) {
         result.subscribe((res: TagFollowing) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: TagFollowing) {
+    private onSaveSuccess(result: TagFollowing, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.tagFollowing.created'
+            : 'jDiasApp.tagFollowing.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'tagFollowingListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

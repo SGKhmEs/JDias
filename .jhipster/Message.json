@@ -27,12 +27,12 @@
         },
         {
             "fieldName": "createdAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         }
     ],
     "changelogDate": "20170527190326",
     "entityTableName": "message",
     "dto": "no",
     "pagination": "infinite-scroll",
-    "service": "no"
+    "service": "serviceImpl"
 }

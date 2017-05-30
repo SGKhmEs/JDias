@@ -47,7 +47,7 @@
                 <td><a [routerLink]="['../post', post.id ]">{{post.id}}</a></td>
                 <td>{{post.author}}</td>
                 <td>{{post.guid}}</td>
-                <td>{{post.createdAt | date:'medium'}}</td>
+                <td>{{post.createdAt | date:'mediumDate'}}</td>
                 <td>{{post.pub}}</td>
                 <td>{{post.providerDisplayName}}</td>
                 <td jhiTranslate="{{'jDiasApp.PostType.' + post.postType}}">{{post.postType}}</td>

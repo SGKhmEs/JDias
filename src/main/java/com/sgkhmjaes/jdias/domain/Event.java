@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -38,10 +38,10 @@ public class Event implements Serializable {
     private String summary;
 
     @Column(name = "jhi_start")
-    private ZonedDateTime start;
+    private LocalDate start;
 
     @Column(name = "jhi_end")
-    private ZonedDateTime end;
+    private LocalDate end;
 
     @Column(name = "all_day")
     private Boolean allDay;
@@ -104,29 +104,29 @@ public class Event implements Serializable {
         this.summary = summary;
     }
 
-    public ZonedDateTime getStart() {
+    public LocalDate getStart() {
         return start;
     }
 
-    public Event start(ZonedDateTime start) {
+    public Event start(LocalDate start) {
         this.start = start;
         return this;
     }
 
-    public void setStart(ZonedDateTime start) {
+    public void setStart(LocalDate start) {
         this.start = start;
     }
 
-    public ZonedDateTime getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
-    public Event end(ZonedDateTime end) {
+    public Event end(LocalDate end) {
         this.end = end;
         return this;
     }
 
-    public void setEnd(ZonedDateTime end) {
+    public void setEnd(LocalDate end) {
         this.end = end;
     }
 

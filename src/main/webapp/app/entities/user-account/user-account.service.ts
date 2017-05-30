@@ -61,50 +61,50 @@ export class UserAccountService {
         for (let i = 0; i < jsonResponse.length; i++) {
             this.convertItemFromServer(jsonResponse[i]);
         }
-        return new ResponseWrapper(res.headers, jsonResponse);
+        return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
     private convertItemFromServer(entity: any) {
         entity.rememberCreatedAt = this.dateUtils
-            .convertDateTimeFromServer(entity.rememberCreatedAt);
+            .convertLocalDateFromServer(entity.rememberCreatedAt);
         entity.currentSignInAt = this.dateUtils
-            .convertDateTimeFromServer(entity.currentSignInAt);
+            .convertLocalDateFromServer(entity.currentSignInAt);
         entity.lastSignInAt = this.dateUtils
-            .convertDateTimeFromServer(entity.lastSignInAt);
+            .convertLocalDateFromServer(entity.lastSignInAt);
         entity.createdAt = this.dateUtils
-            .convertDateTimeFromServer(entity.createdAt);
+            .convertLocalDateFromServer(entity.createdAt);
         entity.updatedAt = this.dateUtils
-            .convertDateTimeFromServer(entity.updatedAt);
+            .convertLocalDateFromServer(entity.updatedAt);
         entity.lockedAt = this.dateUtils
-            .convertDateTimeFromServer(entity.lockedAt);
+            .convertLocalDateFromServer(entity.lockedAt);
         entity.lastSeen = this.dateUtils
-            .convertDateTimeFromServer(entity.lastSeen);
+            .convertLocalDateFromServer(entity.lastSeen);
         entity.exportedAt = this.dateUtils
-            .convertDateTimeFromServer(entity.exportedAt);
+            .convertLocalDateFromServer(entity.exportedAt);
         entity.exportedPhotosAt = this.dateUtils
-            .convertDateTimeFromServer(entity.exportedPhotosAt);
+            .convertLocalDateFromServer(entity.exportedPhotosAt);
     }
 
     private convert(userAccount: UserAccount): UserAccount {
         const copy: UserAccount = Object.assign({}, userAccount);
-
-        copy.rememberCreatedAt = this.dateUtils.toDate(userAccount.rememberCreatedAt);
-
-        copy.currentSignInAt = this.dateUtils.toDate(userAccount.currentSignInAt);
-
-        copy.lastSignInAt = this.dateUtils.toDate(userAccount.lastSignInAt);
-
-        copy.createdAt = this.dateUtils.toDate(userAccount.createdAt);
-
-        copy.updatedAt = this.dateUtils.toDate(userAccount.updatedAt);
-
-        copy.lockedAt = this.dateUtils.toDate(userAccount.lockedAt);
-
-        copy.lastSeen = this.dateUtils.toDate(userAccount.lastSeen);
-
-        copy.exportedAt = this.dateUtils.toDate(userAccount.exportedAt);
-
-        copy.exportedPhotosAt = this.dateUtils.toDate(userAccount.exportedPhotosAt);
+        copy.rememberCreatedAt = this.dateUtils
+            .convertLocalDateToServer(userAccount.rememberCreatedAt);
+        copy.currentSignInAt = this.dateUtils
+            .convertLocalDateToServer(userAccount.currentSignInAt);
+        copy.lastSignInAt = this.dateUtils
+            .convertLocalDateToServer(userAccount.lastSignInAt);
+        copy.createdAt = this.dateUtils
+            .convertLocalDateToServer(userAccount.createdAt);
+        copy.updatedAt = this.dateUtils
+            .convertLocalDateToServer(userAccount.updatedAt);
+        copy.lockedAt = this.dateUtils
+            .convertLocalDateToServer(userAccount.lockedAt);
+        copy.lastSeen = this.dateUtils
+            .convertLocalDateToServer(userAccount.lastSeen);
+        copy.exportedAt = this.dateUtils
+            .convertLocalDateToServer(userAccount.exportedAt);
+        copy.exportedPhotosAt = this.dateUtils
+            .convertLocalDateToServer(userAccount.exportedPhotosAt);
         return copy;
     }
 }

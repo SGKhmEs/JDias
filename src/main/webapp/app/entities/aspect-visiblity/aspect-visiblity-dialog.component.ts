@@ -53,19 +53,24 @@ export class AspectVisiblityDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.aspectVisiblity.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.aspectVisiblityService.update(this.aspectVisiblity));
+                this.aspectVisiblityService.update(this.aspectVisiblity), false);
         } else {
             this.subscribeToSaveResponse(
-                this.aspectVisiblityService.create(this.aspectVisiblity));
+                this.aspectVisiblityService.create(this.aspectVisiblity), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<AspectVisiblity>) {
+    private subscribeToSaveResponse(result: Observable<AspectVisiblity>, isCreated: boolean) {
         result.subscribe((res: AspectVisiblity) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: AspectVisiblity) {
+    private onSaveSuccess(result: AspectVisiblity, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.aspectVisiblity.created'
+            : 'jDiasApp.aspectVisiblity.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'aspectVisiblityListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

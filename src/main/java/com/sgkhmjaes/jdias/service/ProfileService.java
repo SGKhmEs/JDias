@@ -18,7 +18,7 @@ public interface ProfileService {
 
     /**
      *  Get all the profiles.
-     *  
+     *
      *  @return the list of entities
      */
     List<Profile> findAll();

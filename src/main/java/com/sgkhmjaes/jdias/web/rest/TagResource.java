@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Tag;
-
-import com.sgkhmjaes.jdias.repository.TagRepository;
-import com.sgkhmjaes.jdias.repository.search.TagSearchRepository;
+import com.sgkhmjaes.jdias.service.TagService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class TagResource {
     private final Logger log = LoggerFactory.getLogger(TagResource.class);
 
     private static final String ENTITY_NAME = "tag";
-        
-    private final TagRepository tagRepository;
 
-    private final TagSearchRepository tagSearchRepository;
+    private final TagService tagService;
 
-    public TagResource(TagRepository tagRepository, TagSearchRepository tagSearchRepository) {
-        this.tagRepository = tagRepository;
-        this.tagSearchRepository = tagSearchRepository;
+    public TagResource(TagService tagService) {
+        this.tagService = tagService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class TagResource {
         if (tag.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new tag cannot already have an ID")).body(null);
         }
-        Tag result = tagRepository.save(tag);
-        tagSearchRepository.save(result);
+        Tag result = tagService.save(tag);
         return ResponseEntity.created(new URI("/api/tags/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class TagResource {
         if (tag.getId() == null) {
             return createTag(tag);
         }
-        Tag result = tagRepository.save(tag);
-        tagSearchRepository.save(result);
+        Tag result = tagService.save(tag);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tag.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class TagResource {
     @Timed
     public List<Tag> getAllTags() {
         log.debug("REST request to get all Tags");
-        List<Tag> tags = tagRepository.findAll();
-        return tags;
+        return tagService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class TagResource {
     @Timed
     public ResponseEntity<Tag> getTag(@PathVariable Long id) {
         log.debug("REST request to get Tag : {}", id);
-        Tag tag = tagRepository.findOne(id);
+        Tag tag = tagService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(tag));
     }
 
@@ -123,8 +114,7 @@ public class TagResource {
     @Timed
     public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
         log.debug("REST request to delete Tag : {}", id);
-        tagRepository.delete(id);
-        tagSearchRepository.delete(id);
+        tagService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class TagResource {
      * SEARCH  /_search/tags?query=:query : search for the tag corresponding
      * to the query.
      *
-     * @param query the query of the tag search 
+     * @param query the query of the tag search
      * @return the result of the search
      */
     @GetMapping("/_search/tags")
     @Timed
     public List<Tag> searchTags(@RequestParam String query) {
         log.debug("REST request to search Tags for query {}", query);
-        return StreamSupport
-            .stream(tagSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return tagService.search(query);
     }
-
 
 }

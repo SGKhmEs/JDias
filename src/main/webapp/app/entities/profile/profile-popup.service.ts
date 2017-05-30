@@ -1,14 +1,12 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
 import { Profile } from './profile.model';
 import { ProfileService } from './profile.service';
 @Injectable()
 export class ProfilePopupService {
     private isOpen = false;
     constructor(
-        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private profileService: ProfileService
@@ -23,8 +21,13 @@ export class ProfilePopupService {
 
         if (id) {
             this.profileService.find(id).subscribe((profile) => {
-                profile.birthday = this.datePipe
-                    .transform(profile.birthday, 'yyyy-MM-ddThh:mm');
+                if (profile.birthday) {
+                    profile.birthday = {
+                        year: profile.birthday.getFullYear(),
+                        month: profile.birthday.getMonth() + 1,
+                        day: profile.birthday.getDate()
+                    };
+                }
                 this.profileModalRef(component, profile);
             });
         } else {

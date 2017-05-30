@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Event;
-
-import com.sgkhmjaes.jdias.repository.EventRepository;
-import com.sgkhmjaes.jdias.repository.search.EventSearchRepository;
+import com.sgkhmjaes.jdias.service.EventService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class EventResource {
     private final Logger log = LoggerFactory.getLogger(EventResource.class);
 
     private static final String ENTITY_NAME = "event";
-        
-    private final EventRepository eventRepository;
 
-    private final EventSearchRepository eventSearchRepository;
+    private final EventService eventService;
 
-    public EventResource(EventRepository eventRepository, EventSearchRepository eventSearchRepository) {
-        this.eventRepository = eventRepository;
-        this.eventSearchRepository = eventSearchRepository;
+    public EventResource(EventService eventService) {
+        this.eventService = eventService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class EventResource {
         if (event.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new event cannot already have an ID")).body(null);
         }
-        Event result = eventRepository.save(event);
-        eventSearchRepository.save(result);
+        Event result = eventService.save(event);
         return ResponseEntity.created(new URI("/api/events/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class EventResource {
         if (event.getId() == null) {
             return createEvent(event);
         }
-        Event result = eventRepository.save(event);
-        eventSearchRepository.save(result);
+        Event result = eventService.save(event);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, event.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class EventResource {
     @Timed
     public List<Event> getAllEvents() {
         log.debug("REST request to get all Events");
-        List<Event> events = eventRepository.findAll();
-        return events;
+        return eventService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class EventResource {
     @Timed
     public ResponseEntity<Event> getEvent(@PathVariable Long id) {
         log.debug("REST request to get Event : {}", id);
-        Event event = eventRepository.findOne(id);
+        Event event = eventService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(event));
     }
 
@@ -123,8 +114,7 @@ public class EventResource {
     @Timed
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         log.debug("REST request to delete Event : {}", id);
-        eventRepository.delete(id);
-        eventSearchRepository.delete(id);
+        eventService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class EventResource {
      * SEARCH  /_search/events?query=:query : search for the event corresponding
      * to the query.
      *
-     * @param query the query of the event search 
+     * @param query the query of the event search
      * @return the result of the search
      */
     @GetMapping("/_search/events")
     @Timed
     public List<Event> searchEvents(@RequestParam String query) {
         log.debug("REST request to search Events for query {}", query);
-        return StreamSupport
-            .stream(eventSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return eventService.search(query);
     }
-
 
 }

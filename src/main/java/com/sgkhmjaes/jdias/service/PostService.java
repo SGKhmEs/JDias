@@ -19,7 +19,7 @@ public interface PostService {
 
     /**
      *  Get all the posts.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */

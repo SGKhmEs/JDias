@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Photo;
-
-import com.sgkhmjaes.jdias.repository.PhotoRepository;
-import com.sgkhmjaes.jdias.repository.search.PhotoSearchRepository;
+import com.sgkhmjaes.jdias.service.PhotoService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class PhotoResource {
     private final Logger log = LoggerFactory.getLogger(PhotoResource.class);
 
     private static final String ENTITY_NAME = "photo";
-        
-    private final PhotoRepository photoRepository;
 
-    private final PhotoSearchRepository photoSearchRepository;
+    private final PhotoService photoService;
 
-    public PhotoResource(PhotoRepository photoRepository, PhotoSearchRepository photoSearchRepository) {
-        this.photoRepository = photoRepository;
-        this.photoSearchRepository = photoSearchRepository;
+    public PhotoResource(PhotoService photoService) {
+        this.photoService = photoService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class PhotoResource {
         if (photo.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new photo cannot already have an ID")).body(null);
         }
-        Photo result = photoRepository.save(photo);
-        photoSearchRepository.save(result);
+        Photo result = photoService.save(photo);
         return ResponseEntity.created(new URI("/api/photos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class PhotoResource {
         if (photo.getId() == null) {
             return createPhoto(photo);
         }
-        Photo result = photoRepository.save(photo);
-        photoSearchRepository.save(result);
+        Photo result = photoService.save(photo);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, photo.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class PhotoResource {
     @Timed
     public List<Photo> getAllPhotos() {
         log.debug("REST request to get all Photos");
-        List<Photo> photos = photoRepository.findAll();
-        return photos;
+        return photoService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class PhotoResource {
     @Timed
     public ResponseEntity<Photo> getPhoto(@PathVariable Long id) {
         log.debug("REST request to get Photo : {}", id);
-        Photo photo = photoRepository.findOne(id);
+        Photo photo = photoService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(photo));
     }
 
@@ -123,8 +114,7 @@ public class PhotoResource {
     @Timed
     public ResponseEntity<Void> deletePhoto(@PathVariable Long id) {
         log.debug("REST request to delete Photo : {}", id);
-        photoRepository.delete(id);
-        photoSearchRepository.delete(id);
+        photoService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class PhotoResource {
      * SEARCH  /_search/photos?query=:query : search for the photo corresponding
      * to the query.
      *
-     * @param query the query of the photo search 
+     * @param query the query of the photo search
      * @return the result of the search
      */
     @GetMapping("/_search/photos")
     @Timed
     public List<Photo> searchPhotos(@RequestParam String query) {
         log.debug("REST request to search Photos for query {}", query);
-        return StreamSupport
-            .stream(photoSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return photoService.search(query);
     }
-
 
 }

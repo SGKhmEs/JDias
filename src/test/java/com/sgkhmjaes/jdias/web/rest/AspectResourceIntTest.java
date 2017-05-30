@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Aspect;
 import com.sgkhmjaes.jdias.repository.AspectRepository;
+import com.sgkhmjaes.jdias.service.AspectService;
 import com.sgkhmjaes.jdias.repository.search.AspectSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -22,13 +23,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -46,11 +44,11 @@ public class AspectResourceIntTest {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
 
-    private static final ZonedDateTime DEFAULT_UPDATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_UPDATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_UPDATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_UPDATED_AT = LocalDate.now(ZoneId.systemDefault());
 
     private static final Boolean DEFAULT_CONTACT_VISIBLE = false;
     private static final Boolean UPDATED_CONTACT_VISIBLE = true;
@@ -63,6 +61,9 @@ public class AspectResourceIntTest {
 
     @Autowired
     private AspectRepository aspectRepository;
+
+    @Autowired
+    private AspectService aspectService;
 
     @Autowired
     private AspectSearchRepository aspectSearchRepository;
@@ -86,7 +87,7 @@ public class AspectResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        AspectResource aspectResource = new AspectResource(aspectRepository, aspectSearchRepository);
+        AspectResource aspectResource = new AspectResource(aspectService);
         this.restAspectMockMvc = MockMvcBuilders.standaloneSetup(aspectResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -174,8 +175,8 @@ public class AspectResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(aspect.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
             .andExpect(jsonPath("$.[*].contactVisible").value(hasItem(DEFAULT_CONTACT_VISIBLE.booleanValue())))
             .andExpect(jsonPath("$.[*].chatEnabled").value(hasItem(DEFAULT_CHAT_ENABLED.booleanValue())))
             .andExpect(jsonPath("$.[*].postDefault").value(hasItem(DEFAULT_POST_DEFAULT.booleanValue())));
@@ -193,8 +194,8 @@ public class AspectResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(aspect.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)))
-            .andExpect(jsonPath("$.updatedAt").value(sameInstant(DEFAULT_UPDATED_AT)))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
             .andExpect(jsonPath("$.contactVisible").value(DEFAULT_CONTACT_VISIBLE.booleanValue()))
             .andExpect(jsonPath("$.chatEnabled").value(DEFAULT_CHAT_ENABLED.booleanValue()))
             .andExpect(jsonPath("$.postDefault").value(DEFAULT_POST_DEFAULT.booleanValue()));
@@ -212,8 +213,8 @@ public class AspectResourceIntTest {
     @Transactional
     public void updateAspect() throws Exception {
         // Initialize the database
-        aspectRepository.saveAndFlush(aspect);
-        aspectSearchRepository.save(aspect);
+        aspectService.save(aspect);
+
         int databaseSizeBeforeUpdate = aspectRepository.findAll().size();
 
         // Update the aspect
@@ -269,8 +270,8 @@ public class AspectResourceIntTest {
     @Transactional
     public void deleteAspect() throws Exception {
         // Initialize the database
-        aspectRepository.saveAndFlush(aspect);
-        aspectSearchRepository.save(aspect);
+        aspectService.save(aspect);
+
         int databaseSizeBeforeDelete = aspectRepository.findAll().size();
 
         // Get the aspect
@@ -291,8 +292,7 @@ public class AspectResourceIntTest {
     @Transactional
     public void searchAspect() throws Exception {
         // Initialize the database
-        aspectRepository.saveAndFlush(aspect);
-        aspectSearchRepository.save(aspect);
+        aspectService.save(aspect);
 
         // Search the aspect
         restAspectMockMvc.perform(get("/api/_search/aspects?query=id:" + aspect.getId()))
@@ -300,8 +300,8 @@ public class AspectResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(aspect.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
             .andExpect(jsonPath("$.[*].contactVisible").value(hasItem(DEFAULT_CONTACT_VISIBLE.booleanValue())))
             .andExpect(jsonPath("$.[*].chatEnabled").value(hasItem(DEFAULT_CHAT_ENABLED.booleanValue())))
             .andExpect(jsonPath("$.[*].postDefault").value(hasItem(DEFAULT_POST_DEFAULT.booleanValue())));

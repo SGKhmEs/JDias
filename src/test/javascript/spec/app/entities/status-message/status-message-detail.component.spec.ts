@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     StatusMessageService,
                     EventManager
                 ]
-            }).overrideComponent(StatusMessageDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(StatusMessageDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

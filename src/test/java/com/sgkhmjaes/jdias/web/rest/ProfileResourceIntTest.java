@@ -23,13 +23,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -62,8 +59,8 @@ public class ProfileResourceIntTest {
     private static final String DEFAULT_IMAGE_URL_MEDIUM = "AAAAAAAAAA";
     private static final String UPDATED_IMAGE_URL_MEDIUM = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_BIRTHDAY = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_BIRTHDAY = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_BIRTHDAY = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_BIRTHDAY = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_GENDER = "AAAAAAAAAA";
     private static final String UPDATED_GENDER = "BBBBBBBBBB";
@@ -218,7 +215,7 @@ public class ProfileResourceIntTest {
             .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL.toString())))
             .andExpect(jsonPath("$.[*].imageUrlSmall").value(hasItem(DEFAULT_IMAGE_URL_SMALL.toString())))
             .andExpect(jsonPath("$.[*].imageUrlMedium").value(hasItem(DEFAULT_IMAGE_URL_MEDIUM.toString())))
-            .andExpect(jsonPath("$.[*].birthday").value(hasItem(sameInstant(DEFAULT_BIRTHDAY))))
+            .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
             .andExpect(jsonPath("$.[*].bio").value(hasItem(DEFAULT_BIO.toString())))
             .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION.toString())))
@@ -244,7 +241,7 @@ public class ProfileResourceIntTest {
             .andExpect(jsonPath("$.imageUrl").value(DEFAULT_IMAGE_URL.toString()))
             .andExpect(jsonPath("$.imageUrlSmall").value(DEFAULT_IMAGE_URL_SMALL.toString()))
             .andExpect(jsonPath("$.imageUrlMedium").value(DEFAULT_IMAGE_URL_MEDIUM.toString()))
-            .andExpect(jsonPath("$.birthday").value(sameInstant(DEFAULT_BIRTHDAY)))
+            .andExpect(jsonPath("$.birthday").value(DEFAULT_BIRTHDAY.toString()))
             .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()))
             .andExpect(jsonPath("$.bio").value(DEFAULT_BIO.toString()))
             .andExpect(jsonPath("$.location").value(DEFAULT_LOCATION.toString()))
@@ -371,7 +368,7 @@ public class ProfileResourceIntTest {
             .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL.toString())))
             .andExpect(jsonPath("$.[*].imageUrlSmall").value(hasItem(DEFAULT_IMAGE_URL_SMALL.toString())))
             .andExpect(jsonPath("$.[*].imageUrlMedium").value(hasItem(DEFAULT_IMAGE_URL_MEDIUM.toString())))
-            .andExpect(jsonPath("$.[*].birthday").value(hasItem(sameInstant(DEFAULT_BIRTHDAY))))
+            .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
             .andExpect(jsonPath("$.[*].bio").value(hasItem(DEFAULT_BIO.toString())))
             .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION.toString())))

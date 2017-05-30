@@ -28,7 +28,7 @@
         },
         {
             "fieldName": "birthday",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "gender",

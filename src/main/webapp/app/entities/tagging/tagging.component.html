@@ -40,7 +40,7 @@
             <tr *ngFor="let tagging of taggings ;trackBy: trackId">
                 <td><a [routerLink]="['../tagging', tagging.id ]">{{tagging.id}}</a></td>
                 <td>{{tagging.context}}</td>
-                <td>{{tagging.createdAt | date:'medium'}}</td>
+                <td>{{tagging.createdAt | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="tagging.tag">
                         <a [routerLink]="['../tag', tagging.tag?.id ]" >{{tagging.tag?.id}}</a>

@@ -47,19 +47,24 @@ export class PollAnswerDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.pollAnswer.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.pollAnswerService.update(this.pollAnswer));
+                this.pollAnswerService.update(this.pollAnswer), false);
         } else {
             this.subscribeToSaveResponse(
-                this.pollAnswerService.create(this.pollAnswer));
+                this.pollAnswerService.create(this.pollAnswer), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<PollAnswer>) {
+    private subscribeToSaveResponse(result: Observable<PollAnswer>, isCreated: boolean) {
         result.subscribe((res: PollAnswer) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: PollAnswer) {
+    private onSaveSuccess(result: PollAnswer, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.pollAnswer.created'
+            : 'jDiasApp.pollAnswer.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'pollAnswerListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

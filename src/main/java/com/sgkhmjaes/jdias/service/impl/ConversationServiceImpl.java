@@ -8,10 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -23,7 +22,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class ConversationServiceImpl implements ConversationService{
 
     private final Logger log = LoggerFactory.getLogger(ConversationServiceImpl.class);
-    
+
     private final ConversationRepository conversationRepository;
 
     private final ConversationSearchRepository conversationSearchRepository;
@@ -49,7 +48,7 @@ public class ConversationServiceImpl implements ConversationService{
 
     /**
      *  Get all the conversations.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -57,8 +56,7 @@ public class ConversationServiceImpl implements ConversationService{
     @Transactional(readOnly = true)
     public Page<Conversation> findAll(Pageable pageable) {
         log.debug("Request to get all Conversations");
-        Page<Conversation> result = conversationRepository.findAll(pageable);
-        return result;
+        return conversationRepository.findAll(pageable);
     }
 
     /**
@@ -71,8 +69,7 @@ public class ConversationServiceImpl implements ConversationService{
     @Transactional(readOnly = true)
     public Conversation findOne(Long id) {
         log.debug("Request to get Conversation : {}", id);
-        Conversation conversation = conversationRepository.findOne(id);
-        return conversation;
+        return conversationRepository.findOne(id);
     }
 
     /**

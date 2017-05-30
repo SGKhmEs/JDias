@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.AspectVisiblity;
 import com.sgkhmjaes.jdias.repository.AspectVisiblityRepository;
+import com.sgkhmjaes.jdias.service.AspectVisiblityService;
 import com.sgkhmjaes.jdias.repository.search.AspectVisiblitySearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -46,6 +47,9 @@ public class AspectVisiblityResourceIntTest {
     private AspectVisiblityRepository aspectVisiblityRepository;
 
     @Autowired
+    private AspectVisiblityService aspectVisiblityService;
+
+    @Autowired
     private AspectVisiblitySearchRepository aspectVisiblitySearchRepository;
 
     @Autowired
@@ -67,7 +71,7 @@ public class AspectVisiblityResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        AspectVisiblityResource aspectVisiblityResource = new AspectVisiblityResource(aspectVisiblityRepository, aspectVisiblitySearchRepository);
+        AspectVisiblityResource aspectVisiblityResource = new AspectVisiblityResource(aspectVisiblityService);
         this.restAspectVisiblityMockMvc = MockMvcBuilders.standaloneSetup(aspectVisiblityResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -173,8 +177,8 @@ public class AspectVisiblityResourceIntTest {
     @Transactional
     public void updateAspectVisiblity() throws Exception {
         // Initialize the database
-        aspectVisiblityRepository.saveAndFlush(aspectVisiblity);
-        aspectVisiblitySearchRepository.save(aspectVisiblity);
+        aspectVisiblityService.save(aspectVisiblity);
+
         int databaseSizeBeforeUpdate = aspectVisiblityRepository.findAll().size();
 
         // Update the aspectVisiblity
@@ -220,8 +224,8 @@ public class AspectVisiblityResourceIntTest {
     @Transactional
     public void deleteAspectVisiblity() throws Exception {
         // Initialize the database
-        aspectVisiblityRepository.saveAndFlush(aspectVisiblity);
-        aspectVisiblitySearchRepository.save(aspectVisiblity);
+        aspectVisiblityService.save(aspectVisiblity);
+
         int databaseSizeBeforeDelete = aspectVisiblityRepository.findAll().size();
 
         // Get the aspectVisiblity
@@ -242,8 +246,7 @@ public class AspectVisiblityResourceIntTest {
     @Transactional
     public void searchAspectVisiblity() throws Exception {
         // Initialize the database
-        aspectVisiblityRepository.saveAndFlush(aspectVisiblity);
-        aspectVisiblitySearchRepository.save(aspectVisiblity);
+        aspectVisiblityService.save(aspectVisiblity);
 
         // Search the aspectVisiblity
         restAspectVisiblityMockMvc.perform(get("/api/_search/aspect-visiblities?query=id:" + aspectVisiblity.getId()))

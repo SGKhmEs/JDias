@@ -47,19 +47,24 @@ export class ContactDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.contact.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.contactService.update(this.contact));
+                this.contactService.update(this.contact), false);
         } else {
             this.subscribeToSaveResponse(
-                this.contactService.create(this.contact));
+                this.contactService.create(this.contact), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Contact>) {
+    private subscribeToSaveResponse(result: Observable<Contact>, isCreated: boolean) {
         result.subscribe((res: Contact) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Contact) {
+    private onSaveSuccess(result: Contact, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.contact.created'
+            : 'jDiasApp.contact.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'contactListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

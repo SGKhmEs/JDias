@@ -1,14 +1,12 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
 import { Aspect } from './aspect.model';
 import { AspectService } from './aspect.service';
 @Injectable()
 export class AspectPopupService {
     private isOpen = false;
     constructor(
-        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private aspectService: AspectService
@@ -23,10 +21,20 @@ export class AspectPopupService {
 
         if (id) {
             this.aspectService.find(id).subscribe((aspect) => {
-                aspect.createdAt = this.datePipe
-                    .transform(aspect.createdAt, 'yyyy-MM-ddThh:mm');
-                aspect.updatedAt = this.datePipe
-                    .transform(aspect.updatedAt, 'yyyy-MM-ddThh:mm');
+                if (aspect.createdAt) {
+                    aspect.createdAt = {
+                        year: aspect.createdAt.getFullYear(),
+                        month: aspect.createdAt.getMonth() + 1,
+                        day: aspect.createdAt.getDate()
+                    };
+                }
+                if (aspect.updatedAt) {
+                    aspect.updatedAt = {
+                        year: aspect.updatedAt.getFullYear(),
+                        month: aspect.updatedAt.getMonth() + 1,
+                        day: aspect.updatedAt.getDate()
+                    };
+                }
                 this.aspectModalRef(component, aspect);
             });
         } else {

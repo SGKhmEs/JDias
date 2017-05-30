@@ -41,8 +41,8 @@
             <tbody>
             <tr *ngFor="let aspectMembership of aspectMemberships ;trackBy: trackId">
                 <td><a [routerLink]="['../aspect-membership', aspectMembership.id ]">{{aspectMembership.id}}</a></td>
-                <td>{{aspectMembership.createdAt | date:'medium'}}</td>
-                <td>{{aspectMembership.updatedAt | date:'medium'}}</td>
+                <td>{{aspectMembership.createdAt | date:'mediumDate'}}</td>
+                <td>{{aspectMembership.updatedAt | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="aspectMembership.aspect">
                         <a [routerLink]="['../aspect', aspectMembership.aspect?.id ]" >{{aspectMembership.aspect?.id}}</a>

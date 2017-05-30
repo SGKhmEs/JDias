@@ -46,7 +46,7 @@
                 <td>{{message.guid}}</td>
                 <td>{{message.conversationGuid}}</td>
                 <td>{{message.text}}</td>
-                <td>{{message.createdAt | date:'medium'}}</td>
+                <td>{{message.createdAt | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="message.conversation">
                         <a [routerLink]="['../conversation', message.conversation?.id ]" >{{message.conversation?.id}}</a>

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager } from 'ng-jhipster';
+import { AlertService, EventManager } from 'ng-jhipster';
 
 import { UserAccount } from './user-account.model';
 import { UserAccountPopupService } from './user-account-popup.service';
@@ -19,6 +19,7 @@ export class UserAccountDeleteDialogComponent {
     constructor(
         private userAccountService: UserAccountService,
         public activeModal: NgbActiveModal,
+        private alertService: AlertService,
         private eventManager: EventManager
     ) {
     }
@@ -35,6 +36,7 @@ export class UserAccountDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
+        this.alertService.success('jDiasApp.userAccount.deleted', { param : id }, null);
     }
 }
 

@@ -35,7 +35,7 @@ public class ConversationResource {
     private final Logger log = LoggerFactory.getLogger(ConversationResource.class);
 
     private static final String ENTITY_NAME = "conversation";
-        
+
     private final ConversationService conversationService;
 
     public ConversationResource(ConversationService conversationService) {
@@ -131,7 +131,7 @@ public class ConversationResource {
      * SEARCH  /_search/conversations?query=:query : search for the conversation corresponding
      * to the query.
      *
-     * @param query the query of the conversation search 
+     * @param query the query of the conversation search
      * @param pageable the pagination information
      * @return the result of the search
      */
@@ -143,6 +143,5 @@ public class ConversationResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/conversations");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
-
 
 }

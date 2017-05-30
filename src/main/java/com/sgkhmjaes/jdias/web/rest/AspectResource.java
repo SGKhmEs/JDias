@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Aspect;
-
-import com.sgkhmjaes.jdias.repository.AspectRepository;
-import com.sgkhmjaes.jdias.repository.search.AspectSearchRepository;
+import com.sgkhmjaes.jdias.service.AspectService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class AspectResource {
     private final Logger log = LoggerFactory.getLogger(AspectResource.class);
 
     private static final String ENTITY_NAME = "aspect";
-        
-    private final AspectRepository aspectRepository;
 
-    private final AspectSearchRepository aspectSearchRepository;
+    private final AspectService aspectService;
 
-    public AspectResource(AspectRepository aspectRepository, AspectSearchRepository aspectSearchRepository) {
-        this.aspectRepository = aspectRepository;
-        this.aspectSearchRepository = aspectSearchRepository;
+    public AspectResource(AspectService aspectService) {
+        this.aspectService = aspectService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class AspectResource {
         if (aspect.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new aspect cannot already have an ID")).body(null);
         }
-        Aspect result = aspectRepository.save(aspect);
-        aspectSearchRepository.save(result);
+        Aspect result = aspectService.save(aspect);
         return ResponseEntity.created(new URI("/api/aspects/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class AspectResource {
         if (aspect.getId() == null) {
             return createAspect(aspect);
         }
-        Aspect result = aspectRepository.save(aspect);
-        aspectSearchRepository.save(result);
+        Aspect result = aspectService.save(aspect);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, aspect.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class AspectResource {
     @Timed
     public List<Aspect> getAllAspects() {
         log.debug("REST request to get all Aspects");
-        List<Aspect> aspects = aspectRepository.findAll();
-        return aspects;
+        return aspectService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class AspectResource {
     @Timed
     public ResponseEntity<Aspect> getAspect(@PathVariable Long id) {
         log.debug("REST request to get Aspect : {}", id);
-        Aspect aspect = aspectRepository.findOne(id);
+        Aspect aspect = aspectService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(aspect));
     }
 
@@ -123,8 +114,7 @@ public class AspectResource {
     @Timed
     public ResponseEntity<Void> deleteAspect(@PathVariable Long id) {
         log.debug("REST request to delete Aspect : {}", id);
-        aspectRepository.delete(id);
-        aspectSearchRepository.delete(id);
+        aspectService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class AspectResource {
      * SEARCH  /_search/aspects?query=:query : search for the aspect corresponding
      * to the query.
      *
-     * @param query the query of the aspect search 
+     * @param query the query of the aspect search
      * @return the result of the search
      */
     @GetMapping("/_search/aspects")
     @Timed
     public List<Aspect> searchAspects(@RequestParam String query) {
         log.debug("REST request to search Aspects for query {}", query);
-        return StreamSupport
-            .stream(aspectSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return aspectService.search(query);
     }
-
 
 }

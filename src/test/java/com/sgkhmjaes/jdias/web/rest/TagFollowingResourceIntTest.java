@@ -4,6 +4,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.TagFollowing;
 import com.sgkhmjaes.jdias.repository.TagFollowingRepository;
+import com.sgkhmjaes.jdias.service.TagFollowingService;
 import com.sgkhmjaes.jdias.repository.search.TagFollowingSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -22,13 +23,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -43,14 +41,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = JDiasApp.class)
 public class TagFollowingResourceIntTest {
 
-    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
 
-    private static final ZonedDateTime DEFAULT_UPDATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_UPDATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_UPDATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_UPDATED_AT = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private TagFollowingRepository tagFollowingRepository;
+
+    @Autowired
+    private TagFollowingService tagFollowingService;
 
     @Autowired
     private TagFollowingSearchRepository tagFollowingSearchRepository;
@@ -74,7 +75,7 @@ public class TagFollowingResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        TagFollowingResource tagFollowingResource = new TagFollowingResource(tagFollowingRepository, tagFollowingSearchRepository);
+        TagFollowingResource tagFollowingResource = new TagFollowingResource(tagFollowingService);
         this.restTagFollowingMockMvc = MockMvcBuilders.standaloneSetup(tagFollowingResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -153,8 +154,8 @@ public class TagFollowingResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tagFollowing.getId().intValue())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))));
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
 
     @Test
@@ -168,8 +169,8 @@ public class TagFollowingResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(tagFollowing.getId().intValue()))
-            .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)))
-            .andExpect(jsonPath("$.updatedAt").value(sameInstant(DEFAULT_UPDATED_AT)));
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
     }
 
     @Test
@@ -184,8 +185,8 @@ public class TagFollowingResourceIntTest {
     @Transactional
     public void updateTagFollowing() throws Exception {
         // Initialize the database
-        tagFollowingRepository.saveAndFlush(tagFollowing);
-        tagFollowingSearchRepository.save(tagFollowing);
+        tagFollowingService.save(tagFollowing);
+
         int databaseSizeBeforeUpdate = tagFollowingRepository.findAll().size();
 
         // Update the tagFollowing
@@ -233,8 +234,8 @@ public class TagFollowingResourceIntTest {
     @Transactional
     public void deleteTagFollowing() throws Exception {
         // Initialize the database
-        tagFollowingRepository.saveAndFlush(tagFollowing);
-        tagFollowingSearchRepository.save(tagFollowing);
+        tagFollowingService.save(tagFollowing);
+
         int databaseSizeBeforeDelete = tagFollowingRepository.findAll().size();
 
         // Get the tagFollowing
@@ -255,16 +256,15 @@ public class TagFollowingResourceIntTest {
     @Transactional
     public void searchTagFollowing() throws Exception {
         // Initialize the database
-        tagFollowingRepository.saveAndFlush(tagFollowing);
-        tagFollowingSearchRepository.save(tagFollowing);
+        tagFollowingService.save(tagFollowing);
 
         // Search the tagFollowing
         restTagFollowingMockMvc.perform(get("/api/_search/tag-followings?query=id:" + tagFollowing.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tagFollowing.getId().intValue())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))));
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
 
     @Test

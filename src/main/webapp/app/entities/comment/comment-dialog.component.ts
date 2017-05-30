@@ -26,6 +26,7 @@ export class CommentDialogComponent implements OnInit {
     posts: Post[];
 
     people: Person[];
+    createdAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -53,19 +54,24 @@ export class CommentDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.comment.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.commentService.update(this.comment));
+                this.commentService.update(this.comment), false);
         } else {
             this.subscribeToSaveResponse(
-                this.commentService.create(this.comment));
+                this.commentService.create(this.comment), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Comment>) {
+    private subscribeToSaveResponse(result: Observable<Comment>, isCreated: boolean) {
         result.subscribe((res: Comment) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Comment) {
+    private onSaveSuccess(result: Comment, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.comment.created'
+            : 'jDiasApp.comment.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'commentListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

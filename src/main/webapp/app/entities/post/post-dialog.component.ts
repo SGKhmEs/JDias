@@ -29,6 +29,7 @@ export class PostDialogComponent implements OnInit {
     reshares: Reshare[];
 
     people: Person[];
+    createdAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -81,19 +82,24 @@ export class PostDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.post.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.postService.update(this.post));
+                this.postService.update(this.post), false);
         } else {
             this.subscribeToSaveResponse(
-                this.postService.create(this.post));
+                this.postService.create(this.post), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Post>) {
+    private subscribeToSaveResponse(result: Observable<Post>, isCreated: boolean) {
         result.subscribe((res: Post) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Post) {
+    private onSaveSuccess(result: Post, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.post.created'
+            : 'jDiasApp.post.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'postListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

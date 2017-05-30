@@ -15,12 +15,12 @@
         },
         {
             "fieldName": "createdAt",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         }
     ],
     "changelogDate": "20170527190338",
     "entityTableName": "tagging",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl"
 }

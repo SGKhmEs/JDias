@@ -2,9 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Comment;
-
-import com.sgkhmjaes.jdias.repository.CommentRepository;
-import com.sgkhmjaes.jdias.repository.search.CommentSearchRepository;
+import com.sgkhmjaes.jdias.service.CommentService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,14 +29,11 @@ public class CommentResource {
     private final Logger log = LoggerFactory.getLogger(CommentResource.class);
 
     private static final String ENTITY_NAME = "comment";
-        
-    private final CommentRepository commentRepository;
 
-    private final CommentSearchRepository commentSearchRepository;
+    private final CommentService commentService;
 
-    public CommentResource(CommentRepository commentRepository, CommentSearchRepository commentSearchRepository) {
-        this.commentRepository = commentRepository;
-        this.commentSearchRepository = commentSearchRepository;
+    public CommentResource(CommentService commentService) {
+        this.commentService = commentService;
     }
 
     /**
@@ -56,8 +50,7 @@ public class CommentResource {
         if (comment.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new comment cannot already have an ID")).body(null);
         }
-        Comment result = commentRepository.save(comment);
-        commentSearchRepository.save(result);
+        Comment result = commentService.save(comment);
         return ResponseEntity.created(new URI("/api/comments/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,8 +72,7 @@ public class CommentResource {
         if (comment.getId() == null) {
             return createComment(comment);
         }
-        Comment result = commentRepository.save(comment);
-        commentSearchRepository.save(result);
+        Comment result = commentService.save(comment);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, comment.getId().toString()))
             .body(result);
@@ -95,8 +87,7 @@ public class CommentResource {
     @Timed
     public List<Comment> getAllComments() {
         log.debug("REST request to get all Comments");
-        List<Comment> comments = commentRepository.findAll();
-        return comments;
+        return commentService.findAll();
     }
 
     /**
@@ -109,7 +100,7 @@ public class CommentResource {
     @Timed
     public ResponseEntity<Comment> getComment(@PathVariable Long id) {
         log.debug("REST request to get Comment : {}", id);
-        Comment comment = commentRepository.findOne(id);
+        Comment comment = commentService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(comment));
     }
 
@@ -123,8 +114,7 @@ public class CommentResource {
     @Timed
     public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         log.debug("REST request to delete Comment : {}", id);
-        commentRepository.delete(id);
-        commentSearchRepository.delete(id);
+        commentService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,17 +122,14 @@ public class CommentResource {
      * SEARCH  /_search/comments?query=:query : search for the comment corresponding
      * to the query.
      *
-     * @param query the query of the comment search 
+     * @param query the query of the comment search
      * @return the result of the search
      */
     @GetMapping("/_search/comments")
     @Timed
     public List<Comment> searchComments(@RequestParam String query) {
         log.debug("REST request to search Comments for query {}", query);
-        return StreamSupport
-            .stream(commentSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return commentService.search(query);
     }
-
 
 }

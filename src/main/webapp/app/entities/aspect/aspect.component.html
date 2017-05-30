@@ -43,8 +43,8 @@
             <tr *ngFor="let aspect of aspects ;trackBy: trackId">
                 <td><a [routerLink]="['../aspect', aspect.id ]">{{aspect.id}}</a></td>
                 <td>{{aspect.name}}</td>
-                <td>{{aspect.createdAt | date:'medium'}}</td>
-                <td>{{aspect.updatedAt | date:'medium'}}</td>
+                <td>{{aspect.createdAt | date:'mediumDate'}}</td>
+                <td>{{aspect.updatedAt | date:'mediumDate'}}</td>
                 <td>{{aspect.contactVisible}}</td>
                 <td>{{aspect.chatEnabled}}</td>
                 <td>{{aspect.postDefault}}</td>
