@@ -6,11 +6,12 @@ import com.sgkhmjaes.jdias.repository.ConversationRepository;
 import com.sgkhmjaes.jdias.repository.search.ConversationSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -49,14 +50,13 @@ public class ConversationServiceImpl implements ConversationService{
     /**
      *  Get all the conversations.
      *
-     *  @param pageable the pagination information
      *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Conversation> findAll(Pageable pageable) {
+    public List<Conversation> findAll() {
         log.debug("Request to get all Conversations");
-        return conversationRepository.findAll(pageable);
+        return conversationRepository.findAll();
     }
 
     /**
@@ -88,14 +88,14 @@ public class ConversationServiceImpl implements ConversationService{
      * Search for the conversation corresponding to the query.
      *
      *  @param query the query of the search
-     *  @param pageable the pagination information
      *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Conversation> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of Conversations for query {}", query);
-        Page<Conversation> result = conversationSearchRepository.search(queryStringQuery(query), pageable);
-        return result;
+    public List<Conversation> search(String query) {
+        log.debug("Request to search Conversations for query {}", query);
+        return StreamSupport
+            .stream(conversationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

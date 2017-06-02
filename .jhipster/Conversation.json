@@ -45,6 +45,6 @@
     "changelogDate": "20170527190321",
     "entityTableName": "conversation",
     "dto": "no",
-    "pagination": "infinite-scroll",
+    "pagination": "no",
     "service": "serviceImpl"
 }

@@ -6,11 +6,12 @@ import com.sgkhmjaes.jdias.repository.PostRepository;
 import com.sgkhmjaes.jdias.repository.search.PostSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -49,14 +50,13 @@ public class PostServiceImpl implements PostService{
     /**
      *  Get all the posts.
      *
-     *  @param pageable the pagination information
      *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Post> findAll(Pageable pageable) {
+    public List<Post> findAll() {
         log.debug("Request to get all Posts");
-        return postRepository.findAll(pageable);
+        return postRepository.findAll();
     }
 
     /**
@@ -88,14 +88,14 @@ public class PostServiceImpl implements PostService{
      * Search for the post corresponding to the query.
      *
      *  @param query the query of the search
-     *  @param pageable the pagination information
      *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Post> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of Posts for query {}", query);
-        Page<Post> result = postSearchRepository.search(queryStringQuery(query), pageable);
-        return result;
+    public List<Post> search(String query) {
+        log.debug("Request to search Posts for query {}", query);
+        return StreamSupport
+            .stream(postSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

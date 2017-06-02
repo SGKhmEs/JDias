@@ -146,6 +146,7 @@ repositories {
 }
 
 dependencies {
+    compile "org.modelmapper:modelmapper:0.7.5"
     compile "io.github.jhipster:jhipster:${jhipster_server_version}"
     compile "io.dropwizard.metrics:metrics-core:${dropwizard_metrics_version}"
     compile "io.dropwizard.metrics:metrics-jcache:${dropwizard_metrics_version}"

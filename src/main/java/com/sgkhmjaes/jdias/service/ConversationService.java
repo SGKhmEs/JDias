@@ -1,8 +1,7 @@
 package com.sgkhmjaes.jdias.service;
 
 import com.sgkhmjaes.jdias.domain.Conversation;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 /**
  * Service Interface for managing Conversation.
@@ -20,10 +19,9 @@ public interface ConversationService {
     /**
      *  Get all the conversations.
      *
-     *  @param pageable the pagination information
      *  @return the list of entities
      */
-    Page<Conversation> findAll(Pageable pageable);
+    List<Conversation> findAll();
 
     /**
      *  Get the "id" conversation.
@@ -45,8 +43,7 @@ public interface ConversationService {
      *
      *  @param query the query of the search
      *  
-     *  @param pageable the pagination information
      *  @return the list of entities
      */
-    Page<Conversation> search(String query, Pageable pageable);
+    List<Conversation> search(String query);
 }

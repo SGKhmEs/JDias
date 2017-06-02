@@ -28,18 +28,18 @@
     <div class="table-responsive" *ngIf="messages">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="author"><span jhiTranslate="jDiasApp.message.author">Author</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="guid"><span jhiTranslate="jDiasApp.message.guid">Guid</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="conversationGuid"><span jhiTranslate="jDiasApp.message.conversationGuid">Conversation Guid</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="text"><span jhiTranslate="jDiasApp.message.text">Text</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="createdAt"><span jhiTranslate="jDiasApp.message.createdAt">Created At</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="conversation.id"><span jhiTranslate="jDiasApp.message.conversation">Conversation</span> <span class="fa fa-sort"></span></th>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="jDiasApp.message.author">Author</span></th>
+            <th><span jhiTranslate="jDiasApp.message.guid">Guid</span></th>
+            <th><span jhiTranslate="jDiasApp.message.conversationGuid">Conversation Guid</span></th>
+            <th><span jhiTranslate="jDiasApp.message.text">Text</span></th>
+            <th><span jhiTranslate="jDiasApp.message.createdAt">Created At</span></th>
+            <th><span jhiTranslate="jDiasApp.message.conversation">Conversation</span></th>
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let message of messages ;trackBy: trackId">
                 <td><a [routerLink]="['../message', message.id ]">{{message.id}}</a></td>
                 <td>{{message.author}}</td>

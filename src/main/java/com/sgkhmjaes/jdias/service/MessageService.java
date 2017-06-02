@@ -1,8 +1,7 @@
 package com.sgkhmjaes.jdias.service;
 
 import com.sgkhmjaes.jdias.domain.Message;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 /**
  * Service Interface for managing Message.
@@ -20,10 +19,9 @@ public interface MessageService {
     /**
      *  Get all the messages.
      *
-     *  @param pageable the pagination information
      *  @return the list of entities
      */
-    Page<Message> findAll(Pageable pageable);
+    List<Message> findAll();
 
     /**
      *  Get the "id" message.
@@ -45,8 +43,7 @@ public interface MessageService {
      *
      *  @param query the query of the search
      *  
-     *  @param pageable the pagination information
      *  @return the list of entities
      */
-    Page<Message> search(String query, Pageable pageable);
+    List<Message> search(String query);
 }

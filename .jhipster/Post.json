@@ -78,6 +78,6 @@
     "changelogDate": "20170527190332",
     "entityTableName": "post",
     "dto": "no",
-    "pagination": "infinite-scroll",
+    "pagination": "no",
     "service": "serviceImpl"
 }

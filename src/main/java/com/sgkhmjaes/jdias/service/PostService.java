@@ -1,8 +1,7 @@
 package com.sgkhmjaes.jdias.service;
 
 import com.sgkhmjaes.jdias.domain.Post;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 /**
  * Service Interface for managing Post.
@@ -20,10 +19,9 @@ public interface PostService {
     /**
      *  Get all the posts.
      *
-     *  @param pageable the pagination information
      *  @return the list of entities
      */
-    Page<Post> findAll(Pageable pageable);
+    List<Post> findAll();
 
     /**
      *  Get the "id" post.
@@ -45,8 +43,7 @@ public interface PostService {
      *
      *  @param query the query of the search
      *  
-     *  @param pageable the pagination information
      *  @return the list of entities
      */
-    Page<Post> search(String query, Pageable pageable);
+    List<Post> search(String query);
 }

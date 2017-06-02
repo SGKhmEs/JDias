@@ -6,11 +6,12 @@ import com.sgkhmjaes.jdias.repository.MessageRepository;
 import com.sgkhmjaes.jdias.repository.search.MessageSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -49,14 +50,13 @@ public class MessageServiceImpl implements MessageService{
     /**
      *  Get all the messages.
      *
-     *  @param pageable the pagination information
      *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Message> findAll(Pageable pageable) {
+    public List<Message> findAll() {
         log.debug("Request to get all Messages");
-        return messageRepository.findAll(pageable);
+        return messageRepository.findAll();
     }
 
     /**
@@ -88,14 +88,14 @@ public class MessageServiceImpl implements MessageService{
      * Search for the message corresponding to the query.
      *
      *  @param query the query of the search
-     *  @param pageable the pagination information
      *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Message> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of Messages for query {}", query);
-        Page<Message> result = messageSearchRepository.search(queryStringQuery(query), pageable);
-        return result;
+    public List<Message> search(String query) {
+        log.debug("Request to search Messages for query {}", query);
+        return StreamSupport
+            .stream(messageSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }
