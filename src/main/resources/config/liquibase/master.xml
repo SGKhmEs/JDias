@@ -52,5 +52,6 @@
     <include file="classpath:config/liquibase/changelog/20170527190339_added_entity_constraints_TagFollowing.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170527190340_added_entity_constraints_UserAccount.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170527190341_added_entity_constraints_Person.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170604025500_change_field_length_UserAccount.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
