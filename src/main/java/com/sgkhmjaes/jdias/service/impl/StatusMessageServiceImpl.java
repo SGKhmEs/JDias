@@ -1,15 +1,23 @@
 package com.sgkhmjaes.jdias.service.impl;
 
+import com.sgkhmjaes.jdias.domain.Person;
+import com.sgkhmjaes.jdias.domain.Post;
+import com.sgkhmjaes.jdias.domain.enumeration.PostType;
+import com.sgkhmjaes.jdias.repository.*;
+import com.sgkhmjaes.jdias.security.SecurityUtils;
+import com.sgkhmjaes.jdias.service.PostService;
 import com.sgkhmjaes.jdias.service.StatusMessageService;
 import com.sgkhmjaes.jdias.domain.StatusMessage;
-import com.sgkhmjaes.jdias.repository.StatusMessageRepository;
 import com.sgkhmjaes.jdias.repository.search.StatusMessageSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -28,6 +36,15 @@ public class StatusMessageServiceImpl implements StatusMessageService{
 
     private final StatusMessageSearchRepository statusMessageSearchRepository;
 
+    @Inject
+    private UserRepository userRepository;
+
+    @Inject
+    private PersonRepository personRepository;
+
+    @Inject
+    private PostService postService;
+
     public StatusMessageServiceImpl(StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository) {
         this.statusMessageRepository = statusMessageRepository;
         this.statusMessageSearchRepository = statusMessageSearchRepository;
@@ -41,9 +58,28 @@ public class StatusMessageServiceImpl implements StatusMessageService{
      */
     @Override
     public StatusMessage save(StatusMessage statusMessage) {
-        log.debug("Request to save StatusMessage : {}", statusMessage);
-        StatusMessage result = statusMessageRepository.save(statusMessage);
-        statusMessageSearchRepository.save(result);
+        StatusMessage result;
+        if (statusMessage.getId() == null) {
+            log.debug("Request to save StatusMessage : {}", statusMessage);
+            result = statusMessageRepository.save(statusMessage);
+            statusMessageSearchRepository.save(result);
+            Post post = new Post();
+            post.setStatusMessage(statusMessage);
+            post.setId(statusMessage.getId());
+            Long id = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId();
+            Person person = personRepository.findOne(id);
+            post.setAuthor(person.getDiasporaId());
+            post.setCreatedAt(LocalDate.now());
+            post.setGuid(UUID.randomUUID().toString());
+            post.setPerson(person);
+            post.setPostType(PostType.STATUSMESSAGE);
+            post.setPub(true);
+            postService.save(post);
+        }else {
+            log.debug("Request to save StatusMessage : {}", statusMessage);
+            result = statusMessageRepository.save(statusMessage);
+            statusMessageSearchRepository.save(result);
+        }
         return result;
     }
 

@@ -259,6 +259,9 @@ public class UserService {
     public void deleteUser(String login) {
         userRepository.findOneByLogin(login).ifPresent(user -> {
             socialService.deleteUserSocialConnection(user.getLogin());
+            userAccountService.delete(user.getId());
+            personService.delete(user.getId());
+            profileService.delete(user.getId());
             userRepository.delete(user);
             userSearchRepository.delete(user);
             log.debug("Deleted User: {}", user);
