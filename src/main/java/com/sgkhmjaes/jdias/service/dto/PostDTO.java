@@ -38,7 +38,7 @@ public class PostDTO implements AutoMapping{
     @JsonProperty("post_type")
     private PostType postPostType;
     @JsonProperty("mentioned_people")
-    private List<String> testDTOMentioned_people;
+    private List<String>mentioned_people;
     
     private List<Photo> photos;
     private InteractionDTO interactions;
@@ -61,11 +61,11 @@ public class PostDTO implements AutoMapping{
         this.statusMessageText = statusMessageText;
     }
 
-    public long getPostId() {
+    public Long getPostId() {
         return postId;
     }
 
-    public void setPostId(long postId) {
+    public void setPostId(Long postId) {
         this.postId = postId;
     }
 
@@ -141,6 +141,16 @@ public class PostDTO implements AutoMapping{
         this.postCreatedAt = postCreatedAt;
     }
 
+    public PostType getPostPostType() {
+        return postPostType;
+    }
+
+    public void setPostPostType(PostType postPostType) {
+        this.postPostType = postPostType;
+    }
+
+    
+
     public boolean isPostPub() {
         return postPub;
     }
@@ -181,21 +191,21 @@ public class PostDTO implements AutoMapping{
         this.location = location;
     }
 
-    public PostType getTestDTOPostType() {
-        return postPostType;
-    }
-
-    public void setTestDTOPostType(PostType testDTOPostType) {
-        this.postPostType = testDTOPostType;
-    }
-
-    public List<String> getTestDTOMentioned_people() {
-        return testDTOMentioned_people;
-    }
-
-    public void setTestDTOMentioned_people(List<String> testDTOMentioned_people) {
-        this.testDTOMentioned_people = testDTOMentioned_people;
-    }
+//    public PostType getTestDTOPostType() {
+//        return postPostType;
+//    }
+//
+//    public void setTestDTOPostType(PostType testDTOPostType) {
+//        this.postPostType = testDTOPostType;
+//    }
+//
+//    public List<String> getTestDTOMentioned_people() {
+//        return testDTOMentioned_people;
+//    }
+//
+//    public void setTestDTOMentioned_people(List<String> testDTOMentioned_people) {
+//        this.testDTOMentioned_people = testDTOMentioned_people;
+//    }
 
     public List<Photo> getPhotos() {
         return photos;
@@ -237,7 +247,7 @@ append("Poll: ").append(poll).append("\r\n").
 append("Post type: ").append(postPostType).append("\r\n").
 append("Location: ").append(location).append("\r\n").
 append("Photos: ").append(photos).append("\r\n").
-append("Mentioned_people: ").append(testDTOMentioned_people).append("\r\n").
+append("Mentioned_people: ").append(mentioned_people).append("\r\n").
 append("Interactions: ").append(interactions).append("\r\n").
         append("Post DTO: {").append(postDTO).append("}");
 return sb.toString();
