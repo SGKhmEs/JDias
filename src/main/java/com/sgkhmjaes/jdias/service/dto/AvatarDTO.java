@@ -3,40 +3,51 @@ package com.sgkhmjaes.jdias.service.dto;
 /**
  * Created by inna on 02.06.17.
  */
-public class AvatarDTO {
-    private String small;
-    private String large;
-    private String medium;
+public class AvatarDTO implements AutoMapping{
+    private String profileImageUrlSmall;
+    private String profileImageUrl;
+    private String profileImageUrlMedium;
 
     public AvatarDTO(){}
 
-    public AvatarDTO(String small, String large, String medium) {
-        this.small = small;
-        this.large = large;
-        this.medium = medium;
+    public AvatarDTO(String profileImageUrlSmall, String profileImageUrl, String profileImageUrlMedium) {
+        this.profileImageUrlSmall = profileImageUrlSmall;
+        this.profileImageUrl = profileImageUrl;
+        this.profileImageUrlMedium = profileImageUrlMedium;
     }
 
-    public String getSmall() {
-        return small;
+    public String getProfileImageUrlSmall() {
+        return profileImageUrlSmall;
     }
 
-    public void setSmall(String small) {
-        this.small = small;
+    public void setProfileImageUrlSmall(String profileImageUrlSmall) {
+        this.profileImageUrlSmall = profileImageUrlSmall;
     }
 
-    public String getLarge() {
-        return large;
+    public String getProfileImageUrl() {
+        return profileImageUrl;
     }
 
-    public void setLarge(String large) {
-        this.large = large;
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 
-    public String getMedium() {
-        return medium;
+    public String getProfileImageUrlMedium() {
+        return profileImageUrlMedium;
     }
 
-    public void setMedium(String medium) {
-        this.medium = medium;
+    public void setProfileImageUrlMedium(String profileImageUrlMedium) {
+        this.profileImageUrlMedium = profileImageUrlMedium;
     }
+
+
+    
+    @Override
+    public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("AvatarDTO: {").append("small=").append(profileImageUrlSmall).
+            append(", large=").append(profileImageUrl).append(", medium=").append(profileImageUrlMedium).append("}");
+    return sb.toString();
+}
+    
 }

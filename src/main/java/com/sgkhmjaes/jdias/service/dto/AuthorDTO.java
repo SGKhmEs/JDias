@@ -4,7 +4,7 @@ package com.sgkhmjaes.jdias.service.dto;
  * Created by inna on 02.06.17.
  */
 
-public class AuthorDTO {
+public class AuthorDTO implements AutoMapping {
     private String personGuid;
     private long personId;
     private AvatarDTO avatar;
@@ -34,6 +34,14 @@ public class AuthorDTO {
     public void setAvatar(AvatarDTO avatar) {
         this.avatar = avatar;
     }
-
     
+    @Override
+public String toString() {
+StringBuilder sb = new StringBuilder();
+sb.append("AuthorDTO: {").append("person guid=").append(personGuid).
+append(", person id=").append(personId).
+append(", ").append(avatar).append("}");
+return sb.toString();
+}
+
 }
