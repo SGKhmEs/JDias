@@ -1,16 +1,33 @@
 package com.sgkhmjaes.jdias.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by inna on 02.06.17.
  */
 
 public class AuthorDTO implements AutoMapping {
+    
+    @JsonProperty("diaspora_id")
+    private String personDiasporaId;
+    @JsonProperty("guid")
     private String personGuid;
+    @JsonProperty("id")
     private long personId;
     private AvatarDTO avatar;
 
     public AuthorDTO(){}
 
+    public String getPersonDiasporaId() {
+        return personDiasporaId;
+    }
+
+    public void setPersonDiasporaId(String personDiasporaId) {
+        this.personDiasporaId = personDiasporaId;
+    }
+
+    
+    
     public String getPersonGuid() {
         return personGuid;
     }

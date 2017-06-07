@@ -1,5 +1,6 @@
 package com.sgkhmjaes.jdias.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sgkhmjaes.jdias.domain.Location;
 import com.sgkhmjaes.jdias.domain.Photo;
 import com.sgkhmjaes.jdias.domain.Poll;
@@ -8,26 +9,35 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class PostDTO implements AutoMapping{
+    @JsonProperty("text")
     private String statusMessageText;
+    @JsonProperty("id")
     private Long postId;
+    @JsonProperty("guid")
     private String postGuid;
     private String open_graph_cache;
     private String title;
     private String provider_display_name;
+    @JsonProperty("nsfw")
     private boolean postNsfw;
     private String o_embed_cache;
     private String participation;
     private boolean already_participated_in_poll;
+    @JsonProperty("created_at")
     private LocalDate postCreatedAt;
+    @JsonProperty("public")
     private boolean postPub;
     private LocalDate interacted_at;
     
+    @JsonProperty("root")
     private PostDTO postDTO; // root
+    @JsonProperty("author")
     private AuthorDTO author; // author
     private Poll poll;    
     private Location location;
-    
+    @JsonProperty("post_type")
     private PostType postPostType;
+    @JsonProperty("mentioned_people")
     private List<String> testDTOMentioned_people;
     
     private List<Photo> photos;

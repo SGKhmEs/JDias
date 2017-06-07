@@ -68,11 +68,11 @@ public class PostDTOServiceImpl {
             PostDTO postDTO = new PostDTO();
             try {
                 postDTO.autoMapping(post,
-                        authorDTOServiceImpl.findOne(post.getPerson().getId()),
-                        interactionDTOServiceImpl.findOneByPost(post.getId()));
+                        authorDTOServiceImpl.findOne(post.getPerson().getId()));
             } catch (AutoMappingException ex) {
                 java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
+            postDTO.setInteractions(interactionDTOServiceImpl.findOneByPost(post.getId()));
             postDtoList.add(postDTO);
         }
         

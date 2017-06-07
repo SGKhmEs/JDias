@@ -1,11 +1,16 @@
 package com.sgkhmjaes.jdias.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by inna on 02.06.17.
  */
 public class AvatarDTO implements AutoMapping{
+    @JsonProperty("small")
     private String profileImageUrlSmall;
+    @JsonProperty("large")
     private String profileImageUrl;
+    @JsonProperty("medium")
     private String profileImageUrlMedium;
 
     public AvatarDTO(){}

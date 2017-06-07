@@ -14,5 +14,6 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment,Long> {
 
-    public List<Comment> findAllByPostId(Long id);
+    @Query("FROM Comment where post_id =?1")
+    public List<Comment> findByPostId(Long id);
 }

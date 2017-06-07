@@ -8,15 +8,24 @@
         <file>file:/E:/jhipster/JDias/build.gradle</file>
         <file>file:/E:/jhipster/JDias/src/main/java/com/sgkhmjaes/jdias/service/mapper/AutoMapping.java</file>
         <file>file:/E:/jhipster/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/AccountDeletionServiceImpl.java</file>
+        <file>file:/E:/jhipster/JDias/src/main/java/com/sgkhmjaes/jdias/service/dto/AuthorDTO.java</file>
       </group>
     </open-files>
     <editor-bookmarks lastBookmarkId="0" xmlns="http://www.netbeans.org/ns/editor-bookmarks/2"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
       <group>
-        <file>file:/E:/jhipster/JDias/build.gradle</file>
-        <file>file:/E:/jhipster/JDias/src/main/java/com/sgkhmjaes/jdias/service/mapper/AutoMapping.java</file>
-        <file>file:/E:/jhipster/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/AccountDeletionServiceImpl.java</file>
-        <file>file:/E:/jhipster/JDias/src/main/java/com/sgkhmjaes/jdias/service/dto/AuthorDTO.java</file>
+        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/web/rest/PostResource.java</file>
+        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/PostServiceImpl.java</file>
+        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/service/PostService.java</file>
+        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/PostDTOServiceImpl.java</file>
+        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/service/dto/CommentDTO.java</file>
+        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/repository/CommentRepository.java</file>
+        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/CommentDTOServiceImpl.java</file>
+        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/service/dto/AuthorDTO.java</file>
+        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/service/dto/PostDTO.java</file>
+        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/service/dto/AutoMapping.java</file>
+        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/AuthorDTOServiceImpl.java</file>
+        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/domain/Person.java</file>
       </group>
     </open-files>
   </auxiliary>

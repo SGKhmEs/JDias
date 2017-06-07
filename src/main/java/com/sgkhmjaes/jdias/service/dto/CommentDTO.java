@@ -1,12 +1,17 @@
 package com.sgkhmjaes.jdias.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 
 public class CommentDTO implements AutoMapping{
+    @JsonProperty("guid")
     private String commentGuid;
+    @JsonProperty("id")
     private Long commentId;
     private AuthorDTO author;
+    @JsonProperty("text")
     private String commentText;
+    @JsonProperty("createdAt")
     private LocalDate commentCreatedAt;
 
     public CommentDTO() {}

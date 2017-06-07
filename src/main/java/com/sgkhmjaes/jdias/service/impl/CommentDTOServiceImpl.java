@@ -53,7 +53,7 @@ public class CommentDTOServiceImpl {
     }
 
     public List<CommentDTO> findAllByPost(Long id){
-        List<Comment> commentList = commentRepository.findAllByPostId(id);
+        List<Comment> commentList = commentRepository.findByPostId(id);
         
         List<CommentDTO> commentDTOList = new ArrayList<CommentDTO>();
         
@@ -65,6 +65,7 @@ public class CommentDTOServiceImpl {
                 java.util.logging.Logger.getLogger(CommentDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
             commentDTO.setAuthor(authorDTOServiceImpl.findOne(comment.getPerson().getId()));
+        commentDTOList.add(commentDTO);
         }
         
         return commentDTOList;
