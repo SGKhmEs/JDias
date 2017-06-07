@@ -1,18 +1,20 @@
 package com.sgkhmjaes.jdias.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 
-/**
- * Created by inna on 02.06.17.
- */
-public class CommentDTO {
+public class CommentDTO implements AutoMapping{
+    @JsonProperty("guid")
     private String commentGuid;
+    @JsonProperty("id")
     private Long commentId;
-    private AuthorDTO commentAuthor;
+    private AuthorDTO author;
+    @JsonProperty("text")
     private String commentText;
+    @JsonProperty("createdAt")
     private LocalDate commentCreatedAt;
 
-    public CommentDTO() {    }
+    public CommentDTO() {}
 
     public String getCommentGuid() {
         return commentGuid;
@@ -30,12 +32,12 @@ public class CommentDTO {
         this.commentId = commentId;
     }
 
-    public AuthorDTO getCommentAuthor() {
-        return commentAuthor;
+    public AuthorDTO getAuthor() {
+        return author;
     }
 
-    public void setCommentAuthor(AuthorDTO commentAuthor) {
-        this.commentAuthor = commentAuthor;
+    public void setAuthor(AuthorDTO author) {
+        this.author = author;
     }
 
     public String getCommentText() {
@@ -54,5 +56,18 @@ public class CommentDTO {
         this.commentCreatedAt = commentCreatedAt;
     }
 
-   
+
+
+    
+    @Override
+public String toString() {
+StringBuilder sb = new StringBuilder();
+sb.append("Comment guid: ").append(commentGuid).append("\r\n").
+append("Comment id: ").append(commentId).append("\r\n").
+append("Comment author: ").append(author).append("\r\n").
+append("Comment text: ").append(commentText).append("\r\n").
+append("Comment created at: ").append(commentCreatedAt).append("\r\n");
+return sb.toString();
+}
+    
 }
