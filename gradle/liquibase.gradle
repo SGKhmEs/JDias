@@ -43,7 +43,7 @@ task liquibaseDiffChangelog(dependsOn: compileJava, type: JavaExec) {
     args "--referenceUrl=hibernate:spring:com.sgkhmjaes.jdias.domain?dialect=org.hibernate.dialect.H2Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
     args "--username=JDias"
     args "--password="
-    args "--url=jdbc:h2:file:./target/h2db/db/jdias"
+    args "--url=jdbc:h2:file:./build/h2db/db/jdias"
     args "--driver=org.h2.Driver"
     args "diffChangeLog"
 }

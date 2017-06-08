@@ -1,0 +1,56 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "post",
+            "otherEntityName": "post",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "person",
+            "otherEntityName": "person",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "author",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "guid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "parentGuid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "text",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdAt",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "authorSignature",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "parentAuthorSignature",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "threadParentGuid",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170527190319",
+    "entityTableName": "comment",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

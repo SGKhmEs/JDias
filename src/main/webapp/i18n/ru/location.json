@@ -1,0 +1,24 @@
+{
+    "jDiasApp": {
+        "location" : {
+            "home": {
+                "title": "Locations",
+                "createLabel": "Создать новый Location",
+                "createOrEditLabel": "Создать или отредактировать Location",
+                "search": "Найти Location"
+            },
+            "created": "Новый Location создан с идентификатором {{ param }}",
+            "updated": "Location обновлен с идентификатором {{ param }}",
+            "deleted": "Location удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Location {{ id }}?"
+            },
+            "detail": {
+                "title": "Location"
+            },
+            "address": "Address",
+            "lat": "Lat",
+            "lng": "Lng"
+        }
+    }
+}

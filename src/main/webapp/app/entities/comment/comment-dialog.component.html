@@ -1,0 +1,91 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myCommentLabel" jhiTranslate="jDiasApp.comment.home.createOrEditLabel">Create or edit a Comment</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!comment.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="comment.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.comment.author" for="field_author">Author</label>
+            <input type="text" class="form-control" name="author" id="field_author"
+                [(ngModel)]="comment.author"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.comment.guid" for="field_guid">Guid</label>
+            <input type="text" class="form-control" name="guid" id="field_guid"
+                [(ngModel)]="comment.guid"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.comment.parentGuid" for="field_parentGuid">Parent Guid</label>
+            <input type="text" class="form-control" name="parentGuid" id="field_parentGuid"
+                [(ngModel)]="comment.parentGuid"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.comment.text" for="field_text">Text</label>
+            <input type="text" class="form-control" name="text" id="field_text"
+                [(ngModel)]="comment.text"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.comment.createdAt" for="field_createdAt">Created At</label>
+            <div class="input-group">
+                <input id="field_createdAt" type="text" class="form-control" name="createdAt" ngbDatepicker  #createdAtDp="ngbDatepicker" [(ngModel)]="comment.createdAt"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="createdAtDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.comment.authorSignature" for="field_authorSignature">Author Signature</label>
+            <input type="text" class="form-control" name="authorSignature" id="field_authorSignature"
+                [(ngModel)]="comment.authorSignature"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.comment.parentAuthorSignature" for="field_parentAuthorSignature">Parent Author Signature</label>
+            <input type="text" class="form-control" name="parentAuthorSignature" id="field_parentAuthorSignature"
+                [(ngModel)]="comment.parentAuthorSignature"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.comment.threadParentGuid" for="field_threadParentGuid">Thread Parent Guid</label>
+            <input type="text" class="form-control" name="threadParentGuid" id="field_threadParentGuid"
+                [(ngModel)]="comment.threadParentGuid"
+             />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.comment.post" for="field_post">Post</label>
+            <select class="form-control" id="field_post" name="post" [(ngModel)]="comment.post" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="postOption.id === comment.post?.id ? comment.post : postOption" *ngFor="let postOption of posts; trackBy: trackPostById">{{postOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.comment.person" for="field_person">Person</label>
+            <select class="form-control" id="field_person" name="person" [(ngModel)]="comment.person" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="personOption.id === comment.person?.id ? comment.person : personOption" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

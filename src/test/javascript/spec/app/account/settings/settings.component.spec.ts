@@ -41,11 +41,8 @@ describe('Component Tests', () => {
                         useValue: null
                     },
                 ]
-            }).overrideComponent(SettingsComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(SettingsComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

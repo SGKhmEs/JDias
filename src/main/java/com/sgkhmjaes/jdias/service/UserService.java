@@ -1,13 +1,13 @@
 package com.sgkhmjaes.jdias.service;
 
-import com.sgkhmjaes.jdias.domain.Authority;
-import com.sgkhmjaes.jdias.domain.User;
+import com.sgkhmjaes.jdias.domain.*;
 import com.sgkhmjaes.jdias.repository.AuthorityRepository;
 import com.sgkhmjaes.jdias.repository.PersistentTokenRepository;
 import com.sgkhmjaes.jdias.config.Constants;
 import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.repository.search.UserSearchRepository;
 import com.sgkhmjaes.jdias.security.AuthoritiesConstants;
+import com.sgkhmjaes.jdias.security.RSAKeysGenerator;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.util.RandomUtil;
 import com.sgkhmjaes.jdias.service.dto.UserDTO;
@@ -21,9 +21,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service class for managing users.
@@ -45,6 +50,15 @@ public class UserService {
     private final PersistentTokenRepository persistentTokenRepository;
 
     private final AuthorityRepository authorityRepository;
+
+    @Inject
+    private UserAccountService userAccountService;
+
+    @Inject
+    private PersonService personService;
+
+    @Inject
+    private ProfileService profileService;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
@@ -72,10 +86,7 @@ public class UserService {
        log.debug("Reset user password for reset key {}", key);
 
        return userRepository.findOneByResetKey(key)
-            .filter(user -> {
-                ZonedDateTime oneDayAgo = ZonedDateTime.now().minusHours(24);
-                return user.getResetDate().isAfter(oneDayAgo);
-           })
+           .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
            .map(user -> {
                 user.setPassword(passwordEncoder.encode(newPassword));
                 user.setResetKey(null);
@@ -89,7 +100,7 @@ public class UserService {
             .filter(User::getActivated)
             .map(user -> {
                 user.setResetKey(RandomUtil.generateResetKey());
-                user.setResetDate(ZonedDateTime.now());
+                user.setResetDate(Instant.now());
                 return user;
             });
     }
@@ -118,6 +129,51 @@ public class UserService {
         userRepository.save(newUser);
         userSearchRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
+
+        UserAccount userAccount = new UserAccount();
+        userAccount.setUser(newUser);
+        userAccount.setId(newUser.getId());
+        userAccount.setSerializedPrivateKey(RSAKeysGenerator.getRsaPrivateKey());
+        userAccount.setCreatedAt(LocalDate.now());
+        userAccount.setLastSeen(LocalDate.now());
+        userAccount.setDisableMail(false);
+        userAccount.setSignInCount(0);
+        userAccount.setLanguage("default");
+        userAccount.setAutoFollowBack(true);
+        userAccount.setColorTheme("default");
+        userAccount.setCurrentSignInAt(LocalDate.now());
+        userAccount.setCurrentSignInIp("CurrentSignInIp");
+        userAccount.setExportE("ExportE");
+        userAccount.setExporting(false);
+        userAccount.setGettingStarted(false);
+        userAccount.setLastSignInAt(LocalDate.now());
+        userAccount.setStripExif(false);
+        userAccount.setPostDefaultPublic(true);
+
+        Person person = new Person();
+        person.setId(newUser.getId());
+        person.serializedPublicKey(RSAKeysGenerator.getRsaPublicKey(userAccount.getSerializedPrivateKey()));
+        person.setClosedAccount(false);
+        person.setCreatedAt(LocalDate.now());
+        person.setGuid(UUID.nameUUIDFromBytes(userAccount.getUser().getLogin().getBytes()).toString());
+        //person.setPodId();
+        try {
+            person.setDiasporaId(userAccount.getUser().getLogin() + "@" + InetAddress.getLocalHost().getHostName());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
+        Profile profile = new Profile();
+        profile.setId(newUser.getId());
+        profile.setAuthor(person.getDiasporaId());
+        profileService.save(profile);
+
+        person.setProfile(profile);
+        personService.save(person);
+
+        userAccount.setPerson(person);
+        userAccountService.save(userAccount);
+
         return newUser;
     }
 
@@ -143,7 +199,7 @@ public class UserService {
         String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
         user.setPassword(encryptedPassword);
         user.setResetKey(RandomUtil.generateResetKey());
-        user.setResetDate(ZonedDateTime.now());
+        user.setResetDate(Instant.now());
         user.setActivated(true);
         userRepository.save(user);
         userSearchRepository.save(user);
@@ -203,6 +259,9 @@ public class UserService {
     public void deleteUser(String login) {
         userRepository.findOneByLogin(login).ifPresent(user -> {
             socialService.deleteUserSocialConnection(user.getLogin());
+            userAccountService.delete(user.getId());
+            personService.delete(user.getId());
+            profileService.delete(user.getId());
             userRepository.delete(user);
             userSearchRepository.delete(user);
             log.debug("Deleted User: {}", user);
@@ -263,12 +322,18 @@ public class UserService {
      */
     @Scheduled(cron = "0 0 1 * * ?")
     public void removeNotActivatedUsers() {
-        ZonedDateTime now = ZonedDateTime.now();
-        List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minusDays(3));
+        List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS));
         for (User user : users) {
             log.debug("Deleting not activated user {}", user.getLogin());
             userRepository.delete(user);
             userSearchRepository.delete(user);
         }
+    }
+
+    /**
+     * @return a list of all the authorities
+     */
+    public List<String> getAuthorities() {
+        return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
     }
 }

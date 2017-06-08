@@ -1,0 +1,71 @@
+
+<div *ngIf="person">
+    <h2><span jhiTranslate="jDiasApp.person.detail.title">Person</span> {{person.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.person.guid">Guid</span></dt>
+        <dd>
+            <span>{{person.guid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.person.diasporaId">Diaspora Id</span></dt>
+        <dd>
+            <span>{{person.diasporaId}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.person.serializedPublicKey">Serialized Public Key</span></dt>
+        <dd>
+            <span>{{person.serializedPublicKey}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.person.createdAt">Created At</span></dt>
+        <dd>
+            <span>{{person.createdAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.person.updatedAt">Updated At</span></dt>
+        <dd>
+            <span>{{person.updatedAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.person.closedAccount">Closed Account</span></dt>
+        <dd>
+            <span>{{person.closedAccount}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.person.fetchStatus">Fetch Status</span></dt>
+        <dd>
+            <span>{{person.fetchStatus}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.person.podId">Pod Id</span></dt>
+        <dd>
+            <span>{{person.podId}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.person.conversation">Conversation</span></dt>
+        <dd>
+            <div *ngIf="person.conversation">
+                <a [routerLink]="['/conversation', person.conversation?.id]">{{person.conversation?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.person.profile">Profile</span></dt>
+        <dd>
+            <div *ngIf="person.profile">
+                <a [routerLink]="['/profile', person.profile?.id]">{{person.profile?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.person.accountdeletion">Accountdeletion</span></dt>
+        <dd>
+            <div *ngIf="person.accountdeletion">
+                <a [routerLink]="['/account-deletion', person.accountdeletion?.id]">{{person.accountdeletion?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'person/'+ person.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

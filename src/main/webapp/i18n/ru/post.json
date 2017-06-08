@@ -1,0 +1,34 @@
+{
+    "jDiasApp": {
+        "post" : {
+            "home": {
+                "title": "Posts",
+                "createLabel": "Создать новый Post",
+                "createOrEditLabel": "Создать или отредактировать Post",
+                "search": "Найти Post"
+            },
+            "created": "Новый Post создан с идентификатором {{ param }}",
+            "updated": "Post обновлен с идентификатором {{ param }}",
+            "deleted": "Post удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Post {{ id }}?"
+            },
+            "detail": {
+                "title": "Post"
+            },
+            "author": "Author",
+            "guid": "Guid",
+            "createdAt": "Created At",
+            "pub": "Pub",
+            "providerDisplayName": "Provider Display Name",
+            "postType": "Post Type",
+            "statusMessage": "Status Message",
+            "reshare": "Reshare",
+            "comments": "Comments",
+            "aspectVisiblities": "Aspect Visiblities",
+            "likes": "Likes",
+            "tags": "Tags",
+            "person": "Person"
+        }
+    }
+}

@@ -1,0 +1,43 @@
+
+<div *ngIf="participation">
+    <h2><span jhiTranslate="jDiasApp.participation.detail.title">Participation</span> {{participation.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.participation.author">Author</span></dt>
+        <dd>
+            <span>{{participation.author}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.participation.guid">Guid</span></dt>
+        <dd>
+            <span>{{participation.guid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.participation.parentGuid">Parent Guid</span></dt>
+        <dd>
+            <span>{{participation.parentGuid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.participation.parentType">Parent Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'jDiasApp.Type.' + participation.parentType}}">{{participation.parentType}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.participation.person">Person</span></dt>
+        <dd>
+            <div *ngIf="participation.person">
+                <a [routerLink]="['/person', participation.person?.id]">{{participation.person?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'participation/'+ participation.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

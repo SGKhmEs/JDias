@@ -1,0 +1,24 @@
+{
+    "jDiasApp": {
+        "retraction" : {
+            "home": {
+                "title": "Retractions",
+                "createLabel": "Create a new Retraction",
+                "createOrEditLabel": "Create or edit a Retraction",
+                "search": "Search for Retraction"
+            },
+            "created": "A new Retraction is created with identifier {{ param }}",
+            "updated": "A Retraction is updated with identifier {{ param }}",
+            "deleted": "A Retraction is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Retraction {{ id }}?"
+            },
+            "detail": {
+                "title": "Retraction"
+            },
+            "author": "Author",
+            "targetGuid": "Target Guid",
+            "targetType": "Target Type"
+        }
+    }
+}

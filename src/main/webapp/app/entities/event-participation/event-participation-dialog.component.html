@@ -1,0 +1,77 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myEventParticipationLabel" jhiTranslate="jDiasApp.eventParticipation.home.createOrEditLabel">Create or edit a Event Participation</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!eventParticipation.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="eventParticipation.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.eventParticipation.author" for="field_author">Author</label>
+            <input type="text" class="form-control" name="author" id="field_author"
+                [(ngModel)]="eventParticipation.author"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.eventParticipation.guid" for="field_guid">Guid</label>
+            <input type="text" class="form-control" name="guid" id="field_guid"
+                [(ngModel)]="eventParticipation.guid"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.eventParticipation.parentGuid" for="field_parentGuid">Parent Guid</label>
+            <input type="text" class="form-control" name="parentGuid" id="field_parentGuid"
+                [(ngModel)]="eventParticipation.parentGuid"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.eventParticipation.status" for="field_status">Status</label>
+            <select class="form-control" name="status" [(ngModel)]="eventParticipation.status" id="field_status" >
+                <option value="ACCEPTED" jhiTranslate="jDiasApp.EventStatus.ACCEPTED">ACCEPTED</option>
+                <option value="DECLINED" jhiTranslate="jDiasApp.EventStatus.DECLINED">DECLINED</option>
+                <option value="TENTATIVE" jhiTranslate="jDiasApp.EventStatus.TENTATIVE">TENTATIVE</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.eventParticipation.authorSignature" for="field_authorSignature">Author Signature</label>
+            <input type="text" class="form-control" name="authorSignature" id="field_authorSignature"
+                [(ngModel)]="eventParticipation.authorSignature"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.eventParticipation.parentAuthorSignature" for="field_parentAuthorSignature">Parent Author Signature</label>
+            <input type="text" class="form-control" name="parentAuthorSignature" id="field_parentAuthorSignature"
+                [(ngModel)]="eventParticipation.parentAuthorSignature"
+             />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.eventParticipation.event" for="field_event">Event</label>
+            <select class="form-control" id="field_event" name="event" [(ngModel)]="eventParticipation.event" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="eventOption.id === eventParticipation.event?.id ? eventParticipation.event : eventOption" *ngFor="let eventOption of events; trackBy: trackEventById">{{eventOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.eventParticipation.person" for="field_person">Person</label>
+            <select class="form-control" id="field_person" name="person" [(ngModel)]="eventParticipation.person" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="personOption.id === eventParticipation.person?.id ? eventParticipation.person : personOption" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

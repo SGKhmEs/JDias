@@ -1,0 +1,75 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myPollParticipationLabel" jhiTranslate="jDiasApp.pollParticipation.home.createOrEditLabel">Create or edit a Poll Participation</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!pollParticipation.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="pollParticipation.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.pollParticipation.author" for="field_author">Author</label>
+            <input type="text" class="form-control" name="author" id="field_author"
+                [(ngModel)]="pollParticipation.author"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.pollParticipation.guid" for="field_guid">Guid</label>
+            <input type="text" class="form-control" name="guid" id="field_guid"
+                [(ngModel)]="pollParticipation.guid"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.pollParticipation.parentGuid" for="field_parentGuid">Parent Guid</label>
+            <input type="text" class="form-control" name="parentGuid" id="field_parentGuid"
+                [(ngModel)]="pollParticipation.parentGuid"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.pollParticipation.pollAnswerGuid" for="field_pollAnswerGuid">Poll Answer Guid</label>
+            <input type="text" class="form-control" name="pollAnswerGuid" id="field_pollAnswerGuid"
+                [(ngModel)]="pollParticipation.pollAnswerGuid"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.pollParticipation.authorSignature" for="field_authorSignature">Author Signature</label>
+            <input type="text" class="form-control" name="authorSignature" id="field_authorSignature"
+                [(ngModel)]="pollParticipation.authorSignature"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.pollParticipation.parentAuthorSignature" for="field_parentAuthorSignature">Parent Author Signature</label>
+            <input type="text" class="form-control" name="parentAuthorSignature" id="field_parentAuthorSignature"
+                [(ngModel)]="pollParticipation.parentAuthorSignature"
+             />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.pollParticipation.poll" for="field_poll">Poll</label>
+            <select class="form-control" id="field_poll" name="poll" [(ngModel)]="pollParticipation.poll" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="pollOption.id === pollParticipation.poll?.id ? pollParticipation.poll : pollOption" *ngFor="let pollOption of polls; trackBy: trackPollById">{{pollOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.pollParticipation.pollAnswer" for="field_pollAnswer">Poll Answer</label>
+            <select class="form-control" id="field_pollAnswer" name="pollAnswer" [(ngModel)]="pollParticipation.pollAnswer" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="pollAnswerOption.id === pollParticipation.pollAnswer?.id ? pollParticipation.pollAnswer : pollAnswerOption" *ngFor="let pollAnswerOption of pollanswers; trackBy: trackPollAnswerById">{{pollAnswerOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

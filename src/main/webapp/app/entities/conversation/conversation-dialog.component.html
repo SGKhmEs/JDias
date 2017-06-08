@@ -1,0 +1,66 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myConversationLabel" jhiTranslate="jDiasApp.conversation.home.createOrEditLabel">Create or edit a Conversation</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!conversation.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="conversation.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.conversation.author" for="field_author">Author</label>
+            <input type="text" class="form-control" name="author" id="field_author"
+                [(ngModel)]="conversation.author"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.conversation.guid" for="field_guid">Guid</label>
+            <input type="text" class="form-control" name="guid" id="field_guid"
+                [(ngModel)]="conversation.guid"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.conversation.subject" for="field_subject">Subject</label>
+            <input type="text" class="form-control" name="subject" id="field_subject"
+                [(ngModel)]="conversation.subject"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.conversation.createdAt" for="field_createdAt">Created At</label>
+            <div class="input-group">
+                <input id="field_createdAt" type="text" class="form-control" name="createdAt" ngbDatepicker  #createdAtDp="ngbDatepicker" [(ngModel)]="conversation.createdAt"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="createdAtDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.conversation.message" for="field_message">Message</label>
+            <input type="text" class="form-control" name="message" id="field_message"
+                [(ngModel)]="conversation.message"
+             />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.conversation.userAccount" for="field_userAccount">User Account</label>
+            <select class="form-control" id="field_userAccount" name="userAccount" [(ngModel)]="conversation.userAccount" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="userAccountOption.id === conversation.userAccount?.id ? conversation.userAccount : userAccountOption" *ngFor="let userAccountOption of useraccounts; trackBy: trackUserAccountById">{{userAccountOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

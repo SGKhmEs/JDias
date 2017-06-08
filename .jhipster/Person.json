@@ -1,0 +1,102 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "conversation",
+            "otherEntityName": "conversation",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "profile",
+            "otherEntityName": "profile",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "accountdeletion",
+            "otherEntityName": "accountDeletion",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "contacts",
+            "otherEntityName": "contact",
+            "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "posts",
+            "otherEntityName": "post",
+            "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "photos",
+            "otherEntityName": "photo",
+            "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "comments",
+            "otherEntityName": "comment",
+            "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "participations",
+            "otherEntityName": "participation",
+            "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "events",
+            "otherEntityName": "eventParticipation",
+            "otherEntityRelationshipName": "person"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "guid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "diasporaId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "serializedPublicKey",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdAt",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "updatedAt",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "closedAccount",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "fetchStatus",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "podId",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20170527190341",
+    "entityTableName": "person",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

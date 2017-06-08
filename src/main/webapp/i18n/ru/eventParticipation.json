@@ -1,0 +1,29 @@
+{
+    "jDiasApp": {
+        "eventParticipation" : {
+            "home": {
+                "title": "Event Participations",
+                "createLabel": "Создать новый Event Participation",
+                "createOrEditLabel": "Создать или отредактировать Event Participation",
+                "search": "Найти Event Participation"
+            },
+            "created": "Новый Event Participation создан с идентификатором {{ param }}",
+            "updated": "Event Participation обновлен с идентификатором {{ param }}",
+            "deleted": "Event Participation удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Event Participation {{ id }}?"
+            },
+            "detail": {
+                "title": "Event Participation"
+            },
+            "author": "Author",
+            "guid": "Guid",
+            "parentGuid": "Parent Guid",
+            "status": "Status",
+            "authorSignature": "Author Signature",
+            "parentAuthorSignature": "Parent Author Signature",
+            "event": "Event",
+            "person": "Person"
+        }
+    }
+}

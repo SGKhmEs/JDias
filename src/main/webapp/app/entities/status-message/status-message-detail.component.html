@@ -1,0 +1,37 @@
+
+<div *ngIf="statusMessage">
+    <h2><span jhiTranslate="jDiasApp.statusMessage.detail.title">Status Message</span> {{statusMessage.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.statusMessage.text">Text</span></dt>
+        <dd>
+            <span>{{statusMessage.text}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.statusMessage.location">Location</span></dt>
+        <dd>
+            <div *ngIf="statusMessage.location">
+                <a [routerLink]="['/location', statusMessage.location?.id]">{{statusMessage.location?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.statusMessage.poll">Poll</span></dt>
+        <dd>
+            <div *ngIf="statusMessage.poll">
+                <a [routerLink]="['/poll', statusMessage.poll?.id]">{{statusMessage.poll?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'status-message/'+ statusMessage.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

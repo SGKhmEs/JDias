@@ -1,0 +1,29 @@
+
+<div *ngIf="reshare">
+    <h2><span jhiTranslate="jDiasApp.reshare.detail.title">Reshare</span> {{reshare.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.reshare.rootAuthor">Root Author</span></dt>
+        <dd>
+            <span>{{reshare.rootAuthor}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.reshare.rootGuid">Root Guid</span></dt>
+        <dd>
+            <span>{{reshare.rootGuid}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'reshare/'+ reshare.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

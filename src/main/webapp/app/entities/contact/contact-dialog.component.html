@@ -1,0 +1,56 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myContactLabel" jhiTranslate="jDiasApp.contact.home.createOrEditLabel">Create or edit a Contact</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!contact.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="contact.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.contact.author" for="field_author">Author</label>
+            <input type="text" class="form-control" name="author" id="field_author"
+                [(ngModel)]="contact.author"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.contact.recipient" for="field_recipient">Recipient</label>
+            <input type="text" class="form-control" name="recipient" id="field_recipient"
+                [(ngModel)]="contact.recipient"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.contact.following" for="field_following">Following</label>
+            <input type="checkbox" class="form-control" name="following" id="field_following"
+                [(ngModel)]="contact.following"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.contact.sharing" for="field_sharing">Sharing</label>
+            <input type="checkbox" class="form-control" name="sharing" id="field_sharing"
+                [(ngModel)]="contact.sharing"
+             />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.contact.person" for="field_person">Person</label>
+            <select class="form-control" id="field_person" name="person" [(ngModel)]="contact.person" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="personOption.id === contact.person?.id ? contact.person : personOption" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

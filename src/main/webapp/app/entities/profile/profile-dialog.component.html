@@ -1,0 +1,107 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myProfileLabel" jhiTranslate="jDiasApp.profile.home.createOrEditLabel">Create or edit a Profile</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!profile.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="profile.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.profile.author" for="field_author">Author</label>
+            <input type="text" class="form-control" name="author" id="field_author"
+                [(ngModel)]="profile.author"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.profile.firstName" for="field_firstName">First Name</label>
+            <input type="text" class="form-control" name="firstName" id="field_firstName"
+                [(ngModel)]="profile.firstName"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.profile.lastName" for="field_lastName">Last Name</label>
+            <input type="text" class="form-control" name="lastName" id="field_lastName"
+                [(ngModel)]="profile.lastName"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.profile.imageUrl" for="field_imageUrl">Image Url</label>
+            <input type="text" class="form-control" name="imageUrl" id="field_imageUrl"
+                [(ngModel)]="profile.imageUrl"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.profile.imageUrlSmall" for="field_imageUrlSmall">Image Url Small</label>
+            <input type="text" class="form-control" name="imageUrlSmall" id="field_imageUrlSmall"
+                [(ngModel)]="profile.imageUrlSmall"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.profile.imageUrlMedium" for="field_imageUrlMedium">Image Url Medium</label>
+            <input type="text" class="form-control" name="imageUrlMedium" id="field_imageUrlMedium"
+                [(ngModel)]="profile.imageUrlMedium"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.profile.birthday" for="field_birthday">Birthday</label>
+            <div class="input-group">
+                <input id="field_birthday" type="text" class="form-control" name="birthday" ngbDatepicker  #birthdayDp="ngbDatepicker" [(ngModel)]="profile.birthday"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="birthdayDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.profile.gender" for="field_gender">Gender</label>
+            <input type="text" class="form-control" name="gender" id="field_gender"
+                [(ngModel)]="profile.gender"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.profile.bio" for="field_bio">Bio</label>
+            <input type="text" class="form-control" name="bio" id="field_bio"
+                [(ngModel)]="profile.bio"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.profile.location" for="field_location">Location</label>
+            <input type="text" class="form-control" name="location" id="field_location"
+                [(ngModel)]="profile.location"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.profile.searchable" for="field_searchable">Searchable</label>
+            <input type="checkbox" class="form-control" name="searchable" id="field_searchable"
+                [(ngModel)]="profile.searchable"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.profile.nsfw" for="field_nsfw">Nsfw</label>
+            <input type="checkbox" class="form-control" name="nsfw" id="field_nsfw"
+                [(ngModel)]="profile.nsfw"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.profile.tagString" for="field_tagString">Tag String</label>
+            <input type="text" class="form-control" name="tagString" id="field_tagString"
+                [(ngModel)]="profile.tagString"
+             />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

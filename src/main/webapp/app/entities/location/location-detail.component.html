@@ -1,0 +1,33 @@
+
+<div *ngIf="location">
+    <h2><span jhiTranslate="jDiasApp.location.detail.title">Location</span> {{location.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.location.address">Address</span></dt>
+        <dd>
+            <span>{{location.address}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.location.lat">Lat</span></dt>
+        <dd>
+            <span>{{location.lat}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.location.lng">Lng</span></dt>
+        <dd>
+            <span>{{location.lng}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'location/'+ location.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

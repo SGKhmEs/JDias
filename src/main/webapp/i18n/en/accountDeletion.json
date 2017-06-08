@@ -1,0 +1,22 @@
+{
+    "jDiasApp": {
+        "accountDeletion" : {
+            "home": {
+                "title": "Account Deletions",
+                "createLabel": "Create a new Account Deletion",
+                "createOrEditLabel": "Create or edit a Account Deletion",
+                "search": "Search for Account Deletion"
+            },
+            "created": "A new Account Deletion is created with identifier {{ param }}",
+            "updated": "A Account Deletion is updated with identifier {{ param }}",
+            "deleted": "A Account Deletion is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Account Deletion {{ id }}?"
+            },
+            "detail": {
+                "title": "Account Deletion"
+            },
+            "author": "Author"
+        }
+    }
+}

@@ -1,0 +1,31 @@
+
+<div *ngIf="tag">
+    <h2><span jhiTranslate="jDiasApp.tag.detail.title">Tag</span> {{tag.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.tag.name">Name</span></dt>
+        <dd>
+            <span>{{tag.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.tag.post">Post</span></dt>
+        <dd>
+            <div *ngIf="tag.post">
+                <a [routerLink]="['/post', tag.post?.id]">{{tag.post?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'tag/'+ tag.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,139 @@
+
+<div *ngIf="userAccount">
+    <h2><span jhiTranslate="jDiasApp.userAccount.detail.title">User Account</span> {{userAccount.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.userAccount.serializedPrivateKey">Serialized Private Key</span></dt>
+        <dd>
+            <span>{{userAccount.serializedPrivateKey}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.gettingStarted">Getting Started</span></dt>
+        <dd>
+            <span>{{userAccount.gettingStarted}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.disableMail">Disable Mail</span></dt>
+        <dd>
+            <span>{{userAccount.disableMail}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.language">Language</span></dt>
+        <dd>
+            <span>{{userAccount.language}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.rememberCreatedAt">Remember Created At</span></dt>
+        <dd>
+            <span>{{userAccount.rememberCreatedAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.signInCount">Sign In Count</span></dt>
+        <dd>
+            <span>{{userAccount.signInCount}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.currentSignInAt">Current Sign In At</span></dt>
+        <dd>
+            <span>{{userAccount.currentSignInAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.lastSignInAt">Last Sign In At</span></dt>
+        <dd>
+            <span>{{userAccount.lastSignInAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.currentSignInIp">Current Sign In Ip</span></dt>
+        <dd>
+            <span>{{userAccount.currentSignInIp}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.lastSignInIp">Last Sign In Ip</span></dt>
+        <dd>
+            <span>{{userAccount.lastSignInIp}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.createdAt">Created At</span></dt>
+        <dd>
+            <span>{{userAccount.createdAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.updatedAt">Updated At</span></dt>
+        <dd>
+            <span>{{userAccount.updatedAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.lockedAt">Locked At</span></dt>
+        <dd>
+            <span>{{userAccount.lockedAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.showCommunitySpotlightInStream">Show Community Spotlight In Stream</span></dt>
+        <dd>
+            <span>{{userAccount.showCommunitySpotlightInStream}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.autoFollowBack">Auto Follow Back</span></dt>
+        <dd>
+            <span>{{userAccount.autoFollowBack}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.autoFollowBackAspectId">Auto Follow Back Aspect Id</span></dt>
+        <dd>
+            <span>{{userAccount.autoFollowBackAspectId}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.hiddenShareables">Hidden Shareables</span></dt>
+        <dd>
+            <span>{{userAccount.hiddenShareables}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.lastSeen">Last Seen</span></dt>
+        <dd>
+            <span>{{userAccount.lastSeen | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.exportE">Export E</span></dt>
+        <dd>
+            <span>{{userAccount.exportE}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.exportedAt">Exported At</span></dt>
+        <dd>
+            <span>{{userAccount.exportedAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.exporting">Exporting</span></dt>
+        <dd>
+            <span>{{userAccount.exporting}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.stripExif">Strip Exif</span></dt>
+        <dd>
+            <span>{{userAccount.stripExif}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.exportedPhotosFile">Exported Photos File</span></dt>
+        <dd>
+            <span>{{userAccount.exportedPhotosFile}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.exportedPhotosAt">Exported Photos At</span></dt>
+        <dd>
+            <span>{{userAccount.exportedPhotosAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.exportingPhotos">Exporting Photos</span></dt>
+        <dd>
+            <span>{{userAccount.exportingPhotos}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.colorTheme">Color Theme</span></dt>
+        <dd>
+            <span>{{userAccount.colorTheme}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.postDefaultPublic">Post Default Public</span></dt>
+        <dd>
+            <span>{{userAccount.postDefaultPublic}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.user">User</span></dt>
+        <dd>
+            {{userAccount.user?.id}}
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.userAccount.person">Person</span></dt>
+        <dd>
+            <div *ngIf="userAccount.person">
+                <a [routerLink]="['/person', userAccount.person?.id]">{{userAccount.person?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'user-account/'+ userAccount.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

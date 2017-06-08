@@ -1,0 +1,34 @@
+{
+    "jDiasApp": {
+        "profile" : {
+            "home": {
+                "title": "Profiles",
+                "createLabel": "Create a new Profile",
+                "createOrEditLabel": "Create or edit a Profile",
+                "search": "Search for Profile"
+            },
+            "created": "A new Profile is created with identifier {{ param }}",
+            "updated": "A Profile is updated with identifier {{ param }}",
+            "deleted": "A Profile is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Profile {{ id }}?"
+            },
+            "detail": {
+                "title": "Profile"
+            },
+            "author": "Author",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "imageUrl": "Image Url",
+            "imageUrlSmall": "Image Url Small",
+            "imageUrlMedium": "Image Url Medium",
+            "birthday": "Birthday",
+            "gender": "Gender",
+            "bio": "Bio",
+            "location": "Location",
+            "searchable": "Searchable",
+            "nsfw": "Nsfw",
+            "tagString": "Tag String"
+        }
+    }
+}

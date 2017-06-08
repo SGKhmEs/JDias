@@ -1,0 +1,65 @@
+
+<div *ngIf="comment">
+    <h2><span jhiTranslate="jDiasApp.comment.detail.title">Comment</span> {{comment.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.comment.author">Author</span></dt>
+        <dd>
+            <span>{{comment.author}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.comment.guid">Guid</span></dt>
+        <dd>
+            <span>{{comment.guid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.comment.parentGuid">Parent Guid</span></dt>
+        <dd>
+            <span>{{comment.parentGuid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.comment.text">Text</span></dt>
+        <dd>
+            <span>{{comment.text}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.comment.createdAt">Created At</span></dt>
+        <dd>
+            <span>{{comment.createdAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.comment.authorSignature">Author Signature</span></dt>
+        <dd>
+            <span>{{comment.authorSignature}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.comment.parentAuthorSignature">Parent Author Signature</span></dt>
+        <dd>
+            <span>{{comment.parentAuthorSignature}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.comment.threadParentGuid">Thread Parent Guid</span></dt>
+        <dd>
+            <span>{{comment.threadParentGuid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.comment.post">Post</span></dt>
+        <dd>
+            <div *ngIf="comment.post">
+                <a [routerLink]="['/post', comment.post?.id]">{{comment.post?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.comment.person">Person</span></dt>
+        <dd>
+            <div *ngIf="comment.person">
+                <a [routerLink]="['/person', comment.person?.id]">{{comment.person?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'comment/'+ comment.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

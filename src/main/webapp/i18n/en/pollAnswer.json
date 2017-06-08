@@ -1,0 +1,25 @@
+{
+    "jDiasApp": {
+        "pollAnswer" : {
+            "home": {
+                "title": "Poll Answers",
+                "createLabel": "Create a new Poll Answer",
+                "createOrEditLabel": "Create or edit a Poll Answer",
+                "search": "Search for Poll Answer"
+            },
+            "created": "A new Poll Answer is created with identifier {{ param }}",
+            "updated": "A Poll Answer is updated with identifier {{ param }}",
+            "deleted": "A Poll Answer is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Poll Answer {{ id }}?"
+            },
+            "detail": {
+                "title": "Poll Answer"
+            },
+            "guid": "Guid",
+            "answer": "Answer",
+            "poll": "Poll",
+            "pollanswers1": "Pollanswers 1"
+        }
+    }
+}

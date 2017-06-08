@@ -1,0 +1,26 @@
+{
+    "jDiasApp": {
+        "participation" : {
+            "home": {
+                "title": "Participations",
+                "createLabel": "Создать новый Participation",
+                "createOrEditLabel": "Создать или отредактировать Participation",
+                "search": "Найти Participation"
+            },
+            "created": "Новый Participation создан с идентификатором {{ param }}",
+            "updated": "Participation обновлен с идентификатором {{ param }}",
+            "deleted": "Participation удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Participation {{ id }}?"
+            },
+            "detail": {
+                "title": "Participation"
+            },
+            "author": "Author",
+            "guid": "Guid",
+            "parentGuid": "Parent Guid",
+            "parentType": "Parent Type",
+            "person": "Person"
+        }
+    }
+}

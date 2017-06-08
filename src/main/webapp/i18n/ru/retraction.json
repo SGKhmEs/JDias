@@ -1,0 +1,24 @@
+{
+    "jDiasApp": {
+        "retraction" : {
+            "home": {
+                "title": "Retractions",
+                "createLabel": "Создать новый Retraction",
+                "createOrEditLabel": "Создать или отредактировать Retraction",
+                "search": "Найти Retraction"
+            },
+            "created": "Новый Retraction создан с идентификатором {{ param }}",
+            "updated": "Retraction обновлен с идентификатором {{ param }}",
+            "deleted": "Retraction удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Retraction {{ id }}?"
+            },
+            "detail": {
+                "title": "Retraction"
+            },
+            "author": "Author",
+            "targetGuid": "Target Guid",
+            "targetType": "Target Type"
+        }
+    }
+}

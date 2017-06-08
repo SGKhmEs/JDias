@@ -1,0 +1,24 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "address",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lat",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "lng",
+            "fieldType": "Float"
+        }
+    ],
+    "changelogDate": "20170527190325",
+    "javadoc": "not an ignored comment",
+    "entityTableName": "location",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

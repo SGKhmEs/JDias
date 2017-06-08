@@ -7,6 +7,33 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entities",
+                "accountDeletion": "Account Deletion",
+                "aspect": "Aspect",
+                "aspectMembership": "Aspect Membership",
+                "aspectVisiblity": "Aspect Visiblity",
+                "comment": "Comment",
+                "contact": "Contact",
+                "conversation": "Conversation",
+                "event": "Event",
+                "eventParticipation": "Event Participation",
+                "like": "Like",
+                "location": "Location",
+                "message": "Message",
+                "participation": "Participation",
+                "photo": "Photo",
+                "poll": "Poll",
+                "pollAnswer": "Poll Answer",
+                "pollParticipation": "Poll Participation",
+                "post": "Post",
+                "profile": "Profile",
+                "reshare": "Reshare",
+                "retraction": "Retraction",
+                "statusMessage": "Status Message",
+                "tag": "Tag",
+                "tagging": "Tagging",
+                "tagFollowing": "Tag Following",
+                "userAccount": "User Account",
+                "person": "Person",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -83,7 +110,8 @@
         },
         "ribbon": {
             "dev":"Development"
-        }
+        },
+        "item-count": "Showing {{first}} - {{second}} of {{total}} items."
     },
     "entity": {
         "action": {

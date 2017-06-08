@@ -1,0 +1,45 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myStatusMessageLabel" jhiTranslate="jDiasApp.statusMessage.home.createOrEditLabel">Create or edit a Status Message</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!statusMessage.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="statusMessage.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.statusMessage.text" for="field_text">Text</label>
+            <input type="text" class="form-control" name="text" id="field_text"
+                [(ngModel)]="statusMessage.text"
+             />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.statusMessage.location" for="field_location">Location</label>
+            <select class="form-control" id="field_location" name="location" [(ngModel)]="statusMessage.location">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="locationOption.id === statusMessage.location?.id ? statusMessage.location : locationOption" *ngFor="let locationOption of locations; trackBy: trackLocationById">{{locationOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.statusMessage.poll" for="field_poll">Poll</label>
+            <select class="form-control" id="field_poll" name="poll" [(ngModel)]="statusMessage.poll">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="pollOption.id === statusMessage.poll?.id ? statusMessage.poll : pollOption" *ngFor="let pollOption of polls; trackBy: trackPollById">{{pollOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

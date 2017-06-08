@@ -1,0 +1,27 @@
+{
+    "jDiasApp": {
+        "message" : {
+            "home": {
+                "title": "Messages",
+                "createLabel": "Создать новый Message",
+                "createOrEditLabel": "Создать или отредактировать Message",
+                "search": "Найти Message"
+            },
+            "created": "Новый Message создан с идентификатором {{ param }}",
+            "updated": "Message обновлен с идентификатором {{ param }}",
+            "deleted": "Message удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Message {{ id }}?"
+            },
+            "detail": {
+                "title": "Message"
+            },
+            "author": "Author",
+            "guid": "Guid",
+            "conversationGuid": "Conversation Guid",
+            "text": "Text",
+            "createdAt": "Created At",
+            "conversation": "Conversation"
+        }
+    }
+}

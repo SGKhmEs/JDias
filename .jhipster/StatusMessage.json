@@ -1,0 +1,38 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "location",
+            "otherEntityName": "location",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "statusMessage"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "poll",
+            "otherEntityName": "poll",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "statusMessage"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "photos",
+            "otherEntityName": "photo",
+            "otherEntityRelationshipName": "statusMessage"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "text",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170527190336",
+    "entityTableName": "status_message",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

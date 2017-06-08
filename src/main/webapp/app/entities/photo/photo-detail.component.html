@@ -1,0 +1,69 @@
+
+<div *ngIf="photo">
+    <h2><span jhiTranslate="jDiasApp.photo.detail.title">Photo</span> {{photo.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.photo.author">Author</span></dt>
+        <dd>
+            <span>{{photo.author}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.photo.guid">Guid</span></dt>
+        <dd>
+            <span>{{photo.guid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.photo.createdAt">Created At</span></dt>
+        <dd>
+            <span>{{photo.createdAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.photo.remotePhotoPath">Remote Photo Path</span></dt>
+        <dd>
+            <span>{{photo.remotePhotoPath}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.photo.remotePhotoName">Remote Photo Name</span></dt>
+        <dd>
+            <span>{{photo.remotePhotoName}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.photo.height">Height</span></dt>
+        <dd>
+            <span>{{photo.height}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.photo.width">Width</span></dt>
+        <dd>
+            <span>{{photo.width}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.photo.text">Text</span></dt>
+        <dd>
+            <span>{{photo.text}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.photo.statusMessageGuid">Status Message Guid</span></dt>
+        <dd>
+            <span>{{photo.statusMessageGuid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.photo.statusMessage">Status Message</span></dt>
+        <dd>
+            <div *ngIf="photo.statusMessage">
+                <a [routerLink]="['/status-message', photo.statusMessage?.id]">{{photo.statusMessage?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.photo.person">Person</span></dt>
+        <dd>
+            <div *ngIf="photo.person">
+                <a [routerLink]="['/person', photo.person?.id]">{{photo.person?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'photo/'+ photo.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

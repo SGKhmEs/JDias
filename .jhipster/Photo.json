@@ -1,0 +1,60 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "statusMessage",
+            "otherEntityName": "statusMessage",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "person",
+            "otherEntityName": "person",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "author",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "guid",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "createdAt",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "remotePhotoPath",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "remotePhotoName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "height",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "width",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "text",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "statusMessageGuid",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170527190328",
+    "entityTableName": "photo",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

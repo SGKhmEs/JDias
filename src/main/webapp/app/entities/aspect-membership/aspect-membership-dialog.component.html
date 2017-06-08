@@ -1,0 +1,66 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myAspectMembershipLabel" jhiTranslate="jDiasApp.aspectMembership.home.createOrEditLabel">Create or edit a Aspect Membership</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!aspectMembership.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="aspectMembership.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.aspectMembership.createdAt" for="field_createdAt">Created At</label>
+            <div class="input-group">
+                <input id="field_createdAt" type="text" class="form-control" name="createdAt" ngbDatepicker  #createdAtDp="ngbDatepicker" [(ngModel)]="aspectMembership.createdAt"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="createdAtDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.aspectMembership.updatedAt" for="field_updatedAt">Updated At</label>
+            <div class="input-group">
+                <input id="field_updatedAt" type="text" class="form-control" name="updatedAt" ngbDatepicker  #updatedAtDp="ngbDatepicker" [(ngModel)]="aspectMembership.updatedAt"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="updatedAtDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.aspectMembership.aspect" for="field_aspect">Aspect</label>
+            <select class="form-control" id="field_aspect" name="aspect" [(ngModel)]="aspectMembership.aspect" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="aspectOption.id === aspectMembership.aspect?.id ? aspectMembership.aspect : aspectOption" *ngFor="let aspectOption of aspects; trackBy: trackAspectById">{{aspectOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.aspectMembership.contact" for="field_contact">Contact</label>
+            <select class="form-control" id="field_contact" name="contact" [(ngModel)]="aspectMembership.contact" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="contactOption.id === aspectMembership.contact?.id ? aspectMembership.contact : contactOption" *ngFor="let contactOption of contacts; trackBy: trackContactById">{{contactOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.aspectMembership.userAccount" for="field_userAccount">User Account</label>
+            <select class="form-control" id="field_userAccount" name="userAccount" [(ngModel)]="aspectMembership.userAccount" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="userAccountOption.id === aspectMembership.userAccount?.id ? aspectMembership.userAccount : userAccountOption" *ngFor="let userAccountOption of useraccounts; trackBy: trackUserAccountById">{{userAccountOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,47 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "post",
+            "otherEntityName": "post",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "author",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "guid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "parentGuid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "parentType",
+            "fieldType": "Type",
+            "fieldValues": "ACCOUNTDELETION,COMMENT,CONTACT,CONVERSATION,EVENT,EVENTPARTICIPATION,LIKE,LOCATION,MESSAGE,PARTICIPATION,PHOTO,POLL,POLLANSWER,POLLPARTICIPATION,POST,PROFILE,RESHARE,RETRACTION,STATUSMESSAGE"
+        },
+        {
+            "fieldName": "positive",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "authorSignature",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "parentAuthorSignature",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170527190324",
+    "entityTableName": "like",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

@@ -1,0 +1,35 @@
+
+<div *ngIf="pollAnswer">
+    <h2><span jhiTranslate="jDiasApp.pollAnswer.detail.title">Poll Answer</span> {{pollAnswer.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.pollAnswer.guid">Guid</span></dt>
+        <dd>
+            <span>{{pollAnswer.guid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.pollAnswer.answer">Answer</span></dt>
+        <dd>
+            <span>{{pollAnswer.answer}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.pollAnswer.poll">Poll</span></dt>
+        <dd>
+            <div *ngIf="pollAnswer.poll">
+                <a [routerLink]="['/poll', pollAnswer.poll?.id]">{{pollAnswer.poll?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'poll-answer/'+ pollAnswer.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

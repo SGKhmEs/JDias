@@ -1,0 +1,83 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "statusMessage",
+            "otherEntityName": "statusMessage",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "reshare",
+            "otherEntityName": "reshare",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "comments",
+            "otherEntityName": "comment",
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "aspectVisiblities",
+            "otherEntityName": "aspectVisiblity",
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "likes",
+            "otherEntityName": "like",
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "tags",
+            "otherEntityName": "tag",
+            "otherEntityRelationshipName": "post"
+        },
+        {
+            "relationshipName": "person",
+            "otherEntityName": "person",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "author",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "guid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdAt",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "pub",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "providerDisplayName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "postType",
+            "fieldType": "PostType",
+            "fieldValues": "STATUSMESSAGE,RESHARE"
+        }
+    ],
+    "changelogDate": "20170527190332",
+    "entityTableName": "post",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

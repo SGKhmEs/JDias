@@ -1,0 +1,29 @@
+{
+    "jDiasApp": {
+        "like" : {
+            "home": {
+                "title": "Likes",
+                "createLabel": "Create a new Like",
+                "createOrEditLabel": "Create or edit a Like",
+                "search": "Search for Like"
+            },
+            "created": "A new Like is created with identifier {{ param }}",
+            "updated": "A Like is updated with identifier {{ param }}",
+            "deleted": "A Like is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Like {{ id }}?"
+            },
+            "detail": {
+                "title": "Like"
+            },
+            "author": "Author",
+            "guid": "Guid",
+            "parentGuid": "Parent Guid",
+            "parentType": "Parent Type",
+            "positive": "Positive",
+            "authorSignature": "Author Signature",
+            "parentAuthorSignature": "Parent Author Signature",
+            "post": "Post"
+        }
+    }
+}

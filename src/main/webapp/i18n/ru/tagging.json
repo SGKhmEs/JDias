@@ -1,0 +1,24 @@
+{
+    "jDiasApp": {
+        "tagging" : {
+            "home": {
+                "title": "Taggings",
+                "createLabel": "Создать новый Tagging",
+                "createOrEditLabel": "Создать или отредактировать Tagging",
+                "search": "Найти Tagging"
+            },
+            "created": "Новый Tagging создан с идентификатором {{ param }}",
+            "updated": "Tagging обновлен с идентификатором {{ param }}",
+            "deleted": "Tagging удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Tagging {{ id }}?"
+            },
+            "detail": {
+                "title": "Tagging"
+            },
+            "context": "Context",
+            "createdAt": "Created At",
+            "tag": "Tag"
+        }
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "jDiasApp": {
+        "event" : {
+            "home": {
+                "title": "Events",
+                "createLabel": "Создать новый Event",
+                "createOrEditLabel": "Создать или отредактировать Event",
+                "search": "Найти Event"
+            },
+            "created": "Новый Event создан с идентификатором {{ param }}",
+            "updated": "Event обновлен с идентификатором {{ param }}",
+            "deleted": "Event удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Event {{ id }}?"
+            },
+            "detail": {
+                "title": "Event"
+            },
+            "author": "Author",
+            "guid": "Guid",
+            "summary": "Summary",
+            "start": "Start",
+            "end": "End",
+            "allDay": "All Day",
+            "timezone": "Timezone",
+            "description": "Description",
+            "eventPatricipations": "Event Patricipations"
+        }
+    }
+}

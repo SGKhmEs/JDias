@@ -1,0 +1,97 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myPhotoLabel" jhiTranslate="jDiasApp.photo.home.createOrEditLabel">Create or edit a Photo</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!photo.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="photo.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.photo.author" for="field_author">Author</label>
+            <input type="text" class="form-control" name="author" id="field_author"
+                [(ngModel)]="photo.author"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.photo.guid" for="field_guid">Guid</label>
+            <input type="checkbox" class="form-control" name="guid" id="field_guid"
+                [(ngModel)]="photo.guid"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.photo.createdAt" for="field_createdAt">Created At</label>
+            <div class="input-group">
+                <input id="field_createdAt" type="text" class="form-control" name="createdAt" ngbDatepicker  #createdAtDp="ngbDatepicker" [(ngModel)]="photo.createdAt"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="createdAtDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.photo.remotePhotoPath" for="field_remotePhotoPath">Remote Photo Path</label>
+            <input type="text" class="form-control" name="remotePhotoPath" id="field_remotePhotoPath"
+                [(ngModel)]="photo.remotePhotoPath"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.photo.remotePhotoName" for="field_remotePhotoName">Remote Photo Name</label>
+            <input type="text" class="form-control" name="remotePhotoName" id="field_remotePhotoName"
+                [(ngModel)]="photo.remotePhotoName"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.photo.height" for="field_height">Height</label>
+            <input type="number" class="form-control" name="height" id="field_height"
+                [(ngModel)]="photo.height"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.photo.width" for="field_width">Width</label>
+            <input type="number" class="form-control" name="width" id="field_width"
+                [(ngModel)]="photo.width"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.photo.text" for="field_text">Text</label>
+            <input type="text" class="form-control" name="text" id="field_text"
+                [(ngModel)]="photo.text"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.photo.statusMessageGuid" for="field_statusMessageGuid">Status Message Guid</label>
+            <input type="text" class="form-control" name="statusMessageGuid" id="field_statusMessageGuid"
+                [(ngModel)]="photo.statusMessageGuid"
+             />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.photo.statusMessage" for="field_statusMessage">Status Message</label>
+            <select class="form-control" id="field_statusMessage" name="statusMessage" [(ngModel)]="photo.statusMessage" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="statusMessageOption.id === photo.statusMessage?.id ? photo.statusMessage : statusMessageOption" *ngFor="let statusMessageOption of statusmessages; trackBy: trackStatusMessageById">{{statusMessageOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.photo.person" for="field_person">Person</label>
+            <select class="form-control" id="field_person" name="person" [(ngModel)]="photo.person" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="personOption.id === photo.person?.id ? photo.person : personOption" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

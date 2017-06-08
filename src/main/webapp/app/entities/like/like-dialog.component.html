@@ -1,0 +1,92 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myLikeLabel" jhiTranslate="jDiasApp.like.home.createOrEditLabel">Create or edit a Like</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!like.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="like.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.like.author" for="field_author">Author</label>
+            <input type="text" class="form-control" name="author" id="field_author"
+                [(ngModel)]="like.author"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.like.guid" for="field_guid">Guid</label>
+            <input type="text" class="form-control" name="guid" id="field_guid"
+                [(ngModel)]="like.guid"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.like.parentGuid" for="field_parentGuid">Parent Guid</label>
+            <input type="text" class="form-control" name="parentGuid" id="field_parentGuid"
+                [(ngModel)]="like.parentGuid"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.like.parentType" for="field_parentType">Parent Type</label>
+            <select class="form-control" name="parentType" [(ngModel)]="like.parentType" id="field_parentType" >
+                <option value="ACCOUNTDELETION" jhiTranslate="jDiasApp.Type.ACCOUNTDELETION">ACCOUNTDELETION</option>
+                <option value="COMMENT" jhiTranslate="jDiasApp.Type.COMMENT">COMMENT</option>
+                <option value="CONTACT" jhiTranslate="jDiasApp.Type.CONTACT">CONTACT</option>
+                <option value="CONVERSATION" jhiTranslate="jDiasApp.Type.CONVERSATION">CONVERSATION</option>
+                <option value="EVENT" jhiTranslate="jDiasApp.Type.EVENT">EVENT</option>
+                <option value="EVENTPARTICIPATION" jhiTranslate="jDiasApp.Type.EVENTPARTICIPATION">EVENTPARTICIPATION</option>
+                <option value="LIKE" jhiTranslate="jDiasApp.Type.LIKE">LIKE</option>
+                <option value="LOCATION" jhiTranslate="jDiasApp.Type.LOCATION">LOCATION</option>
+                <option value="MESSAGE" jhiTranslate="jDiasApp.Type.MESSAGE">MESSAGE</option>
+                <option value="PARTICIPATION" jhiTranslate="jDiasApp.Type.PARTICIPATION">PARTICIPATION</option>
+                <option value="PHOTO" jhiTranslate="jDiasApp.Type.PHOTO">PHOTO</option>
+                <option value="POLL" jhiTranslate="jDiasApp.Type.POLL">POLL</option>
+                <option value="POLLANSWER" jhiTranslate="jDiasApp.Type.POLLANSWER">POLLANSWER</option>
+                <option value="POLLPARTICIPATION" jhiTranslate="jDiasApp.Type.POLLPARTICIPATION">POLLPARTICIPATION</option>
+                <option value="POST" jhiTranslate="jDiasApp.Type.POST">POST</option>
+                <option value="PROFILE" jhiTranslate="jDiasApp.Type.PROFILE">PROFILE</option>
+                <option value="RESHARE" jhiTranslate="jDiasApp.Type.RESHARE">RESHARE</option>
+                <option value="RETRACTION" jhiTranslate="jDiasApp.Type.RETRACTION">RETRACTION</option>
+                <option value="STATUSMESSAGE" jhiTranslate="jDiasApp.Type.STATUSMESSAGE">STATUSMESSAGE</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.like.positive" for="field_positive">Positive</label>
+            <input type="checkbox" class="form-control" name="positive" id="field_positive"
+                [(ngModel)]="like.positive"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.like.authorSignature" for="field_authorSignature">Author Signature</label>
+            <input type="text" class="form-control" name="authorSignature" id="field_authorSignature"
+                [(ngModel)]="like.authorSignature"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.like.parentAuthorSignature" for="field_parentAuthorSignature">Parent Author Signature</label>
+            <input type="text" class="form-control" name="parentAuthorSignature" id="field_parentAuthorSignature"
+                [(ngModel)]="like.parentAuthorSignature"
+             />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.like.post" for="field_post">Post</label>
+            <select class="form-control" id="field_post" name="post" [(ngModel)]="like.post" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="postOption.id === like.post?.id ? like.post : postOption" *ngFor="let postOption of posts; trackBy: trackPostById">{{postOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

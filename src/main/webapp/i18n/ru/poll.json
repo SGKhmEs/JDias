@@ -1,0 +1,25 @@
+{
+    "jDiasApp": {
+        "poll" : {
+            "home": {
+                "title": "Polls",
+                "createLabel": "Создать новый Poll",
+                "createOrEditLabel": "Создать или отредактировать Poll",
+                "search": "Найти Poll"
+            },
+            "created": "Новый Poll создан с идентификатором {{ param }}",
+            "updated": "Poll обновлен с идентификатором {{ param }}",
+            "deleted": "Poll удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Poll {{ id }}?"
+            },
+            "detail": {
+                "title": "Poll"
+            },
+            "guid": "Guid",
+            "question": "Question",
+            "pollanswers": "Pollanswers",
+            "pollparticipants": "Pollparticipants"
+        }
+    }
+}

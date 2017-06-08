@@ -1,0 +1,25 @@
+{
+    "jDiasApp": {
+        "tagFollowing" : {
+            "home": {
+                "title": "Tag Followings",
+                "createLabel": "Создать новый Tag Following",
+                "createOrEditLabel": "Создать или отредактировать Tag Following",
+                "search": "Найти Tag Following"
+            },
+            "created": "Новый Tag Following создан с идентификатором {{ param }}",
+            "updated": "Tag Following обновлен с идентификатором {{ param }}",
+            "deleted": "Tag Following удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Tag Following {{ id }}?"
+            },
+            "detail": {
+                "title": "Tag Following"
+            },
+            "createdAt": "Created At",
+            "updatedAt": "Updated At",
+            "tag": "Tag",
+            "userAccount": "User Account"
+        }
+    }
+}
