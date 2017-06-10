@@ -3,6 +3,8 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.service.StatusMessageService;
+import com.sgkhmjaes.jdias.service.dto.statusMessageDTOs.StatusMessageDTO;
+import com.sgkhmjaes.jdias.service.impl.StatusMessageDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -28,12 +30,17 @@ public class StatusMessageResource {
 
     private final Logger log = LoggerFactory.getLogger(StatusMessageResource.class);
 
-    private static final String ENTITY_NAME = "statusMessage";
+//    private static final String ENTITY_NAME = "statusMessage";
+
+    private static final String ENTITY_NAME = "statusMessageDTOServiceImpl";
 
     private final StatusMessageService statusMessageService;
 
-    public StatusMessageResource(StatusMessageService statusMessageService) {
+    private final StatusMessageDTOServiceImpl statusMessageDTOServiceImpl;
+
+    public StatusMessageResource(StatusMessageService statusMessageService, StatusMessageDTOServiceImpl statusMessageDTOServiceImpl) {
         this.statusMessageService = statusMessageService;
+        this.statusMessageDTOServiceImpl = statusMessageDTOServiceImpl;
     }
 
     /**
@@ -45,15 +52,15 @@ public class StatusMessageResource {
      */
     @PostMapping("/status-messages")
     @Timed
-    public ResponseEntity<StatusMessage> createStatusMessage(@RequestBody StatusMessage statusMessage) throws URISyntaxException {
-        log.debug("REST request to save StatusMessage : {}", statusMessage);
-        if (statusMessage.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new statusMessage cannot already have an ID")).body(null);
-        }
-        StatusMessage result = statusMessageService.save(statusMessage);
-        return ResponseEntity.created(new URI("/api/status-messages/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+    public void createStatusMessage(@RequestBody StatusMessageDTO statusMessageDTO) throws URISyntaxException {
+        log.debug("REST request to save StatusMessage : {}", statusMessageDTO);
+//        if (statusMessageDTO.getId() != null) {
+//            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new statusMessage cannot already have an ID")).body(null);
+//        }
+         statusMessageDTOServiceImpl.save(statusMessageDTO);
+//        return ResponseEntity.created(new URI("/api/status-messages/" + result.getId()))
+//            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+//            .body(result);
     }
 
     /**
@@ -67,15 +74,15 @@ public class StatusMessageResource {
      */
     @PutMapping("/status-messages")
     @Timed
-    public ResponseEntity<StatusMessage> updateStatusMessage(@RequestBody StatusMessage statusMessage) throws URISyntaxException {
-        log.debug("REST request to update StatusMessage : {}", statusMessage);
-        if (statusMessage.getId() == null) {
-            return createStatusMessage(statusMessage);
-        }
-        StatusMessage result = statusMessageService.save(statusMessage);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, statusMessage.getId().toString()))
-            .body(result);
+    public void updateStatusMessage(@RequestBody StatusMessageDTO statusMessageDTO) throws URISyntaxException {
+        log.debug("REST request to update StatusMessage : {}", statusMessageDTO);
+//        if (statusMessageDTO.getId() == null) {
+//            return createStatusMessage(statusMessage);
+//        }
+        statusMessageDTOServiceImpl.save(statusMessageDTO);
+//        return ResponseEntity.ok()
+//            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, statusMessage.getId().toString()))
+//            .body(result);
     }
 
     /**

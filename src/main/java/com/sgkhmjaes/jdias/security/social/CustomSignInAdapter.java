@@ -14,7 +14,7 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.context.request.NativeWebRequest;
 
-public class CustomSignInAdapter implements SignInAdapter {
+public class    CustomSignInAdapter implements SignInAdapter {
 
     @SuppressWarnings("unused")
     private final Logger log = LoggerFactory.getLogger(CustomSignInAdapter.class);

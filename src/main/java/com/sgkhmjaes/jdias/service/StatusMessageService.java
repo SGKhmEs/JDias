@@ -1,6 +1,8 @@
 package com.sgkhmjaes.jdias.service;
 
 import com.sgkhmjaes.jdias.domain.StatusMessage;
+import com.sgkhmjaes.jdias.service.dto.statusMessageDTOs.StatusMessageDTO;
+
 import java.util.List;
 
 /**
@@ -15,7 +17,6 @@ public interface StatusMessageService {
      * @return the persisted entity
      */
     StatusMessage save(StatusMessage statusMessage);
-
     /**
      *  Get all the statusMessages.
      *
@@ -42,7 +43,7 @@ public interface StatusMessageService {
      * Search for the statusMessage corresponding to the query.
      *
      *  @param query the query of the search
-     *  
+     *
      *  @return the list of entities
      */
     List<StatusMessage> search(String query);
