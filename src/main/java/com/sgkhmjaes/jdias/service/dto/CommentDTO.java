@@ -1,72 +1,73 @@
 package com.sgkhmjaes.jdias.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
 import java.time.LocalDate;
 
 public class CommentDTO implements AutoMapping{
+    
     @JsonProperty("guid")
-    private String commentGuid;
+    private String guid;
     @JsonProperty("id")
-    private Long commentId;
-    private AuthorDTO author;
+    private Long id;
+    private AuthorDTO authorDTO;
     @JsonProperty("text")
-    private String commentText;
+    private String text;
     @JsonProperty("createdAt")
-    private LocalDate commentCreatedAt;
+    private LocalDate createdAt;
 
     public CommentDTO() {}
 
-    public String getCommentGuid() {
-        return commentGuid;
+    public String getGuid() {
+        return guid;
     }
 
-    public void setCommentGuid(String commentGuid) {
-        this.commentGuid = commentGuid;
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 
-    public Long getCommentId() {
-        return commentId;
+    public Long getId() {
+        return id;
     }
 
-    public void setCommentId(Long commentId) {
-        this.commentId = commentId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public AuthorDTO getAuthor() {
-        return author;
+    public AuthorDTO getAuthorDTO() {
+        return authorDTO;
     }
 
-    public void setAuthor(AuthorDTO author) {
-        this.author = author;
+    public void setAuthorDTO(AuthorDTO authorDTO) {
+        this.authorDTO = authorDTO;
     }
 
-    public String getCommentText() {
-        return commentText;
+    public String getText() {
+        return text;
     }
 
-    public void setCommentText(String commentText) {
-        this.commentText = commentText;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public LocalDate getCommentCreatedAt() {
-        return commentCreatedAt;
+    public LocalDate getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCommentCreatedAt(LocalDate commentCreatedAt) {
-        this.commentCreatedAt = commentCreatedAt;
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 
 
-
-    
+        
     @Override
 public String toString() {
 StringBuilder sb = new StringBuilder();
-sb.append("Comment guid: ").append(commentGuid).append("\r\n").
-append("Comment id: ").append(commentId).append("\r\n").
-append("Comment author: ").append(author).append("\r\n").
-append("Comment text: ").append(commentText).append("\r\n").
-append("Comment created at: ").append(commentCreatedAt).append("\r\n");
+sb.append("Comment guid: ").append(guid).append("\r\n").
+append("Comment id: ").append(id).append("\r\n").
+append("Comment author: ").append(authorDTO).append("\r\n").
+append("Comment text: ").append(text).append("\r\n").
+append("Comment created at: ").append(createdAt).append("\r\n");
 return sb.toString();
 }
     

@@ -1,80 +1,76 @@
-package com.sgkhmjaes.jdias.service.dto;
 
+package com.sgkhmjaes.jdias.service.dto;
+    
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sgkhmjaes.jdias.domain.Location;
 import com.sgkhmjaes.jdias.domain.Photo;
 import com.sgkhmjaes.jdias.domain.Poll;
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
+import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
 import java.time.LocalDate;
 import java.util.List;
 
 public class PostDTO implements AutoMapping{
+//public class PostDTO extends AutoMapping1{
+    
     @JsonProperty("text")
-    private String statusMessageText;
+    private String text;
     @JsonProperty("id")
-    private Long postId;
+    private long id;
     @JsonProperty("guid")
-    private String postGuid;
+    private String guid;
     private String open_graph_cache;
     private String title;
     private String provider_display_name;
     @JsonProperty("nsfw")
-    private boolean postNsfw;
+    private boolean nsfw;
     private String o_embed_cache;
     private String participation;
     private boolean already_participated_in_poll;
     @JsonProperty("created_at")
-    private LocalDate postCreatedAt;
-    @JsonProperty("public")
-    private boolean postPub;
+    private LocalDate createdAt;// post
+    private boolean pub;
     private LocalDate interacted_at;
     
     @JsonProperty("root")
     private PostDTO postDTO; // root
     @JsonProperty("author")
-    private AuthorDTO author; // author
+    private AuthorDTO authorDTO; // author
     private Poll poll;    
     private Location location;
+    
     @JsonProperty("post_type")
-    private PostType postPostType;
+    private PostType postType;
     @JsonProperty("mentioned_people")
-    private List<String>mentioned_people;
+    private List<String> mentioned_people;
     
     private List<Photo> photos;
     private InteractionDTO interactions;
 
     public PostDTO(){}
-    
-    public PostDTO getPostDTO() {
-        return postDTO;
+
+    public String getText() {
+        return text;
     }
 
-    public void setPostDTO(PostDTO postDTO) {
-        this.postDTO = postDTO;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public String getStatusMessageText() {
-        return statusMessageText;
+    public long getId() {
+        return id;
     }
 
-    public void setStatusMessageText(String statusMessageText) {
-        this.statusMessageText = statusMessageText;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public Long getPostId() {
-        return postId;
+    public String getGuid() {
+        return guid;
     }
 
-    public void setPostId(Long postId) {
-        this.postId = postId;
-    }
-
-    public String getPostGuid() {
-        return postGuid;
-    }
-
-    public void setPostGuid(String postGuid) {
-        this.postGuid = postGuid;
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 
     public String getOpen_graph_cache() {
@@ -101,12 +97,12 @@ public class PostDTO implements AutoMapping{
         this.provider_display_name = provider_display_name;
     }
 
-    public boolean isPostNsfw() {
-        return postNsfw;
+    public boolean getNsfw() {
+        return nsfw;
     }
 
-    public void setPostNsfw(boolean postNsfw) {
-        this.postNsfw = postNsfw;
+    public void setNsfw(boolean nsfw) {
+        this.nsfw = nsfw;
     }
 
     public String getO_embed_cache() {
@@ -125,7 +121,7 @@ public class PostDTO implements AutoMapping{
         this.participation = participation;
     }
 
-    public boolean isAlready_participated_in_poll() {
+    public boolean getAlready_participated_in_poll() {
         return already_participated_in_poll;
     }
 
@@ -133,30 +129,20 @@ public class PostDTO implements AutoMapping{
         this.already_participated_in_poll = already_participated_in_poll;
     }
 
-    public LocalDate getPostCreatedAt() {
-        return postCreatedAt;
+    public LocalDate getCreatedAt() {
+        return createdAt;
     }
 
-    public void setPostCreatedAt(LocalDate postCreatedAt) {
-        this.postCreatedAt = postCreatedAt;
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public PostType getPostPostType() {
-        return postPostType;
+    public boolean getPub() {
+        return pub;
     }
 
-    public void setPostPostType(PostType postPostType) {
-        this.postPostType = postPostType;
-    }
-
-    
-
-    public boolean isPostPub() {
-        return postPub;
-    }
-
-    public void setPostPub(boolean postPub) {
-        this.postPub = postPub;
+    public void setPub(boolean pub) {
+        this.pub = pub;
     }
 
     public LocalDate getInteracted_at() {
@@ -167,12 +153,20 @@ public class PostDTO implements AutoMapping{
         this.interacted_at = interacted_at;
     }
 
-    public AuthorDTO getAuthor() {
-        return author;
+    public PostDTO getPostDTO() {
+        return postDTO;
     }
 
-    public void setAuthor(AuthorDTO author) {
-        this.author = author;
+    public void setPostDTO(PostDTO postDTO) {
+        this.postDTO = postDTO;
+    }
+
+    public AuthorDTO getAuthorDTO() {
+        return authorDTO;
+    }
+
+    public void setAuthorDTO(AuthorDTO authorDTO) {
+        this.authorDTO = authorDTO;
     }
 
     public Poll getPoll() {
@@ -191,21 +185,21 @@ public class PostDTO implements AutoMapping{
         this.location = location;
     }
 
-//    public PostType getTestDTOPostType() {
-//        return postPostType;
-//    }
-//
-//    public void setTestDTOPostType(PostType testDTOPostType) {
-//        this.postPostType = testDTOPostType;
-//    }
-//
-//    public List<String> getTestDTOMentioned_people() {
-//        return testDTOMentioned_people;
-//    }
-//
-//    public void setTestDTOMentioned_people(List<String> testDTOMentioned_people) {
-//        this.testDTOMentioned_people = testDTOMentioned_people;
-//    }
+    public PostType getPostType() {
+        return postType;
+    }
+
+    public void setPostType(PostType postType) {
+        this.postType = postType;
+    }
+
+    public List<String> getMentioned_people() {
+        return mentioned_people;
+    }
+
+    public void setMentioned_people(List<String> mentioned_people) {
+        this.mentioned_people = mentioned_people;
+    }
 
     public List<Photo> getPhotos() {
         return photos;
@@ -222,29 +216,28 @@ public class PostDTO implements AutoMapping{
     public void setInteractions(InteractionDTO interactions) {
         this.interactions = interactions;
     }
-    
-    
 
 
+    
     @Override
 public String toString() {
 StringBuilder sb = new StringBuilder();
-sb.append("Post DTO: { Status message text: ").append(statusMessageText).append("\r\n").
-append("Post id: ").append(postId).append("\r\n").
-append("Post guid: ").append(postGuid).append("\r\n").
+sb.append("Post DTO: { Status message text: ").append(text).append("\r\n").
+append("Post id: ").append(id).append("\r\n").
+append("Post guid: ").append(guid).append("\r\n").
 append("Open_graph_cache: ").append(open_graph_cache).append("\r\n").
 append("Title: ").append(title).append("\r\n").
 append("Provider_display_name: ").append(provider_display_name).append("\r\n").
-append("Post nsfw: ").append(postNsfw).append("\r\n").
+append("Post nsfw: ").append(nsfw).append("\r\n").
 append("O_embed_cache: ").append(o_embed_cache).append("\r\n").
 append("Participation: ").append(participation).append("\r\n").
 append("Already_participated_in_poll: ").append(already_participated_in_poll).append("\r\n").
-append("Post created_at: ").append(postCreatedAt).append("\r\n").
-append("Post pub: ").append(postPub).append("\r\n").
+append("Post created_at: ").append(createdAt).append("\r\n").
+append("Post pub: ").append(pub).append("\r\n").
 append("Interacted_at: ").append(interacted_at).append("\r\n").
-append("Author: ").append(author).append("\r\n").
+append("AuthorDTO: ").append(authorDTO).append("\r\n").
 append("Poll: ").append(poll).append("\r\n").
-append("Post type: ").append(postPostType).append("\r\n").
+append("Post type: ").append(postType).append("\r\n").
 append("Location: ").append(location).append("\r\n").
 append("Photos: ").append(photos).append("\r\n").
 append("Mentioned_people: ").append(mentioned_people).append("\r\n").

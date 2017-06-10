@@ -8,8 +8,9 @@ package com.sgkhmjaes.jdias.service.impl;
 import com.sgkhmjaes.jdias.domain.Comment;
 import com.sgkhmjaes.jdias.repository.CommentRepository;
 import com.sgkhmjaes.jdias.repository.PostRepository;
-import com.sgkhmjaes.jdias.service.dto.AutoMappingException;
+//import com.sgkhmjaes.jdias.service.dto.AutoMappingException;
 import com.sgkhmjaes.jdias.service.dto.CommentDTO;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -44,11 +45,11 @@ public class CommentDTOServiceImpl {
         
         CommentDTO commentDTO = new CommentDTO();
         try {
-            commentDTO.autoMapping(commentRepository.getOne(id));
-        } catch (AutoMappingException ex) {
+            commentDTO.mappingToDTO(commentRepository.getOne(id));
+        } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(CommentDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        commentDTO.setAuthor(authorDTOServiceImpl.findOne(commentRepository.getOne(id).getPerson().getId()));
+        commentDTO.setAuthorDTO(authorDTOServiceImpl.findOne(commentRepository.getOne(id).getPerson().getId()));
         return commentDTO;
     }
 
@@ -60,11 +61,11 @@ public class CommentDTOServiceImpl {
         for (Comment comment : commentList) {
             CommentDTO commentDTO = new CommentDTO();
             try {
-                commentDTO.autoMapping(comment);
-            } catch (AutoMappingException ex) {
+                commentDTO.mappingToDTO(comment);
+            } catch (InvocationTargetException ex) {
                 java.util.logging.Logger.getLogger(CommentDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-            commentDTO.setAuthor(authorDTOServiceImpl.findOne(comment.getPerson().getId()));
+            commentDTO.setAuthorDTO(authorDTOServiceImpl.findOne(comment.getPerson().getId()));
         commentDTOList.add(commentDTO);
         }
         

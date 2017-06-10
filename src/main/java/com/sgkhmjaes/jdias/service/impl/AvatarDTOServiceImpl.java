@@ -6,9 +6,10 @@
 package com.sgkhmjaes.jdias.service.impl;
 
 import com.sgkhmjaes.jdias.repository.ProfileRepository;
-import com.sgkhmjaes.jdias.service.dto.AutoMappingException;
+//import com.sgkhmjaes.jdias.service.dto.AutoMappingException;
 import com.sgkhmjaes.jdias.service.dto.AvatarDTO;
 import com.sgkhmjaes.jdias.service.impl.AuthorDTOServiceImpl;
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +36,8 @@ public class AvatarDTOServiceImpl {
        AvatarDTO avatarDTO = new AvatarDTO();
        
         try {
-            avatarDTO.autoMapping(profileRepository.findOne(id));
-        } catch (AutoMappingException ex) {
+            avatarDTO.mappingToDTO(profileRepository.findOne(id));
+        } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(AvatarDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
        return avatarDTO;

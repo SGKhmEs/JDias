@@ -7,7 +7,8 @@ package com.sgkhmjaes.jdias.service.impl;
 
 import com.sgkhmjaes.jdias.repository.PersonRepository;
 import com.sgkhmjaes.jdias.service.dto.AuthorDTO;
-import com.sgkhmjaes.jdias.service.dto.AutoMappingException;
+import java.lang.reflect.InvocationTargetException;
+//import com.sgkhmjaes.jdias.service.dto.AutoMappingException;
 import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,12 +39,14 @@ public class AuthorDTOServiceImpl {
     public AuthorDTO findOne(Long id) {
         log.debug("Request to get Author : {}", id);
         AuthorDTO authorDTO = new AuthorDTO();
+
         try {
-            authorDTO.autoMapping(personRepository.findOne(id));
-        } catch (AutoMappingException ex) {
+            authorDTO.mappingToDTO(personRepository.findOne(id));
+        } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(AuthorDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        authorDTO.setAvatar(avatarDTOServiceImpl.findOne(id));
+
+        authorDTO.setAvatarDTO(avatarDTOServiceImpl.findOne(id));
         return authorDTO;
         
     }

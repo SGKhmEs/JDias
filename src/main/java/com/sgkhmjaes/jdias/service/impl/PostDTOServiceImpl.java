@@ -9,8 +9,9 @@ import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.repository.LocationRepository;
 import com.sgkhmjaes.jdias.repository.PhotoRepository;
 import com.sgkhmjaes.jdias.repository.PostRepository;
-import com.sgkhmjaes.jdias.service.dto.AutoMappingException;
+//import com.sgkhmjaes.jdias.service.dto.AutoMappingException;
 import com.sgkhmjaes.jdias.service.dto.PostDTO;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -50,9 +51,9 @@ public class PostDTOServiceImpl {
     public PostDTO findOne(Long id){
         PostDTO postDTO = new PostDTO();
         try {
-            postDTO.autoMapping(postRepository.getOne(id),
+            postDTO.mappingToDTO(postRepository.getOne(id),
                     authorDTOServiceImpl.findOne(postRepository.getOne(id).getPerson().getId()));
-        } catch (AutoMappingException ex) {
+        } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         postDTO.setInteractions(interactionDTOServiceImpl.findOneByPost(id));
@@ -67,9 +68,9 @@ public class PostDTOServiceImpl {
         for (Post post : postList) {
             PostDTO postDTO = new PostDTO();
             try {
-                postDTO.autoMapping(post,
+                postDTO.mappingToDTO(post,
                         authorDTOServiceImpl.findOne(post.getPerson().getId()));
-            } catch (AutoMappingException ex) {
+            } catch (InvocationTargetException ex) {
                 java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
             postDTO.setInteractions(interactionDTOServiceImpl.findOneByPost(post.getId()));

@@ -1,63 +1,65 @@
 package com.sgkhmjaes.jdias.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
 
 /**
  * Created by inna on 02.06.17.
  */
 
-public class AuthorDTO implements AutoMapping {
+public class AuthorDTO implements AutoMapping{
     
     @JsonProperty("diaspora_id")
-    private String personDiasporaId;
+    private String diasporaId;
     @JsonProperty("guid")
-    private String personGuid;
+    private String guid;
     @JsonProperty("id")
-    private long personId;
-    private AvatarDTO avatar;
+    private long id;
+    @JsonProperty("avatar")
+    private AvatarDTO avatarDTO;
 
     public AuthorDTO(){}
 
-    public String getPersonDiasporaId() {
-        return personDiasporaId;
+    public String getDiasporaId() {
+        return diasporaId;
     }
 
-    public void setPersonDiasporaId(String personDiasporaId) {
-        this.personDiasporaId = personDiasporaId;
+    public void setDiasporaId(String diasporaId) {
+        this.diasporaId = diasporaId;
     }
 
-    
-    
-    public String getPersonGuid() {
-        return personGuid;
+    public String getGuid() {
+        return guid;
     }
 
-    public void setPersonGuid(String personGuid) {
-        this.personGuid = personGuid;
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 
-    public long getPersonId() {
-        return personId;
+    public long getId() {
+        return id;
     }
 
-    public void setPersonId(long personId) {
-        this.personId = personId;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public AvatarDTO getAvatar() {
-        return avatar;
+    public AvatarDTO getAvatarDTO() {
+        return avatarDTO;
     }
 
-    public void setAvatar(AvatarDTO avatar) {
-        this.avatar = avatar;
+    public void setAvatarDTO(AvatarDTO avatarDTO) {
+        this.avatarDTO = avatarDTO;
     }
+
+
     
     @Override
 public String toString() {
 StringBuilder sb = new StringBuilder();
-sb.append("AuthorDTO: {").append("person guid=").append(personGuid).
-append(", person id=").append(personId).
-append(", ").append(avatar).append("}");
+sb.append("AuthorDTO: {").append("person diaspora id=").append(diasporaId).
+        append("person guid=").append(guid).append(", person id=").append(id).
+        append(", ").append(avatarDTO).append("}");
 return sb.toString();
 }
 
