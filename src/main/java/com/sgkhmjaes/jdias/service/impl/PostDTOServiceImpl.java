@@ -53,6 +53,7 @@ public class PostDTOServiceImpl {
         try {
             postDTO.mappingToDTO(postRepository.getOne(id),
                     authorDTOServiceImpl.findOne(postRepository.getOne(id).getPerson().getId()));
+            System.out.println(id);
         } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,6 +71,7 @@ public class PostDTOServiceImpl {
             try {
                 postDTO.mappingToDTO(post,
                         authorDTOServiceImpl.findOne(post.getPerson().getId()));
+                System.out.println(post.getId());
             } catch (InvocationTargetException ex) {
                 java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }

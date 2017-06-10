@@ -10,6 +10,7 @@ public class CommentDTO implements AutoMapping{
     private String guid;
     @JsonProperty("id")
     private Long id;
+    @JsonProperty("author")
     private AuthorDTO authorDTO;
     @JsonProperty("text")
     private String text;
