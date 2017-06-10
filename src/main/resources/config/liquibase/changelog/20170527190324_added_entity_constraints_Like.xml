@@ -14,5 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="post"/>
 
+        <addForeignKeyConstraint baseColumnNames="person_id"
+                                 baseTableName="jhi_like"
+                                 constraintName="fk_like_person_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="person"/>
+
     </changeSet>
 </databaseChangeLog>

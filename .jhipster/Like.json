@@ -6,6 +6,12 @@
             "otherEntityName": "post",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "person",
+            "otherEntityName": "person",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
         }
     ],
     "fields": [
@@ -40,8 +46,8 @@
         }
     ],
     "changelogDate": "20170527190324",
-    "entityTableName": "like",
     "dto": "no",
-    "pagination": "no",
-    "service": "serviceImpl"
+    "service": "serviceImpl",
+    "entityTableName": "jhi_like",
+    "pagination": "no"
 }

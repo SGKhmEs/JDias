@@ -51,6 +51,9 @@ public class Like implements Serializable {
     @ManyToOne
     private Post post;
 
+    @ManyToOne
+    private Person person;
+
     public Long getId() {
         return id;
     }
@@ -161,6 +164,19 @@ public class Like implements Serializable {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public Like person(Person person) {
+        this.person = person;
+        return this;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override

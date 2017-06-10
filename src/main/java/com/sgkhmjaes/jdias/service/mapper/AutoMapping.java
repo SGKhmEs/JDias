@@ -11,7 +11,7 @@ import org.springframework.cglib.reflect.FastMethod;
 public interface AutoMapping {
     
     public static HashMap <Class, HashMap <Class, FastMethod>> METHODS_ENTITY_DTO = new HashMap<>();
-    public static HashMap <Class, HashMap <Class, FastMethod[]>> METHODS_ENTITY_DTOm = new HashMap<>();
+    public static HashMap <Class, HashMap <Class, ArrayList<FastMethod>>> METHODS_ENTITY_DTOm = new HashMap<>();
     
     public static HashMap <Class, HashMap <Class, ArrayList<FastMethod>> > METHODS_DTO_ENTITY = new HashMap<>();
     public static HashMap <Class, HashMap <Class, FastMethod[]> > METHODS_DTO_ENTITYm = new HashMap<>();
@@ -22,7 +22,7 @@ public interface AutoMapping {
 
         if (METHODS_ENTITY_DTO.get(dtoClass) == null  && METHODS_ENTITY_DTOm.get(dtoClass) == null) {
             
-                HashMap <Class, FastMethod[]> methodsEntityDTOm = new HashMap();
+                HashMap <Class, ArrayList<FastMethod>> methodsEntityDTOm = new HashMap();
                 HashMap <Class, FastMethod> methodsEntityDTO = new HashMap();
                 HashMap<String, FastMethod> methodsSetter = new HashMap<>();
                 
@@ -44,6 +44,7 @@ public interface AutoMapping {
                         methodSet.invoke(this, new Object[]{arg});
                         continue;
                     }
+                    ArrayList <FastMethod> fastMethodList = new ArrayList <>();
                     for (Method methodGetter : aClass.getMethods()) {
                         String methodName = methodGetter.getName();
                         if (methodName.length() > 3 && "get".equals(methodName.substring(0, 3))) {
@@ -51,10 +52,13 @@ public interface AutoMapping {
                             if (fastMethodSetter != null) {
                                 FastMethod fastMethodGetter = aFastClass.getMethod(methodGetter);
                                 Object invoke = fastMethodGetter.invoke(arg, null);
-                                methodsEntityDTOm.put(aClass, new FastMethod [] {fastMethodGetter, fastMethodSetter});
+                                fastMethodList.add(fastMethodGetter);
+                                fastMethodList.add(fastMethodSetter);
                                 if (invoke != null && !invoke.toString().equals("0") && !invoke.toString().equals("false")) 
                                     fastMethodSetter.invoke(this, new Object[]{invoke});
-                }}}}
+                }}
+                        methodsEntityDTOm.put(aClass, fastMethodList);
+                    }}
                 
                 synchronized (METHODS_ENTITY_DTO) {
                 METHODS_ENTITY_DTO.put(dtoClass, methodsEntityDTO);
@@ -67,7 +71,7 @@ public interface AutoMapping {
         
         else {
             HashMap<Class, FastMethod> methodsEntityDTO = METHODS_ENTITY_DTO.get(dtoClass);
-            HashMap<Class, FastMethod[]> methodsEntityDTOm = METHODS_ENTITY_DTOm.get(dtoClass);
+            HashMap<Class, ArrayList<FastMethod>> methodsEntityDTOm = METHODS_ENTITY_DTOm.get(dtoClass);
 
             for (Object arg : args) {
                 Class<?> aClass = arg.getClass();
@@ -78,17 +82,26 @@ public interface AutoMapping {
                 }
 
                 if (methodsEntityDTOm != null) {
-                    FastMethod[] fastMethodsArray = methodsEntityDTOm.get(aClass);
+                    ArrayList<FastMethod> fastMethodsList = methodsEntityDTOm.get(aClass);
+                    if (fastMethodsList != null && !fastMethodsList.isEmpty()) {
+                    for (int i = 0; i < fastMethodsList.size(); i+=2) {
+                        FastMethod getter = fastMethodsList.get(i);
+                        FastMethod setter = fastMethodsList.get(i+1);
+                        Object result = getter.invoke(arg, null);
+                        if (result != null) setter.invoke(this, new Object[]{result});                        
+                    }}
+                    /*
                     if (fastMethodsArray != null) {
                         Object result = fastMethodsArray[0].invoke(arg, null);
                         //if (result != null && !result.toString().equals("0") && !result.toString().equals("false")) fastMethodsArray[1].invoke(this, new Object[]{result});
                         if (result != null) fastMethodsArray[1].invoke(this, new Object[]{result});
-                    }}
+                    }}*/
                 
             }
             
         }
 
+    }
     }
     
     public default void mappingFromDTO(Object... args) throws InvocationTargetException {
