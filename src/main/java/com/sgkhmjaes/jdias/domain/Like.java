@@ -179,6 +179,7 @@ public class Like implements Serializable {
         this.person = person;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

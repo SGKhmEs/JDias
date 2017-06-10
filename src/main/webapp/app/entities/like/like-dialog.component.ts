@@ -10,6 +10,7 @@ import { Like } from './like.model';
 import { LikePopupService } from './like-popup.service';
 import { LikeService } from './like.service';
 import { Post, PostService } from '../post';
+import { Person, PersonService } from '../person';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -24,11 +25,14 @@ export class LikeDialogComponent implements OnInit {
 
     posts: Post[];
 
+    people: Person[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: AlertService,
         private likeService: LikeService,
         private postService: PostService,
+        private personService: PersonService,
         private eventManager: EventManager
     ) {
     }
@@ -38,6 +42,8 @@ export class LikeDialogComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.postService.query()
             .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.personService.query()
+            .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
     clear() {
         this.activeModal.dismiss('cancel');
@@ -85,6 +91,10 @@ export class LikeDialogComponent implements OnInit {
     }
 
     trackPostById(index: number, item: Post) {
+        return item.id;
+    }
+
+    trackPersonById(index: number, item: Person) {
         return item.id;
     }
 }

@@ -3,6 +3,8 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Like;
 import com.sgkhmjaes.jdias.service.LikeService;
+import com.sgkhmjaes.jdias.service.dto.LikeDTO;
+import com.sgkhmjaes.jdias.service.impl.LikeDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -31,10 +33,14 @@ public class LikeResource {
     private static final String ENTITY_NAME = "like";
 
     private final LikeService likeService;
+    
+    private final LikeDTOServiceImpl likeDTOServiceImpl;
 
-    public LikeResource(LikeService likeService) {
+    public LikeResource(LikeService likeService, LikeDTOServiceImpl likeDTOServiceImpl) {
         this.likeService = likeService;
+        this.likeDTOServiceImpl = likeDTOServiceImpl;
     }
+
 
     /**
      * POST  /likes : Create a new like.
@@ -98,10 +104,10 @@ public class LikeResource {
      */
     @GetMapping("/likes/{id}")
     @Timed
-    public ResponseEntity<Like> getLike(@PathVariable Long id) {
+    public List<LikeDTO> getLike(@PathVariable Long id) {
         log.debug("REST request to get Like : {}", id);
-        Like like = likeService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(like));
+        List<LikeDTO> likeList = likeDTOServiceImpl.findAllByPostId(id);
+        return likeList;
     }
 
     /**
