@@ -1,8 +1,9 @@
-package com.sgkhmjaes.jdias.service.impl;
+package com.sgkhmjaes.jdias.service.impl.fromDTO;
 
 import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.service.StatusMessageService;
 import com.sgkhmjaes.jdias.service.dto.statusMessageDTOs.StatusMessageDTO;
+import com.sgkhmjaes.jdias.service.impl.StatusMessageServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
