@@ -215,16 +215,16 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "Comment{" +
-            "id=" + getId() +
-            ", author='" + getAuthor() + "'" +
-            ", guid='" + getGuid() + "'" +
-            ", parentGuid='" + getParentGuid() + "'" +
-            ", text='" + getText() + "'" +
-            ", createdAt='" + getCreatedAt() + "'" +
-            ", authorSignature='" + getAuthorSignature() + "'" +
-            ", parentAuthorSignature='" + getParentAuthorSignature() + "'" +
-            ", threadParentGuid='" + getThreadParentGuid() + "'" +
-            "}";
+        return "Comment{"
+                + "id=" + getId()
+                + ", author='" + getAuthor() + "'"
+                + ", guid='" + getGuid() + "'"
+                + ", parentGuid='" + getParentGuid() + "'"
+                + ", text='" + getText() + "'"
+                + ", createdAt='" + getCreatedAt() + "'"
+                + ", authorSignature='" + getAuthorSignature() + "'"
+                + ", parentAuthorSignature='" + getParentAuthorSignature() + "'"
+                + ", threadParentGuid='" + getThreadParentGuid() + "'"
+                + "}";
     }
 }

@@ -6,13 +6,15 @@ import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
  * Created by inna on 10.06.17.
  */
 public class StatusMessageDTO implements AutoMapping {
+
     private String aspect_ids;
     private String location_coords;
     private String[] poll_answers;
     private String poll_question;
     private StatusMessageBodyDTO status_message;
 
-    public StatusMessageDTO(){}
+    public StatusMessageDTO() {
+    }
 
     public StatusMessageDTO(String aspect_ids, String location_coords, String[] poll_answers, String poll_question, StatusMessageBodyDTO status_message) {
         this.aspect_ids = aspect_ids;

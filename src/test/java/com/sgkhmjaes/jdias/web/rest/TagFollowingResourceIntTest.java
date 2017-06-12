@@ -77,9 +77,9 @@ public class TagFollowingResourceIntTest {
         MockitoAnnotations.initMocks(this);
         TagFollowingResource tagFollowingResource = new TagFollowingResource(tagFollowingService);
         this.restTagFollowingMockMvc = MockMvcBuilders.standaloneSetup(tagFollowingResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -90,8 +90,8 @@ public class TagFollowingResourceIntTest {
      */
     public static TagFollowing createEntity(EntityManager em) {
         TagFollowing tagFollowing = new TagFollowing()
-            .createdAt(DEFAULT_CREATED_AT)
-            .updatedAt(DEFAULT_UPDATED_AT);
+                .createdAt(DEFAULT_CREATED_AT)
+                .updatedAt(DEFAULT_UPDATED_AT);
         return tagFollowing;
     }
 
@@ -108,9 +108,9 @@ public class TagFollowingResourceIntTest {
 
         // Create the TagFollowing
         restTagFollowingMockMvc.perform(post("/api/tag-followings")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(tagFollowing)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(tagFollowing)))
+                .andExpect(status().isCreated());
 
         // Validate the TagFollowing in the database
         List<TagFollowing> tagFollowingList = tagFollowingRepository.findAll();
@@ -134,9 +134,9 @@ public class TagFollowingResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restTagFollowingMockMvc.perform(post("/api/tag-followings")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(tagFollowing)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(tagFollowing)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<TagFollowing> tagFollowingList = tagFollowingRepository.findAll();
@@ -151,11 +151,11 @@ public class TagFollowingResourceIntTest {
 
         // Get all the tagFollowingList
         restTagFollowingMockMvc.perform(get("/api/tag-followings?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(tagFollowing.getId().intValue())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(tagFollowing.getId().intValue())))
+                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+                .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
 
     @Test
@@ -166,11 +166,11 @@ public class TagFollowingResourceIntTest {
 
         // Get the tagFollowing
         restTagFollowingMockMvc.perform(get("/api/tag-followings/{id}", tagFollowing.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(tagFollowing.getId().intValue()))
-            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(tagFollowing.getId().intValue()))
+                .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+                .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
     }
 
     @Test
@@ -178,7 +178,7 @@ public class TagFollowingResourceIntTest {
     public void getNonExistingTagFollowing() throws Exception {
         // Get the tagFollowing
         restTagFollowingMockMvc.perform(get("/api/tag-followings/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -192,13 +192,13 @@ public class TagFollowingResourceIntTest {
         // Update the tagFollowing
         TagFollowing updatedTagFollowing = tagFollowingRepository.findOne(tagFollowing.getId());
         updatedTagFollowing
-            .createdAt(UPDATED_CREATED_AT)
-            .updatedAt(UPDATED_UPDATED_AT);
+                .createdAt(UPDATED_CREATED_AT)
+                .updatedAt(UPDATED_UPDATED_AT);
 
         restTagFollowingMockMvc.perform(put("/api/tag-followings")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedTagFollowing)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedTagFollowing)))
+                .andExpect(status().isOk());
 
         // Validate the TagFollowing in the database
         List<TagFollowing> tagFollowingList = tagFollowingRepository.findAll();
@@ -218,12 +218,11 @@ public class TagFollowingResourceIntTest {
         int databaseSizeBeforeUpdate = tagFollowingRepository.findAll().size();
 
         // Create the TagFollowing
-
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restTagFollowingMockMvc.perform(put("/api/tag-followings")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(tagFollowing)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(tagFollowing)))
+                .andExpect(status().isCreated());
 
         // Validate the TagFollowing in the database
         List<TagFollowing> tagFollowingList = tagFollowingRepository.findAll();
@@ -240,8 +239,8 @@ public class TagFollowingResourceIntTest {
 
         // Get the tagFollowing
         restTagFollowingMockMvc.perform(delete("/api/tag-followings/{id}", tagFollowing.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean tagFollowingExistsInEs = tagFollowingSearchRepository.exists(tagFollowing.getId());
@@ -260,11 +259,11 @@ public class TagFollowingResourceIntTest {
 
         // Search the tagFollowing
         restTagFollowingMockMvc.perform(get("/api/_search/tag-followings?query=id:" + tagFollowing.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(tagFollowing.getId().intValue())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(tagFollowing.getId().intValue())))
+                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+                .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
 
     @Test

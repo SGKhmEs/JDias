@@ -95,9 +95,9 @@ public class EventResourceIntTest {
         MockitoAnnotations.initMocks(this);
         EventResource eventResource = new EventResource(eventService);
         this.restEventMockMvc = MockMvcBuilders.standaloneSetup(eventResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -108,14 +108,14 @@ public class EventResourceIntTest {
      */
     public static Event createEntity(EntityManager em) {
         Event event = new Event()
-            .author(DEFAULT_AUTHOR)
-            .guid(DEFAULT_GUID)
-            .summary(DEFAULT_SUMMARY)
-            .start(DEFAULT_START)
-            .end(DEFAULT_END)
-            .allDay(DEFAULT_ALL_DAY)
-            .timezone(DEFAULT_TIMEZONE)
-            .description(DEFAULT_DESCRIPTION);
+                .author(DEFAULT_AUTHOR)
+                .guid(DEFAULT_GUID)
+                .summary(DEFAULT_SUMMARY)
+                .start(DEFAULT_START)
+                .end(DEFAULT_END)
+                .allDay(DEFAULT_ALL_DAY)
+                .timezone(DEFAULT_TIMEZONE)
+                .description(DEFAULT_DESCRIPTION);
         return event;
     }
 
@@ -132,9 +132,9 @@ public class EventResourceIntTest {
 
         // Create the Event
         restEventMockMvc.perform(post("/api/events")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(event)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(event)))
+                .andExpect(status().isCreated());
 
         // Validate the Event in the database
         List<Event> eventList = eventRepository.findAll();
@@ -164,9 +164,9 @@ public class EventResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restEventMockMvc.perform(post("/api/events")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(event)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(event)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Event> eventList = eventRepository.findAll();
@@ -181,17 +181,17 @@ public class EventResourceIntTest {
 
         // Get all the eventList
         restEventMockMvc.perform(get("/api/events?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(event.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].summary").value(hasItem(DEFAULT_SUMMARY.toString())))
-            .andExpect(jsonPath("$.[*].start").value(hasItem(DEFAULT_START.toString())))
-            .andExpect(jsonPath("$.[*].end").value(hasItem(DEFAULT_END.toString())))
-            .andExpect(jsonPath("$.[*].allDay").value(hasItem(DEFAULT_ALL_DAY.booleanValue())))
-            .andExpect(jsonPath("$.[*].timezone").value(hasItem(DEFAULT_TIMEZONE.toString())))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(event.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].summary").value(hasItem(DEFAULT_SUMMARY.toString())))
+                .andExpect(jsonPath("$.[*].start").value(hasItem(DEFAULT_START.toString())))
+                .andExpect(jsonPath("$.[*].end").value(hasItem(DEFAULT_END.toString())))
+                .andExpect(jsonPath("$.[*].allDay").value(hasItem(DEFAULT_ALL_DAY.booleanValue())))
+                .andExpect(jsonPath("$.[*].timezone").value(hasItem(DEFAULT_TIMEZONE.toString())))
+                .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
 
     @Test
@@ -202,17 +202,17 @@ public class EventResourceIntTest {
 
         // Get the event
         restEventMockMvc.perform(get("/api/events/{id}", event.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(event.getId().intValue()))
-            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-            .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-            .andExpect(jsonPath("$.summary").value(DEFAULT_SUMMARY.toString()))
-            .andExpect(jsonPath("$.start").value(DEFAULT_START.toString()))
-            .andExpect(jsonPath("$.end").value(DEFAULT_END.toString()))
-            .andExpect(jsonPath("$.allDay").value(DEFAULT_ALL_DAY.booleanValue()))
-            .andExpect(jsonPath("$.timezone").value(DEFAULT_TIMEZONE.toString()))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(event.getId().intValue()))
+                .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
+                .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
+                .andExpect(jsonPath("$.summary").value(DEFAULT_SUMMARY.toString()))
+                .andExpect(jsonPath("$.start").value(DEFAULT_START.toString()))
+                .andExpect(jsonPath("$.end").value(DEFAULT_END.toString()))
+                .andExpect(jsonPath("$.allDay").value(DEFAULT_ALL_DAY.booleanValue()))
+                .andExpect(jsonPath("$.timezone").value(DEFAULT_TIMEZONE.toString()))
+                .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
     }
 
     @Test
@@ -220,7 +220,7 @@ public class EventResourceIntTest {
     public void getNonExistingEvent() throws Exception {
         // Get the event
         restEventMockMvc.perform(get("/api/events/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -234,19 +234,19 @@ public class EventResourceIntTest {
         // Update the event
         Event updatedEvent = eventRepository.findOne(event.getId());
         updatedEvent
-            .author(UPDATED_AUTHOR)
-            .guid(UPDATED_GUID)
-            .summary(UPDATED_SUMMARY)
-            .start(UPDATED_START)
-            .end(UPDATED_END)
-            .allDay(UPDATED_ALL_DAY)
-            .timezone(UPDATED_TIMEZONE)
-            .description(UPDATED_DESCRIPTION);
+                .author(UPDATED_AUTHOR)
+                .guid(UPDATED_GUID)
+                .summary(UPDATED_SUMMARY)
+                .start(UPDATED_START)
+                .end(UPDATED_END)
+                .allDay(UPDATED_ALL_DAY)
+                .timezone(UPDATED_TIMEZONE)
+                .description(UPDATED_DESCRIPTION);
 
         restEventMockMvc.perform(put("/api/events")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedEvent)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedEvent)))
+                .andExpect(status().isOk());
 
         // Validate the Event in the database
         List<Event> eventList = eventRepository.findAll();
@@ -272,12 +272,11 @@ public class EventResourceIntTest {
         int databaseSizeBeforeUpdate = eventRepository.findAll().size();
 
         // Create the Event
-
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restEventMockMvc.perform(put("/api/events")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(event)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(event)))
+                .andExpect(status().isCreated());
 
         // Validate the Event in the database
         List<Event> eventList = eventRepository.findAll();
@@ -294,8 +293,8 @@ public class EventResourceIntTest {
 
         // Get the event
         restEventMockMvc.perform(delete("/api/events/{id}", event.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean eventExistsInEs = eventSearchRepository.exists(event.getId());
@@ -314,17 +313,17 @@ public class EventResourceIntTest {
 
         // Search the event
         restEventMockMvc.perform(get("/api/_search/events?query=id:" + event.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(event.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].summary").value(hasItem(DEFAULT_SUMMARY.toString())))
-            .andExpect(jsonPath("$.[*].start").value(hasItem(DEFAULT_START.toString())))
-            .andExpect(jsonPath("$.[*].end").value(hasItem(DEFAULT_END.toString())))
-            .andExpect(jsonPath("$.[*].allDay").value(hasItem(DEFAULT_ALL_DAY.booleanValue())))
-            .andExpect(jsonPath("$.[*].timezone").value(hasItem(DEFAULT_TIMEZONE.toString())))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(event.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].summary").value(hasItem(DEFAULT_SUMMARY.toString())))
+                .andExpect(jsonPath("$.[*].start").value(hasItem(DEFAULT_START.toString())))
+                .andExpect(jsonPath("$.[*].end").value(hasItem(DEFAULT_END.toString())))
+                .andExpect(jsonPath("$.[*].allDay").value(hasItem(DEFAULT_ALL_DAY.booleanValue())))
+                .andExpect(jsonPath("$.[*].timezone").value(hasItem(DEFAULT_TIMEZONE.toString())))
+                .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
 
     @Test

@@ -17,33 +17,33 @@ public interface RetractionService {
     Retraction save(Retraction retraction);
 
     /**
-     *  Get all the retractions.
+     * Get all the retractions.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<Retraction> findAll();
 
     /**
-     *  Get the "id" retraction.
+     * Get the "id" retraction.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     Retraction findOne(Long id);
 
     /**
-     *  Delete the "id" retraction.
+     * Delete the "id" retraction.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the retraction corresponding to the query.
      *
-     *  @param query the query of the search
-     *  
-     *  @return the list of entities
+     * @param query the query of the search
+     *
+     * @return the list of entities
      */
     List<Retraction> search(String query);
 }

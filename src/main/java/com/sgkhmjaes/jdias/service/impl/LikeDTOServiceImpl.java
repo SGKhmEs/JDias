@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sgkhmjaes.jdias.service.impl;
 
 import com.sgkhmjaes.jdias.domain.Like;
-import com.sgkhmjaes.jdias.domain.Like;
 import com.sgkhmjaes.jdias.repository.LikeRepository;
-import com.sgkhmjaes.jdias.repository.PersonRepository;
-import com.sgkhmjaes.jdias.repository.PostRepository;
 import com.sgkhmjaes.jdias.service.dto.AuthorDTO;
-import com.sgkhmjaes.jdias.service.dto.LikeDTO;
+import com.sgkhmjaes.jdias.service.dto.AvatarDTO;
 import com.sgkhmjaes.jdias.service.dto.LikeDTO;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -22,52 +14,46 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- *
- * @author andrey
- */
 @Service
 @Transactional
 public class LikeDTOServiceImpl {
 
     private final Logger log = LoggerFactory.getLogger(LikeDTOServiceImpl.class);
-
-    private final PostRepository postRepository;
-
     private final LikeRepository likeRepository;
+    private final AvatarDTOServiceImpl avatarDTOServiceImpl;
 
-    private final PersonRepository personRepository;
-
-    private final AuthorDTOServiceImpl authorDTOServiceImpl;
-
-    public LikeDTOServiceImpl(PostRepository postRepository, LikeRepository likeRepository,
-            PersonRepository personRepository, AuthorDTOServiceImpl authorDTOServiceImpl) {
-        this.postRepository = postRepository;
+    public LikeDTOServiceImpl(LikeRepository likeRepository, AvatarDTOServiceImpl avatarDTOServiceImpl) {
+        this.avatarDTOServiceImpl = avatarDTOServiceImpl;
         this.likeRepository = likeRepository;
-        this.personRepository = personRepository;
-        this.authorDTOServiceImpl = authorDTOServiceImpl;
     }
 
     public List<LikeDTO> findAllByPostId(Long id) {
+        log.debug("Method LikeDTOServiceImpl.findAllByPostId : id=", id);
         List<Like> likeList = likeRepository.findaAllByPostId(id);
-
-        List<LikeDTO> likeDTOList = new ArrayList<LikeDTO>();
-
-        for (Like like : likeList) {
-            
+        List<LikeDTO> likeDTOList = new ArrayList<>();
+        likeList.forEach((like) -> {likeDTOList.add(createLikeDTOfromLike(like));});
+        return likeDTOList;
+    }
+    
+    public List<LikeDTO> findAll() {
+        List<Like> likeList = likeRepository.findAll();
+        log.debug("Method LikeDTOServiceImpl.findAllByPostId : likiSize=", likeList.size());
+        List<LikeDTO> likeDTOList = new ArrayList<>();
+        likeList.forEach((like) -> {likeDTOList.add(createLikeDTOfromLike(like));});
+        return likeDTOList;
+    }
+    
+    private LikeDTO createLikeDTOfromLike (Like like) {
+            AvatarDTO avatarDTO = avatarDTOServiceImpl.findOne(like.getPerson().getId()); 
+            AuthorDTO authorDTO = new AuthorDTO();
             LikeDTO likeDTO = new LikeDTO();
-            AuthorDTO authorDTO = authorDTOServiceImpl.findOne(likeRepository.getOne(like.getId()).getPerson().getId());
-            System.out.println(id + like.toString() + "    " + authorDTO.toString());
-
             try {
+                authorDTO.mappingToDTO(like.getPerson(), avatarDTO);
                 likeDTO.mappingToDTO(like, authorDTO);
             } catch (InvocationTargetException ex) {
                 java.util.logging.Logger.getLogger(LikeDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            likeDTOList.add(likeDTO);
-
-        }
-        return likeDTOList;
+            return likeDTO;
     }
+    
 }

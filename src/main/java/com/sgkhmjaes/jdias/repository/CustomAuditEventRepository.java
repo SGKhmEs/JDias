@@ -34,8 +34,8 @@ public class CustomAuditEventRepository implements AuditEventRepository {
 
     @Override
     public List<AuditEvent> find(Date after) {
-        Iterable<PersistentAuditEvent> persistentAuditEvents =
-            persistenceAuditEventRepository.findByAuditEventDateAfter(after.toInstant());
+        Iterable<PersistentAuditEvent> persistentAuditEvents
+                = persistenceAuditEventRepository.findByAuditEventDateAfter(after.toInstant());
         return auditEventConverter.convertToAuditEvent(persistentAuditEvents);
     }
 
@@ -47,24 +47,24 @@ public class CustomAuditEventRepository implements AuditEventRepository {
         } else if (after == null) {
             persistentAuditEvents = persistenceAuditEventRepository.findByPrincipal(principal);
         } else {
-            persistentAuditEvents =
-                persistenceAuditEventRepository.findByPrincipalAndAuditEventDateAfter(principal, after.toInstant());
+            persistentAuditEvents
+                    = persistenceAuditEventRepository.findByPrincipalAndAuditEventDateAfter(principal, after.toInstant());
         }
         return auditEventConverter.convertToAuditEvent(persistentAuditEvents);
     }
 
     @Override
     public List<AuditEvent> find(String principal, Date after, String type) {
-        Iterable<PersistentAuditEvent> persistentAuditEvents =
-            persistenceAuditEventRepository.findByPrincipalAndAuditEventDateAfterAndAuditEventType(principal, after.toInstant(), type);
+        Iterable<PersistentAuditEvent> persistentAuditEvents
+                = persistenceAuditEventRepository.findByPrincipalAndAuditEventDateAfterAndAuditEventType(principal, after.toInstant(), type);
         return auditEventConverter.convertToAuditEvent(persistentAuditEvents);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void add(AuditEvent event) {
-        if (!AUTHORIZATION_FAILURE.equals(event.getType()) &&
-            !Constants.ANONYMOUS_USER.equals(event.getPrincipal())) {
+        if (!AUTHORIZATION_FAILURE.equals(event.getType())
+                && !Constants.ANONYMOUS_USER.equals(event.getPrincipal())) {
 
             PersistentAuditEvent persistentAuditEvent = new PersistentAuditEvent();
             persistentAuditEvent.setPrincipal(event.getPrincipal());

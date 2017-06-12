@@ -37,10 +37,12 @@ public class UserAccountResource {
     }
 
     /**
-     * POST  /user-accounts : Create a new userAccount.
+     * POST /user-accounts : Create a new userAccount.
      *
      * @param userAccount the userAccount to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new userAccount, or with status 400 (Bad Request) if the userAccount has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new userAccount, or with status 400 (Bad Request) if the userAccount has
+     * already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/user-accounts")
@@ -52,17 +54,18 @@ public class UserAccountResource {
         }
         UserAccount result = userAccountService.save(userAccount);
         return ResponseEntity.created(new URI("/api/user-accounts/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /user-accounts : Updates an existing userAccount.
+     * PUT /user-accounts : Updates an existing userAccount.
      *
      * @param userAccount the userAccount to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated userAccount,
-     * or with status 400 (Bad Request) if the userAccount is not valid,
-     * or with status 500 (Internal Server Error) if the userAccount couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * userAccount, or with status 400 (Bad Request) if the userAccount is not
+     * valid, or with status 500 (Internal Server Error) if the userAccount
+     * couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/user-accounts")
@@ -74,14 +77,15 @@ public class UserAccountResource {
         }
         UserAccount result = userAccountService.save(userAccount);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, userAccount.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, userAccount.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /user-accounts : get all the userAccounts.
+     * GET /user-accounts : get all the userAccounts.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of userAccounts in body
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * userAccounts in body
      */
     @GetMapping("/user-accounts")
     @Timed
@@ -91,10 +95,11 @@ public class UserAccountResource {
     }
 
     /**
-     * GET  /user-accounts/:id : get the "id" userAccount.
+     * GET /user-accounts/:id : get the "id" userAccount.
      *
      * @param id the id of the userAccount to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the userAccount, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * userAccount, or with status 404 (Not Found)
      */
     @GetMapping("/user-accounts/{id}")
     @Timed
@@ -105,7 +110,7 @@ public class UserAccountResource {
     }
 
     /**
-     * DELETE  /user-accounts/:id : delete the "id" userAccount.
+     * DELETE /user-accounts/:id : delete the "id" userAccount.
      *
      * @param id the id of the userAccount to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -119,8 +124,8 @@ public class UserAccountResource {
     }
 
     /**
-     * SEARCH  /_search/user-accounts?query=:query : search for the userAccount corresponding
-     * to the query.
+     * SEARCH /_search/user-accounts?query=:query : search for the userAccount
+     * corresponding to the query.
      *
      * @param query the query of the userAccount search
      * @return the result of the search

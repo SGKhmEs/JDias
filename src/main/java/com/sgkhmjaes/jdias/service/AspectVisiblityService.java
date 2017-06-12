@@ -17,33 +17,33 @@ public interface AspectVisiblityService {
     AspectVisiblity save(AspectVisiblity aspectVisiblity);
 
     /**
-     *  Get all the aspectVisiblities.
+     * Get all the aspectVisiblities.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<AspectVisiblity> findAll();
 
     /**
-     *  Get the "id" aspectVisiblity.
+     * Get the "id" aspectVisiblity.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     AspectVisiblity findOne(Long id);
 
     /**
-     *  Delete the "id" aspectVisiblity.
+     * Delete the "id" aspectVisiblity.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the aspectVisiblity corresponding to the query.
      *
-     *  @param query the query of the search
-     *  
-     *  @return the list of entities
+     * @param query the query of the search
+     *
+     * @return the list of entities
      */
     List<AspectVisiblity> search(String query);
 }

@@ -17,33 +17,33 @@ public interface ReshareService {
     Reshare save(Reshare reshare);
 
     /**
-     *  Get all the reshares.
+     * Get all the reshares.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<Reshare> findAll();
 
     /**
-     *  Get the "id" reshare.
+     * Get the "id" reshare.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     Reshare findOne(Long id);
 
     /**
-     *  Delete the "id" reshare.
+     * Delete the "id" reshare.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the reshare corresponding to the query.
      *
-     *  @param query the query of the search
-     *  
-     *  @return the list of entities
+     * @param query the query of the search
+     *
+     * @return the list of entities
      */
     List<Reshare> search(String query);
 }

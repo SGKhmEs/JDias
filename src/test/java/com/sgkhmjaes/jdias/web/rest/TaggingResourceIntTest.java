@@ -77,9 +77,9 @@ public class TaggingResourceIntTest {
         MockitoAnnotations.initMocks(this);
         TaggingResource taggingResource = new TaggingResource(taggingService);
         this.restTaggingMockMvc = MockMvcBuilders.standaloneSetup(taggingResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -90,8 +90,8 @@ public class TaggingResourceIntTest {
      */
     public static Tagging createEntity(EntityManager em) {
         Tagging tagging = new Tagging()
-            .context(DEFAULT_CONTEXT)
-            .createdAt(DEFAULT_CREATED_AT);
+                .context(DEFAULT_CONTEXT)
+                .createdAt(DEFAULT_CREATED_AT);
         return tagging;
     }
 
@@ -108,9 +108,9 @@ public class TaggingResourceIntTest {
 
         // Create the Tagging
         restTaggingMockMvc.perform(post("/api/taggings")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(tagging)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(tagging)))
+                .andExpect(status().isCreated());
 
         // Validate the Tagging in the database
         List<Tagging> taggingList = taggingRepository.findAll();
@@ -134,9 +134,9 @@ public class TaggingResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restTaggingMockMvc.perform(post("/api/taggings")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(tagging)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(tagging)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Tagging> taggingList = taggingRepository.findAll();
@@ -151,11 +151,11 @@ public class TaggingResourceIntTest {
 
         // Get all the taggingList
         restTaggingMockMvc.perform(get("/api/taggings?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(tagging.getId().intValue())))
-            .andExpect(jsonPath("$.[*].context").value(hasItem(DEFAULT_CONTEXT.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(tagging.getId().intValue())))
+                .andExpect(jsonPath("$.[*].context").value(hasItem(DEFAULT_CONTEXT.toString())))
+                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())));
     }
 
     @Test
@@ -166,11 +166,11 @@ public class TaggingResourceIntTest {
 
         // Get the tagging
         restTaggingMockMvc.perform(get("/api/taggings/{id}", tagging.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(tagging.getId().intValue()))
-            .andExpect(jsonPath("$.context").value(DEFAULT_CONTEXT.toString()))
-            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(tagging.getId().intValue()))
+                .andExpect(jsonPath("$.context").value(DEFAULT_CONTEXT.toString()))
+                .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()));
     }
 
     @Test
@@ -178,7 +178,7 @@ public class TaggingResourceIntTest {
     public void getNonExistingTagging() throws Exception {
         // Get the tagging
         restTaggingMockMvc.perform(get("/api/taggings/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -192,13 +192,13 @@ public class TaggingResourceIntTest {
         // Update the tagging
         Tagging updatedTagging = taggingRepository.findOne(tagging.getId());
         updatedTagging
-            .context(UPDATED_CONTEXT)
-            .createdAt(UPDATED_CREATED_AT);
+                .context(UPDATED_CONTEXT)
+                .createdAt(UPDATED_CREATED_AT);
 
         restTaggingMockMvc.perform(put("/api/taggings")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedTagging)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedTagging)))
+                .andExpect(status().isOk());
 
         // Validate the Tagging in the database
         List<Tagging> taggingList = taggingRepository.findAll();
@@ -218,12 +218,11 @@ public class TaggingResourceIntTest {
         int databaseSizeBeforeUpdate = taggingRepository.findAll().size();
 
         // Create the Tagging
-
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restTaggingMockMvc.perform(put("/api/taggings")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(tagging)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(tagging)))
+                .andExpect(status().isCreated());
 
         // Validate the Tagging in the database
         List<Tagging> taggingList = taggingRepository.findAll();
@@ -240,8 +239,8 @@ public class TaggingResourceIntTest {
 
         // Get the tagging
         restTaggingMockMvc.perform(delete("/api/taggings/{id}", tagging.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean taggingExistsInEs = taggingSearchRepository.exists(tagging.getId());
@@ -260,11 +259,11 @@ public class TaggingResourceIntTest {
 
         // Search the tagging
         restTaggingMockMvc.perform(get("/api/_search/taggings?query=id:" + tagging.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(tagging.getId().intValue())))
-            .andExpect(jsonPath("$.[*].context").value(hasItem(DEFAULT_CONTEXT.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(tagging.getId().intValue())))
+                .andExpect(jsonPath("$.[*].context").value(hasItem(DEFAULT_CONTEXT.toString())))
+                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())));
     }
 
     @Test

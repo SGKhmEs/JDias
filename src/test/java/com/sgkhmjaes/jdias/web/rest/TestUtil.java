@@ -19,7 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class TestUtil {
 
-    /** MediaType for JSON UTF8 */
+    /**
+     * MediaType for JSON UTF8
+     */
     public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
             MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
@@ -27,8 +29,7 @@ public class TestUtil {
     /**
      * Convert an object to JSON byte array.
      *
-     * @param object
-     *            the object to convert
+     * @param object the object to convert
      * @return the JSON byte array
      * @throws IOException
      */
@@ -59,7 +60,8 @@ public class TestUtil {
     }
 
     /**
-     * A matcher that tests that the examined string represents the same instant as the reference datetime.
+     * A matcher that tests that the examined string represents the same instant
+     * as the reference datetime.
      */
     public static class ZonedDateTimeMatcher extends TypeSafeDiagnosingMatcher<String> {
 
@@ -79,7 +81,7 @@ public class TestUtil {
                 return true;
             } catch (DateTimeParseException e) {
                 mismatchDescription.appendText("was ").appendValue(item)
-                    .appendText(", which could not be parsed as a ZonedDateTime");
+                        .appendText(", which could not be parsed as a ZonedDateTime");
                 return false;
             }
 
@@ -92,8 +94,11 @@ public class TestUtil {
     }
 
     /**
-     * Creates a matcher that matches when the examined string reprensents the same instant as the reference datetime
-     * @param date the reference datetime against which the examined string is checked
+     * Creates a matcher that matches when the examined string reprensents the
+     * same instant as the reference datetime
+     *
+     * @param date the reference datetime against which the examined string is
+     * checked
      */
     public static ZonedDateTimeMatcher sameInstant(ZonedDateTime date) {
         return new ZonedDateTimeMatcher(date);

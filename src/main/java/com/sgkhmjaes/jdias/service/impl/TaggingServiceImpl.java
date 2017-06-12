@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class TaggingServiceImpl implements TaggingService{
+public class TaggingServiceImpl implements TaggingService {
 
     private final Logger log = LoggerFactory.getLogger(TaggingServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class TaggingServiceImpl implements TaggingService{
     }
 
     /**
-     *  Get all the taggings.
+     * Get all the taggings.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class TaggingServiceImpl implements TaggingService{
     }
 
     /**
-     *  Get one tagging by id.
+     * Get one tagging by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class TaggingServiceImpl implements TaggingService{
     }
 
     /**
-     *  Delete the  tagging by id.
+     * Delete the tagging by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class TaggingServiceImpl implements TaggingService{
     /**
      * Search for the tagging corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Tagging> search(String query) {
         log.debug("Request to search Taggings for query {}", query);
         return StreamSupport
-            .stream(taggingSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+                .stream(taggingSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

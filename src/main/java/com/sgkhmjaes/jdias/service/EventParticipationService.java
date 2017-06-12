@@ -17,33 +17,33 @@ public interface EventParticipationService {
     EventParticipation save(EventParticipation eventParticipation);
 
     /**
-     *  Get all the eventParticipations.
+     * Get all the eventParticipations.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<EventParticipation> findAll();
 
     /**
-     *  Get the "id" eventParticipation.
+     * Get the "id" eventParticipation.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     EventParticipation findOne(Long id);
 
     /**
-     *  Delete the "id" eventParticipation.
+     * Delete the "id" eventParticipation.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the eventParticipation corresponding to the query.
      *
-     *  @param query the query of the search
-     *  
-     *  @return the list of entities
+     * @param query the query of the search
+     *
+     * @return the list of entities
      */
     List<EventParticipation> search(String query);
 }

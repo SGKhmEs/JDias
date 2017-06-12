@@ -33,7 +33,7 @@ public class PostResource {
     private static final String ENTITY_NAME = "post";
 
     private final PostService postService;
-    
+
     private final PostDTOServiceImpl postDTOServiceImpl;
 
     public PostResource(PostService postService, PostDTOServiceImpl postDTOServiceImpl) {
@@ -42,10 +42,11 @@ public class PostResource {
     }
 
     /**
-     * POST  /posts : Create a new post.
+     * POST /posts : Create a new post.
      *
      * @param post the post to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new post, or with status 400 (Bad Request) if the post has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new post, or with status 400 (Bad Request) if the post has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/posts")
@@ -57,17 +58,17 @@ public class PostResource {
         }
         Post result = postService.save(post);
         return ResponseEntity.created(new URI("/api/posts/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /posts : Updates an existing post.
+     * PUT /posts : Updates an existing post.
      *
      * @param post the post to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated post,
-     * or with status 400 (Bad Request) if the post is not valid,
-     * or with status 500 (Internal Server Error) if the post couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * post, or with status 400 (Bad Request) if the post is not valid, or with
+     * status 500 (Internal Server Error) if the post couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/posts")
@@ -79,14 +80,15 @@ public class PostResource {
         }
         Post result = postService.save(post);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, post.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, post.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /posts : get all the posts.
+     * GET /posts : get all the posts.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of posts in body
+     * @return the ResponseEntity with status 200 (OK) and the list of posts in
+     * body
      */
     @GetMapping("/posts")
     @Timed
@@ -96,10 +98,11 @@ public class PostResource {
     }
 
     /**
-     * GET  /posts/:id : get the "id" post.
+     * GET /posts/:id : get the "id" post.
      *
      * @param id the id of the post to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the post, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the post,
+     * or with status 404 (Not Found)
      */
     @GetMapping("/posts/{id}")
     @Timed
@@ -110,7 +113,7 @@ public class PostResource {
     }
 
     /**
-     * DELETE  /posts/:id : delete the "id" post.
+     * DELETE /posts/:id : delete the "id" post.
      *
      * @param id the id of the post to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -124,8 +127,8 @@ public class PostResource {
     }
 
     /**
-     * SEARCH  /_search/posts?query=:query : search for the post corresponding
-     * to the query.
+     * SEARCH /_search/posts?query=:query : search for the post corresponding to
+     * the query.
      *
      * @param query the query of the post search
      * @return the result of the search

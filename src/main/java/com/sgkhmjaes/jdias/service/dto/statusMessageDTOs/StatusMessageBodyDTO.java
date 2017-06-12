@@ -6,9 +6,11 @@ import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
  * Created by inna on 10.06.17.
  */
 public class StatusMessageBodyDTO implements AutoMapping {
+
     private String text;
 
-    public StatusMessageBodyDTO(){}
+    public StatusMessageBodyDTO() {
+    }
 
     public StatusMessageBodyDTO(String text) {
         this.text = text;

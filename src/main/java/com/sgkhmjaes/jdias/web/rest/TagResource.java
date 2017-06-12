@@ -37,10 +37,11 @@ public class TagResource {
     }
 
     /**
-     * POST  /tags : Create a new tag.
+     * POST /tags : Create a new tag.
      *
      * @param tag the tag to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new tag, or with status 400 (Bad Request) if the tag has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new tag, or with status 400 (Bad Request) if the tag has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/tags")
@@ -52,17 +53,17 @@ public class TagResource {
         }
         Tag result = tagService.save(tag);
         return ResponseEntity.created(new URI("/api/tags/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /tags : Updates an existing tag.
+     * PUT /tags : Updates an existing tag.
      *
      * @param tag the tag to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated tag,
-     * or with status 400 (Bad Request) if the tag is not valid,
-     * or with status 500 (Internal Server Error) if the tag couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * tag, or with status 400 (Bad Request) if the tag is not valid, or with
+     * status 500 (Internal Server Error) if the tag couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/tags")
@@ -74,14 +75,15 @@ public class TagResource {
         }
         Tag result = tagService.save(tag);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tag.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tag.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /tags : get all the tags.
+     * GET /tags : get all the tags.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of tags in body
+     * @return the ResponseEntity with status 200 (OK) and the list of tags in
+     * body
      */
     @GetMapping("/tags")
     @Timed
@@ -91,10 +93,11 @@ public class TagResource {
     }
 
     /**
-     * GET  /tags/:id : get the "id" tag.
+     * GET /tags/:id : get the "id" tag.
      *
      * @param id the id of the tag to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the tag, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the tag, or
+     * with status 404 (Not Found)
      */
     @GetMapping("/tags/{id}")
     @Timed
@@ -105,7 +108,7 @@ public class TagResource {
     }
 
     /**
-     * DELETE  /tags/:id : delete the "id" tag.
+     * DELETE /tags/:id : delete the "id" tag.
      *
      * @param id the id of the tag to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -119,8 +122,8 @@ public class TagResource {
     }
 
     /**
-     * SEARCH  /_search/tags?query=:query : search for the tag corresponding
-     * to the query.
+     * SEARCH /_search/tags?query=:query : search for the tag corresponding to
+     * the query.
      *
      * @param query the query of the tag search
      * @return the result of the search

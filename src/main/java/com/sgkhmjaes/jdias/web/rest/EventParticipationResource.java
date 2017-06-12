@@ -37,10 +37,12 @@ public class EventParticipationResource {
     }
 
     /**
-     * POST  /event-participations : Create a new eventParticipation.
+     * POST /event-participations : Create a new eventParticipation.
      *
      * @param eventParticipation the eventParticipation to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new eventParticipation, or with status 400 (Bad Request) if the eventParticipation has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new eventParticipation, or with status 400 (Bad Request) if the
+     * eventParticipation has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/event-participations")
@@ -52,17 +54,18 @@ public class EventParticipationResource {
         }
         EventParticipation result = eventParticipationService.save(eventParticipation);
         return ResponseEntity.created(new URI("/api/event-participations/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /event-participations : Updates an existing eventParticipation.
+     * PUT /event-participations : Updates an existing eventParticipation.
      *
      * @param eventParticipation the eventParticipation to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated eventParticipation,
-     * or with status 400 (Bad Request) if the eventParticipation is not valid,
-     * or with status 500 (Internal Server Error) if the eventParticipation couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * eventParticipation, or with status 400 (Bad Request) if the
+     * eventParticipation is not valid, or with status 500 (Internal Server
+     * Error) if the eventParticipation couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/event-participations")
@@ -74,14 +77,15 @@ public class EventParticipationResource {
         }
         EventParticipation result = eventParticipationService.save(eventParticipation);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, eventParticipation.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, eventParticipation.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /event-participations : get all the eventParticipations.
+     * GET /event-participations : get all the eventParticipations.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of eventParticipations in body
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * eventParticipations in body
      */
     @GetMapping("/event-participations")
     @Timed
@@ -91,10 +95,11 @@ public class EventParticipationResource {
     }
 
     /**
-     * GET  /event-participations/:id : get the "id" eventParticipation.
+     * GET /event-participations/:id : get the "id" eventParticipation.
      *
      * @param id the id of the eventParticipation to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the eventParticipation, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * eventParticipation, or with status 404 (Not Found)
      */
     @GetMapping("/event-participations/{id}")
     @Timed
@@ -105,7 +110,7 @@ public class EventParticipationResource {
     }
 
     /**
-     * DELETE  /event-participations/:id : delete the "id" eventParticipation.
+     * DELETE /event-participations/:id : delete the "id" eventParticipation.
      *
      * @param id the id of the eventParticipation to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -119,8 +124,8 @@ public class EventParticipationResource {
     }
 
     /**
-     * SEARCH  /_search/event-participations?query=:query : search for the eventParticipation corresponding
-     * to the query.
+     * SEARCH /_search/event-participations?query=:query : search for the
+     * eventParticipation corresponding to the query.
      *
      * @param query the query of the eventParticipation search
      * @return the result of the search

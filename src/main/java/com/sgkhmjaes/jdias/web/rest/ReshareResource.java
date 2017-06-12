@@ -37,10 +37,12 @@ public class ReshareResource {
     }
 
     /**
-     * POST  /reshares : Create a new reshare.
+     * POST /reshares : Create a new reshare.
      *
      * @param reshare the reshare to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new reshare, or with status 400 (Bad Request) if the reshare has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new reshare, or with status 400 (Bad Request) if the reshare has already
+     * an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/reshares")
@@ -52,17 +54,17 @@ public class ReshareResource {
         }
         Reshare result = reshareService.save(reshare);
         return ResponseEntity.created(new URI("/api/reshares/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /reshares : Updates an existing reshare.
+     * PUT /reshares : Updates an existing reshare.
      *
      * @param reshare the reshare to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated reshare,
-     * or with status 400 (Bad Request) if the reshare is not valid,
-     * or with status 500 (Internal Server Error) if the reshare couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * reshare, or with status 400 (Bad Request) if the reshare is not valid, or
+     * with status 500 (Internal Server Error) if the reshare couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/reshares")
@@ -74,14 +76,15 @@ public class ReshareResource {
         }
         Reshare result = reshareService.save(reshare);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, reshare.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, reshare.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /reshares : get all the reshares.
+     * GET /reshares : get all the reshares.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of reshares in body
+     * @return the ResponseEntity with status 200 (OK) and the list of reshares
+     * in body
      */
     @GetMapping("/reshares")
     @Timed
@@ -91,10 +94,11 @@ public class ReshareResource {
     }
 
     /**
-     * GET  /reshares/:id : get the "id" reshare.
+     * GET /reshares/:id : get the "id" reshare.
      *
      * @param id the id of the reshare to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the reshare, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * reshare, or with status 404 (Not Found)
      */
     @GetMapping("/reshares/{id}")
     @Timed
@@ -105,7 +109,7 @@ public class ReshareResource {
     }
 
     /**
-     * DELETE  /reshares/:id : delete the "id" reshare.
+     * DELETE /reshares/:id : delete the "id" reshare.
      *
      * @param id the id of the reshare to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -119,8 +123,8 @@ public class ReshareResource {
     }
 
     /**
-     * SEARCH  /_search/reshares?query=:query : search for the reshare corresponding
-     * to the query.
+     * SEARCH /_search/reshares?query=:query : search for the reshare
+     * corresponding to the query.
      *
      * @param query the query of the reshare search
      * @return the result of the search

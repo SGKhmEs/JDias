@@ -14,9 +14,6 @@ import java.util.Objects;
 
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
 
-/**
- * A Post.
- */
 @Entity
 @Table(name = "post")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -325,14 +322,14 @@ public class Post implements Serializable {
 
     @Override
     public String toString() {
-        return "Post{" +
-            "id=" + getId() +
-            ", author='" + getAuthor() + "'" +
-            ", guid='" + getGuid() + "'" +
-            ", createdAt='" + getCreatedAt() + "'" +
-            ", pub='" + isPub() + "'" +
-            ", providerDisplayName='" + getProviderDisplayName() + "'" +
-            ", postType='" + getPostType() + "'" +
-            "}";
+        return "Post{"
+                + "id=" + getId()
+                + ", author='" + getAuthor() + "'"
+                + ", guid='" + getGuid() + "'"
+                + ", createdAt='" + getCreatedAt() + "'"
+                + ", pub='" + isPub() + "'"
+                + ", providerDisplayName='" + getProviderDisplayName() + "'"
+                + ", postType='" + getPostType() + "'"
+                + "}";
     }
 }

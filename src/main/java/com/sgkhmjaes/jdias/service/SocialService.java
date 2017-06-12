@@ -54,10 +54,10 @@ public class SocialService {
     public void deleteUserSocialConnection(String login) {
         ConnectionRepository connectionRepository = usersConnectionRepository.createConnectionRepository(login);
         connectionRepository.findAllConnections().keySet().stream()
-            .forEach(providerId -> {
-                connectionRepository.removeConnections(providerId);
-                log.debug("Delete user social connection providerId: {}", providerId);
-            });
+                .forEach(providerId -> {
+                    connectionRepository.removeConnections(providerId);
+                    log.debug("Delete user social connection providerId: {}", providerId);
+                });
     }
 
     public void createSocialUser(Connection<?> connection, String langKey) {
@@ -116,8 +116,9 @@ public class SocialService {
     }
 
     /**
-     * @return login if provider manage a login like Twitter or Github otherwise email address.
-     *         Because provider like Google or Facebook didn't provide login or login like "12099388847393"
+     * @return login if provider manage a login like Twitter or Github otherwise
+     * email address. Because provider like Google or Facebook didn't provide
+     * login or login like "12099388847393"
      */
     private String getLoginDependingOnProviderId(UserProfile userProfile, String providerId) {
         switch (providerId) {

@@ -95,9 +95,9 @@ public class CommentResourceIntTest {
         MockitoAnnotations.initMocks(this);
         CommentResource commentResource = new CommentResource(commentService);
         this.restCommentMockMvc = MockMvcBuilders.standaloneSetup(commentResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -108,14 +108,14 @@ public class CommentResourceIntTest {
      */
     public static Comment createEntity(EntityManager em) {
         Comment comment = new Comment()
-            .author(DEFAULT_AUTHOR)
-            .guid(DEFAULT_GUID)
-            .parentGuid(DEFAULT_PARENT_GUID)
-            .text(DEFAULT_TEXT)
-            .createdAt(DEFAULT_CREATED_AT)
-            .authorSignature(DEFAULT_AUTHOR_SIGNATURE)
-            .parentAuthorSignature(DEFAULT_PARENT_AUTHOR_SIGNATURE)
-            .threadParentGuid(DEFAULT_THREAD_PARENT_GUID);
+                .author(DEFAULT_AUTHOR)
+                .guid(DEFAULT_GUID)
+                .parentGuid(DEFAULT_PARENT_GUID)
+                .text(DEFAULT_TEXT)
+                .createdAt(DEFAULT_CREATED_AT)
+                .authorSignature(DEFAULT_AUTHOR_SIGNATURE)
+                .parentAuthorSignature(DEFAULT_PARENT_AUTHOR_SIGNATURE)
+                .threadParentGuid(DEFAULT_THREAD_PARENT_GUID);
         return comment;
     }
 
@@ -132,9 +132,9 @@ public class CommentResourceIntTest {
 
         // Create the Comment
         restCommentMockMvc.perform(post("/api/comments")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(comment)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(comment)))
+                .andExpect(status().isCreated());
 
         // Validate the Comment in the database
         List<Comment> commentList = commentRepository.findAll();
@@ -164,9 +164,9 @@ public class CommentResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restCommentMockMvc.perform(post("/api/comments")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(comment)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(comment)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Comment> commentList = commentRepository.findAll();
@@ -181,17 +181,17 @@ public class CommentResourceIntTest {
 
         // Get all the commentList
         restCommentMockMvc.perform(get("/api/comments?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(comment.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].threadParentGuid").value(hasItem(DEFAULT_THREAD_PARENT_GUID.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(comment.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
+                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+                .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+                .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())))
+                .andExpect(jsonPath("$.[*].threadParentGuid").value(hasItem(DEFAULT_THREAD_PARENT_GUID.toString())));
     }
 
     @Test
@@ -202,17 +202,17 @@ public class CommentResourceIntTest {
 
         // Get the comment
         restCommentMockMvc.perform(get("/api/comments/{id}", comment.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(comment.getId().intValue()))
-            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-            .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-            .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
-            .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()))
-            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.authorSignature").value(DEFAULT_AUTHOR_SIGNATURE.toString()))
-            .andExpect(jsonPath("$.parentAuthorSignature").value(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString()))
-            .andExpect(jsonPath("$.threadParentGuid").value(DEFAULT_THREAD_PARENT_GUID.toString()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(comment.getId().intValue()))
+                .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
+                .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
+                .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
+                .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()))
+                .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+                .andExpect(jsonPath("$.authorSignature").value(DEFAULT_AUTHOR_SIGNATURE.toString()))
+                .andExpect(jsonPath("$.parentAuthorSignature").value(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString()))
+                .andExpect(jsonPath("$.threadParentGuid").value(DEFAULT_THREAD_PARENT_GUID.toString()));
     }
 
     @Test
@@ -220,7 +220,7 @@ public class CommentResourceIntTest {
     public void getNonExistingComment() throws Exception {
         // Get the comment
         restCommentMockMvc.perform(get("/api/comments/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -234,19 +234,19 @@ public class CommentResourceIntTest {
         // Update the comment
         Comment updatedComment = commentRepository.findOne(comment.getId());
         updatedComment
-            .author(UPDATED_AUTHOR)
-            .guid(UPDATED_GUID)
-            .parentGuid(UPDATED_PARENT_GUID)
-            .text(UPDATED_TEXT)
-            .createdAt(UPDATED_CREATED_AT)
-            .authorSignature(UPDATED_AUTHOR_SIGNATURE)
-            .parentAuthorSignature(UPDATED_PARENT_AUTHOR_SIGNATURE)
-            .threadParentGuid(UPDATED_THREAD_PARENT_GUID);
+                .author(UPDATED_AUTHOR)
+                .guid(UPDATED_GUID)
+                .parentGuid(UPDATED_PARENT_GUID)
+                .text(UPDATED_TEXT)
+                .createdAt(UPDATED_CREATED_AT)
+                .authorSignature(UPDATED_AUTHOR_SIGNATURE)
+                .parentAuthorSignature(UPDATED_PARENT_AUTHOR_SIGNATURE)
+                .threadParentGuid(UPDATED_THREAD_PARENT_GUID);
 
         restCommentMockMvc.perform(put("/api/comments")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedComment)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedComment)))
+                .andExpect(status().isOk());
 
         // Validate the Comment in the database
         List<Comment> commentList = commentRepository.findAll();
@@ -272,12 +272,11 @@ public class CommentResourceIntTest {
         int databaseSizeBeforeUpdate = commentRepository.findAll().size();
 
         // Create the Comment
-
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restCommentMockMvc.perform(put("/api/comments")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(comment)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(comment)))
+                .andExpect(status().isCreated());
 
         // Validate the Comment in the database
         List<Comment> commentList = commentRepository.findAll();
@@ -294,8 +293,8 @@ public class CommentResourceIntTest {
 
         // Get the comment
         restCommentMockMvc.perform(delete("/api/comments/{id}", comment.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean commentExistsInEs = commentSearchRepository.exists(comment.getId());
@@ -314,17 +313,17 @@ public class CommentResourceIntTest {
 
         // Search the comment
         restCommentMockMvc.perform(get("/api/_search/comments?query=id:" + comment.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(comment.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].threadParentGuid").value(hasItem(DEFAULT_THREAD_PARENT_GUID.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(comment.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
+                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+                .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+                .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())))
+                .andExpect(jsonPath("$.[*].threadParentGuid").value(hasItem(DEFAULT_THREAD_PARENT_GUID.toString())));
     }
 
     @Test

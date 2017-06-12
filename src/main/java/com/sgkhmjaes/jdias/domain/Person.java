@@ -414,16 +414,16 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "Person{" +
-            "id=" + getId() +
-            ", guid='" + getGuid() + "'" +
-            ", diasporaId='" + getDiasporaId() + "'" +
-            ", serializedPublicKey='" + getSerializedPublicKey() + "'" +
-            ", createdAt='" + getCreatedAt() + "'" +
-            ", updatedAt='" + getUpdatedAt() + "'" +
-            ", closedAccount='" + isClosedAccount() + "'" +
-            ", fetchStatus='" + getFetchStatus() + "'" +
-            ", podId='" + getPodId() + "'" +
-            "}";
+        return "Person{"
+                + "id=" + getId()
+                + ", guid='" + getGuid() + "'"
+                + ", diasporaId='" + getDiasporaId() + "'"
+                + ", serializedPublicKey='" + getSerializedPublicKey() + "'"
+                + ", createdAt='" + getCreatedAt() + "'"
+                + ", updatedAt='" + getUpdatedAt() + "'"
+                + ", closedAccount='" + isClosedAccount() + "'"
+                + ", fetchStatus='" + getFetchStatus() + "'"
+                + ", podId='" + getPodId() + "'"
+                + "}";
     }
 }

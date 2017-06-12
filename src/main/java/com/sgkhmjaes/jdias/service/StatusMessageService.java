@@ -17,34 +17,35 @@ public interface StatusMessageService {
      * @return the persisted entity
      */
     StatusMessage save(StatusMessage statusMessage);
+
     /**
-     *  Get all the statusMessages.
+     * Get all the statusMessages.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<StatusMessage> findAll();
 
     /**
-     *  Get the "id" statusMessage.
+     * Get the "id" statusMessage.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     StatusMessage findOne(Long id);
 
     /**
-     *  Delete the "id" statusMessage.
+     * Delete the "id" statusMessage.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the statusMessage corresponding to the query.
      *
-     *  @param query the query of the search
+     * @param query the query of the search
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<StatusMessage> search(String query);
 }

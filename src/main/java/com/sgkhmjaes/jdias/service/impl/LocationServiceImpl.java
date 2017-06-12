@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class LocationServiceImpl implements LocationService{
+public class LocationServiceImpl implements LocationService {
 
     private final Logger log = LoggerFactory.getLogger(LocationServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class LocationServiceImpl implements LocationService{
     }
 
     /**
-     *  Get all the locations.
+     * Get all the locations.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class LocationServiceImpl implements LocationService{
     }
 
     /**
-     *  Get one location by id.
+     * Get one location by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class LocationServiceImpl implements LocationService{
     }
 
     /**
-     *  Delete the  location by id.
+     * Delete the location by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class LocationServiceImpl implements LocationService{
     /**
      * Search for the location corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Location> search(String query) {
         log.debug("Request to search Locations for query {}", query);
         return StreamSupport
-            .stream(locationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+                .stream(locationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

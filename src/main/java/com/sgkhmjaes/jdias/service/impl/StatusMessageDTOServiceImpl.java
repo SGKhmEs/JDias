@@ -16,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 @Service
 @Transactional
 public class StatusMessageDTOServiceImpl {
+
     private final Logger log = LoggerFactory.getLogger(StatusMessageServiceImpl.class);
 
     private final StatusMessageService statusMessageService;
@@ -30,11 +31,10 @@ public class StatusMessageDTOServiceImpl {
         try {
             statusMessageDTO.getStatus_message().mappingFromDTO(statusMessage);
             statusMessageService.save(statusMessage);
-           
+
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-
 
 //        return statusMessage;
     }

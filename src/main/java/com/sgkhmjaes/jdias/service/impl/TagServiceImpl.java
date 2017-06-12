@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class TagServiceImpl implements TagService{
+public class TagServiceImpl implements TagService {
 
     private final Logger log = LoggerFactory.getLogger(TagServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class TagServiceImpl implements TagService{
     }
 
     /**
-     *  Get all the tags.
+     * Get all the tags.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class TagServiceImpl implements TagService{
     }
 
     /**
-     *  Get one tag by id.
+     * Get one tag by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class TagServiceImpl implements TagService{
     }
 
     /**
-     *  Delete the  tag by id.
+     * Delete the tag by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class TagServiceImpl implements TagService{
     /**
      * Search for the tag corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Tag> search(String query) {
         log.debug("Request to search Tags for query {}", query);
         return StreamSupport
-            .stream(tagSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+                .stream(tagSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

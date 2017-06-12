@@ -86,10 +86,10 @@ public class Reshare implements Serializable {
 
     @Override
     public String toString() {
-        return "Reshare{" +
-            "id=" + getId() +
-            ", rootAuthor='" + getRootAuthor() + "'" +
-            ", rootGuid='" + getRootGuid() + "'" +
-            "}";
+        return "Reshare{"
+                + "id=" + getId()
+                + ", rootAuthor='" + getRootAuthor() + "'"
+                + ", rootGuid='" + getRootGuid() + "'"
+                + "}";
     }
 }

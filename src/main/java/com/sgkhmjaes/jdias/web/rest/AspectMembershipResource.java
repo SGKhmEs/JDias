@@ -37,10 +37,12 @@ public class AspectMembershipResource {
     }
 
     /**
-     * POST  /aspect-memberships : Create a new aspectMembership.
+     * POST /aspect-memberships : Create a new aspectMembership.
      *
      * @param aspectMembership the aspectMembership to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new aspectMembership, or with status 400 (Bad Request) if the aspectMembership has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new aspectMembership, or with status 400 (Bad Request) if the
+     * aspectMembership has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/aspect-memberships")
@@ -52,17 +54,18 @@ public class AspectMembershipResource {
         }
         AspectMembership result = aspectMembershipService.save(aspectMembership);
         return ResponseEntity.created(new URI("/api/aspect-memberships/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /aspect-memberships : Updates an existing aspectMembership.
+     * PUT /aspect-memberships : Updates an existing aspectMembership.
      *
      * @param aspectMembership the aspectMembership to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated aspectMembership,
-     * or with status 400 (Bad Request) if the aspectMembership is not valid,
-     * or with status 500 (Internal Server Error) if the aspectMembership couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * aspectMembership, or with status 400 (Bad Request) if the
+     * aspectMembership is not valid, or with status 500 (Internal Server Error)
+     * if the aspectMembership couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/aspect-memberships")
@@ -74,14 +77,15 @@ public class AspectMembershipResource {
         }
         AspectMembership result = aspectMembershipService.save(aspectMembership);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, aspectMembership.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, aspectMembership.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /aspect-memberships : get all the aspectMemberships.
+     * GET /aspect-memberships : get all the aspectMemberships.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of aspectMemberships in body
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * aspectMemberships in body
      */
     @GetMapping("/aspect-memberships")
     @Timed
@@ -91,10 +95,11 @@ public class AspectMembershipResource {
     }
 
     /**
-     * GET  /aspect-memberships/:id : get the "id" aspectMembership.
+     * GET /aspect-memberships/:id : get the "id" aspectMembership.
      *
      * @param id the id of the aspectMembership to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the aspectMembership, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * aspectMembership, or with status 404 (Not Found)
      */
     @GetMapping("/aspect-memberships/{id}")
     @Timed
@@ -105,7 +110,7 @@ public class AspectMembershipResource {
     }
 
     /**
-     * DELETE  /aspect-memberships/:id : delete the "id" aspectMembership.
+     * DELETE /aspect-memberships/:id : delete the "id" aspectMembership.
      *
      * @param id the id of the aspectMembership to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -119,8 +124,8 @@ public class AspectMembershipResource {
     }
 
     /**
-     * SEARCH  /_search/aspect-memberships?query=:query : search for the aspectMembership corresponding
-     * to the query.
+     * SEARCH /_search/aspect-memberships?query=:query : search for the
+     * aspectMembership corresponding to the query.
      *
      * @param query the query of the aspectMembership search
      * @return the result of the search

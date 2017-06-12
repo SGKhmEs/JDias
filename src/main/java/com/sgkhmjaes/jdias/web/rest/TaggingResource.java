@@ -37,10 +37,12 @@ public class TaggingResource {
     }
 
     /**
-     * POST  /taggings : Create a new tagging.
+     * POST /taggings : Create a new tagging.
      *
      * @param tagging the tagging to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new tagging, or with status 400 (Bad Request) if the tagging has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new tagging, or with status 400 (Bad Request) if the tagging has already
+     * an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/taggings")
@@ -52,17 +54,17 @@ public class TaggingResource {
         }
         Tagging result = taggingService.save(tagging);
         return ResponseEntity.created(new URI("/api/taggings/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /taggings : Updates an existing tagging.
+     * PUT /taggings : Updates an existing tagging.
      *
      * @param tagging the tagging to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated tagging,
-     * or with status 400 (Bad Request) if the tagging is not valid,
-     * or with status 500 (Internal Server Error) if the tagging couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * tagging, or with status 400 (Bad Request) if the tagging is not valid, or
+     * with status 500 (Internal Server Error) if the tagging couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/taggings")
@@ -74,14 +76,15 @@ public class TaggingResource {
         }
         Tagging result = taggingService.save(tagging);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tagging.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tagging.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /taggings : get all the taggings.
+     * GET /taggings : get all the taggings.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of taggings in body
+     * @return the ResponseEntity with status 200 (OK) and the list of taggings
+     * in body
      */
     @GetMapping("/taggings")
     @Timed
@@ -91,10 +94,11 @@ public class TaggingResource {
     }
 
     /**
-     * GET  /taggings/:id : get the "id" tagging.
+     * GET /taggings/:id : get the "id" tagging.
      *
      * @param id the id of the tagging to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the tagging, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * tagging, or with status 404 (Not Found)
      */
     @GetMapping("/taggings/{id}")
     @Timed
@@ -105,7 +109,7 @@ public class TaggingResource {
     }
 
     /**
-     * DELETE  /taggings/:id : delete the "id" tagging.
+     * DELETE /taggings/:id : delete the "id" tagging.
      *
      * @param id the id of the tagging to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -119,8 +123,8 @@ public class TaggingResource {
     }
 
     /**
-     * SEARCH  /_search/taggings?query=:query : search for the tagging corresponding
-     * to the query.
+     * SEARCH /_search/taggings?query=:query : search for the tagging
+     * corresponding to the query.
      *
      * @param query the query of the tagging search
      * @return the result of the search

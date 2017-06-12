@@ -17,33 +17,33 @@ public interface ContactService {
     Contact save(Contact contact);
 
     /**
-     *  Get all the contacts.
+     * Get all the contacts.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<Contact> findAll();
 
     /**
-     *  Get the "id" contact.
+     * Get the "id" contact.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     Contact findOne(Long id);
 
     /**
-     *  Delete the "id" contact.
+     * Delete the "id" contact.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the contact corresponding to the query.
      *
-     *  @param query the query of the search
-     *  
-     *  @return the list of entities
+     * @param query the query of the search
+     *
+     * @return the list of entities
      */
     List<Contact> search(String query);
 }

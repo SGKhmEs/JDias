@@ -261,21 +261,21 @@ public class Profile implements Serializable {
 
     @Override
     public String toString() {
-        return "Profile{" +
-            "id=" + getId() +
-            ", author='" + getAuthor() + "'" +
-            ", firstName='" + getFirstName() + "'" +
-            ", lastName='" + getLastName() + "'" +
-            ", imageUrl='" + getImageUrl() + "'" +
-            ", imageUrlSmall='" + getImageUrlSmall() + "'" +
-            ", imageUrlMedium='" + getImageUrlMedium() + "'" +
-            ", birthday='" + getBirthday() + "'" +
-            ", gender='" + getGender() + "'" +
-            ", bio='" + getBio() + "'" +
-            ", location='" + getLocation() + "'" +
-            ", searchable='" + isSearchable() + "'" +
-            ", nsfw='" + isNsfw() + "'" +
-            ", tagString='" + getTagString() + "'" +
-            "}";
+        return "Profile{"
+                + "id=" + getId()
+                + ", author='" + getAuthor() + "'"
+                + ", firstName='" + getFirstName() + "'"
+                + ", lastName='" + getLastName() + "'"
+                + ", imageUrl='" + getImageUrl() + "'"
+                + ", imageUrlSmall='" + getImageUrlSmall() + "'"
+                + ", imageUrlMedium='" + getImageUrlMedium() + "'"
+                + ", birthday='" + getBirthday() + "'"
+                + ", gender='" + getGender() + "'"
+                + ", bio='" + getBio() + "'"
+                + ", location='" + getLocation() + "'"
+                + ", searchable='" + isSearchable() + "'"
+                + ", nsfw='" + isNsfw() + "'"
+                + ", tagString='" + getTagString() + "'"
+                + "}";
     }
 }

@@ -17,33 +17,33 @@ public interface TagFollowingService {
     TagFollowing save(TagFollowing tagFollowing);
 
     /**
-     *  Get all the tagFollowings.
+     * Get all the tagFollowings.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<TagFollowing> findAll();
 
     /**
-     *  Get the "id" tagFollowing.
+     * Get the "id" tagFollowing.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     TagFollowing findOne(Long id);
 
     /**
-     *  Delete the "id" tagFollowing.
+     * Delete the "id" tagFollowing.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the tagFollowing corresponding to the query.
      *
-     *  @param query the query of the search
-     *  
-     *  @return the list of entities
+     * @param query the query of the search
+     *
+     * @return the list of entities
      */
     List<TagFollowing> search(String query);
 }

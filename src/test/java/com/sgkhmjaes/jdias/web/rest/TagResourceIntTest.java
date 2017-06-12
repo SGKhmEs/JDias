@@ -72,9 +72,9 @@ public class TagResourceIntTest {
         MockitoAnnotations.initMocks(this);
         TagResource tagResource = new TagResource(tagService);
         this.restTagMockMvc = MockMvcBuilders.standaloneSetup(tagResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -85,7 +85,7 @@ public class TagResourceIntTest {
      */
     public static Tag createEntity(EntityManager em) {
         Tag tag = new Tag()
-            .name(DEFAULT_NAME);
+                .name(DEFAULT_NAME);
         return tag;
     }
 
@@ -102,9 +102,9 @@ public class TagResourceIntTest {
 
         // Create the Tag
         restTagMockMvc.perform(post("/api/tags")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(tag)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(tag)))
+                .andExpect(status().isCreated());
 
         // Validate the Tag in the database
         List<Tag> tagList = tagRepository.findAll();
@@ -127,9 +127,9 @@ public class TagResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restTagMockMvc.perform(post("/api/tags")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(tag)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(tag)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Tag> tagList = tagRepository.findAll();
@@ -144,10 +144,10 @@ public class TagResourceIntTest {
 
         // Get all the tagList
         restTagMockMvc.perform(get("/api/tags?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(tag.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(tag.getId().intValue())))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
     @Test
@@ -158,10 +158,10 @@ public class TagResourceIntTest {
 
         // Get the tag
         restTagMockMvc.perform(get("/api/tags/{id}", tag.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(tag.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(tag.getId().intValue()))
+                .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
 
     @Test
@@ -169,7 +169,7 @@ public class TagResourceIntTest {
     public void getNonExistingTag() throws Exception {
         // Get the tag
         restTagMockMvc.perform(get("/api/tags/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -183,12 +183,12 @@ public class TagResourceIntTest {
         // Update the tag
         Tag updatedTag = tagRepository.findOne(tag.getId());
         updatedTag
-            .name(UPDATED_NAME);
+                .name(UPDATED_NAME);
 
         restTagMockMvc.perform(put("/api/tags")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedTag)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedTag)))
+                .andExpect(status().isOk());
 
         // Validate the Tag in the database
         List<Tag> tagList = tagRepository.findAll();
@@ -207,12 +207,11 @@ public class TagResourceIntTest {
         int databaseSizeBeforeUpdate = tagRepository.findAll().size();
 
         // Create the Tag
-
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restTagMockMvc.perform(put("/api/tags")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(tag)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(tag)))
+                .andExpect(status().isCreated());
 
         // Validate the Tag in the database
         List<Tag> tagList = tagRepository.findAll();
@@ -229,8 +228,8 @@ public class TagResourceIntTest {
 
         // Get the tag
         restTagMockMvc.perform(delete("/api/tags/{id}", tag.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean tagExistsInEs = tagSearchRepository.exists(tag.getId());
@@ -249,10 +248,10 @@ public class TagResourceIntTest {
 
         // Search the tag
         restTagMockMvc.perform(get("/api/_search/tags?query=id:" + tag.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(tag.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(tag.getId().intValue())))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
     @Test

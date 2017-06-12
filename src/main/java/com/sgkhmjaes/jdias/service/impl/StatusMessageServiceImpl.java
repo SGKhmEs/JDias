@@ -28,7 +28,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class StatusMessageServiceImpl implements StatusMessageService{
+public class StatusMessageServiceImpl implements StatusMessageService {
 
     private final Logger log = LoggerFactory.getLogger(StatusMessageServiceImpl.class);
 
@@ -75,7 +75,7 @@ public class StatusMessageServiceImpl implements StatusMessageService{
             post.setPostType(PostType.STATUSMESSAGE);
             post.setPub(true);
             postService.save(post);
-        }else {
+        } else {
             log.debug("Request to save StatusMessage : {}", statusMessage);
             result = statusMessageRepository.save(statusMessage);
             statusMessageSearchRepository.save(result);
@@ -84,9 +84,9 @@ public class StatusMessageServiceImpl implements StatusMessageService{
     }
 
     /**
-     *  Get all the statusMessages.
+     * Get all the statusMessages.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -96,10 +96,10 @@ public class StatusMessageServiceImpl implements StatusMessageService{
     }
 
     /**
-     *  Get one statusMessage by id.
+     * Get one statusMessage by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -109,9 +109,9 @@ public class StatusMessageServiceImpl implements StatusMessageService{
     }
 
     /**
-     *  Delete the  statusMessage by id.
+     * Delete the statusMessage by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -123,15 +123,15 @@ public class StatusMessageServiceImpl implements StatusMessageService{
     /**
      * Search for the statusMessage corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<StatusMessage> search(String query) {
         log.debug("Request to search StatusMessages for query {}", query);
         return StreamSupport
-            .stream(statusMessageSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+                .stream(statusMessageSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

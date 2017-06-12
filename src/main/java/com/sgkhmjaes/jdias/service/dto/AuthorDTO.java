@@ -6,9 +6,8 @@ import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
 /**
  * Created by inna on 02.06.17.
  */
+public class AuthorDTO implements AutoMapping {
 
-public class AuthorDTO implements AutoMapping{
-    
     @JsonProperty("diaspora_id")
     private String diasporaId;
     @JsonProperty("guid")
@@ -18,7 +17,8 @@ public class AuthorDTO implements AutoMapping{
     @JsonProperty("avatar")
     private AvatarDTO avatarDTO;
 
-    public AuthorDTO(){}
+    public AuthorDTO() {
+    }
 
     public String getDiasporaId() {
         return diasporaId;
@@ -52,15 +52,13 @@ public class AuthorDTO implements AutoMapping{
         this.avatarDTO = avatarDTO;
     }
 
-
-    
     @Override
-public String toString() {
-StringBuilder sb = new StringBuilder();
-sb.append("AuthorDTO: {").append("person diaspora id=").append(diasporaId).
-        append("person guid=").append(guid).append(", person id=").append(id).
-        append(", ").append(avatarDTO).append("}");
-return sb.toString();
-}
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("AuthorDTO: {").append("person diaspora id=").append(diasporaId).
+                append("person guid=").append(guid).append(", person id=").append(id).
+                append(", ").append(avatarDTO).append("}");
+        return sb.toString();
+    }
 
 }

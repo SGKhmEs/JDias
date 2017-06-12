@@ -26,7 +26,8 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Test class for the CustomAuditEventRepository customAuditEventRepository class.
+ * Test class for the CustomAuditEventRepository customAuditEventRepository
+ * class.
  *
  * @see CustomAuditEventRepository
  */
@@ -79,8 +80,8 @@ public class CustomAuditEventRepositoryIntTest {
         persistenceAuditEventRepository.save(testUserEvent);
         persistenceAuditEventRepository.save(testOldUserEvent);
 
-        List<AuditEvent> events =
-            customAuditEventRepository.find(Date.from(testUserEvent.getAuditEventDate().minusSeconds(3600)));
+        List<AuditEvent> events
+                = customAuditEventRepository.find(Date.from(testUserEvent.getAuditEventDate().minusSeconds(3600)));
         assertThat(events).hasSize(1);
         AuditEvent event = events.get(0);
         assertThat(event.getPrincipal()).isEqualTo(testUserEvent.getPrincipal());
@@ -97,7 +98,7 @@ public class CustomAuditEventRepositoryIntTest {
         persistenceAuditEventRepository.save(testOtherUserEvent);
 
         List<AuditEvent> events = customAuditEventRepository
-            .find("test-user", Date.from(testUserEvent.getAuditEventDate().minusSeconds(3600)));
+                .find("test-user", Date.from(testUserEvent.getAuditEventDate().minusSeconds(3600)));
         assertThat(events).hasSize(1);
         AuditEvent event = events.get(0);
         assertThat(event.getPrincipal()).isEqualTo(testUserEvent.getPrincipal());
@@ -125,7 +126,7 @@ public class CustomAuditEventRepositoryIntTest {
         List<AuditEvent> events = customAuditEventRepository.find(null, null);
         assertThat(events).hasSize(2);
         assertThat(events).extracting("principal")
-            .containsExactlyInAnyOrder("test-user", "other-test-user");
+                .containsExactlyInAnyOrder("test-user", "other-test-user");
     }
 
     @Test
@@ -143,7 +144,7 @@ public class CustomAuditEventRepositoryIntTest {
         persistenceAuditEventRepository.save(testUserOtherTypeEvent);
 
         List<AuditEvent> events = customAuditEventRepository.find("test-user",
-            Date.from(testUserEvent.getAuditEventDate().minusSeconds(3600)), "test-type");
+                Date.from(testUserEvent.getAuditEventDate().minusSeconds(3600)), "test-type");
         assertThat(events).hasSize(1);
         AuditEvent event = events.get(0);
         assertThat(event.getPrincipal()).isEqualTo(testUserEvent.getPrincipal());

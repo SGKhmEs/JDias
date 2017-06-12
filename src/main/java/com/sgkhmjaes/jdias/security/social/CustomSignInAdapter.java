@@ -14,7 +14,7 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.context.request.NativeWebRequest;
 
-public class    CustomSignInAdapter implements SignInAdapter {
+public class CustomSignInAdapter implements SignInAdapter {
 
     @SuppressWarnings("unused")
     private final Logger log = LoggerFactory.getLogger(CustomSignInAdapter.class);
@@ -27,13 +27,14 @@ public class    CustomSignInAdapter implements SignInAdapter {
         this.userDetailsService = userDetailsService;
         this.jHipsterProperties = jHipsterProperties;
     }
+
     @Override
     public String signIn(String userId, Connection<?> connection, NativeWebRequest request) {
         UserDetails user = userDetailsService.loadUserByUsername(userId);
         Authentication newAuth = new UsernamePasswordAuthenticationToken(
-            user,
-            null,
-            user.getAuthorities());
+                user,
+                null,
+                user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(newAuth);
         return jHipsterProperties.getSocial().getRedirectAfterSignIn();
     }

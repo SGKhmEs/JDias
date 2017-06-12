@@ -1,23 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sgkhmjaes.jdias.service.dto;
 
 import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
 import java.time.LocalDate;
 import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- *
- * @author andrey
- */
-public class LikeDTO implements AutoMapping{
+public class LikeDTO implements AutoMapping {
+
     private Long id;
     private String guid;
     private LocalDate createdAt;
-    @JsonProperty("author")
+    @JsonProperty("autorDTO")
     private AuthorDTO authorDTO;
 
     public LikeDTO() {
@@ -47,13 +39,12 @@ public class LikeDTO implements AutoMapping{
         this.createdAt = createdAt;
     }
 
-    public AuthorDTO getAutorDTO() {
+    public AuthorDTO getAuthorDTO() {
         return authorDTO;
     }
 
-    public void setAutorDTO(AuthorDTO authorDTO) {
+    public void setAuthorDTO(AuthorDTO authorDTO) {
         this.authorDTO = authorDTO;
     }
-    
     
 }

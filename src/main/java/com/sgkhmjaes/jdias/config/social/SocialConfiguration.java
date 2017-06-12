@@ -32,8 +32,9 @@ import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 /**
  * Basic Spring Social configuration.
  *
- * <p>Creates the beans necessary to manage Connections to social services and
- * link accounts from those services to internal Users.</p>
+ * <p>
+ * Creates the beans necessary to manage Connections to social services and link
+ * accounts from those services to internal Users.</p>
  */
 @Configuration
 @EnableSocial
@@ -69,10 +70,10 @@ public class SocialConfiguration implements SocialConfigurer {
         if (googleClientId != null && googleClientSecret != null) {
             log.debug("Configuring GoogleConnectionFactory");
             connectionFactoryConfigurer.addConnectionFactory(
-                new GoogleConnectionFactory(
-                    googleClientId,
-                    googleClientSecret
-                )
+                    new GoogleConnectionFactory(
+                            googleClientId,
+                            googleClientSecret
+                    )
             );
         } else {
             log.error("Cannot configure GoogleConnectionFactory id or secret null");
@@ -84,10 +85,10 @@ public class SocialConfiguration implements SocialConfigurer {
         if (facebookClientId != null && facebookClientSecret != null) {
             log.debug("Configuring FacebookConnectionFactory");
             connectionFactoryConfigurer.addConnectionFactory(
-                new FacebookConnectionFactory(
-                    facebookClientId,
-                    facebookClientSecret
-                )
+                    new FacebookConnectionFactory(
+                            facebookClientId,
+                            facebookClientSecret
+                    )
             );
         } else {
             log.error("Cannot configure FacebookConnectionFactory id or secret null");
@@ -99,10 +100,10 @@ public class SocialConfiguration implements SocialConfigurer {
         if (twitterClientId != null && twitterClientSecret != null) {
             log.debug("Configuring TwitterConnectionFactory");
             connectionFactoryConfigurer.addConnectionFactory(
-                new TwitterConnectionFactory(
-                    twitterClientId,
-                    twitterClientSecret
-                )
+                    new TwitterConnectionFactory(
+                            twitterClientId,
+                            twitterClientSecret
+                    )
             );
         } else {
             log.error("Cannot configure TwitterConnectionFactory id or secret null");

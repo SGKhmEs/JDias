@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class UserAccountServiceImpl implements UserAccountService{
+public class UserAccountServiceImpl implements UserAccountService {
 
     private final Logger log = LoggerFactory.getLogger(UserAccountServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class UserAccountServiceImpl implements UserAccountService{
     }
 
     /**
-     *  Get all the userAccounts.
+     * Get all the userAccounts.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class UserAccountServiceImpl implements UserAccountService{
     }
 
     /**
-     *  Get one userAccount by id.
+     * Get one userAccount by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class UserAccountServiceImpl implements UserAccountService{
     }
 
     /**
-     *  Delete the  userAccount by id.
+     * Delete the userAccount by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class UserAccountServiceImpl implements UserAccountService{
     /**
      * Search for the userAccount corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<UserAccount> search(String query) {
         log.debug("Request to search UserAccounts for query {}", query);
         return StreamSupport
-            .stream(userAccountSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+                .stream(userAccountSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

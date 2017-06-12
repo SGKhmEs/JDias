@@ -37,10 +37,12 @@ public class EventResource {
     }
 
     /**
-     * POST  /events : Create a new event.
+     * POST /events : Create a new event.
      *
      * @param event the event to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new event, or with status 400 (Bad Request) if the event has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new event, or with status 400 (Bad Request) if the event has already an
+     * ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/events")
@@ -52,17 +54,17 @@ public class EventResource {
         }
         Event result = eventService.save(event);
         return ResponseEntity.created(new URI("/api/events/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /events : Updates an existing event.
+     * PUT /events : Updates an existing event.
      *
      * @param event the event to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated event,
-     * or with status 400 (Bad Request) if the event is not valid,
-     * or with status 500 (Internal Server Error) if the event couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * event, or with status 400 (Bad Request) if the event is not valid, or
+     * with status 500 (Internal Server Error) if the event couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/events")
@@ -74,14 +76,15 @@ public class EventResource {
         }
         Event result = eventService.save(event);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, event.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, event.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /events : get all the events.
+     * GET /events : get all the events.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of events in body
+     * @return the ResponseEntity with status 200 (OK) and the list of events in
+     * body
      */
     @GetMapping("/events")
     @Timed
@@ -91,10 +94,11 @@ public class EventResource {
     }
 
     /**
-     * GET  /events/:id : get the "id" event.
+     * GET /events/:id : get the "id" event.
      *
      * @param id the id of the event to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the event, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the event,
+     * or with status 404 (Not Found)
      */
     @GetMapping("/events/{id}")
     @Timed
@@ -105,7 +109,7 @@ public class EventResource {
     }
 
     /**
-     * DELETE  /events/:id : delete the "id" event.
+     * DELETE /events/:id : delete the "id" event.
      *
      * @param id the id of the event to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -119,7 +123,7 @@ public class EventResource {
     }
 
     /**
-     * SEARCH  /_search/events?query=:query : search for the event corresponding
+     * SEARCH /_search/events?query=:query : search for the event corresponding
      * to the query.
      *
      * @param query the query of the event search

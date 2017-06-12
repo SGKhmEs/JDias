@@ -29,7 +29,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class ReshareServiceImpl implements ReshareService{
+public class ReshareServiceImpl implements ReshareService {
 
     private final Logger log = LoggerFactory.getLogger(ReshareServiceImpl.class);
 
@@ -60,7 +60,7 @@ public class ReshareServiceImpl implements ReshareService{
     @Override
     public Reshare save(Reshare reshare) {
         Reshare result;
-        if(reshare.getId() == null){
+        if (reshare.getId() == null) {
             log.debug("Request to save Reshare : {}", reshare);
             result = reshareRepository.save(reshare);
             reshareSearchRepository.save(result);
@@ -75,7 +75,7 @@ public class ReshareServiceImpl implements ReshareService{
             post.setPostType(PostType.RESHARE);
             post.setPub(true);
             postRepository.save(post);
-        }else {
+        } else {
             log.debug("Request to save Reshare : {}", reshare);
             result = reshareRepository.save(reshare);
             reshareSearchRepository.save(result);
@@ -84,9 +84,9 @@ public class ReshareServiceImpl implements ReshareService{
     }
 
     /**
-     *  Get all the reshares.
+     * Get all the reshares.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -96,10 +96,10 @@ public class ReshareServiceImpl implements ReshareService{
     }
 
     /**
-     *  Get one reshare by id.
+     * Get one reshare by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -109,9 +109,9 @@ public class ReshareServiceImpl implements ReshareService{
     }
 
     /**
-     *  Delete the  reshare by id.
+     * Delete the reshare by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -123,15 +123,15 @@ public class ReshareServiceImpl implements ReshareService{
     /**
      * Search for the reshare corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Reshare> search(String query) {
         log.debug("Request to search Reshares for query {}", query);
         return StreamSupport
-            .stream(reshareSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+                .stream(reshareSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

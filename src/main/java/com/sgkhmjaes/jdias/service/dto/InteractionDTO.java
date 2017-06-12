@@ -3,6 +3,7 @@ package com.sgkhmjaes.jdias.service.dto;
 import java.util.List;
 
 public class InteractionDTO {
+
     private int likes_count;
     private int reshares_count;
     private int comments_count;
@@ -10,7 +11,8 @@ public class InteractionDTO {
     private List<String> reshares;
     private List<CommentDTO> comments;
 
-    public InteractionDTO(){}
+    public InteractionDTO() {
+    }
 
     public int getLikes_count() {
         return likes_count;
@@ -59,17 +61,17 @@ public class InteractionDTO {
     public void setComments(List<CommentDTO> comments) {
         this.comments = comments;
     }
-    
+
     @Override
-public String toString() {
-StringBuilder sb = new StringBuilder();
-sb.append("Likes_count: ").append(likes_count).append("\r\n").
-append("Reshares_count: ").append(reshares_count).append("\r\n").
-append("Comments_count: ").append(comments_count).append("\r\n").
-append("Likes: ").append(likes).append("\r\n").
-append("Reshares: ").append(reshares).append("\r\n").
-append("Comments: ").append(comments).append("\r\n");
-return sb.toString();
-}
-    
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Likes_count: ").append(likes_count).append("\r\n").
+                append("Reshares_count: ").append(reshares_count).append("\r\n").
+                append("Comments_count: ").append(comments_count).append("\r\n").
+                append("Likes: ").append(likes).append("\r\n").
+                append("Reshares: ").append(reshares).append("\r\n").
+                append("Comments: ").append(comments).append("\r\n");
+        return sb.toString();
+    }
+
 }

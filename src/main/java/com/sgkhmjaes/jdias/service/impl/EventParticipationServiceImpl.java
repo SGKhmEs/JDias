@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class EventParticipationServiceImpl implements EventParticipationService{
+public class EventParticipationServiceImpl implements EventParticipationService {
 
     private final Logger log = LoggerFactory.getLogger(EventParticipationServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class EventParticipationServiceImpl implements EventParticipationService{
     }
 
     /**
-     *  Get all the eventParticipations.
+     * Get all the eventParticipations.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class EventParticipationServiceImpl implements EventParticipationService{
     }
 
     /**
-     *  Get one eventParticipation by id.
+     * Get one eventParticipation by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class EventParticipationServiceImpl implements EventParticipationService{
     }
 
     /**
-     *  Delete the  eventParticipation by id.
+     * Delete the eventParticipation by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class EventParticipationServiceImpl implements EventParticipationService{
     /**
      * Search for the eventParticipation corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<EventParticipation> search(String query) {
         log.debug("Request to search EventParticipations for query {}", query);
         return StreamSupport
-            .stream(eventParticipationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+                .stream(eventParticipationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+                .collect(Collectors.toList());
     }
 }
