@@ -17,33 +17,33 @@ public interface AspectMembershipService {
     AspectMembership save(AspectMembership aspectMembership);
 
     /**
-     *  Get all the aspectMemberships.
+     * Get all the aspectMemberships.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<AspectMembership> findAll();
 
     /**
-     *  Get the "id" aspectMembership.
+     * Get the "id" aspectMembership.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     AspectMembership findOne(Long id);
 
     /**
-     *  Delete the "id" aspectMembership.
+     * Delete the "id" aspectMembership.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the aspectMembership corresponding to the query.
      *
-     *  @param query the query of the search
-     *  
-     *  @return the list of entities
+     * @param query the query of the search
+     *
+     * @return the list of entities
      */
     List<AspectMembership> search(String query);
 }

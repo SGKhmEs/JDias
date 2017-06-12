@@ -152,9 +152,9 @@ public class UserAccountResourceIntTest {
         MockitoAnnotations.initMocks(this);
         UserAccountResource userAccountResource = new UserAccountResource(userAccountService);
         this.restUserAccountMockMvc = MockMvcBuilders.standaloneSetup(userAccountResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -165,33 +165,33 @@ public class UserAccountResourceIntTest {
      */
     public static UserAccount createEntity(EntityManager em) {
         UserAccount userAccount = new UserAccount()
-            .serializedPrivateKey(DEFAULT_SERIALIZED_PRIVATE_KEY)
-            .gettingStarted(DEFAULT_GETTING_STARTED)
-            .disableMail(DEFAULT_DISABLE_MAIL)
-            .language(DEFAULT_LANGUAGE)
-            .rememberCreatedAt(DEFAULT_REMEMBER_CREATED_AT)
-            .signInCount(DEFAULT_SIGN_IN_COUNT)
-            .currentSignInAt(DEFAULT_CURRENT_SIGN_IN_AT)
-            .lastSignInAt(DEFAULT_LAST_SIGN_IN_AT)
-            .currentSignInIp(DEFAULT_CURRENT_SIGN_IN_IP)
-            .lastSignInIp(DEFAULT_LAST_SIGN_IN_IP)
-            .createdAt(DEFAULT_CREATED_AT)
-            .updatedAt(DEFAULT_UPDATED_AT)
-            .lockedAt(DEFAULT_LOCKED_AT)
-            .showCommunitySpotlightInStream(DEFAULT_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM)
-            .autoFollowBack(DEFAULT_AUTO_FOLLOW_BACK)
-            .autoFollowBackAspectId(DEFAULT_AUTO_FOLLOW_BACK_ASPECT_ID)
-            .hiddenShareables(DEFAULT_HIDDEN_SHAREABLES)
-            .lastSeen(DEFAULT_LAST_SEEN)
-            .exportE(DEFAULT_EXPORT_E)
-            .exportedAt(DEFAULT_EXPORTED_AT)
-            .exporting(DEFAULT_EXPORTING)
-            .stripExif(DEFAULT_STRIP_EXIF)
-            .exportedPhotosFile(DEFAULT_EXPORTED_PHOTOS_FILE)
-            .exportedPhotosAt(DEFAULT_EXPORTED_PHOTOS_AT)
-            .exportingPhotos(DEFAULT_EXPORTING_PHOTOS)
-            .colorTheme(DEFAULT_COLOR_THEME)
-            .postDefaultPublic(DEFAULT_POST_DEFAULT_PUBLIC);
+                .serializedPrivateKey(DEFAULT_SERIALIZED_PRIVATE_KEY)
+                .gettingStarted(DEFAULT_GETTING_STARTED)
+                .disableMail(DEFAULT_DISABLE_MAIL)
+                .language(DEFAULT_LANGUAGE)
+                .rememberCreatedAt(DEFAULT_REMEMBER_CREATED_AT)
+                .signInCount(DEFAULT_SIGN_IN_COUNT)
+                .currentSignInAt(DEFAULT_CURRENT_SIGN_IN_AT)
+                .lastSignInAt(DEFAULT_LAST_SIGN_IN_AT)
+                .currentSignInIp(DEFAULT_CURRENT_SIGN_IN_IP)
+                .lastSignInIp(DEFAULT_LAST_SIGN_IN_IP)
+                .createdAt(DEFAULT_CREATED_AT)
+                .updatedAt(DEFAULT_UPDATED_AT)
+                .lockedAt(DEFAULT_LOCKED_AT)
+                .showCommunitySpotlightInStream(DEFAULT_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM)
+                .autoFollowBack(DEFAULT_AUTO_FOLLOW_BACK)
+                .autoFollowBackAspectId(DEFAULT_AUTO_FOLLOW_BACK_ASPECT_ID)
+                .hiddenShareables(DEFAULT_HIDDEN_SHAREABLES)
+                .lastSeen(DEFAULT_LAST_SEEN)
+                .exportE(DEFAULT_EXPORT_E)
+                .exportedAt(DEFAULT_EXPORTED_AT)
+                .exporting(DEFAULT_EXPORTING)
+                .stripExif(DEFAULT_STRIP_EXIF)
+                .exportedPhotosFile(DEFAULT_EXPORTED_PHOTOS_FILE)
+                .exportedPhotosAt(DEFAULT_EXPORTED_PHOTOS_AT)
+                .exportingPhotos(DEFAULT_EXPORTING_PHOTOS)
+                .colorTheme(DEFAULT_COLOR_THEME)
+                .postDefaultPublic(DEFAULT_POST_DEFAULT_PUBLIC);
         return userAccount;
     }
 
@@ -208,9 +208,9 @@ public class UserAccountResourceIntTest {
 
         // Create the UserAccount
         restUserAccountMockMvc.perform(post("/api/user-accounts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(userAccount)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(userAccount)))
+                .andExpect(status().isCreated());
 
         // Validate the UserAccount in the database
         List<UserAccount> userAccountList = userAccountRepository.findAll();
@@ -259,9 +259,9 @@ public class UserAccountResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restUserAccountMockMvc.perform(post("/api/user-accounts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(userAccount)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(userAccount)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<UserAccount> userAccountList = userAccountRepository.findAll();
@@ -276,36 +276,36 @@ public class UserAccountResourceIntTest {
 
         // Get all the userAccountList
         restUserAccountMockMvc.perform(get("/api/user-accounts?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(userAccount.getId().intValue())))
-            .andExpect(jsonPath("$.[*].serializedPrivateKey").value(hasItem(DEFAULT_SERIALIZED_PRIVATE_KEY.toString())))
-            .andExpect(jsonPath("$.[*].gettingStarted").value(hasItem(DEFAULT_GETTING_STARTED.booleanValue())))
-            .andExpect(jsonPath("$.[*].disableMail").value(hasItem(DEFAULT_DISABLE_MAIL.booleanValue())))
-            .andExpect(jsonPath("$.[*].language").value(hasItem(DEFAULT_LANGUAGE.toString())))
-            .andExpect(jsonPath("$.[*].rememberCreatedAt").value(hasItem(DEFAULT_REMEMBER_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].signInCount").value(hasItem(DEFAULT_SIGN_IN_COUNT)))
-            .andExpect(jsonPath("$.[*].currentSignInAt").value(hasItem(DEFAULT_CURRENT_SIGN_IN_AT.toString())))
-            .andExpect(jsonPath("$.[*].lastSignInAt").value(hasItem(DEFAULT_LAST_SIGN_IN_AT.toString())))
-            .andExpect(jsonPath("$.[*].currentSignInIp").value(hasItem(DEFAULT_CURRENT_SIGN_IN_IP.toString())))
-            .andExpect(jsonPath("$.[*].lastSignInIp").value(hasItem(DEFAULT_LAST_SIGN_IN_IP.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].lockedAt").value(hasItem(DEFAULT_LOCKED_AT.toString())))
-            .andExpect(jsonPath("$.[*].showCommunitySpotlightInStream").value(hasItem(DEFAULT_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM.booleanValue())))
-            .andExpect(jsonPath("$.[*].autoFollowBack").value(hasItem(DEFAULT_AUTO_FOLLOW_BACK.booleanValue())))
-            .andExpect(jsonPath("$.[*].autoFollowBackAspectId").value(hasItem(DEFAULT_AUTO_FOLLOW_BACK_ASPECT_ID)))
-            .andExpect(jsonPath("$.[*].hiddenShareables").value(hasItem(DEFAULT_HIDDEN_SHAREABLES.toString())))
-            .andExpect(jsonPath("$.[*].lastSeen").value(hasItem(DEFAULT_LAST_SEEN.toString())))
-            .andExpect(jsonPath("$.[*].exportE").value(hasItem(DEFAULT_EXPORT_E.toString())))
-            .andExpect(jsonPath("$.[*].exportedAt").value(hasItem(DEFAULT_EXPORTED_AT.toString())))
-            .andExpect(jsonPath("$.[*].exporting").value(hasItem(DEFAULT_EXPORTING.booleanValue())))
-            .andExpect(jsonPath("$.[*].stripExif").value(hasItem(DEFAULT_STRIP_EXIF.booleanValue())))
-            .andExpect(jsonPath("$.[*].exportedPhotosFile").value(hasItem(DEFAULT_EXPORTED_PHOTOS_FILE.toString())))
-            .andExpect(jsonPath("$.[*].exportedPhotosAt").value(hasItem(DEFAULT_EXPORTED_PHOTOS_AT.toString())))
-            .andExpect(jsonPath("$.[*].exportingPhotos").value(hasItem(DEFAULT_EXPORTING_PHOTOS.booleanValue())))
-            .andExpect(jsonPath("$.[*].colorTheme").value(hasItem(DEFAULT_COLOR_THEME.toString())))
-            .andExpect(jsonPath("$.[*].postDefaultPublic").value(hasItem(DEFAULT_POST_DEFAULT_PUBLIC.booleanValue())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(userAccount.getId().intValue())))
+                .andExpect(jsonPath("$.[*].serializedPrivateKey").value(hasItem(DEFAULT_SERIALIZED_PRIVATE_KEY.toString())))
+                .andExpect(jsonPath("$.[*].gettingStarted").value(hasItem(DEFAULT_GETTING_STARTED.booleanValue())))
+                .andExpect(jsonPath("$.[*].disableMail").value(hasItem(DEFAULT_DISABLE_MAIL.booleanValue())))
+                .andExpect(jsonPath("$.[*].language").value(hasItem(DEFAULT_LANGUAGE.toString())))
+                .andExpect(jsonPath("$.[*].rememberCreatedAt").value(hasItem(DEFAULT_REMEMBER_CREATED_AT.toString())))
+                .andExpect(jsonPath("$.[*].signInCount").value(hasItem(DEFAULT_SIGN_IN_COUNT)))
+                .andExpect(jsonPath("$.[*].currentSignInAt").value(hasItem(DEFAULT_CURRENT_SIGN_IN_AT.toString())))
+                .andExpect(jsonPath("$.[*].lastSignInAt").value(hasItem(DEFAULT_LAST_SIGN_IN_AT.toString())))
+                .andExpect(jsonPath("$.[*].currentSignInIp").value(hasItem(DEFAULT_CURRENT_SIGN_IN_IP.toString())))
+                .andExpect(jsonPath("$.[*].lastSignInIp").value(hasItem(DEFAULT_LAST_SIGN_IN_IP.toString())))
+                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+                .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+                .andExpect(jsonPath("$.[*].lockedAt").value(hasItem(DEFAULT_LOCKED_AT.toString())))
+                .andExpect(jsonPath("$.[*].showCommunitySpotlightInStream").value(hasItem(DEFAULT_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM.booleanValue())))
+                .andExpect(jsonPath("$.[*].autoFollowBack").value(hasItem(DEFAULT_AUTO_FOLLOW_BACK.booleanValue())))
+                .andExpect(jsonPath("$.[*].autoFollowBackAspectId").value(hasItem(DEFAULT_AUTO_FOLLOW_BACK_ASPECT_ID)))
+                .andExpect(jsonPath("$.[*].hiddenShareables").value(hasItem(DEFAULT_HIDDEN_SHAREABLES.toString())))
+                .andExpect(jsonPath("$.[*].lastSeen").value(hasItem(DEFAULT_LAST_SEEN.toString())))
+                .andExpect(jsonPath("$.[*].exportE").value(hasItem(DEFAULT_EXPORT_E.toString())))
+                .andExpect(jsonPath("$.[*].exportedAt").value(hasItem(DEFAULT_EXPORTED_AT.toString())))
+                .andExpect(jsonPath("$.[*].exporting").value(hasItem(DEFAULT_EXPORTING.booleanValue())))
+                .andExpect(jsonPath("$.[*].stripExif").value(hasItem(DEFAULT_STRIP_EXIF.booleanValue())))
+                .andExpect(jsonPath("$.[*].exportedPhotosFile").value(hasItem(DEFAULT_EXPORTED_PHOTOS_FILE.toString())))
+                .andExpect(jsonPath("$.[*].exportedPhotosAt").value(hasItem(DEFAULT_EXPORTED_PHOTOS_AT.toString())))
+                .andExpect(jsonPath("$.[*].exportingPhotos").value(hasItem(DEFAULT_EXPORTING_PHOTOS.booleanValue())))
+                .andExpect(jsonPath("$.[*].colorTheme").value(hasItem(DEFAULT_COLOR_THEME.toString())))
+                .andExpect(jsonPath("$.[*].postDefaultPublic").value(hasItem(DEFAULT_POST_DEFAULT_PUBLIC.booleanValue())));
     }
 
     @Test
@@ -316,36 +316,36 @@ public class UserAccountResourceIntTest {
 
         // Get the userAccount
         restUserAccountMockMvc.perform(get("/api/user-accounts/{id}", userAccount.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(userAccount.getId().intValue()))
-            .andExpect(jsonPath("$.serializedPrivateKey").value(DEFAULT_SERIALIZED_PRIVATE_KEY.toString()))
-            .andExpect(jsonPath("$.gettingStarted").value(DEFAULT_GETTING_STARTED.booleanValue()))
-            .andExpect(jsonPath("$.disableMail").value(DEFAULT_DISABLE_MAIL.booleanValue()))
-            .andExpect(jsonPath("$.language").value(DEFAULT_LANGUAGE.toString()))
-            .andExpect(jsonPath("$.rememberCreatedAt").value(DEFAULT_REMEMBER_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.signInCount").value(DEFAULT_SIGN_IN_COUNT))
-            .andExpect(jsonPath("$.currentSignInAt").value(DEFAULT_CURRENT_SIGN_IN_AT.toString()))
-            .andExpect(jsonPath("$.lastSignInAt").value(DEFAULT_LAST_SIGN_IN_AT.toString()))
-            .andExpect(jsonPath("$.currentSignInIp").value(DEFAULT_CURRENT_SIGN_IN_IP.toString()))
-            .andExpect(jsonPath("$.lastSignInIp").value(DEFAULT_LAST_SIGN_IN_IP.toString()))
-            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
-            .andExpect(jsonPath("$.lockedAt").value(DEFAULT_LOCKED_AT.toString()))
-            .andExpect(jsonPath("$.showCommunitySpotlightInStream").value(DEFAULT_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM.booleanValue()))
-            .andExpect(jsonPath("$.autoFollowBack").value(DEFAULT_AUTO_FOLLOW_BACK.booleanValue()))
-            .andExpect(jsonPath("$.autoFollowBackAspectId").value(DEFAULT_AUTO_FOLLOW_BACK_ASPECT_ID))
-            .andExpect(jsonPath("$.hiddenShareables").value(DEFAULT_HIDDEN_SHAREABLES.toString()))
-            .andExpect(jsonPath("$.lastSeen").value(DEFAULT_LAST_SEEN.toString()))
-            .andExpect(jsonPath("$.exportE").value(DEFAULT_EXPORT_E.toString()))
-            .andExpect(jsonPath("$.exportedAt").value(DEFAULT_EXPORTED_AT.toString()))
-            .andExpect(jsonPath("$.exporting").value(DEFAULT_EXPORTING.booleanValue()))
-            .andExpect(jsonPath("$.stripExif").value(DEFAULT_STRIP_EXIF.booleanValue()))
-            .andExpect(jsonPath("$.exportedPhotosFile").value(DEFAULT_EXPORTED_PHOTOS_FILE.toString()))
-            .andExpect(jsonPath("$.exportedPhotosAt").value(DEFAULT_EXPORTED_PHOTOS_AT.toString()))
-            .andExpect(jsonPath("$.exportingPhotos").value(DEFAULT_EXPORTING_PHOTOS.booleanValue()))
-            .andExpect(jsonPath("$.colorTheme").value(DEFAULT_COLOR_THEME.toString()))
-            .andExpect(jsonPath("$.postDefaultPublic").value(DEFAULT_POST_DEFAULT_PUBLIC.booleanValue()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(userAccount.getId().intValue()))
+                .andExpect(jsonPath("$.serializedPrivateKey").value(DEFAULT_SERIALIZED_PRIVATE_KEY.toString()))
+                .andExpect(jsonPath("$.gettingStarted").value(DEFAULT_GETTING_STARTED.booleanValue()))
+                .andExpect(jsonPath("$.disableMail").value(DEFAULT_DISABLE_MAIL.booleanValue()))
+                .andExpect(jsonPath("$.language").value(DEFAULT_LANGUAGE.toString()))
+                .andExpect(jsonPath("$.rememberCreatedAt").value(DEFAULT_REMEMBER_CREATED_AT.toString()))
+                .andExpect(jsonPath("$.signInCount").value(DEFAULT_SIGN_IN_COUNT))
+                .andExpect(jsonPath("$.currentSignInAt").value(DEFAULT_CURRENT_SIGN_IN_AT.toString()))
+                .andExpect(jsonPath("$.lastSignInAt").value(DEFAULT_LAST_SIGN_IN_AT.toString()))
+                .andExpect(jsonPath("$.currentSignInIp").value(DEFAULT_CURRENT_SIGN_IN_IP.toString()))
+                .andExpect(jsonPath("$.lastSignInIp").value(DEFAULT_LAST_SIGN_IN_IP.toString()))
+                .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+                .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
+                .andExpect(jsonPath("$.lockedAt").value(DEFAULT_LOCKED_AT.toString()))
+                .andExpect(jsonPath("$.showCommunitySpotlightInStream").value(DEFAULT_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM.booleanValue()))
+                .andExpect(jsonPath("$.autoFollowBack").value(DEFAULT_AUTO_FOLLOW_BACK.booleanValue()))
+                .andExpect(jsonPath("$.autoFollowBackAspectId").value(DEFAULT_AUTO_FOLLOW_BACK_ASPECT_ID))
+                .andExpect(jsonPath("$.hiddenShareables").value(DEFAULT_HIDDEN_SHAREABLES.toString()))
+                .andExpect(jsonPath("$.lastSeen").value(DEFAULT_LAST_SEEN.toString()))
+                .andExpect(jsonPath("$.exportE").value(DEFAULT_EXPORT_E.toString()))
+                .andExpect(jsonPath("$.exportedAt").value(DEFAULT_EXPORTED_AT.toString()))
+                .andExpect(jsonPath("$.exporting").value(DEFAULT_EXPORTING.booleanValue()))
+                .andExpect(jsonPath("$.stripExif").value(DEFAULT_STRIP_EXIF.booleanValue()))
+                .andExpect(jsonPath("$.exportedPhotosFile").value(DEFAULT_EXPORTED_PHOTOS_FILE.toString()))
+                .andExpect(jsonPath("$.exportedPhotosAt").value(DEFAULT_EXPORTED_PHOTOS_AT.toString()))
+                .andExpect(jsonPath("$.exportingPhotos").value(DEFAULT_EXPORTING_PHOTOS.booleanValue()))
+                .andExpect(jsonPath("$.colorTheme").value(DEFAULT_COLOR_THEME.toString()))
+                .andExpect(jsonPath("$.postDefaultPublic").value(DEFAULT_POST_DEFAULT_PUBLIC.booleanValue()));
     }
 
     @Test
@@ -353,7 +353,7 @@ public class UserAccountResourceIntTest {
     public void getNonExistingUserAccount() throws Exception {
         // Get the userAccount
         restUserAccountMockMvc.perform(get("/api/user-accounts/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -367,38 +367,38 @@ public class UserAccountResourceIntTest {
         // Update the userAccount
         UserAccount updatedUserAccount = userAccountRepository.findOne(userAccount.getId());
         updatedUserAccount
-            .serializedPrivateKey(UPDATED_SERIALIZED_PRIVATE_KEY)
-            .gettingStarted(UPDATED_GETTING_STARTED)
-            .disableMail(UPDATED_DISABLE_MAIL)
-            .language(UPDATED_LANGUAGE)
-            .rememberCreatedAt(UPDATED_REMEMBER_CREATED_AT)
-            .signInCount(UPDATED_SIGN_IN_COUNT)
-            .currentSignInAt(UPDATED_CURRENT_SIGN_IN_AT)
-            .lastSignInAt(UPDATED_LAST_SIGN_IN_AT)
-            .currentSignInIp(UPDATED_CURRENT_SIGN_IN_IP)
-            .lastSignInIp(UPDATED_LAST_SIGN_IN_IP)
-            .createdAt(UPDATED_CREATED_AT)
-            .updatedAt(UPDATED_UPDATED_AT)
-            .lockedAt(UPDATED_LOCKED_AT)
-            .showCommunitySpotlightInStream(UPDATED_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM)
-            .autoFollowBack(UPDATED_AUTO_FOLLOW_BACK)
-            .autoFollowBackAspectId(UPDATED_AUTO_FOLLOW_BACK_ASPECT_ID)
-            .hiddenShareables(UPDATED_HIDDEN_SHAREABLES)
-            .lastSeen(UPDATED_LAST_SEEN)
-            .exportE(UPDATED_EXPORT_E)
-            .exportedAt(UPDATED_EXPORTED_AT)
-            .exporting(UPDATED_EXPORTING)
-            .stripExif(UPDATED_STRIP_EXIF)
-            .exportedPhotosFile(UPDATED_EXPORTED_PHOTOS_FILE)
-            .exportedPhotosAt(UPDATED_EXPORTED_PHOTOS_AT)
-            .exportingPhotos(UPDATED_EXPORTING_PHOTOS)
-            .colorTheme(UPDATED_COLOR_THEME)
-            .postDefaultPublic(UPDATED_POST_DEFAULT_PUBLIC);
+                .serializedPrivateKey(UPDATED_SERIALIZED_PRIVATE_KEY)
+                .gettingStarted(UPDATED_GETTING_STARTED)
+                .disableMail(UPDATED_DISABLE_MAIL)
+                .language(UPDATED_LANGUAGE)
+                .rememberCreatedAt(UPDATED_REMEMBER_CREATED_AT)
+                .signInCount(UPDATED_SIGN_IN_COUNT)
+                .currentSignInAt(UPDATED_CURRENT_SIGN_IN_AT)
+                .lastSignInAt(UPDATED_LAST_SIGN_IN_AT)
+                .currentSignInIp(UPDATED_CURRENT_SIGN_IN_IP)
+                .lastSignInIp(UPDATED_LAST_SIGN_IN_IP)
+                .createdAt(UPDATED_CREATED_AT)
+                .updatedAt(UPDATED_UPDATED_AT)
+                .lockedAt(UPDATED_LOCKED_AT)
+                .showCommunitySpotlightInStream(UPDATED_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM)
+                .autoFollowBack(UPDATED_AUTO_FOLLOW_BACK)
+                .autoFollowBackAspectId(UPDATED_AUTO_FOLLOW_BACK_ASPECT_ID)
+                .hiddenShareables(UPDATED_HIDDEN_SHAREABLES)
+                .lastSeen(UPDATED_LAST_SEEN)
+                .exportE(UPDATED_EXPORT_E)
+                .exportedAt(UPDATED_EXPORTED_AT)
+                .exporting(UPDATED_EXPORTING)
+                .stripExif(UPDATED_STRIP_EXIF)
+                .exportedPhotosFile(UPDATED_EXPORTED_PHOTOS_FILE)
+                .exportedPhotosAt(UPDATED_EXPORTED_PHOTOS_AT)
+                .exportingPhotos(UPDATED_EXPORTING_PHOTOS)
+                .colorTheme(UPDATED_COLOR_THEME)
+                .postDefaultPublic(UPDATED_POST_DEFAULT_PUBLIC);
 
         restUserAccountMockMvc.perform(put("/api/user-accounts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedUserAccount)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedUserAccount)))
+                .andExpect(status().isOk());
 
         // Validate the UserAccount in the database
         List<UserAccount> userAccountList = userAccountRepository.findAll();
@@ -443,12 +443,11 @@ public class UserAccountResourceIntTest {
         int databaseSizeBeforeUpdate = userAccountRepository.findAll().size();
 
         // Create the UserAccount
-
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restUserAccountMockMvc.perform(put("/api/user-accounts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(userAccount)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(userAccount)))
+                .andExpect(status().isCreated());
 
         // Validate the UserAccount in the database
         List<UserAccount> userAccountList = userAccountRepository.findAll();
@@ -465,8 +464,8 @@ public class UserAccountResourceIntTest {
 
         // Get the userAccount
         restUserAccountMockMvc.perform(delete("/api/user-accounts/{id}", userAccount.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean userAccountExistsInEs = userAccountSearchRepository.exists(userAccount.getId());
@@ -485,36 +484,36 @@ public class UserAccountResourceIntTest {
 
         // Search the userAccount
         restUserAccountMockMvc.perform(get("/api/_search/user-accounts?query=id:" + userAccount.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(userAccount.getId().intValue())))
-            .andExpect(jsonPath("$.[*].serializedPrivateKey").value(hasItem(DEFAULT_SERIALIZED_PRIVATE_KEY.toString())))
-            .andExpect(jsonPath("$.[*].gettingStarted").value(hasItem(DEFAULT_GETTING_STARTED.booleanValue())))
-            .andExpect(jsonPath("$.[*].disableMail").value(hasItem(DEFAULT_DISABLE_MAIL.booleanValue())))
-            .andExpect(jsonPath("$.[*].language").value(hasItem(DEFAULT_LANGUAGE.toString())))
-            .andExpect(jsonPath("$.[*].rememberCreatedAt").value(hasItem(DEFAULT_REMEMBER_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].signInCount").value(hasItem(DEFAULT_SIGN_IN_COUNT)))
-            .andExpect(jsonPath("$.[*].currentSignInAt").value(hasItem(DEFAULT_CURRENT_SIGN_IN_AT.toString())))
-            .andExpect(jsonPath("$.[*].lastSignInAt").value(hasItem(DEFAULT_LAST_SIGN_IN_AT.toString())))
-            .andExpect(jsonPath("$.[*].currentSignInIp").value(hasItem(DEFAULT_CURRENT_SIGN_IN_IP.toString())))
-            .andExpect(jsonPath("$.[*].lastSignInIp").value(hasItem(DEFAULT_LAST_SIGN_IN_IP.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].lockedAt").value(hasItem(DEFAULT_LOCKED_AT.toString())))
-            .andExpect(jsonPath("$.[*].showCommunitySpotlightInStream").value(hasItem(DEFAULT_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM.booleanValue())))
-            .andExpect(jsonPath("$.[*].autoFollowBack").value(hasItem(DEFAULT_AUTO_FOLLOW_BACK.booleanValue())))
-            .andExpect(jsonPath("$.[*].autoFollowBackAspectId").value(hasItem(DEFAULT_AUTO_FOLLOW_BACK_ASPECT_ID)))
-            .andExpect(jsonPath("$.[*].hiddenShareables").value(hasItem(DEFAULT_HIDDEN_SHAREABLES.toString())))
-            .andExpect(jsonPath("$.[*].lastSeen").value(hasItem(DEFAULT_LAST_SEEN.toString())))
-            .andExpect(jsonPath("$.[*].exportE").value(hasItem(DEFAULT_EXPORT_E.toString())))
-            .andExpect(jsonPath("$.[*].exportedAt").value(hasItem(DEFAULT_EXPORTED_AT.toString())))
-            .andExpect(jsonPath("$.[*].exporting").value(hasItem(DEFAULT_EXPORTING.booleanValue())))
-            .andExpect(jsonPath("$.[*].stripExif").value(hasItem(DEFAULT_STRIP_EXIF.booleanValue())))
-            .andExpect(jsonPath("$.[*].exportedPhotosFile").value(hasItem(DEFAULT_EXPORTED_PHOTOS_FILE.toString())))
-            .andExpect(jsonPath("$.[*].exportedPhotosAt").value(hasItem(DEFAULT_EXPORTED_PHOTOS_AT.toString())))
-            .andExpect(jsonPath("$.[*].exportingPhotos").value(hasItem(DEFAULT_EXPORTING_PHOTOS.booleanValue())))
-            .andExpect(jsonPath("$.[*].colorTheme").value(hasItem(DEFAULT_COLOR_THEME.toString())))
-            .andExpect(jsonPath("$.[*].postDefaultPublic").value(hasItem(DEFAULT_POST_DEFAULT_PUBLIC.booleanValue())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(userAccount.getId().intValue())))
+                .andExpect(jsonPath("$.[*].serializedPrivateKey").value(hasItem(DEFAULT_SERIALIZED_PRIVATE_KEY.toString())))
+                .andExpect(jsonPath("$.[*].gettingStarted").value(hasItem(DEFAULT_GETTING_STARTED.booleanValue())))
+                .andExpect(jsonPath("$.[*].disableMail").value(hasItem(DEFAULT_DISABLE_MAIL.booleanValue())))
+                .andExpect(jsonPath("$.[*].language").value(hasItem(DEFAULT_LANGUAGE.toString())))
+                .andExpect(jsonPath("$.[*].rememberCreatedAt").value(hasItem(DEFAULT_REMEMBER_CREATED_AT.toString())))
+                .andExpect(jsonPath("$.[*].signInCount").value(hasItem(DEFAULT_SIGN_IN_COUNT)))
+                .andExpect(jsonPath("$.[*].currentSignInAt").value(hasItem(DEFAULT_CURRENT_SIGN_IN_AT.toString())))
+                .andExpect(jsonPath("$.[*].lastSignInAt").value(hasItem(DEFAULT_LAST_SIGN_IN_AT.toString())))
+                .andExpect(jsonPath("$.[*].currentSignInIp").value(hasItem(DEFAULT_CURRENT_SIGN_IN_IP.toString())))
+                .andExpect(jsonPath("$.[*].lastSignInIp").value(hasItem(DEFAULT_LAST_SIGN_IN_IP.toString())))
+                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+                .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+                .andExpect(jsonPath("$.[*].lockedAt").value(hasItem(DEFAULT_LOCKED_AT.toString())))
+                .andExpect(jsonPath("$.[*].showCommunitySpotlightInStream").value(hasItem(DEFAULT_SHOW_COMMUNITY_SPOTLIGHT_IN_STREAM.booleanValue())))
+                .andExpect(jsonPath("$.[*].autoFollowBack").value(hasItem(DEFAULT_AUTO_FOLLOW_BACK.booleanValue())))
+                .andExpect(jsonPath("$.[*].autoFollowBackAspectId").value(hasItem(DEFAULT_AUTO_FOLLOW_BACK_ASPECT_ID)))
+                .andExpect(jsonPath("$.[*].hiddenShareables").value(hasItem(DEFAULT_HIDDEN_SHAREABLES.toString())))
+                .andExpect(jsonPath("$.[*].lastSeen").value(hasItem(DEFAULT_LAST_SEEN.toString())))
+                .andExpect(jsonPath("$.[*].exportE").value(hasItem(DEFAULT_EXPORT_E.toString())))
+                .andExpect(jsonPath("$.[*].exportedAt").value(hasItem(DEFAULT_EXPORTED_AT.toString())))
+                .andExpect(jsonPath("$.[*].exporting").value(hasItem(DEFAULT_EXPORTING.booleanValue())))
+                .andExpect(jsonPath("$.[*].stripExif").value(hasItem(DEFAULT_STRIP_EXIF.booleanValue())))
+                .andExpect(jsonPath("$.[*].exportedPhotosFile").value(hasItem(DEFAULT_EXPORTED_PHOTOS_FILE.toString())))
+                .andExpect(jsonPath("$.[*].exportedPhotosAt").value(hasItem(DEFAULT_EXPORTED_PHOTOS_AT.toString())))
+                .andExpect(jsonPath("$.[*].exportingPhotos").value(hasItem(DEFAULT_EXPORTING_PHOTOS.booleanValue())))
+                .andExpect(jsonPath("$.[*].colorTheme").value(hasItem(DEFAULT_COLOR_THEME.toString())))
+                .andExpect(jsonPath("$.[*].postDefaultPublic").value(hasItem(DEFAULT_POST_DEFAULT_PUBLIC.booleanValue())));
     }
 
     @Test

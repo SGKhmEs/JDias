@@ -137,9 +137,9 @@ public class StatusMessage implements Serializable {
 
     @Override
     public String toString() {
-        return "StatusMessage{" +
-            "id=" + getId() +
-            ", text='" + getText() + "'" +
-            "}";
+        return "StatusMessage{"
+                + "id=" + getId()
+                + ", text='" + getText() + "'"
+                + "}";
     }
 }

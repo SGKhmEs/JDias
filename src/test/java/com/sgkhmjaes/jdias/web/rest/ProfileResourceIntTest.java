@@ -110,9 +110,9 @@ public class ProfileResourceIntTest {
         MockitoAnnotations.initMocks(this);
         ProfileResource profileResource = new ProfileResource(profileService);
         this.restProfileMockMvc = MockMvcBuilders.standaloneSetup(profileResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -123,19 +123,19 @@ public class ProfileResourceIntTest {
      */
     public static Profile createEntity(EntityManager em) {
         Profile profile = new Profile()
-            .author(DEFAULT_AUTHOR)
-            .firstName(DEFAULT_FIRST_NAME)
-            .lastName(DEFAULT_LAST_NAME)
-            .imageUrl(DEFAULT_IMAGE_URL)
-            .imageUrlSmall(DEFAULT_IMAGE_URL_SMALL)
-            .imageUrlMedium(DEFAULT_IMAGE_URL_MEDIUM)
-            .birthday(DEFAULT_BIRTHDAY)
-            .gender(DEFAULT_GENDER)
-            .bio(DEFAULT_BIO)
-            .location(DEFAULT_LOCATION)
-            .searchable(DEFAULT_SEARCHABLE)
-            .nsfw(DEFAULT_NSFW)
-            .tagString(DEFAULT_TAG_STRING);
+                .author(DEFAULT_AUTHOR)
+                .firstName(DEFAULT_FIRST_NAME)
+                .lastName(DEFAULT_LAST_NAME)
+                .imageUrl(DEFAULT_IMAGE_URL)
+                .imageUrlSmall(DEFAULT_IMAGE_URL_SMALL)
+                .imageUrlMedium(DEFAULT_IMAGE_URL_MEDIUM)
+                .birthday(DEFAULT_BIRTHDAY)
+                .gender(DEFAULT_GENDER)
+                .bio(DEFAULT_BIO)
+                .location(DEFAULT_LOCATION)
+                .searchable(DEFAULT_SEARCHABLE)
+                .nsfw(DEFAULT_NSFW)
+                .tagString(DEFAULT_TAG_STRING);
         return profile;
     }
 
@@ -152,9 +152,9 @@ public class ProfileResourceIntTest {
 
         // Create the Profile
         restProfileMockMvc.perform(post("/api/profiles")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(profile)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(profile)))
+                .andExpect(status().isCreated());
 
         // Validate the Profile in the database
         List<Profile> profileList = profileRepository.findAll();
@@ -189,9 +189,9 @@ public class ProfileResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restProfileMockMvc.perform(post("/api/profiles")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(profile)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(profile)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Profile> profileList = profileRepository.findAll();
@@ -206,22 +206,22 @@ public class ProfileResourceIntTest {
 
         // Get all the profileList
         restProfileMockMvc.perform(get("/api/profiles?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(profile.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME.toString())))
-            .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME.toString())))
-            .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL.toString())))
-            .andExpect(jsonPath("$.[*].imageUrlSmall").value(hasItem(DEFAULT_IMAGE_URL_SMALL.toString())))
-            .andExpect(jsonPath("$.[*].imageUrlMedium").value(hasItem(DEFAULT_IMAGE_URL_MEDIUM.toString())))
-            .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
-            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
-            .andExpect(jsonPath("$.[*].bio").value(hasItem(DEFAULT_BIO.toString())))
-            .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION.toString())))
-            .andExpect(jsonPath("$.[*].searchable").value(hasItem(DEFAULT_SEARCHABLE.booleanValue())))
-            .andExpect(jsonPath("$.[*].nsfw").value(hasItem(DEFAULT_NSFW.booleanValue())))
-            .andExpect(jsonPath("$.[*].tagString").value(hasItem(DEFAULT_TAG_STRING.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(profile.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME.toString())))
+                .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME.toString())))
+                .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL.toString())))
+                .andExpect(jsonPath("$.[*].imageUrlSmall").value(hasItem(DEFAULT_IMAGE_URL_SMALL.toString())))
+                .andExpect(jsonPath("$.[*].imageUrlMedium").value(hasItem(DEFAULT_IMAGE_URL_MEDIUM.toString())))
+                .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
+                .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
+                .andExpect(jsonPath("$.[*].bio").value(hasItem(DEFAULT_BIO.toString())))
+                .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION.toString())))
+                .andExpect(jsonPath("$.[*].searchable").value(hasItem(DEFAULT_SEARCHABLE.booleanValue())))
+                .andExpect(jsonPath("$.[*].nsfw").value(hasItem(DEFAULT_NSFW.booleanValue())))
+                .andExpect(jsonPath("$.[*].tagString").value(hasItem(DEFAULT_TAG_STRING.toString())));
     }
 
     @Test
@@ -232,22 +232,22 @@ public class ProfileResourceIntTest {
 
         // Get the profile
         restProfileMockMvc.perform(get("/api/profiles/{id}", profile.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(profile.getId().intValue()))
-            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-            .andExpect(jsonPath("$.firstName").value(DEFAULT_FIRST_NAME.toString()))
-            .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME.toString()))
-            .andExpect(jsonPath("$.imageUrl").value(DEFAULT_IMAGE_URL.toString()))
-            .andExpect(jsonPath("$.imageUrlSmall").value(DEFAULT_IMAGE_URL_SMALL.toString()))
-            .andExpect(jsonPath("$.imageUrlMedium").value(DEFAULT_IMAGE_URL_MEDIUM.toString()))
-            .andExpect(jsonPath("$.birthday").value(DEFAULT_BIRTHDAY.toString()))
-            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()))
-            .andExpect(jsonPath("$.bio").value(DEFAULT_BIO.toString()))
-            .andExpect(jsonPath("$.location").value(DEFAULT_LOCATION.toString()))
-            .andExpect(jsonPath("$.searchable").value(DEFAULT_SEARCHABLE.booleanValue()))
-            .andExpect(jsonPath("$.nsfw").value(DEFAULT_NSFW.booleanValue()))
-            .andExpect(jsonPath("$.tagString").value(DEFAULT_TAG_STRING.toString()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(profile.getId().intValue()))
+                .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
+                .andExpect(jsonPath("$.firstName").value(DEFAULT_FIRST_NAME.toString()))
+                .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME.toString()))
+                .andExpect(jsonPath("$.imageUrl").value(DEFAULT_IMAGE_URL.toString()))
+                .andExpect(jsonPath("$.imageUrlSmall").value(DEFAULT_IMAGE_URL_SMALL.toString()))
+                .andExpect(jsonPath("$.imageUrlMedium").value(DEFAULT_IMAGE_URL_MEDIUM.toString()))
+                .andExpect(jsonPath("$.birthday").value(DEFAULT_BIRTHDAY.toString()))
+                .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()))
+                .andExpect(jsonPath("$.bio").value(DEFAULT_BIO.toString()))
+                .andExpect(jsonPath("$.location").value(DEFAULT_LOCATION.toString()))
+                .andExpect(jsonPath("$.searchable").value(DEFAULT_SEARCHABLE.booleanValue()))
+                .andExpect(jsonPath("$.nsfw").value(DEFAULT_NSFW.booleanValue()))
+                .andExpect(jsonPath("$.tagString").value(DEFAULT_TAG_STRING.toString()));
     }
 
     @Test
@@ -255,7 +255,7 @@ public class ProfileResourceIntTest {
     public void getNonExistingProfile() throws Exception {
         // Get the profile
         restProfileMockMvc.perform(get("/api/profiles/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -269,24 +269,24 @@ public class ProfileResourceIntTest {
         // Update the profile
         Profile updatedProfile = profileRepository.findOne(profile.getId());
         updatedProfile
-            .author(UPDATED_AUTHOR)
-            .firstName(UPDATED_FIRST_NAME)
-            .lastName(UPDATED_LAST_NAME)
-            .imageUrl(UPDATED_IMAGE_URL)
-            .imageUrlSmall(UPDATED_IMAGE_URL_SMALL)
-            .imageUrlMedium(UPDATED_IMAGE_URL_MEDIUM)
-            .birthday(UPDATED_BIRTHDAY)
-            .gender(UPDATED_GENDER)
-            .bio(UPDATED_BIO)
-            .location(UPDATED_LOCATION)
-            .searchable(UPDATED_SEARCHABLE)
-            .nsfw(UPDATED_NSFW)
-            .tagString(UPDATED_TAG_STRING);
+                .author(UPDATED_AUTHOR)
+                .firstName(UPDATED_FIRST_NAME)
+                .lastName(UPDATED_LAST_NAME)
+                .imageUrl(UPDATED_IMAGE_URL)
+                .imageUrlSmall(UPDATED_IMAGE_URL_SMALL)
+                .imageUrlMedium(UPDATED_IMAGE_URL_MEDIUM)
+                .birthday(UPDATED_BIRTHDAY)
+                .gender(UPDATED_GENDER)
+                .bio(UPDATED_BIO)
+                .location(UPDATED_LOCATION)
+                .searchable(UPDATED_SEARCHABLE)
+                .nsfw(UPDATED_NSFW)
+                .tagString(UPDATED_TAG_STRING);
 
         restProfileMockMvc.perform(put("/api/profiles")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedProfile)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedProfile)))
+                .andExpect(status().isOk());
 
         // Validate the Profile in the database
         List<Profile> profileList = profileRepository.findAll();
@@ -317,12 +317,11 @@ public class ProfileResourceIntTest {
         int databaseSizeBeforeUpdate = profileRepository.findAll().size();
 
         // Create the Profile
-
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restProfileMockMvc.perform(put("/api/profiles")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(profile)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(profile)))
+                .andExpect(status().isCreated());
 
         // Validate the Profile in the database
         List<Profile> profileList = profileRepository.findAll();
@@ -339,8 +338,8 @@ public class ProfileResourceIntTest {
 
         // Get the profile
         restProfileMockMvc.perform(delete("/api/profiles/{id}", profile.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean profileExistsInEs = profileSearchRepository.exists(profile.getId());
@@ -359,22 +358,22 @@ public class ProfileResourceIntTest {
 
         // Search the profile
         restProfileMockMvc.perform(get("/api/_search/profiles?query=id:" + profile.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(profile.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME.toString())))
-            .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME.toString())))
-            .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL.toString())))
-            .andExpect(jsonPath("$.[*].imageUrlSmall").value(hasItem(DEFAULT_IMAGE_URL_SMALL.toString())))
-            .andExpect(jsonPath("$.[*].imageUrlMedium").value(hasItem(DEFAULT_IMAGE_URL_MEDIUM.toString())))
-            .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
-            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
-            .andExpect(jsonPath("$.[*].bio").value(hasItem(DEFAULT_BIO.toString())))
-            .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION.toString())))
-            .andExpect(jsonPath("$.[*].searchable").value(hasItem(DEFAULT_SEARCHABLE.booleanValue())))
-            .andExpect(jsonPath("$.[*].nsfw").value(hasItem(DEFAULT_NSFW.booleanValue())))
-            .andExpect(jsonPath("$.[*].tagString").value(hasItem(DEFAULT_TAG_STRING.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(profile.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME.toString())))
+                .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME.toString())))
+                .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL.toString())))
+                .andExpect(jsonPath("$.[*].imageUrlSmall").value(hasItem(DEFAULT_IMAGE_URL_SMALL.toString())))
+                .andExpect(jsonPath("$.[*].imageUrlMedium").value(hasItem(DEFAULT_IMAGE_URL_MEDIUM.toString())))
+                .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
+                .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
+                .andExpect(jsonPath("$.[*].bio").value(hasItem(DEFAULT_BIO.toString())))
+                .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION.toString())))
+                .andExpect(jsonPath("$.[*].searchable").value(hasItem(DEFAULT_SEARCHABLE.booleanValue())))
+                .andExpect(jsonPath("$.[*].nsfw").value(hasItem(DEFAULT_NSFW.booleanValue())))
+                .andExpect(jsonPath("$.[*].tagString").value(hasItem(DEFAULT_TAG_STRING.toString())));
     }
 
     @Test

@@ -81,9 +81,9 @@ public class ContactResourceIntTest {
         MockitoAnnotations.initMocks(this);
         ContactResource contactResource = new ContactResource(contactService);
         this.restContactMockMvc = MockMvcBuilders.standaloneSetup(contactResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -94,10 +94,10 @@ public class ContactResourceIntTest {
      */
     public static Contact createEntity(EntityManager em) {
         Contact contact = new Contact()
-            .author(DEFAULT_AUTHOR)
-            .recipient(DEFAULT_RECIPIENT)
-            .following(DEFAULT_FOLLOWING)
-            .sharing(DEFAULT_SHARING);
+                .author(DEFAULT_AUTHOR)
+                .recipient(DEFAULT_RECIPIENT)
+                .following(DEFAULT_FOLLOWING)
+                .sharing(DEFAULT_SHARING);
         return contact;
     }
 
@@ -114,9 +114,9 @@ public class ContactResourceIntTest {
 
         // Create the Contact
         restContactMockMvc.perform(post("/api/contacts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(contact)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(contact)))
+                .andExpect(status().isCreated());
 
         // Validate the Contact in the database
         List<Contact> contactList = contactRepository.findAll();
@@ -142,9 +142,9 @@ public class ContactResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restContactMockMvc.perform(post("/api/contacts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(contact)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(contact)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Contact> contactList = contactRepository.findAll();
@@ -159,13 +159,13 @@ public class ContactResourceIntTest {
 
         // Get all the contactList
         restContactMockMvc.perform(get("/api/contacts?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(contact.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].recipient").value(hasItem(DEFAULT_RECIPIENT.toString())))
-            .andExpect(jsonPath("$.[*].following").value(hasItem(DEFAULT_FOLLOWING.booleanValue())))
-            .andExpect(jsonPath("$.[*].sharing").value(hasItem(DEFAULT_SHARING.booleanValue())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(contact.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].recipient").value(hasItem(DEFAULT_RECIPIENT.toString())))
+                .andExpect(jsonPath("$.[*].following").value(hasItem(DEFAULT_FOLLOWING.booleanValue())))
+                .andExpect(jsonPath("$.[*].sharing").value(hasItem(DEFAULT_SHARING.booleanValue())));
     }
 
     @Test
@@ -176,13 +176,13 @@ public class ContactResourceIntTest {
 
         // Get the contact
         restContactMockMvc.perform(get("/api/contacts/{id}", contact.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(contact.getId().intValue()))
-            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-            .andExpect(jsonPath("$.recipient").value(DEFAULT_RECIPIENT.toString()))
-            .andExpect(jsonPath("$.following").value(DEFAULT_FOLLOWING.booleanValue()))
-            .andExpect(jsonPath("$.sharing").value(DEFAULT_SHARING.booleanValue()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(contact.getId().intValue()))
+                .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
+                .andExpect(jsonPath("$.recipient").value(DEFAULT_RECIPIENT.toString()))
+                .andExpect(jsonPath("$.following").value(DEFAULT_FOLLOWING.booleanValue()))
+                .andExpect(jsonPath("$.sharing").value(DEFAULT_SHARING.booleanValue()));
     }
 
     @Test
@@ -190,7 +190,7 @@ public class ContactResourceIntTest {
     public void getNonExistingContact() throws Exception {
         // Get the contact
         restContactMockMvc.perform(get("/api/contacts/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -204,15 +204,15 @@ public class ContactResourceIntTest {
         // Update the contact
         Contact updatedContact = contactRepository.findOne(contact.getId());
         updatedContact
-            .author(UPDATED_AUTHOR)
-            .recipient(UPDATED_RECIPIENT)
-            .following(UPDATED_FOLLOWING)
-            .sharing(UPDATED_SHARING);
+                .author(UPDATED_AUTHOR)
+                .recipient(UPDATED_RECIPIENT)
+                .following(UPDATED_FOLLOWING)
+                .sharing(UPDATED_SHARING);
 
         restContactMockMvc.perform(put("/api/contacts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedContact)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedContact)))
+                .andExpect(status().isOk());
 
         // Validate the Contact in the database
         List<Contact> contactList = contactRepository.findAll();
@@ -234,12 +234,11 @@ public class ContactResourceIntTest {
         int databaseSizeBeforeUpdate = contactRepository.findAll().size();
 
         // Create the Contact
-
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restContactMockMvc.perform(put("/api/contacts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(contact)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(contact)))
+                .andExpect(status().isCreated());
 
         // Validate the Contact in the database
         List<Contact> contactList = contactRepository.findAll();
@@ -256,8 +255,8 @@ public class ContactResourceIntTest {
 
         // Get the contact
         restContactMockMvc.perform(delete("/api/contacts/{id}", contact.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean contactExistsInEs = contactSearchRepository.exists(contact.getId());
@@ -276,13 +275,13 @@ public class ContactResourceIntTest {
 
         // Search the contact
         restContactMockMvc.perform(get("/api/_search/contacts?query=id:" + contact.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(contact.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].recipient").value(hasItem(DEFAULT_RECIPIENT.toString())))
-            .andExpect(jsonPath("$.[*].following").value(hasItem(DEFAULT_FOLLOWING.booleanValue())))
-            .andExpect(jsonPath("$.[*].sharing").value(hasItem(DEFAULT_SHARING.booleanValue())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(contact.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].recipient").value(hasItem(DEFAULT_RECIPIENT.toString())))
+                .andExpect(jsonPath("$.[*].following").value(hasItem(DEFAULT_FOLLOWING.booleanValue())))
+                .andExpect(jsonPath("$.[*].sharing").value(hasItem(DEFAULT_SHARING.booleanValue())));
     }
 
     @Test

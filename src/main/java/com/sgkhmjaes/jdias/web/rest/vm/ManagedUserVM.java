@@ -7,7 +7,8 @@ import java.time.Instant;
 import java.util.Set;
 
 /**
- * View Model extending the UserDTO, which is meant to be used in the user management UI.
+ * View Model extending the UserDTO, which is meant to be used in the user
+ * management UI.
  */
 public class ManagedUserVM extends UserDTO {
 
@@ -23,12 +24,12 @@ public class ManagedUserVM extends UserDTO {
     }
 
     public ManagedUserVM(Long id, String login, String password, String firstName, String lastName,
-                         String email, boolean activated, String imageUrl, String langKey,
-                         String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
-                        Set<String> authorities) {
+            String email, boolean activated, String imageUrl, String langKey,
+            String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
+            Set<String> authorities) {
 
         super(id, login, firstName, lastName, email, activated, imageUrl, langKey,
-            createdBy, createdDate, lastModifiedBy, lastModifiedDate,  authorities);
+                createdBy, createdDate, lastModifiedBy, lastModifiedDate, authorities);
 
         this.password = password;
     }
@@ -39,7 +40,7 @@ public class ManagedUserVM extends UserDTO {
 
     @Override
     public String toString() {
-        return "ManagedUserVM{" +
-            "} " + super.toString();
+        return "ManagedUserVM{"
+                + "} " + super.toString();
     }
 }

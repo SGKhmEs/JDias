@@ -149,10 +149,10 @@ public class Poll implements Serializable {
 
     @Override
     public String toString() {
-        return "Poll{" +
-            "id=" + getId() +
-            ", guid='" + getGuid() + "'" +
-            ", question='" + getQuestion() + "'" +
-            "}";
+        return "Poll{"
+                + "id=" + getId()
+                + ", guid='" + getGuid() + "'"
+                + ", question='" + getQuestion() + "'"
+                + "}";
     }
 }

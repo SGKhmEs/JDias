@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class AccountDeletionServiceImpl implements AccountDeletionService{
+public class AccountDeletionServiceImpl implements AccountDeletionService {
 
     private final Logger log = LoggerFactory.getLogger(AccountDeletionServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class AccountDeletionServiceImpl implements AccountDeletionService{
     }
 
     /**
-     *  Get all the accountDeletions.
+     * Get all the accountDeletions.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class AccountDeletionServiceImpl implements AccountDeletionService{
     }
 
     /**
-     *  Get one accountDeletion by id.
+     * Get one accountDeletion by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class AccountDeletionServiceImpl implements AccountDeletionService{
     }
 
     /**
-     *  Delete the  accountDeletion by id.
+     * Delete the accountDeletion by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class AccountDeletionServiceImpl implements AccountDeletionService{
     /**
      * Search for the accountDeletion corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<AccountDeletion> search(String query) {
         log.debug("Request to search AccountDeletions for query {}", query);
         return StreamSupport
-            .stream(accountDeletionSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+                .stream(accountDeletionSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

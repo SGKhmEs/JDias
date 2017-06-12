@@ -36,11 +36,12 @@ public class AuditEventConverter {
      */
     public AuditEvent convertToAuditEvent(PersistentAuditEvent persistentAuditEvent) {
         return new AuditEvent(Date.from(persistentAuditEvent.getAuditEventDate()), persistentAuditEvent.getPrincipal(),
-            persistentAuditEvent.getAuditEventType(), convertDataToObjects(persistentAuditEvent.getData()));
+                persistentAuditEvent.getAuditEventType(), convertDataToObjects(persistentAuditEvent.getData()));
     }
 
     /**
-     * Internal conversion. This is needed to support the current SpringBoot actuator AuditEventRepository interface
+     * Internal conversion. This is needed to support the current SpringBoot
+     * actuator AuditEventRepository interface
      *
      * @param data the data to convert
      * @return a map of String, Object
@@ -57,8 +58,8 @@ public class AuditEventConverter {
     }
 
     /**
-     * Internal conversion. This method will allow to save additional data.
-     * By default, it will save the object as string
+     * Internal conversion. This method will allow to save additional data. By
+     * default, it will save the object as string
      *
      * @param data the data to convert
      * @return a map of String, String

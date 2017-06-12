@@ -15,18 +15,18 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author andrey
  */
-
 @Service
 @Transactional
 public class InteractionDTOServiceImpl {
+
     private final Logger log = LoggerFactory.getLogger(InteractionDTOServiceImpl.class);
-    
+
     private final CommentDTOServiceImpl commentDTOServiceImpl;
 
     public InteractionDTOServiceImpl(CommentDTOServiceImpl commentDTOServiceImpl) {
         this.commentDTOServiceImpl = commentDTOServiceImpl;
     }
-    
+
     public InteractionDTO findOneByPost(Long id) {
         InteractionDTO interactionDTO = new InteractionDTO();
         interactionDTO.setComments(commentDTOServiceImpl.findAllByPost(id));

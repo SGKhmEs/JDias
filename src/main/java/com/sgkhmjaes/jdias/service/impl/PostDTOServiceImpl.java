@@ -1,15 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sgkhmjaes.jdias.service.impl;
 
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.repository.LocationRepository;
 import com.sgkhmjaes.jdias.repository.PhotoRepository;
 import com.sgkhmjaes.jdias.repository.PostRepository;
-//import com.sgkhmjaes.jdias.service.dto.AutoMappingException;
+import com.sgkhmjaes.jdias.service.dto.AuthorDTO;
+import com.sgkhmjaes.jdias.service.dto.InteractionDTO;
 import com.sgkhmjaes.jdias.service.dto.PostDTO;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -20,24 +16,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- *
- * @author andrey
- */
-
 @Service
 @Transactional
 public class PostDTOServiceImpl {
+
     private final Logger log = LoggerFactory.getLogger(AuthorDTOServiceImpl.class);
-    
     private final PostRepository postRepository;
-    
     private final LocationRepository locationRepository;
-    
     private final AuthorDTOServiceImpl authorDTOServiceImpl;
-    
     private final PhotoRepository photoRepository;
-    
     private final InteractionDTOServiceImpl interactionDTOServiceImpl;
 
     public PostDTOServiceImpl(PostRepository postRepository, LocationRepository locationRepository, AuthorDTOServiceImpl authorDTOServiceImpl, PhotoRepository photoRepository, InteractionDTOServiceImpl interactionDTOServiceImpl) {
@@ -47,38 +34,27 @@ public class PostDTOServiceImpl {
         this.photoRepository = photoRepository;
         this.interactionDTOServiceImpl = interactionDTOServiceImpl;
     }
-    
-    public PostDTO findOne(Long id){
+
+    public PostDTO findOne(Long id) {
+        log.debug("Request to get Post by ID: {}", id);
         PostDTO postDTO = new PostDTO();
         try {
-            postDTO.mappingToDTO(postRepository.getOne(id),
-                    authorDTOServiceImpl.findOne(postRepository.getOne(id).getPerson().getId()));
-            System.out.println(id);
+            Post post = postRepository.getOne(id);
+            AuthorDTO authorDTO = authorDTOServiceImpl.findOne(post.getPerson().getId());
+            InteractionDTO interactionDTO = interactionDTOServiceImpl.findOneByPost(id);
+            postDTO.mappingToDTO(post, authorDTO, interactionDTO);
         } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        postDTO.setInteractions(interactionDTOServiceImpl.findOneByPost(id));
         return postDTO;
     }
-    
+
     public List<PostDTO> findAll() {
         List<Post> postList = postRepository.findAll();
         log.debug("Request to get all Posts : {}", postList.size());
-        List<PostDTO> postDtoList = new ArrayList<PostDTO>();
-        
-        for (Post post : postList) {
-            PostDTO postDTO = new PostDTO();
-            try {
-                postDTO.mappingToDTO(post,
-                        authorDTOServiceImpl.findOne(post.getPerson().getId()));
-                System.out.println(post.getId());
-            } catch (InvocationTargetException ex) {
-                java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            postDTO.setInteractions(interactionDTOServiceImpl.findOneByPost(post.getId()));
-            postDtoList.add(postDTO);
-        }
-        
-       return postDtoList;
+        List<PostDTO> postDtoList = new ArrayList<>();
+        postList.forEach((post) -> {postDtoList.add(findOne(post.getId()));});
+        return postDtoList;
     }
+    
 }

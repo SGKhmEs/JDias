@@ -5,12 +5,14 @@ import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
 /**
  * Created by inna on 02.06.17.
  */
-public class AvatarDTO implements AutoMapping{
+public class AvatarDTO implements AutoMapping {
+
     private String imageUrlSmall;
     private String imageUrl;
     private String imageUrlMedium;
 
-    public AvatarDTO(){}
+    public AvatarDTO() {
+    }
 
     public String getImageUrlSmall() {
         return imageUrlSmall;
@@ -36,15 +38,12 @@ public class AvatarDTO implements AutoMapping{
         this.imageUrlMedium = imageUrlMedium;
     }
 
-
-
-    
     @Override
     public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("AvatarDTO: {").append("small=").append(imageUrlSmall).
-            append(", large=").append(imageUrl).append(", medium=").append(imageUrlMedium).append("}");
-    return sb.toString();
-}
-    
+        StringBuilder sb = new StringBuilder();
+        sb.append("AvatarDTO: {").append("small=").append(imageUrlSmall).
+                append(", large=").append(imageUrl).append(", medium=").append(imageUrlMedium).append("}");
+        return sb.toString();
+    }
+
 }

@@ -37,10 +37,12 @@ public class RetractionResource {
     }
 
     /**
-     * POST  /retractions : Create a new retraction.
+     * POST /retractions : Create a new retraction.
      *
      * @param retraction the retraction to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new retraction, or with status 400 (Bad Request) if the retraction has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new retraction, or with status 400 (Bad Request) if the retraction has
+     * already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/retractions")
@@ -52,17 +54,18 @@ public class RetractionResource {
         }
         Retraction result = retractionService.save(retraction);
         return ResponseEntity.created(new URI("/api/retractions/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /retractions : Updates an existing retraction.
+     * PUT /retractions : Updates an existing retraction.
      *
      * @param retraction the retraction to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated retraction,
-     * or with status 400 (Bad Request) if the retraction is not valid,
-     * or with status 500 (Internal Server Error) if the retraction couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * retraction, or with status 400 (Bad Request) if the retraction is not
+     * valid, or with status 500 (Internal Server Error) if the retraction
+     * couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/retractions")
@@ -74,14 +77,15 @@ public class RetractionResource {
         }
         Retraction result = retractionService.save(retraction);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, retraction.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, retraction.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /retractions : get all the retractions.
+     * GET /retractions : get all the retractions.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of retractions in body
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * retractions in body
      */
     @GetMapping("/retractions")
     @Timed
@@ -91,10 +95,11 @@ public class RetractionResource {
     }
 
     /**
-     * GET  /retractions/:id : get the "id" retraction.
+     * GET /retractions/:id : get the "id" retraction.
      *
      * @param id the id of the retraction to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the retraction, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * retraction, or with status 404 (Not Found)
      */
     @GetMapping("/retractions/{id}")
     @Timed
@@ -105,7 +110,7 @@ public class RetractionResource {
     }
 
     /**
-     * DELETE  /retractions/:id : delete the "id" retraction.
+     * DELETE /retractions/:id : delete the "id" retraction.
      *
      * @param id the id of the retraction to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -119,8 +124,8 @@ public class RetractionResource {
     }
 
     /**
-     * SEARCH  /_search/retractions?query=:query : search for the retraction corresponding
-     * to the query.
+     * SEARCH /_search/retractions?query=:query : search for the retraction
+     * corresponding to the query.
      *
      * @param query the query of the retraction search
      * @return the result of the search

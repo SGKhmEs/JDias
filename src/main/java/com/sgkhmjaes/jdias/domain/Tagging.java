@@ -103,10 +103,10 @@ public class Tagging implements Serializable {
 
     @Override
     public String toString() {
-        return "Tagging{" +
-            "id=" + getId() +
-            ", context='" + getContext() + "'" +
-            ", createdAt='" + getCreatedAt() + "'" +
-            "}";
+        return "Tagging{"
+                + "id=" + getId()
+                + ", context='" + getContext() + "'"
+                + ", createdAt='" + getCreatedAt() + "'"
+                + "}";
     }
 }

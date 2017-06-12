@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class AspectServiceImpl implements AspectService{
+public class AspectServiceImpl implements AspectService {
 
     private final Logger log = LoggerFactory.getLogger(AspectServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class AspectServiceImpl implements AspectService{
     }
 
     /**
-     *  Get all the aspects.
+     * Get all the aspects.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class AspectServiceImpl implements AspectService{
     }
 
     /**
-     *  Get one aspect by id.
+     * Get one aspect by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class AspectServiceImpl implements AspectService{
     }
 
     /**
-     *  Delete the  aspect by id.
+     * Delete the aspect by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class AspectServiceImpl implements AspectService{
     /**
      * Search for the aspect corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Aspect> search(String query) {
         log.debug("Request to search Aspects for query {}", query);
         return StreamSupport
-            .stream(aspectSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+                .stream(aspectSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

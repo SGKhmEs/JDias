@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class PollParticipationServiceImpl implements PollParticipationService{
+public class PollParticipationServiceImpl implements PollParticipationService {
 
     private final Logger log = LoggerFactory.getLogger(PollParticipationServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class PollParticipationServiceImpl implements PollParticipationService{
     }
 
     /**
-     *  Get all the pollParticipations.
+     * Get all the pollParticipations.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class PollParticipationServiceImpl implements PollParticipationService{
     }
 
     /**
-     *  Get one pollParticipation by id.
+     * Get one pollParticipation by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class PollParticipationServiceImpl implements PollParticipationService{
     }
 
     /**
-     *  Delete the  pollParticipation by id.
+     * Delete the pollParticipation by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class PollParticipationServiceImpl implements PollParticipationService{
     /**
      * Search for the pollParticipation corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<PollParticipation> search(String query) {
         log.debug("Request to search PollParticipations for query {}", query);
         return StreamSupport
-            .stream(pollParticipationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+                .stream(pollParticipationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

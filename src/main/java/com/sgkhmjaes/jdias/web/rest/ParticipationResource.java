@@ -37,10 +37,12 @@ public class ParticipationResource {
     }
 
     /**
-     * POST  /participations : Create a new participation.
+     * POST /participations : Create a new participation.
      *
      * @param participation the participation to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new participation, or with status 400 (Bad Request) if the participation has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new participation, or with status 400 (Bad Request) if the participation
+     * has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/participations")
@@ -52,17 +54,18 @@ public class ParticipationResource {
         }
         Participation result = participationService.save(participation);
         return ResponseEntity.created(new URI("/api/participations/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /participations : Updates an existing participation.
+     * PUT /participations : Updates an existing participation.
      *
      * @param participation the participation to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated participation,
-     * or with status 400 (Bad Request) if the participation is not valid,
-     * or with status 500 (Internal Server Error) if the participation couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * participation, or with status 400 (Bad Request) if the participation is
+     * not valid, or with status 500 (Internal Server Error) if the
+     * participation couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/participations")
@@ -74,14 +77,15 @@ public class ParticipationResource {
         }
         Participation result = participationService.save(participation);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, participation.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, participation.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /participations : get all the participations.
+     * GET /participations : get all the participations.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of participations in body
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * participations in body
      */
     @GetMapping("/participations")
     @Timed
@@ -91,10 +95,11 @@ public class ParticipationResource {
     }
 
     /**
-     * GET  /participations/:id : get the "id" participation.
+     * GET /participations/:id : get the "id" participation.
      *
      * @param id the id of the participation to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the participation, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * participation, or with status 404 (Not Found)
      */
     @GetMapping("/participations/{id}")
     @Timed
@@ -105,7 +110,7 @@ public class ParticipationResource {
     }
 
     /**
-     * DELETE  /participations/:id : delete the "id" participation.
+     * DELETE /participations/:id : delete the "id" participation.
      *
      * @param id the id of the participation to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -119,8 +124,8 @@ public class ParticipationResource {
     }
 
     /**
-     * SEARCH  /_search/participations?query=:query : search for the participation corresponding
-     * to the query.
+     * SEARCH /_search/participations?query=:query : search for the
+     * participation corresponding to the query.
      *
      * @param query the query of the participation search
      * @return the result of the search

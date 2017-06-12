@@ -119,10 +119,10 @@ public class TagFollowing implements Serializable {
 
     @Override
     public String toString() {
-        return "TagFollowing{" +
-            "id=" + getId() +
-            ", createdAt='" + getCreatedAt() + "'" +
-            ", updatedAt='" + getUpdatedAt() + "'" +
-            "}";
+        return "TagFollowing{"
+                + "id=" + getId()
+                + ", createdAt='" + getCreatedAt() + "'"
+                + ", updatedAt='" + getUpdatedAt() + "'"
+                + "}";
     }
 }

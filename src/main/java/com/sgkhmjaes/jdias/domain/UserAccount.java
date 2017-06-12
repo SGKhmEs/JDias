@@ -612,35 +612,35 @@ public class UserAccount implements Serializable {
 
     @Override
     public String toString() {
-        return "UserAccount{" +
-            "id=" + getId() +
-            ", serializedPrivateKey='" + getSerializedPrivateKey() + "'" +
-            ", gettingStarted='" + isGettingStarted() + "'" +
-            ", disableMail='" + isDisableMail() + "'" +
-            ", language='" + getLanguage() + "'" +
-            ", rememberCreatedAt='" + getRememberCreatedAt() + "'" +
-            ", signInCount='" + getSignInCount() + "'" +
-            ", currentSignInAt='" + getCurrentSignInAt() + "'" +
-            ", lastSignInAt='" + getLastSignInAt() + "'" +
-            ", currentSignInIp='" + getCurrentSignInIp() + "'" +
-            ", lastSignInIp='" + getLastSignInIp() + "'" +
-            ", createdAt='" + getCreatedAt() + "'" +
-            ", updatedAt='" + getUpdatedAt() + "'" +
-            ", lockedAt='" + getLockedAt() + "'" +
-            ", showCommunitySpotlightInStream='" + isShowCommunitySpotlightInStream() + "'" +
-            ", autoFollowBack='" + isAutoFollowBack() + "'" +
-            ", autoFollowBackAspectId='" + getAutoFollowBackAspectId() + "'" +
-            ", hiddenShareables='" + getHiddenShareables() + "'" +
-            ", lastSeen='" + getLastSeen() + "'" +
-            ", exportE='" + getExportE() + "'" +
-            ", exportedAt='" + getExportedAt() + "'" +
-            ", exporting='" + isExporting() + "'" +
-            ", stripExif='" + isStripExif() + "'" +
-            ", exportedPhotosFile='" + getExportedPhotosFile() + "'" +
-            ", exportedPhotosAt='" + getExportedPhotosAt() + "'" +
-            ", exportingPhotos='" + isExportingPhotos() + "'" +
-            ", colorTheme='" + getColorTheme() + "'" +
-            ", postDefaultPublic='" + isPostDefaultPublic() + "'" +
-            "}";
+        return "UserAccount{"
+                + "id=" + getId()
+                + ", serializedPrivateKey='" + getSerializedPrivateKey() + "'"
+                + ", gettingStarted='" + isGettingStarted() + "'"
+                + ", disableMail='" + isDisableMail() + "'"
+                + ", language='" + getLanguage() + "'"
+                + ", rememberCreatedAt='" + getRememberCreatedAt() + "'"
+                + ", signInCount='" + getSignInCount() + "'"
+                + ", currentSignInAt='" + getCurrentSignInAt() + "'"
+                + ", lastSignInAt='" + getLastSignInAt() + "'"
+                + ", currentSignInIp='" + getCurrentSignInIp() + "'"
+                + ", lastSignInIp='" + getLastSignInIp() + "'"
+                + ", createdAt='" + getCreatedAt() + "'"
+                + ", updatedAt='" + getUpdatedAt() + "'"
+                + ", lockedAt='" + getLockedAt() + "'"
+                + ", showCommunitySpotlightInStream='" + isShowCommunitySpotlightInStream() + "'"
+                + ", autoFollowBack='" + isAutoFollowBack() + "'"
+                + ", autoFollowBackAspectId='" + getAutoFollowBackAspectId() + "'"
+                + ", hiddenShareables='" + getHiddenShareables() + "'"
+                + ", lastSeen='" + getLastSeen() + "'"
+                + ", exportE='" + getExportE() + "'"
+                + ", exportedAt='" + getExportedAt() + "'"
+                + ", exporting='" + isExporting() + "'"
+                + ", stripExif='" + isStripExif() + "'"
+                + ", exportedPhotosFile='" + getExportedPhotosFile() + "'"
+                + ", exportedPhotosAt='" + getExportedPhotosAt() + "'"
+                + ", exportingPhotos='" + isExportingPhotos() + "'"
+                + ", colorTheme='" + getColorTheme() + "'"
+                + ", postDefaultPublic='" + isPostDefaultPublic() + "'"
+                + "}";
     }
 }

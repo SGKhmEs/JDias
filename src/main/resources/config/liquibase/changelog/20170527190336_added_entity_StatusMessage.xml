@@ -26,7 +26,8 @@
             </column>
             <column name="location_id" type="bigint">
                 <constraints unique="true" nullable="true" />
-            </column>            <column name="poll_id" type="bigint">
+            </column>            
+            <column name="poll_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->

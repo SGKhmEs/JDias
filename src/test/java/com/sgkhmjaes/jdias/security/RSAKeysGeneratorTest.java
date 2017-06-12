@@ -38,8 +38,7 @@ public class RSAKeysGeneratorTest {
         System.out.println("PRIVATE KEY " + privateKey);
         //System.out.println(publicKey);
         System.out.println(privateKey.length());
-        System.out.println("PUBLIC KEY " +pubKey);
+        System.out.println("PUBLIC KEY " + pubKey);
     }
-
 
 }

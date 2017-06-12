@@ -149,9 +149,9 @@ public class Tag implements Serializable {
 
     @Override
     public String toString() {
-        return "Tag{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            "}";
+        return "Tag{"
+                + "id=" + getId()
+                + ", name='" + getName() + "'"
+                + "}";
     }
 }

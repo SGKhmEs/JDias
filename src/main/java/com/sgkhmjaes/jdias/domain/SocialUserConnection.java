@@ -61,18 +61,20 @@ public class SocialUserConnection implements Serializable {
     @Column(name = "expire_time")
     private Long expireTime;
 
-    public SocialUserConnection() {}
+    public SocialUserConnection() {
+    }
+
     public SocialUserConnection(String userId,
-                                String providerId,
-                                String providerUserId,
-                                Long rank,
-                                String displayName,
-                                String profileURL,
-                                String imageURL,
-                                String accessToken,
-                                String secret,
-                                String refreshToken,
-                                Long expireTime) {
+            String providerId,
+            String providerUserId,
+            Long rank,
+            String displayName,
+            String profileURL,
+            String imageURL,
+            String accessToken,
+            String secret,
+            String refreshToken,
+            Long expireTime) {
         this.userId = userId;
         this.providerId = providerId;
         this.providerUserId = providerUserId;
@@ -207,19 +209,19 @@ public class SocialUserConnection implements Serializable {
 
     @Override
     public String toString() {
-        return "SocialUserConnection{" +
-            "id=" + id +
-            ", userId=" + userId +
-            ", providerId='" + providerId + '\'' +
-            ", providerUserId='" + providerUserId + '\'' +
-            ", rank=" + rank +
-            ", displayName='" + displayName + '\'' +
-            ", profileURL='" + profileURL + '\'' +
-            ", imageURL='" + imageURL + '\'' +
-            ", accessToken='" + accessToken + '\'' +
-            ", secret='" + secret + '\'' +
-            ", refreshToken='" + refreshToken + '\'' +
-            ", expireTime=" + expireTime +
-            '}';
+        return "SocialUserConnection{"
+                + "id=" + id
+                + ", userId=" + userId
+                + ", providerId='" + providerId + '\''
+                + ", providerUserId='" + providerUserId + '\''
+                + ", rank=" + rank
+                + ", displayName='" + displayName + '\''
+                + ", profileURL='" + profileURL + '\''
+                + ", imageURL='" + imageURL + '\''
+                + ", accessToken='" + accessToken + '\''
+                + ", secret='" + secret + '\''
+                + ", refreshToken='" + refreshToken + '\''
+                + ", expireTime=" + expireTime
+                + '}';
     }
 }

@@ -214,13 +214,13 @@ public class Conversation implements Serializable {
 
     @Override
     public String toString() {
-        return "Conversation{" +
-            "id=" + getId() +
-            ", author='" + getAuthor() + "'" +
-            ", guid='" + getGuid() + "'" +
-            ", subject='" + getSubject() + "'" +
-            ", createdAt='" + getCreatedAt() + "'" +
-            ", message='" + getMessage() + "'" +
-            "}";
+        return "Conversation{"
+                + "id=" + getId()
+                + ", author='" + getAuthor() + "'"
+                + ", guid='" + getGuid() + "'"
+                + ", subject='" + getSubject() + "'"
+                + ", createdAt='" + getCreatedAt() + "'"
+                + ", message='" + getMessage() + "'"
+                + "}";
     }
 }

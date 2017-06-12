@@ -17,33 +17,33 @@ public interface ProfileService {
     Profile save(Profile profile);
 
     /**
-     *  Get all the profiles.
+     * Get all the profiles.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<Profile> findAll();
 
     /**
-     *  Get the "id" profile.
+     * Get the "id" profile.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     Profile findOne(Long id);
 
     /**
-     *  Delete the "id" profile.
+     * Delete the "id" profile.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the profile corresponding to the query.
      *
-     *  @param query the query of the search
-     *  
-     *  @return the list of entities
+     * @param query the query of the search
+     *
+     * @return the list of entities
      */
     List<Profile> search(String query);
 }

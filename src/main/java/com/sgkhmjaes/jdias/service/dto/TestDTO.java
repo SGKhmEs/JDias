@@ -1,15 +1,15 @@
-
 package com.sgkhmjaes.jdias.service.dto;
 
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
 import java.util.List;
 
 public class TestDTO {
-    
-    private PostType postType;
-    private List <String> mentioned_people;
 
-    public TestDTO() {}
+    private PostType postType;
+    private List<String> mentioned_people;
+
+    public TestDTO() {
+    }
 
     public PostType getPostType() {
         return postType;
@@ -26,8 +26,6 @@ public class TestDTO {
     public void setMentioned_people(List<String> mentioned_people) {
         this.mentioned_people = mentioned_people;
     }
-    
-    
 
     @Override
     public String toString() {
@@ -37,7 +35,5 @@ public class TestDTO {
                 append(", mentioned_people=").append(mentioned_people).append("}");
         return sb.toString();
     }
-    
-    
-    
+
 }

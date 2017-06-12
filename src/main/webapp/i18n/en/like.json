@@ -23,7 +23,9 @@
             "positive": "Positive",
             "authorSignature": "Author Signature",
             "parentAuthorSignature": "Parent Author Signature",
-            "post": "Post"
+            "post": "Post",
+            "person": "Person",
+            "person": "Person"
         }
     }
 }

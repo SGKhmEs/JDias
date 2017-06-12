@@ -6,13 +6,20 @@
     <!--
         Added the constraints for entity Like.
     -->
-    <changeSet id="20170527190324-2" author="jhipster">
+    <changeSet id="20170527190324-1" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="post_id"
                                  baseTableName="jhi_like"
                                  constraintName="fk_like_post_id"
                                  referencedColumnNames="id"
                                  referencedTableName="post"/>
+
+        <addForeignKeyConstraint baseColumnNames="person_id"
+                                 baseTableName="jhi_like"
+                                 constraintName="fk_like_person_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="person"/>
+
 
     </changeSet>
 </databaseChangeLog>

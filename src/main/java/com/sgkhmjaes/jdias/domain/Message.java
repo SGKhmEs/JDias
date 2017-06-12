@@ -151,13 +151,13 @@ public class Message implements Serializable {
 
     @Override
     public String toString() {
-        return "Message{" +
-            "id=" + getId() +
-            ", author='" + getAuthor() + "'" +
-            ", guid='" + getGuid() + "'" +
-            ", conversationGuid='" + getConversationGuid() + "'" +
-            ", text='" + getText() + "'" +
-            ", createdAt='" + getCreatedAt() + "'" +
-            "}";
+        return "Message{"
+                + "id=" + getId()
+                + ", author='" + getAuthor() + "'"
+                + ", guid='" + getGuid() + "'"
+                + ", conversationGuid='" + getConversationGuid() + "'"
+                + ", text='" + getText() + "'"
+                + ", createdAt='" + getCreatedAt() + "'"
+                + "}";
     }
 }

@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.sgkhmjaes.jdias.domain.enumeration.Type;
+
 /**
  * Test class for the ParticipationResource REST controller.
  *
@@ -82,9 +83,9 @@ public class ParticipationResourceIntTest {
         MockitoAnnotations.initMocks(this);
         ParticipationResource participationResource = new ParticipationResource(participationService);
         this.restParticipationMockMvc = MockMvcBuilders.standaloneSetup(participationResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -95,10 +96,10 @@ public class ParticipationResourceIntTest {
      */
     public static Participation createEntity(EntityManager em) {
         Participation participation = new Participation()
-            .author(DEFAULT_AUTHOR)
-            .guid(DEFAULT_GUID)
-            .parentGuid(DEFAULT_PARENT_GUID)
-            .parentType(DEFAULT_PARENT_TYPE);
+                .author(DEFAULT_AUTHOR)
+                .guid(DEFAULT_GUID)
+                .parentGuid(DEFAULT_PARENT_GUID)
+                .parentType(DEFAULT_PARENT_TYPE);
         return participation;
     }
 
@@ -115,9 +116,9 @@ public class ParticipationResourceIntTest {
 
         // Create the Participation
         restParticipationMockMvc.perform(post("/api/participations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(participation)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(participation)))
+                .andExpect(status().isCreated());
 
         // Validate the Participation in the database
         List<Participation> participationList = participationRepository.findAll();
@@ -143,9 +144,9 @@ public class ParticipationResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restParticipationMockMvc.perform(post("/api/participations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(participation)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(participation)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Participation> participationList = participationRepository.findAll();
@@ -160,13 +161,13 @@ public class ParticipationResourceIntTest {
 
         // Get all the participationList
         restParticipationMockMvc.perform(get("/api/participations?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(participation.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentType").value(hasItem(DEFAULT_PARENT_TYPE.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(participation.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].parentType").value(hasItem(DEFAULT_PARENT_TYPE.toString())));
     }
 
     @Test
@@ -177,13 +178,13 @@ public class ParticipationResourceIntTest {
 
         // Get the participation
         restParticipationMockMvc.perform(get("/api/participations/{id}", participation.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(participation.getId().intValue()))
-            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-            .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-            .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
-            .andExpect(jsonPath("$.parentType").value(DEFAULT_PARENT_TYPE.toString()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(participation.getId().intValue()))
+                .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
+                .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
+                .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
+                .andExpect(jsonPath("$.parentType").value(DEFAULT_PARENT_TYPE.toString()));
     }
 
     @Test
@@ -191,7 +192,7 @@ public class ParticipationResourceIntTest {
     public void getNonExistingParticipation() throws Exception {
         // Get the participation
         restParticipationMockMvc.perform(get("/api/participations/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -205,15 +206,15 @@ public class ParticipationResourceIntTest {
         // Update the participation
         Participation updatedParticipation = participationRepository.findOne(participation.getId());
         updatedParticipation
-            .author(UPDATED_AUTHOR)
-            .guid(UPDATED_GUID)
-            .parentGuid(UPDATED_PARENT_GUID)
-            .parentType(UPDATED_PARENT_TYPE);
+                .author(UPDATED_AUTHOR)
+                .guid(UPDATED_GUID)
+                .parentGuid(UPDATED_PARENT_GUID)
+                .parentType(UPDATED_PARENT_TYPE);
 
         restParticipationMockMvc.perform(put("/api/participations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedParticipation)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedParticipation)))
+                .andExpect(status().isOk());
 
         // Validate the Participation in the database
         List<Participation> participationList = participationRepository.findAll();
@@ -235,12 +236,11 @@ public class ParticipationResourceIntTest {
         int databaseSizeBeforeUpdate = participationRepository.findAll().size();
 
         // Create the Participation
-
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restParticipationMockMvc.perform(put("/api/participations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(participation)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(participation)))
+                .andExpect(status().isCreated());
 
         // Validate the Participation in the database
         List<Participation> participationList = participationRepository.findAll();
@@ -257,8 +257,8 @@ public class ParticipationResourceIntTest {
 
         // Get the participation
         restParticipationMockMvc.perform(delete("/api/participations/{id}", participation.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean participationExistsInEs = participationSearchRepository.exists(participation.getId());
@@ -277,13 +277,13 @@ public class ParticipationResourceIntTest {
 
         // Search the participation
         restParticipationMockMvc.perform(get("/api/_search/participations?query=id:" + participation.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(participation.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentType").value(hasItem(DEFAULT_PARENT_TYPE.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(participation.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].parentType").value(hasItem(DEFAULT_PARENT_TYPE.toString())));
     }
 
     @Test

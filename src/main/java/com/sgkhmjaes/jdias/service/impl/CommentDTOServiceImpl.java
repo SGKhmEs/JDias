@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sgkhmjaes.jdias.service.impl;
 
 import com.sgkhmjaes.jdias.domain.Comment;
 import com.sgkhmjaes.jdias.repository.CommentRepository;
 import com.sgkhmjaes.jdias.repository.PostRepository;
 import com.sgkhmjaes.jdias.service.dto.AuthorDTO;
-//import com.sgkhmjaes.jdias.service.dto.AutoMappingException;
 import com.sgkhmjaes.jdias.service.dto.CommentDTO;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -20,19 +14,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- *
- * @author andrey
- */
 @Service
 @Transactional
 public class CommentDTOServiceImpl {
+
     private final Logger log = LoggerFactory.getLogger(CommentDTOServiceImpl.class);
-    
+
     private final CommentRepository commentRepository;
-    
+
     private final AuthorDTOServiceImpl authorDTOServiceImpl;
-    
+
     private final PostRepository postRepository;
 
     public CommentDTOServiceImpl(CommentRepository commentRepository, AuthorDTOServiceImpl authorDTOServiceImpl, PostRepository postRepository) {
@@ -44,41 +35,33 @@ public class CommentDTOServiceImpl {
     public CommentDTO findOne(Long id) {
         log.debug("Request to get Comments : {}", id);
         Comment comment = commentRepository.getOne(id);
-//        comment = commentRepository.getOne(id);
         AuthorDTO authorDTO = authorDTOServiceImpl.findOne(commentRepository.getOne(id).getPerson().getId());
-//        authorDTO = authorDTOServiceImpl.findOne(comment.getPerson().getId());
         CommentDTO commentDTO = new CommentDTO();
         try {
             commentDTO.mappingToDTO(comment, authorDTO);
         } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(CommentDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        commentDTO.setAuthorDTO(authorDTOServiceImpl.findOne(commentRepository.getOne(id).getPerson().getId()));
         return commentDTO;
     }
 
-    public List<CommentDTO> findAllByPost(Long id){
+    public List<CommentDTO> findAllByPost(Long id) {
+
         List<Comment> commentList = commentRepository.findByPostId(id);
-        
-        List<CommentDTO> commentDTOList = new ArrayList<CommentDTO>();
-        
+        List<CommentDTO> commentDTOList = new ArrayList<>();
+
         for (Comment comment : commentList) {
-            System.out.println(comment + " " + comment.getPerson());
             CommentDTO commentDTO = new CommentDTO();
             AuthorDTO authorDTO = authorDTOServiceImpl.findOne(commentRepository.getOne(comment.getId()).getPerson().getId());
-            System.out.println(id + comment.toString() + "    "  + authorDTO.toString());
-            
             try {
                 commentDTO.mappingToDTO(comment, authorDTO);
             } catch (InvocationTargetException ex) {
                 java.util.logging.Logger.getLogger(CommentDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-//            commentDTO.setAuthorDTO(authorDTOServiceImpl.findOne(comment.getPerson().getId()));
-        commentDTOList.add(commentDTO);
+            commentDTOList.add(commentDTO);
         }
-        
+
         return commentDTOList;
-        
-       
-    }    
+
+    }
 }

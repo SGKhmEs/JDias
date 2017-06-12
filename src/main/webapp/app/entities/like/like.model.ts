@@ -22,6 +22,7 @@ const enum Type {
 
 };
 import { Post } from '../post';
+import { Person } from '../person';
 export class Like {
     constructor(
         public id?: number,
@@ -33,6 +34,7 @@ export class Like {
         public authorSignature?: string,
         public parentAuthorSignature?: string,
         public post?: Post,
+        public person?: Person,
     ) {
         this.positive = false;
     }

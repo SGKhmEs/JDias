@@ -75,9 +75,9 @@ public class PollResourceIntTest {
         MockitoAnnotations.initMocks(this);
         PollResource pollResource = new PollResource(pollService);
         this.restPollMockMvc = MockMvcBuilders.standaloneSetup(pollResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -88,8 +88,8 @@ public class PollResourceIntTest {
      */
     public static Poll createEntity(EntityManager em) {
         Poll poll = new Poll()
-            .guid(DEFAULT_GUID)
-            .question(DEFAULT_QUESTION);
+                .guid(DEFAULT_GUID)
+                .question(DEFAULT_QUESTION);
         return poll;
     }
 
@@ -106,9 +106,9 @@ public class PollResourceIntTest {
 
         // Create the Poll
         restPollMockMvc.perform(post("/api/polls")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(poll)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(poll)))
+                .andExpect(status().isCreated());
 
         // Validate the Poll in the database
         List<Poll> pollList = pollRepository.findAll();
@@ -132,9 +132,9 @@ public class PollResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restPollMockMvc.perform(post("/api/polls")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(poll)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(poll)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Poll> pollList = pollRepository.findAll();
@@ -149,11 +149,11 @@ public class PollResourceIntTest {
 
         // Get all the pollList
         restPollMockMvc.perform(get("/api/polls?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(poll.getId().intValue())))
-            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].question").value(hasItem(DEFAULT_QUESTION.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(poll.getId().intValue())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].question").value(hasItem(DEFAULT_QUESTION.toString())));
     }
 
     @Test
@@ -164,11 +164,11 @@ public class PollResourceIntTest {
 
         // Get the poll
         restPollMockMvc.perform(get("/api/polls/{id}", poll.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(poll.getId().intValue()))
-            .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-            .andExpect(jsonPath("$.question").value(DEFAULT_QUESTION.toString()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(poll.getId().intValue()))
+                .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
+                .andExpect(jsonPath("$.question").value(DEFAULT_QUESTION.toString()));
     }
 
     @Test
@@ -176,7 +176,7 @@ public class PollResourceIntTest {
     public void getNonExistingPoll() throws Exception {
         // Get the poll
         restPollMockMvc.perform(get("/api/polls/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -190,13 +190,13 @@ public class PollResourceIntTest {
         // Update the poll
         Poll updatedPoll = pollRepository.findOne(poll.getId());
         updatedPoll
-            .guid(UPDATED_GUID)
-            .question(UPDATED_QUESTION);
+                .guid(UPDATED_GUID)
+                .question(UPDATED_QUESTION);
 
         restPollMockMvc.perform(put("/api/polls")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedPoll)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedPoll)))
+                .andExpect(status().isOk());
 
         // Validate the Poll in the database
         List<Poll> pollList = pollRepository.findAll();
@@ -216,12 +216,11 @@ public class PollResourceIntTest {
         int databaseSizeBeforeUpdate = pollRepository.findAll().size();
 
         // Create the Poll
-
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restPollMockMvc.perform(put("/api/polls")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(poll)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(poll)))
+                .andExpect(status().isCreated());
 
         // Validate the Poll in the database
         List<Poll> pollList = pollRepository.findAll();
@@ -238,8 +237,8 @@ public class PollResourceIntTest {
 
         // Get the poll
         restPollMockMvc.perform(delete("/api/polls/{id}", poll.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean pollExistsInEs = pollSearchRepository.exists(poll.getId());
@@ -258,11 +257,11 @@ public class PollResourceIntTest {
 
         // Search the poll
         restPollMockMvc.perform(get("/api/_search/polls?query=id:" + poll.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(poll.getId().intValue())))
-            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].question").value(hasItem(DEFAULT_QUESTION.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(poll.getId().intValue())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].question").value(hasItem(DEFAULT_QUESTION.toString())));
     }
 
     @Test

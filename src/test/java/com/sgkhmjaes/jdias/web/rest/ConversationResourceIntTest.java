@@ -86,9 +86,9 @@ public class ConversationResourceIntTest {
         MockitoAnnotations.initMocks(this);
         ConversationResource conversationResource = new ConversationResource(conversationService);
         this.restConversationMockMvc = MockMvcBuilders.standaloneSetup(conversationResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -99,11 +99,11 @@ public class ConversationResourceIntTest {
      */
     public static Conversation createEntity(EntityManager em) {
         Conversation conversation = new Conversation()
-            .author(DEFAULT_AUTHOR)
-            .guid(DEFAULT_GUID)
-            .subject(DEFAULT_SUBJECT)
-            .createdAt(DEFAULT_CREATED_AT)
-            .message(DEFAULT_MESSAGE);
+                .author(DEFAULT_AUTHOR)
+                .guid(DEFAULT_GUID)
+                .subject(DEFAULT_SUBJECT)
+                .createdAt(DEFAULT_CREATED_AT)
+                .message(DEFAULT_MESSAGE);
         return conversation;
     }
 
@@ -120,9 +120,9 @@ public class ConversationResourceIntTest {
 
         // Create the Conversation
         restConversationMockMvc.perform(post("/api/conversations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(conversation)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(conversation)))
+                .andExpect(status().isCreated());
 
         // Validate the Conversation in the database
         List<Conversation> conversationList = conversationRepository.findAll();
@@ -149,9 +149,9 @@ public class ConversationResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restConversationMockMvc.perform(post("/api/conversations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(conversation)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(conversation)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Conversation> conversationList = conversationRepository.findAll();
@@ -166,14 +166,14 @@ public class ConversationResourceIntTest {
 
         // Get all the conversationList
         restConversationMockMvc.perform(get("/api/conversations?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(conversation.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].subject").value(hasItem(DEFAULT_SUBJECT.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].message").value(hasItem(DEFAULT_MESSAGE.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(conversation.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].subject").value(hasItem(DEFAULT_SUBJECT.toString())))
+                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+                .andExpect(jsonPath("$.[*].message").value(hasItem(DEFAULT_MESSAGE.toString())));
     }
 
     @Test
@@ -184,14 +184,14 @@ public class ConversationResourceIntTest {
 
         // Get the conversation
         restConversationMockMvc.perform(get("/api/conversations/{id}", conversation.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(conversation.getId().intValue()))
-            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-            .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-            .andExpect(jsonPath("$.subject").value(DEFAULT_SUBJECT.toString()))
-            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.message").value(DEFAULT_MESSAGE.toString()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(conversation.getId().intValue()))
+                .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
+                .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
+                .andExpect(jsonPath("$.subject").value(DEFAULT_SUBJECT.toString()))
+                .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+                .andExpect(jsonPath("$.message").value(DEFAULT_MESSAGE.toString()));
     }
 
     @Test
@@ -199,7 +199,7 @@ public class ConversationResourceIntTest {
     public void getNonExistingConversation() throws Exception {
         // Get the conversation
         restConversationMockMvc.perform(get("/api/conversations/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -213,16 +213,16 @@ public class ConversationResourceIntTest {
         // Update the conversation
         Conversation updatedConversation = conversationRepository.findOne(conversation.getId());
         updatedConversation
-            .author(UPDATED_AUTHOR)
-            .guid(UPDATED_GUID)
-            .subject(UPDATED_SUBJECT)
-            .createdAt(UPDATED_CREATED_AT)
-            .message(UPDATED_MESSAGE);
+                .author(UPDATED_AUTHOR)
+                .guid(UPDATED_GUID)
+                .subject(UPDATED_SUBJECT)
+                .createdAt(UPDATED_CREATED_AT)
+                .message(UPDATED_MESSAGE);
 
         restConversationMockMvc.perform(put("/api/conversations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedConversation)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedConversation)))
+                .andExpect(status().isOk());
 
         // Validate the Conversation in the database
         List<Conversation> conversationList = conversationRepository.findAll();
@@ -245,12 +245,11 @@ public class ConversationResourceIntTest {
         int databaseSizeBeforeUpdate = conversationRepository.findAll().size();
 
         // Create the Conversation
-
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restConversationMockMvc.perform(put("/api/conversations")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(conversation)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(conversation)))
+                .andExpect(status().isCreated());
 
         // Validate the Conversation in the database
         List<Conversation> conversationList = conversationRepository.findAll();
@@ -267,8 +266,8 @@ public class ConversationResourceIntTest {
 
         // Get the conversation
         restConversationMockMvc.perform(delete("/api/conversations/{id}", conversation.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean conversationExistsInEs = conversationSearchRepository.exists(conversation.getId());
@@ -287,14 +286,14 @@ public class ConversationResourceIntTest {
 
         // Search the conversation
         restConversationMockMvc.perform(get("/api/_search/conversations?query=id:" + conversation.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(conversation.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].subject").value(hasItem(DEFAULT_SUBJECT.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].message").value(hasItem(DEFAULT_MESSAGE.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(conversation.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].subject").value(hasItem(DEFAULT_SUBJECT.toString())))
+                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+                .andExpect(jsonPath("$.[*].message").value(hasItem(DEFAULT_MESSAGE.toString())));
     }
 
     @Test

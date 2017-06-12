@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class ProfileServiceImpl implements ProfileService{
+public class ProfileServiceImpl implements ProfileService {
 
     private final Logger log = LoggerFactory.getLogger(ProfileServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     /**
-     *  Get all the profiles.
+     * Get all the profiles.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     /**
-     *  Get one profile by id.
+     * Get one profile by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     /**
-     *  Delete the  profile by id.
+     * Delete the profile by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class ProfileServiceImpl implements ProfileService{
     /**
      * Search for the profile corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Profile> search(String query) {
         log.debug("Request to search Profiles for query {}", query);
         return StreamSupport
-            .stream(profileSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+                .stream(profileSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

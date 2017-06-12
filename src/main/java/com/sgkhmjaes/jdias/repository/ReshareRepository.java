@@ -5,12 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
 
-
 /**
  * Spring Data JPA repository for the Reshare entity.
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ReshareRepository extends JpaRepository<Reshare,Long> {
+public interface ReshareRepository extends JpaRepository<Reshare, Long> {
 
 }

@@ -214,14 +214,14 @@ public class Aspect implements Serializable {
 
     @Override
     public String toString() {
-        return "Aspect{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", createdAt='" + getCreatedAt() + "'" +
-            ", updatedAt='" + getUpdatedAt() + "'" +
-            ", contactVisible='" + isContactVisible() + "'" +
-            ", chatEnabled='" + isChatEnabled() + "'" +
-            ", postDefault='" + isPostDefault() + "'" +
-            "}";
+        return "Aspect{"
+                + "id=" + getId()
+                + ", name='" + getName() + "'"
+                + ", createdAt='" + getCreatedAt() + "'"
+                + ", updatedAt='" + getUpdatedAt() + "'"
+                + ", contactVisible='" + isContactVisible() + "'"
+                + ", chatEnabled='" + isChatEnabled() + "'"
+                + ", postDefault='" + isPostDefault() + "'"
+                + "}";
     }
 }

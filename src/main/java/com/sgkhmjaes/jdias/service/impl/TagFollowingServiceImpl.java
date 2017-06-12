@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class TagFollowingServiceImpl implements TagFollowingService{
+public class TagFollowingServiceImpl implements TagFollowingService {
 
     private final Logger log = LoggerFactory.getLogger(TagFollowingServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class TagFollowingServiceImpl implements TagFollowingService{
     }
 
     /**
-     *  Get all the tagFollowings.
+     * Get all the tagFollowings.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class TagFollowingServiceImpl implements TagFollowingService{
     }
 
     /**
-     *  Get one tagFollowing by id.
+     * Get one tagFollowing by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class TagFollowingServiceImpl implements TagFollowingService{
     }
 
     /**
-     *  Delete the  tagFollowing by id.
+     * Delete the tagFollowing by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class TagFollowingServiceImpl implements TagFollowingService{
     /**
      * Search for the tagFollowing corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<TagFollowing> search(String query) {
         log.debug("Request to search TagFollowings for query {}", query);
         return StreamSupport
-            .stream(tagFollowingSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+                .stream(tagFollowingSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
+
 /**
  * Test class for the AspectVisiblityResource REST controller.
  *
@@ -73,9 +74,9 @@ public class AspectVisiblityResourceIntTest {
         MockitoAnnotations.initMocks(this);
         AspectVisiblityResource aspectVisiblityResource = new AspectVisiblityResource(aspectVisiblityService);
         this.restAspectVisiblityMockMvc = MockMvcBuilders.standaloneSetup(aspectVisiblityResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -86,7 +87,7 @@ public class AspectVisiblityResourceIntTest {
      */
     public static AspectVisiblity createEntity(EntityManager em) {
         AspectVisiblity aspectVisiblity = new AspectVisiblity()
-            .postType(DEFAULT_POST_TYPE);
+                .postType(DEFAULT_POST_TYPE);
         return aspectVisiblity;
     }
 
@@ -103,9 +104,9 @@ public class AspectVisiblityResourceIntTest {
 
         // Create the AspectVisiblity
         restAspectVisiblityMockMvc.perform(post("/api/aspect-visiblities")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(aspectVisiblity)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(aspectVisiblity)))
+                .andExpect(status().isCreated());
 
         // Validate the AspectVisiblity in the database
         List<AspectVisiblity> aspectVisiblityList = aspectVisiblityRepository.findAll();
@@ -128,9 +129,9 @@ public class AspectVisiblityResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restAspectVisiblityMockMvc.perform(post("/api/aspect-visiblities")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(aspectVisiblity)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(aspectVisiblity)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<AspectVisiblity> aspectVisiblityList = aspectVisiblityRepository.findAll();
@@ -145,10 +146,10 @@ public class AspectVisiblityResourceIntTest {
 
         // Get all the aspectVisiblityList
         restAspectVisiblityMockMvc.perform(get("/api/aspect-visiblities?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(aspectVisiblity.getId().intValue())))
-            .andExpect(jsonPath("$.[*].postType").value(hasItem(DEFAULT_POST_TYPE.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(aspectVisiblity.getId().intValue())))
+                .andExpect(jsonPath("$.[*].postType").value(hasItem(DEFAULT_POST_TYPE.toString())));
     }
 
     @Test
@@ -159,10 +160,10 @@ public class AspectVisiblityResourceIntTest {
 
         // Get the aspectVisiblity
         restAspectVisiblityMockMvc.perform(get("/api/aspect-visiblities/{id}", aspectVisiblity.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(aspectVisiblity.getId().intValue()))
-            .andExpect(jsonPath("$.postType").value(DEFAULT_POST_TYPE.toString()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(aspectVisiblity.getId().intValue()))
+                .andExpect(jsonPath("$.postType").value(DEFAULT_POST_TYPE.toString()));
     }
 
     @Test
@@ -170,7 +171,7 @@ public class AspectVisiblityResourceIntTest {
     public void getNonExistingAspectVisiblity() throws Exception {
         // Get the aspectVisiblity
         restAspectVisiblityMockMvc.perform(get("/api/aspect-visiblities/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -184,12 +185,12 @@ public class AspectVisiblityResourceIntTest {
         // Update the aspectVisiblity
         AspectVisiblity updatedAspectVisiblity = aspectVisiblityRepository.findOne(aspectVisiblity.getId());
         updatedAspectVisiblity
-            .postType(UPDATED_POST_TYPE);
+                .postType(UPDATED_POST_TYPE);
 
         restAspectVisiblityMockMvc.perform(put("/api/aspect-visiblities")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedAspectVisiblity)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedAspectVisiblity)))
+                .andExpect(status().isOk());
 
         // Validate the AspectVisiblity in the database
         List<AspectVisiblity> aspectVisiblityList = aspectVisiblityRepository.findAll();
@@ -208,12 +209,11 @@ public class AspectVisiblityResourceIntTest {
         int databaseSizeBeforeUpdate = aspectVisiblityRepository.findAll().size();
 
         // Create the AspectVisiblity
-
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restAspectVisiblityMockMvc.perform(put("/api/aspect-visiblities")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(aspectVisiblity)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(aspectVisiblity)))
+                .andExpect(status().isCreated());
 
         // Validate the AspectVisiblity in the database
         List<AspectVisiblity> aspectVisiblityList = aspectVisiblityRepository.findAll();
@@ -230,8 +230,8 @@ public class AspectVisiblityResourceIntTest {
 
         // Get the aspectVisiblity
         restAspectVisiblityMockMvc.perform(delete("/api/aspect-visiblities/{id}", aspectVisiblity.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean aspectVisiblityExistsInEs = aspectVisiblitySearchRepository.exists(aspectVisiblity.getId());
@@ -250,10 +250,10 @@ public class AspectVisiblityResourceIntTest {
 
         // Search the aspectVisiblity
         restAspectVisiblityMockMvc.perform(get("/api/_search/aspect-visiblities?query=id:" + aspectVisiblity.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(aspectVisiblity.getId().intValue())))
-            .andExpect(jsonPath("$.[*].postType").value(hasItem(DEFAULT_POST_TYPE.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(aspectVisiblity.getId().intValue())))
+                .andExpect(jsonPath("$.[*].postType").value(hasItem(DEFAULT_POST_TYPE.toString())));
     }
 
     @Test

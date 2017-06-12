@@ -17,33 +17,33 @@ public interface ConversationService {
     Conversation save(Conversation conversation);
 
     /**
-     *  Get all the conversations.
+     * Get all the conversations.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<Conversation> findAll();
 
     /**
-     *  Get the "id" conversation.
+     * Get the "id" conversation.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     Conversation findOne(Long id);
 
     /**
-     *  Delete the "id" conversation.
+     * Delete the "id" conversation.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the conversation corresponding to the query.
      *
-     *  @param query the query of the search
-     *  
-     *  @return the list of entities
+     * @param query the query of the search
+     *
+     * @return the list of entities
      */
     List<Conversation> search(String query);
 }

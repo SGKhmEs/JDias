@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.sgkhmjaes.jdias.domain.enumeration.Type;
+
 /**
  * Test class for the LikeResource REST controller.
  *
@@ -91,9 +92,9 @@ public class LikeResourceIntTest {
         MockitoAnnotations.initMocks(this);
         LikeResource likeResource = new LikeResource(likeService);
         this.restLikeMockMvc = MockMvcBuilders.standaloneSetup(likeResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -104,13 +105,13 @@ public class LikeResourceIntTest {
      */
     public static Like createEntity(EntityManager em) {
         Like like = new Like()
-            .author(DEFAULT_AUTHOR)
-            .guid(DEFAULT_GUID)
-            .parentGuid(DEFAULT_PARENT_GUID)
-            .parentType(DEFAULT_PARENT_TYPE)
-            .positive(DEFAULT_POSITIVE)
-            .authorSignature(DEFAULT_AUTHOR_SIGNATURE)
-            .parentAuthorSignature(DEFAULT_PARENT_AUTHOR_SIGNATURE);
+                .author(DEFAULT_AUTHOR)
+                .guid(DEFAULT_GUID)
+                .parentGuid(DEFAULT_PARENT_GUID)
+                .parentType(DEFAULT_PARENT_TYPE)
+                .positive(DEFAULT_POSITIVE)
+                .authorSignature(DEFAULT_AUTHOR_SIGNATURE)
+                .parentAuthorSignature(DEFAULT_PARENT_AUTHOR_SIGNATURE);
         return like;
     }
 
@@ -127,9 +128,9 @@ public class LikeResourceIntTest {
 
         // Create the Like
         restLikeMockMvc.perform(post("/api/likes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(like)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(like)))
+                .andExpect(status().isCreated());
 
         // Validate the Like in the database
         List<Like> likeList = likeRepository.findAll();
@@ -158,9 +159,9 @@ public class LikeResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restLikeMockMvc.perform(post("/api/likes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(like)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(like)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Like> likeList = likeRepository.findAll();
@@ -175,16 +176,16 @@ public class LikeResourceIntTest {
 
         // Get all the likeList
         restLikeMockMvc.perform(get("/api/likes?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(like.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentType").value(hasItem(DEFAULT_PARENT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].positive").value(hasItem(DEFAULT_POSITIVE.booleanValue())))
-            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(like.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].parentType").value(hasItem(DEFAULT_PARENT_TYPE.toString())))
+                .andExpect(jsonPath("$.[*].positive").value(hasItem(DEFAULT_POSITIVE.booleanValue())))
+                .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+                .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
     }
 
     @Test
@@ -195,16 +196,16 @@ public class LikeResourceIntTest {
 
         // Get the like
         restLikeMockMvc.perform(get("/api/likes/{id}", like.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(like.getId().intValue()))
-            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-            .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-            .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
-            .andExpect(jsonPath("$.parentType").value(DEFAULT_PARENT_TYPE.toString()))
-            .andExpect(jsonPath("$.positive").value(DEFAULT_POSITIVE.booleanValue()))
-            .andExpect(jsonPath("$.authorSignature").value(DEFAULT_AUTHOR_SIGNATURE.toString()))
-            .andExpect(jsonPath("$.parentAuthorSignature").value(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(like.getId().intValue()))
+                .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
+                .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
+                .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
+                .andExpect(jsonPath("$.parentType").value(DEFAULT_PARENT_TYPE.toString()))
+                .andExpect(jsonPath("$.positive").value(DEFAULT_POSITIVE.booleanValue()))
+                .andExpect(jsonPath("$.authorSignature").value(DEFAULT_AUTHOR_SIGNATURE.toString()))
+                .andExpect(jsonPath("$.parentAuthorSignature").value(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString()));
     }
 
     @Test
@@ -212,7 +213,7 @@ public class LikeResourceIntTest {
     public void getNonExistingLike() throws Exception {
         // Get the like
         restLikeMockMvc.perform(get("/api/likes/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -226,18 +227,18 @@ public class LikeResourceIntTest {
         // Update the like
         Like updatedLike = likeRepository.findOne(like.getId());
         updatedLike
-            .author(UPDATED_AUTHOR)
-            .guid(UPDATED_GUID)
-            .parentGuid(UPDATED_PARENT_GUID)
-            .parentType(UPDATED_PARENT_TYPE)
-            .positive(UPDATED_POSITIVE)
-            .authorSignature(UPDATED_AUTHOR_SIGNATURE)
-            .parentAuthorSignature(UPDATED_PARENT_AUTHOR_SIGNATURE);
+                .author(UPDATED_AUTHOR)
+                .guid(UPDATED_GUID)
+                .parentGuid(UPDATED_PARENT_GUID)
+                .parentType(UPDATED_PARENT_TYPE)
+                .positive(UPDATED_POSITIVE)
+                .authorSignature(UPDATED_AUTHOR_SIGNATURE)
+                .parentAuthorSignature(UPDATED_PARENT_AUTHOR_SIGNATURE);
 
         restLikeMockMvc.perform(put("/api/likes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedLike)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedLike)))
+                .andExpect(status().isOk());
 
         // Validate the Like in the database
         List<Like> likeList = likeRepository.findAll();
@@ -262,12 +263,11 @@ public class LikeResourceIntTest {
         int databaseSizeBeforeUpdate = likeRepository.findAll().size();
 
         // Create the Like
-
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restLikeMockMvc.perform(put("/api/likes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(like)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(like)))
+                .andExpect(status().isCreated());
 
         // Validate the Like in the database
         List<Like> likeList = likeRepository.findAll();
@@ -284,8 +284,8 @@ public class LikeResourceIntTest {
 
         // Get the like
         restLikeMockMvc.perform(delete("/api/likes/{id}", like.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean likeExistsInEs = likeSearchRepository.exists(like.getId());
@@ -304,16 +304,16 @@ public class LikeResourceIntTest {
 
         // Search the like
         restLikeMockMvc.perform(get("/api/_search/likes?query=id:" + like.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(like.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
-            .andExpect(jsonPath("$.[*].parentType").value(hasItem(DEFAULT_PARENT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].positive").value(hasItem(DEFAULT_POSITIVE.booleanValue())))
-            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
-            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(like.getId().intValue())))
+                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+                .andExpect(jsonPath("$.[*].parentType").value(hasItem(DEFAULT_PARENT_TYPE.toString())))
+                .andExpect(jsonPath("$.[*].positive").value(hasItem(DEFAULT_POSITIVE.booleanValue())))
+                .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+                .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
     }
 
     @Test

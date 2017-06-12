@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
 import java.time.LocalDate;
 
-public class CommentDTO implements AutoMapping{
-    
+public class CommentDTO implements AutoMapping {
+
     @JsonProperty("guid")
     private String guid;
     @JsonProperty("id")
@@ -17,7 +17,8 @@ public class CommentDTO implements AutoMapping{
     @JsonProperty("createdAt")
     private LocalDate createdAt;
 
-    public CommentDTO() {}
+    public CommentDTO() {
+    }
 
     public String getGuid() {
         return guid;
@@ -59,17 +60,15 @@ public class CommentDTO implements AutoMapping{
         this.createdAt = createdAt;
     }
 
-
-        
     @Override
-public String toString() {
-StringBuilder sb = new StringBuilder();
-sb.append("Comment guid: ").append(guid).append("\r\n").
-append("Comment id: ").append(id).append("\r\n").
-append("Comment author: ").append(authorDTO).append("\r\n").
-append("Comment text: ").append(text).append("\r\n").
-append("Comment created at: ").append(createdAt).append("\r\n");
-return sb.toString();
-}
-    
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Comment guid: ").append(guid).append("\r\n").
+                append("Comment id: ").append(id).append("\r\n").
+                append("Comment author: ").append(authorDTO).append("\r\n").
+                append("Comment text: ").append(text).append("\r\n").
+                append("Comment created at: ").append(createdAt).append("\r\n");
+        return sb.toString();
+    }
+
 }

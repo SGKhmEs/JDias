@@ -17,33 +17,33 @@ public interface TagService {
     Tag save(Tag tag);
 
     /**
-     *  Get all the tags.
+     * Get all the tags.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<Tag> findAll();
 
     /**
-     *  Get the "id" tag.
+     * Get the "id" tag.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     Tag findOne(Long id);
 
     /**
-     *  Delete the "id" tag.
+     * Delete the "id" tag.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the tag corresponding to the query.
      *
-     *  @param query the query of the search
-     *  
-     *  @return the list of entities
+     * @param query the query of the search
+     *
+     * @return the list of entities
      */
     List<Tag> search(String query);
 }

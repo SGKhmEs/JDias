@@ -37,10 +37,12 @@ public class AspectVisiblityResource {
     }
 
     /**
-     * POST  /aspect-visiblities : Create a new aspectVisiblity.
+     * POST /aspect-visiblities : Create a new aspectVisiblity.
      *
      * @param aspectVisiblity the aspectVisiblity to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new aspectVisiblity, or with status 400 (Bad Request) if the aspectVisiblity has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new aspectVisiblity, or with status 400 (Bad Request) if the
+     * aspectVisiblity has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/aspect-visiblities")
@@ -52,17 +54,18 @@ public class AspectVisiblityResource {
         }
         AspectVisiblity result = aspectVisiblityService.save(aspectVisiblity);
         return ResponseEntity.created(new URI("/api/aspect-visiblities/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /aspect-visiblities : Updates an existing aspectVisiblity.
+     * PUT /aspect-visiblities : Updates an existing aspectVisiblity.
      *
      * @param aspectVisiblity the aspectVisiblity to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated aspectVisiblity,
-     * or with status 400 (Bad Request) if the aspectVisiblity is not valid,
-     * or with status 500 (Internal Server Error) if the aspectVisiblity couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * aspectVisiblity, or with status 400 (Bad Request) if the aspectVisiblity
+     * is not valid, or with status 500 (Internal Server Error) if the
+     * aspectVisiblity couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/aspect-visiblities")
@@ -74,14 +77,15 @@ public class AspectVisiblityResource {
         }
         AspectVisiblity result = aspectVisiblityService.save(aspectVisiblity);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, aspectVisiblity.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, aspectVisiblity.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /aspect-visiblities : get all the aspectVisiblities.
+     * GET /aspect-visiblities : get all the aspectVisiblities.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of aspectVisiblities in body
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * aspectVisiblities in body
      */
     @GetMapping("/aspect-visiblities")
     @Timed
@@ -91,10 +95,11 @@ public class AspectVisiblityResource {
     }
 
     /**
-     * GET  /aspect-visiblities/:id : get the "id" aspectVisiblity.
+     * GET /aspect-visiblities/:id : get the "id" aspectVisiblity.
      *
      * @param id the id of the aspectVisiblity to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the aspectVisiblity, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * aspectVisiblity, or with status 404 (Not Found)
      */
     @GetMapping("/aspect-visiblities/{id}")
     @Timed
@@ -105,7 +110,7 @@ public class AspectVisiblityResource {
     }
 
     /**
-     * DELETE  /aspect-visiblities/:id : delete the "id" aspectVisiblity.
+     * DELETE /aspect-visiblities/:id : delete the "id" aspectVisiblity.
      *
      * @param id the id of the aspectVisiblity to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -119,8 +124,8 @@ public class AspectVisiblityResource {
     }
 
     /**
-     * SEARCH  /_search/aspect-visiblities?query=:query : search for the aspectVisiblity corresponding
-     * to the query.
+     * SEARCH /_search/aspect-visiblities?query=:query : search for the
+     * aspectVisiblity corresponding to the query.
      *
      * @param query the query of the aspectVisiblity search
      * @return the result of the search
