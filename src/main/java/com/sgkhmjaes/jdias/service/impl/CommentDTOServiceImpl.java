@@ -8,6 +8,7 @@ package com.sgkhmjaes.jdias.service.impl;
 import com.sgkhmjaes.jdias.domain.Comment;
 import com.sgkhmjaes.jdias.repository.CommentRepository;
 import com.sgkhmjaes.jdias.repository.PostRepository;
+import com.sgkhmjaes.jdias.service.dto.AuthorDTO;
 //import com.sgkhmjaes.jdias.service.dto.AutoMappingException;
 import com.sgkhmjaes.jdias.service.dto.CommentDTO;
 import java.lang.reflect.InvocationTargetException;
@@ -42,14 +43,17 @@ public class CommentDTOServiceImpl {
 
     public CommentDTO findOne(Long id) {
         log.debug("Request to get Comments : {}", id);
-        
+        Comment comment = commentRepository.getOne(id);
+//        comment = commentRepository.getOne(id);
+        AuthorDTO authorDTO = authorDTOServiceImpl.findOne(commentRepository.getOne(id).getPerson().getId());
+//        authorDTO = authorDTOServiceImpl.findOne(comment.getPerson().getId());
         CommentDTO commentDTO = new CommentDTO();
         try {
-            commentDTO.mappingToDTO(commentRepository.getOne(id));
+            commentDTO.mappingToDTO(comment, authorDTO);
         } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(CommentDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        commentDTO.setAuthorDTO(authorDTOServiceImpl.findOne(commentRepository.getOne(id).getPerson().getId()));
+//        commentDTO.setAuthorDTO(authorDTOServiceImpl.findOne(commentRepository.getOne(id).getPerson().getId()));
         return commentDTO;
     }
 
@@ -59,13 +63,17 @@ public class CommentDTOServiceImpl {
         List<CommentDTO> commentDTOList = new ArrayList<CommentDTO>();
         
         for (Comment comment : commentList) {
+            System.out.println(comment + " " + comment.getPerson());
             CommentDTO commentDTO = new CommentDTO();
+            AuthorDTO authorDTO = authorDTOServiceImpl.findOne(commentRepository.getOne(comment.getId()).getPerson().getId());
+            System.out.println(id + comment.toString() + "    "  + authorDTO.toString());
+            
             try {
-                commentDTO.mappingToDTO(comment);
+                commentDTO.mappingToDTO(comment, authorDTO);
             } catch (InvocationTargetException ex) {
                 java.util.logging.Logger.getLogger(CommentDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-            commentDTO.setAuthorDTO(authorDTOServiceImpl.findOne(comment.getPerson().getId()));
+//            commentDTO.setAuthorDTO(authorDTOServiceImpl.findOne(comment.getPerson().getId()));
         commentDTOList.add(commentDTO);
         }
         
