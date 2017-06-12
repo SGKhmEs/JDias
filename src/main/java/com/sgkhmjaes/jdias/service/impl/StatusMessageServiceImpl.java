@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.List;
@@ -31,9 +30,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class StatusMessageServiceImpl implements StatusMessageService{
 
     private final Logger log = LoggerFactory.getLogger(StatusMessageServiceImpl.class);
-
     private final StatusMessageRepository statusMessageRepository;
-
     private final StatusMessageSearchRepository statusMessageSearchRepository;
 
     @Inject
@@ -58,30 +55,15 @@ public class StatusMessageServiceImpl implements StatusMessageService{
      */
     @Override
     public StatusMessage save(StatusMessage statusMessage) {
-        StatusMessage result;
+        log.debug("Request to save StatusMessage : {}", statusMessage);        
         if (statusMessage.getId() == null) {
-            log.debug("Request to save StatusMessage : {}", statusMessage);
-//            if(statusMessage.getPoll().getId() == 0) statusMessage.getPoll().setId(null);
-//            if(statusMessage.getLocation().getId() == 0) statusMessage.getLocation().setId(null);
-            result = statusMessageRepository.save(statusMessage);
-            statusMessageSearchRepository.save(result);
-            Post post = new Post();
-            post.setStatusMessage(statusMessage);
-            post.setId(statusMessage.getId());
-            Long id = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId();
-            Person person = personRepository.findOne(id);
-            post.setAuthor(person.getDiasporaId());
-            post.setCreatedAt(LocalDate.now());
-            post.setGuid(UUID.randomUUID().toString());
-            post.setPerson(person);
-            post.setPostType(PostType.STATUSMESSAGE);
-            post.setPub(true);
+            Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+            Post post = new Post(statusMessage.getId(), person.getDiasporaId(), UUID.randomUUID().toString(), 
+                    LocalDate.now(), true, PostType.STATUSMESSAGE, statusMessage, person);
             postService.save(post);
-        }else {
-            log.debug("Request to save StatusMessage : {}", statusMessage);
-            result = statusMessageRepository.save(statusMessage);
-            statusMessageSearchRepository.save(result);
         }
+        StatusMessage result = statusMessageRepository.save(statusMessage);
+        statusMessageSearchRepository.save(result);
         return result;
     }
 

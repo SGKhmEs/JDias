@@ -77,6 +77,19 @@ public class Post implements Serializable {
 
     @ManyToOne
     private Person person;
+    
+    public Post () {}
+    
+    public Post (Long id, String author, String guid, LocalDate createdAt, Boolean pub, PostType postType, StatusMessage statusMessage, Person person) {
+        this.id=id;
+        this.author=author;
+        this.guid=guid;
+        this.createdAt=createdAt;
+        this.pub=pub;
+        this.postType=postType;
+        this.statusMessage=statusMessage;
+        this.person=person;       
+    }
 
     public Long getId() {
         return id;

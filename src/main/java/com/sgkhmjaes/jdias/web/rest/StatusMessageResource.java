@@ -11,14 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
+import java.net.URISyntaxException;
+import java.net.URI;
 import java.util.stream.StreamSupport;
-
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -31,11 +28,8 @@ public class StatusMessageResource {
     private final Logger log = LoggerFactory.getLogger(StatusMessageResource.class);
 
 //    private static final String ENTITY_NAME = "statusMessage";
-
     private static final String ENTITY_NAME = "statusMessageDTOServiceImpl";
-
     private final StatusMessageService statusMessageService;
-
     private final StatusMessageDTOServiceImpl statusMessageDTOServiceImpl;
 
     public StatusMessageResource(StatusMessageService statusMessageService, StatusMessageDTOServiceImpl statusMessageDTOServiceImpl) {
@@ -54,13 +48,7 @@ public class StatusMessageResource {
     @Timed
     public void createStatusMessage(@RequestBody StatusMessageDTO statusMessageDTO) throws URISyntaxException {
         log.debug("REST request to save StatusMessage : {}", statusMessageDTO);
-//        if (statusMessageDTO.getId() != null) {
-//            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new statusMessage cannot already have an ID")).body(null);
-//        }
          statusMessageDTOServiceImpl.save(statusMessageDTO);
-//        return ResponseEntity.created(new URI("/api/status-messages/" + result.getId()))
-//            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-//            .body(result);
     }
 
     /**
@@ -76,13 +64,7 @@ public class StatusMessageResource {
     @Timed
     public void updateStatusMessage(@RequestBody StatusMessageDTO statusMessageDTO) throws URISyntaxException {
         log.debug("REST request to update StatusMessage : {}", statusMessageDTO);
-//        if (statusMessageDTO.getId() == null) {
-//            return createStatusMessage(statusMessage);
-//        }
         statusMessageDTOServiceImpl.save(statusMessageDTO);
-//        return ResponseEntity.ok()
-//            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, statusMessage.getId().toString()))
-//            .body(result);
     }
 
     /**
