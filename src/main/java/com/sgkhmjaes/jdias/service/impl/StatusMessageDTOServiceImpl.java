@@ -25,17 +25,10 @@ public class StatusMessageDTOServiceImpl {
     }
 
     public void save(StatusMessageDTO statusMessageDTO) {
-        StatusMessage statusMessage = new StatusMessage();
+        StatusMessage statusMessage  = statusMessageDTO.getStatusMessage();
 
-        try {
-            statusMessageDTO.mappingFromDTO(statusMessage);
-            statusMessageService.save(statusMessage);
-           
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
-
-//        return statusMessage;
+        //            statusMessageDTO.mappingFromDTO(statusMessage);
+//        System.out.println(statusMessage.getLocation());
+        statusMessageService.save(statusMessage);
     }
 }
