@@ -28,7 +28,7 @@ public class StatusMessageDTOServiceImpl {
         StatusMessage statusMessage = new StatusMessage();
 
         try {
-            statusMessageDTO.getStatus_message().mappingFromDTO(statusMessage);
+            statusMessageDTO.mappingFromDTO(statusMessage);
             statusMessageService.save(statusMessage);
            
         } catch (InvocationTargetException e) {

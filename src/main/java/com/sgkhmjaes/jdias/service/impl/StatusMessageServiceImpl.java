@@ -61,6 +61,8 @@ public class StatusMessageServiceImpl implements StatusMessageService{
         StatusMessage result;
         if (statusMessage.getId() == null) {
             log.debug("Request to save StatusMessage : {}", statusMessage);
+            if(statusMessage.getPoll().getId() == 0) statusMessage.getPoll().setId(null);
+            if(statusMessage.getLocation().getId() == 0) statusMessage.getLocation().setId(null);
             result = statusMessageRepository.save(statusMessage);
             statusMessageSearchRepository.save(result);
             Post post = new Post();
