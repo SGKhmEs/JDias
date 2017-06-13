@@ -37,24 +37,29 @@ public class PostDTOServiceImpl {
 
     public PostDTO findOne(Long id) {
         log.debug("Request to get Post by ID: {}", id);
-        PostDTO postDTO = new PostDTO();
-        try {
-            Post post = postRepository.getOne(id);
-            AuthorDTO authorDTO = authorDTOServiceImpl.findOne(post.getPerson().getId());
-            InteractionDTO interactionDTO = interactionDTOServiceImpl.findOneByPost(id);
-            postDTO.mappingToDTO(post, authorDTO, interactionDTO);
-        } catch (InvocationTargetException ex) {
-            java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return postDTO;
+        return createPostDTOfromPost(postRepository.getOne(id));
     }
 
     public List<PostDTO> findAll() {
         List<Post> postList = postRepository.findAll();
         log.debug("Request to get all Posts : {}", postList.size());
         List<PostDTO> postDtoList = new ArrayList<>();
-        postList.forEach((post) -> {postDtoList.add(findOne(post.getId()));});
+        postList.forEach((post) -> {postDtoList.add(createPostDTOfromPost(post));});
         return postDtoList;
+    }
+    
+    private PostDTO createPostDTOfromPost (Post post) {
+        
+        AuthorDTO authorDTO = authorDTOServiceImpl.findOne(post.getPerson().getId());
+        InteractionDTO interactionDTO = interactionDTOServiceImpl.findOneByPost(post.getId());
+        PostDTO postDTO = new PostDTO();
+        try {
+            postDTO.mappingToDTO(post, authorDTO, interactionDTO);
+        } catch (InvocationTargetException ex) {
+            java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return postDTO;
+        
     }
     
 }
