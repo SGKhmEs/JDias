@@ -1,7 +1,7 @@
 package com.sgkhmjaes.jdias.service;
 
 import com.sgkhmjaes.jdias.domain.StatusMessage;
-import com.sgkhmjaes.jdias.service.dto.statusMessageDTOs.StatusMessageDTO;
+import com.sgkhmjaes.jdias.service.dto.StatusMessageDTO;
 
 import java.util.List;
 
