@@ -14,6 +14,9 @@ import java.util.Objects;
 
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
 
+/**
+ * A Post.
+ */
 @Entity
 @Table(name = "post")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -74,6 +77,19 @@ public class Post implements Serializable {
 
     @ManyToOne
     private Person person;
+    
+    public Post () {}
+    
+    public Post (Long id, String author, String guid, LocalDate createdAt, Boolean pub, PostType postType, StatusMessage statusMessage, Person person) {
+        this.id=id;
+        this.author=author;
+        this.guid=guid;
+        this.createdAt=createdAt;
+        this.pub=pub;
+        this.postType=postType;
+        this.statusMessage=statusMessage;
+        this.person=person;       
+    }
 
     public Long getId() {
         return id;
@@ -322,14 +338,14 @@ public class Post implements Serializable {
 
     @Override
     public String toString() {
-        return "Post{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", guid='" + getGuid() + "'"
-                + ", createdAt='" + getCreatedAt() + "'"
-                + ", pub='" + isPub() + "'"
-                + ", providerDisplayName='" + getProviderDisplayName() + "'"
-                + ", postType='" + getPostType() + "'"
-                + "}";
+        return "Post{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", guid='" + getGuid() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", pub='" + isPub() + "'" +
+            ", providerDisplayName='" + getProviderDisplayName() + "'" +
+            ", postType='" + getPostType() + "'" +
+            "}";
     }
 }
