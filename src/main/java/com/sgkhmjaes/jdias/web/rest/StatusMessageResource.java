@@ -3,7 +3,7 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.service.StatusMessageService;
-import com.sgkhmjaes.jdias.service.dto.statusMessageDTOs.StatusMessageDTO;
+import com.sgkhmjaes.jdias.service.dto.StatusMessageDTO;
 import com.sgkhmjaes.jdias.service.impl.StatusMessageDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;

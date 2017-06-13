@@ -1,4 +1,4 @@
-package com.sgkhmjaes.jdias.service.dto.statusMessageDTOs;
+package com.sgkhmjaes.jdias.service.dto;
 
 import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
