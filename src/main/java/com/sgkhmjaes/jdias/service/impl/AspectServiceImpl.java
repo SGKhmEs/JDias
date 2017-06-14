@@ -1,14 +1,19 @@
 package com.sgkhmjaes.jdias.service.impl;
 
+import com.sgkhmjaes.jdias.domain.UserAccount;
+import com.sgkhmjaes.jdias.repository.UserRepository;
+import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.AspectService;
 import com.sgkhmjaes.jdias.domain.Aspect;
 import com.sgkhmjaes.jdias.repository.AspectRepository;
 import com.sgkhmjaes.jdias.repository.search.AspectSearchRepository;
+import com.sgkhmjaes.jdias.service.dto.aspectDTOs.AspectDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -27,6 +32,9 @@ public class AspectServiceImpl implements AspectService{
     private final AspectRepository aspectRepository;
 
     private final AspectSearchRepository aspectSearchRepository;
+
+    @Inject
+    private UserRepository userRepository;
 
     public AspectServiceImpl(AspectRepository aspectRepository, AspectSearchRepository aspectSearchRepository) {
         this.aspectRepository = aspectRepository;
@@ -57,6 +65,18 @@ public class AspectServiceImpl implements AspectService{
     public List<Aspect> findAll() {
         log.debug("Request to get all Aspects");
         return aspectRepository.findAll();
+    }
+
+    /**
+     *  Get all the aspects by user id.
+     *
+     *  @return the list of entities by user id
+     */
+    @Override
+    public List<Aspect> findAllByUserId() {
+        log.debug("Request to get all Aspects by user id");
+        Long userId = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId();
+        return aspectRepository.findAllByAspectMemberships(userId);
     }
 
     /**

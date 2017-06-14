@@ -4,7 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.service.StatusMessageService;
 import com.sgkhmjaes.jdias.service.dto.statusMessageDTOs.StatusMessageDTO;
-import com.sgkhmjaes.jdias.service.impl.StatusMessageDTOServiceImpl;
+import com.sgkhmjaes.jdias.service.impl.fromDTO.StatusMessageDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class StatusMessageResource {
     /**
      * POST  /status-messages : Create a new statusMessage.
      *
-     * @param statusMessage the statusMessage to create
+     * @param statusMessageDTO the statusMessage to create
      * @return the ResponseEntity with status 201 (Created) and with body the new statusMessage, or with status 400 (Bad Request) if the statusMessage has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
@@ -66,7 +66,7 @@ public class StatusMessageResource {
     /**
      * PUT  /status-messages : Updates an existing statusMessage.
      *
-     * @param statusMessage the statusMessage to update
+     * @param statusMessageDTO the statusMessage to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated statusMessage,
      * or with status 400 (Bad Request) if the statusMessage is not valid,
      * or with status 500 (Internal Server Error) if the statusMessage couldnt be updated

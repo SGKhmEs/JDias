@@ -22,6 +22,12 @@ public interface AspectService {
      *  @return the list of entities
      */
     List<Aspect> findAll();
+    /**
+     *  Get all the aspects by user id.
+     *
+     *  @return the list of entities by user id
+     */
+    List<Aspect> findAllByUserId();
 
     /**
      *  Get the "id" aspect.
@@ -42,7 +48,7 @@ public interface AspectService {
      * Search for the aspect corresponding to the query.
      *
      *  @param query the query of the search
-     *  
+     *
      *  @return the list of entities
      */
     List<Aspect> search(String query);
