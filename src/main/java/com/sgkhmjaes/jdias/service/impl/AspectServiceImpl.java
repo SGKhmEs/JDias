@@ -5,9 +5,13 @@ import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.AspectService;
 import com.sgkhmjaes.jdias.domain.Aspect;
+import com.sgkhmjaes.jdias.domain.AspectMembership;
+import com.sgkhmjaes.jdias.domain.User;
 import com.sgkhmjaes.jdias.repository.AspectRepository;
+import com.sgkhmjaes.jdias.repository.UserAccountRepository;
 import com.sgkhmjaes.jdias.repository.search.AspectSearchRepository;
 import com.sgkhmjaes.jdias.service.dto.aspectDTOs.AspectDTO;
+import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -32,13 +37,16 @@ public class AspectServiceImpl implements AspectService{
     private final AspectRepository aspectRepository;
 
     private final AspectSearchRepository aspectSearchRepository;
+    
+    private final UserAccountRepository userAccountRepository;
 
     @Inject
     private UserRepository userRepository;
 
-    public AspectServiceImpl(AspectRepository aspectRepository, AspectSearchRepository aspectSearchRepository) {
+    public AspectServiceImpl(AspectRepository aspectRepository, AspectSearchRepository aspectSearchRepository, UserAccountRepository userAccountRepository) {
         this.aspectRepository = aspectRepository;
         this.aspectSearchRepository = aspectSearchRepository;
+        this.userAccountRepository=userAccountRepository;
     }
 
     /**
@@ -75,8 +83,10 @@ public class AspectServiceImpl implements AspectService{
     @Override
     public List<Aspect> findAllByUserId() {
         log.debug("Request to get all Aspects by user id");
-        Long userId = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId();
-        return aspectRepository.findAllByAspectMemberships(userId);
+        UserAccount userAccount = userAccountRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        List <Aspect> aspect = new ArrayList <>(userAccount.getAspectmemberships().size());
+        userAccount.getAspectmemberships().forEach((aspectMembership) -> {aspect.add(aspectMembership.getAspect());});        
+        return aspect;
     }
 
     /**
