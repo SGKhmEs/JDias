@@ -59,12 +59,11 @@ public class StatusMessageServiceImpl implements StatusMessageService {
         log.debug("Request to save StatusMessage : {}", statusMessage);
         if (statusMessage.getId() == null) {
             result = statusMessageRepository.save(statusMessage);
+            statusMessageSearchRepository.save(result);
             Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
-            Post post = new Post(statusMessage.getId(), person.getDiasporaId(), UUID.randomUUID().toString(),
-                    LocalDate.now(), true, PostType.STATUSMESSAGE, statusMessage, person);
-            postService.save(post);
+            postService.save(new Post(statusMessage.getId(), person.getDiasporaId(), UUID.randomUUID().toString(),
+                    LocalDate.now(), true, PostType.STATUSMESSAGE, statusMessage, person));
         } else {
-            log.debug("Request to save StatusMessage : {}", statusMessage);
             result = statusMessageRepository.save(statusMessage);
             statusMessageSearchRepository.save(result);
         }

@@ -13,6 +13,12 @@ public class AvatarDTO implements AutoMapping {
 
     public AvatarDTO() {
     }
+    
+    public AvatarDTO(String imageUrlSmall, String imageUrlMedium, String imageUrl) {
+        this.imageUrlSmall=imageUrlSmall;
+        this.imageUrlMedium=imageUrlMedium;
+        this.imageUrl=imageUrl;
+    }
 
     public String getImageUrlSmall() {
         return imageUrlSmall;

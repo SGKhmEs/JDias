@@ -96,12 +96,6 @@ public interface AutoMapping {
                             }
                         }
                     }
-                    /*
-                    if (fastMethodsArray != null) {
-                        Object result = fastMethodsArray[0].invoke(arg, null);
-                        //if (result != null && !result.toString().equals("0") && !result.toString().equals("false")) fastMethodsArray[1].invoke(this, new Object[]{result});
-                        if (result != null) fastMethodsArray[1].invoke(this, new Object[]{result});
-                    }}*/
 
                 }
 
