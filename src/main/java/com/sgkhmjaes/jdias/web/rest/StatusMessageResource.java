@@ -46,9 +46,15 @@ public class StatusMessageResource {
      */
     @PostMapping("/status-messages")
     @Timed
-    public void createStatusMessage(@RequestBody StatusMessageDTO statusMessageDTO) throws URISyntaxException {
-        log.debug("REST request to save StatusMessage : {}", statusMessageDTO);
-         statusMessageDTOServiceImpl.save(statusMessageDTO);
+    public ResponseEntity<StatusMessage> createStatusMessage(@RequestBody StatusMessage statusMessage) throws URISyntaxException {
+        log.debug("REST request to save StatusMessage : {}", statusMessage);
+        if (statusMessage.getId() != null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new accountDeletion cannot already have an ID")).body(null);
+        }
+        StatusMessage result = statusMessageService.save(statusMessage);
+        return ResponseEntity.created(new URI("/api/status-messages/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
@@ -62,9 +68,15 @@ public class StatusMessageResource {
      */
     @PutMapping("/status-messages")
     @Timed
-    public void updateStatusMessage(@RequestBody StatusMessageDTO statusMessageDTO) throws URISyntaxException {
-        log.debug("REST request to update StatusMessage : {}", statusMessageDTO);
-        statusMessageDTOServiceImpl.save(statusMessageDTO);
+    public ResponseEntity<StatusMessage> updateStatusMessage(@RequestBody StatusMessage statusMessage) throws URISyntaxException {
+        log.debug("REST request to update StatusMessage : {}", statusMessage);
+        if (statusMessage.getId() != null) {
+            return createStatusMessage(statusMessage);
+        }
+        StatusMessage result = statusMessageService.save(statusMessage);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, statusMessage.getId().toString()))
+            .body(result);
     }
 
     /**

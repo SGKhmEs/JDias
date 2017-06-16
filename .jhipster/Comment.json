@@ -2,15 +2,15 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "post",
             "otherEntityName": "post",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         },
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "person",
             "otherEntityName": "person",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
     ],
@@ -52,5 +52,5 @@
     "entityTableName": "comment",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

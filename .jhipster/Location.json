@@ -20,5 +20,5 @@
     "entityTableName": "location",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

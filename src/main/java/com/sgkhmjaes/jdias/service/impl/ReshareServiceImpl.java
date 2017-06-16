@@ -1,11 +1,13 @@
 package com.sgkhmjaes.jdias.service.impl;
 
+import com.sgkhmjaes.jdias.domain.Person;
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
 import com.sgkhmjaes.jdias.repository.PersonRepository;
 import com.sgkhmjaes.jdias.repository.PostRepository;
 import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
+import com.sgkhmjaes.jdias.service.PostService;
 import com.sgkhmjaes.jdias.service.ReshareService;
 import com.sgkhmjaes.jdias.domain.Reshare;
 import com.sgkhmjaes.jdias.repository.ReshareRepository;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -37,18 +40,17 @@ public class ReshareServiceImpl implements ReshareService {
 
     private final ReshareSearchRepository reshareSearchRepository;
 
-    @Inject
-    private UserRepository userRepository;
+    private final PersonRepository personRepository;
 
-    @Inject
-    private PersonRepository personRepository;
+    private final PostService postService;
+    private final UserRepository userRepository;
 
-    @Inject
-    private PostRepository postRepository;
-
-    public ReshareServiceImpl(ReshareRepository reshareRepository, ReshareSearchRepository reshareSearchRepository) {
+    public ReshareServiceImpl(ReshareRepository reshareRepository, ReshareSearchRepository reshareSearchRepository, PersonRepository personRepository, PostService postService, UserRepository userRepository) {
         this.reshareRepository = reshareRepository;
         this.reshareSearchRepository = reshareSearchRepository;
+        this.personRepository = personRepository;
+        this.postService = postService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -59,28 +61,35 @@ public class ReshareServiceImpl implements ReshareService {
      */
     @Override
     public Reshare save(Reshare reshare) {
-        Reshare result;
-        if (reshare.getId() == null) {
-            log.debug("Request to save Reshare : {}", reshare);
-            result = reshareRepository.save(reshare);
-            reshareSearchRepository.save(result);
-            Post post = new Post();
-            post.setReshare(reshare);
-            post.setId(reshare.getId());
-            Long id = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId();
-            post.setAuthor(personRepository.findOne(id).getDiasporaId());
-            post.setCreatedAt(LocalDate.now());
-            post.setGuid(UUID.randomUUID().toString());
-            post.setPerson(personRepository.findOne(id));
-            post.setPostType(PostType.RESHARE);
-            post.setPub(true);
-            postRepository.save(post);
-        } else {
-            log.debug("Request to save Reshare : {}", reshare);
-            result = reshareRepository.save(reshare);
-            reshareSearchRepository.save(result);
-        }
+        log.debug("Request to save Reshare : {}", reshare);
+        Reshare result = reshareRepository.save(reshare);
+        reshareSearchRepository.save(result);
         return result;
+    }
+
+    @Override
+    public Reshare save(Post parrentPost) {
+        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        Reshare rsh = reshareRepository.findOne(parrentPost.getReshare().getId());
+        Set<Post> posts = rsh.getPosts();
+        boolean isHasRepost = false;
+        for (Post p : posts) {
+            if (p.getAuthor().equals(person.getDiasporaId())) {
+                isHasRepost = true;
+                break;
+            }
+        }
+        if (parrentPost.getAuthor().equals(person.getDiasporaId())) {
+            return parrentPost.getReshare();
+        } else if (isHasRepost) {
+            return parrentPost.getReshare();
+        } else {
+            Post post = postService.save(new Post(person.getDiasporaId(), UUID.randomUUID().toString(),
+                LocalDate.now(), true, PostType.RESHARE, parrentPost.getStatusMessage(), parrentPost.getReshare(), person));
+            Reshare reshare = parrentPost.getReshare();
+            reshare.addPost(post);
+            return save(reshare);
+        }
     }
 
     /**

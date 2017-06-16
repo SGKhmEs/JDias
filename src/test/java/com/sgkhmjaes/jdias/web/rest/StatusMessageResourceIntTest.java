@@ -6,6 +6,7 @@ import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.repository.StatusMessageRepository;
 import com.sgkhmjaes.jdias.service.StatusMessageService;
 import com.sgkhmjaes.jdias.repository.search.StatusMessageSearchRepository;
+import com.sgkhmjaes.jdias.service.impl.StatusMessageDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -47,7 +48,8 @@ public class StatusMessageResourceIntTest {
 
     @Autowired
     private StatusMessageService statusMessageService;
-
+    @Autowired
+    private StatusMessageDTOServiceImpl statusMessageDTOService;
     @Autowired
     private StatusMessageSearchRepository statusMessageSearchRepository;
 
@@ -70,7 +72,7 @@ public class StatusMessageResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        StatusMessageResource statusMessageResource = new StatusMessageResource(statusMessageService);
+        StatusMessageResource statusMessageResource = new StatusMessageResource(statusMessageService, statusMessageDTOService);
         this.restStatusMessageMockMvc = MockMvcBuilders.standaloneSetup(statusMessageResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setControllerAdvice(exceptionTranslator)

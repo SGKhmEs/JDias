@@ -8,9 +8,9 @@
             "otherEntityRelationshipName": "contact"
         },
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "person",
             "otherEntityName": "person",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
     ],
@@ -36,5 +36,5 @@
     "entityTableName": "contact",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

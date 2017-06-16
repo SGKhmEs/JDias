@@ -2,21 +2,15 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "many-to-one",
+            "relationshipName": "person",
+            "otherEntityName": "person",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
             "relationshipName": "post",
             "otherEntityName": "post",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
-            "relationshipName": "person",
-            "otherEntityName": "person",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
-            "relationshipName": "person",
-            "otherEntityName": "person",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
     ],
@@ -52,8 +46,8 @@
         }
     ],
     "changelogDate": "20170527190324",
-    "dto": "no",
-    "service": "serviceImpl",
     "entityTableName": "jhi_like",
-    "pagination": "no"
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
 }

@@ -28,10 +28,10 @@
         <dd>
             <span jhiTranslate="{{'jDiasApp.PostType.' + post.postType}}">{{post.postType}}</span>
         </dd>
-        <dt><span jhiTranslate="jDiasApp.post.statusMessage">Status Message</span></dt>
+        <dt><span jhiTranslate="jDiasApp.post.person">Person</span></dt>
         <dd>
-            <div *ngIf="post.statusMessage">
-                <a [routerLink]="['/status-message', post.statusMessage?.id]">{{post.statusMessage?.id}}</a>
+            <div *ngIf="post.person">
+                <a [routerLink]="['/person', post.person?.id]">{{post.person?.id}}</a>
             </div>
         </dd>
         <dt><span jhiTranslate="jDiasApp.post.reshare">Reshare</span></dt>
@@ -40,10 +40,10 @@
                 <a [routerLink]="['/reshare', post.reshare?.id]">{{post.reshare?.id}}</a>
             </div>
         </dd>
-        <dt><span jhiTranslate="jDiasApp.post.person">Person</span></dt>
+        <dt><span jhiTranslate="jDiasApp.post.statusMessage">Status Message</span></dt>
         <dd>
-            <div *ngIf="post.person">
-                <a [routerLink]="['/person', post.person?.id]">{{post.person?.id}}</a>
+            <div *ngIf="post.statusMessage">
+                <a [routerLink]="['/status-message', post.statusMessage?.id]">{{post.statusMessage?.id}}</a>
             </div>
         </dd>
     </dl>

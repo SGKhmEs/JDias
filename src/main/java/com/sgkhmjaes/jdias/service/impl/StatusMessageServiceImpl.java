@@ -2,10 +2,12 @@ package com.sgkhmjaes.jdias.service.impl;
 
 import com.sgkhmjaes.jdias.domain.Person;
 import com.sgkhmjaes.jdias.domain.Post;
+import com.sgkhmjaes.jdias.domain.Reshare;
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
 import com.sgkhmjaes.jdias.repository.*;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.PostService;
+import com.sgkhmjaes.jdias.service.ReshareService;
 import com.sgkhmjaes.jdias.service.StatusMessageService;
 import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.repository.search.StatusMessageSearchRepository;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -33,18 +36,20 @@ public class StatusMessageServiceImpl implements StatusMessageService {
     private final StatusMessageRepository statusMessageRepository;
     private final StatusMessageSearchRepository statusMessageSearchRepository;
 
-    @Inject
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Inject
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
-    @Inject
-    private PostService postService;
+    private final PostService postService;
+    private final ReshareService reshareService;
 
-    public StatusMessageServiceImpl(StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository) {
+    public StatusMessageServiceImpl(StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository, UserRepository userRepository, PersonRepository personRepository, PostService postService, ReshareService reshareService) {
         this.statusMessageRepository = statusMessageRepository;
         this.statusMessageSearchRepository = statusMessageSearchRepository;
+        this.userRepository = userRepository;
+        this.personRepository = personRepository;
+        this.postService = postService;
+        this.reshareService = reshareService;
     }
 
     /**
@@ -55,21 +60,27 @@ public class StatusMessageServiceImpl implements StatusMessageService {
      */
     @Override
     public StatusMessage save(StatusMessage statusMessage) {
-        StatusMessage result;
         log.debug("Request to save StatusMessage : {}", statusMessage);
         if (statusMessage.getId() == null) {
-            result = statusMessageRepository.save(statusMessage);
-            statusMessageSearchRepository.save(result);
             Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
-            postService.save(new Post(statusMessage.getId(), person.getDiasporaId(), UUID.randomUUID().toString(),
-                    LocalDate.now(), true, PostType.STATUSMESSAGE, statusMessage, person));
-        } else {
-            result = statusMessageRepository.save(statusMessage);
+            Post post = postService.save(new Post(person.getDiasporaId(), UUID.randomUUID().toString(),
+                LocalDate.now(), true, PostType.STATUSMESSAGE, null, null, person));
+            statusMessage.setId(post.getId());
+            statusMessage.addPost(post);
+            StatusMessage result = statusMessageRepository.save(statusMessage);
             statusMessageSearchRepository.save(result);
+            Reshare reshare = new Reshare(post.getId(), post.getAuthor(), post.getGuid());
+            reshare.addPost(post);
+            Reshare rS = reshareService.save(reshare);
+            post.setStatusMessage(result);
+            post.setReshare(rS);
+            postService.save(post);
+            return result;
+        } else {
+            StatusMessage result = statusMessageRepository.save(statusMessage);
+            statusMessageSearchRepository.save(result);
+            return result;
         }
-//        StatusMessage result = statusMessageRepository.save(statusMessage);
-//        statusMessageSearchRepository.save(result);
-        return result;
     }
 
     /**
@@ -105,6 +116,10 @@ public class StatusMessageServiceImpl implements StatusMessageService {
     @Override
     public void delete(Long id) {
         log.debug("Request to delete StatusMessage : {}", id);
+        Reshare reshare = reshareService.findOne(id);
+        Set<Post> postSet = reshare.getPosts();
+        postService.deleteAll(postSet);
+        reshareService.delete(id);
         statusMessageRepository.delete(id);
         statusMessageSearchRepository.delete(id);
     }

@@ -1,5 +1,6 @@
 package com.sgkhmjaes.jdias.service;
 
+import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.domain.Reshare;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public interface ReshareService {
      */
     Reshare save(Reshare reshare);
 
+    Reshare save(Post parrentPost);
     /**
      * Get all the reshares.
      *

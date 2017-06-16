@@ -19,6 +19,7 @@
             "text": "Text",
             "location": "Location",
             "poll": "Poll",
+            "post": "Post",
             "photos": "Photos"
         }
     }

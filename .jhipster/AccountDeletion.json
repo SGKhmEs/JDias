@@ -11,5 +11,5 @@
     "entityTableName": "account_deletion",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

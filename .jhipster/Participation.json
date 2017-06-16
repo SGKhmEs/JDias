@@ -2,9 +2,9 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "person",
             "otherEntityName": "person",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
     ],
@@ -31,5 +31,5 @@
     "entityTableName": "participation",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

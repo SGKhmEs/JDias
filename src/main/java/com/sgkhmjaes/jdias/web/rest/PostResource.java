@@ -92,9 +92,9 @@ public class PostResource {
      */
     @GetMapping("/posts")
     @Timed
-    public List<PostDTO> getAllPosts() {
+    public List<Post> getAllPosts() {
         log.debug("REST request to get all Posts");
-        return postDTOServiceImpl.findAll();
+        return postService.findAll();
     }
 
     /**
@@ -106,9 +106,9 @@ public class PostResource {
      */
     @GetMapping("/posts/{id}")
     @Timed
-    public ResponseEntity<PostDTO> getPost(@PathVariable Long id) {
+    public ResponseEntity<Post> getPost(@PathVariable Long id) {
         log.debug("REST request to get Post : {}", id);
-        PostDTO post = postDTOServiceImpl.findOne(id);
+        Post post = postService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(post));
     }
 

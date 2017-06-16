@@ -2,6 +2,7 @@ package com.sgkhmjaes.jdias.service;
 
 import com.sgkhmjaes.jdias.domain.Post;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Service Interface for managing Post.
@@ -46,4 +47,6 @@ public interface PostService {
      * @return the list of entities
      */
     List<Post> search(String query);
+
+    void deleteAll(Set<Post> postSet);
 }

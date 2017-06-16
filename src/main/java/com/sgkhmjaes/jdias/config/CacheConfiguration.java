@@ -95,6 +95,9 @@ public class CacheConfiguration {
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".comments", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".participations", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".events", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.StatusMessage.class.getName() + ".posts", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Reshare.class.getName() + ".posts", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Reshare.class.getName() + ".people", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

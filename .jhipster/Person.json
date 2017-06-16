@@ -2,8 +2,8 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipName": "conversation",
-            "otherEntityName": "conversation",
+            "relationshipName": "reshare",
+            "otherEntityName": "reshare",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
         },
@@ -25,26 +25,20 @@
         },
         {
             "relationshipType": "one-to-many",
+            "relationshipName": "comments",
+            "otherEntityName": "comment",
+            "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipType": "one-to-many",
             "relationshipName": "contacts",
             "otherEntityName": "contact",
             "otherEntityRelationshipName": "person"
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "posts",
-            "otherEntityName": "post",
-            "otherEntityRelationshipName": "person"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "photos",
-            "otherEntityName": "photo",
-            "otherEntityRelationshipName": "person"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "comments",
-            "otherEntityName": "comment",
+            "relationshipName": "events",
+            "otherEntityName": "eventParticipation",
             "otherEntityRelationshipName": "person"
         },
         {
@@ -55,9 +49,21 @@
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "events",
-            "otherEntityName": "eventParticipation",
+            "relationshipName": "photos",
+            "otherEntityName": "photo",
             "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "posts",
+            "otherEntityName": "post",
+            "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "conversation",
+            "otherEntityName": "conversation",
+            "otherEntityField": "id"
         }
     ],
     "fields": [
@@ -98,5 +104,5 @@
     "entityTableName": "person",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

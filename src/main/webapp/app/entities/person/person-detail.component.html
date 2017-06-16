@@ -36,10 +36,10 @@
         <dd>
             <span>{{person.podId}}</span>
         </dd>
-        <dt><span jhiTranslate="jDiasApp.person.conversation">Conversation</span></dt>
+        <dt><span jhiTranslate="jDiasApp.person.reshare">Reshare</span></dt>
         <dd>
-            <div *ngIf="person.conversation">
-                <a [routerLink]="['/conversation', person.conversation?.id]">{{person.conversation?.id}}</a>
+            <div *ngIf="person.reshare">
+                <a [routerLink]="['/reshare', person.reshare?.id]">{{person.reshare?.id}}</a>
             </div>
         </dd>
         <dt><span jhiTranslate="jDiasApp.person.profile">Profile</span></dt>
@@ -52,6 +52,12 @@
         <dd>
             <div *ngIf="person.accountdeletion">
                 <a [routerLink]="['/account-deletion', person.accountdeletion?.id]">{{person.accountdeletion?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.person.conversation">Conversation</span></dt>
+        <dd>
+            <div *ngIf="person.conversation">
+                <a [routerLink]="['/conversation', person.conversation?.id]">{{person.conversation?.id}}</a>
             </div>
         </dd>
     </dl>

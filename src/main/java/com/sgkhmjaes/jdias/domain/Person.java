@@ -51,7 +51,7 @@ public class Person implements Serializable {
     private Integer podId;
 
     @ManyToOne
-    private Conversation conversation;
+    private Reshare reshare;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -64,22 +64,17 @@ public class Person implements Serializable {
     @OneToMany(mappedBy = "person")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Comment> comments = new HashSet<>();
+
+    @OneToMany(mappedBy = "person")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Contact> contacts = new HashSet<>();
 
     @OneToMany(mappedBy = "person")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Post> posts = new HashSet<>();
-
-    @OneToMany(mappedBy = "person")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Photo> photos = new HashSet<>();
-
-    @OneToMany(mappedBy = "person")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Comment> comments = new HashSet<>();
+    private Set<EventParticipation> events = new HashSet<>();
 
     @OneToMany(mappedBy = "person")
     @JsonIgnore
@@ -89,7 +84,15 @@ public class Person implements Serializable {
     @OneToMany(mappedBy = "person")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<EventParticipation> events = new HashSet<>();
+    private Set<Photo> photos = new HashSet<>();
+
+    @OneToMany(mappedBy = "person")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Post> posts = new HashSet<>();
+
+    @ManyToOne
+    private Conversation conversation;
 
     public Long getId() {
         return id;
@@ -203,17 +206,17 @@ public class Person implements Serializable {
         this.podId = podId;
     }
 
-    public Conversation getConversation() {
-        return conversation;
+    public Reshare getReshare() {
+        return reshare;
     }
 
-    public Person conversation(Conversation conversation) {
-        this.conversation = conversation;
+    public Person reshare(Reshare reshare) {
+        this.reshare = reshare;
         return this;
     }
 
-    public void setConversation(Conversation conversation) {
-        this.conversation = conversation;
+    public void setReshare(Reshare reshare) {
+        this.reshare = reshare;
     }
 
     public Profile getProfile() {
@@ -242,81 +245,6 @@ public class Person implements Serializable {
         this.accountdeletion = accountDeletion;
     }
 
-    public Set<Contact> getContacts() {
-        return contacts;
-    }
-
-    public Person contacts(Set<Contact> contacts) {
-        this.contacts = contacts;
-        return this;
-    }
-
-    public Person addContacts(Contact contact) {
-        this.contacts.add(contact);
-        contact.setPerson(this);
-        return this;
-    }
-
-    public Person removeContacts(Contact contact) {
-        this.contacts.remove(contact);
-        contact.setPerson(null);
-        return this;
-    }
-
-    public void setContacts(Set<Contact> contacts) {
-        this.contacts = contacts;
-    }
-
-    public Set<Post> getPosts() {
-        return posts;
-    }
-
-    public Person posts(Set<Post> posts) {
-        this.posts = posts;
-        return this;
-    }
-
-    public Person addPosts(Post post) {
-        this.posts.add(post);
-        post.setPerson(this);
-        return this;
-    }
-
-    public Person removePosts(Post post) {
-        this.posts.remove(post);
-        post.setPerson(null);
-        return this;
-    }
-
-    public void setPosts(Set<Post> posts) {
-        this.posts = posts;
-    }
-
-    public Set<Photo> getPhotos() {
-        return photos;
-    }
-
-    public Person photos(Set<Photo> photos) {
-        this.photos = photos;
-        return this;
-    }
-
-    public Person addPhotos(Photo photo) {
-        this.photos.add(photo);
-        photo.setPerson(this);
-        return this;
-    }
-
-    public Person removePhotos(Photo photo) {
-        this.photos.remove(photo);
-        photo.setPerson(null);
-        return this;
-    }
-
-    public void setPhotos(Set<Photo> photos) {
-        this.photos = photos;
-    }
-
     public Set<Comment> getComments() {
         return comments;
     }
@@ -342,29 +270,29 @@ public class Person implements Serializable {
         this.comments = comments;
     }
 
-    public Set<Participation> getParticipations() {
-        return participations;
+    public Set<Contact> getContacts() {
+        return contacts;
     }
 
-    public Person participations(Set<Participation> participations) {
-        this.participations = participations;
+    public Person contacts(Set<Contact> contacts) {
+        this.contacts = contacts;
         return this;
     }
 
-    public Person addParticipations(Participation participation) {
-        this.participations.add(participation);
-        participation.setPerson(this);
+    public Person addContacts(Contact contact) {
+        this.contacts.add(contact);
+        contact.setPerson(this);
         return this;
     }
 
-    public Person removeParticipations(Participation participation) {
-        this.participations.remove(participation);
-        participation.setPerson(null);
+    public Person removeContacts(Contact contact) {
+        this.contacts.remove(contact);
+        contact.setPerson(null);
         return this;
     }
 
-    public void setParticipations(Set<Participation> participations) {
-        this.participations = participations;
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     public Set<EventParticipation> getEvents() {
@@ -392,6 +320,94 @@ public class Person implements Serializable {
         this.events = eventParticipations;
     }
 
+    public Set<Participation> getParticipations() {
+        return participations;
+    }
+
+    public Person participations(Set<Participation> participations) {
+        this.participations = participations;
+        return this;
+    }
+
+    public Person addParticipations(Participation participation) {
+        this.participations.add(participation);
+        participation.setPerson(this);
+        return this;
+    }
+
+    public Person removeParticipations(Participation participation) {
+        this.participations.remove(participation);
+        participation.setPerson(null);
+        return this;
+    }
+
+    public void setParticipations(Set<Participation> participations) {
+        this.participations = participations;
+    }
+
+    public Set<Photo> getPhotos() {
+        return photos;
+    }
+
+    public Person photos(Set<Photo> photos) {
+        this.photos = photos;
+        return this;
+    }
+
+    public Person addPhotos(Photo photo) {
+        this.photos.add(photo);
+        photo.setPerson(this);
+        return this;
+    }
+
+    public Person removePhotos(Photo photo) {
+        this.photos.remove(photo);
+        photo.setPerson(null);
+        return this;
+    }
+
+    public void setPhotos(Set<Photo> photos) {
+        this.photos = photos;
+    }
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public Person posts(Set<Post> posts) {
+        this.posts = posts;
+        return this;
+    }
+
+    public Person addPosts(Post post) {
+        this.posts.add(post);
+        post.setPerson(this);
+        return this;
+    }
+
+    public Person removePosts(Post post) {
+        this.posts.remove(post);
+        post.setPerson(null);
+        return this;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
+    }
+
+    public Conversation getConversation() {
+        return conversation;
+    }
+
+    public Person conversation(Conversation conversation) {
+        this.conversation = conversation;
+        return this;
+    }
+
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -414,16 +430,16 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "Person{"
-                + "id=" + getId()
-                + ", guid='" + getGuid() + "'"
-                + ", diasporaId='" + getDiasporaId() + "'"
-                + ", serializedPublicKey='" + getSerializedPublicKey() + "'"
-                + ", createdAt='" + getCreatedAt() + "'"
-                + ", updatedAt='" + getUpdatedAt() + "'"
-                + ", closedAccount='" + isClosedAccount() + "'"
-                + ", fetchStatus='" + getFetchStatus() + "'"
-                + ", podId='" + getPodId() + "'"
-                + "}";
+        return "Person{" +
+            "id=" + getId() +
+            ", guid='" + getGuid() + "'" +
+            ", diasporaId='" + getDiasporaId() + "'" +
+            ", serializedPublicKey='" + getSerializedPublicKey() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
+            ", closedAccount='" + isClosedAccount() + "'" +
+            ", fetchStatus='" + getFetchStatus() + "'" +
+            ", podId='" + getPodId() + "'" +
+            "}";
     }
 }

@@ -23,8 +23,6 @@ public class StatusMessage implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @Column(name = "text")
@@ -37,6 +35,11 @@ public class StatusMessage implements Serializable {
     @OneToOne
     @JoinColumn(unique = true)
     private Poll poll;
+
+    @OneToMany(mappedBy = "statusMessage")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Post> posts = new HashSet<>();
 
     @OneToMany(mappedBy = "statusMessage")
     @JsonIgnore
@@ -90,6 +93,31 @@ public class StatusMessage implements Serializable {
         this.poll = poll;
     }
 
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public StatusMessage posts(Set<Post> posts) {
+        this.posts = posts;
+        return this;
+    }
+
+    public StatusMessage addPost(Post post) {
+        this.posts.add(post);
+        post.setStatusMessage(this);
+        return this;
+    }
+
+    public StatusMessage removePost(Post post) {
+        this.posts.remove(post);
+        post.setStatusMessage(null);
+        return this;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
+    }
+
     public Set<Photo> getPhotos() {
         return photos;
     }
@@ -137,9 +165,9 @@ public class StatusMessage implements Serializable {
 
     @Override
     public String toString() {
-        return "StatusMessage{"
-                + "id=" + getId()
-                + ", text='" + getText() + "'"
-                + "}";
+        return "StatusMessage{" +
+            "id=" + getId() +
+            ", text='" + getText() + "'" +
+            "}";
     }
 }

@@ -2,15 +2,15 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "aspect",
             "otherEntityName": "aspect",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         },
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "post",
             "otherEntityName": "post",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
     ],
@@ -25,5 +25,5 @@
     "entityTableName": "aspect_visiblity",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

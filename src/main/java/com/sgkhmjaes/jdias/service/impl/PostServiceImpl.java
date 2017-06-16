@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -97,5 +98,12 @@ public class PostServiceImpl implements PostService {
         return StreamSupport
                 .stream(postSearchRepository.search(queryStringQuery(query)).spliterator(), false)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteAll(Set<Post> postSet) {
+        for(Post post: postSet){
+            delete(post.getId());
+        }
     }
 }

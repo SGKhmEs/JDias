@@ -8,11 +8,11 @@
     -->
     <changeSet id="20170527190341-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="conversation_id"
+        <addForeignKeyConstraint baseColumnNames="reshare_id"
                                  baseTableName="person"
-                                 constraintName="fk_person_conversation_id"
+                                 constraintName="fk_person_reshare_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="conversation"/>
+                                 referencedTableName="reshare"/>
 
         <addForeignKeyConstraint baseColumnNames="profile_id"
                                  baseTableName="person"
@@ -25,6 +25,12 @@
                                  constraintName="fk_person_accountdeletion_id"
                                  referencedColumnNames="id"
                                  referencedTableName="account_deletion"/>
+
+        <addForeignKeyConstraint baseColumnNames="conversation_id"
+                                 baseTableName="person"
+                                 constraintName="fk_person_conversation_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="conversation"/>
 
     </changeSet>
 </databaseChangeLog>

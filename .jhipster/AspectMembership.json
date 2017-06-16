@@ -2,21 +2,21 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "aspect",
             "otherEntityName": "aspect",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         },
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "contact",
             "otherEntityName": "contact",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         },
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "userAccount",
             "otherEntityName": "userAccount",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
     ],
@@ -34,5 +34,5 @@
     "entityTableName": "aspect_membership",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

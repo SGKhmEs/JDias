@@ -9,9 +9,10 @@ import { EventManager, AlertService } from 'ng-jhipster';
 import { Person } from './person.model';
 import { PersonPopupService } from './person-popup.service';
 import { PersonService } from './person.service';
-import { Conversation, ConversationService } from '../conversation';
+import { Reshare, ReshareService } from '../reshare';
 import { Profile, ProfileService } from '../profile';
 import { AccountDeletion, AccountDeletionService } from '../account-deletion';
+import { Conversation, ConversationService } from '../conversation';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -24,11 +25,13 @@ export class PersonDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
-    conversations: Conversation[];
+    reshares: Reshare[];
 
     profiles: Profile[];
 
     accountdeletions: AccountDeletion[];
+
+    conversations: Conversation[];
     createdAtDp: any;
     updatedAtDp: any;
 
@@ -36,9 +39,10 @@ export class PersonDialogComponent implements OnInit {
         public activeModal: NgbActiveModal,
         private alertService: AlertService,
         private personService: PersonService,
-        private conversationService: ConversationService,
+        private reshareService: ReshareService,
         private profileService: ProfileService,
         private accountDeletionService: AccountDeletionService,
+        private conversationService: ConversationService,
         private eventManager: EventManager
     ) {
     }
@@ -46,8 +50,8 @@ export class PersonDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.conversationService.query()
-            .subscribe((res: ResponseWrapper) => { this.conversations = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.reshareService.query()
+            .subscribe((res: ResponseWrapper) => { this.reshares = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.profileService
             .query({filter: 'person-is-null'})
             .subscribe((res: ResponseWrapper) => {
@@ -74,6 +78,8 @@ export class PersonDialogComponent implements OnInit {
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));
                 }
             }, (res: ResponseWrapper) => this.onError(res.json));
+        this.conversationService.query()
+            .subscribe((res: ResponseWrapper) => { this.conversations = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
     clear() {
         this.activeModal.dismiss('cancel');
@@ -120,7 +126,7 @@ export class PersonDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackConversationById(index: number, item: Conversation) {
+    trackReshareById(index: number, item: Reshare) {
         return item.id;
     }
 
@@ -129,6 +135,10 @@ export class PersonDialogComponent implements OnInit {
     }
 
     trackAccountDeletionById(index: number, item: AccountDeletion) {
+        return item.id;
+    }
+
+    trackConversationById(index: number, item: Conversation) {
         return item.id;
     }
 }

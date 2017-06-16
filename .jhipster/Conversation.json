@@ -3,20 +3,20 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "participants",
-            "otherEntityName": "person",
-            "otherEntityRelationshipName": "conversation"
-        },
-        {
-            "relationshipType": "one-to-many",
             "relationshipName": "messages",
             "otherEntityName": "message",
             "otherEntityRelationshipName": "conversation"
         },
         {
+            "relationshipType": "one-to-many",
+            "relationshipName": "participants",
+            "otherEntityName": "person",
+            "otherEntityRelationshipName": "conversation"
+        },
+        {
+            "relationshipType": "many-to-one",
             "relationshipName": "userAccount",
             "otherEntityName": "userAccount",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
     ],
@@ -46,5 +46,5 @@
     "entityTableName": "conversation",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }
