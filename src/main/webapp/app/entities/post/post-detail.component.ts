@@ -36,7 +36,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
         });
     }
     previousState() {
-        window.history.back();
+        window.history.back();p
     }
 
     ngOnDestroy() {

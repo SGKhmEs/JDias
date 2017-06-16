@@ -40,6 +40,8 @@ public interface StatusMessageService {
      */
     void delete(Long id);
 
+    void deletePost(Long id);
+
     /**
      * Search for the statusMessage corresponding to the query.
      *

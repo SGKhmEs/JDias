@@ -71,9 +71,9 @@ public class StatusMessageServiceImpl implements StatusMessageService {
             statusMessageSearchRepository.save(result);
             Reshare reshare = new Reshare(post.getId(), post.getAuthor(), post.getGuid());
             reshare.addPost(post);
-            Reshare rS = reshareService.save(reshare);
+            reshare = reshareService.save(reshare);
             post.setStatusMessage(result);
-            post.setReshare(rS);
+            post.setReshare(reshare);
             postService.save(post);
             return result;
         } else {
@@ -122,6 +122,25 @@ public class StatusMessageServiceImpl implements StatusMessageService {
         reshareService.delete(id);
         statusMessageRepository.delete(id);
         statusMessageSearchRepository.delete(id);
+    }
+
+    @Override
+    public void deletePost(Long id) {
+        Post post = postService.findOne(id);
+        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        StatusMessage statusMessage = findOne(post.getStatusMessage().getId());
+        if (person.getDiasporaId().equals(post.getAuthor())) {
+            if (post.getId().equals(statusMessage.getId())) {
+                delete(id);
+            }else {
+                statusMessage.removePost(post);
+                Reshare reshare = reshareService.findOne(statusMessage.getId());
+                reshare.removePost(post);
+                reshareService.save(reshare);
+                save(statusMessage);
+                postService.delete(id);
+            }
+        }
     }
 
     /**

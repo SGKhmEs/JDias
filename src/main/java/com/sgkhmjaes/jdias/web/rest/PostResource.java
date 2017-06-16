@@ -3,8 +3,10 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.service.PostService;
+import com.sgkhmjaes.jdias.service.StatusMessageService;
 import com.sgkhmjaes.jdias.service.dto.PostDTO;
 import com.sgkhmjaes.jdias.service.impl.PostDTOServiceImpl;
+import com.sgkhmjaes.jdias.service.impl.StatusMessageServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -35,10 +37,12 @@ public class PostResource {
     private final PostService postService;
 
     private final PostDTOServiceImpl postDTOServiceImpl;
+    private final StatusMessageService statusMessageService;
 
-    public PostResource(PostService postService, PostDTOServiceImpl postDTOServiceImpl) {
+    public PostResource(PostService postService, PostDTOServiceImpl postDTOServiceImpl, StatusMessageService statusMessageService) {
         this.postService = postService;
         this.postDTOServiceImpl = postDTOServiceImpl;
+        this.statusMessageService = statusMessageService;
     }
 
     /**
@@ -122,7 +126,7 @@ public class PostResource {
     @Timed
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         log.debug("REST request to delete Post : {}", id);
-        postService.delete(id);
+        statusMessageService.deletePost(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 

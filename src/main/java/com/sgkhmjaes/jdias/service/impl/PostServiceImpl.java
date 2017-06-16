@@ -102,8 +102,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void deleteAll(Set<Post> postSet) {
-        for(Post post: postSet){
+        postRepository.delete(postSet);
+        postSearchRepository.delete(postSet);
+       /* for(Post post: postSet){
             delete(post.getId());
-        }
+        }*/
     }
 }
