@@ -50,9 +50,6 @@ public class Person implements Serializable {
     @Column(name = "pod_id")
     private Integer podId;
 
-    @ManyToOne
-    private Reshare reshare;
-
     @OneToOne
     @JoinColumn(unique = true)
     private Profile profile;
@@ -204,19 +201,6 @@ public class Person implements Serializable {
 
     public void setPodId(Integer podId) {
         this.podId = podId;
-    }
-
-    public Reshare getReshare() {
-        return reshare;
-    }
-
-    public Person reshare(Reshare reshare) {
-        this.reshare = reshare;
-        return this;
-    }
-
-    public void setReshare(Reshare reshare) {
-        this.reshare = reshare;
     }
 
     public Profile getProfile() {

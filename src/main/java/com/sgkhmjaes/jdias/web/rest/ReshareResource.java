@@ -3,7 +3,7 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.domain.Reshare;
-import com.sgkhmjaes.jdias.service.ReshareService;
+import com.sgkhmjaes.jdias.service.PostService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -16,9 +16,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Reshare.
@@ -31,10 +28,10 @@ public class ReshareResource {
 
     private static final String ENTITY_NAME = "reshare";
 
-    private final ReshareService reshareService;
+    private final PostService postService;
 
-    public ReshareResource(ReshareService reshareService) {
-        this.reshareService = reshareService;
+    public ReshareResource(PostService postService) {
+        this.postService = postService;
     }
 
     /**
@@ -53,7 +50,7 @@ public class ReshareResource {
         if (parrentPost.getId() == null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new reshare cannot already have an ID")).body(null);
         }
-        Reshare result = reshareService.save(parrentPost);
+        Reshare result = postService.saveReshare(parrentPost);
         return ResponseEntity.created(new URI("/api/reshares/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
@@ -75,7 +72,7 @@ public class ReshareResource {
         if (post.getId() == null) {
             return createReshare(post);
         }
-        Reshare result = reshareService.save(post);
+        Reshare result = postService.saveReshare(post);
         return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, post.getId().toString()))
                 .body(result);
@@ -91,7 +88,7 @@ public class ReshareResource {
     @Timed
     public List<Reshare> getAllReshares() {
         log.debug("REST request to get all Reshares");
-        return reshareService.findAll();
+        return postService.findAllReshare();
     }
 
     /**
@@ -105,7 +102,7 @@ public class ReshareResource {
     @Timed
     public ResponseEntity<Reshare> getReshare(@PathVariable Long id) {
         log.debug("REST request to get Reshare : {}", id);
-        Reshare reshare = reshareService.findOne(id);
+        Reshare reshare = postService.findOneReshare(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(reshare));
     }
 
@@ -119,7 +116,7 @@ public class ReshareResource {
     @Timed
     public ResponseEntity<Void> deleteReshare(@PathVariable Long id) {
         log.debug("REST request to delete Reshare : {}", id);
-        reshareService.delete(id);
+        postService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -134,7 +131,7 @@ public class ReshareResource {
     @Timed
     public List<Reshare> searchReshares(@RequestParam String query) {
         log.debug("REST request to search Reshares for query {}", query);
-        return reshareService.search(query);
+        return postService.searchReshare(query);
     }
 
 }

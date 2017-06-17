@@ -3,11 +3,9 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Post;
-import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.repository.PostRepository;
 import com.sgkhmjaes.jdias.service.PostService;
 import com.sgkhmjaes.jdias.repository.search.PostSearchRepository;
-import com.sgkhmjaes.jdias.service.StatusMessageService;
 import com.sgkhmjaes.jdias.service.impl.PostDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -84,9 +82,6 @@ public class PostResourceIntTest {
     private ExceptionTranslator exceptionTranslator;
 
     @Autowired
-    private StatusMessageService statusMessageService;
-
-    @Autowired
     private EntityManager em;
 
     private MockMvc restPostMockMvc;
@@ -96,7 +91,7 @@ public class PostResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PostResource postResource = new PostResource(postService, postDTOService, statusMessageService);
+        PostResource postResource = new PostResource(postService, postDTOService);
         this.restPostMockMvc = MockMvcBuilders.standaloneSetup(postResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setControllerAdvice(exceptionTranslator)

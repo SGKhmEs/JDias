@@ -8,12 +8,6 @@
     -->
     <changeSet id="20170527190341-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="reshare_id"
-                                 baseTableName="person"
-                                 constraintName="fk_person_reshare_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="reshare"/>
-
         <addForeignKeyConstraint baseColumnNames="profile_id"
                                  baseTableName="person"
                                  constraintName="fk_person_profile_id"

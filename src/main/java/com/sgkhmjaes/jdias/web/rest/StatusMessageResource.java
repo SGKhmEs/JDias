@@ -2,8 +2,7 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.StatusMessage;
-import com.sgkhmjaes.jdias.service.StatusMessageService;
-import com.sgkhmjaes.jdias.service.dto.StatusMessageDTO;
+import com.sgkhmjaes.jdias.service.PostService;
 import com.sgkhmjaes.jdias.service.impl.StatusMessageDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -15,8 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import java.net.URISyntaxException;
 import java.net.URI;
-import java.util.stream.StreamSupport;
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing StatusMessage.
@@ -29,11 +26,11 @@ public class StatusMessageResource {
 
 //    private static final String ENTITY_NAME = "statusMessage";
     private static final String ENTITY_NAME = "statusMessageDTOServiceImpl";
-    private final StatusMessageService statusMessageService;
+    private final PostService postService;
     private final StatusMessageDTOServiceImpl statusMessageDTOServiceImpl;
 
-    public StatusMessageResource(StatusMessageService statusMessageService, StatusMessageDTOServiceImpl statusMessageDTOServiceImpl) {
-        this.statusMessageService = statusMessageService;
+    public StatusMessageResource(PostService postService, StatusMessageDTOServiceImpl statusMessageDTOServiceImpl) {
+        this.postService = postService;
         this.statusMessageDTOServiceImpl = statusMessageDTOServiceImpl;
     }
 
@@ -51,7 +48,7 @@ public class StatusMessageResource {
         if (statusMessage.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new accountDeletion cannot already have an ID")).body(null);
         }
-        StatusMessage result = statusMessageService.save(statusMessage);
+        StatusMessage result = postService.save(statusMessage);
         return ResponseEntity.created(new URI("/api/status-messages/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -73,7 +70,7 @@ public class StatusMessageResource {
         if (statusMessage.getId() != null) {
             return createStatusMessage(statusMessage);
         }
-        StatusMessage result = statusMessageService.save(statusMessage);
+        StatusMessage result = postService.save(statusMessage);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, statusMessage.getId().toString()))
             .body(result);
@@ -88,7 +85,7 @@ public class StatusMessageResource {
     @Timed
     public List<StatusMessage> getAllStatusMessages() {
         log.debug("REST request to get all StatusMessages");
-        return statusMessageService.findAll();
+        return postService.findAllStatusMessage();
     }
 
     /**
@@ -101,7 +98,7 @@ public class StatusMessageResource {
     @Timed
     public ResponseEntity<StatusMessage> getStatusMessage(@PathVariable Long id) {
         log.debug("REST request to get StatusMessage : {}", id);
-        StatusMessage statusMessage = statusMessageService.findOne(id);
+        StatusMessage statusMessage = postService.findOneStatusMessage(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(statusMessage));
     }
 
@@ -115,7 +112,7 @@ public class StatusMessageResource {
     @Timed
     public ResponseEntity<Void> deleteStatusMessage(@PathVariable Long id) {
         log.debug("REST request to delete StatusMessage : {}", id);
-        statusMessageService.delete(id);
+        postService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -130,7 +127,7 @@ public class StatusMessageResource {
     @Timed
     public List<StatusMessage> searchStatusMessages(@RequestParam String query) {
         log.debug("REST request to search StatusMessages for query {}", query);
-        return statusMessageService.search(query);
+        return postService.searchStatusMessage(query);
     }
 
 }

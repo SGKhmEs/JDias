@@ -52,10 +52,6 @@
             <column name="pod_id" type="integer">
                 <constraints nullable="true" />
             </column>
-
-            <column name="reshare_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="profile_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>            <column name="accountdeletion_id" type="bigint">

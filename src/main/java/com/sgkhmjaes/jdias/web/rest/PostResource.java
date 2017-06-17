@@ -3,10 +3,7 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.service.PostService;
-import com.sgkhmjaes.jdias.service.StatusMessageService;
-import com.sgkhmjaes.jdias.service.dto.PostDTO;
 import com.sgkhmjaes.jdias.service.impl.PostDTOServiceImpl;
-import com.sgkhmjaes.jdias.service.impl.StatusMessageServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -16,12 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Post.
@@ -37,12 +30,10 @@ public class PostResource {
     private final PostService postService;
 
     private final PostDTOServiceImpl postDTOServiceImpl;
-    private final StatusMessageService statusMessageService;
 
-    public PostResource(PostService postService, PostDTOServiceImpl postDTOServiceImpl, StatusMessageService statusMessageService) {
+    public PostResource(PostService postService, PostDTOServiceImpl postDTOServiceImpl) {
         this.postService = postService;
         this.postDTOServiceImpl = postDTOServiceImpl;
-        this.statusMessageService = statusMessageService;
     }
 
     /**
@@ -98,7 +89,7 @@ public class PostResource {
     @Timed
     public List<Post> getAllPosts() {
         log.debug("REST request to get all Posts");
-        return postService.findAll();
+        return postService.findAllPost();
     }
 
     /**
@@ -112,7 +103,7 @@ public class PostResource {
     @Timed
     public ResponseEntity<Post> getPost(@PathVariable Long id) {
         log.debug("REST request to get Post : {}", id);
-        Post post = postService.findOne(id);
+        Post post = postService.findOnePost(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(post));
     }
 
@@ -126,7 +117,7 @@ public class PostResource {
     @Timed
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         log.debug("REST request to delete Post : {}", id);
-        statusMessageService.deletePost(id);
+        postService.deletePost(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -141,7 +132,7 @@ public class PostResource {
     @Timed
     public List<Post> searchPosts(@RequestParam String query) {
         log.debug("REST request to search Posts for query {}", query);
-        return postService.search(query);
+        return postService.searchPost(query);
     }
 
 }

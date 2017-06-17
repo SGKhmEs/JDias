@@ -1,4 +1,3 @@
-import { Reshare } from '../reshare';
 import { Profile } from '../profile';
 import { AccountDeletion } from '../account-deletion';
 import { Comment } from '../comment';
@@ -19,7 +18,6 @@ export class Person {
         public closedAccount?: boolean,
         public fetchStatus?: number,
         public podId?: number,
-        public reshare?: Reshare,
         public profile?: Profile,
         public accountdeletion?: AccountDeletion,
         public comments?: Comment,

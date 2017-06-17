@@ -6,12 +6,6 @@
             "relationshipName": "post",
             "otherEntityName": "post",
             "otherEntityRelationshipName": "reshare"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "person",
-            "otherEntityName": "person",
-            "otherEntityRelationshipName": "reshare"
         }
     ],
     "fields": [

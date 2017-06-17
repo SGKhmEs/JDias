@@ -36,11 +36,6 @@ public class Reshare implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Post> posts = new HashSet<>();
 
-    @OneToMany(mappedBy = "reshare")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Person> people = new HashSet<>();
-
     public Reshare(){}
 
     public Reshare(Long id, String rootAuthor, String rootGuid) {
@@ -106,31 +101,6 @@ public class Reshare implements Serializable {
 
     public void setPosts(Set<Post> posts) {
         this.posts = posts;
-    }
-
-    public Set<Person> getPeople() {
-        return people;
-    }
-
-    public Reshare people(Set<Person> people) {
-        this.people = people;
-        return this;
-    }
-
-    public Reshare addPerson(Person person) {
-        this.people.add(person);
-        person.setReshare(this);
-        return this;
-    }
-
-    public Reshare removePerson(Person person) {
-        this.people.remove(person);
-        person.setReshare(null);
-        return this;
-    }
-
-    public void setPeople(Set<Person> people) {
-        this.people = people;
     }
 
     @Override
