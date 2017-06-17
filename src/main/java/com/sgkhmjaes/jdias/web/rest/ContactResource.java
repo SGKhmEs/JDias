@@ -3,6 +3,8 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Contact;
 import com.sgkhmjaes.jdias.service.ContactService;
+import com.sgkhmjaes.jdias.service.dto.ContactDTO;
+import com.sgkhmjaes.jdias.service.impl.ContactDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -31,10 +33,17 @@ public class ContactResource {
     private static final String ENTITY_NAME = "contact";
 
     private final ContactService contactService;
+    
+    private final ContactDTOServiceImpl contactDTOServiceImpl;
 
-    public ContactResource(ContactService contactService) {
+    public ContactResource(ContactService contactService, ContactDTOServiceImpl contactDTOServiceImpl) {
         this.contactService = contactService;
+        this.contactDTOServiceImpl = contactDTOServiceImpl;
     }
+    
+    
+
+
 
     /**
      * POST /contacts : Create a new contact.
@@ -88,9 +97,9 @@ public class ContactResource {
      */
     @GetMapping("/contacts")
     @Timed
-    public List<Contact> getAllContacts() {
+    public List<ContactDTO> getAllContacts() {
         log.debug("REST request to get all Contacts");
-        return contactService.findAll();
+        return contactDTOServiceImpl.findAllByLoggedUser();
     }
 
     /**

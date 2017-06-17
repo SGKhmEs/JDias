@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -64,9 +65,12 @@ public class ContactServiceImpl implements ContactService {
     @Transactional(readOnly = true)
     public List<Contact> findAll() {
         log.debug("Request to get all Contacts");
-        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
-        List <Contact> contacts = new ArrayList <>(person.getContacts());
-        return contacts;
+//        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+//        System.out.println("+++++++++++++++" + person.toString());
+//        Set<Contact> contacts = person.getContacts();
+//        System.out.println("******************************" + contacts.toString());
+//        return new ArrayList <>(contacts);
+        return contactRepository.findAll();
         //return contactRepository.findAll();
     }
 

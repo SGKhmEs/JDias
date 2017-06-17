@@ -7,6 +7,7 @@ package com.sgkhmjaes.jdias.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sgkhmjaes.jdias.domain.Tag;
+import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  *
  * @author andrey
  */
-public class ProfileDTO {
+public class ProfileDTO implements AutoMapping{
 
     private List<Tag> tags;
 

@@ -8,13 +8,14 @@ package com.sgkhmjaes.jdias.service.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sgkhmjaes.jdias.domain.AspectMembership;
 import com.sgkhmjaes.jdias.domain.Person;
+import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
 import java.util.List;
 
 /**
  *
  * @author andrey
  */
-public class ContactDTO {
+public class ContactDTO implements AutoMapping{
 
     private Long id;
 

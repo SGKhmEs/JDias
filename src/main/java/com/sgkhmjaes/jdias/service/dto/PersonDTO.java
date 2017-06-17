@@ -7,12 +7,13 @@ package com.sgkhmjaes.jdias.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sgkhmjaes.jdias.domain.Profile;
+import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
 
 /**
  *
  * @author andrey
  */
-public class PersonDTO {
+public class PersonDTO implements AutoMapping{
 
     private String relationship;
 
