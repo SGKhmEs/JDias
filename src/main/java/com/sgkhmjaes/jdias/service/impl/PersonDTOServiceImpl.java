@@ -37,12 +37,10 @@ class PersonDTOServiceImpl {
     
     public PersonDTO findOne(Long id) {
         
-        PersonDTO personDTO = new PersonDTO();
-        
         Person person = personRepository.findOne(id);
-        
         ProfileDTO profileDTO = profileDTOServiceImpl.findOne(id);
         
+        PersonDTO personDTO = new PersonDTO();
         try {
             personDTO.mappingToDTO(person, profileDTO);
         } catch (InvocationTargetException ex) {

@@ -2,20 +2,14 @@ package com.sgkhmjaes.jdias.service.impl;
 
 import com.sgkhmjaes.jdias.service.ContactService;
 import com.sgkhmjaes.jdias.domain.Contact;
-import com.sgkhmjaes.jdias.domain.Person;
 import com.sgkhmjaes.jdias.repository.ContactRepository;
-import com.sgkhmjaes.jdias.repository.PersonRepository;
-import com.sgkhmjaes.jdias.repository.UserAccountRepository;
-import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.repository.search.ContactSearchRepository;
-import com.sgkhmjaes.jdias.security.SecurityUtils;
-import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -26,20 +20,17 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class ContactServiceImpl implements ContactService {
+public class ContactServiceImpl implements ContactService{
 
     private final Logger log = LoggerFactory.getLogger(ContactServiceImpl.class);
-    private final ContactRepository contactRepository;
-    private final ContactSearchRepository contactSearchRepository;
-    private final UserRepository userRepository;
-    private final PersonRepository personRepository;
 
-    public ContactServiceImpl(ContactRepository contactRepository, ContactSearchRepository contactSearchRepository, 
-            UserRepository userRepository, PersonRepository personRepository) {
+    private final ContactRepository contactRepository;
+
+    private final ContactSearchRepository contactSearchRepository;
+
+    public ContactServiceImpl(ContactRepository contactRepository, ContactSearchRepository contactSearchRepository) {
         this.contactRepository = contactRepository;
         this.contactSearchRepository = contactSearchRepository;
-        this.userRepository=userRepository;
-        this.personRepository=personRepository;
     }
 
     /**
@@ -57,28 +48,22 @@ public class ContactServiceImpl implements ContactService {
     }
 
     /**
-     * Get all the contacts.
+     *  Get all the contacts.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Contact> findAll() {
         log.debug("Request to get all Contacts");
-//        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
-//        System.out.println("+++++++++++++++" + person.toString());
-//        Set<Contact> contacts = person.getContacts();
-//        System.out.println("******************************" + contacts.toString());
-//        return new ArrayList <>(contacts);
         return contactRepository.findAll();
-        //return contactRepository.findAll();
     }
 
     /**
-     * Get one contact by id.
+     *  Get one contact by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -88,9 +73,9 @@ public class ContactServiceImpl implements ContactService {
     }
 
     /**
-     * Delete the contact by id.
+     *  Delete the  contact by id.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -102,15 +87,15 @@ public class ContactServiceImpl implements ContactService {
     /**
      * Search for the contact corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     *  @param query the query of the search
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Contact> search(String query) {
         log.debug("Request to search Contacts for query {}", query);
         return StreamSupport
-                .stream(contactSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .stream(contactSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

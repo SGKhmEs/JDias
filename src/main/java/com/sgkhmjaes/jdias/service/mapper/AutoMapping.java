@@ -55,6 +55,7 @@ public interface AutoMapping {
                             fastMethodList.add(fastMethodGetter);
                             fastMethodList.add(fastMethodSetter);
                             if (invoke != null && !invoke.toString().equals("0") && !invoke.toString().equals("false")) {
+                                System.out.println("_________"+fastMethodSetter+"++"+invoke);
                                 fastMethodSetter.invoke(this, new Object[]{invoke});
                             }
                         }

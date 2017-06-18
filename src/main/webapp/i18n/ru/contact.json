@@ -20,6 +20,7 @@
             "recipient": "Recipient",
             "following": "Following",
             "sharing": "Sharing",
+            "ownId": "Own Id",
             "aspectMemberships": "Aspect Memberships",
             "person": "Person"
         }

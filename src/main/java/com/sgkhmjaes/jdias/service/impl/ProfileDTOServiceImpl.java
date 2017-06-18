@@ -35,12 +35,11 @@ class ProfileDTOServiceImpl {
     }
     
     public ProfileDTO findOne(Long id) {
-        ProfileDTO profileDTO = new ProfileDTO();
         
         Profile profile = profileRepository.findOne(id);
-        
         AvatarDTO avatarDTO = avatarDTOServiceImpl.findOne(id);
         
+        ProfileDTO profileDTO = new ProfileDTO();
         try {
             profileDTO.mappingToDTO(profile, avatarDTO);
         } catch (InvocationTargetException ex) {

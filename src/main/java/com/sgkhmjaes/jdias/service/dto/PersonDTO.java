@@ -19,7 +19,7 @@ public class PersonDTO implements AutoMapping{
 
     private String guid;
 
-    private String id;
+    private Long id;
 
     private String name;
     
@@ -39,6 +39,13 @@ public class PersonDTO implements AutoMapping{
     public PersonDTO() {
     }
 
+    @Override
+    public String toString() {
+        return "PersonDTO: { id="+id+", guid="+guid+", ProfileDTO="+profileDTO;
+    }
+    
+    
+
     public String getRelationship() {
         return relationship;
     }
@@ -55,11 +62,11 @@ public class PersonDTO implements AutoMapping{
         this.guid = guid;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

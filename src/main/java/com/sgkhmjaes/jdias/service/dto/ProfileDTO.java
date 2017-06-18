@@ -19,7 +19,7 @@ public class ProfileDTO implements AutoMapping{
 
     private List<Tag> tags;
 
-    private String id;
+    private Long id;
 
     private LocalDate birthday;
 
@@ -37,6 +37,13 @@ public class ProfileDTO implements AutoMapping{
     public ProfileDTO() {
     }
 
+    @Override
+    public String toString() {
+        return "ProfileDTO: { id="+id+", AvatarDTO="+avatarDTO;
+    }
+    
+    
+
     public List<Tag> getTags() {
         return tags;
     }
@@ -45,11 +52,11 @@ public class ProfileDTO implements AutoMapping{
         this.tags = tags;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -28,14 +28,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class ContactDTOServiceImpl {
+    
     private final Logger log = LoggerFactory.getLogger(ContactDTOServiceImpl.class);
-    
     private final ContactService contactService;
-    
     private final ContactRepository contactRepository;
-    
     private final PersonDTOServiceImpl personDTOServiceImpl;
-    
     private final AspectMembershipDTOServiceImpl aspectMembershipDTOServiceImpl;
 
     public ContactDTOServiceImpl(ContactService contactService, ContactRepository contactRepository, PersonDTOServiceImpl personDTOServiceImpl, AspectMembershipDTOServiceImpl aspectMembershipDTOServiceImpl) {
@@ -44,10 +41,6 @@ public class ContactDTOServiceImpl {
         this.personDTOServiceImpl = personDTOServiceImpl;
         this.aspectMembershipDTOServiceImpl = aspectMembershipDTOServiceImpl;
     }
-
-
-
-
     
     public ContactDTO findOneById(Long id) {
         log.debug("Request to get Contact by ID: {}", id);
@@ -70,20 +63,21 @@ public class ContactDTOServiceImpl {
     public List<ContactDTO> findAllByLoggedUser(){
 //        List<Contact> contacts = contactService.findAll();
         List<Contact> contacts = contactRepository.findAll();
-        List<ContactDTO> contactDTOs = new ArrayList<ContactDTO>();
+        List<ContactDTO> contactDTOs = new ArrayList<>();
         
         for (Contact contact : contacts) {
-            PersonDTO personDTO = personDTOServiceImpl.findOne(contact.getPerson().getId());
+            PersonDTO personDTO = personDTOServiceImpl.findOne(contact.getOwnId());
             
-            ContactDTO contactDTO = new ContactDTO();
-            
+            ContactDTO contactDTO = new ContactDTO(); 
             List<AspectMembershipDTO> aspectMembershipDTOs = aspectMembershipDTOServiceImpl.findAllByContactId(contact.getId());
-            
+            //System.out.println("*******"+ contact + "**" + personDTO + "***"/* + aspectMembershipDTOs*/);
             try {
-                contactDTO.mappingToDTO(contact, personDTO, aspectMembershipDTOs);
+                contactDTO.mappingToDTO(contact, personDTO/*, aspectMembershipDTOs*/);
+                contactDTO.setAspectMemberships(aspectMembershipDTOs);
             } catch (InvocationTargetException ex) {
                 java.util.logging.Logger.getLogger(ContactDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
+            contactDTOs.add(contactDTO);
         }
         return contactDTOs;
     }

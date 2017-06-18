@@ -19,10 +19,11 @@ public class ContactDTO implements AutoMapping{
 
     private Long id;
 
-    private Person person;
+    @JsonProperty("person")
+    private PersonDTO personDTO;
     
     @JsonProperty("aspect_memberships")
-    private List<AspectMembership> aspectMemberships;
+    private List<AspectMembershipDTO> aspectMembershipsDTO;
 
 //    private String person_id;
 
@@ -37,21 +38,23 @@ public class ContactDTO implements AutoMapping{
         this.id = id;
     }
 
-    public Person getPerson() {
-        return person;
+    public PersonDTO getPersonDTO() {
+        return personDTO;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setPersonDTO(PersonDTO personDTO) {
+        this.personDTO = personDTO;
     }
 
-    public List<AspectMembership> getAspectMemberships() {
-        return aspectMemberships;
+    public List<AspectMembershipDTO> getAspectMembershipsDTO() {
+        return aspectMembershipsDTO;
     }
 
-    public void setAspectMemberships(List<AspectMembership> aspectMemberships) {
-        this.aspectMemberships = aspectMemberships;
+    public void setAspectMembershipsDTO(List<AspectMembershipDTO> aspectMembershipsDTO) {
+        this.aspectMembershipsDTO = aspectMembershipsDTO;
     }
     
+    
+
     
 }

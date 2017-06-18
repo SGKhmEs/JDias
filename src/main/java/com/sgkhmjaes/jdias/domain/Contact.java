@@ -39,6 +39,9 @@ public class Contact implements Serializable {
     @Column(name = "sharing")
     private Boolean sharing;
 
+    @Column(name = "own_id")
+    private Long ownId;
+
     @OneToMany(mappedBy = "contact")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -107,6 +110,19 @@ public class Contact implements Serializable {
         this.sharing = sharing;
     }
 
+    public Long getOwnId() {
+        return ownId;
+    }
+
+    public Contact ownId(Long ownId) {
+        this.ownId = ownId;
+        return this;
+    }
+
+    public void setOwnId(Long ownId) {
+        this.ownId = ownId;
+    }
+
     public Set<AspectMembership> getAspectMemberships() {
         return aspectMemberships;
     }
@@ -167,12 +183,13 @@ public class Contact implements Serializable {
 
     @Override
     public String toString() {
-        return "Contact{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", recipient='" + getRecipient() + "'"
-                + ", following='" + isFollowing() + "'"
-                + ", sharing='" + isSharing() + "'"
-                + "}";
+        return "Contact{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", recipient='" + getRecipient() + "'" +
+            ", following='" + isFollowing() + "'" +
+            ", sharing='" + isSharing() + "'" +
+            ", ownId='" + getOwnId() + "'" +
+            "}";
     }
 }

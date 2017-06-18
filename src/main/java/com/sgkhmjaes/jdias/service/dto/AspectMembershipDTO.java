@@ -14,7 +14,7 @@ import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
  */
 public class AspectMembershipDTO implements AutoMapping{
     
-    private String id;
+    private Long id;
 
     @JsonProperty("aspect")
     private AspectDTO aspectDTO;
@@ -22,11 +22,11 @@ public class AspectMembershipDTO implements AutoMapping{
     public AspectMembershipDTO() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
