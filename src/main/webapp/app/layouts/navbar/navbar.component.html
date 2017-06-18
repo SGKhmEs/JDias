@@ -145,19 +145,19 @@
                     </ul>
 
                     <ul *ngSwitchCase="true" class="nav navbar-nav navbar-right">
-                        <li class="dropdown" id="user_menu">
-                            <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
-                               class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <li ngbDropdown class="dropdown" id="user_menu">
+                            <a href="#<!--https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007-->"
+                               ngbDropdownToggle class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     <span class="user-avatar pull-left">
                                         <img src="/context/images/default-avatar.png"
                                              class="small avatar img-responsive center-block"
                                              title="brownjone@joindiaspora.com" alt="brownjone@joindiaspora.com">
                                     </span>
                                 <span class="user-name">brownjone@joindiaspora.com</span>
-                                <span class="caret"></span>
+                                <!--<span class="caret"></span>-->
                             </a>
 
-                            <ul class="dropdown-menu" role="menu">
+                            <ul class="dropdown-menu" role="menu" ngbDropdownMenu>
                                 <li>
                                     <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
                                        routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
@@ -172,19 +172,17 @@
                                 </li>
                                 <li>
                                     <a href="https://joindiaspora.com/user/edit"
-                                       routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                       >
                                         Settings
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://joindiaspora.com/help"
-                                       routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                    <a href="https://diasporafoundation.org/tutorials">
                                         Help
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://joindiaspora.com/users/sign_out" data-method="delete"
-                                       (click)="logout()">
+                                    <a (click)="logout()" id="logout">
                                         Log out
                                     </a>
                                 </li>
@@ -196,13 +194,13 @@
                         <li *ngSwitchCase="false">
                             <a class="login" id="login"
                                (click)="login()">
-                                Sign In
+                                <span class="glyphicon glyphicon-log-in"></span> Sign In
                             </a>
                         </li>
                         <li *ngSwitchCase="false" >
-                            <a class="login"
+                            <a class="sign_up"
                                routerLink="register" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                                Sign Up
+                                <span class="glyphicon glyphicon-user"></span> Sign Up
                             </a>
                         </li>
                     </ul>
