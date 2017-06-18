@@ -9,7 +9,6 @@ import { EventManager, AlertService } from 'ng-jhipster';
 import { Location } from './location.model';
 import { LocationPopupService } from './location-popup.service';
 import { LocationService } from './location.service';
-import {ResponseWrapper} from "../../shared/model/response-wrapper.model";
 
 @Component({
     selector: 'jhi-location-dialog',
@@ -88,7 +87,6 @@ export class LocationDialogComponent implements OnInit {
     successCallback = (position)=> {
         this.location.lat = position.coords.latitude;
         this.location.lng = position.coords.longitude;
-        const response = this.locationService.getAdress(this.location);
     }
 
     errorCallback = (error) => {
