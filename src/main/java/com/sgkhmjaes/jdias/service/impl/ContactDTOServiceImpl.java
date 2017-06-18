@@ -73,7 +73,7 @@ public class ContactDTOServiceImpl {
             //System.out.println("*******"+ contact + "**" + personDTO + "***"/* + aspectMembershipDTOs*/);
             try {
                 contactDTO.mappingToDTO(contact, personDTO/*, aspectMembershipDTOs*/);
-                contactDTO.setAspectMemberships(aspectMembershipDTOs);
+                contactDTO.setAspectMembershipsDTO(aspectMembershipDTOs);
             } catch (InvocationTargetException ex) {
                 java.util.logging.Logger.getLogger(ContactDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
