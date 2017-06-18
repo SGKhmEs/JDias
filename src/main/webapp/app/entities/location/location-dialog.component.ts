@@ -9,6 +9,7 @@ import { EventManager, AlertService } from 'ng-jhipster';
 import { Location } from './location.model';
 import { LocationPopupService } from './location-popup.service';
 import { LocationService } from './location.service';
+import {ResponseWrapper} from "../../shared/model/response-wrapper.model";
 
 @Component({
     selector: 'jhi-location-dialog',
@@ -20,6 +21,12 @@ export class LocationDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
+    options = {
+        enableHighAccuracy: true,
+        timeout: 1000,
+        maximumAge: 0
+    };
+
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: AlertService,
@@ -29,6 +36,7 @@ export class LocationDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+        navigator.geolocation.getCurrentPosition(this.successCallback,this.errorCallback,this.options);
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
@@ -76,6 +84,28 @@ export class LocationDialogComponent implements OnInit {
     private onError(error) {
         this.alertService.error(error.message, null, null);
     }
+
+    successCallback = (position)=> {
+        this.location.lat = position.coords.latitude;
+        this.location.lng = position.coords.longitude;
+        const response = this.locationService.getAdress(this.location);
+    }
+
+    errorCallback = (error) => {
+        let errorMessage = 'Unknown error';
+        switch(error.code) {
+            case 1:
+                errorMessage = 'Permission denied';
+                break;
+            case 2:
+                errorMessage = 'Position unavailable';
+                break;
+            case 3:
+                errorMessage = 'Timeout';
+                break;
+        }
+        console.log(errorMessage);
+    };
 }
 
 @Component({
