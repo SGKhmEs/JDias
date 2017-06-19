@@ -1,81 +1,326 @@
-<div>
-    <h2>
-        <span jhiTranslate="jDiasApp.contact.home.title">Contacts</span>
-        <button class="btn btn-primary float-right create-contact" [routerLink]="['/', { outlets: { popup: ['contact-new'] } }]">
-            <span class="fa fa-plus"></span>
-            <span class="hidden-sm-down"  jhiTranslate="jDiasApp.contact.home.createLabel">
-            Create new Contact
-            </span>
-        </button>
-    </h2>
-    <jhi-alert></jhi-alert>
+<div class="container-fluid" id="contacts_container">
     <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'jDiasApp.contact.home.search' | translate }}">
-                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
-                        <span class="fa fa-search"></span>
-                    </button>
-                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <span class="fa fa-trash-o"></span>
-                    </button>
+        <div class="col-md-3">
+            <div class="sidebar">
+                <div class="sidebar-header clearfix">
+                    <h3>
+                        Contacts
+                    </h3>
                 </div>
-            </form>
+                <div id="aspect_nav">
+                    <ul class="list-group ui-sortable">
+                        <a class="active all_contacts list-group-item"
+                           routerLink="/contact">
+                            All contacts
+                            <div class="badge badge-default pull-right">
+                                0
+                            </div>
+                        </a>
+                        <a [hidden]="true" class="all_aspects list-group-item" href="https://joindiaspora.com/contacts">
+                            My contacts
+                            <div class="badge badge-default pull-right">
+                                0
+                            </div>
+                        </a>
+                        <a class="aspect list-group-item ui-sortable-handle" data-aspect-id="1421044"
+                           href="#/contacts?a_id=1421044">
+                            <div class="badge badge-default pull-right">
+                                0
+                            </div>
+                            <div class="name">
+                                Family
+                            </div>
+                        </a>
+                        <a class="aspect list-group-item ui-sortable-handle" data-aspect-id="1421045"
+                           href="#/contacts?a_id=1421045">
+                            <div class="badge badge-default pull-right">
+                                0
+                            </div>
+                            <div class="name">
+                                Friends
+                            </div>
+                        </a>
+                        <a class="aspect list-group-item ui-sortable-handle" data-aspect-id="1421046"
+                           href="#/contacts?a_id=1421046">
+                            <div class="badge badge-default pull-right">
+                                0
+                            </div>
+                            <div class="name">
+                                Work
+                            </div>
+                        </a>
+                        <a class="aspect list-group-item ui-sortable-handle" data-aspect-id="1421047"
+                           href="#/contacts?a_id=1421047">
+                            <div class="badge badge-default pull-right">
+                                0
+                            </div>
+                            <div class="name">
+                                Acquaintances
+                            </div>
+                        </a>
+                        <a class="list-group-item new_aspect" data-target="#newAspectModal" data-toggle="modal"
+                           routerLink="/contact#">
+                            + Add an aspect
+                        </a>
+                        <!--<div id="newAspectContainer" data-template="aspect_create_modal">
+                            <div class="modal fade" id="newAspectModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="newAspectModalLabel" aria-hidden="true"
+                                 xmlns="http://www.w3.org/1999/html">
+
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">
+                                                ×
+                                            </button>
+                                            <h3 class="modal-title" id="newAspectModalLabel">Add a new aspect</h3>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <form>
+                                                <fieldset>
+
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="aspect_name">Name</label>
+                                                        <div class="col-sm-10">
+                                                            <input id="aspect_name"
+                                                                   class="input-block-level form-control" maxlength="20"
+                                                                   type="text">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-sm-offset-2 col-sm-10">
+                                                            <div class="checkbox">
+                                                                <label for="aspect_contacts_visible"
+                                                                       class="checkbox inline">
+                                                                    <input id="aspect_contacts_visible" type="checkbox">
+                                                                    Make contacts in this aspect visible to each other?
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </fieldset>
+                                            </form>
+
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <div class="btn btn-default" data-dismiss="modal" aria-hidden="true">
+                                                Cancel
+                                            </div>
+                                            <div class="btn btn-primary">
+                                                Create
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                        <a [hidden]="true" class="list-group-item only_sharing"
+                           href="https://joindiaspora.com/contacts?set=only_sharing">
+                            Only sharing with me
+                            <div class="badge badge-default pull-right">
+                                1
+                            </div>
+                        </a>
+                    </ul>
+                </div>
+
+                <hr>
+                <div class="text-center spotlight">
+                    <a class="btn btn-link" href="https://joindiaspora.com/community_spotlight">Community spotlight</a>
+                </div>
+                <div class="text-center">
+                    <div class="btn btn-link" data-toggle="modal" id="invitations-button">
+                        <span>Invite someone to join JDias* !</span>
+                    </div>
+                    <div aria-hidden="true" aria-labelledby="invitationsModalLabel" class="modal fade"
+                         href="/users/invitations" id="invitationsModal" role="dialog" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                                        ×
+                                    </button>
+                                    <h3 class="modal-title" id="invitationsModalLabel">
+                                        Invite someone to join JDias*!
+                                    </h3>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="text-center" id="modalWaiter">
+                                        <div class="loader">
+                                            <div class="spinner"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
-    </div>
-    <br/>
-    <div class="table-responsive" *ngIf="contacts">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-            <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="jDiasApp.contact.author">Author</span></th>
-            <th><span jhiTranslate="jDiasApp.contact.recipient">Recipient</span></th>
-            <th><span jhiTranslate="jDiasApp.contact.following">Following</span></th>
-            <th><span jhiTranslate="jDiasApp.contact.sharing">Sharing</span></th>
-            <th><span jhiTranslate="jDiasApp.contact.person">Person</span></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let contact of contacts ;trackBy: trackId">
-                <td><a [routerLink]="['../contact', contact.id ]">{{contact.id}}</a></td>
-                <td>{{contact.author}}</td>
-                <td>{{contact.recipient}}</td>
-                <td>{{contact.following}}</td>
-                <td>{{contact.sharing}}</td>
-                <td>
-                    <div *ngIf="contact.person">
-                        <a [routerLink]="['../person', contact.person?.id ]" >{{contact.person?.id}}</a>
+        <div class="col-md-9">
+            <div class="stream contacts framed-content" id="people_stream">
+                <div class="header clearfix">
+                    <div class="pull-right contact-list-search">
+                        <form  id="contact-search-form" method="get"
+                              role="search">
+                            <input type="search" name="currentSearch" id="contact_list_search" (focusout)="search(currentSearch)" (keypress)="($event.which === 13)?search(currentSearch):0" [(ngModel)]="currentSearch"  value=""
+                                   class="search-query form-control" placeholder="{{ 'jDiasApp.contact.home.search' | translate }}">
+                        </form>
                     </div>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['../contact', contact.id ]"
-                                class="btn btn-info btn-sm">
-                            <span class="fa fa-eye"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'contact/'+ contact.id + '/edit'} }]"
-                                replaceUrl="true"
-                                class="btn btn-primary btn-sm">
-                            <span class="fa fa-pencil"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'contact/'+ contact.id + '/delete'} }]"
-                                replaceUrl="true"
-                                class="btn btn-danger btn-sm">
-                            <span class="fa fa-remove"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
+                    <h3>
+                        All contacts
+                    </h3>
+                </div>
+
+                <div id="contact_stream" class="">
+                    <div>
+                        <div class="clearfix stream-element media contact "
+                             *ngFor="let contact of contacts ;trackBy: trackId">
+                            <div class="media-object pull-left">
+                                <img src="/content/images/thumb_small.jpg"
+                                     class="small avatar img-responsive center-block" title="diaspora* HQ"
+                                     alt="{{contact.author}}">
+                            </div>
+
+                            <div class="media-body">
+                                <!--<a href="https://joindiaspora.com/people/7bca7c80311b01332d046c626dd55703" [routerLink]="['../contact', contact.id ]" class="name">-->
+                                <a [routerLink]="['../contact', contact.id ]" class="name">
+                                    {{contact.author}}
+                                </a>
+                                <div class="info diaspora_handle">
+                                    <!--hq@ pod.diaspora.software-->
+                                    <span>{{contact.recipient}}</span>
+                                </div>
+
+                                <div class="info tags">
+                                    <a class="tag" href="#/tags/diaspora"> #diaspora</a> <a
+                                    class="tag" href="#/tags/official"> #official</a>
+                                </div>
+                            </div>
+
+                            <div class="pull-right">
+                                <div class="aspect_membership_dropdown placeholder">
+                                    <div ngbDropdown class="btn-group aspect_dropdown aspect_membership_dropdown">
+                                        <button ngbDropdownToggle class="btn dropdown-toggle btn-success"
+                                                data-toggle="dropdown"
+                                                tabindex="0">
+                                            <span class="text">Acquaintances</span>
+                                        </button>
+
+                                        <ul ngbDropdownMenu class="dropdown-menu aspect_membership pull-right"
+                                            unselectable="on">
+                                            <li class="aspect_selector">
+                                                <a><span class="status_indicator"> <i
+                                                    class="glyphicon glyphicon-ok"></i> <i
+                                                    class="glyphicon glyphicon-refresh"></i></span>
+                                                    <span class="text">Family</span></a>
+                                            </li>
+                                            <li class="aspect_selector">
+                                                <a> <span class="status_indicator"> <i
+                                                    class="glyphicon glyphicon-ok"></i><i
+                                                    class="glyphicon glyphicon-refresh"></i></span>
+                                                    <span class="text">Friends</span></a>
+                                            </li>
+                                            <li class="aspect_selector">
+                                                <a> <span class="status_indicator"> <i
+                                                    class="glyphicon glyphicon-ok"></i><i
+                                                    class="glyphicon glyphicon-refresh"></i></span>
+                                                    <span class="text">Work</span>
+                                                </a>
+                                            </li>
+                                            <li class="aspect_selector selected">
+                                                <a><span class="status_indicator"><i class="glyphicon glyphicon-ok"></i><i
+                                                    class="glyphicon glyphicon-refresh"></i></span>
+                                                    <span class="text">Acquaintances</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    <div>
+                        <div class="clearfix stream-element media contact " [hidden]="true">
+                            <div class="media-object pull-left">
+                                <img src="/content/images/thumb_small.jpg"
+                                     class="small avatar img-responsive center-block" title="Дмитрий Иванов"
+                                     alt="Дмитрий Иванов">
+                            </div>
+
+                            <div class="media-body">
+                                <a href="https://joindiaspora.com/people/8b686d9066cb01340326782bcb452bd5" class="name">
+                                    Дмитрий Иванов
+                                </a>
+                                <div class="info diaspora_handle">
+                                    <span>runation@diasp.org</span>
+                                </div>
+
+                                <div class="info tags">
+                                    <a class="tag"
+                                       href="https://joindiaspora.com/tags/%D0%BF%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0">
+                                        #politic</a> <a class="tag"
+                                                        href="https://joindiaspora.com/tags/%D0%BD%D0%B0%D0%B2%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9">
+                                    #navaln</a> <a class="tag"
+                                                   href="https://joindiaspora.com/tags/%D0%BC%D0%B0%D0%BB%D1%8C%D1%86%D0%B5%D0%B2">
+                                    #social</a>
+                                </div>
+                            </div>
+
+                            <div class="pull-right">
+                                <div class="aspect_membership_dropdown placeholder">
+                                    <div class="btn-group aspect_dropdown aspect_membership_dropdown" s>
+                                        <button class="btn dropdown-toggle btn-default" data-toggle="dropdown"
+                                                tabindex="0"><span class="text">Add contact</span>
+                                        </button>
+
+                                        <ul class="dropdown-menu aspect_membership pull-right" unselectable="on">
+                                            <li class="aspect_selector" data-aspect_id="1421044">
+                                                <a><span class="status_indicator"><i class="glyphicon glyphicon-ok"></i><i
+                                                    class="glyphicon glyphicon-refresh"></i></span>
+                                                    <span class="text">Family</span>
+                                                </a>
+                                            </li>
+                                            <li class="aspect_selector" data-aspect_id="1421045">
+                                                <a><span class="status_indicator"><i class="glyphicon glyphicon-ok"></i><i
+                                                    class="glyphicon glyphicon-refresh"></i></span>
+                                                    <span class="text">Friends</span>
+                                                </a>
+                                            </li>
+                                            <li class="aspect_selector" data-aspect_id="1421046">
+                                                <a><span class="status_indicator"><i class="glyphicon glyphicon-ok"></i><i
+                                                    class="glyphicon glyphicon-refresh"></i></span>
+                                                    <span class="text">Work</span>
+                                                </a>
+                                            </li>
+                                            <li class="aspect_selector" data-aspect_id="1421047">
+                                                <a><span class="status_indicator"><i class="glyphicon glyphicon-ok"></i><i
+                                                    class="glyphicon glyphicon-refresh"></i></span>
+                                                    <span class="text">Acquaintances</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="paginate">
+                <div class="loader hidden">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
