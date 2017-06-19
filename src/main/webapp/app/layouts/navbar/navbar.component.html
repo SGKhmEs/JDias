@@ -10,14 +10,14 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="https://joindiaspora.com/stream" class="navbar-brand" data-stream-title="Stream">
+                    <a routerLink="/post" class="navbar-brand" data-stream-title="Stream">
                         JDias*
                     </a>
                     <ul class="nav nav-badges visible-sm">
                         <li *ngSwitchCase="true">
                             <a href="https://joindiaspora.com/notifications" title="Notifications"
                                class="notifications-link nav-badge"
-                               routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                               routerLink="/message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                                 <i class="entypo-bell"></i>
                                 <span class="badge badge-important  hidden">0</span>
                             </a>
@@ -25,7 +25,7 @@
                         <li *ngSwitchCase="true">
                             <a href="https://joindiaspora.com/conversations" title="Conversations"
                                class="conversations-link nav-badge"
-                               routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                               routerLink="/message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                                 <i class="entypo-mail"></i>
                                 <span class="badge badge-important  hidden ">0</span>
                             </a>
@@ -36,30 +36,29 @@
                 <div class="collapse navbar-collapse" id="navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
                         <li *ngSwitchCase="true">
-                            <a href="https://joindiaspora.com/stream"
-                               routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <a routerLink="/post"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                                 Stream
                             </a>
                         </li>
                         <li *ngSwitchCase="true">
                             <a href="https://joindiaspora.com/activity"
-                               routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                               routerLink="/message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                                 My activity
                             </a>
                         </li>
                         <li *ngSwitchCase="true" class="visible-xs">
                             <a href="https://joindiaspora.com/notifications"
-                               routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                               routerLink="/message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                                 Notifications
                             </a>
                         </li>
                         <li *ngSwitchCase="true" class="visible-xs">
-                            <a href="https://joindiaspora.com/conversations" routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <a href="https://joindiaspora.com/conversations" routerLink="/message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                                 Conversations
                             </a>
                         </li>
                         <li *ngSwitchCase="true" class="visible-sm visible-xs">
-                            <a href="https://joindiaspora.com/mobile/toggle" routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <a href="https://joindiaspora.com/mobile/toggle" routerLink="/message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                                 Toggle
                             mobile
                             </a>
@@ -137,7 +136,7 @@
                         <li *ngSwitchCase="true">
                             <a id="conversations-link" href="https://joindiaspora.com/conversations"
                                title="Conversations" class="conversations-link nav-badge hidden-sm hidden-xs"
-                               routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                               routerLink="/message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                                 <i class="entypo-mail"></i>
                                 <span class="badge badge-important  hidden ">0</span>
                             </a>
@@ -160,13 +159,14 @@
                             <ul class="dropdown-menu" role="menu" ngbDropdownMenu>
                                 <li>
                                     <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
-                                       routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                       routerLink="/message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                                         Profile
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://joindiaspora.com/contacts"
-                                       routerLink="message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                    <!--<a href="https://joindiaspora.com/contacts">-->
+                                    <a
+                                        routerLink="/contact" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                                     Contacts
                                     </a>
                                 </li>
