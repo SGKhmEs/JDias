@@ -3,6 +3,7 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.service.PostService;
+import com.sgkhmjaes.jdias.service.dto.PostDTO;
 import com.sgkhmjaes.jdias.service.impl.PostDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -87,9 +88,9 @@ public class PostResource {
      */
     @GetMapping("/posts")
     @Timed
-    public List<Post> getAllPosts() {
+    public List<PostDTO> getAllPosts() {
         log.debug("REST request to get all Posts");
-        return postService.findAllPost();
+        return postDTOServiceImpl.findAll();
     }
 
     /**
@@ -101,9 +102,9 @@ public class PostResource {
      */
     @GetMapping("/posts/{id}")
     @Timed
-    public ResponseEntity<Post> getPost(@PathVariable Long id) {
+    public ResponseEntity<PostDTO> getPost(@PathVariable Long id) {
         log.debug("REST request to get Post : {}", id);
-        Post post = postService.findOnePost(id);
+        PostDTO post = postDTOServiceImpl.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(post));
     }
 
