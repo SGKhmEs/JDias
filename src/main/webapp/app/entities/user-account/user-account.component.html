@@ -1,131 +1,543 @@
-<div>
-    <h2>
-        <span jhiTranslate="jDiasApp.userAccount.home.title">User Accounts</span>
-        <button class="btn btn-primary float-right create-user-account" [routerLink]="['/', { outlets: { popup: ['user-account-new'] } }]">
-            <span class="fa fa-plus"></span>
-            <span class="hidden-sm-down"  jhiTranslate="jDiasApp.userAccount.home.createLabel">
-            Create new User Account
-            </span>
-        </button>
-    </h2>
-    <jhi-alert></jhi-alert>
+<div class="container-fluid">
     <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'jDiasApp.userAccount.home.search' | translate }}">
-                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
-                        <span class="fa fa-search"></span>
-                    </button>
-                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <span class="fa fa-trash-o"></span>
-                    </button>
+        <div class="col-md-3">
+            <div class="sidebar">
+                <div id="section_header">
+                    <div class="sidebar-header clearfix">
+                        <h3>
+                            Settings
+                        </h3>
+                    </div>
+                    <div class="list-group" id="settings_nav">
+                        <a class="list-group-item" href="https://joindiaspora.com/profile/edit">Profile</a>
+                        <a class="list-group-item active" href="https://joindiaspora.com/user/edit">Account</a>
+                        <a class="list-group-item" href="https://joindiaspora.com/privacy">Privacy</a>
+                        <a class="list-group-item" href="https://joindiaspora.com/services">Services</a>
+                        <a class="list-group-item" href="https://joindiaspora.com/api/openid_connect/user_applications">Applications</a>
+                    </div>
                 </div>
-            </form>
+
+            </div>
         </div>
-    </div>
-    <br/>
-    <div class="table-responsive" *ngIf="userAccounts">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-            <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.serializedPrivateKey">Serialized Private Key</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.gettingStarted">Getting Started</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.disableMail">Disable Mail</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.language">Language</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.rememberCreatedAt">Remember Created At</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.signInCount">Sign In Count</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.currentSignInAt">Current Sign In At</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.lastSignInAt">Last Sign In At</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.currentSignInIp">Current Sign In Ip</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.lastSignInIp">Last Sign In Ip</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.createdAt">Created At</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.updatedAt">Updated At</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.lockedAt">Locked At</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.showCommunitySpotlightInStream">Show Community Spotlight In Stream</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.autoFollowBack">Auto Follow Back</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.autoFollowBackAspectId">Auto Follow Back Aspect Id</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.hiddenShareables">Hidden Shareables</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.lastSeen">Last Seen</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.exportE">Export E</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.exportedAt">Exported At</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.exporting">Exporting</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.stripExif">Strip Exif</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.exportedPhotosFile">Exported Photos File</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.exportedPhotosAt">Exported Photos At</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.exportingPhotos">Exporting Photos</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.colorTheme">Color Theme</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.postDefaultPublic">Post Default Public</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.user">User</span></th>
-            <th><span jhiTranslate="jDiasApp.userAccount.person">Person</span></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let userAccount of userAccounts ;trackBy: trackId">
-                <td><a [routerLink]="['../user-account', userAccount.id ]">{{userAccount.id}}</a></td>
-                <td>{{userAccount.serializedPrivateKey}}</td>
-                <td>{{userAccount.gettingStarted}}</td>
-                <td>{{userAccount.disableMail}}</td>
-                <td>{{userAccount.language}}</td>
-                <td>{{userAccount.rememberCreatedAt | date:'mediumDate'}}</td>
-                <td>{{userAccount.signInCount}}</td>
-                <td>{{userAccount.currentSignInAt | date:'mediumDate'}}</td>
-                <td>{{userAccount.lastSignInAt | date:'mediumDate'}}</td>
-                <td>{{userAccount.currentSignInIp}}</td>
-                <td>{{userAccount.lastSignInIp}}</td>
-                <td>{{userAccount.createdAt | date:'mediumDate'}}</td>
-                <td>{{userAccount.updatedAt | date:'mediumDate'}}</td>
-                <td>{{userAccount.lockedAt | date:'mediumDate'}}</td>
-                <td>{{userAccount.showCommunitySpotlightInStream}}</td>
-                <td>{{userAccount.autoFollowBack}}</td>
-                <td>{{userAccount.autoFollowBackAspectId}}</td>
-                <td>{{userAccount.hiddenShareables}}</td>
-                <td>{{userAccount.lastSeen | date:'mediumDate'}}</td>
-                <td>{{userAccount.exportE}}</td>
-                <td>{{userAccount.exportedAt | date:'mediumDate'}}</td>
-                <td>{{userAccount.exporting}}</td>
-                <td>{{userAccount.stripExif}}</td>
-                <td>{{userAccount.exportedPhotosFile}}</td>
-                <td>{{userAccount.exportedPhotosAt | date:'mediumDate'}}</td>
-                <td>{{userAccount.exportingPhotos}}</td>
-                <td>{{userAccount.colorTheme}}</td>
-                <td>{{userAccount.postDefaultPublic}}</td>
-                <td>
-                    {{userAccount.user?.id}}
-                </td>
-                <td>
-                    <div *ngIf="userAccount.person">
-                        <a [routerLink]="['../person', userAccount.person?.id ]" >{{userAccount.person?.id}}</a>
+        <div class="col-md-9">
+            <div class="framed-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3>Your diaspora* ID</h3>
+                                <p>
+                                    <b>brownjone@joindiaspora.com</b>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <h3>
+                                    Your email
+                                    <i class="entypo-lock gray settings-visibility" title=""
+                                       data-original-title="Your email will never be seen by other users"></i>
+                                </h3>
+                                <form class="form-horizontal col-md-12" id="email-form"
+                                      action="https://joindiaspora.com/user/edit" accept-charset="UTF-8" method="post">
+                                    <input name="utf8" type="hidden" value="✓"><input type="hidden" name="_method"
+                                                                                      value="put"><input type="hidden"
+                                                                                                         name="authenticity_token"
+                                                                                                         value="tzrP8G2dMLaAoZEMKfFt9hOJ9296DMTa4ARPa7Lt5+3lSPIJZG6LZOX0b17k0RcXta7iFOds47s2KtrQBBPIPA==">
+                                    <div class="form-group">
+                                        <input value="brownjone1980@gmail.com" class="col-md-7 form-control" type="text"
+                                               name="user[email]" id="user_email">
+                                    </div>
+                                    <div class="clearfix"><input type="submit" name="commit" value="Change email"
+                                                                 class="btn btn-primary pull-right"></div>
+                                </form>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Change password</h3>
+                                <form class="form-horizontal" id="edit_user_82948953"
+                                      action="https://joindiaspora.com/user/edit" accept-charset="UTF-8" method="post">
+                                    <input name="utf8" type="hidden" value="✓"><input type="hidden" name="_method"
+                                                                                      value="put">
+                                    <input type="hidden" name="authenticity_token"
+                                           value="tzrP8G2dMLaAoZEMKfFt9hOJ9296DMTa4ARPa7Lt5+3lSPIJZG6LZOX0b17k0RcXta7iFOds47s2KtrQBBPIPA==">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="user_current_password">Current
+                                            password</label>
+                                        <div class="col-sm-6">
+                                            <input placeholder="the one you sign in with..." class="form-control"
+                                                   type="password" name="user[current_password]"
+                                                   id="user_current_password" autocomplete="off"
+                                                   style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAQZJREFUOBGlUzsOgzAMfaDOiIGx6sBhUFuJkTOwIK4DN+nMwA04QduBgRsglNqWkqZACxRLDo4/L89xAIAL6Z1UrVTOPZMa2VKsD+EaEYdWdv4jXAt3S2UQBIjjeFKiaS1+kyRRTdPoPAEyDHzfN8ie58F1TQh2zHGEucmVrLIs0XUdoihCGIZo2xZVVUmSHTNVlvE+xnJuNaUnoql7U9SCIqpmT4Bz9oP81z1jZKJPXubQJ74sy1Tf96qu63FsGaAoCqVlDMCXyL38FJo90jQFMZjNW/0zDcMwaeFAkDfS0ww097oou98BM/gmPKKjHczzXF6p5ZMxWvsP80o7vuDx2PReHtILYnasIXV5JlsAAAAASUVORK5CYII=;&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="user_password">New password</label>
+                                        <div class="col-sm-6">
+                                            <input placeholder="must be at least six characters" class="form-control"
+                                                   type="password" name="user[password]" id="user_password"
+                                                   style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACIUlEQVQ4EX2TOYhTURSG87IMihDsjGghBhFBmHFDHLWwSqcikk4RRKJgk0KL7C8bMpWpZtIqNkEUl1ZCgs0wOo0SxiLMDApWlgOPrH7/5b2QkYwX7jvn/uc//zl3edZ4PPbNGvF4fC4ajR5VrNvt/mo0Gr1ZPOtfgWw2e9Lv9+chX7cs64CS4Oxg3o9GI7tUKv0Q5o1dAiTfCgQCLwnOkfQOu+oSLyJ2A783HA7vIPLGxX0TgVwud4HKn0nc7Pf7N6vV6oZHkkX8FPG3uMfgXC0Wi2vCg/poUKGGcagQI3k7k8mcp5slcGswGDwpl8tfwGJg3xB6Dvey8vz6oH4C3iXcFYjbwiDeo1KafafkC3NjK7iL5ESFGQEUF7Sg+ifZdDp9GnMF/KGmfBdT2HCwZ7TwtrBPC7rQaav6Iv48rqZwg+F+p8hOMBj0IbxfMdMBrW5pAVGV/ztINByENkU0t5BIJEKRSOQ3Aj+Z57iFs1R5NK3EQS6HQqF1zmQdzpFWq3W42WwOTAf1er1PF2USFlC+qxMvFAr3HcexWX+QX6lUvsKpkTyPSEXJkw6MQ4S38Ljdbi8rmM/nY+CvgNcQqdH6U/xrYK9t244jZv6ByUOSiDdIfgBZ12U6dHEHu9TpdIr8F0OP692CtzaW/a6y3y0Wx5kbFHvGuXzkgf0xhKnPzA4UTyaTB8Ph8AvcHi3fnsrZ7Wore02YViqVOrRXXPhfqP8j6MYlawoAAAAASUVORK5CYII=&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="user_password_confirmation">Password
+                                            confirmation</label>
+                                        <div class="col-sm-6">
+                                            <input placeholder="must be at least six characters" class="form-control"
+                                                   type="password" name="user[password_confirmation]"
+                                                   id="user_password_confirmation"
+                                                   style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACIUlEQVQ4EX2TOYhTURSG87IMihDsjGghBhFBmHFDHLWwSqcikk4RRKJgk0KL7C8bMpWpZtIqNkEUl1ZCgs0wOo0SxiLMDApWlgOPrH7/5b2QkYwX7jvn/uc//zl3edZ4PPbNGvF4fC4ajR5VrNvt/mo0Gr1ZPOtfgWw2e9Lv9+chX7cs64CS4Oxg3o9GI7tUKv0Q5o1dAiTfCgQCLwnOkfQOu+oSLyJ2A783HA7vIPLGxX0TgVwud4HKn0nc7Pf7N6vV6oZHkkX8FPG3uMfgXC0Wi2vCg/poUKGGcagQI3k7k8mcp5slcGswGDwpl8tfwGJg3xB6Dvey8vz6oH4C3iXcFYjbwiDeo1KafafkC3NjK7iL5ESFGQEUF7Sg+ifZdDp9GnMF/KGmfBdT2HCwZ7TwtrBPC7rQaav6Iv48rqZwg+F+p8hOMBj0IbxfMdMBrW5pAVGV/ztINByENkU0t5BIJEKRSOQ3Aj+Z57iFs1R5NK3EQS6HQqF1zmQdzpFWq3W42WwOTAf1er1PF2USFlC+qxMvFAr3HcexWX+QX6lUvsKpkTyPSEXJkw6MQ4S38Ljdbi8rmM/nY+CvgNcQqdH6U/xrYK9t244jZv6ByUOSiDdIfgBZ12U6dHEHu9TpdIr8F0OP692CtzaW/a6y3y0Wx5kbFHvGuXzkgf0xhKnPzA4UTyaTB8Ph8AvcHi3fnsrZ7Wore02YViqVOrRXXPhfqP8j6MYlawoAAAAASUVORK5CYII=&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <input type="submit" name="change_password" value="Change password"
+                                               class="btn btn-primary pull-right">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Change language</h3>
+                                <form action="https://joindiaspora.com/user/edit" accept-charset="UTF-8" method="post">
+                                    <input name="utf8" type="hidden" value="✓"><input type="hidden" name="_method"
+                                                                                      value="put">
+                                    <input type="hidden" name="authenticity_token"
+                                           value="tzrP8G2dMLaAoZEMKfFt9hOJ9296DMTa4ARPa7Lt5+3lSPIJZG6LZOX0b17k0RcXta7iFOds47s2KtrQBBPIPA==">
+                                    <div class="form-inline clearfix">
+                                        <select class="form-control form-group" name="user[language]"
+                                                id="user_language">
+                                            <option value="en_1337">3n6l15h (English 1337)</option>
+                                            <option value="id">Bahasa Indonesia</option>
+                                            <option value="br">Brezhoneg</option>
+                                            <option value="es">Castellano</option>
+                                            <option value="es-AR">Castellano - Argentina</option>
+                                            <option value="es-CL">Castellano - Chile</option>
+                                            <option value="es-CO">Castellano - Colombia</option>
+                                            <option value="es-VE">Castellano - Venezuela</option>
+                                            <option value="ca">Català</option>
+                                            <option value="cy">Cymraeg</option>
+                                            <option value="da">Dansk</option>
+                                            <option value="de">Deutsch</option>
+                                            <option value="de-CH">Deutsch (Schwiizerdütsch)</option>
+                                            <option value="de_formal">Deutsch (Sie)</option>
+                                            <option value="et">Eesti</option>
+                                            <option selected="selected" value="en">English</option>
+                                            <option value="en_pirate">English (Pirate)</option>
+                                            <option value="en_valspeak">English (Valley Girl)</option>
+                                            <option value="es-MX">Español, México</option>
+                                            <option value="eo">Esperanto</option>
+                                            <option value="eu">Euskara</option>
+                                            <option value="fil">Filipino</option>
+                                            <option value="fr">Français</option>
+                                            <option value="fy">Frysk</option>
+                                            <option value="ga">Gaeilge</option>
+                                            <option value="gl">Galego</option>
+                                            <option value="gd">Gàidhlig</option>
+                                            <option value="ia">Interlingua</option>
+                                            <option value="it">Italiano</option>
+                                            <option value="lt">Lietuviškai</option>
+                                            <option value="art-nvi">Na'vi</option>
+                                            <option value="nl">Nederlands</option>
+                                            <option value="nds">Niederdeutsch</option>
+                                            <option value="nb">Norske</option>
+                                            <option value="nn">Nynorsk</option>
+                                            <option value="oc">Occitan</option>
+                                            <option value="pt-BR">Português (Brasil)</option>
+                                            <option value="pt-PT">Português (Portugal)</option>
+                                            <option value="ro">Română</option>
+                                            <option value="sq">Shqip</option>
+                                            <option value="sk">Slovenčina</option>
+                                            <option value="sl">Slovenščina</option>
+                                            <option value="fi">Suomi</option>
+                                            <option value="sv">Svenska</option>
+                                            <option value="vi">Tiếng Việt</option>
+                                            <option value="tr">Türkçe</option>
+                                            <option value="wo">Wolof</option>
+                                            <option value="bs">bosanski jezik</option>
+                                            <option value="hu">magyar nyelv</option>
+                                            <option value="pl">polski</option>
+                                            <option value="is">íslenska</option>
+                                            <option value="cs">Čeština</option>
+                                            <option value="el">Ελληνικά</option>
+                                            <option value="ru">Русский</option>
+                                            <option value="bg">български език</option>
+                                            <option value="mk">македонски</option>
+                                            <option value="sr">српски језик</option>
+                                            <option value="uk">украї́нська мо́ва</option>
+                                            <option value="hy">հայերեն</option>
+                                            <option value="he">עברית</option>
+                                            <option value="ar">العربية</option>
+                                            <option value="ur-PK">اُردو (پاکستان)</option>
+                                            <option value="ms">بهاس ملايو‎</option>
+                                            <option value="pa">ਪੰਜਾਬੀ</option>
+                                            <option value="te">తెలుగు</option>
+                                            <option value="ml">മലയാളം</option>
+                                            <option value="si">සිංහල</option>
+                                            <option value="ka">ქართული</option>
+                                            <option value="zh-CN">中文</option>
+                                            <option value="zh-TW">台灣中文</option>
+                                            <option value="ja">日本語</option>
+                                            <option value="ko">한국어</option>
+                                            <option value="en_shaw">𐑦𐑙𐑤𐑦𐑖</option>
+                                        </select>
+                                        <input type="submit" name="commit" value="Change language"
+                                               class="btn btn-primary pull-right">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Change color theme</h3>
+                                <form action="https://joindiaspora.com/user/edit" accept-charset="UTF-8" method="post">
+                                    <input name="utf8" type="hidden" value="✓"><input type="hidden" name="_method"
+                                                                                      value="put"><input type="hidden"
+                                                                                                         name="authenticity_token"
+                                                                                                         value="tzrP8G2dMLaAoZEMKfFt9hOJ9296DMTa4ARPa7Lt5+3lSPIJZG6LZOX0b17k0RcXta7iFOds47s2KtrQBBPIPA==">
+                                    <div class="form-inline clearfix">
+                                        <select class="form-control form-group" name="user[color_theme]"
+                                                id="user_color_theme">
+                                            <option selected="selected" value="original">Original Gray</option>
+                                            <option value="original_white">Original White Background</option>
+                                            <option value="dark_green">Dark Green</option>
+                                            <option value="magenta">Magenta</option>
+                                            <option value="egyptian_blue">Egyptian Blue</option>
+                                            <option value="dark">Dark</option>
+                                        </select>
+                                        <input type="submit" name="commit" value="Change color theme"
+                                               class="btn btn-primary pull-right">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 id="stream-preferences">
+                                    Stream preferences
+                                </h3>
+                                <form class="edit_user" id="edit_user_82949853"
+                                      action="https://joindiaspora.com/user/edit" accept-charset="UTF-8" method="post">
+                                    <input name="utf8" type="hidden" value="✓"><input type="hidden" name="_method"
+                                                                                      value="put"><input type="hidden"
+                                                                                                         name="authenticity_token"
+                                                                                                         value="tzrP8G2dMLaAoZEMKfFt9hOJ9296DMTa4ARPa7Lt5+3lSPIJZG6LZOX0b17k0RcXta7iFOds47s2KtrQBBPIPA==">
+                                    <div id="stream_prefs">
+                                        <label class="checkbox-inline"
+                                               for="user_show_community_spotlight_in_stream"><input
+                                            name="user[show_community_spotlight_in_stream]" type="hidden"
+                                            value="0"><input type="checkbox" value="1" checked="checked"
+                                                             name="user[show_community_spotlight_in_stream]"
+                                                             id="user_show_community_spotlight_in_stream">
+                                            Show “community spotlight” in stream
+                                        </label><label class="checkbox-inline" for="user_getting_started"><input
+                                        name="user[getting_started]" type="hidden" value="0"><input type="checkbox"
+                                                                                                    value="1"
+                                                                                                    name="user[getting_started]"
+                                                                                                    id="user_getting_started">
+                                        Show “getting started” hints
+                                    </label></div>
+                                    <div class="clearfix"><input type="submit" name="commit" value="Change"
+                                                                 class="btn btn-primary pull-right"></div>
+                                </form>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 id="auto-follow-back-preferences">
+                                    Sharing settings
+                                </h3>
+                                <form class="form-horizontal" id="edit_user_82939853"
+                                      action="https://joindiaspora.com/user/edit" accept-charset="UTF-8" method="post">
+                                    <input name="utf8" type="hidden" value="✓"><input type="hidden" name="_method"
+                                                                                      value="put"><input type="hidden"
+                                                                                                         name="authenticity_token"
+                                                                                                         value="tzrP8G2dMLaAoZEMKfFt9hOJ9296DMTa4ARPa7Lt5+3lSPIJZG6LZOX0b17k0RcXta7iFOds47s2KtrQBBPIPA=="><label
+                                    class="checkbox-inline" for="user_auto_follow_back"><input
+                                    name="user[auto_follow_back]" type="hidden" value="0"><input type="checkbox"
+                                                                                                 value="1"
+                                                                                                 name="user[auto_follow_back]"
+                                                                                                 id="user_auto_follow_back">
+                                    Automatically share with users who start sharing with you
+                                </label>
+                                    <div class="small-horizontal-spacer"></div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-6 control-label">Aspect for users you automatically share
+                                            with:</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" name="user[auto_follow_back_aspect_id]"
+                                                    id="user_auto_follow_back_aspect_id">
+                                                <option value="1421044">Семья</option>
+                                                <option value="1421045">Друзья</option>
+                                                <option value="1421046">Работа</option>
+                                                <option value="1421047">Знакомые</option>
+                                                <option value="1421640">troffy</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="small-horizontal-spacer"></div>
+                                    <div class="clearfix"><input type="submit" name="commit" value="Change"
+                                                                 class="btn btn-primary pull-right"></div>
+                                </form>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>
+                                    Default aspects selected for posting
+                                </h3>
+                                <form id="post-default-aspects" class="form-horizontal"
+                                      action="https://joindiaspora.com/user/edit" accept-charset="UTF-8" method="post">
+                                    <input name="utf8" type="hidden" value="✓"><input type="hidden" name="_method"
+                                                                                      value="put"><input type="hidden"
+                                                                                                         name="authenticity_token"
+                                                                                                         value="tzrP8G2dMLaAoZEMKfFt9hOJ9296DMTa4ARPa7Lt5+3lSPIJZG6LZOX0b17k0RcXta7iFOds47s2KtrQBBPIPA=="><input
+                                    value="false" type="hidden" name="user[post_default_public]"
+                                    id="user_post_default_public">
+                                    <div class="btn-group aspect_dropdown">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            <i class="entypo-lock small" id="visibility-icon"></i>
+                                            <span class="text">All aspects</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right" unselectable="on">
+                                            <li class="public radio" data-aspect_id="public">
+                                                <a><span class="status_indicator"><i class="glyphicon glyphicon-ok"></i></span>
+                                                    <span class="text">Public</span>
+                                                </a>
+                                            </li>
+                                            <li class="all_aspects radio selected" data-aspect_id="all_aspects">
+                                                <a><span class="status_indicator"><i class="glyphicon glyphicon-ok"></i></span>
+                                                    <span class="text">All aspects</span>
+                                                </a>
+                                            </li>
+                                            <li class="divider"></li>
+                                            <li class="aspect_selector" data-aspect_id="1421044">
+                                                <a>
+                                                    <span class="status_indicator"><i
+                                                        class="glyphicon glyphicon-ok"></i>
+                                                    </span>
+                                                    <span class="text">Family</span>
+                                                </a>
+                                            </li>
+                                            <li class="aspect_selector" data-aspect_id="1421045">
+                                                <a><span class="status_indicator"><i class="glyphicon glyphicon-ok"></i></span>
+                                                    <span class="text">Friends</span>
+                                                </a>
+                                            </li>
+                                            <li class="aspect_selector" data-aspect_id="1421046">
+                                                <a><span class="status_indicator"><i class="glyphicon glyphicon-ok"></i></span>
+                                                    <span class="text">Work</span> </a>
+                                            </li>
+                                            <li class="aspect_selector" data-aspect_id="1421047">
+                                                <a><span class="status_indicator"><i class="glyphicon glyphicon-ok"></i></span>
+                                                    <span class="text">Acquaintances</span>
+                                                </a>
+                                            </li>
+                                            <li class="aspect_selector" data-aspect_id="1421640">
+                                                <a><span class="status_indicator"><i class="glyphicon glyphicon-ok"></i></span>
+                                                    <span class="text">troffy</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="small-horizontal-spacer"></div>
+                                    <div class="clearfix"><input type="submit" name="commit" value="Change"
+                                                                 class="btn btn-primary pull-right"></div>
+                                </form>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>
+                                    Receive email notifications when:
+                                </h3>
+                                <form action="https://joindiaspora.com/user/edit" accept-charset="UTF-8" method="post">
+                                    <input name="utf8" type="hidden" value="✓"><input type="hidden" name="_method"
+                                                                                      value="put"><input type="hidden"
+                                                                                                         name="authenticity_token"
+                                                                                                         value="tzrP8G2dMLaAoZEMKfFt9hOJ9296DMTa4ARPa7Lt5+3lSPIJZG6LZOX0b17k0RcXta7iFOds47s2KtrQBBPIPA==">
+                                    <div id="email_prefs">
+                                        <div class="small-horizontal-spacer"></div>
+                                        <label class="checkbox-inline"
+                                               for="user_email_preferences_started_sharing"><input
+                                            name="user[email_preferences][started_sharing]" type="hidden"
+                                            value="true"><input type="checkbox" value="false" checked="checked"
+                                                                name="user[email_preferences][started_sharing]"
+                                                                id="user_email_preferences_started_sharing">
+                                            someone starts sharing with you
+                                        </label>
+                                        <div class="small-horizontal-spacer"></div>
+                                        <label class="checkbox-inline" for="user_email_preferences_mentioned"><input
+                                            name="user[email_preferences][mentioned]" type="hidden" value="true"><input
+                                            type="checkbox" value="false" checked="checked"
+                                            name="user[email_preferences][mentioned]"
+                                            id="user_email_preferences_mentioned">
+                                            you are mentioned in a post
+                                        </label>
+                                        <div class="small-horizontal-spacer"></div>
+                                        <label class="checkbox-inline" for="user_email_preferences_liked"><input
+                                            name="user[email_preferences][liked]" type="hidden" value="true"><input
+                                            type="checkbox" value="false" checked="checked"
+                                            name="user[email_preferences][liked]" id="user_email_preferences_liked">
+                                            someone likes your post
+                                        </label>
+                                        <div class="small-horizontal-spacer"></div>
+                                        <label class="checkbox-inline" for="user_email_preferences_reshared"><input
+                                            name="user[email_preferences][reshared]" type="hidden" value="true"><input
+                                            type="checkbox" value="false" checked="checked"
+                                            name="user[email_preferences][reshared]"
+                                            id="user_email_preferences_reshared">
+                                            someone reshares your post
+                                        </label>
+                                        <div class="small-horizontal-spacer"></div>
+                                        <label class="checkbox-inline"
+                                               for="user_email_preferences_comment_on_post"><input
+                                            name="user[email_preferences][comment_on_post]" type="hidden"
+                                            value="true"><input type="checkbox" value="false" checked="checked"
+                                                                name="user[email_preferences][comment_on_post]"
+                                                                id="user_email_preferences_comment_on_post">
+                                            someone comments on your post
+                                        </label>
+                                        <div class="small-horizontal-spacer"></div>
+                                        <label class="checkbox-inline"
+                                               for="user_email_preferences_also_commented"><input
+                                            name="user[email_preferences][also_commented]" type="hidden"
+                                            value="true"><input type="checkbox" value="false" checked="checked"
+                                                                name="user[email_preferences][also_commented]"
+                                                                id="user_email_preferences_also_commented">
+                                            someone comments on a post you’ve commented on
+                                        </label>
+                                        <div class="small-horizontal-spacer"></div>
+                                        <label class="checkbox-inline"
+                                               for="user_email_preferences_private_message"><input
+                                            name="user[email_preferences][private_message]" type="hidden"
+                                            value="true"><input type="checkbox" value="false" checked="checked"
+                                                                name="user[email_preferences][private_message]"
+                                                                id="user_email_preferences_private_message">
+                                            you receive a private message
+                                        </label></div>
+                                    <div class="small-horizontal-spacer"></div>
+                                    <div class="clearfix"><input type="submit" name="commit" value="Change"
+                                                                 class="btn btn-primary pull-right"
+                                                                 id="change_email_preferences"></div>
+                                </form>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6" id="account_data">
+                                <h3>Export data</h3>
+                                <div class="form-group">
+                                    <a class="btn btn-default" rel="nofollow" data-method="post"
+                                       href="https://joindiaspora.com/user/export_profile">Request my profile data</a>
+                                </div>
+                                <div class="form-group">
+                                    <a class="btn btn-default" rel="nofollow" data-method="post"
+                                       href="https://joindiaspora.com/user/export_photos">Request my photos</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h3>
+                                    Close account
+                                </h3>
+                                <div class="form-group">
+                                    <div class="btn btn-danger" data-target="#closeAccountModal" data-toggle="modal"
+                                         id="close_account">
+                                        Close account
+                                    </div>
+                                    <div
+                                        aria="{:labelledby=&gt;&quot;closeAccountModalLabel&quot;, :hidden=&gt;&quot;true&quot;}"
+                                        class="modal fade" id="closeAccountModal" role="dialog" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button aria="{:hidden=&gt;&quot;true&quot;}" class="close"
+                                                            data-dismiss="modal" type="button">
+                                                        ×
+                                                    </button>
+                                                    <h3 class="modal-title" id="closeAccountModalLabel">
+                                                        Hey, please don’t go!
+                                                    </h3>
+                                                </div>
+                                                <form action="https://joindiaspora.com/user" accept-charset="UTF-8"
+                                                      method="post"><input name="utf8" type="hidden" value="✓"><input
+                                                    type="hidden" name="_method" value="delete"><input type="hidden"
+                                                                                                       name="authenticity_token"
+                                                                                                       value="tzrP8G2dMLaAoZEMKfFt9hOJ9296DMTa4ARPa7Lt5+3lSPIJZG6LZOX0b17k0RcXta7iFOds47s2KtrQBBPIPA==">
+                                                    <div class="modal-body">
+                                                        <div class="text-center">
+                                                            <img class="img-responsive center-block"
+                                                                 src="/content/images/default-avatar.png"
+                                                                 alt="Sadcat">
+                                                            <h4>
+                                                                <strong>
+                                                                    Mr Wiggles will be sad to see you go
+                                                                </strong>
+                                                            </h4>
+                                                        </div>
+                                                        We’d love you to stay and help us make diaspora* better instead
+                                                        of leaving. If you really do want to leave, however, here’s what
+                                                        will happen next:
+                                                        <ol>
+                                                            <li>
+                                                                We will delete all of your posts and profile data as
+                                                                soon as possible. Your comments on other people’s posts
+                                                                will still appear, but they will be associated with your
+                                                                diaspora* ID rather than your name.
+                                                            </li>
+                                                            <li>
+                                                                You will get signed out and locked out of your account
+                                                                until it has been deleted.
+                                                            </li>
+                                                            <li>
+                                                                Your username will be locked. You will not be able to
+                                                                create a new account on this pod with the same ID.
+                                                            </li>
+                                                        </ol>
+                                                        <strong>
+                                                            There is no turning back! If you’re really sure, enter your
+                                                            password below.
+                                                        </strong>
+                                                        <div class="small-horizontal-spacer"></div>
+
+                                                        <div class="form-group">
+                                                            <label for="close_account_password">Current password</label>
+                                                            <input id="close_account_password" class="form-control"
+                                                                   type="password" name="user[current_password]"
+                                                                   autocomplete="off"
+                                                                   style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAUBJREFUOBGVVE2ORUAQLvIS4gwzEysHkHgnkMiEc4zEJXCMNwtWTmDh3UGcYoaFhZUFCzFVnu4wIaiE+vvq6+6qTgthGH6O4/jA7x1OiCAIPwj7CoLgSXDxSjEVzAt9k01CBKdWfsFf/2WNuEwc2YqigKZpK9glAlVVwTTNbQJZlnlCkiTAZnF/mePB2biRdhwHdF2HJEmgaRrwPA+qqoI4jle5/8XkXzrCFoHg+/5ICdpm13UTho7Q9/0WnsfwiL/ouHwHrJgQR8WEwVG+oXpMPaDAkdzvd7AsC8qyhCiKJjiRnCKwbRsMw9hcQ5zv9maSBeu6hjRNYRgGFuKaCNwjkjzPoSiK1d1gDDecQobOBwswzabD/D3Np7AHOIrvNpHmPI+Kc2RZBm3bcp8wuwSIot7QQ0PznoR6wYSK0Xb/AGVLcWwc7Ng3AAAAAElFTkSuQmCC'); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <div aria="{:hidden=&gt;&quot;true&quot;}"
+                                                             class="btn btn-default" data-dismiss="modal" type="button">
+                                                            Cancel
+                                                        </div>
+                                                        <input type="submit" name="commit" value="Close account"
+                                                               class="btn btn-danger" id="close_account_confirm"
+                                                               data-confirm="Are you sure you want to close your account? This can’t be undone!">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['../user-account', userAccount.id ]"
-                                class="btn btn-info btn-sm">
-                            <span class="fa fa-eye"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'user-account/'+ userAccount.id + '/edit'} }]"
-                                replaceUrl="true"
-                                class="btn btn-primary btn-sm">
-                            <span class="fa fa-pencil"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'user-account/'+ userAccount.id + '/delete'} }]"
-                                replaceUrl="true"
-                                class="btn btn-danger btn-sm">
-                            <span class="fa fa-remove"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
