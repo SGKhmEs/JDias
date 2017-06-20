@@ -5,11 +5,16 @@
                 <div class="sidebar left-navbar">
                     <ul id="stream_selection">
                         <li data-stream="stream" class="selected">
-                            <a rel="backbone" class="hoverable" href="https://joindiaspora.com/stream">Stream</a>
+                            <a rel="backbone" class="hoverable"
+                               routerLink="/post" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                Stream
+                            </a>
                         </li>
                         <li class="nested-list my-activity" data-stream="activity">
-                            <a rel="backbone" class="hoverable" href="https://joindiaspora.com/activity">My
-                                activity</a>
+                            <a rel="backbone" class="hoverable"
+                               routerLink="/post" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                My activity
+                            </a>
                             <ul>
                                 <li data-stream="liked">
                                     <a rel="backbone" class="hoverable selectable"
