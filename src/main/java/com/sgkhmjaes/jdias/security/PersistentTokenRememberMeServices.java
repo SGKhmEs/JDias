@@ -33,38 +33,31 @@ import java.util.Date;
  * <p>
  * Persistent tokens are used by Spring Security to automatically log in users.
  * <p>
- * This is a specific implementation of Spring Security's remember-me
- * authentication, but it is much more powerful than the standard
- * implementations:
+ * This is a specific implementation of Spring Security's remember-me authentication, but it is much
+ * more powerful than the standard implementations:
  * <ul>
- * <li>It allows a user to see the list of his currently opened sessions, and
- * invalidate them</li>
- * <li>It stores more information, such as the IP address and the user agent,
- * for audit purposes<li>
- * <li>When a user logs out, only his current session is invalidated, and not
- * all of his sessions</li>
+ * <li>It allows a user to see the list of his currently opened sessions, and invalidate them</li>
+ * <li>It stores more information, such as the IP address and the user agent, for audit purposes<li>
+ * <li>When a user logs out, only his current session is invalidated, and not all of his sessions</li>
  * </ul>
  * <p>
- * Please note that it allows the use of the same token for 5 seconds, and this
- * value stored in a specific cache during that period. This is to allow
- * concurrent requests from the same user: otherwise, two requests being sent at
- * the same time could invalidate each other's token.
+ * Please note that it allows the use of the same token for 5 seconds, and this value stored in a specific
+ * cache during that period. This is to allow concurrent requests from the same user: otherwise, two
+ * requests being sent at the same time could invalidate each other's token.
  * <p>
  * This is inspired by:
  * <ul>
- * <li><a href="http://jaspan.com/improved_persistent_login_cookie_best_practice">Improved
- * Persistent Login Cookie Best Practice</a></li>
- * <li><a href="https://github.com/blog/1661-modeling-your-app-s-user-session">Github's
- * "Modeling your App's User Session"</a></li>
+ * <li><a href="http://jaspan.com/improved_persistent_login_cookie_best_practice">Improved Persistent Login Cookie
+ * Best Practice</a></li>
+ * <li><a href="https://github.com/blog/1661-modeling-your-app-s-user-session">Github's "Modeling your App's User Session"</a></li>
  * </ul>
  * <p>
- * The main algorithm comes from Spring Security's
- * PersistentTokenBasedRememberMeServices, but this class couldn't be cleanly
- * extended.
+ * The main algorithm comes from Spring Security's PersistentTokenBasedRememberMeServices, but this class
+ * couldn't be cleanly extended.
  */
 @Service
 public class PersistentTokenRememberMeServices extends
-        AbstractRememberMeServices {
+    AbstractRememberMeServices {
 
     private final Logger log = LoggerFactory.getLogger(PersistentTokenRememberMeServices.class);
 
@@ -94,7 +87,7 @@ public class PersistentTokenRememberMeServices extends
 
     @Override
     protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request,
-            HttpServletResponse response) {
+        HttpServletResponse response) {
 
         synchronized (this) { // prevent 2 authentication requests from the same user in parallel
             String login = null;
@@ -128,7 +121,8 @@ public class PersistentTokenRememberMeServices extends
     }
 
     @Override
-    protected void onLoginSuccess(HttpServletRequest request, HttpServletResponse response, Authentication successfulAuthentication) {
+    protected void onLoginSuccess(HttpServletRequest request, HttpServletResponse response, Authentication
+        successfulAuthentication) {
 
         String login = successfulAuthentication.getName();
 
@@ -152,12 +146,10 @@ public class PersistentTokenRememberMeServices extends
     }
 
     /**
-     * When logout occurs, only invalidate the current token, and not all user
-     * sessions.
+     * When logout occurs, only invalidate the current token, and not all user sessions.
      * <p>
-     * The standard Spring Security implementations are too basic: they
-     * invalidate all tokens for the current user, so when he logs out from one
-     * browser, all his other sessions are destroyed.
+     * The standard Spring Security implementations are too basic: they invalidate all tokens for the
+     * current user, so when he logs out from one browser, all his other sessions are destroyed.
      */
     @Override
     @Transactional
@@ -182,8 +174,8 @@ public class PersistentTokenRememberMeServices extends
      */
     private PersistentToken getPersistentToken(String[] cookieTokens) {
         if (cookieTokens.length != 2) {
-            throw new InvalidCookieException("Cookie token did not contain " + 2
-                    + " tokens, but contained '" + Arrays.asList(cookieTokens) + "'");
+            throw new InvalidCookieException("Cookie token did not contain " + 2 +
+                " tokens, but contained '" + Arrays.asList(cookieTokens) + "'");
         }
         String presentedSeries = cookieTokens[0];
         String presentedToken = cookieTokens[1];
@@ -199,8 +191,8 @@ public class PersistentTokenRememberMeServices extends
         if (!presentedToken.equals(token.getTokenValue())) {
             // Token doesn't match series value. Delete this session and throw an exception.
             persistentTokenRepository.delete(token);
-            throw new CookieTheftException("Invalid remember-me token (Series/token) mismatch. Implies previous "
-                    + "cookie theft attack.");
+            throw new CookieTheftException("Invalid remember-me token (Series/token) mismatch. Implies previous " +
+                "cookie theft attack.");
         }
 
         if (token.getTokenDate().plusDays(TOKEN_VALIDITY_DAYS).isBefore(LocalDate.now())) {
@@ -212,8 +204,8 @@ public class PersistentTokenRememberMeServices extends
 
     private void addCookie(PersistentToken token, HttpServletRequest request, HttpServletResponse response) {
         setCookie(
-                new String[]{token.getSeries(), token.getTokenValue()},
-                TOKEN_VALIDITY_SECONDS, request, response);
+            new String[]{token.getSeries(), token.getTokenValue()},
+            TOKEN_VALIDITY_SECONDS, request, response);
     }
 
     private static class UpgradedRememberMeToken implements Serializable {
@@ -233,9 +225,9 @@ public class PersistentTokenRememberMeServices extends
         }
 
         String getUserLoginIfValidAndRecentUpgrade(String[] currentToken) {
-            if (currentToken[0].equals(this.upgradedToken[0])
-                    && currentToken[1].equals(this.upgradedToken[1])
-                    && (upgradeTime.getTime() + UPGRADED_TOKEN_VALIDITY_SECONDS * 1000) > new Date().getTime()) {
+            if (currentToken[0].equals(this.upgradedToken[0]) &&
+                    currentToken[1].equals(this.upgradedToken[1]) &&
+                    (upgradeTime.getTime() + UPGRADED_TOKEN_VALIDITY_SECONDS * 1000) > new Date().getTime()) {
                 return this.userLogin;
             }
             return null;

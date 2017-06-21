@@ -23,8 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Test class for the ProfileInfoResource REST controller.
  *
  * @see ProfileInfoResource
- *
- */
+ **/
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = JDiasApp.class)
 public class ProfileInfoResourceIntTest {
@@ -51,15 +50,15 @@ public class ProfileInfoResourceIntTest {
 
         ProfileInfoResource profileInfoResource = new ProfileInfoResource(environment, jHipsterProperties);
         this.restProfileMockMvc = MockMvcBuilders
-                .standaloneSetup(profileInfoResource)
-                .build();
+            .standaloneSetup(profileInfoResource)
+            .build();
     }
 
     @Test
     public void getProfileInfoWithRibbon() throws Exception {
         restProfileMockMvc.perform(get("/api/profile-info"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
     }
 
     @Test
@@ -69,8 +68,8 @@ public class ProfileInfoResourceIntTest {
         when(jHipsterProperties.getRibbon()).thenReturn(ribbon);
 
         restProfileMockMvc.perform(get("/api/profile-info"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
     }
 
     @Test
@@ -80,7 +79,7 @@ public class ProfileInfoResourceIntTest {
         when(environment.getActiveProfiles()).thenReturn(emptyProfile);
 
         restProfileMockMvc.perform(get("/api/profile-info"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
     }
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AspectMembership } from './aspect-membership.model';
 import { AspectMembershipService } from './aspect-membership.service';
+
 @Injectable()
 export class AspectMembershipPopupService {
     private isOpen = false;

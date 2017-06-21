@@ -31,7 +31,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.sgkhmjaes.jdias.domain.enumeration.Type;
-
 /**
  * Test class for the RetractionResource REST controller.
  *
@@ -80,9 +79,9 @@ public class RetractionResourceIntTest {
         MockitoAnnotations.initMocks(this);
         RetractionResource retractionResource = new RetractionResource(retractionService);
         this.restRetractionMockMvc = MockMvcBuilders.standaloneSetup(retractionResource)
-                .setCustomArgumentResolvers(pageableArgumentResolver)
-                .setControllerAdvice(exceptionTranslator)
-                .setMessageConverters(jacksonMessageConverter).build();
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -93,9 +92,9 @@ public class RetractionResourceIntTest {
      */
     public static Retraction createEntity(EntityManager em) {
         Retraction retraction = new Retraction()
-                .author(DEFAULT_AUTHOR)
-                .targetGuid(DEFAULT_TARGET_GUID)
-                .targetType(DEFAULT_TARGET_TYPE);
+            .author(DEFAULT_AUTHOR)
+            .targetGuid(DEFAULT_TARGET_GUID)
+            .targetType(DEFAULT_TARGET_TYPE);
         return retraction;
     }
 
@@ -112,9 +111,9 @@ public class RetractionResourceIntTest {
 
         // Create the Retraction
         restRetractionMockMvc.perform(post("/api/retractions")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(retraction)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(retraction)))
+            .andExpect(status().isCreated());
 
         // Validate the Retraction in the database
         List<Retraction> retractionList = retractionRepository.findAll();
@@ -139,9 +138,9 @@ public class RetractionResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restRetractionMockMvc.perform(post("/api/retractions")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(retraction)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(retraction)))
+            .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Retraction> retractionList = retractionRepository.findAll();
@@ -156,12 +155,12 @@ public class RetractionResourceIntTest {
 
         // Get all the retractionList
         restRetractionMockMvc.perform(get("/api/retractions?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(retraction.getId().intValue())))
-                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].targetGuid").value(hasItem(DEFAULT_TARGET_GUID.toString())))
-                .andExpect(jsonPath("$.[*].targetType").value(hasItem(DEFAULT_TARGET_TYPE.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(retraction.getId().intValue())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].targetGuid").value(hasItem(DEFAULT_TARGET_GUID.toString())))
+            .andExpect(jsonPath("$.[*].targetType").value(hasItem(DEFAULT_TARGET_TYPE.toString())));
     }
 
     @Test
@@ -172,12 +171,12 @@ public class RetractionResourceIntTest {
 
         // Get the retraction
         restRetractionMockMvc.perform(get("/api/retractions/{id}", retraction.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id").value(retraction.getId().intValue()))
-                .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-                .andExpect(jsonPath("$.targetGuid").value(DEFAULT_TARGET_GUID.toString()))
-                .andExpect(jsonPath("$.targetType").value(DEFAULT_TARGET_TYPE.toString()));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(retraction.getId().intValue()))
+            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
+            .andExpect(jsonPath("$.targetGuid").value(DEFAULT_TARGET_GUID.toString()))
+            .andExpect(jsonPath("$.targetType").value(DEFAULT_TARGET_TYPE.toString()));
     }
 
     @Test
@@ -185,7 +184,7 @@ public class RetractionResourceIntTest {
     public void getNonExistingRetraction() throws Exception {
         // Get the retraction
         restRetractionMockMvc.perform(get("/api/retractions/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -199,14 +198,14 @@ public class RetractionResourceIntTest {
         // Update the retraction
         Retraction updatedRetraction = retractionRepository.findOne(retraction.getId());
         updatedRetraction
-                .author(UPDATED_AUTHOR)
-                .targetGuid(UPDATED_TARGET_GUID)
-                .targetType(UPDATED_TARGET_TYPE);
+            .author(UPDATED_AUTHOR)
+            .targetGuid(UPDATED_TARGET_GUID)
+            .targetType(UPDATED_TARGET_TYPE);
 
         restRetractionMockMvc.perform(put("/api/retractions")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedRetraction)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedRetraction)))
+            .andExpect(status().isOk());
 
         // Validate the Retraction in the database
         List<Retraction> retractionList = retractionRepository.findAll();
@@ -227,11 +226,12 @@ public class RetractionResourceIntTest {
         int databaseSizeBeforeUpdate = retractionRepository.findAll().size();
 
         // Create the Retraction
+
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restRetractionMockMvc.perform(put("/api/retractions")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(retraction)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(retraction)))
+            .andExpect(status().isCreated());
 
         // Validate the Retraction in the database
         List<Retraction> retractionList = retractionRepository.findAll();
@@ -248,8 +248,8 @@ public class RetractionResourceIntTest {
 
         // Get the retraction
         restRetractionMockMvc.perform(delete("/api/retractions/{id}", retraction.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean retractionExistsInEs = retractionSearchRepository.exists(retraction.getId());
@@ -268,12 +268,12 @@ public class RetractionResourceIntTest {
 
         // Search the retraction
         restRetractionMockMvc.perform(get("/api/_search/retractions?query=id:" + retraction.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(retraction.getId().intValue())))
-                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].targetGuid").value(hasItem(DEFAULT_TARGET_GUID.toString())))
-                .andExpect(jsonPath("$.[*].targetType").value(hasItem(DEFAULT_TARGET_TYPE.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(retraction.getId().intValue())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].targetGuid").value(hasItem(DEFAULT_TARGET_GUID.toString())))
+            .andExpect(jsonPath("$.[*].targetType").value(hasItem(DEFAULT_TARGET_TYPE.toString())));
     }
 
     @Test

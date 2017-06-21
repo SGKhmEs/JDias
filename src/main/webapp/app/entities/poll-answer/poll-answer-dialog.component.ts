@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { PollAnswer } from './poll-answer.model';
 import { PollAnswerPopupService } from './poll-answer-popup.service';
@@ -26,10 +26,10 @@ export class PollAnswerDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private pollAnswerService: PollAnswerService,
         private pollService: PollService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -39,6 +39,7 @@ export class PollAnswerDialogComponent implements OnInit {
         this.pollService.query()
             .subscribe((res: ResponseWrapper) => { this.polls = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }

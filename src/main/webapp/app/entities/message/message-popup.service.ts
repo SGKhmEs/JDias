@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Message } from './message.model';
 import { MessageService } from './message.service';
+
 @Injectable()
 export class MessagePopupService {
     private isOpen = false;

@@ -72,9 +72,9 @@ public class AccountDeletionResourceIntTest {
         MockitoAnnotations.initMocks(this);
         AccountDeletionResource accountDeletionResource = new AccountDeletionResource(accountDeletionService);
         this.restAccountDeletionMockMvc = MockMvcBuilders.standaloneSetup(accountDeletionResource)
-                .setCustomArgumentResolvers(pageableArgumentResolver)
-                .setControllerAdvice(exceptionTranslator)
-                .setMessageConverters(jacksonMessageConverter).build();
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -85,7 +85,7 @@ public class AccountDeletionResourceIntTest {
      */
     public static AccountDeletion createEntity(EntityManager em) {
         AccountDeletion accountDeletion = new AccountDeletion()
-                .author(DEFAULT_AUTHOR);
+            .author(DEFAULT_AUTHOR);
         return accountDeletion;
     }
 
@@ -102,9 +102,9 @@ public class AccountDeletionResourceIntTest {
 
         // Create the AccountDeletion
         restAccountDeletionMockMvc.perform(post("/api/account-deletions")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(accountDeletion)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(accountDeletion)))
+            .andExpect(status().isCreated());
 
         // Validate the AccountDeletion in the database
         List<AccountDeletion> accountDeletionList = accountDeletionRepository.findAll();
@@ -127,9 +127,9 @@ public class AccountDeletionResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restAccountDeletionMockMvc.perform(post("/api/account-deletions")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(accountDeletion)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(accountDeletion)))
+            .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<AccountDeletion> accountDeletionList = accountDeletionRepository.findAll();
@@ -144,10 +144,10 @@ public class AccountDeletionResourceIntTest {
 
         // Get all the accountDeletionList
         restAccountDeletionMockMvc.perform(get("/api/account-deletions?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(accountDeletion.getId().intValue())))
-                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(accountDeletion.getId().intValue())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())));
     }
 
     @Test
@@ -158,10 +158,10 @@ public class AccountDeletionResourceIntTest {
 
         // Get the accountDeletion
         restAccountDeletionMockMvc.perform(get("/api/account-deletions/{id}", accountDeletion.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id").value(accountDeletion.getId().intValue()))
-                .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(accountDeletion.getId().intValue()))
+            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()));
     }
 
     @Test
@@ -169,7 +169,7 @@ public class AccountDeletionResourceIntTest {
     public void getNonExistingAccountDeletion() throws Exception {
         // Get the accountDeletion
         restAccountDeletionMockMvc.perform(get("/api/account-deletions/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -183,12 +183,12 @@ public class AccountDeletionResourceIntTest {
         // Update the accountDeletion
         AccountDeletion updatedAccountDeletion = accountDeletionRepository.findOne(accountDeletion.getId());
         updatedAccountDeletion
-                .author(UPDATED_AUTHOR);
+            .author(UPDATED_AUTHOR);
 
         restAccountDeletionMockMvc.perform(put("/api/account-deletions")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedAccountDeletion)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedAccountDeletion)))
+            .andExpect(status().isOk());
 
         // Validate the AccountDeletion in the database
         List<AccountDeletion> accountDeletionList = accountDeletionRepository.findAll();
@@ -207,11 +207,12 @@ public class AccountDeletionResourceIntTest {
         int databaseSizeBeforeUpdate = accountDeletionRepository.findAll().size();
 
         // Create the AccountDeletion
+
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restAccountDeletionMockMvc.perform(put("/api/account-deletions")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(accountDeletion)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(accountDeletion)))
+            .andExpect(status().isCreated());
 
         // Validate the AccountDeletion in the database
         List<AccountDeletion> accountDeletionList = accountDeletionRepository.findAll();
@@ -228,8 +229,8 @@ public class AccountDeletionResourceIntTest {
 
         // Get the accountDeletion
         restAccountDeletionMockMvc.perform(delete("/api/account-deletions/{id}", accountDeletion.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean accountDeletionExistsInEs = accountDeletionSearchRepository.exists(accountDeletion.getId());
@@ -248,10 +249,10 @@ public class AccountDeletionResourceIntTest {
 
         // Search the accountDeletion
         restAccountDeletionMockMvc.perform(get("/api/_search/account-deletions?query=id:" + accountDeletion.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(accountDeletion.getId().intValue())))
-                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(accountDeletion.getId().intValue())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())));
     }
 
     @Test

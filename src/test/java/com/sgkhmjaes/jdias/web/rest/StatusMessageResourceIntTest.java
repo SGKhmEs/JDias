@@ -6,8 +6,6 @@ import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.repository.StatusMessageRepository;
 import com.sgkhmjaes.jdias.service.StatusMessageService;
 import com.sgkhmjaes.jdias.repository.search.StatusMessageSearchRepository;
-import com.sgkhmjaes.jdias.service.impl.PostDTOServiceImpl;
-import com.sgkhmjaes.jdias.service.impl.StatusMessageDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -49,13 +47,7 @@ public class StatusMessageResourceIntTest {
 
     @Autowired
     private StatusMessageService statusMessageService;
-    
-    @Autowired
-    private StatusMessageDTOServiceImpl statusMessageDTOServiceImpl;
-    
-    @Autowired
-    private PostDTOServiceImpl postDTOServiceImpl;
-    
+
     @Autowired
     private StatusMessageSearchRepository statusMessageSearchRepository;
 
@@ -78,11 +70,11 @@ public class StatusMessageResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        StatusMessageResource statusMessageResource = new StatusMessageResource(statusMessageService, statusMessageDTOServiceImpl, postDTOServiceImpl);
+        StatusMessageResource statusMessageResource = new StatusMessageResource(statusMessageService);
         this.restStatusMessageMockMvc = MockMvcBuilders.standaloneSetup(statusMessageResource)
-                .setCustomArgumentResolvers(pageableArgumentResolver)
-                .setControllerAdvice(exceptionTranslator)
-                .setMessageConverters(jacksonMessageConverter).build();
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -93,7 +85,7 @@ public class StatusMessageResourceIntTest {
      */
     public static StatusMessage createEntity(EntityManager em) {
         StatusMessage statusMessage = new StatusMessage()
-                .text(DEFAULT_TEXT);
+            .text(DEFAULT_TEXT);
         return statusMessage;
     }
 
@@ -110,9 +102,9 @@ public class StatusMessageResourceIntTest {
 
         // Create the StatusMessage
         restStatusMessageMockMvc.perform(post("/api/status-messages")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(statusMessage)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(statusMessage)))
+            .andExpect(status().isCreated());
 
         // Validate the StatusMessage in the database
         List<StatusMessage> statusMessageList = statusMessageRepository.findAll();
@@ -135,9 +127,9 @@ public class StatusMessageResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restStatusMessageMockMvc.perform(post("/api/status-messages")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(statusMessage)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(statusMessage)))
+            .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<StatusMessage> statusMessageList = statusMessageRepository.findAll();
@@ -152,10 +144,10 @@ public class StatusMessageResourceIntTest {
 
         // Get all the statusMessageList
         restStatusMessageMockMvc.perform(get("/api/status-messages?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(statusMessage.getId().intValue())))
-                .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(statusMessage.getId().intValue())))
+            .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())));
     }
 
     @Test
@@ -166,10 +158,10 @@ public class StatusMessageResourceIntTest {
 
         // Get the statusMessage
         restStatusMessageMockMvc.perform(get("/api/status-messages/{id}", statusMessage.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id").value(statusMessage.getId().intValue()))
-                .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(statusMessage.getId().intValue()))
+            .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()));
     }
 
     @Test
@@ -177,7 +169,7 @@ public class StatusMessageResourceIntTest {
     public void getNonExistingStatusMessage() throws Exception {
         // Get the statusMessage
         restStatusMessageMockMvc.perform(get("/api/status-messages/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -191,12 +183,12 @@ public class StatusMessageResourceIntTest {
         // Update the statusMessage
         StatusMessage updatedStatusMessage = statusMessageRepository.findOne(statusMessage.getId());
         updatedStatusMessage
-                .text(UPDATED_TEXT);
+            .text(UPDATED_TEXT);
 
         restStatusMessageMockMvc.perform(put("/api/status-messages")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedStatusMessage)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedStatusMessage)))
+            .andExpect(status().isOk());
 
         // Validate the StatusMessage in the database
         List<StatusMessage> statusMessageList = statusMessageRepository.findAll();
@@ -215,11 +207,12 @@ public class StatusMessageResourceIntTest {
         int databaseSizeBeforeUpdate = statusMessageRepository.findAll().size();
 
         // Create the StatusMessage
+
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restStatusMessageMockMvc.perform(put("/api/status-messages")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(statusMessage)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(statusMessage)))
+            .andExpect(status().isCreated());
 
         // Validate the StatusMessage in the database
         List<StatusMessage> statusMessageList = statusMessageRepository.findAll();
@@ -236,8 +229,8 @@ public class StatusMessageResourceIntTest {
 
         // Get the statusMessage
         restStatusMessageMockMvc.perform(delete("/api/status-messages/{id}", statusMessage.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean statusMessageExistsInEs = statusMessageSearchRepository.exists(statusMessage.getId());
@@ -256,10 +249,10 @@ public class StatusMessageResourceIntTest {
 
         // Search the statusMessage
         restStatusMessageMockMvc.perform(get("/api/_search/status-messages?query=id:" + statusMessage.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(statusMessage.getId().intValue())))
-                .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(statusMessage.getId().intValue())))
+            .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())));
     }
 
     @Test

@@ -77,9 +77,9 @@ public class AspectMembershipResourceIntTest {
         MockitoAnnotations.initMocks(this);
         AspectMembershipResource aspectMembershipResource = new AspectMembershipResource(aspectMembershipService);
         this.restAspectMembershipMockMvc = MockMvcBuilders.standaloneSetup(aspectMembershipResource)
-                .setCustomArgumentResolvers(pageableArgumentResolver)
-                .setControllerAdvice(exceptionTranslator)
-                .setMessageConverters(jacksonMessageConverter).build();
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -90,8 +90,8 @@ public class AspectMembershipResourceIntTest {
      */
     public static AspectMembership createEntity(EntityManager em) {
         AspectMembership aspectMembership = new AspectMembership()
-                .createdAt(DEFAULT_CREATED_AT)
-                .updatedAt(DEFAULT_UPDATED_AT);
+            .createdAt(DEFAULT_CREATED_AT)
+            .updatedAt(DEFAULT_UPDATED_AT);
         return aspectMembership;
     }
 
@@ -108,9 +108,9 @@ public class AspectMembershipResourceIntTest {
 
         // Create the AspectMembership
         restAspectMembershipMockMvc.perform(post("/api/aspect-memberships")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(aspectMembership)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(aspectMembership)))
+            .andExpect(status().isCreated());
 
         // Validate the AspectMembership in the database
         List<AspectMembership> aspectMembershipList = aspectMembershipRepository.findAll();
@@ -134,9 +134,9 @@ public class AspectMembershipResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restAspectMembershipMockMvc.perform(post("/api/aspect-memberships")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(aspectMembership)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(aspectMembership)))
+            .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<AspectMembership> aspectMembershipList = aspectMembershipRepository.findAll();
@@ -151,11 +151,11 @@ public class AspectMembershipResourceIntTest {
 
         // Get all the aspectMembershipList
         restAspectMembershipMockMvc.perform(get("/api/aspect-memberships?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(aspectMembership.getId().intValue())))
-                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(aspectMembership.getId().intValue())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
 
     @Test
@@ -166,11 +166,11 @@ public class AspectMembershipResourceIntTest {
 
         // Get the aspectMembership
         restAspectMembershipMockMvc.perform(get("/api/aspect-memberships/{id}", aspectMembership.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id").value(aspectMembership.getId().intValue()))
-                .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-                .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(aspectMembership.getId().intValue()))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
     }
 
     @Test
@@ -178,7 +178,7 @@ public class AspectMembershipResourceIntTest {
     public void getNonExistingAspectMembership() throws Exception {
         // Get the aspectMembership
         restAspectMembershipMockMvc.perform(get("/api/aspect-memberships/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -192,13 +192,13 @@ public class AspectMembershipResourceIntTest {
         // Update the aspectMembership
         AspectMembership updatedAspectMembership = aspectMembershipRepository.findOne(aspectMembership.getId());
         updatedAspectMembership
-                .createdAt(UPDATED_CREATED_AT)
-                .updatedAt(UPDATED_UPDATED_AT);
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT);
 
         restAspectMembershipMockMvc.perform(put("/api/aspect-memberships")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedAspectMembership)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedAspectMembership)))
+            .andExpect(status().isOk());
 
         // Validate the AspectMembership in the database
         List<AspectMembership> aspectMembershipList = aspectMembershipRepository.findAll();
@@ -218,11 +218,12 @@ public class AspectMembershipResourceIntTest {
         int databaseSizeBeforeUpdate = aspectMembershipRepository.findAll().size();
 
         // Create the AspectMembership
+
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restAspectMembershipMockMvc.perform(put("/api/aspect-memberships")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(aspectMembership)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(aspectMembership)))
+            .andExpect(status().isCreated());
 
         // Validate the AspectMembership in the database
         List<AspectMembership> aspectMembershipList = aspectMembershipRepository.findAll();
@@ -239,8 +240,8 @@ public class AspectMembershipResourceIntTest {
 
         // Get the aspectMembership
         restAspectMembershipMockMvc.perform(delete("/api/aspect-memberships/{id}", aspectMembership.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean aspectMembershipExistsInEs = aspectMembershipSearchRepository.exists(aspectMembership.getId());
@@ -259,11 +260,11 @@ public class AspectMembershipResourceIntTest {
 
         // Search the aspectMembership
         restAspectMembershipMockMvc.perform(get("/api/_search/aspect-memberships?query=id:" + aspectMembership.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(aspectMembership.getId().intValue())))
-                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(aspectMembership.getId().intValue())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
 
     @Test

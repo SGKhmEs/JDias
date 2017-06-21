@@ -46,8 +46,7 @@
             </column>
             <column name="status_message_id" type="bigint">
                 <constraints unique="true" nullable="true" />
-            </column>            
-            <column name="reshare_id" type="bigint">
+            </column>            <column name="reshare_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>
             <column name="person_id" type="bigint">

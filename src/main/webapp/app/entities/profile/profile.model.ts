@@ -1,4 +1,6 @@
-export class Profile {
+import { BaseEntity } from './../../shared';
+
+export class Profile implements BaseEntity {
     constructor(
         public id?: number,
         public author?: string,

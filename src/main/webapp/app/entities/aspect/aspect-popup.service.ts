@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Aspect } from './aspect.model';
 import { AspectService } from './aspect.service';
+
 @Injectable()
 export class AspectPopupService {
     private isOpen = false;

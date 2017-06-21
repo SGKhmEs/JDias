@@ -17,33 +17,33 @@ public interface PersonService {
     Person save(Person person);
 
     /**
-     *  Get all the people.
+     * Get all the people.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     List<Person> findAll();
 
     /**
-     *  Get the "id" person.
+     * Get the "id" person.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     Person findOne(Long id);
 
     /**
-     *  Delete the "id" person.
+     * Delete the "id" person.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the person corresponding to the query.
      *
-     *  @param query the query of the search
-     *  
-     *  @return the list of entities
+     * @param query the query of the search
+     *
+     * @return the list of entities
      */
     List<Person> search(String query);
 }

@@ -3,6 +3,7 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Conversation;
 import com.sgkhmjaes.jdias.service.ConversationService;
+import com.sgkhmjaes.jdias.service.impl.ConversationDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -31,9 +32,11 @@ public class ConversationResource {
     private static final String ENTITY_NAME = "conversation";
 
     private final ConversationService conversationService;
+    private final ConversationDTOServiceImpl conversationDTOServiceImpl;
 
-    public ConversationResource(ConversationService conversationService) {
+    public ConversationResource(ConversationService conversationService, ConversationDTOServiceImpl conversationDTOServiceImpl) {
         this.conversationService = conversationService;
+        this.conversationDTOServiceImpl = conversationDTOServiceImpl;
     }
 
     /**
@@ -50,7 +53,8 @@ public class ConversationResource {
         if (conversation.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new conversation cannot already have an ID")).body(null);
         }
-        Conversation result = conversationService.save(conversation);
+        Conversation result = conversationDTOServiceImpl.save(conversation);
+        //Conversation result = conversationService.save(conversation);
         return ResponseEntity.created(new URI("/api/conversations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -62,7 +66,7 @@ public class ConversationResource {
      * @param conversation the conversation to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated conversation,
      * or with status 400 (Bad Request) if the conversation is not valid,
-     * or with status 500 (Internal Server Error) if the conversation couldnt be updated
+     * or with status 500 (Internal Server Error) if the conversation couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/conversations")

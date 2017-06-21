@@ -4,13 +4,14 @@
   <auxiliary>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-      <group>
-        <file>file:/C:/JDias/src/main/java/com/sgkhmjaes/jdias/domain/Message.java</file>
-        <file>file:/C:/JDias/src/main/java/com/sgkhmjaes/jdias/domain/Person.java</file>
-        <file>file:/C:/JDias/src/main/java/com/sgkhmjaes/jdias/domain/UserAccount.java</file>
-        <file>file:/C:/JDias/src/main/java/com/sgkhmjaes/jdias/domain/Conversation.java</file>
-      </group>
+      <group/>
     </open-files>
     <editor-bookmarks lastBookmarkId="0" xmlns="http://www.netbeans.org/ns/editor-bookmarks/2"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+      <group>
+        <file>file:/C:/projectNote/JDias/src/main/java/com/sgkhmjaes/jdias/service/ConversationService.java</file>
+        <file>file:/C:/projectNote/JDias/src/main/java/com/sgkhmjaes/jdias/web/rest/ConversationResource.java</file>
+      </group>
+    </open-files>
   </auxiliary>
 </gradle-project-properties>

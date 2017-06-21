@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Like } from './like.model';
 import { LikeService } from './like.service';
+
 @Injectable()
 export class LikePopupService {
     private isOpen = false;

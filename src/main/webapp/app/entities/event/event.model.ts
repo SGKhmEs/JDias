@@ -1,5 +1,6 @@
-import { EventParticipation } from '../event-participation';
-export class Event {
+import { BaseEntity } from './../../shared';
+
+export class Event implements BaseEntity {
     constructor(
         public id?: number,
         public author?: string,
@@ -10,7 +11,7 @@ export class Event {
         public allDay?: boolean,
         public timezone?: string,
         public description?: string,
-        public eventPatricipations?: EventParticipation,
+        public eventPatricipations?: BaseEntity[],
     ) {
         this.allDay = false;
     }

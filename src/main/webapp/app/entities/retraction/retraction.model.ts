@@ -1,3 +1,4 @@
+import { BaseEntity } from './../../shared';
 
 const enum Type {
     'ACCOUNTDELETION',
@@ -19,9 +20,9 @@ const enum Type {
     'RESHARE',
     'RETRACTION',
     'STATUSMESSAGE'
+}
 
-};
-export class Retraction {
+export class Retraction implements BaseEntity {
     constructor(
         public id?: number,
         public author?: string,

@@ -146,7 +146,6 @@ repositories {
 }
 
 dependencies {
-    compile "cglib:cglib:3.2.5"
     compile "io.github.jhipster:jhipster:${jhipster_server_version}"
     compile "io.dropwizard.metrics:metrics-core:${dropwizard_metrics_version}"
     compile "io.dropwizard.metrics:metrics-jcache:${dropwizard_metrics_version}"
@@ -163,6 +162,7 @@ dependencies {
     compile "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5"
     compile "com.fasterxml.jackson.core:jackson-annotations"
     compile "com.fasterxml.jackson.core:jackson-databind"
+    compile "com.fasterxml.jackson.module:jackson-module-afterburner"
     compile ("com.ryantenney.metrics:metrics-spring:${metrics_spring_version}")
     compile "javax.cache:cache-api"
     compile "org.hibernate:hibernate-core:${hibernate_version}"
@@ -172,7 +172,7 @@ dependencies {
     compile "javax.transaction:javax.transaction-api"
     compile "org.ehcache:ehcache"
     compile "org.hibernate:hibernate-jcache:${hibernate_version}"
-    compile "org.hibernate:hibernate-envers:${hibernate_version}"
+    compile "org.hibernate:hibernate-envers"
     compile "org.hibernate:hibernate-validator"
     compile ("org.liquibase:liquibase-core")
     compile "com.mattbertolini:liquibase-slf4j:${liquibase_slf4j_version}"
@@ -216,7 +216,9 @@ dependencies {
     testCompile "com.jayway.jsonpath:json-path"
     testCompile "info.cukes:cucumber-junit:${cucumber_version}"
     testCompile "info.cukes:cucumber-spring:${cucumber_version}"
-    testCompile "org.springframework.boot:spring-boot-starter-test"
+    testCompile ("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: 'com.vaadin.external.google', module: 'android-json'
+    }
     testCompile "org.springframework.security:spring-security-test"
     testCompile "org.springframework.boot:spring-boot-test"
     testCompile "org.assertj:assertj-core:${assertj_version}"
@@ -225,7 +227,9 @@ dependencies {
     testCompile "com.mattbertolini:liquibase-slf4j:${liquibase_slf4j_version}"
     testCompile "org.hamcrest:hamcrest-library"
     testCompile "io.gatling.highcharts:gatling-charts-highcharts:${gatling_version}"
-    optional "org.springframework.boot:spring-boot-configuration-processor:${spring_boot_version}"
+    optional ("org.springframework.boot:spring-boot-configuration-processor:${spring_boot_version}") {
+        exclude group: 'com.vaadin.external.google', module: 'android-json'
+    }
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 

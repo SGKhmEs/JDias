@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { AspectMembership } from './aspect-membership.model';
 import { AspectMembershipPopupService } from './aspect-membership-popup.service';
@@ -34,12 +34,12 @@ export class AspectMembershipDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private aspectMembershipService: AspectMembershipService,
         private aspectService: AspectService,
         private contactService: ContactService,
         private userAccountService: UserAccountService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -53,6 +53,7 @@ export class AspectMembershipDialogComponent implements OnInit {
         this.userAccountService.query()
             .subscribe((res: ResponseWrapper) => { this.useraccounts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }

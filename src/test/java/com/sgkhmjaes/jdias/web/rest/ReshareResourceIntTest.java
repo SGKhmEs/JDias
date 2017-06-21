@@ -75,9 +75,9 @@ public class ReshareResourceIntTest {
         MockitoAnnotations.initMocks(this);
         ReshareResource reshareResource = new ReshareResource(reshareService);
         this.restReshareMockMvc = MockMvcBuilders.standaloneSetup(reshareResource)
-                .setCustomArgumentResolvers(pageableArgumentResolver)
-                .setControllerAdvice(exceptionTranslator)
-                .setMessageConverters(jacksonMessageConverter).build();
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -88,8 +88,8 @@ public class ReshareResourceIntTest {
      */
     public static Reshare createEntity(EntityManager em) {
         Reshare reshare = new Reshare()
-                .rootAuthor(DEFAULT_ROOT_AUTHOR)
-                .rootGuid(DEFAULT_ROOT_GUID);
+            .rootAuthor(DEFAULT_ROOT_AUTHOR)
+            .rootGuid(DEFAULT_ROOT_GUID);
         return reshare;
     }
 
@@ -106,9 +106,9 @@ public class ReshareResourceIntTest {
 
         // Create the Reshare
         restReshareMockMvc.perform(post("/api/reshares")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(reshare)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(reshare)))
+            .andExpect(status().isCreated());
 
         // Validate the Reshare in the database
         List<Reshare> reshareList = reshareRepository.findAll();
@@ -132,9 +132,9 @@ public class ReshareResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restReshareMockMvc.perform(post("/api/reshares")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(reshare)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(reshare)))
+            .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Reshare> reshareList = reshareRepository.findAll();
@@ -149,11 +149,11 @@ public class ReshareResourceIntTest {
 
         // Get all the reshareList
         restReshareMockMvc.perform(get("/api/reshares?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(reshare.getId().intValue())))
-                .andExpect(jsonPath("$.[*].rootAuthor").value(hasItem(DEFAULT_ROOT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].rootGuid").value(hasItem(DEFAULT_ROOT_GUID.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(reshare.getId().intValue())))
+            .andExpect(jsonPath("$.[*].rootAuthor").value(hasItem(DEFAULT_ROOT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].rootGuid").value(hasItem(DEFAULT_ROOT_GUID.toString())));
     }
 
     @Test
@@ -164,11 +164,11 @@ public class ReshareResourceIntTest {
 
         // Get the reshare
         restReshareMockMvc.perform(get("/api/reshares/{id}", reshare.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id").value(reshare.getId().intValue()))
-                .andExpect(jsonPath("$.rootAuthor").value(DEFAULT_ROOT_AUTHOR.toString()))
-                .andExpect(jsonPath("$.rootGuid").value(DEFAULT_ROOT_GUID.toString()));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(reshare.getId().intValue()))
+            .andExpect(jsonPath("$.rootAuthor").value(DEFAULT_ROOT_AUTHOR.toString()))
+            .andExpect(jsonPath("$.rootGuid").value(DEFAULT_ROOT_GUID.toString()));
     }
 
     @Test
@@ -176,7 +176,7 @@ public class ReshareResourceIntTest {
     public void getNonExistingReshare() throws Exception {
         // Get the reshare
         restReshareMockMvc.perform(get("/api/reshares/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -190,13 +190,13 @@ public class ReshareResourceIntTest {
         // Update the reshare
         Reshare updatedReshare = reshareRepository.findOne(reshare.getId());
         updatedReshare
-                .rootAuthor(UPDATED_ROOT_AUTHOR)
-                .rootGuid(UPDATED_ROOT_GUID);
+            .rootAuthor(UPDATED_ROOT_AUTHOR)
+            .rootGuid(UPDATED_ROOT_GUID);
 
         restReshareMockMvc.perform(put("/api/reshares")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedReshare)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedReshare)))
+            .andExpect(status().isOk());
 
         // Validate the Reshare in the database
         List<Reshare> reshareList = reshareRepository.findAll();
@@ -216,11 +216,12 @@ public class ReshareResourceIntTest {
         int databaseSizeBeforeUpdate = reshareRepository.findAll().size();
 
         // Create the Reshare
+
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restReshareMockMvc.perform(put("/api/reshares")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(reshare)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(reshare)))
+            .andExpect(status().isCreated());
 
         // Validate the Reshare in the database
         List<Reshare> reshareList = reshareRepository.findAll();
@@ -237,8 +238,8 @@ public class ReshareResourceIntTest {
 
         // Get the reshare
         restReshareMockMvc.perform(delete("/api/reshares/{id}", reshare.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean reshareExistsInEs = reshareSearchRepository.exists(reshare.getId());
@@ -257,11 +258,11 @@ public class ReshareResourceIntTest {
 
         // Search the reshare
         restReshareMockMvc.perform(get("/api/_search/reshares?query=id:" + reshare.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(reshare.getId().intValue())))
-                .andExpect(jsonPath("$.[*].rootAuthor").value(hasItem(DEFAULT_ROOT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].rootGuid").value(hasItem(DEFAULT_ROOT_GUID.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(reshare.getId().intValue())))
+            .andExpect(jsonPath("$.[*].rootAuthor").value(hasItem(DEFAULT_ROOT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].rootGuid").value(hasItem(DEFAULT_ROOT_GUID.toString())));
     }
 
     @Test
