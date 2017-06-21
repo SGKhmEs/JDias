@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.sgkhmjaes.jdias.domain.enumeration.Type;
+import com.sgkhmjaes.jdias.service.impl.LikeDTOServiceImpl;
 
 /**
  * Test class for the LikeResource REST controller.
@@ -67,6 +68,9 @@ public class LikeResourceIntTest {
 
     @Autowired
     private LikeService likeService;
+    
+    @Autowired
+    private LikeDTOServiceImpl likeDTOServiceImpl;
 
     @Autowired
     private LikeSearchRepository likeSearchRepository;
@@ -90,7 +94,7 @@ public class LikeResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        LikeResource likeResource = new LikeResource(likeService);
+        LikeResource likeResource = new LikeResource(likeService, likeDTOServiceImpl);
         this.restLikeMockMvc = MockMvcBuilders.standaloneSetup(likeResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setControllerAdvice(exceptionTranslator)
