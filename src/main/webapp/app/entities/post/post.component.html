@@ -573,16 +573,16 @@
 
                     </div>
                     <div class="stream" id="main_stream">
-                        <div>
+                        <div *ngFor="let post of posts ;trackBy: trackId">
 
                             <div class="stream-element loaded">
                                 <div class="media">
-                                    <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
+                                    <a routeLink="['/profile',post.person.id]"
                                        class="img ">
                                         <img
                                             src="/context/images/default-avatar.png"
                                             class="small avatar img-responsive center-block"
-                                            title="brownjone@joindiaspora.com" alt="brownjone@joindiaspora.com">
+                                            title="{{post.author}}" alt="{{post.author}}">
                                     </a>
 
                                     <div class="bd">
@@ -598,10 +598,10 @@
                                     </div>
 
                                     <div>
-                                        <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
-                                           class="author-name ">brownjone@joindiaspora.com</a>
+                                        <a routeLink="['/profile',post.person.id]"
+                                           class="author-name ">{{post.author}}</a>
                                         <span class="details gray">
-                                                <a href="https://joindiaspora.com/posts/9467111">
+                                                <a routeLink="['/post',post.id]">
                                                     <time class="timeago" data-original-title="16.06.2017, 10:02:31"
                                                           datetime="2017-06-16T07:02:31.000Z">a day ago</time>
                                                 </a>
@@ -613,7 +613,7 @@
                                     </div>
 
                                     <div class="post-content">
-                                        <div data-template="status-message">
+                                        <div >
                                             <div class="nsfw-shield">
                                                 <strong>#NSFW</strong>
 
@@ -640,24 +640,7 @@
 
                                         <div class="collapsible nsfw-hidden">
                                             <div class="markdown-content">
-                                                <p>Hi<a
-                                                    href="https://joindiaspora.com/tags/%D0%BD%D0%BE%D0%B2%D0%B8%D1%87%D0%BE%D0%BA"
-                                                    class="tag">#newUser</a>.Interesting
-                                                    href="https://joindiaspora.com/tags/angular2"
-                                                    class="tag">#angular2</a>,
-                                                    <a href="https://joindiaspora.com/tags/angular2_forms"
-                                                       class="tag">#angular2_forms</a>, <a
-                                                        href="https://joindiaspora.com/tags/angular4" class="tag">#angular4</a>,
-                                                    <a href="https://joindiaspora.com/tags/angularcli" class="tag">#angularcli</a>,
-                                                    <a href="https://joindiaspora.com/tags/java"
-                                                       class="tag">#java</a>, <a
-                                                        href="https://joindiaspora.com/tags/java-"
-                                                        class="tag">#java-</a>,
-                                                    <a href="https://joindiaspora.com/tags/java-8"
-                                                       class="tag">#java-8</a>
-                                                    и <a href="https://joindiaspora.com/tags/java-9"
-                                                         class="tag">#java-9</a>.
-                                                </p>
+                                                <p>{{post.guid}}</p>
 
                                             </div>
                                             <div class="oembed">
@@ -667,7 +650,7 @@
                                                 <div></div>
                                             </div>
                                             <div class="poll">
-                                                <div data-template="poll"></div>
+                                                <div></div>
                                             </div>
                                         </div>
                                     </div>
@@ -739,6 +722,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
                             <div class="stream-element loaded">
                                 <div class="media">
                                     <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
@@ -807,7 +791,7 @@
                                                 <p>Hi<a
                                                     href="https://joindiaspora.com/tags/%D0%BD%D0%BE%D0%B2%D0%B8%D1%87%D0%BE%D0%BA"
                                                     class="tag">#newUser</a>.Interesting
-                                                    href="https://joindiaspora.com/tags/angular2"
+                                                    <a href="https://joindiaspora.com/tags/angular2"
                                                     class="tag">#angular2</a>,
                                                     <a href="https://joindiaspora.com/tags/angular2_forms"
                                                        class="tag">#angular2_forms</a>, <a
@@ -895,7 +879,7 @@
                                                                   required="" placeholder="Comment"
                                                                   style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;"></textarea>
                                                     <div class="submit_button">
-                                                        <input class="btn btn-primary" id="comment_submit_94671411"
+                                                        <input class="btn btn-primary" id="comment_submit_946771411"
                                                                name="commit" type="submit" value="Comment">
                                                     </div>
                                                 </form>
@@ -904,335 +888,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="stream-element loaded">
-                                <div class="media">
-                                    <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
-                                       class="img ">
-                                        <img
-                                            src="/context/images/default-avatar.png"
-                                            class="small avatar img-responsive center-block"
-                                            title="brownjone@joindiaspora.com" alt="brownjone@joindiaspora.com">
-                                    </a>
 
-                                    <div class="bd">
-                                        <div class="post-controls">
-                                            <div class="control-icons">
-                                                <a href="https://joindiaspora.com/stream#" rel="nofollow"
-                                                   class="delete remove_post" title="" data-original-title="Delete">
-                                                    <i class="entypo-trash"></i>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
-                                           class="author-name ">brownjone@joindiaspora.com</a>
-                                        <span class="details gray">
-                                                <a href="https://joindiaspora.com/posts/9467111">
-                                                    <time class="timeago" data-original-title="16.06.2017, 10:02:31"
-                                                          datetime="2017-06-16T07:02:31.000Z">a day ago</time>
-                                                </a>
-                                                <a href="https://joindiaspora.com/posts/b0d1ce00348f0135f6480242ac110007"
-                                                   class="permalink" title="" data-original-title="Permalink">
-                                                    <i class="entypo-link"></i>
-                                                </a>
-                                            </span>
-                                    </div>
-
-                                    <div class="post-content">
-                                        <div data-template="status-message">
-                                            <div class="nsfw-shield">
-                                                <strong>#NSFW</strong>
-
-                                                <a href="https://joindiaspora.com/stream#" class="show_nsfw_post">
-                                                    Show post
-                                                </a>
-
-                                                <a href="https://joindiaspora.com/stream#"
-                                                   class="toggle_nsfw_state">
-                                                    Show all
-                                                </a>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="nsfw-off">
-                                            <strong>#NSFW</strong>
-
-                                            <a href="https://joindiaspora.com/stream#" class="toggle_nsfw_state">
-                                                Hide #nsfw posts
-                                            </a>
-                                        </div>
-
-
-                                        <div class="collapsible nsfw-hidden">
-                                            <div class="markdown-content">
-                                                <p>Hi<a
-                                                    href="https://joindiaspora.com/tags/%D0%BD%D0%BE%D0%B2%D0%B8%D1%87%D0%BE%D0%BA"
-                                                    class="tag">#newUser</a>.Interesting
-                                                    href="https://joindiaspora.com/tags/angular2"
-                                                    class="tag">#angular2</a>,
-                                                    <a href="https://joindiaspora.com/tags/angular2_forms"
-                                                       class="tag">#angular2_forms</a>, <a
-                                                        href="https://joindiaspora.com/tags/angular4" class="tag">#angular4</a>,
-                                                    <a href="https://joindiaspora.com/tags/angularcli" class="tag">#angularcli</a>,
-                                                    <a href="https://joindiaspora.com/tags/java"
-                                                       class="tag">#java</a>, <a
-                                                        href="https://joindiaspora.com/tags/java-"
-                                                        class="tag">#java-</a>,
-                                                    <a href="https://joindiaspora.com/tags/java-8"
-                                                       class="tag">#java-8</a>
-                                                    и <a href="https://joindiaspora.com/tags/java-9"
-                                                         class="tag">#java-9</a>.
-                                                </p>
-
-                                            </div>
-                                            <div class="oembed">
-                                                <div></div>
-                                            </div>
-                                            <div class="opengraph">
-                                                <div></div>
-                                            </div>
-                                            <div class="poll">
-                                                <div data-template="poll"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="status-message-location nsfw-hidden">
-                                    <div></div>
-                                </div>
-
-                                <div class="feedback nsfw-hidden">
-                                    <div class="info"><span class="post_scope gray" data-original-title="" title="">
-                                            Public</span>
-                                        <a href="https://joindiaspora.com/stream#" class="like"
-                                           rel="nofollow">Like</a>
-                                        <a href="https://joindiaspora.com/stream#" class="focus_comment_textarea"
-                                           rel="nofollow">Comment</a>
-                                    </div>
-                                </div>
-                                <div class="likes nsfw-hidden">
-                                    <div></div>
-                                </div>
-                                <div class="reshares nsfw-hidden">
-                                    <div data-template="reshares-info"></div>
-                                </div>
-                                <div class="comments nsfw-hidden">
-                                    <div class="comment_stream">
-                                        <div class="show_comments comment  hidden ">
-                                            <div class="media">
-                                                <a href="https://joindiaspora.com/posts/9467111#comments"
-                                                   class="toggle_post_comments">
-                                                    Show 3 more comments
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="loading-comments comment text-center hidden">
-                                            <div class="media">
-                                                <div class="loader">
-                                                    <div class="spinner"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="comments"></div>
-
-                                        <div class="comment media new-comment-form-wrapper  hidden ">
-                                            <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
-                                               class="img">
-                                                <img
-                                                    src="/context/images/default-avatar.png"
-                                                    class="small avatar img-responsive center-block"
-                                                    title="brownjone@joindiaspora.com"
-                                                    alt="brownjone@joindiaspora.com">
-                                            </a>
-
-                                            <div class="bd">
-                                                <form accept-charset="UTF-8"
-                                                      action="https://joindiaspora.com/posts/9467111/comments"
-                                                      class="new_comment" id="new_comment_on_94671311" method="post">
-                                                        <textarea class="comment_box form-control"
-                                                                  id="comment_text_on_94671811" name="text" rows="1"
-                                                                  required="" placeholder="Comment"
-                                                                  style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;"></textarea>
-                                                    <div class="submit_button">
-                                                        <input class="btn btn-primary" id="comment_submit_94687111"
-                                                               name="commit" type="submit" value="Comment">
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="stream-element loaded">
-                                <div class="media">
-                                    <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
-                                       class="img ">
-                                        <img
-                                            src="/context/images/default-avatar.png"
-                                            class="small avatar img-responsive center-block"
-                                            title="brownjone@joindiaspora.com" alt="brownjone@joindiaspora.com">
-                                    </a>
-
-                                    <div class="bd">
-                                        <div class="post-controls">
-                                            <div class="control-icons">
-                                                <a href="https://joindiaspora.com/stream#" rel="nofollow"
-                                                   class="delete remove_post" title="" data-original-title="Delete">
-                                                    <i class="entypo-trash"></i>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
-                                           class="author-name ">brownjone@joindiaspora.com</a>
-                                        <span class="details gray">
-                                                <a href="https://joindiaspora.com/posts/9467111">
-                                                    <time class="timeago" data-original-title="16.06.2017, 10:02:31"
-                                                          datetime="2017-06-16T07:02:31.000Z">a day ago</time>
-                                                </a>
-                                                <a href="https://joindiaspora.com/posts/b0d1ce00348f0135f6480242ac110007"
-                                                   class="permalink" title="" data-original-title="Permalink">
-                                                    <i class="entypo-link"></i>
-                                                </a>
-                                            </span>
-                                    </div>
-
-                                    <div class="post-content">
-                                        <div data-template="status-message">
-                                            <div class="nsfw-shield">
-                                                <strong>#NSFW</strong>
-
-                                                <a href="https://joindiaspora.com/stream#" class="show_nsfw_post">
-                                                    Show post
-                                                </a>
-
-                                                <a href="https://joindiaspora.com/stream#"
-                                                   class="toggle_nsfw_state">
-                                                    Show all
-                                                </a>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="nsfw-off">
-                                            <strong>#NSFW</strong>
-
-                                            <a href="https://joindiaspora.com/stream#" class="toggle_nsfw_state">
-                                                Hide #nsfw posts
-                                            </a>
-                                        </div>
-
-
-                                        <div class="collapsible nsfw-hidden">
-                                            <div class="markdown-content">
-                                                <p>Hi<a
-                                                    href="https://joindiaspora.com/tags/%D0%BD%D0%BE%D0%B2%D0%B8%D1%87%D0%BE%D0%BA"
-                                                    class="tag">#newUser</a>.Interesting
-                                                    href="https://joindiaspora.com/tags/angular2"
-                                                    class="tag">#angular2</a>,
-                                                    <a href="https://joindiaspora.com/tags/angular2_forms"
-                                                       class="tag">#angular2_forms</a>, <a
-                                                        href="https://joindiaspora.com/tags/angular4" class="tag">#angular4</a>,
-                                                    <a href="https://joindiaspora.com/tags/angularcli" class="tag">#angularcli</a>,
-                                                    <a href="https://joindiaspora.com/tags/java"
-                                                       class="tag">#java</a>, <a
-                                                        href="https://joindiaspora.com/tags/java-"
-                                                        class="tag">#java-</a>,
-                                                    <a href="https://joindiaspora.com/tags/java-8"
-                                                       class="tag">#java-8</a>
-                                                    и <a href="https://joindiaspora.com/tags/java-9"
-                                                         class="tag">#java-9</a>.
-                                                </p>
-
-                                            </div>
-                                            <div class="oembed">
-                                                <div></div>
-                                            </div>
-                                            <div class="opengraph">
-                                                <div></div>
-                                            </div>
-                                            <div class="poll">
-                                                <div data-template="poll"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="status-message-location nsfw-hidden">
-                                    <div></div>
-                                </div>
-
-                                <div class="feedback nsfw-hidden">
-                                    <div class="info"><span class="post_scope gray" data-original-title="" title="">
-                                            Public</span>
-                                        <a href="https://joindiaspora.com/stream#" class="like"
-                                           rel="nofollow">Like</a>
-                                        <a href="https://joindiaspora.com/stream#" class="focus_comment_textarea"
-                                           rel="nofollow">Comment</a>
-                                    </div>
-                                </div>
-                                <div class="likes nsfw-hidden">
-                                    <div></div>
-                                </div>
-                                <div class="reshares nsfw-hidden">
-                                    <div data-template="reshares-info"></div>
-                                </div>
-                                <div class="comments nsfw-hidden">
-                                    <div class="comment_stream">
-                                        <div class="show_comments comment  hidden ">
-                                            <div class="media">
-                                                <a href="https://joindiaspora.com/posts/9467111#comments"
-                                                   class="toggle_post_comments">
-                                                    Show 3 more comments
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="loading-comments comment text-center hidden">
-                                            <div class="media">
-                                                <div class="loader">
-                                                    <div class="spinner"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="comments"></div>
-
-                                        <div class="comment media new-comment-form-wrapper  hidden ">
-                                            <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
-                                               class="img">
-                                                <img
-                                                    src="/context/images/default-avatar.png"
-                                                    class="small avatar img-responsive center-block"
-                                                    title="brownjone@joindiaspora.com"
-                                                    alt="brownjone@joindiaspora.com">
-                                            </a>
-
-                                            <div class="bd">
-                                                <form accept-charset="UTF-8"
-                                                      action="https://joindiaspora.com/posts/94678111/comments"
-                                                      class="new_comment" id="new_comment_on_94677111" method="post">
-                                                        <textarea class="comment_box form-control"
-                                                                  id="comment_text_on_94627111" name="text" rows="1"
-                                                                  required="" placeholder="Comment"
-                                                                  style="overflow-x: hidden; word-wrap: break-word; overflow-y: visible;"></textarea>
-                                                    <div class="submit_button">
-                                                        <input class="btn btn-primary" id="comment_submit_94671411"
-                                                               name="commit" type="submit" value="Comment">
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div id="paginate">
                         <div class="loader hidden">
@@ -1273,11 +929,12 @@
     </div>
 </div>
 
-<div  id="flash-container">
+<!--comment by traster-->
+<!--<div  id="flash-container">
     <div class="flash-body expose">
         <div class="flash-message message alert alert-success" role="alert">Signed in successfully.</div>
     </div>
-</div>
+</div>-->
 
 
 <div id="cboxOverlay" style="display: none;"></div>
@@ -1404,7 +1061,7 @@
         </div>
     </div>
     <div id="jsxc_toggleRoster"></div>
-    <p>No connection ! Reconnect</a>
+    <p><a>No connection ! Reconnect</a>
     </p>
 </div>
 
