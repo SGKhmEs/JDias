@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class MessageServiceImpl implements MessageService {
+public class MessageServiceImpl implements MessageService{
 
     private final Logger log = LoggerFactory.getLogger(MessageServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class MessageServiceImpl implements MessageService {
     }
 
     /**
-     * Get all the messages.
+     *  Get all the messages.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class MessageServiceImpl implements MessageService {
     }
 
     /**
-     * Get one message by id.
+     *  Get one message by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class MessageServiceImpl implements MessageService {
     }
 
     /**
-     * Delete the message by id.
+     *  Delete the  message by id.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class MessageServiceImpl implements MessageService {
     /**
      * Search for the message corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     *  @param query the query of the search
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Message> search(String query) {
         log.debug("Request to search Messages for query {}", query);
         return StreamSupport
-                .stream(messageSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .stream(messageSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

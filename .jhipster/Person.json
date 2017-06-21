@@ -2,12 +2,6 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipName": "conversation",
-            "otherEntityName": "conversation",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
             "relationshipType": "one-to-one",
             "relationshipName": "profile",
             "otherEntityName": "profile",
@@ -58,6 +52,19 @@
             "relationshipName": "events",
             "otherEntityName": "eventParticipation",
             "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipName": "message",
+            "otherEntityName": "message",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipName": "conversation",
+            "otherEntityName": "conversation",
+            "relationshipType": "many-to-many",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "participants"
         }
     ],
     "fields": [
@@ -95,8 +102,8 @@
         }
     ],
     "changelogDate": "20170527190341",
-    "entityTableName": "person",
     "dto": "no",
-    "pagination": "no",
-    "service": "serviceImpl"
+    "service": "serviceImpl",
+    "entityTableName": "person",
+    "pagination": "no"
 }

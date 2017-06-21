@@ -3,21 +3,17 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "participants",
-            "otherEntityName": "person",
-            "otherEntityRelationshipName": "conversation"
-        },
-        {
-            "relationshipType": "one-to-many",
             "relationshipName": "messages",
             "otherEntityName": "message",
             "otherEntityRelationshipName": "conversation"
         },
         {
-            "relationshipName": "userAccount",
-            "otherEntityName": "userAccount",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "relationshipName": "participants",
+            "otherEntityName": "person",
+            "relationshipType": "many-to-many",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "conversation"
         }
     ],
     "fields": [
@@ -40,11 +36,15 @@
         {
             "fieldName": "message",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "updatedAt",
+            "fieldType": "ZonedDateTime"
         }
     ],
     "changelogDate": "20170527190321",
-    "entityTableName": "conversation",
     "dto": "no",
-    "pagination": "no",
-    "service": "serviceImpl"
+    "service": "serviceImpl",
+    "entityTableName": "conversation",
+    "pagination": "no"
 }

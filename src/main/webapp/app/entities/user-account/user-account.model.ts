@@ -1,6 +1,5 @@
 import { User } from '../../shared';
 import { Person } from '../person';
-import { Conversation } from '../conversation';
 import { AspectMembership } from '../aspect-membership';
 import { TagFollowing } from '../tag-following';
 export class UserAccount {
@@ -35,7 +34,6 @@ export class UserAccount {
         public postDefaultPublic?: boolean,
         public user?: User,
         public person?: Person,
-        public conversations?: Conversation,
         public aspectmemberships?: AspectMembership,
         public tagfollowings?: TagFollowing,
     ) {

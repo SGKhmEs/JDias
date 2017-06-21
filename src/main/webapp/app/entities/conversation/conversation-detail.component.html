@@ -24,11 +24,15 @@
         <dd>
             <span>{{conversation.message}}</span>
         </dd>
-        <dt><span jhiTranslate="jDiasApp.conversation.userAccount">User Account</span></dt>
+        <dt><span jhiTranslate="jDiasApp.conversation.updatedAt">Updated At</span></dt>
         <dd>
-            <div *ngIf="conversation.userAccount">
-                <a [routerLink]="['/user-account', conversation.userAccount?.id]">{{conversation.userAccount?.id}}</a>
-            </div>
+            <span>{{conversation.updatedAt | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.conversation.participants">Participants</span></dt>
+        <dd>
+            <span *ngFor="let participants of conversation.participants; let last = last">
+                <a [routerLink]="['/person', participants?.id ]">{{participants.id}}</a>{{last ? '' : ', '}}
+            </span>
         </dd>
     </dl>
 

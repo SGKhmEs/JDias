@@ -1,6 +1,5 @@
-import { Person } from '../person';
 import { Message } from '../message';
-import { UserAccount } from '../user-account';
+import { Person } from '../person';
 export class Conversation {
     constructor(
         public id?: number,
@@ -9,9 +8,9 @@ export class Conversation {
         public subject?: string,
         public createdAt?: any,
         public message?: string,
-        public participants?: Person,
+        public updatedAt?: any,
         public messages?: Message,
-        public userAccount?: UserAccount,
+        public participants?: Person,
     ) {
     }
 }

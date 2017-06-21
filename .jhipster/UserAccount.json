@@ -19,12 +19,6 @@
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "conversations",
-            "otherEntityName": "conversation",
-            "otherEntityRelationshipName": "userAccount"
-        },
-        {
-            "relationshipType": "one-to-many",
             "relationshipName": "aspectmemberships",
             "otherEntityName": "aspectMembership",
             "otherEntityRelationshipName": "userAccount"
@@ -147,8 +141,8 @@
         }
     ],
     "changelogDate": "20170527190340",
-    "entityTableName": "user_account",
     "dto": "no",
-    "pagination": "no",
-    "service": "serviceImpl"
+    "service": "serviceImpl",
+    "entityTableName": "user_account",
+    "pagination": "no"
 }

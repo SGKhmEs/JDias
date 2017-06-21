@@ -130,8 +130,7 @@
             </column>
             <column name="user_id" type="bigint">
                 <constraints unique="true" nullable="true" />
-            </column>            
-            <column name="person_id" type="bigint">
+            </column>            <column name="person_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->

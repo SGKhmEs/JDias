@@ -67,12 +67,16 @@ export class ConversationService {
     private convertItemFromServer(entity: any) {
         entity.createdAt = this.dateUtils
             .convertLocalDateFromServer(entity.createdAt);
+        entity.updatedAt = this.dateUtils
+            .convertDateTimeFromServer(entity.updatedAt);
     }
 
     private convert(conversation: Conversation): Conversation {
         const copy: Conversation = Object.assign({}, conversation);
         copy.createdAt = this.dateUtils
             .convertLocalDateToServer(conversation.createdAt);
+
+        copy.updatedAt = this.dateUtils.toDate(conversation.updatedAt);
         return copy;
     }
 }

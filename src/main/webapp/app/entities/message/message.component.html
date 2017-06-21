@@ -36,6 +36,7 @@
             <th><span jhiTranslate="jDiasApp.message.text">Text</span></th>
             <th><span jhiTranslate="jDiasApp.message.createdAt">Created At</span></th>
             <th><span jhiTranslate="jDiasApp.message.conversation">Conversation</span></th>
+            <th><span jhiTranslate="jDiasApp.message.person">Person</span></th>
             <th></th>
             </tr>
             </thead>
@@ -50,6 +51,11 @@
                 <td>
                     <div *ngIf="message.conversation">
                         <a [routerLink]="['../conversation', message.conversation?.id ]" >{{message.conversation?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="message.person">
+                        <a [routerLink]="['../person', message.person?.id ]" >{{message.person?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

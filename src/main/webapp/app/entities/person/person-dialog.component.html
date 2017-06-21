@@ -70,13 +70,6 @@
         </div>
 
         <div class="form-group">
-            <label jhiTranslate="jDiasApp.person.conversation" for="field_conversation">Conversation</label>
-            <select class="form-control" id="field_conversation" name="conversation" [(ngModel)]="person.conversation" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="conversationOption.id === person.conversation?.id ? person.conversation : conversationOption" *ngFor="let conversationOption of conversations; trackBy: trackConversationById">{{conversationOption.id}}</option>
-            </select>
-        </div>
-        <div class="form-group">
             <label jhiTranslate="jDiasApp.person.profile" for="field_profile">Profile</label>
             <select class="form-control" id="field_profile" name="profile" [(ngModel)]="person.profile">
                 <option [ngValue]="null"></option>

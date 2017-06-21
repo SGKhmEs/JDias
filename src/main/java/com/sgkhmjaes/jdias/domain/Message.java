@@ -43,6 +43,9 @@ public class Message implements Serializable {
     @ManyToOne
     private Conversation conversation;
 
+    @ManyToOne
+    private Person person;
+
     public Long getId() {
         return id;
     }
@@ -129,6 +132,19 @@ public class Message implements Serializable {
         this.conversation = conversation;
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
+    public Message person(Person person) {
+        this.person = person;
+        return this;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -151,13 +167,13 @@ public class Message implements Serializable {
 
     @Override
     public String toString() {
-        return "Message{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", guid='" + getGuid() + "'"
-                + ", conversationGuid='" + getConversationGuid() + "'"
-                + ", text='" + getText() + "'"
-                + ", createdAt='" + getCreatedAt() + "'"
-                + "}";
+        return "Message{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", guid='" + getGuid() + "'" +
+            ", conversationGuid='" + getConversationGuid() + "'" +
+            ", text='" + getText() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            "}";
     }
 }

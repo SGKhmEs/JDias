@@ -46,12 +46,18 @@
                 [(ngModel)]="conversation.message"
              />
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.conversation.updatedAt" for="field_updatedAt">Updated At</label>
+            <div class="d-flex">
+                <input id="field_updatedAt" type="datetime-local" class="form-control" name="updatedAt" [(ngModel)]="conversation.updatedAt"
+                  />
+            </div>
+        </div>
 
         <div class="form-group">
-            <label jhiTranslate="jDiasApp.conversation.userAccount" for="field_userAccount">User Account</label>
-            <select class="form-control" id="field_userAccount" name="userAccount" [(ngModel)]="conversation.userAccount" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="userAccountOption.id === conversation.userAccount?.id ? conversation.userAccount : userAccountOption" *ngFor="let userAccountOption of useraccounts; trackBy: trackUserAccountById">{{userAccountOption.id}}</option>
+            <label jhiTranslate="jDiasApp.conversation.participants" for="field_participants">Participants</label>
+            <select class="form-control" id="field_participants" multiple name="participants" [(ngModel)]="conversation.participants">
+                <option [ngValue]="getSelected(conversation.participants, personOption)" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.id}}</option>
             </select>
         </div>
     </div>

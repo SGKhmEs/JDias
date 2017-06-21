@@ -1,12 +1,14 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 import { Conversation } from './conversation.model';
 import { ConversationService } from './conversation.service';
 @Injectable()
 export class ConversationPopupService {
     private isOpen = false;
     constructor(
+        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private conversationService: ConversationService
@@ -28,6 +30,8 @@ export class ConversationPopupService {
                         day: conversation.createdAt.getDate()
                     };
                 }
+                conversation.updatedAt = this.datePipe
+                    .transform(conversation.updatedAt, 'yyyy-MM-ddThh:mm');
                 this.conversationModalRef(component, conversation);
             });
         } else {

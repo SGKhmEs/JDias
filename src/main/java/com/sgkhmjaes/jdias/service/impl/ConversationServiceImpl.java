@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class ConversationServiceImpl implements ConversationService {
+public class ConversationServiceImpl implements ConversationService{
 
     private final Logger log = LoggerFactory.getLogger(ConversationServiceImpl.class);
 
@@ -48,34 +48,34 @@ public class ConversationServiceImpl implements ConversationService {
     }
 
     /**
-     * Get all the conversations.
+     *  Get all the conversations.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Conversation> findAll() {
         log.debug("Request to get all Conversations");
-        return conversationRepository.findAll();
+        return conversationRepository.findAllWithEagerRelationships();
     }
 
     /**
-     * Get one conversation by id.
+     *  Get one conversation by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
     public Conversation findOne(Long id) {
         log.debug("Request to get Conversation : {}", id);
-        return conversationRepository.findOne(id);
+        return conversationRepository.findOneWithEagerRelationships(id);
     }
 
     /**
-     * Delete the conversation by id.
+     *  Delete the  conversation by id.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class ConversationServiceImpl implements ConversationService {
     /**
      * Search for the conversation corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     *  @param query the query of the search
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Conversation> search(String query) {
         log.debug("Request to search Conversations for query {}", query);
         return StreamSupport
-                .stream(conversationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .stream(conversationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

@@ -37,12 +37,10 @@ public class ConversationResource {
     }
 
     /**
-     * POST /conversations : Create a new conversation.
+     * POST  /conversations : Create a new conversation.
      *
      * @param conversation the conversation to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new conversation, or with status 400 (Bad Request) if the conversation
-     * has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new conversation, or with status 400 (Bad Request) if the conversation has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/conversations")
@@ -54,18 +52,17 @@ public class ConversationResource {
         }
         Conversation result = conversationService.save(conversation);
         return ResponseEntity.created(new URI("/api/conversations/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /conversations : Updates an existing conversation.
+     * PUT  /conversations : Updates an existing conversation.
      *
      * @param conversation the conversation to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * conversation, or with status 400 (Bad Request) if the conversation is not
-     * valid, or with status 500 (Internal Server Error) if the conversation
-     * couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated conversation,
+     * or with status 400 (Bad Request) if the conversation is not valid,
+     * or with status 500 (Internal Server Error) if the conversation couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/conversations")
@@ -77,15 +74,14 @@ public class ConversationResource {
         }
         Conversation result = conversationService.save(conversation);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, conversation.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, conversation.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /conversations : get all the conversations.
+     * GET  /conversations : get all the conversations.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of
-     * conversations in body
+     * @return the ResponseEntity with status 200 (OK) and the list of conversations in body
      */
     @GetMapping("/conversations")
     @Timed
@@ -95,11 +91,10 @@ public class ConversationResource {
     }
 
     /**
-     * GET /conversations/:id : get the "id" conversation.
+     * GET  /conversations/:id : get the "id" conversation.
      *
      * @param id the id of the conversation to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the
-     * conversation, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the conversation, or with status 404 (Not Found)
      */
     @GetMapping("/conversations/{id}")
     @Timed
@@ -110,7 +105,7 @@ public class ConversationResource {
     }
 
     /**
-     * DELETE /conversations/:id : delete the "id" conversation.
+     * DELETE  /conversations/:id : delete the "id" conversation.
      *
      * @param id the id of the conversation to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -124,8 +119,8 @@ public class ConversationResource {
     }
 
     /**
-     * SEARCH /_search/conversations?query=:query : search for the conversation
-     * corresponding to the query.
+     * SEARCH  /_search/conversations?query=:query : search for the conversation corresponding
+     * to the query.
      *
      * @param query the query of the conversation search
      * @return the result of the search

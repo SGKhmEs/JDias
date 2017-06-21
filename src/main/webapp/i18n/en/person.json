@@ -24,7 +24,6 @@
             "closedAccount": "Closed Account",
             "fetchStatus": "Fetch Status",
             "podId": "Pod Id",
-            "conversation": "Conversation",
             "profile": "Profile",
             "accountdeletion": "Accountdeletion",
             "contacts": "Contacts",
@@ -32,7 +31,9 @@
             "photos": "Photos",
             "comments": "Comments",
             "participations": "Participations",
-            "events": "Events"
+            "events": "Events",
+            "message": "Message",
+            "conversation": "Conversation"
         }
     }
 }

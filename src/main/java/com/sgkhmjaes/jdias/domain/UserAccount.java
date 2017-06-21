@@ -24,6 +24,8 @@ public class UserAccount implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @Column(name = "serialized_private_key")
@@ -114,11 +116,6 @@ public class UserAccount implements Serializable {
     @OneToOne
     @JoinColumn(unique = true)
     private Person person;
-
-    @OneToMany(mappedBy = "userAccount")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Conversation> conversations = new HashSet<>();
 
     @OneToMany(mappedBy = "userAccount")
     @JsonIgnore
@@ -515,31 +512,6 @@ public class UserAccount implements Serializable {
         this.person = person;
     }
 
-    public Set<Conversation> getConversations() {
-        return conversations;
-    }
-
-    public UserAccount conversations(Set<Conversation> conversations) {
-        this.conversations = conversations;
-        return this;
-    }
-
-    public UserAccount addConversations(Conversation conversation) {
-        this.conversations.add(conversation);
-        conversation.setUserAccount(this);
-        return this;
-    }
-
-    public UserAccount removeConversations(Conversation conversation) {
-        this.conversations.remove(conversation);
-        conversation.setUserAccount(null);
-        return this;
-    }
-
-    public void setConversations(Set<Conversation> conversations) {
-        this.conversations = conversations;
-    }
-
     public Set<AspectMembership> getAspectmemberships() {
         return aspectmemberships;
     }
@@ -612,35 +584,35 @@ public class UserAccount implements Serializable {
 
     @Override
     public String toString() {
-        return "UserAccount{"
-                + "id=" + getId()
-                + ", serializedPrivateKey='" + getSerializedPrivateKey() + "'"
-                + ", gettingStarted='" + isGettingStarted() + "'"
-                + ", disableMail='" + isDisableMail() + "'"
-                + ", language='" + getLanguage() + "'"
-                + ", rememberCreatedAt='" + getRememberCreatedAt() + "'"
-                + ", signInCount='" + getSignInCount() + "'"
-                + ", currentSignInAt='" + getCurrentSignInAt() + "'"
-                + ", lastSignInAt='" + getLastSignInAt() + "'"
-                + ", currentSignInIp='" + getCurrentSignInIp() + "'"
-                + ", lastSignInIp='" + getLastSignInIp() + "'"
-                + ", createdAt='" + getCreatedAt() + "'"
-                + ", updatedAt='" + getUpdatedAt() + "'"
-                + ", lockedAt='" + getLockedAt() + "'"
-                + ", showCommunitySpotlightInStream='" + isShowCommunitySpotlightInStream() + "'"
-                + ", autoFollowBack='" + isAutoFollowBack() + "'"
-                + ", autoFollowBackAspectId='" + getAutoFollowBackAspectId() + "'"
-                + ", hiddenShareables='" + getHiddenShareables() + "'"
-                + ", lastSeen='" + getLastSeen() + "'"
-                + ", exportE='" + getExportE() + "'"
-                + ", exportedAt='" + getExportedAt() + "'"
-                + ", exporting='" + isExporting() + "'"
-                + ", stripExif='" + isStripExif() + "'"
-                + ", exportedPhotosFile='" + getExportedPhotosFile() + "'"
-                + ", exportedPhotosAt='" + getExportedPhotosAt() + "'"
-                + ", exportingPhotos='" + isExportingPhotos() + "'"
-                + ", colorTheme='" + getColorTheme() + "'"
-                + ", postDefaultPublic='" + isPostDefaultPublic() + "'"
-                + "}";
+        return "UserAccount{" +
+            "id=" + getId() +
+            ", serializedPrivateKey='" + getSerializedPrivateKey() + "'" +
+            ", gettingStarted='" + isGettingStarted() + "'" +
+            ", disableMail='" + isDisableMail() + "'" +
+            ", language='" + getLanguage() + "'" +
+            ", rememberCreatedAt='" + getRememberCreatedAt() + "'" +
+            ", signInCount='" + getSignInCount() + "'" +
+            ", currentSignInAt='" + getCurrentSignInAt() + "'" +
+            ", lastSignInAt='" + getLastSignInAt() + "'" +
+            ", currentSignInIp='" + getCurrentSignInIp() + "'" +
+            ", lastSignInIp='" + getLastSignInIp() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
+            ", lockedAt='" + getLockedAt() + "'" +
+            ", showCommunitySpotlightInStream='" + isShowCommunitySpotlightInStream() + "'" +
+            ", autoFollowBack='" + isAutoFollowBack() + "'" +
+            ", autoFollowBackAspectId='" + getAutoFollowBackAspectId() + "'" +
+            ", hiddenShareables='" + getHiddenShareables() + "'" +
+            ", lastSeen='" + getLastSeen() + "'" +
+            ", exportE='" + getExportE() + "'" +
+            ", exportedAt='" + getExportedAt() + "'" +
+            ", exporting='" + isExporting() + "'" +
+            ", stripExif='" + isStripExif() + "'" +
+            ", exportedPhotosFile='" + getExportedPhotosFile() + "'" +
+            ", exportedPhotosAt='" + getExportedPhotosAt() + "'" +
+            ", exportingPhotos='" + isExportingPhotos() + "'" +
+            ", colorTheme='" + getColorTheme() + "'" +
+            ", postDefaultPublic='" + isPostDefaultPublic() + "'" +
+            "}";
     }
 }

@@ -37,12 +37,10 @@ public class MessageResource {
     }
 
     /**
-     * POST /messages : Create a new message.
+     * POST  /messages : Create a new message.
      *
      * @param message the message to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new message, or with status 400 (Bad Request) if the message has already
-     * an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new message, or with status 400 (Bad Request) if the message has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/messages")
@@ -54,17 +52,17 @@ public class MessageResource {
         }
         Message result = messageService.save(message);
         return ResponseEntity.created(new URI("/api/messages/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /messages : Updates an existing message.
+     * PUT  /messages : Updates an existing message.
      *
      * @param message the message to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * message, or with status 400 (Bad Request) if the message is not valid, or
-     * with status 500 (Internal Server Error) if the message couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated message,
+     * or with status 400 (Bad Request) if the message is not valid,
+     * or with status 500 (Internal Server Error) if the message couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/messages")
@@ -76,15 +74,14 @@ public class MessageResource {
         }
         Message result = messageService.save(message);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, message.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, message.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /messages : get all the messages.
+     * GET  /messages : get all the messages.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of messages
-     * in body
+     * @return the ResponseEntity with status 200 (OK) and the list of messages in body
      */
     @GetMapping("/messages")
     @Timed
@@ -94,11 +91,10 @@ public class MessageResource {
     }
 
     /**
-     * GET /messages/:id : get the "id" message.
+     * GET  /messages/:id : get the "id" message.
      *
      * @param id the id of the message to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the
-     * message, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the message, or with status 404 (Not Found)
      */
     @GetMapping("/messages/{id}")
     @Timed
@@ -109,7 +105,7 @@ public class MessageResource {
     }
 
     /**
-     * DELETE /messages/:id : delete the "id" message.
+     * DELETE  /messages/:id : delete the "id" message.
      *
      * @param id the id of the message to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -123,8 +119,8 @@ public class MessageResource {
     }
 
     /**
-     * SEARCH /_search/messages?query=:query : search for the message
-     * corresponding to the query.
+     * SEARCH  /_search/messages?query=:query : search for the message corresponding
+     * to the query.
      *
      * @param query the query of the message search
      * @return the result of the search

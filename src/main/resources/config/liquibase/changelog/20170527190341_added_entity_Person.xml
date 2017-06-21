@@ -52,14 +52,9 @@
             <column name="pod_id" type="integer">
                 <constraints nullable="true" />
             </column>
-
-            <column name="conversation_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="profile_id" type="bigint">
                 <constraints unique="true" nullable="true" />
-            </column>            
-            <column name="accountdeletion_id" type="bigint">
+            </column>            <column name="accountdeletion_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->

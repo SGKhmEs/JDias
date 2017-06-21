@@ -38,7 +38,6 @@
             <th><span jhiTranslate="jDiasApp.person.closedAccount">Closed Account</span></th>
             <th><span jhiTranslate="jDiasApp.person.fetchStatus">Fetch Status</span></th>
             <th><span jhiTranslate="jDiasApp.person.podId">Pod Id</span></th>
-            <th><span jhiTranslate="jDiasApp.person.conversation">Conversation</span></th>
             <th><span jhiTranslate="jDiasApp.person.profile">Profile</span></th>
             <th><span jhiTranslate="jDiasApp.person.accountdeletion">Accountdeletion</span></th>
             <th></th>
@@ -55,11 +54,6 @@
                 <td>{{person.closedAccount}}</td>
                 <td>{{person.fetchStatus}}</td>
                 <td>{{person.podId}}</td>
-                <td>
-                    <div *ngIf="person.conversation">
-                        <a [routerLink]="['../conversation', person.conversation?.id ]" >{{person.conversation?.id}}</a>
-                    </div>
-                </td>
                 <td>
                     <div *ngIf="person.profile">
                         <a [routerLink]="['../profile', person.profile?.id ]" >{{person.profile?.id}}</a>

@@ -6,6 +6,12 @@
             "otherEntityName": "conversation",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "person",
+            "otherEntityName": "person",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
         }
     ],
     "fields": [
@@ -31,8 +37,8 @@
         }
     ],
     "changelogDate": "20170527190326",
-    "entityTableName": "message",
     "dto": "no",
-    "pagination": "no",
-    "service": "serviceImpl"
+    "service": "serviceImpl",
+    "entityTableName": "message",
+    "pagination": "no"
 }

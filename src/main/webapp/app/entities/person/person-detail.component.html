@@ -36,12 +36,6 @@
         <dd>
             <span>{{person.podId}}</span>
         </dd>
-        <dt><span jhiTranslate="jDiasApp.person.conversation">Conversation</span></dt>
-        <dd>
-            <div *ngIf="person.conversation">
-                <a [routerLink]="['/conversation', person.conversation?.id]">{{person.conversation?.id}}</a>
-            </div>
-        </dd>
         <dt><span jhiTranslate="jDiasApp.person.profile">Profile</span></dt>
         <dd>
             <div *ngIf="person.profile">

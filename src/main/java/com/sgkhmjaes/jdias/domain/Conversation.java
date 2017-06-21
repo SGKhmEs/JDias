@@ -8,6 +8,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -43,18 +44,20 @@ public class Conversation implements Serializable {
     @Column(name = "message")
     private String message;
 
-    @OneToMany(mappedBy = "conversation")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Person> participants = new HashSet<>();
+    @Column(name = "updated_at")
+    private ZonedDateTime updatedAt;
 
     @OneToMany(mappedBy = "conversation")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Message> messages = new HashSet<>();
 
-    @ManyToOne
-    private UserAccount userAccount;
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "conversation_participants",
+               joinColumns = @JoinColumn(name="conversations_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="participants_id", referencedColumnName="id"))
+    private Set<Person> participants = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -129,29 +132,17 @@ public class Conversation implements Serializable {
         this.message = message;
     }
 
-    public Set<Person> getParticipants() {
-        return participants;
+    public ZonedDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
-    public Conversation participants(Set<Person> people) {
-        this.participants = people;
+    public Conversation updatedAt(ZonedDateTime updatedAt) {
+        this.updatedAt = updatedAt;
         return this;
     }
 
-    public Conversation addParticipants(Person person) {
-        this.participants.add(person);
-        person.setConversation(this);
-        return this;
-    }
-
-    public Conversation removeParticipants(Person person) {
-        this.participants.remove(person);
-        person.setConversation(null);
-        return this;
-    }
-
-    public void setParticipants(Set<Person> people) {
-        this.participants = people;
+    public void setUpdatedAt(ZonedDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Set<Message> getMessages() {
@@ -179,17 +170,29 @@ public class Conversation implements Serializable {
         this.messages = messages;
     }
 
-    public UserAccount getUserAccount() {
-        return userAccount;
+    public Set<Person> getParticipants() {
+        return participants;
     }
 
-    public Conversation userAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
+    public Conversation participants(Set<Person> people) {
+        this.participants = people;
         return this;
     }
 
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
+    public Conversation addParticipants(Person person) {
+        this.participants.add(person);
+        person.getConversations().add(this);
+        return this;
+    }
+
+    public Conversation removeParticipants(Person person) {
+        this.participants.remove(person);
+        person.getConversations().remove(this);
+        return this;
+    }
+
+    public void setParticipants(Set<Person> people) {
+        this.participants = people;
     }
 
     @Override
@@ -214,13 +217,14 @@ public class Conversation implements Serializable {
 
     @Override
     public String toString() {
-        return "Conversation{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", guid='" + getGuid() + "'"
-                + ", subject='" + getSubject() + "'"
-                + ", createdAt='" + getCreatedAt() + "'"
-                + ", message='" + getMessage() + "'"
-                + "}";
+        return "Conversation{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", guid='" + getGuid() + "'" +
+            ", subject='" + getSubject() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", message='" + getMessage() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
+            "}";
     }
 }

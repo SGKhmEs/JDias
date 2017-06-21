@@ -24,6 +24,8 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @Column(name = "guid")
@@ -49,9 +51,6 @@ public class Person implements Serializable {
 
     @Column(name = "pod_id")
     private Integer podId;
-
-    @ManyToOne
-    private Conversation conversation;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -90,6 +89,16 @@ public class Person implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<EventParticipation> events = new HashSet<>();
+
+    @OneToMany(mappedBy = "person")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Message> messages = new HashSet<>();
+
+    @ManyToMany(mappedBy = "participants")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Conversation> conversations = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -201,19 +210,6 @@ public class Person implements Serializable {
 
     public void setPodId(Integer podId) {
         this.podId = podId;
-    }
-
-    public Conversation getConversation() {
-        return conversation;
-    }
-
-    public Person conversation(Conversation conversation) {
-        this.conversation = conversation;
-        return this;
-    }
-
-    public void setConversation(Conversation conversation) {
-        this.conversation = conversation;
     }
 
     public Profile getProfile() {
@@ -392,6 +388,56 @@ public class Person implements Serializable {
         this.events = eventParticipations;
     }
 
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public Person messages(Set<Message> messages) {
+        this.messages = messages;
+        return this;
+    }
+
+    public Person addMessage(Message message) {
+        this.messages.add(message);
+        message.setPerson(this);
+        return this;
+    }
+
+    public Person removeMessage(Message message) {
+        this.messages.remove(message);
+        message.setPerson(null);
+        return this;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
+    }
+
+    public Set<Conversation> getConversations() {
+        return conversations;
+    }
+
+    public Person conversations(Set<Conversation> conversations) {
+        this.conversations = conversations;
+        return this;
+    }
+
+    public Person addConversation(Conversation conversation) {
+        this.conversations.add(conversation);
+        conversation.getParticipants().add(this);
+        return this;
+    }
+
+    public Person removeConversation(Conversation conversation) {
+        this.conversations.remove(conversation);
+        conversation.getParticipants().remove(this);
+        return this;
+    }
+
+    public void setConversations(Set<Conversation> conversations) {
+        this.conversations = conversations;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -414,16 +460,16 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "Person{"
-                + "id=" + getId()
-                + ", guid='" + getGuid() + "'"
-                + ", diasporaId='" + getDiasporaId() + "'"
-                + ", serializedPublicKey='" + getSerializedPublicKey() + "'"
-                + ", createdAt='" + getCreatedAt() + "'"
-                + ", updatedAt='" + getUpdatedAt() + "'"
-                + ", closedAccount='" + isClosedAccount() + "'"
-                + ", fetchStatus='" + getFetchStatus() + "'"
-                + ", podId='" + getPodId() + "'"
-                + "}";
+        return "Person{" +
+            "id=" + getId() +
+            ", guid='" + getGuid() + "'" +
+            ", diasporaId='" + getDiasporaId() + "'" +
+            ", serializedPublicKey='" + getSerializedPublicKey() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
+            ", closedAccount='" + isClosedAccount() + "'" +
+            ", fetchStatus='" + getFetchStatus() + "'" +
+            ", podId='" + getPodId() + "'" +
+            "}";
     }
 }

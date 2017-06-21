@@ -41,12 +41,24 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="user_account_id" type="bigint">
+            <column name="updated_at" type="timestamp">
                 <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <dropDefaultValue tableName="conversation" columnName="updated_at" columnDataType="datetime"/>
+        
+        <createTable tableName="conversation_participants">
+            <column name="participants_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="conversations_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="conversations_id, participants_id" tableName="conversation_participants"/>
         
     </changeSet>
 </databaseChangeLog>

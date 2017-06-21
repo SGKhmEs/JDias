@@ -9,7 +9,7 @@ import { EventManager, AlertService } from 'ng-jhipster';
 import { Conversation } from './conversation.model';
 import { ConversationPopupService } from './conversation-popup.service';
 import { ConversationService } from './conversation.service';
-import { UserAccount, UserAccountService } from '../user-account';
+import { Person, PersonService } from '../person';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -22,14 +22,14 @@ export class ConversationDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
-    useraccounts: UserAccount[];
+    people: Person[];
     createdAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: AlertService,
         private conversationService: ConversationService,
-        private userAccountService: UserAccountService,
+        private personService: PersonService,
         private eventManager: EventManager
     ) {
     }
@@ -37,8 +37,8 @@ export class ConversationDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.userAccountService.query()
-            .subscribe((res: ResponseWrapper) => { this.useraccounts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.personService.query()
+            .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
     clear() {
         this.activeModal.dismiss('cancel');
@@ -85,8 +85,19 @@ export class ConversationDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackUserAccountById(index: number, item: UserAccount) {
+    trackPersonById(index: number, item: Person) {
         return item.id;
+    }
+
+    getSelected(selectedVals: Array<any>, option: any) {
+        if (selectedVals) {
+            for (let i = 0; i < selectedVals.length; i++) {
+                if (option.id === selectedVals[i].id) {
+                    return selectedVals[i];
+                }
+            }
+        }
+        return option;
     }
 }
 
