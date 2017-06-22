@@ -58,9 +58,12 @@ public class PostDTOServiceImpl {
         
         AuthorDTO authorDTO = authorDTOServiceImpl.findOne(post.getPerson().getId());
         InteractionDTO interactionDTO = interactionDTOServiceImpl.findOneByPost(post.getId());
+        System.out.println("++++++++++" + interactionDTO);
         PostDTO postDTO = new PostDTO();
         StatusMessage statusMessage = statusMessageRepository.findOne(post.getId());
         try {
+            System.out.println("-----post" + post.getId() + "\n author-----------\n" + authorDTO.getId() + 
+                    "\n interaction \n" + interactionDTO + "\n stst\n" + statusMessage);
             postDTO.mappingToDTO(post, authorDTO, interactionDTO, statusMessage);
         } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
