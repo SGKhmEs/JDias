@@ -575,7 +575,7 @@
                         <div *ngFor="let post of posts ;trackBy: trackId">
                             <div class="stream-element loaded">
                                 <div class="media   ">
-                                    <a routeLink="['/profile',post.person?.id]"
+                                    <a [routerLink]="['/profile',post.person?.id]"
                                        class="img hovercardable">
                                         <img src="/content/images/default-avatar.png"
                                              class="small avatar img-responsive center-block" title="{{post.author}}"
@@ -607,16 +607,16 @@
                                         </div>
 
                                         <div>
-                                            <a routeLink="['/profile',post.person?.id]"
+                                            <a routerLink="['/profile',post.person?.id]"
                                                class="author-name hovercardable">{{post.author}}
                                             </a>
                                             <span class="details gray">-
-                                                <a href="https://joindiaspora.com/posts/9325058">
+                                                <a [routerLink]="['/post',post.id]">
                                                     <time class="timeago">
                                                     {{post.createdAt | date:'mediumDate' }} about a month ago
                                                     </time>
                                                 </a>
-                                                <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007"
+                                                <a [routerLink]="['/post',post.id]"
                                                    class="permalink" title="" data-original-title="Permalink">
                                                     <i class="entypo-link"></i>
                                                 </a>
@@ -925,7 +925,7 @@
 
                             <div class="stream-element loaded">
                                 <div class="media">
-                                    <a routeLink="['/profile',post.person?.id]"
+                                    <a [routerLink]="['/profile',post.person?.id]"
                                        class="img ">
                                         <img
                                             src="/context/images/default-avatar.png"
@@ -946,13 +946,13 @@
                                     </div>
 
                                     <div>
-                                        <a routeLink="['/profile',post.person?.id]"
+                                        <a [routerLink]="['/profile',post.person?.id]"
                                            class="author-name ">{{post.author}}</a>
                                         <span class="details gray">
-                                                <a routeLink="['/post',post.id]">
+                                                <a [routerLink]="['/post',post.id]">
                                                     <time class="timeago" >{{post.createdAt | date:'mediumDate' }} a day ago</time>
                                                 </a>
-                                                <a routeLink="['/post',post.id]"
+                                                <a [routerLink]="['/post',post.id]"
                                                    class="permalink" title="" data-original-title="Permalink">
                                                     <i class="entypo-link"></i>
                                                 </a>
@@ -1096,10 +1096,10 @@
                                     <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
                                        class="author-name ">brownjone@joindiaspora.com</a>
                                     <span class="details gray">
-                                                <a routeLink="['/post',post.id]">
+                                                <a routerLink="['/post',post.id]">
                                                     <time class="timeago" > {{post.createdAt | date:'mediumDate' }} a day ago</time>
                                                 </a>
-                                                <a routeLink="['/post',post.id]"
+                                                <a routerLink="['/post',post.id]"
                                                    class="permalink" title="" data-original-title="Permalink">
                                                     <i class="entypo-link"></i>
                                                 </a>
@@ -1272,10 +1272,10 @@
                                            class="author-name hovercardable">Star✯dust
                                         </a>
                                         <span class="details gray">-
-                                            <a routeLink="['/post',post.id]">
+                                            <a routerLink="['/post',post.id]">
                                                 <time class="timeago" >{{post.createdAt | date:'mediumDate' }} about a month ago</time>
                                             </a>
-                                            <a routeLink="['/post',post.id]"
+                                            <a routerLink="['/post',post.id]"
                                                class="permalink" title="" data-original-title="Permalink">
                                                 <i class="entypo-link"></i>
                                             </a>
