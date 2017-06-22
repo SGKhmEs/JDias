@@ -1,6 +1,13 @@
 {
     "fluentMethods": true,
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "post",
+            "otherEntityName": "post",
+            "otherEntityRelationshipName": "reshare"
+        }
+    ],
     "fields": [
         {
             "fieldName": "rootAuthor",
@@ -15,5 +22,5 @@
     "entityTableName": "reshare",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

@@ -1,12 +1,12 @@
-import { Conversation } from '../conversation';
 import { Profile } from '../profile';
 import { AccountDeletion } from '../account-deletion';
-import { Contact } from '../contact';
-import { Post } from '../post';
-import { Photo } from '../photo';
 import { Comment } from '../comment';
-import { Participation } from '../participation';
+import { Contact } from '../contact';
 import { EventParticipation } from '../event-participation';
+import { Participation } from '../participation';
+import { Photo } from '../photo';
+import { Post } from '../post';
+import { Conversation } from '../conversation';
 export class Person {
     constructor(
         public id?: number,
@@ -18,15 +18,15 @@ export class Person {
         public closedAccount?: boolean,
         public fetchStatus?: number,
         public podId?: number,
-        public conversation?: Conversation,
         public profile?: Profile,
         public accountdeletion?: AccountDeletion,
-        public contacts?: Contact,
-        public posts?: Post,
-        public photos?: Photo,
         public comments?: Comment,
-        public participations?: Participation,
+        public contacts?: Contact,
         public events?: EventParticipation,
+        public participations?: Participation,
+        public photos?: Photo,
+        public posts?: Post,
+        public conversation?: Conversation,
     ) {
         this.closedAccount = false;
     }

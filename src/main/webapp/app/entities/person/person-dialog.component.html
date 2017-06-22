@@ -70,10 +70,10 @@
         </div>
 
         <div class="form-group">
-            <label jhiTranslate="jDiasApp.person.conversation" for="field_conversation">Conversation</label>
-            <select class="form-control" id="field_conversation" name="conversation" [(ngModel)]="person.conversation" >
+            <label jhiTranslate="jDiasApp.person.reshare" for="field_reshare">Reshare</label>
+            <select class="form-control" id="field_reshare" name="reshare" [(ngModel)]="person.reshare" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="conversationOption.id === person.conversation?.id ? person.conversation : conversationOption" *ngFor="let conversationOption of conversations; trackBy: trackConversationById">{{conversationOption.id}}</option>
+                <option [ngValue]="reshareOption.id === person.reshare?.id ? person.reshare : reshareOption" *ngFor="let reshareOption of reshares; trackBy: trackReshareById">{{reshareOption.id}}</option>
             </select>
         </div>
         <div class="form-group">
@@ -88,6 +88,13 @@
             <select class="form-control" id="field_accountdeletion" name="accountdeletion" [(ngModel)]="person.accountdeletion">
                 <option [ngValue]="null"></option>
                 <option [ngValue]="accountDeletionOption.id === person.accountdeletion?.id ? person.accountdeletion : accountDeletionOption" *ngFor="let accountDeletionOption of accountdeletions; trackBy: trackAccountDeletionById">{{accountDeletionOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.person.conversation" for="field_conversation">Conversation</label>
+            <select class="form-control" id="field_conversation" name="conversation" [(ngModel)]="person.conversation" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="conversationOption.id === person.conversation?.id ? person.conversation : conversationOption" *ngFor="let conversationOption of conversations; trackBy: trackConversationById">{{conversationOption.id}}</option>
             </select>
         </div>
     </div>

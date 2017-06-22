@@ -36,9 +36,9 @@
             <th><span jhiTranslate="jDiasApp.post.pub">Pub</span></th>
             <th><span jhiTranslate="jDiasApp.post.providerDisplayName">Provider Display Name</span></th>
             <th><span jhiTranslate="jDiasApp.post.postType">Post Type</span></th>
-            <th><span jhiTranslate="jDiasApp.post.statusMessage">Status Message</span></th>
-            <th><span jhiTranslate="jDiasApp.post.reshare">Reshare</span></th>
             <th><span jhiTranslate="jDiasApp.post.person">Person</span></th>
+            <th><span jhiTranslate="jDiasApp.post.reshare">Reshare</span></th>
+            <th><span jhiTranslate="jDiasApp.post.statusMessage">Status Message</span></th>
             <th></th>
             </tr>
             </thead>
@@ -52,8 +52,8 @@
                 <td>{{post.providerDisplayName}}</td>
                 <td jhiTranslate="{{'jDiasApp.PostType.' + post.postType}}">{{post.postType}}</td>
                 <td>
-                    <div *ngIf="post.statusMessage">
-                        <a [routerLink]="['../status-message', post.statusMessage?.id ]" >{{post.statusMessage?.id}}</a>
+                    <div *ngIf="post.person">
+                        <a [routerLink]="['../person', post.person?.id ]" >{{post.person?.id}}</a>
                     </div>
                 </td>
                 <td>
@@ -62,8 +62,8 @@
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="post.person">
-                        <a [routerLink]="['../person', post.person?.id ]" >{{post.person?.id}}</a>
+                    <div *ngIf="post.statusMessage">
+                        <a [routerLink]="['../status-message', post.statusMessage?.id ]" >{{post.statusMessage?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

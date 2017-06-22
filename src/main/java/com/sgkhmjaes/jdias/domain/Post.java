@@ -26,6 +26,8 @@ public class Post implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @Column(name = "author")
@@ -47,23 +49,15 @@ public class Post implements Serializable {
     @Column(name = "post_type")
     private PostType postType;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private StatusMessage statusMessage;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Reshare reshare;
+    @OneToMany(mappedBy = "post")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<AspectVisiblity> aspectVisiblities = new HashSet<>();
 
     @OneToMany(mappedBy = "post")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Comment> comments = new HashSet<>();
-
-    @OneToMany(mappedBy = "post")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<AspectVisiblity> aspectVisiblities = new HashSet<>();
 
     @OneToMany(mappedBy = "post")
     @JsonIgnore
@@ -77,18 +71,24 @@ public class Post implements Serializable {
 
     @ManyToOne
     private Person person;
-    
+
+    @ManyToOne
+    private Reshare reshare;
+
+    @ManyToOne
+    private StatusMessage statusMessage;
+
     public Post () {}
-    
-    public Post (Long id, String author, String guid, LocalDate createdAt, Boolean pub, PostType postType, StatusMessage statusMessage, Person person) {
-        this.id=id;
+
+    public Post (String author, String guid, LocalDate createdAt, Boolean pub, PostType postType, StatusMessage statusMessage, Reshare reshare, Person person) {
         this.author=author;
         this.guid=guid;
         this.createdAt=createdAt;
         this.pub=pub;
         this.postType=postType;
         this.statusMessage=statusMessage;
-        this.person=person;       
+        this.reshare=reshare;
+        this.person=person;
     }
 
     public Long getId() {
@@ -177,30 +177,29 @@ public class Post implements Serializable {
         this.postType = postType;
     }
 
-    public StatusMessage getStatusMessage() {
-        return statusMessage;
+    public Set<AspectVisiblity> getAspectVisiblities() {
+        return aspectVisiblities;
     }
 
-    public Post statusMessage(StatusMessage statusMessage) {
-        this.statusMessage = statusMessage;
+    public Post aspectVisiblities(Set<AspectVisiblity> aspectVisiblities) {
+        this.aspectVisiblities = aspectVisiblities;
         return this;
     }
 
-    public void setStatusMessage(StatusMessage statusMessage) {
-        this.statusMessage = statusMessage;
-    }
-
-    public Reshare getReshare() {
-        return reshare;
-    }
-
-    public Post reshare(Reshare reshare) {
-        this.reshare = reshare;
+    public Post addAspectVisiblities(AspectVisiblity aspectVisiblity) {
+        this.aspectVisiblities.add(aspectVisiblity);
+        aspectVisiblity.setPost(this);
         return this;
     }
 
-    public void setReshare(Reshare reshare) {
-        this.reshare = reshare;
+    public Post removeAspectVisiblities(AspectVisiblity aspectVisiblity) {
+        this.aspectVisiblities.remove(aspectVisiblity);
+        aspectVisiblity.setPost(null);
+        return this;
+    }
+
+    public void setAspectVisiblities(Set<AspectVisiblity> aspectVisiblities) {
+        this.aspectVisiblities = aspectVisiblities;
     }
 
     public Set<Comment> getComments() {
@@ -226,31 +225,6 @@ public class Post implements Serializable {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
-    }
-
-    public Set<AspectVisiblity> getAspectVisiblities() {
-        return aspectVisiblities;
-    }
-
-    public Post aspectVisiblities(Set<AspectVisiblity> aspectVisiblities) {
-        this.aspectVisiblities = aspectVisiblities;
-        return this;
-    }
-
-    public Post addAspectVisiblities(AspectVisiblity aspectVisiblity) {
-        this.aspectVisiblities.add(aspectVisiblity);
-        aspectVisiblity.setPost(this);
-        return this;
-    }
-
-    public Post removeAspectVisiblities(AspectVisiblity aspectVisiblity) {
-        this.aspectVisiblities.remove(aspectVisiblity);
-        aspectVisiblity.setPost(null);
-        return this;
-    }
-
-    public void setAspectVisiblities(Set<AspectVisiblity> aspectVisiblities) {
-        this.aspectVisiblities = aspectVisiblities;
     }
 
     public Set<Like> getLikes() {
@@ -314,6 +288,32 @@ public class Post implements Serializable {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Reshare getReshare() {
+        return reshare;
+    }
+
+    public Post reshare(Reshare reshare) {
+        this.reshare = reshare;
+        return this;
+    }
+
+    public void setReshare(Reshare reshare) {
+        this.reshare = reshare;
+    }
+
+    public StatusMessage getStatusMessage() {
+        return statusMessage;
+    }
+
+    public Post statusMessage(StatusMessage statusMessage) {
+        this.statusMessage = statusMessage;
+        return this;
+    }
+
+    public void setStatusMessage(StatusMessage statusMessage) {
+        this.statusMessage = statusMessage;
     }
 
     @Override

@@ -38,9 +38,10 @@
             <th><span jhiTranslate="jDiasApp.person.closedAccount">Closed Account</span></th>
             <th><span jhiTranslate="jDiasApp.person.fetchStatus">Fetch Status</span></th>
             <th><span jhiTranslate="jDiasApp.person.podId">Pod Id</span></th>
-            <th><span jhiTranslate="jDiasApp.person.conversation">Conversation</span></th>
+            <th><span jhiTranslate="jDiasApp.person.reshare">Reshare</span></th>
             <th><span jhiTranslate="jDiasApp.person.profile">Profile</span></th>
             <th><span jhiTranslate="jDiasApp.person.accountdeletion">Accountdeletion</span></th>
+            <th><span jhiTranslate="jDiasApp.person.conversation">Conversation</span></th>
             <th></th>
             </tr>
             </thead>
@@ -56,8 +57,8 @@
                 <td>{{person.fetchStatus}}</td>
                 <td>{{person.podId}}</td>
                 <td>
-                    <div *ngIf="person.conversation">
-                        <a [routerLink]="['../conversation', person.conversation?.id ]" >{{person.conversation?.id}}</a>
+                    <div *ngIf="person.reshare">
+                        <a [routerLink]="['../reshare', person.reshare?.id ]" >{{person.reshare?.id}}</a>
                     </div>
                 </td>
                 <td>
@@ -68,6 +69,11 @@
                 <td>
                     <div *ngIf="person.accountdeletion">
                         <a [routerLink]="['../account-deletion', person.accountdeletion?.id ]" >{{person.accountdeletion?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="person.conversation">
+                        <a [routerLink]="['../conversation', person.conversation?.id ]" >{{person.conversation?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

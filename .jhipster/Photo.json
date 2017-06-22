@@ -2,15 +2,15 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "statusMessage",
             "otherEntityName": "statusMessage",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         },
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "person",
             "otherEntityName": "person",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
     ],
@@ -56,5 +56,5 @@
     "entityTableName": "photo",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

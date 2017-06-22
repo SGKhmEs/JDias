@@ -55,24 +55,24 @@
         </div>
 
         <div class="form-group">
-            <label jhiTranslate="jDiasApp.post.statusMessage" for="field_statusMessage">Status Message</label>
-            <select class="form-control" id="field_statusMessage" name="statusMessage" [(ngModel)]="post.statusMessage">
+            <label jhiTranslate="jDiasApp.post.person" for="field_person">Person</label>
+            <select class="form-control" id="field_person" name="person" [(ngModel)]="post.person" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="statusMessageOption.id === post.statusMessage?.id ? post.statusMessage : statusMessageOption" *ngFor="let statusMessageOption of statusmessages; trackBy: trackStatusMessageById">{{statusMessageOption.id}}</option>
+                <option [ngValue]="personOption.id === post.person?.id ? post.person : personOption" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.id}}</option>
             </select>
         </div>
         <div class="form-group">
             <label jhiTranslate="jDiasApp.post.reshare" for="field_reshare">Reshare</label>
-            <select class="form-control" id="field_reshare" name="reshare" [(ngModel)]="post.reshare">
+            <select class="form-control" id="field_reshare" name="reshare" [(ngModel)]="post.reshare" >
                 <option [ngValue]="null"></option>
                 <option [ngValue]="reshareOption.id === post.reshare?.id ? post.reshare : reshareOption" *ngFor="let reshareOption of reshares; trackBy: trackReshareById">{{reshareOption.id}}</option>
             </select>
         </div>
         <div class="form-group">
-            <label jhiTranslate="jDiasApp.post.person" for="field_person">Person</label>
-            <select class="form-control" id="field_person" name="person" [(ngModel)]="post.person" >
+            <label jhiTranslate="jDiasApp.post.statusMessage" for="field_statusMessage">Status Message</label>
+            <select class="form-control" id="field_statusMessage" name="statusMessage" [(ngModel)]="post.statusMessage" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="personOption.id === post.person?.id ? post.person : personOption" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.id}}</option>
+                <option [ngValue]="statusMessageOption.id === post.statusMessage?.id ? post.statusMessage : statusMessageOption" *ngFor="let statusMessageOption of statusmessages; trackBy: trackStatusMessageById">{{statusMessageOption.id}}</option>
             </select>
         </div>
     </div>

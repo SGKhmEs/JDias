@@ -2,9 +2,9 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "conversation",
             "otherEntityName": "conversation",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
     ],
@@ -34,5 +34,5 @@
     "entityTableName": "message",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

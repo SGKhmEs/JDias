@@ -17,7 +17,8 @@
                 "title": "Reshare"
             },
             "rootAuthor": "Root Author",
-            "rootGuid": "Root Guid"
+            "rootGuid": "Root Guid",
+            "post": "Post"
         }
     }
 }

@@ -2,15 +2,15 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "poll",
             "otherEntityName": "poll",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         },
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "pollAnswer",
             "otherEntityName": "pollAnswer",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
     ],
@@ -44,5 +44,5 @@
     "entityTableName": "poll_participation",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

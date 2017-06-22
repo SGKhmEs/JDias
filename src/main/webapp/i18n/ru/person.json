@@ -24,15 +24,15 @@
             "closedAccount": "Closed Account",
             "fetchStatus": "Fetch Status",
             "podId": "Pod Id",
-            "conversation": "Conversation",
             "profile": "Profile",
             "accountdeletion": "Accountdeletion",
-            "contacts": "Contacts",
-            "posts": "Posts",
-            "photos": "Photos",
             "comments": "Comments",
+            "contacts": "Contacts",
+            "events": "Events",
             "participations": "Participations",
-            "events": "Events"
+            "photos": "Photos",
+            "posts": "Posts",
+            "conversation": "Conversation"
         }
     }
 }

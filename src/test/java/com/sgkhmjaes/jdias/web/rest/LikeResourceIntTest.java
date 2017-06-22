@@ -6,6 +6,7 @@ import com.sgkhmjaes.jdias.domain.Like;
 import com.sgkhmjaes.jdias.repository.LikeRepository;
 import com.sgkhmjaes.jdias.service.LikeService;
 import com.sgkhmjaes.jdias.repository.search.LikeSearchRepository;
+import com.sgkhmjaes.jdias.service.impl.LikeDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -67,7 +68,8 @@ public class LikeResourceIntTest {
 
     @Autowired
     private LikeService likeService;
-
+    @Autowired
+    private LikeDTOServiceImpl likeDTOService;
     @Autowired
     private LikeSearchRepository likeSearchRepository;
 
@@ -90,7 +92,7 @@ public class LikeResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        LikeResource likeResource = new LikeResource(likeService);
+        LikeResource likeResource = new LikeResource(likeService, likeDTOService);
         this.restLikeMockMvc = MockMvcBuilders.standaloneSetup(likeResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setControllerAdvice(exceptionTranslator)

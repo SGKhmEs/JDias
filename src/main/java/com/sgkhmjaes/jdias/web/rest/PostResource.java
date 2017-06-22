@@ -14,12 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Post.
@@ -122,7 +118,7 @@ public class PostResource {
     @Timed
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         log.debug("REST request to delete Post : {}", id);
-        postService.delete(id);
+        postService.deletePost(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -137,7 +133,7 @@ public class PostResource {
     @Timed
     public List<Post> searchPosts(@RequestParam String query) {
         log.debug("REST request to search Posts for query {}", query);
-        return postService.search(query);
+        return postService.searchPost(query);
     }
 
 }

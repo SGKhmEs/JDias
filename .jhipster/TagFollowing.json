@@ -2,15 +2,15 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "tag",
             "otherEntityName": "tag",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         },
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "userAccount",
             "otherEntityName": "userAccount",
-            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
     ],
@@ -28,5 +28,5 @@
     "entityTableName": "tag_following",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

@@ -19,14 +19,14 @@
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "conversations",
-            "otherEntityName": "conversation",
+            "relationshipName": "aspectmemberships",
+            "otherEntityName": "aspectMembership",
             "otherEntityRelationshipName": "userAccount"
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "aspectmemberships",
-            "otherEntityName": "aspectMembership",
+            "relationshipName": "conversations",
+            "otherEntityName": "conversation",
             "otherEntityRelationshipName": "userAccount"
         },
         {
@@ -150,5 +150,5 @@
     "entityTableName": "user_account",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

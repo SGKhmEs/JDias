@@ -6,6 +6,7 @@ import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.repository.PostRepository;
 import com.sgkhmjaes.jdias.service.PostService;
 import com.sgkhmjaes.jdias.repository.search.PostSearchRepository;
+import com.sgkhmjaes.jdias.service.impl.PostDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -66,7 +67,8 @@ public class PostResourceIntTest {
 
     @Autowired
     private PostService postService;
-
+    @Autowired
+    private PostDTOServiceImpl postDTOService;
     @Autowired
     private PostSearchRepository postSearchRepository;
 
@@ -89,7 +91,7 @@ public class PostResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PostResource postResource = new PostResource(postService);
+        PostResource postResource = new PostResource(postService, postDTOService);
         this.restPostMockMvc = MockMvcBuilders.standaloneSetup(postResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setControllerAdvice(exceptionTranslator)

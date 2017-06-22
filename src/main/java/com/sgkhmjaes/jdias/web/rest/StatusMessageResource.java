@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Optional;
 import java.net.URISyntaxException;
 import java.net.URI;
+import java.util.stream.StreamSupport;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing StatusMessage.

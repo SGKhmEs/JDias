@@ -19,6 +19,12 @@
         },
         {
             "relationshipType": "one-to-many",
+            "relationshipName": "post",
+            "otherEntityName": "post",
+            "otherEntityRelationshipName": "statusMessage"
+        },
+        {
+            "relationshipType": "one-to-many",
             "relationshipName": "photos",
             "otherEntityName": "photo",
             "otherEntityRelationshipName": "statusMessage"
@@ -34,5 +40,5 @@
     "entityTableName": "status_message",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

@@ -2,10 +2,10 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipName": "post",
-            "otherEntityName": "post",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "relationshipType": "one-to-many",
+            "relationshipName": "taggings",
+            "otherEntityName": "tagging",
+            "otherEntityRelationshipName": "tag"
         },
         {
             "relationshipType": "one-to-many",
@@ -14,10 +14,10 @@
             "otherEntityRelationshipName": "tag"
         },
         {
-            "relationshipType": "one-to-many",
-            "relationshipName": "taggings",
-            "otherEntityName": "tagging",
-            "otherEntityRelationshipName": "tag"
+            "relationshipType": "many-to-one",
+            "relationshipName": "post",
+            "otherEntityName": "post",
+            "otherEntityField": "id"
         }
     ],
     "fields": [
@@ -30,5 +30,5 @@
     "entityTableName": "tag",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }
