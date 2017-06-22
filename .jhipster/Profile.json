@@ -1,6 +1,15 @@
 {
     "fluentMethods": true,
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipName": "person",
+            "otherEntityName": "person",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "profile"
+        }
+    ],
     "fields": [
         {
             "fieldName": "author",
@@ -56,8 +65,8 @@
         }
     ],
     "changelogDate": "20170527190333",
-    "entityTableName": "profile",
     "dto": "no",
-    "pagination": "no",
-    "service": "serviceImpl"
+    "service": "serviceImpl",
+    "entityTableName": "profile",
+    "pagination": "no"
 }

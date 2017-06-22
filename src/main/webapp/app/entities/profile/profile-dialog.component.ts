@@ -9,6 +9,8 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Profile } from './profile.model';
 import { ProfilePopupService } from './profile-popup.service';
 import { ProfileService } from './profile.service';
+import { Person, PersonService } from '../person';
+import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-profile-dialog',
@@ -19,12 +21,15 @@ export class ProfileDialogComponent implements OnInit {
     profile: Profile;
     authorities: any[];
     isSaving: boolean;
+
+    people: Person[];
     birthdayDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private profileService: ProfileService,
+        private personService: PersonService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -32,6 +37,19 @@ export class ProfileDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
+        this.personService
+            .query({filter: 'profile-is-null'})
+            .subscribe((res: ResponseWrapper) => {
+                if (!this.profile.person || !this.profile.person.id) {
+                    this.people = res.json;
+                } else {
+                    this.personService
+                        .find(this.profile.person.id)
+                        .subscribe((subRes: Person) => {
+                            this.people = [subRes].concat(res.json);
+                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
+                }
+            }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -77,6 +95,10 @@ export class ProfileDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
+    }
+
+    trackPersonById(index: number, item: Person) {
+        return item.id;
     }
 }
 

@@ -17,33 +17,33 @@ public interface UserAccountService {
     UserAccount save(UserAccount userAccount);
 
     /**
-     * Get all the userAccounts.
+     *  Get all the userAccounts.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     List<UserAccount> findAll();
 
     /**
-     * Get the "id" userAccount.
+     *  Get the "id" userAccount.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     UserAccount findOne(Long id);
 
     /**
-     * Delete the "id" userAccount.
+     *  Delete the "id" userAccount.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the userAccount corresponding to the query.
      *
-     * @param query the query of the search
-     *
-     * @return the list of entities
+     *  @param query the query of the search
+     *  
+     *  @return the list of entities
      */
     List<UserAccount> search(String query);
 }

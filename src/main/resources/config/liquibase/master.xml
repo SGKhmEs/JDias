@@ -46,6 +46,7 @@
     <include file="classpath:config/liquibase/changelog/20170527190330_added_entity_constraints_PollAnswer.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170527190331_added_entity_constraints_PollParticipation.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170527190332_added_entity_constraints_Post.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170527190333_added_entity_constraints_Profile.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170527190336_added_entity_constraints_StatusMessage.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170527190337_added_entity_constraints_Tag.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170527190338_added_entity_constraints_Tagging.xml" relativeToChangelogFile="false"/>

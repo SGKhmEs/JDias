@@ -1,13 +1,13 @@
 package com.sgkhmjaes.jdias.service;
 
-import com.sgkhmjaes.jdias.domain.*;
+import com.sgkhmjaes.jdias.domain.Authority;
+import com.sgkhmjaes.jdias.domain.User;
 import com.sgkhmjaes.jdias.repository.AuthorityRepository;
 import com.sgkhmjaes.jdias.repository.PersistentTokenRepository;
 import com.sgkhmjaes.jdias.config.Constants;
 import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.repository.search.UserSearchRepository;
 import com.sgkhmjaes.jdias.security.AuthoritiesConstants;
-import com.sgkhmjaes.jdias.security.RSAKeysGenerator;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.util.RandomUtil;
 import com.sgkhmjaes.jdias.service.dto.UserDTO;
@@ -21,9 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.time.LocalDate;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -51,15 +48,6 @@ public class UserService {
 
     private final AuthorityRepository authorityRepository;
 
-    @Inject
-    private UserAccountService userAccountService;
-
-    @Inject
-    private PersonService personService;
-
-    @Inject
-    private ProfileService profileService;
-
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -72,41 +60,41 @@ public class UserService {
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
         return userRepository.findOneByActivationKey(key)
-                .map(user -> {
-                    // activate given user for the registration key.
-                    user.setActivated(true);
-                    user.setActivationKey(null);
-                    userSearchRepository.save(user);
-                    log.debug("Activated user: {}", user);
-                    return user;
-                });
+            .map(user -> {
+                // activate given user for the registration key.
+                user.setActivated(true);
+                user.setActivationKey(null);
+                userSearchRepository.save(user);
+                log.debug("Activated user: {}", user);
+                return user;
+            });
     }
 
     public Optional<User> completePasswordReset(String newPassword, String key) {
-        log.debug("Reset user password for reset key {}", key);
+       log.debug("Reset user password for reset key {}", key);
 
-        return userRepository.findOneByResetKey(key)
-                .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
-                .map(user -> {
-                    user.setPassword(passwordEncoder.encode(newPassword));
-                    user.setResetKey(null);
-                    user.setResetDate(null);
-                    return user;
-                });
+       return userRepository.findOneByResetKey(key)
+           .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
+           .map(user -> {
+                user.setPassword(passwordEncoder.encode(newPassword));
+                user.setResetKey(null);
+                user.setResetDate(null);
+                return user;
+           });
     }
 
     public Optional<User> requestPasswordReset(String mail) {
         return userRepository.findOneByEmail(mail)
-                .filter(User::getActivated)
-                .map(user -> {
-                    user.setResetKey(RandomUtil.generateResetKey());
-                    user.setResetDate(Instant.now());
-                    return user;
-                });
+            .filter(User::getActivated)
+            .map(user -> {
+                user.setResetKey(RandomUtil.generateResetKey());
+                user.setResetDate(Instant.now());
+                return user;
+            });
     }
 
     public User createUser(String login, String password, String firstName, String lastName, String email,
-            String imageUrl, String langKey) {
+        String imageUrl, String langKey) {
 
         User newUser = new User();
         Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
@@ -129,51 +117,6 @@ public class UserService {
         userRepository.save(newUser);
         userSearchRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
-
-        UserAccount userAccount = new UserAccount();
-        userAccount.setUser(newUser);
-        userAccount.setId(newUser.getId());
-        userAccount.setSerializedPrivateKey(RSAKeysGenerator.getRsaPrivateKey());
-        userAccount.setCreatedAt(LocalDate.now());
-        userAccount.setLastSeen(LocalDate.now());
-        userAccount.setDisableMail(false);
-        userAccount.setSignInCount(0);
-        userAccount.setLanguage("default");
-        userAccount.setAutoFollowBack(true);
-        userAccount.setColorTheme("default");
-        userAccount.setCurrentSignInAt(LocalDate.now());
-        userAccount.setCurrentSignInIp("CurrentSignInIp");
-        userAccount.setExportE("ExportE");
-        userAccount.setExporting(false);
-        userAccount.setGettingStarted(false);
-        userAccount.setLastSignInAt(LocalDate.now());
-        userAccount.setStripExif(false);
-        userAccount.setPostDefaultPublic(true);
-
-        Person person = new Person();
-        person.setId(newUser.getId());
-        person.serializedPublicKey(RSAKeysGenerator.getRsaPublicKey(userAccount.getSerializedPrivateKey()));
-        person.setClosedAccount(false);
-        person.setCreatedAt(LocalDate.now());
-        person.setGuid(UUID.nameUUIDFromBytes(userAccount.getUser().getLogin().getBytes()).toString());
-        //person.setPodId();
-        try {
-            person.setDiasporaId(userAccount.getUser().getLogin() + "@" + InetAddress.getLocalHost().getHostName());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-
-        Profile profile = new Profile();
-        profile.setId(newUser.getId());
-        profile.setAuthor(person.getDiasporaId());
-        profileService.save(profile);
-
-        person.setProfile(profile);
-        personService.save(person);
-
-        userAccount.setPerson(person);
-        userAccountService.save(userAccount);
-
         return newUser;
     }
 
@@ -192,7 +135,7 @@ public class UserService {
         if (userDTO.getAuthorities() != null) {
             Set<Authority> authorities = new HashSet<>();
             userDTO.getAuthorities().forEach(
-                    authority -> authorities.add(authorityRepository.findOne(authority))
+                authority -> authorities.add(authorityRepository.findOne(authority))
             );
             user.setAuthorities(authorities);
         }
@@ -208,8 +151,7 @@ public class UserService {
     }
 
     /**
-     * Update basic information (first name, last name, email, language) for the
-     * current user.
+     * Update basic information (first name, last name, email, language) for the current user.
      *
      * @param firstName first name of user
      * @param lastName last name of user
@@ -237,32 +179,30 @@ public class UserService {
      */
     public Optional<UserDTO> updateUser(UserDTO userDTO) {
         return Optional.of(userRepository
-                .findOne(userDTO.getId()))
-                .map(user -> {
-                    user.setLogin(userDTO.getLogin());
-                    user.setFirstName(userDTO.getFirstName());
-                    user.setLastName(userDTO.getLastName());
-                    user.setEmail(userDTO.getEmail());
-                    user.setImageUrl(userDTO.getImageUrl());
-                    user.setActivated(userDTO.isActivated());
-                    user.setLangKey(userDTO.getLangKey());
-                    Set<Authority> managedAuthorities = user.getAuthorities();
-                    managedAuthorities.clear();
-                    userDTO.getAuthorities().stream()
-                            .map(authorityRepository::findOne)
-                            .forEach(managedAuthorities::add);
-                    log.debug("Changed Information for User: {}", user);
-                    return user;
-                })
-                .map(UserDTO::new);
+            .findOne(userDTO.getId()))
+            .map(user -> {
+                user.setLogin(userDTO.getLogin());
+                user.setFirstName(userDTO.getFirstName());
+                user.setLastName(userDTO.getLastName());
+                user.setEmail(userDTO.getEmail());
+                user.setImageUrl(userDTO.getImageUrl());
+                user.setActivated(userDTO.isActivated());
+                user.setLangKey(userDTO.getLangKey());
+                Set<Authority> managedAuthorities = user.getAuthorities();
+                managedAuthorities.clear();
+                userDTO.getAuthorities().stream()
+                    .map(authorityRepository::findOne)
+                    .forEach(managedAuthorities::add);
+                userSearchRepository.save(user);
+                log.debug("Changed Information for User: {}", user);
+                return user;
+            })
+            .map(UserDTO::new);
     }
 
     public void deleteUser(String login) {
         userRepository.findOneByLogin(login).ifPresent(user -> {
             socialService.deleteUserSocialConnection(user.getLogin());
-            userAccountService.delete(user.getId());
-            personService.delete(user.getId());
-            profileService.delete(user.getId());
             userRepository.delete(user);
             userSearchRepository.delete(user);
             log.debug("Deleted User: {}", user);
@@ -298,8 +238,8 @@ public class UserService {
     }
 
     /**
-     * Persistent Token are used for providing automatic authentication, they
-     * should be automatically deleted after 30 days.
+     * Persistent Token are used for providing automatic authentication, they should be automatically deleted after
+     * 30 days.
      * <p>
      * This is scheduled to get fired everyday, at midnight.
      * </p>

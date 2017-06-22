@@ -14,5 +14,5 @@ import org.springframework.data.jpa.repository.*;
 public interface LikeRepository extends JpaRepository<Like, Long> {
 
     @Query("FROM Like where post_id =?1")
-    public List<Like> findaAllByPostId(Long id);
+    public List<Like> findAllByPostId(Long id);
 }

@@ -16,6 +16,7 @@ export class Profile implements BaseEntity {
         public searchable?: boolean,
         public nsfw?: boolean,
         public tagString?: string,
+        public person?: BaseEntity,
     ) {
         this.searchable = false;
         this.nsfw = false;
