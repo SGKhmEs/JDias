@@ -6,6 +6,7 @@ import com.sgkhmjaes.jdias.domain.Conversation;
 import com.sgkhmjaes.jdias.repository.ConversationRepository;
 import com.sgkhmjaes.jdias.service.ConversationService;
 import com.sgkhmjaes.jdias.repository.search.ConversationSearchRepository;
+import com.sgkhmjaes.jdias.service.impl.ConversationDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -68,6 +69,9 @@ public class ConversationResourceIntTest {
 
     @Autowired
     private ConversationService conversationService;
+    
+    @Autowired
+    private ConversationDTOServiceImpl conversationDTOServiceImpl;
 
     @Autowired
     private ConversationSearchRepository conversationSearchRepository;
@@ -91,7 +95,7 @@ public class ConversationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ConversationResource conversationResource = new ConversationResource(conversationService);
+        ConversationResource conversationResource = new ConversationResource(conversationService, conversationDTOServiceImpl);
         this.restConversationMockMvc = MockMvcBuilders.standaloneSetup(conversationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

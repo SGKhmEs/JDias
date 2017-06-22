@@ -77,6 +77,13 @@
                 <option [ngValue]="accountDeletionOption.id === person.accountdeletion?.id ? person.accountdeletion : accountDeletionOption" *ngFor="let accountDeletionOption of accountdeletions; trackBy: trackAccountDeletionById">{{accountDeletionOption.id}}</option>
             </select>
         </div>
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.person.userAccount" for="field_userAccount">User Account</label>
+            <select class="form-control" id="field_userAccount" name="userAccount" [(ngModel)]="person.userAccount">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="userAccountOption.id === person.userAccount?.id ? person.userAccount : userAccountOption" *ngFor="let userAccountOption of useraccounts; trackBy: trackUserAccountById">{{userAccountOption.id}}</option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

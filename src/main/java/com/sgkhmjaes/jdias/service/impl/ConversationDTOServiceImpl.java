@@ -53,6 +53,7 @@ public class ConversationDTOServiceImpl {
         conversation.setCreatedAt(LocalDate.now());
         conversation.setUpdatedAt(ZonedDateTime.now()); 
         conversation.setAuthor(currentPerson.getGuid());
+        
         //Set <Person> authorConversation = new HashSet <>();
         //authorConversation.add(personRepository.getOne(currentUser.getId()));
         //conversation.setPeople(authorConversation);

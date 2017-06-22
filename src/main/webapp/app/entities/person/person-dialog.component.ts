@@ -12,6 +12,7 @@ import { PersonService } from './person.service';
 import { Profile, ProfileService } from '../profile';
 import { AccountDeletion, AccountDeletionService } from '../account-deletion';
 import { Conversation, ConversationService } from '../conversation';
+import { UserAccount, UserAccountService } from '../user-account';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -29,6 +30,8 @@ export class PersonDialogComponent implements OnInit {
     accountdeletions: AccountDeletion[];
 
     conversations: Conversation[];
+
+    useraccounts: UserAccount[];
     createdAtDp: any;
     updatedAtDp: any;
 
@@ -39,6 +42,7 @@ export class PersonDialogComponent implements OnInit {
         private profileService: ProfileService,
         private accountDeletionService: AccountDeletionService,
         private conversationService: ConversationService,
+        private userAccountService: UserAccountService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -74,6 +78,19 @@ export class PersonDialogComponent implements OnInit {
             }, (res: ResponseWrapper) => this.onError(res.json));
         this.conversationService.query()
             .subscribe((res: ResponseWrapper) => { this.conversations = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.userAccountService
+            .query({filter: 'person-is-null'})
+            .subscribe((res: ResponseWrapper) => {
+                if (!this.person.userAccount || !this.person.userAccount.id) {
+                    this.useraccounts = res.json;
+                } else {
+                    this.userAccountService
+                        .find(this.person.userAccount.id)
+                        .subscribe((subRes: UserAccount) => {
+                            this.useraccounts = [subRes].concat(res.json);
+                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
+                }
+            }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -130,6 +147,10 @@ export class PersonDialogComponent implements OnInit {
     }
 
     trackConversationById(index: number, item: Conversation) {
+        return item.id;
+    }
+
+    trackUserAccountById(index: number, item: UserAccount) {
         return item.id;
     }
 

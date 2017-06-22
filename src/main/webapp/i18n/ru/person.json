@@ -33,7 +33,8 @@
             "participations": "Participations",
             "events": "Events",
             "message": "Message",
-            "conversation": "Conversation"
+            "conversation": "Conversation",
+            "userAccount": "User Account"
         }
     }
 }

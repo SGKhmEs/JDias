@@ -100,6 +100,10 @@ public class Person implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Conversation> conversations = new HashSet<>();
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private UserAccount userAccount;
+
     public Long getId() {
         return id;
     }
@@ -436,6 +440,19 @@ public class Person implements Serializable {
 
     public void setConversations(Set<Conversation> conversations) {
         this.conversations = conversations;
+    }
+
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
+
+    public Person userAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
+        return this;
+    }
+
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
     }
 
     @Override

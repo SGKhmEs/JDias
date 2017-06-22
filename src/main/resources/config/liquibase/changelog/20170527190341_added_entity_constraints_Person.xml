@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Person.
     -->
-    <changeSet id="20170527190341-2" author="jhipster">
+    <changeSet id="20170527190341" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="profile_id"
                                  baseTableName="person"
@@ -19,6 +19,12 @@
                                  constraintName="fk_person_accountdeletion_id"
                                  referencedColumnNames="id"
                                  referencedTableName="account_deletion"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_account_id"
+                                 baseTableName="person"
+                                 constraintName="fk_person_user_account_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_account"/>
 
     </changeSet>
 </databaseChangeLog>

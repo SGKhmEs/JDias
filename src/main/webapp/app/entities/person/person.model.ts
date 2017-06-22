@@ -21,6 +21,7 @@ export class Person implements BaseEntity {
         public events?: BaseEntity[],
         public messages?: BaseEntity[],
         public conversations?: BaseEntity[],
+        public userAccount?: BaseEntity,
     ) {
         this.closedAccount = false;
     }
