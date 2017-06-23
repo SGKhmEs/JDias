@@ -1,69 +1,52 @@
+
 <div *ngIf="post">
-    <div class="container-fluid" id="container">
-        <div id="e76847001e3001358b9c0242ac110007" >
-            <div id="single-post-container">
-                <div class="row">
-                    <div id="single-post-content" class="col-md-6 single-post-content">
-                        <div class="framed-content" >
-                            <div id="head" class="head clearfix">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div id="post-info" class="col-md-8">
-                                            <div class="img pull-left">
-                                                <a routeLink="['/profile',post.person?.id]"
-                                                   class="author-name hovercardable"> <img
-                                                    src="/content/images/thumb_medium.jpg"
-                                                    class="medium avatar img-responsive center-block" title="{{post.author}}"
-                                                    alt="{{post.author}}">
-                                                </a></div>
-
-                                            <div class="bd">
-                                                <div class="info">
-                                                    <span class="post_scope" title="" data-original-title="Public">
-                                                        <i class="entypo-globe small"></i>
-                                                    </span>
-                                                    <span class="post-time">
-                                                        <a routeLink="['/profile',post.person?.id]">
-                                                            <time title="" >{{post.createdAt | date:'mediumDate' }} about a month ago</time>
-                                                        </a>
-                                                    </span>
-                                                    via mobile
-                                                </div>
-                                                <span class="author">
-                                                    <a routeLink="['/profile',post.person?.id]" class="author-name hovercardable">
-                                                        {{post.author}}
-                                                    </a>
-                                                </span>
-
-                                                <div id="single-post-moderation">
-                                                    <div class="control-icons" >
-                                                        <div>
-                                                            <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                               data-type="Post" class="post_report" title=""
-                                                               data-original-title="Report">
-                                                                <i class="entypo-warning"></i>
-                                                            </a>
-                                                            <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                               data-type="post" class="block_user" title=""
-                                                               data-original-title="Ignore">
-                                                                <i class="entypo-block"></i>
-                                                            </a>
-                                                            <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                               data-type="nofollow" class="create_participation"
-                                                               title=""
-                                                               data-original-title="Enable notifications for this post">
-                                                                <i class="entypo-bell"></i>
-                                                            </a>
-                                                            <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                               data-type="post" class="hide_post" title=""
-                                                               data-original-title="Hide">
-                                                                <i class="entypo-cross"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+    <h2><span jhiTranslate="jDiasApp.post.detail.title">Post</span> {{post.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.post.author">Author</span></dt>
+        <dd>
+            <span>{{post.author}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.guid">Guid</span></dt>
+        <dd>
+            <span>{{post.guid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.createdAt">Created At</span></dt>
+        <dd>
+            <span>{{post.createdAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.pub">Pub</span></dt>
+        <dd>
+            <span>{{post.pub}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.providerDisplayName">Provider Display Name</span></dt>
+        <dd>
+            <span>{{post.providerDisplayName}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.postType">Post Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'jDiasApp.PostType.' + post.postType}}">{{post.postType}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.statusMessage">Status Message</span></dt>
+        <dd>
+            <div *ngIf="post.statusMessage">
+                <a [routerLink]="['/status-message', post.statusMessage?.id]">{{post.statusMessage?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.reshare">Reshare</span></dt>
+        <dd>
+            <div *ngIf="post.reshare">
+                <a [routerLink]="['/reshare', post.reshare?.id]">{{post.reshare?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.person">Person</span></dt>
+        <dd>
+            <div *ngIf="post.person">
+                <a [routerLink]="['/person', post.person?.id]">{{post.person?.id}}</a>
+            </div>
+        </dd>
+    </dl>
 
                                         <div id="single-post-actions" class="col-md-4">
                                             <div class="info" >
@@ -422,16 +405,15 @@
     </div>
 
 
-    <!-- <button type="submit"
-             (click)="previousState()"
+    <button type="submit" routerLink="/post/"
              class="btn btn-info">
          <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-     </button>-->
+     </button>
 
-    <!--<button type="button"
+    <button type="button"
             [routerLink]="['/', { outlets: { popup: 'post/'+ post.id + '/edit'} }]"
             replaceUrl="true"
             class="btn btn-primary">
         <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-    </button>-->
+    </button>
 </div>

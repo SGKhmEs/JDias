@@ -1,9 +1,11 @@
 package com.sgkhmjaes.jdias.service.impl;
 
 import com.sgkhmjaes.jdias.domain.Post;
+import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.repository.LocationRepository;
 import com.sgkhmjaes.jdias.repository.PhotoRepository;
 import com.sgkhmjaes.jdias.repository.PostRepository;
+import com.sgkhmjaes.jdias.repository.StatusMessageRepository;
 import com.sgkhmjaes.jdias.service.dto.AuthorDTO;
 import com.sgkhmjaes.jdias.service.dto.InteractionDTO;
 import com.sgkhmjaes.jdias.service.dto.PostDTO;
@@ -26,14 +28,18 @@ public class PostDTOServiceImpl {
     private final AuthorDTOServiceImpl authorDTOServiceImpl;
     private final PhotoRepository photoRepository;
     private final InteractionDTOServiceImpl interactionDTOServiceImpl;
+    private final StatusMessageRepository statusMessageRepository;
 
-    public PostDTOServiceImpl(PostRepository postRepository, LocationRepository locationRepository, AuthorDTOServiceImpl authorDTOServiceImpl, PhotoRepository photoRepository, InteractionDTOServiceImpl interactionDTOServiceImpl) {
+    public PostDTOServiceImpl(PostRepository postRepository, LocationRepository locationRepository, AuthorDTOServiceImpl authorDTOServiceImpl, PhotoRepository photoRepository, InteractionDTOServiceImpl interactionDTOServiceImpl, StatusMessageRepository statusMessageRepository) {
         this.postRepository = postRepository;
         this.locationRepository = locationRepository;
         this.authorDTOServiceImpl = authorDTOServiceImpl;
         this.photoRepository = photoRepository;
         this.interactionDTOServiceImpl = interactionDTOServiceImpl;
+        this.statusMessageRepository = statusMessageRepository;
     }
+
+
 
     public PostDTO findOne(Long id) {
         log.debug("Request to get Post by ID: {}", id);
@@ -52,9 +58,13 @@ public class PostDTOServiceImpl {
         
         AuthorDTO authorDTO = authorDTOServiceImpl.findOne(post.getPerson().getId());
         InteractionDTO interactionDTO = interactionDTOServiceImpl.findOneByPost(post.getId());
+        System.out.println("++++++++++" + interactionDTO);
         PostDTO postDTO = new PostDTO();
+        StatusMessage statusMessage = statusMessageRepository.findOne(post.getId());
         try {
-            postDTO.mappingToDTO(post, authorDTO, interactionDTO);
+            System.out.println("-----post" + post.getId() + "\n author-----------\n" + authorDTO.getId() + 
+                    "\n interaction \n" + interactionDTO + "\n stst\n" + statusMessage);
+            postDTO.mappingToDTO(post, authorDTO, interactionDTO, statusMessage);
         } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -44,7 +44,8 @@ public class PostDTO implements AutoMapping {
     private List<String> mentioned_people;
 
     private List<Photo> photos;
-    private InteractionDTO interactions;
+    @JsonProperty("interactions")
+    private InteractionDTO interactionDTO;
 
     public PostDTO() {
     }
@@ -209,12 +210,12 @@ public class PostDTO implements AutoMapping {
         this.photos = photos;
     }
 
-    public InteractionDTO getInteractions() {
-        return interactions;
+    public InteractionDTO getInteractionDTO() {
+        return interactionDTO;
     }
 
-    public void setInteractions(InteractionDTO interactions) {
-        this.interactions = interactions;
+    public void setInteractionDTO(InteractionDTO interactionDTO) {
+        this.interactionDTO = interactionDTO;
     }
 
     @Override
@@ -239,7 +240,7 @@ public class PostDTO implements AutoMapping {
                 append("Location: ").append(location).append("\r\n").
                 append("Photos: ").append(photos).append("\r\n").
                 append("Mentioned_people: ").append(mentioned_people).append("\r\n").
-                append("Interactions: ").append(interactions).append("\r\n").
+                append("Interactions: ").append(interactionDTO).append("\r\n").
                 append("Post DTO: {").append(postDTO).append("}");
         return sb.toString();
     }
