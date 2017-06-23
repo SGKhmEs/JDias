@@ -48,11 +48,367 @@
         </dd>
     </dl>
 
-    <button type="submit"
-            (click)="previousState()"
-            class="btn btn-info">
-        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-    </button>
+                                        <div id="single-post-actions" class="col-md-4">
+                                            <div class="info" >
+                                                <div class="pull-right">
+                                                    <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                       class="like" title="" data-original-title=" Like ">
+                                                        <i class="entypo-heart gray large"></i>
+                                                    </a>
+
+                                                    <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                       class="focus-comment" title="" data-original-title="Comment">
+                                                        <i class="entypo-comment gray large"></i>
+                                                    </a>
+
+                                                    <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                       class="reshare" title="" data-original-title="Reshare">
+                                                        <i class="entypo-reshare gray large"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="body" class="body clearfix">
+                                    <div id="real-post-content" class="post-content col-md-12">
+                                        <div >
+                                            <div class="nsfw-shield">
+                                                <strong>
+                                                    #NSFW
+                                                </strong>
+                                                |
+                                                <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                   class="show_nsfw_post">
+                                                    Show post
+                                                </a>
+                                                |
+                                                <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                   class="toggle_nsfw_state">
+                                                    Show all
+                                                </a>
+                                            </div>
+
+                                            <div class="nsfw-off">
+                                                <strong>
+                                                    #NSFW
+                                                </strong>
+                                                |
+                                                <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                   class="toggle_nsfw_state">
+                                                    Hide #nsfw posts
+                                                </a>
+                                            </div>
+
+                                            <div class="photo_attachments nsfw-hidden">
+                                                <a href="/content/images/scaled_full.jpg"
+                                                   class="stream-photo-link gallery-picture">
+                                                    <img
+                                                        src="/content/images/scaled_full.jpg"
+                                                        class="stream-photo big_stream_photo">
+                                                </a>
+
+                                            </div>
+
+                                            <div class="collapsible nsfw-hidden">
+                                                <div class="markdown-content">
+                                                    <p>
+                                                        <!--<a href="https://joindiaspora.com/tags/photo" class="tag">#photo</a>-->
+                                                        {{post.guid}}
+                                                    </p>
+
+                                                </div>
+                                                <div class="oembed">
+                                                    <div ></div>
+                                                </div>
+                                                <div class="opengraph">
+                                                    <div ></div>
+                                                </div>
+                                                <div class="poll">
+                                                    <div ></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="single-post-interactions" class="col-md-6 single-post-interactions">
+                        <div class="framed-content" >
+                            <div id="interaction-counts">
+                                <div >
+                                    <div id="reshares" class="clearfix">
+                                        <div class="count">
+                                            <i class="entypo-reshare middle gray"></i>
+                                            <span>1</span>
+                                        </div>
+                                        <div class="interaction-avatars">
+                                            <a href="https://joindiaspora.com/people/5098e7404e91013483ab0242ac110007"
+                                               class="author-name hovercardable"> <img
+                                                src="/content/images/thumb_small.jpg"
+                                                class="micro avatar img-responsive center-block" title=""
+                                                alt="Erik Rijnart" data-original-title="Erik Rijnart">
+                                            </a></div>
+                                    </div>
+                                    <div id="likes" class="clearfix">
+                                        <div class="count">
+                                            <i class="entypo-heart middle gray"></i>
+                                            <span>32</span>
+                                        </div>
+                                        <div class="interaction-avatars">
+                                            <a href="https://joindiaspora.com/people/c92aa0395b7a6a91"
+                                               class="author-name hovercardable"> <img
+                                                src="/content/images/thumb_small.jpg"
+                                                class="micro avatar img-responsive center-block" title=""
+                                                alt="ramil rodaje**" data-original-title="ramil rodaje**">
+                                            </a><a href="https://joindiaspora.com/people/f8e414bdc28ea3b7"
+                                                   class="author-name hovercardable"> <img
+                                            src="/content/images/thumb_small.jpg"
+                                            class="micro avatar img-responsive center-block" title="" alt="John Doe"
+                                            data-original-title="John Doe">
+                                        </a><a href="https://joindiaspora.com/people/7898f6dd57d91334"
+                                               class="author-name hovercardable"> <img
+                                            src="/content/images/thumb_small.jpg"
+                                            class="micro avatar img-responsive center-block" title="" alt="Ramil Rodaje"
+                                            data-original-title="Ramil Rodaje">
+                                        </a><a href="https://joindiaspora.com/people/40add6e08a1ef03a"
+                                               class="author-name hovercardable"> <img
+                                            src="/content/images/default-avatar.png"
+                                            class="micro avatar img-responsive center-block" title="" alt="Ricardo"
+                                            data-original-title="Ricardo">
+                                        </a>
+                                        </div>
+                                    </div>
+                                    <div id="comments-meta" class="clearfix">
+                                        <div class="count">
+                                            <i class="entypo-comment middle gray"></i>
+                                            <span>4</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="comments">
+                                <div class="comment_stream" >
+                                    <div class="show_comments comment  hidden ">
+                                        <div class="media">
+                                            <a href="https://joindiaspora.com/posts/9325058#comments"
+                                               class="toggle_post_comments">
+                                                Show 0 more comments
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="loading-comments comment text-center hidden">
+                                        <div class="media">
+                                            <div class="loader">
+                                                <div class="spinner"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="comments">
+                                        <div class="comment media">
+                                            <div id="6207f6401e5501358bb40242ac110007">
+                                                <div class="img">
+                                                    <a href="https://joindiaspora.com/people/35c347d077e00134911b0242ac110007"
+                                                       class="author-name hovercardable"> <img
+                                                        src="/content/images/thumb_small.jpg"
+                                                        class="small avatar img-responsive center-block" title="Tom Grz"
+                                                        alt="Tom Grz">
+                                                    </a></div>
+
+                                                <div class="bd">
+                                                    <div class="control-icons">
+                                                        <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                           data-type="Comment" class="comment_report" title=""
+                                                           data-original-title="Report">
+                                                            <i class="entypo-warning"></i>
+                                                        </a>
+                                                    </div>
+
+                                                    <a href="https://joindiaspora.com/people/35c347d077e00134911b0242ac110007"
+                                                       class="author-name hovercardable"> Tom Grz
+                                                    </a>
+                                                    <div class="collapsible comment-content markdown-content">
+                                                        <p>Species?</p>
+
+                                                    </div>
+
+                                                    <div class="info">
+                                                        <a href="https://joindiaspora.com/posts/9325058#6207f6401e5501358bb40242ac110007"
+                                                           class="permalink_comment">
+                                                            <time class="timeago"
+                                                                  data-original-title="19.05.2017, 3:09:43"
+                                                                  datetime="2017-05-19T00:09:43.000Z">about a month ago
+                                                            </time>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="comment media" >
+                                            <div id="5a536a301e5a01358bb20242ac110007">
+                                                <div class="img">
+                                                    <a href="https://joindiaspora.com/people/991ef3e01e5601358b960242ac110007"
+                                                       class="author-name hovercardable"> <img
+                                                        src="/content/images/thumb_small.jpg"
+                                                        class="small avatar img-responsive center-block"
+                                                        title="orbiter2@joindiaspora.com"
+                                                        alt="orbiter2@joindiaspora.com">
+                                                    </a></div>
+
+                                                <div class="bd">
+                                                    <div class="control-icons">
+                                                        <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                           data-type="Comment" class="comment_report" title=""
+                                                           data-original-title="Report">
+                                                            <i class="entypo-warning"></i>
+                                                        </a>
+                                                    </div>
+
+                                                    <a href="https://joindiaspora.com/people/991ef3e01e5601358b960242ac110007"
+                                                       class="author-name hovercardable"> orbiter2@joindiaspora.com
+                                                    </a>
+                                                    <div class="collapsible comment-content markdown-content">
+                                                        <p>Is this portal called :“joineddiaspora” is real Diaspora
+                                                            services? why name is different?</p>
+                                                    </div>
+
+                                                    <div class="info">
+                                                        <a href="https://joindiaspora.com/posts/9325058#5a536a301e5a01358bb20242ac110007"
+                                                           class="permalink_comment">
+                                                            <time class="timeago"
+                                                                  data-original-title="19.05.2017, 3:45:17"
+                                                                  datetime="2017-05-19T00:45:17.000Z">about a month ago
+                                                            </time>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="comment media" >
+                                            <div id="d25478001f0c01358be00242ac110007">
+                                                <div class="img">
+                                                    <a href="https://joindiaspora.com/people/4d30dffc2c174376100051d9"
+                                                       class="author-name hovercardable"> <img
+                                                        src="/content/images/thumb_small.jpg"
+                                                        class="small avatar img-responsive center-block"
+                                                        title="Star✯dust" alt="Star✯dust">
+                                                    </a></div>
+
+                                                <div class="bd">
+                                                    <div class="control-icons">
+                                                        <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                           data-type="Comment" class="comment_report" title=""
+                                                           data-original-title="Report">
+                                                            <i class="entypo-warning"></i>
+                                                        </a>
+                                                    </div>
+
+                                                    <a href="https://joindiaspora.com/people/4d30dffc2c174376100051d9"
+                                                       class="author-name hovercardable"> Star✯dust
+                                                    </a>
+                                                    <div class="collapsible comment-content markdown-content">
+                                                        <p>@Tom Grz<br>
+                                                            <a href="https://it.m.wikipedia.org/wiki/Campanula"
+                                                               target="_blank" rel="noopener noreferrer">https://it.m.wikipedia.org/wiki/Campanula</a>
+                                                        </p>
+
+                                                    </div>
+
+                                                    <div class="info">
+                                                        <a href="https://joindiaspora.com/posts/9325058#d25478001f0c01358be00242ac110007"
+                                                           class="permalink_comment">
+                                                            <time class="timeago"
+                                                                  data-original-title="20.05.2017, 1:02:49"
+                                                                  datetime="2017-05-19T22:02:49.000Z">about a month ago
+                                                            </time>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="comment media" >
+                                            <div id="60c5fec028000135f1920242ac110007">
+                                                <div class="img">
+                                                    <a href="https://joindiaspora.com/people/7333cb2027fa0135f1940242ac110007"
+                                                       class="author-name hovercardable"> <img
+                                                        src="/content/images/thumb_small.jpg"
+                                                        class="small avatar img-responsive center-block"
+                                                        title="Roby Noberini" alt="Roby Noberini">
+                                                    </a></div>
+
+                                                <div class="bd">
+                                                    <div class="control-icons">
+                                                        <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                           data-type="Comment" class="comment_report" title=""
+                                                           data-original-title="Report">
+                                                            <i class="entypo-warning"></i>
+                                                        </a>
+                                                    </div>
+
+                                                    <a href="https://joindiaspora.com/people/7333cb2027fa0135f1940242ac110007"
+                                                       class="author-name hovercardable"> Roby Noberini
+                                                    </a>
+                                                    <div class="collapsible comment-content markdown-content">
+                                                        <p>👌👌</p>
+
+                                                    </div>
+
+                                                    <div class="info">
+                                                        <a href="https://joindiaspora.com/posts/9325058#60c5fec028000135f1920242ac110007"
+                                                           class="permalink_comment">
+                                                            <time class="timeago"
+                                                                  data-original-title="31.05.2017, 10:26:25"
+                                                                  datetime="2017-05-31T07:26:25.000Z">21 days ago
+                                                            </time>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="comment media new-comment-form-wrapper">
+                                        <a href="https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
+                                           class="img">
+                                            <img
+                                                src="/content/images/default-avatar.png"
+                                                class="small avatar img-responsive center-block"
+                                                title="brownjone@joindiaspora.com" alt="brownjone@joindiaspora.com">
+                                        </a>
+
+                                        <div class="bd">
+                                            <form accept-charset="UTF-8"
+                                                  action="https://joindiaspora.com/posts/9325058/comments"
+                                                  class="new_comment" id="new_comment_on_9325058" method="post">
+                                                <textarea class="comment_box form-control" id="comment_text_on_9325058"
+                                                          name="text" rows="1" required="" placeholder="Comment"
+                                                          style="overflow: hidden; word-wrap: break-word; height: 31.1333px;"></textarea>
+                                                <div class="submit_button">
+                                                    <input class="btn btn-primary" id="comment_submit_9325058"
+                                                           name="commit" type="submit" value="Comment">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <button type="submit" routerLink="/post/"
+             class="btn btn-info">
+         <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+     </button>
 
     <button type="button"
             [routerLink]="['/', { outlets: { popup: 'post/'+ post.id + '/edit'} }]"

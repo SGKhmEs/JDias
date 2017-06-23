@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router , ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { EventManager  } from 'ng-jhipster';
 
@@ -19,7 +19,8 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     constructor(
         private eventManager: EventManager,
         private postService: PostService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private router: Router
     ) {
     }
 

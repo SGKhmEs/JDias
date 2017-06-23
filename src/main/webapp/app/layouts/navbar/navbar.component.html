@@ -1,354 +1,238 @@
-<nav class="navbar navbar-inverse navbar-toggleable-md jh-navbar">
-    <div class="jh-logo-container float-left">
-        <a class="jh-navbar-toggler hidden-lg-up float-right" href="javascript:void(0);" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
-            <i class="fa fa-bars"></i>
-        </a>
-        <a class="navbar-brand logo float-left" routerLink="/" (click)="collapseNavbar()">
-            <span class="logo-img"></span>
-            <span jhiTranslate="global.title" class="navbar-title">JDias</span> <span class="navbar-version">{{version}}</span>
-        </a>
+<nav class="navbar navbar-inverse navbar-fixed-top jh-navbar" [ngSwitch]="isAuthenticated()">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse"
+                            data-target="#navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a routerLink="/post" class="navbar-brand" data-stream-title="Stream">
+                        JDias*
+                    </a>
+                    <ul class="nav nav-badges visible-sm">
+                        <li *ngSwitchCase="true">
+                            <a  title="Notifications"
+                               class="notifications-link nav-badge"
+                               routerLink="/post" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                <i class="entypo-bell"></i>
+                                <span class="badge badge-important  hidden">0</span>
+                            </a>
+                        </li>
+                        <li *ngSwitchCase="true">
+                            <a title="Conversations"
+                               class="conversations-link nav-badge"
+                               routerLink="/conversation" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                <i class="entypo-mail"></i>
+                                <span class="badge badge-important  hidden ">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li *ngSwitchCase="true">
+                            <a routerLink="/post"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                Stream
+                            </a>
+                        </li>
+                        <li *ngSwitchCase="true">
+                            <a routerLink="/post" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                My activity
+                            </a>
+                        </li>
+                        <li *ngSwitchCase="true" class="visible-xs">
+                            <a routerLink="/post" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                Notifications
+                            </a>
+                        </li>
+                        <li *ngSwitchCase="true" class="visible-xs">
+                            <a routerLink="/conversation" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                Conversations
+                            </a>
+                        </li>
+                        <li *ngSwitchCase="true" class="visible-sm visible-xs">
+                            <a href="https://joindiaspora.com/mobile/toggle" routerLink="/message" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                Toggle mobile
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-left nav-badges hidden-sm hidden-xs">
+                        <li *ngSwitchCase="true" class="dropdown" id="notification-dropdown">
+                            <a id="notifications-link" routerLink="/post" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                               title="Notifications" class="notifications-link nav-badge hidden-sm hidden-xs"
+                               role="button" data-toggle="dropdown" aria-expanded="false" data-target=" ">
+                                <i class="entypo-bell"></i>
+                                <span class="badge badge-important  hidden">0</span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <div class="header">
+                                    <div class="pull-right">
+                                        <a href="https://joindiaspora.com/stream#" id="mark-all-read-link"
+                                           class="btn btn-default btn-sm disabled">
+                                            Mark all as read
+                                        </a>
+                                    </div>
+                                    <h4>
+                                        Recent notifications
+                                    </h4>
+                                </div>
+                                <div class="ajax-loader" style="display: none;">
+                                    <div class="spinner" style="opacity: 1;"></div>
+                                </div>
+                                <div class="notifications ps-container ps-theme-default"
+                                     data-ps-id="bfcb3a65-e03e-0167-a8b2-ee4bb554d5b8">
+                                    <div class="media read stream-element" data-guid="6046011"
+                                         data-type="started_sharing">
+                                        <div class="unread-toggle pull-right">
+                                            <i class="entypo-eye" title="" data-original-title="Mark unread"></i>
+                                        </div>
+                                        <div class="media-object pull-left">
+                                            <a href="https://joindiaspora.com/people/7bca7c80311b01332d046c626dd55703"
+                                               class="hovercardable hovercardable">
+                                                <!--<img alt="diaspora* HQ" class="avatar img-responsive center-block" title="diaspora* HQ" data-person_id="609502" src="./JoinDiaspora__files/thumb_small_0f0e529bef78176741dc.png">-->
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <a data-hovercard="/people/7bca7c80311b01332d046c626dd55703"
+                                               href="https://joindiaspora.com/people/7bca7c80311b01332d046c626dd55703"
+                                               class="hovercardable hovercardable">diaspora* HQ</a> started sharing
+                                            with you.
+                                            <div>
+                                                <time datetime="2017-06-16T06:59:21Z" class="timeago" title=""
+                                                      data-time-ago="2017-06-16T06:59:21Z"
+                                                      data-original-title="16.06.2017, 9:59:21">about an hour ago
+                                                </time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                                        <div class="ps-scrollbar-x" tabindex="0"
+                                             style="left: 0px; width: 0px;"></div>
+                                    </div>
+                                    <div class="ps-scrollbar-y-rail" style="top: 0px; right: 0px;">
+                                        <div class="ps-scrollbar-y" tabindex="0"
+                                             style="top: 0px; height: 0px;"></div>
+                                    </div>
+                                </div>
+                                <div class="view_all">
+                                    <a href="https://joindiaspora.com/notifications" id="view_all_notifications">
+                                        View all
+                                    </a>
+                                </div>
+                            </ul>
+
+                        </li>
+
+                        <li *ngSwitchCase="true">
+                            <a id="conversations-link" href="https://joindiaspora.com/conversations"
+                               title="Conversations" class="conversations-link nav-badge hidden-sm hidden-xs"
+                               routerLink="/conversation" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                <i class="entypo-mail"></i>
+                                <span class="badge badge-important  hidden ">0</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul *ngSwitchCase="true" class="nav navbar-nav navbar-right">
+                        <li ngbDropdown class="dropdown" id="user_menu">
+                            <a href="#<!--https://joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007-->"
+                               ngbDropdownToggle class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    <span class="user-avatar pull-left">
+                                        <img src="/context/images/default-avatar.png"
+                                             class="small avatar img-responsive center-block"
+                                             title="brownjone@joindiaspora.com" alt="brownjone@joindiaspora.com">
+                                    </span>
+                                <span class="user-name">brownjone@joindiaspora.com</span>
+                                <!--<span class="caret"></span>-->
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu" ngbDropdownMenu>
+                                <li>
+                                    <a routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                        Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <!--<a href="https://joindiaspora.com/contacts">-->
+                                    <a routerLink="/contact" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                    Contacts
+                                    </a>
+                                </li>
+                                <li>
+                                    <a routerLink="/user-account" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                        Settings
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://diasporafoundation.org/tutorials">
+                                        Help
+                                    </a>
+                                </li>
+                                <li>
+                                    <a (click)="logout()" id="logout">
+                                        Log out
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li *ngSwitchCase="false">
+                            <a class="login" id="login"
+                               (click)="login()">
+                                <span class="glyphicon glyphicon-log-in"></span> Sign In
+                            </a>
+                        </li>
+                        <li *ngSwitchCase="false" >
+                            <a class="sign_up"
+                               routerLink="register" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                <span class="glyphicon glyphicon-user"></span> Sign Up
+                            </a>
+                        </li>
+                    </ul>
+
+
+                    <form *ngSwitchCase="true" id="header-search-form" accept-charset="UTF-8" action="https://joindiaspora.com/search"
+                          class="navbar-form navbar-right" role="search" method="get">
+                        <div class="form-group">
+                                <span class="twitter-typeahead"
+                                      style="position: relative; display: inline-block;"><input id="q" name="q"
+                                                                                                placeholder="Search"
+                                                                                                results="5"
+                                                                                                type="search"
+                                                                                                autocomplete="off"
+                                                                                                class="form-control input-sm tt-input"
+                                                                                                spellcheck="false"
+                                                                                                dir="auto"
+                                                                                                aria-activedescendant=""
+                                                                                                aria-owns="q_listbox"
+                                                                                                role="combobox"
+                                                                                                aria-readonly="true"
+                                                                                                aria-autocomplete="list"
+                                                                                                style="position: relative; vertical-align: top;"><span
+                                    role="status" aria-live="polite"
+                                    style="position: absolute; padding: 0px; border: 0px; height: 1px; width: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; clip: rect(0px 0px 0px 0px); white-space: nowrap;"></span><pre
+                                    aria-hidden="true"
+                                    style="position: absolute; visibility: hidden; white-space: pre; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><div
+                                    role="listbox" class="tt-menu"
+                                    style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;"><div
+                                    role="presentation" class="tt-dataset tt-dataset-0"></div></div></span>
+                        </div>
+                        <input name="utf8" type="hidden" value="1">
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                    <span jhiTranslate="global.menu.home">Home</span>
-                </a>
-            </li>
-            <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-            <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
-                    <span>
-                        <i class="fa fa-th-list" aria-hidden="true"></i>
-                        <span jhiTranslate="global.menu.entities.main">
-                            Entities
-                        </span>
-                        <b class="caret"></b>
-                    </span>
-                </a>
-                <ul class="dropdown-menu" ngbDropdownMenu>
-                    <li>
-                        <a class="dropdown-item" routerLink="account-deletion" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.accountDeletion">Account Deletion</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="aspect" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.aspect">Aspect</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="aspect-membership" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.aspectMembership">Aspect Membership</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="aspect-visiblity" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.aspectVisiblity">Aspect Visiblity</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="comment" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.comment">Comment</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="contact" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.contact">Contact</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="conversation" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.conversation">Conversation</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="event" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.event">Event</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="event-participation" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.eventParticipation">Event Participation</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="like" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.like">Like</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="location" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.location">Location</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="message" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.message">Message</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="participation" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.participation">Participation</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="photo" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.photo">Photo</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="poll" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.poll">Poll</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="poll-answer" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.pollAnswer">Poll Answer</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="poll-participation" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.pollParticipation">Poll Participation</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="post" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.post">Post</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="profile" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.profile">Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="reshare" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.reshare">Reshare</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="retraction" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.retraction">Retraction</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="status-message" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.statusMessage">Status Message</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="tag" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.tag">Tag</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="tagging" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.tagging">Tagging</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="tag-following" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.tagFollowing">Tag Following</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="user-account" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.userAccount">User Account</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="person" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.person">Person</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="status-message" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.statusMessage">Status Message</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="reshare" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.reshare">Reshare</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="post" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.post">Post</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="person" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.person">Person</span>
-                        </a>
-                    </li>
-                    <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
-                </ul>
-            </li>
-            <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
-                    <span>
-                        <i class="fa fa-user-plus" aria-hidden="true"></i>
-                        <span jhiTranslate="global.menu.admin.main">Administration</span>
-                        <b class="caret"></b>
-                    </span>
-                </a>
-                <ul class="dropdown-menu" ngbDropdownMenu>
-                    <li>
-                        <a class="dropdown-item" routerLink="user-management" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-user" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.userManagement">User management</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="jhi-tracker" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.tracker">User tracker</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="jhi-metrics" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-tachometer" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.metrics">Metrics</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="jhi-health" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-heart" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.health">Health</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="jhi-configuration" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-list" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.configuration">Configuration</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="audits" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-bell" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.audits">Audits</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="logs" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-tasks" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.logs">Logs</span>
-                        </a>
-                    </li>
-                    <li *ngIf="swaggerEnabled">
-                        <a class="dropdown-item" routerLink="docs" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-book" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.apidocs">API</span>
-                        </a>
-                    </li>
-                    <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
-                    <li *ngIf="!inProduction">
-                        <a class="dropdown-item" href='/h2-console' target="_tab" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-hdd-o" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.database">Database</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li ngbDropdown class="nav-item dropdown pointer" *ngIf="languages">
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="languagesnavBarDropdown" *ngIf="languages.length > 1">
-                    <span>
-                        <i class="fa fa-flag" aria-hidden="true"></i>
-                        <span jhiTranslate="global.menu.language">Language</span>
-                        <b class="caret"></b>
-                    </span>
-                </a>
-                <ul class="dropdown-menu" ngbDropdownMenu *ngIf="languages.length > 1">
-                    <li *ngFor="let language of languages">
-                        <a class="dropdown-item" [jhiActiveMenu]="language" href="javascript:void(0);" (click)="changeLanguage(language);collapseNavbar();">{{language | findLanguageFromKey}}</a>
-                    </li>
-                </ul>
-            </li>
-            <li ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu">
-                  <span *ngIf="!getImageUrl()">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <span jhiTranslate="global.menu.account.main">
-                      Account
-                    </span>
-                    <b class="caret"></b>
-                  </span>
-                  <span *ngIf="getImageUrl()">
-                      <img [src]="getImageUrl()" class="profile-image img-circle" alt="Avatar">
-                  </span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
-                    <li *ngSwitchCase="true">
-                        <a class="dropdown-item" routerLink="settings" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-wrench" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.account.settings">Settings</span>
-                        </a>
-                    </li>
-                    <li *ngSwitchCase="true">
-                        <a class="dropdown-item" routerLink="password" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-clock-o" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.account.password">Password</span>
-                        </a>
-                    </li>
-                    <li *ngSwitchCase="true">
-                        <a class="dropdown-item" routerLink="sessions" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-cloud" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.account.sessions">Sessions</span>
-                        </a>
-                    </li>
-                    <li *ngSwitchCase="true">
-                        <a class="dropdown-item" (click)="logout()" id="logout">
-                            <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.account.logout">Sign out</span>
-                        </a>
-                    </li>
-                    <li *ngSwitchCase="false">
-                        <a class="dropdown-item" (click)="login()" id="login">
-                            <i class="fa fa-fw fa-sign-in" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.account.login">Sign in</span>
-                        </a>
-                    </li>
-                    <li *ngSwitchCase="false">
-                        <a class="dropdown-item" routerLink="register" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-registered" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.account.register">Register</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+
 </nav>
+
+
