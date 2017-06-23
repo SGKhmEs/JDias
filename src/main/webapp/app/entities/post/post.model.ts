@@ -15,6 +15,7 @@ export class Post {
     constructor(
         public id?: number,
         public author?: string,
+        public text?: string,
         public guid?: string,
         public createdAt?: any,
         public pub?: boolean,
