@@ -24,8 +24,8 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    //@SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @Column(name = "guid")
@@ -51,10 +51,6 @@ public class Person implements Serializable {
 
     @Column(name = "pod_id")
     private Integer podId;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Profile profile;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -103,6 +99,10 @@ public class Person implements Serializable {
     @OneToOne
     @JoinColumn(unique = true)
     private UserAccount userAccount;
+    
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Profile profile;
 
     public Long getId() {
         return id;

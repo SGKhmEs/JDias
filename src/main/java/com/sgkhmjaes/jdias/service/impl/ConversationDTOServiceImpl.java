@@ -48,19 +48,12 @@ public class ConversationDTOServiceImpl {
     
     public Conversation save(Conversation conversation) {
         log.debug("Request to save Conversation : {}", conversation);
-        User currentUser = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
-        Person currentPerson = personRepository.getOne(currentUser.getId());
         conversation.setCreatedAt(LocalDate.now());
         conversation.setUpdatedAt(ZonedDateTime.now()); 
-        conversation.setAuthor(currentPerson.getGuid());
-        
-        //Set <Person> authorConversation = new HashSet <>();
-        //authorConversation.add(personRepository.getOne(currentUser.getId()));
-        //conversation.setPeople(authorConversation);
-        //AuthorDTO authorDTO = authorDTOServiceImpl.findOne(userId);
-        
-        System.out.println("************************" + currentUser.getId());
-        
+        User currentUser = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+        Person currentPerson = personRepository.getOne(currentUser.getId());
+        //AuthorDTO authorDTO = authorDTOServiceImpl.findOne(currentUser.getId());
+        //conversation.setAuthor(authorDTO.toString());        
         Conversation result = conversationRepository.save(conversation);
         conversationSearchRepository.save(result);
         return result;

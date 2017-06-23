@@ -1,9 +1,11 @@
 package com.sgkhmjaes.jdias.service.impl;
 
+import com.sgkhmjaes.jdias.domain.Conversation;
 import com.sgkhmjaes.jdias.service.MessageService;
 import com.sgkhmjaes.jdias.domain.Message;
 import com.sgkhmjaes.jdias.repository.MessageRepository;
 import com.sgkhmjaes.jdias.repository.search.MessageSearchRepository;
+import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,14 +25,15 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class MessageServiceImpl implements MessageService{
 
     private final Logger log = LoggerFactory.getLogger(MessageServiceImpl.class);
-
     private final MessageRepository messageRepository;
-
     private final MessageSearchRepository messageSearchRepository;
+    private final ConversationDTOServiceImpl conversationDTOServiceImpl;
 
-    public MessageServiceImpl(MessageRepository messageRepository, MessageSearchRepository messageSearchRepository) {
+    public MessageServiceImpl(MessageRepository messageRepository, MessageSearchRepository messageSearchRepository, 
+            ConversationDTOServiceImpl conversationDTOServiceImpl) {
         this.messageRepository = messageRepository;
         this.messageSearchRepository = messageSearchRepository;
+        this.conversationDTOServiceImpl = conversationDTOServiceImpl;
     }
 
     /**
@@ -42,6 +45,14 @@ public class MessageServiceImpl implements MessageService{
     @Override
     public Message save(Message message) {
         log.debug("Request to save Message : {}", message);
+        message.setCreatedAt(LocalDate.now());
+        //message.getConversation()
+        /*Conversation conversation = new Conversation ();
+        conversation.addParticipants(person);
+        conversation.addMessages(message);
+        conversation.s
+        conversationDTOServiceImpl.save(conversation);
+        System.out.println("*********************"+message.getConversation());*/
         Message result = messageRepository.save(message);
         messageSearchRepository.save(result);
         return result;
