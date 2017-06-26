@@ -1,5 +1,6 @@
 package com.sgkhmjaes.jdias.service.impl;
 
+import com.sgkhmjaes.jdias.domain.Photo;
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.repository.LocationRepository;
@@ -59,6 +60,7 @@ public class PostDTOServiceImpl {
         AuthorDTO authorDTO = authorDTOServiceImpl.findOne(post.getPerson().getId());
         InteractionDTO interactionDTO = interactionDTOServiceImpl.findOneByPost(post.getId());
         System.out.println("++++++++++" + interactionDTO);
+        List<Photo> photos = photoRepository.findAllByPostId(post.getId());
         PostDTO postDTO = new PostDTO();
         StatusMessage statusMessage = statusMessageRepository.findOne(post.getId());
         try {
@@ -68,6 +70,7 @@ public class PostDTOServiceImpl {
         } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        postDTO.setPhotos(photos);
         return postDTO;
         
     }
