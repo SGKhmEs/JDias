@@ -7,7 +7,7 @@ public class InteractionDTO {
     private int likes_count;
     private int reshares_count;
     private int comments_count;
-    private List<String> likes;
+    private List<LikeDTO> likes;
     private List<String> reshares;
     private List<CommentDTO> comments;
 
@@ -38,11 +38,11 @@ public class InteractionDTO {
         this.comments_count = comments_count;
     }
 
-    public List<String> getLikes() {
+    public List<LikeDTO> getLikes() {
         return likes;
     }
 
-    public void setLikes(List<String> likes) {
+    public void setLikes(List<LikeDTO> likes) {
         this.likes = likes;
     }
 
