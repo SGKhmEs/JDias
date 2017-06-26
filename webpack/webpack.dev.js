@@ -31,7 +31,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
             secure: false
         },{
             context: [
-                '/websocket'
+                '/websocket',
             ],
             target: 'ws://127.0.0.1:8080',
             ws: true

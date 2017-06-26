@@ -26,9 +26,9 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/jdias1
-        username: jdias
-        password: jdias
+        url: jdbc:postgresql://4sstudio.online:5432/jdias_database
+        username: jdias_user
+        password: enterprise
     h2:
         console:
             enabled: false

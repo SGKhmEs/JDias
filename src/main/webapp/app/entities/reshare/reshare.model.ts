@@ -1,10 +1,10 @@
-import { Post } from '../post';
+import { Interaction } from '../interaction';
 export class Reshare {
     constructor(
         public id?: number,
         public rootAuthor?: string,
         public rootGuid?: string,
-        public post?: Post,
+        public interaction?: Interaction,
     ) {
     }
 }
