@@ -1,55 +1,77 @@
-
 <div *ngIf="post">
-    <h2><span jhiTranslate="jDiasApp.post.detail.title">Post</span> {{post.id}}</h2>
-    <hr>
-    <jhi-alert-error></jhi-alert-error>
-    <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="jDiasApp.post.author">Author</span></dt>
-        <dd>
-            <span>{{post.author}}</span>
-        </dd>
-        <dt><span jhiTranslate="jDiasApp.post.guid">Guid</span></dt>
-        <dd>
-            <span>{{post.guid}}</span>
-        </dd>
-        <dt><span jhiTranslate="jDiasApp.post.createdAt">Created At</span></dt>
-        <dd>
-            <span>{{post.createdAt | date:'mediumDate'}}</span>
-        </dd>
-        <dt><span jhiTranslate="jDiasApp.post.pub">Pub</span></dt>
-        <dd>
-            <span>{{post.pub}}</span>
-        </dd>
-        <dt><span jhiTranslate="jDiasApp.post.providerDisplayName">Provider Display Name</span></dt>
-        <dd>
-            <span>{{post.providerDisplayName}}</span>
-        </dd>
-        <dt><span jhiTranslate="jDiasApp.post.postType">Post Type</span></dt>
-        <dd>
-            <span jhiTranslate="{{'jDiasApp.PostType.' + post.postType}}">{{post.postType}}</span>
-        </dd>
-        <dt><span jhiTranslate="jDiasApp.post.person">Person</span></dt>
-        <dd>
-            <div *ngIf="post.person">
-                <a [routerLink]="['/person', post.person?.id]">{{post.person?.id}}</a>
-            </div>
-        </dd>
-        <dt><span jhiTranslate="jDiasApp.post.reshare">Reshare</span></dt>
-        <dd>
-            <div *ngIf="post.reshare">
-                <a [routerLink]="['/reshare', post.reshare?.id]">{{post.reshare?.id}}</a>
-            </div>
-        </dd>
-        <dt><span jhiTranslate="jDiasApp.post.statusMessage">Status Message</span></dt>
-        <dd>
-            <div *ngIf="post.statusMessage">
-                <a [routerLink]="['/status-message', post.statusMessage?.id]">{{post.statusMessage?.id}}</a>
-            </div>
-        </dd>
-    </dl>
+    <div class="container-fluid" id="container">
+        <div id="e76847001e3001358b9c0242ac110007">
+            <div id="single-post-container">
+                <div class="row">
+                    <div id="single-post-content" class="col-md-6 single-post-content">
+                        <div class="framed-content">
+                            <div id="head" class="head clearfix">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div id="post-info" class="col-md-8">
+                                            <div class="img pull-left">
+                                                <a routerLink="['/profile',post.person?.id]"
+                                                   class="author-name hovercardable">
+                                                    <img
+                                                        [src]="post.author.avatar.imageUrlSmall"
+                                                        class="medium avatar img-responsive center-block"
+                                                        title="{{post.author.diaspora_id}}"
+                                                        alt="{{post.author.diaspora_id}}">
+                                                </a>
+                                            </div>
+
+                                            <div class="bd">
+                                                <div class="info">
+                                                    <span class="post_scope" title="" data-original-title="Public">
+                                                        <i class="entypo-globe small"></i>
+                                                    </span>
+                                                    <span class="post-time">
+                                                        <a [routerLink]="['/post',post.id]">
+                                                            <time title="">{{post.created_at | date:'mediumDate' }}
+                                                            </time>
+                                                        </a>
+                                                    </span>
+                                                    via mobile
+                                                </div>
+                                                <span class="author">
+                                                    <a [routerLink]="['/profile',post.person?.id]"
+                                                       class="author-name hovercardable">
+                                                        {{post.author.diaspora_id}}
+                                                    </a>
+                                                </span>
+
+                                                <div id="single-post-moderation">
+                                                    <div class="control-icons">
+                                                        <div>
+                                                            <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                               data-type="Post" class="post_report" title=""
+                                                               data-original-title="Report">
+                                                                <i class="entypo-warning"></i>
+                                                            </a>
+                                                            <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                               data-type="post" class="block_user" title=""
+                                                               data-original-title="Ignore">
+                                                                <i class="entypo-block"></i>
+                                                            </a>
+                                                            <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                               data-type="nofollow" class="create_participation"
+                                                               title=""
+                                                               data-original-title="Enable notifications for this post">
+                                                                <i class="entypo-bell"></i>
+                                                            </a>
+                                                            <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
+                                                               data-type="post" class="hide_post" title=""
+                                                               data-original-title="Hide">
+                                                                <i class="entypo-cross"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div id="single-post-actions" class="col-md-4">
-                                            <div class="info" >
+                                            <div class="info">
                                                 <div class="pull-right">
                                                     <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
                                                        class="like" title="" data-original-title=" Like ">
@@ -74,7 +96,7 @@
                             <div class="row">
                                 <div id="body" class="body clearfix">
                                     <div id="real-post-content" class="post-content col-md-12">
-                                        <div >
+                                        <div>
                                             <div class="nsfw-shield">
                                                 <strong>
                                                     #NSFW
@@ -103,10 +125,10 @@
                                             </div>
 
                                             <div class="photo_attachments nsfw-hidden">
-                                                <a href="/content/images/scaled_full.jpg"
+                                                <a href="/assets/images/scaled_full.jpg"
                                                    class="stream-photo-link gallery-picture">
                                                     <img
-                                                        src="/content/images/scaled_full.jpg"
+                                                        src="/assets/images/scaled_full.jpg"
                                                         class="stream-photo big_stream_photo">
                                                 </a>
 
@@ -116,18 +138,18 @@
                                                 <div class="markdown-content">
                                                     <p>
                                                         <!--<a href="https://joindiaspora.com/tags/photo" class="tag">#photo</a>-->
-                                                        {{post.guid}}
+                                                        {{post.text}}
                                                     </p>
 
                                                 </div>
                                                 <div class="oembed">
-                                                    <div ></div>
+                                                    <div></div>
                                                 </div>
                                                 <div class="opengraph">
-                                                    <div ></div>
+                                                    <div></div>
                                                 </div>
                                                 <div class="poll">
-                                                    <div ></div>
+                                                    <div></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -137,9 +159,9 @@
                         </div>
                     </div>
                     <div id="single-post-interactions" class="col-md-6 single-post-interactions">
-                        <div class="framed-content" >
+                        <div class="framed-content">
                             <div id="interaction-counts">
-                                <div >
+                                <div>
                                     <div id="reshares" class="clearfix">
                                         <div class="count">
                                             <i class="entypo-reshare middle gray"></i>
@@ -191,12 +213,12 @@
                                 </div>
                             </div>
                             <div id="comments">
-                                <div class="comment_stream" >
+                                <div class="comment_stream">
                                     <div class="show_comments comment  hidden ">
                                         <div class="media">
                                             <a href="https://joindiaspora.com/posts/9325058#comments"
                                                class="toggle_post_comments">
-                                                Show 0 more comments
+                                                Show 1 more comments
                                             </a>
                                         </div>
                                     </div>
@@ -249,7 +271,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="comment media" >
+                                        <div class="comment media">
                                             <div id="5a536a301e5a01358bb20242ac110007">
                                                 <div class="img">
                                                     <a href="https://joindiaspora.com/people/991ef3e01e5601358b960242ac110007"
@@ -289,7 +311,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="comment media" >
+                                        <div class="comment media">
                                             <div id="d25478001f0c01358be00242ac110007">
                                                 <div class="img">
                                                     <a href="https://joindiaspora.com/people/4d30dffc2c174376100051d9"
@@ -331,7 +353,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="comment media" >
+                                        <div class="comment media">
                                             <div id="60c5fec028000135f1920242ac110007">
                                                 <div class="img">
                                                     <a href="https://joindiaspora.com/people/7333cb2027fa0135f1940242ac110007"
@@ -400,20 +422,21 @@
                         </div>
                     </div>
                 </div>
+>>>>>>> Temporary merge branch 2
             </div>
         </div>
     </div>
 
 
     <button type="submit" routerLink="/post/"
-             class="btn btn-info">
-         <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-     </button>
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
 
-    <button type="button"
+    <!--<button type="button"
             [routerLink]="['/', { outlets: { popup: 'post/'+ post.id + '/edit'} }]"
             replaceUrl="true"
             class="btn btn-primary">
         <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-    </button>
+    </button>-->
 </div>
