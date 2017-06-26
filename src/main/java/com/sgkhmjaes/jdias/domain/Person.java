@@ -8,7 +8,9 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Objects;
 
@@ -89,12 +91,12 @@ public class Person implements Serializable {
     @OneToMany(mappedBy = "person")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Message> messages = new HashSet<>();
+    private List<Message> messages = new ArrayList<>();
 
     @ManyToMany(mappedBy = "participants")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Conversation> conversations = new HashSet<>();
+    private List<Conversation> conversations = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -392,11 +394,11 @@ public class Person implements Serializable {
         this.events = eventParticipations;
     }
 
-    public Set<Message> getMessages() {
+    public List<Message> getMessages() {
         return messages;
     }
 
-    public Person messages(Set<Message> messages) {
+    public Person messages(List<Message> messages) {
         this.messages = messages;
         return this;
     }
@@ -413,15 +415,15 @@ public class Person implements Serializable {
         return this;
     }
 
-    public void setMessages(Set<Message> messages) {
+    public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
 
-    public Set<Conversation> getConversations() {
+    public List<Conversation> getConversations() {
         return conversations;
     }
 
-    public Person conversations(Set<Conversation> conversations) {
+    public Person conversations(List<Conversation> conversations) {
         this.conversations = conversations;
         return this;
     }
@@ -438,7 +440,7 @@ public class Person implements Serializable {
         return this;
     }
 
-    public void setConversations(Set<Conversation> conversations) {
+    public void setConversations(List<Conversation> conversations) {
         this.conversations = conversations;
     }
 

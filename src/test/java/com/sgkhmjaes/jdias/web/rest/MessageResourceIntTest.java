@@ -6,6 +6,8 @@ import com.sgkhmjaes.jdias.domain.Message;
 import com.sgkhmjaes.jdias.repository.MessageRepository;
 import com.sgkhmjaes.jdias.service.MessageService;
 import com.sgkhmjaes.jdias.repository.search.MessageSearchRepository;
+import com.sgkhmjaes.jdias.service.impl.MessageDTOServiceImpl;
+import com.sgkhmjaes.jdias.service.impl.MessageServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -61,6 +63,9 @@ public class MessageResourceIntTest {
 
     @Autowired
     private MessageService messageService;
+    
+    @Autowired
+    private MessageDTOServiceImpl messageDTOServiceImpl;
 
     @Autowired
     private MessageSearchRepository messageSearchRepository;
@@ -84,7 +89,7 @@ public class MessageResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        MessageResource messageResource = new MessageResource(messageService);
+        MessageResource messageResource = new MessageResource(messageService, messageDTOServiceImpl);
         this.restMessageMockMvc = MockMvcBuilders.standaloneSetup(messageResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

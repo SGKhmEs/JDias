@@ -3,6 +3,8 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Message;
 import com.sgkhmjaes.jdias.service.MessageService;
+import com.sgkhmjaes.jdias.service.impl.MessageDTOServiceImpl;
+import com.sgkhmjaes.jdias.service.impl.MessageServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -27,13 +29,13 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class MessageResource {
 
     private final Logger log = LoggerFactory.getLogger(MessageResource.class);
-
     private static final String ENTITY_NAME = "message";
-
     private final MessageService messageService;
+    private final MessageDTOServiceImpl messageDTOServiceImpl;
 
-    public MessageResource(MessageService messageService) {
+    public MessageResource(MessageService messageService, MessageDTOServiceImpl messageDTOServiceImpl) {
         this.messageService = messageService;
+        this.messageDTOServiceImpl = messageDTOServiceImpl;
     }
 
     /**
@@ -50,7 +52,8 @@ public class MessageResource {
         if (message.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new message cannot already have an ID")).body(null);
         }
-        Message result = messageService.save(message);
+        Message result = messageDTOServiceImpl.save(message);
+        //Message result = messageService.save(message);
         return ResponseEntity.created(new URI("/api/messages/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -72,7 +75,7 @@ public class MessageResource {
         if (message.getId() == null) {
             return createMessage(message);
         }
-        Message result = messageService.save(message);
+        Message result = messageDTOServiceImpl.save(message);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, message.getId().toString()))
             .body(result);
@@ -87,7 +90,7 @@ public class MessageResource {
     @Timed
     public List<Message> getAllMessages() {
         log.debug("REST request to get all Messages");
-        return messageService.findAll();
+        return messageDTOServiceImpl.findAll();
     }
 
     /**
@@ -100,7 +103,7 @@ public class MessageResource {
     @Timed
     public ResponseEntity<Message> getMessage(@PathVariable Long id) {
         log.debug("REST request to get Message : {}", id);
-        Message message = messageService.findOne(id);
+        Message message = messageDTOServiceImpl.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(message));
     }
 
@@ -114,7 +117,7 @@ public class MessageResource {
     @Timed
     public ResponseEntity<Void> deleteMessage(@PathVariable Long id) {
         log.debug("REST request to delete Message : {}", id);
-        messageService.delete(id);
+        messageDTOServiceImpl.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -129,7 +132,7 @@ public class MessageResource {
     @Timed
     public List<Message> searchMessages(@RequestParam String query) {
         log.debug("REST request to search Messages for query {}", query);
-        return messageService.search(query);
+        return messageDTOServiceImpl.search(query);
     }
 
 }

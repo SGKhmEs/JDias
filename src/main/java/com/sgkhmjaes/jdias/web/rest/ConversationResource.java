@@ -76,7 +76,7 @@ public class ConversationResource {
         if (conversation.getId() == null) {
             return createConversation(conversation);
         }
-        Conversation result = conversationService.save(conversation);
+        Conversation result = conversationDTOServiceImpl.save(conversation);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, conversation.getId().toString()))
             .body(result);
@@ -91,7 +91,7 @@ public class ConversationResource {
     @Timed
     public List<Conversation> getAllConversations() {
         log.debug("REST request to get all Conversations");
-        return conversationService.findAll();
+        return conversationDTOServiceImpl.findAll();
     }
 
     /**
@@ -104,7 +104,7 @@ public class ConversationResource {
     @Timed
     public ResponseEntity<Conversation> getConversation(@PathVariable Long id) {
         log.debug("REST request to get Conversation : {}", id);
-        Conversation conversation = conversationService.findOne(id);
+        Conversation conversation = conversationDTOServiceImpl.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(conversation));
     }
 
@@ -118,7 +118,7 @@ public class ConversationResource {
     @Timed
     public ResponseEntity<Void> deleteConversation(@PathVariable Long id) {
         log.debug("REST request to delete Conversation : {}", id);
-        conversationService.delete(id);
+        conversationDTOServiceImpl.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -133,7 +133,7 @@ public class ConversationResource {
     @Timed
     public List<Conversation> searchConversations(@RequestParam String query) {
         log.debug("REST request to search Conversations for query {}", query);
-        return conversationService.search(query);
+        return conversationDTOServiceImpl.search(query);
     }
 
 }

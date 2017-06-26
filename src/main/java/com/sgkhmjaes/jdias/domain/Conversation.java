@@ -9,7 +9,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Objects;
 
@@ -21,6 +23,12 @@ import java.util.Objects;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "conversation")
 public class Conversation implements Serializable {
+    
+    public Conversation () {}
+    
+    public Conversation (String message) {
+        this.message = message;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -50,9 +58,9 @@ public class Conversation implements Serializable {
     @OneToMany(mappedBy = "conversation")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Message> messages = new HashSet<>();
+    private List <Message> messages = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany//(fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "conversation_participants",
                joinColumns = @JoinColumn(name="conversations_id", referencedColumnName="id"),
@@ -145,11 +153,11 @@ public class Conversation implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Set<Message> getMessages() {
+    public List<Message> getMessages() {
         return messages;
     }
 
-    public Conversation messages(Set<Message> messages) {
+    public Conversation messages(List<Message> messages) {
         this.messages = messages;
         return this;
     }
@@ -166,7 +174,7 @@ public class Conversation implements Serializable {
         return this;
     }
 
-    public void setMessages(Set<Message> messages) {
+    public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
 
