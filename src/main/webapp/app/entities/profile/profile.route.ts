@@ -42,6 +42,7 @@ export const profilePopupRoute: Routes = [
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
     },
+    // comment by traster - move to not popup section
     {
         path: 'profile/:id/edit',
         component: ProfilePopupComponent,

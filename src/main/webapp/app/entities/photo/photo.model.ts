@@ -1,9 +1,7 @@
-import { StatusMessage } from '../status-message';
-import { Person } from '../person';
+import { Post } from '../post';
 export class Photo {
     constructor(
         public id?: number,
-        public author?: string,
         public guid?: boolean,
         public createdAt?: any,
         public remotePhotoPath?: string,
@@ -12,8 +10,7 @@ export class Photo {
         public width?: number,
         public text?: string,
         public statusMessageGuid?: string,
-        public statusMessage?: StatusMessage,
-        public person?: Person,
+        public post?: Post,
     ) {
         this.guid = false;
     }

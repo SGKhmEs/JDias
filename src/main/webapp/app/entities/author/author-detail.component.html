@@ -1,0 +1,35 @@
+
+<div *ngIf="author">
+    <h2><span jhiTranslate="jDiasApp.author.detail.title">Author</span> {{author.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.author.diasporaid">Diasporaid</span></dt>
+        <dd>
+            <span>{{author.diasporaid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.author.guid">Guid</span></dt>
+        <dd>
+            <span>{{author.guid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.author.avatar">Avatar</span></dt>
+        <dd>
+            <div *ngIf="author.avatar">
+                <a [routerLink]="['/avatar', author.avatar?.id]">{{author.avatar?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'author/'+ author.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
