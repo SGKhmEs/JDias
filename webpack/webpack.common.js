@@ -65,8 +65,13 @@ module.exports = function (options) {
                     loaders: ['style-loader', 'css-loader']
                 },
                 {
+                    test: /(assets)+[/][^.]+\.(jpe?g|png|gif|svg|woff2?|ttf|eot)$/i,
+                    loaders: ['file-loader?name=assets/[name].[hash].[ext]']
+                },
+                {
                     test: /\.(jpe?g|png|gif|svg|woff2?|ttf|eot)$/i,
-                    loaders: ['file-loader?hash=sha512&digest=hex&name=[hash].[ext]']
+                    loaders: ['file-loader?hash=sha512&digest=hex&name=[hash].[ext]'],
+                    exclude: /(assets)+[/][^.]+\.(jpe?g|png|gif|svg|woff2?|ttf|eot)$/i
                 },
                 {
                     test: /app.constants.ts$/,
@@ -95,7 +100,8 @@ module.exports = function (options) {
                 { from: './src/main/webapp/swagger-ui/', to: 'swagger-ui' },
                 { from: './src/main/webapp/favicon.ico', to: 'favicon.ico' },
                 { from: './src/main/webapp/robots.txt', to: 'robots.txt' },
-                { from: './src/main/webapp/i18n', to: 'i18n' }
+                { from: './src/main/webapp/i18n', to: 'i18n' },
+                { from: './src/main/webapp/content/assets/', to: 'assets' }
             ]),
             new webpack.ProvidePlugin({
                 $: "jquery",

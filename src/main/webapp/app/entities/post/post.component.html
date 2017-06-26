@@ -573,13 +573,14 @@
                     </div>
                     <div class="stream" id="main_stream">
                         <div *ngFor="let post of posts ;trackBy: trackId">
+
                             <div class="stream-element loaded">
                                 <div class="media   ">
                                     <a [routerLink]="['/profile',post.person?.id]"
                                        class="img hovercardable">
-                                        <img src="/content/images/default-avatar.png"
-                                             class="small avatar img-responsive center-block" title="{{post.author}}"
-                                             alt="{{post.author}}">
+                                        <img [src]="post.author.avatar.imageUrlSmall"
+                                             class="small avatar img-responsive center-block" title="{{post.author.diaspora_id}}"
+                                             alt="{{post.author.diaspora_id}}">
                                     </a>
 
                                     <div class="bd">
@@ -608,12 +609,12 @@
 
                                         <div>
                                             <a routerLink="['/profile',post.person?.id]"
-                                               class="author-name hovercardable">{{post.author}}
+                                               class="author-name hovercardable">{{post.author.diaspora_id}}
                                             </a>
                                             <span class="details gray">-
                                                 <a [routerLink]="['/post',post.id]">
                                                     <time class="timeago">
-                                                    {{post.createdAt | date:'mediumDate' }} about a month ago
+                                                    {{post.created_at | date:'mediumDate' }}
                                                     </time>
                                                 </a>
                                                 <a [routerLink]="['/post',post.id]"
@@ -655,7 +656,7 @@
                                                     <a href="/content/images/scaled_full.jpg"
                                                        class="stream-photo-link gallery-picture">
                                                         <img
-                                                            src="/content/images/scaled_full.jpg"
+                                                            src="/assets/images/scaled_full.jpg"
                                                             class="stream-photo big_stream_photo">
                                                     </a>
 
@@ -711,7 +712,8 @@
                                                         <div class="bd">
                                                             <a href="https://joindiaspora.com/stream#"
                                                                class="expand-likes gray">
-                                                                32 Likes
+                                                                {{post.interactions.likes_count > 0 ?
+                                                                post.interactions.likes_count : 0 }} Likes
                                                             </a>
 
                                                         </div>
@@ -728,7 +730,8 @@
                                                         <div class="bd">
                                                             <a href="https://joindiaspora.com/stream#"
                                                                class="expand-reshares gray">
-                                                                1 Reshare
+                                                                {{post.interactions.reshares_count > 0 ?
+                                                                post.interactions.reshares_count : 0 }} Reshare
                                                             </a>
 
                                                         </div>
@@ -736,11 +739,12 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="comments nsfw-hidden">
                                             <div class="comment_stream">
                                                 <div class="show_comments comment ">
                                                     <div class="media">
-                                                        <a href="https://joindiaspora.com/posts/9325058#comments"
+                                                        <a [routerLink]="['/post',post.id]"
                                                            class="toggle_post_comments">
                                                             Show 1 more comment
                                                         </a>
@@ -755,61 +759,19 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="comments">
+                                                <div class="comments"
+                                                     *ngFor="let comment of post.interactions.comments ;trackBy: trackId">
                                                     <div class="comment media">
-                                                        <div id="5a536a301e5a013584bb20242ac110007">
+                                                        <div id="{{comment.id}}">
                                                             <div class="img">
-                                                                <a href="https://joindiaspora.com/people/991ef3e01e5601358b960242ac110007"
-                                                                   class="author-name hovercardable"> <img
-                                                                    src="/content/images/thumb_small.jpg"
-                                                                    class="small avatar img-responsive center-block"
-                                                                    title="orbiter2@joindiaspora.com"
-                                                                    alt="orbiter2@joindiaspora.com">
-                                                                </a></div>
-
-                                                            <div class="bd">
-                                                                <div class="control-icons">
-                                                                    <a href="https://joindiaspora.com/stream#"
-                                                                       data-type="Comment" class="comment_report"
-                                                                       title="Report">
-                                                                        <i class="entypo-warning"></i>
-                                                                    </a>
-                                                                </div>
-
-                                                                <a href="https://joindiaspora.com/people/991ef3e01e5601358b960242ac110007"
+                                                                <a [routerLink]="['/people',comment.author.id]"
                                                                    class="author-name hovercardable">
-                                                                    orbiter2@joindiaspora.com
+                                                                    <img [src]="comment.author.avatar.imageUrlSmall"
+                                                                        class="small avatar img-responsive center-block"
+                                                                        title="{{comment.author.diaspora_id}}"
+                                                                        alt="{{comment.author.diaspora_id}}">
                                                                 </a>
-                                                                <div
-                                                                    class="collapsible comment-content markdown-content">
-                                                                    <p>Is this portal called :“joineddiaspora” is real
-                                                                        Diaspora services? why name is different?</p>
-
-                                                                </div>
-
-                                                                <div class="info">
-                                                                    <a href="https://joindiaspora.com/posts/9325058#5a536a301e5a01358bb20242ac110007"
-                                                                       class="permalink_comment">
-                                                                        <time class="timeago"
-                                                                              data-original-title="19.05.2017, 3:45:17"
-                                                                              datetime="2017-05-19T00:45:17.000Z">about
-                                                                            a
-                                                                            month ago
-                                                                        </time>
-                                                                    </a>
-                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="comment media">
-                                                        <div id="d25478001f0c601358be00242ac110007">
-                                                            <div class="img">
-                                                                <a href="https://joindiaspora.com/people/4d30dffc2c174376100051d9"
-                                                                   class="author-name hovercardable"> <img
-                                                                    src="/content/images/thumb_small.jpg"
-                                                                    class="small avatar img-responsive center-block"
-                                                                    title="Star✯dust" alt="Star✯dust">
-                                                                </a></div>
 
                                                             <div class="bd">
                                                                 <div class="control-icons">
@@ -820,68 +782,21 @@
                                                                     </a>
                                                                 </div>
 
-                                                                <a href="https://joindiaspora.com/people/4d30dffc2c174376100051d9"
-                                                                   class="author-name hovercardable"> Star✯dust
+                                                                <a [routerLink]="['/people',comment.author.id]"
+                                                                   class="author-name hovercardable">
+                                                                    {{comment.author.diaspora_id}}
                                                                 </a>
                                                                 <div
                                                                     class="collapsible comment-content markdown-content">
-                                                                    <p>@Tom Grz<br>
-                                                                        <a href="https://it.m.wikipedia.org/wiki/Campanula"
-                                                                           target="_blank" rel="noopener noreferrer">https://it.m.wikipedia.org/wiki/Campanula</a>
-                                                                    </p>
+                                                                    <p>{{comment.text}}</p>
 
                                                                 </div>
 
                                                                 <div class="info">
-                                                                    <a href="https://joindiaspora.com/posts/9325058#d25478001f0c01358be00242ac110007"
+                                                                    <a [routerLink]="['/post',post.id]"
                                                                        class="permalink_comment">
-                                                                        <time class="timeago"
-                                                                              data-original-title="20.05.2017, 1:02:49"
-                                                                              datetime="2017-05-19T22:02:49.000Z">about
-                                                                            a
-                                                                            month ago
-                                                                        </time>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="comment media">
-                                                        <div id="60c5fec028000135f1920242ac110007">
-                                                            <div class="img">
-                                                                <a href="https://joindiaspora.com/people/7333cb2027fa0135f1940242ac110007"
-                                                                   class="author-name hovercardable"> <img
-                                                                    src="/content/images/thumb_small.jpg"
-                                                                    class="small avatar img-responsive center-block"
-                                                                    title="Roby Noberini" alt="Roby Noberini">
-                                                                </a></div>
-
-                                                            <div class="bd">
-                                                                <div class="control-icons">
-                                                                    <a href="https://joindiaspora.com/stream#"
-                                                                       data-type="Comment" class="comment_report"
-                                                                       title="Report">
-                                                                        <i class="entypo-warning"></i>
-                                                                    </a>
-                                                                </div>
-
-                                                                <a href="https://joindiaspora.com/people/7333cb2027fa0135f1940242ac110007"
-                                                                   class="author-name hovercardable"> Roby Noberini
-                                                                </a>
-                                                                <div
-                                                                    class="collapsible comment-content markdown-content">
-                                                                    <p>👌👌</p>
-
-                                                                </div>
-
-                                                                <div class="info">
-                                                                    <a href="https://joindiaspora.com/posts/9325058#60c5fec028000135f1920242ac110007"
-                                                                       class="permalink_comment">
-                                                                        <time class="timeago"
-                                                                              data-original-title="31.05.2017, 10:26:25"
-                                                                              datetime="2017-05-31T07:26:25.000Z">21
-                                                                            days
-                                                                            ago
+                                                                        <time class="timeago">{{comment.createdAt |
+                                                                            date:'mediumDate' }}
                                                                         </time>
                                                                     </a>
                                                                 </div>
@@ -918,12 +833,13 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="stream-element loaded">
+                            <!--<div class="stream-element loaded">
                                 <div class="media">
                                     <a [routerLink]="['/profile',post.person?.id]"
                                        class="img ">
@@ -950,7 +866,7 @@
                                            class="author-name ">{{post.author}}</a>
                                         <span class="details gray">
                                                 <a [routerLink]="['/post',post.id]">
-                                                    <time class="timeago" >{{post.createdAt | date:'mediumDate' }} a day ago</time>
+                                                    <time class="timeago" >{{post.created_at | date:'mediumDate' }} a day ago</time>
                                                 </a>
                                                 <a [routerLink]="['/post',post.id]"
                                                    class="permalink" title="" data-original-title="Permalink">
@@ -1068,7 +984,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                         <div class="stream-element loaded">
                             <div class="media">
@@ -1097,7 +1013,7 @@
                                        class="author-name ">brownjone@joindiaspora.com</a>
                                     <span class="details gray">
                                                 <a routerLink="['/post',post.id]">
-                                                    <time class="timeago" > {{post.createdAt | date:'mediumDate' }} a day ago</time>
+                                                    <time class="timeago"> {{post.created_at | date:'mediumDate' }} a day ago</time>
                                                 </a>
                                                 <a routerLink="['/post',post.id]"
                                                    class="permalink" title="" data-original-title="Permalink">
@@ -1273,7 +1189,7 @@
                                         </a>
                                         <span class="details gray">-
                                             <a routerLink="['/post',post.id]">
-                                                <time class="timeago" >{{post.createdAt | date:'mediumDate' }} about a month ago</time>
+                                                <time class="timeago">{{post.created_at | date:'mediumDate' }} </time>
                                             </a>
                                             <a routerLink="['/post',post.id]"
                                                class="permalink" title="" data-original-title="Permalink">
@@ -1368,7 +1284,8 @@
                                                     <div class="bd">
                                                         <a href="https://joindiaspora.com/stream#"
                                                            class="expand-likes gray">
-                                                            32 Likes
+                                                            {{post.interactions.likes_count > 0 ?
+                                                            post.interactions.likes_count : 0 }} Likes
                                                         </a>
 
                                                     </div>
@@ -1385,7 +1302,8 @@
                                                     <div class="bd">
                                                         <a href="https://joindiaspora.com/stream#"
                                                            class="expand-reshares gray">
-                                                            1 Reshare
+                                                            {{post.interactions.reshares_count > 0 ?
+                                                            post.interactions.reshares_count : 0 }} Reshare
                                                         </a>
 
                                                     </div>
@@ -1446,7 +1364,8 @@
                                                             <div class="info">
                                                                 <a href="https://joindiaspora.com/posts/9325058#5a536a301e5a01358bb20242ac110007"
                                                                    class="permalink_comment">
-                                                                    <time class="timeago">{{post.createdAt | date:'mediumDate' }} about a month ago
+                                                                    <time class="timeago">{{post.created_at |
+                                                                        date:'mediumDate' }} about a month ago
                                                                     </time>
                                                                 </a>
                                                             </div>
@@ -1486,7 +1405,8 @@
                                                             <div class="info">
                                                                 <a href="https://joindiaspora.com/posts/9325058#d25478001f0c01358be00242ac110007"
                                                                    class="permalink_comment">
-                                                                    <time class="timeago">{{post.createdAt | date:'mediumDate' }} about a
+                                                                    <time class="timeago">{{post.created_at |
+                                                                        date:'mediumDate' }} about a
                                                                         month ago
                                                                     </time>
                                                                 </a>

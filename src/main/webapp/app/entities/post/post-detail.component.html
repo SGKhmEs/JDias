@@ -1,21 +1,24 @@
 <div *ngIf="post">
     <div class="container-fluid" id="container">
-        <div id="e76847001e3001358b9c0242ac110007" >
+        <div id="e76847001e3001358b9c0242ac110007">
             <div id="single-post-container">
                 <div class="row">
                     <div id="single-post-content" class="col-md-6 single-post-content">
-                        <div class="framed-content" >
+                        <div class="framed-content">
                             <div id="head" class="head clearfix">
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div id="post-info" class="col-md-8">
                                             <div class="img pull-left">
-                                                <a routeLink="['/profile',post.person?.id]"
-                                                   class="author-name hovercardable"> <img
-                                                    src="/content/images/thumb_medium.jpg"
-                                                    class="medium avatar img-responsive center-block" title="{{post.author}}"
-                                                    alt="{{post.author}}">
-                                                </a></div>
+                                                <a routerLink="['/profile',post.person?.id]"
+                                                   class="author-name hovercardable">
+                                                    <img
+                                                        [src]="post.author.avatar.imageUrlSmall"
+                                                        class="medium avatar img-responsive center-block"
+                                                        title="{{post.author.diaspora_id}}"
+                                                        alt="{{post.author.diaspora_id}}">
+                                                </a>
+                                            </div>
 
                                             <div class="bd">
                                                 <div class="info">
@@ -23,20 +26,22 @@
                                                         <i class="entypo-globe small"></i>
                                                     </span>
                                                     <span class="post-time">
-                                                        <a routeLink="['/profile',post.person?.id]">
-                                                            <time title="" >{{post.createdAt | date:'mediumDate' }} about a month ago</time>
+                                                        <a [routerLink]="['/post',post.id]">
+                                                            <time title="">{{post.created_at | date:'mediumDate' }}
+                                                            </time>
                                                         </a>
                                                     </span>
                                                     via mobile
                                                 </div>
                                                 <span class="author">
-                                                    <a routeLink="['/profile',post.person?.id]" class="author-name hovercardable">
-                                                        {{post.author}}
+                                                    <a [routerLink]="['/profile',post.person?.id]"
+                                                       class="author-name hovercardable">
+                                                        {{post.author.diaspora_id}}
                                                     </a>
                                                 </span>
 
                                                 <div id="single-post-moderation">
-                                                    <div class="control-icons" >
+                                                    <div class="control-icons">
                                                         <div>
                                                             <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
                                                                data-type="Post" class="post_report" title=""
@@ -66,7 +71,7 @@
                                         </div>
 
                                         <div id="single-post-actions" class="col-md-4">
-                                            <div class="info" >
+                                            <div class="info">
                                                 <div class="pull-right">
                                                     <a href="https://joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
                                                        class="like" title="" data-original-title=" Like ">
@@ -91,7 +96,7 @@
                             <div class="row">
                                 <div id="body" class="body clearfix">
                                     <div id="real-post-content" class="post-content col-md-12">
-                                        <div >
+                                        <div>
                                             <div class="nsfw-shield">
                                                 <strong>
                                                     #NSFW
@@ -120,10 +125,10 @@
                                             </div>
 
                                             <div class="photo_attachments nsfw-hidden">
-                                                <a href="/content/images/scaled_full.jpg"
+                                                <a href="/assets/images/scaled_full.jpg"
                                                    class="stream-photo-link gallery-picture">
                                                     <img
-                                                        src="/content/images/scaled_full.jpg"
+                                                        src="/assets/images/scaled_full.jpg"
                                                         class="stream-photo big_stream_photo">
                                                 </a>
 
@@ -133,18 +138,18 @@
                                                 <div class="markdown-content">
                                                     <p>
                                                         <!--<a href="https://joindiaspora.com/tags/photo" class="tag">#photo</a>-->
-                                                        {{post.guid}}
+                                                        {{post.text}}
                                                     </p>
 
                                                 </div>
                                                 <div class="oembed">
-                                                    <div ></div>
+                                                    <div></div>
                                                 </div>
                                                 <div class="opengraph">
-                                                    <div ></div>
+                                                    <div></div>
                                                 </div>
                                                 <div class="poll">
-                                                    <div ></div>
+                                                    <div></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -154,9 +159,9 @@
                         </div>
                     </div>
                     <div id="single-post-interactions" class="col-md-6 single-post-interactions">
-                        <div class="framed-content" >
+                        <div class="framed-content">
                             <div id="interaction-counts">
-                                <div >
+                                <div>
                                     <div id="reshares" class="clearfix">
                                         <div class="count">
                                             <i class="entypo-reshare middle gray"></i>
@@ -208,12 +213,12 @@
                                 </div>
                             </div>
                             <div id="comments">
-                                <div class="comment_stream" >
+                                <div class="comment_stream">
                                     <div class="show_comments comment  hidden ">
                                         <div class="media">
                                             <a href="https://joindiaspora.com/posts/9325058#comments"
                                                class="toggle_post_comments">
-                                                Show 0 more comments
+                                                Show 1 more comments
                                             </a>
                                         </div>
                                     </div>
@@ -266,7 +271,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="comment media" >
+                                        <div class="comment media">
                                             <div id="5a536a301e5a01358bb20242ac110007">
                                                 <div class="img">
                                                     <a href="https://joindiaspora.com/people/991ef3e01e5601358b960242ac110007"
@@ -306,7 +311,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="comment media" >
+                                        <div class="comment media">
                                             <div id="d25478001f0c01358be00242ac110007">
                                                 <div class="img">
                                                     <a href="https://joindiaspora.com/people/4d30dffc2c174376100051d9"
@@ -348,7 +353,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="comment media" >
+                                        <div class="comment media">
                                             <div id="60c5fec028000135f1920242ac110007">
                                                 <div class="img">
                                                     <a href="https://joindiaspora.com/people/7333cb2027fa0135f1940242ac110007"
@@ -423,9 +428,9 @@
 
 
     <button type="submit" routerLink="/post/"
-             class="btn btn-info">
-         <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-     </button>
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
 
     <!--<button type="button"
             [routerLink]="['/', { outlets: { popup: 'post/'+ post.id + '/edit'} }]"
