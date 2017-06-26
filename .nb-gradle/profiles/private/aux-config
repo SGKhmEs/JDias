@@ -6,20 +6,24 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
       <group>
         <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/MessageDTOServiceImpl.java</file>
-        <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/web/rest/ConversationResource.java</file>
-        <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/ConversationDTOServiceImpl.java</file>
-      </group>
-    </open-files>
-    <editor-bookmarks lastBookmarkId="0" xmlns="http://www.netbeans.org/ns/editor-bookmarks/2"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-      <group>
-        <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/MessageDTOServiceImpl.java</file>
         <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/ProfileServiceImpl.java</file>
         <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/web/rest/ConversationResource.java</file>
         <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/dto/ConversationDTO.java</file>
         <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/PersonServiceImpl.java</file>
         <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/ConversationDTOServiceImpl.java</file>
         <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/UserService.java</file>
+        <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/web/rest/AccountResource.java</file>
+      </group>
+    </open-files>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+      <group>
+        <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/PersonServiceImpl.java</file>
+        <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/UserService.java</file>
+        <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/web/rest/ConversationResource.java</file>
+        <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/ConversationDTOServiceImpl.java</file>
+        <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/ProfileServiceImpl.java</file>
+        <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/MessageDTOServiceImpl.java</file>
+        <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/service/dto/ConversationDTO.java</file>
         <file>file:/C:/projects/JDias/src/main/java/com/sgkhmjaes/jdias/web/rest/AccountResource.java</file>
       </group>
     </open-files>

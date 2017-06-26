@@ -5,12 +5,18 @@ import com.sgkhmjaes.jdias.domain.User;
 import com.sgkhmjaes.jdias.repository.AuthorityRepository;
 import com.sgkhmjaes.jdias.repository.PersistentTokenRepository;
 import com.sgkhmjaes.jdias.config.Constants;
+import com.sgkhmjaes.jdias.domain.Person;
+import com.sgkhmjaes.jdias.domain.Profile;
+import com.sgkhmjaes.jdias.domain.UserAccount;
 import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.repository.search.UserSearchRepository;
 import com.sgkhmjaes.jdias.security.AuthoritiesConstants;
+import com.sgkhmjaes.jdias.security.RSAKeysGenerator;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.util.RandomUtil;
 import com.sgkhmjaes.jdias.service.dto.UserDTO;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +32,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.inject.Inject;
 
 /**
  * Service class for managing users.
@@ -48,6 +55,15 @@ public class UserService {
 
     private final AuthorityRepository authorityRepository;
 
+    @Inject
+    private UserAccountService userAccountService;
+
+    @Inject
+    private PersonService personService;
+
+    @Inject
+    private ProfileService profileService;
+
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -68,6 +84,57 @@ public class UserService {
                 log.debug("Activated user: {}", user);
                 return user;
             });
+    }
+    
+    private void createdUserAccount (User user){
+        
+        UserAccount userAccount = new UserAccount();
+        userAccount.setId(user.getId());
+        userAccount.setSerializedPrivateKey(RSAKeysGenerator.getRsaPrivateKey());
+        userAccount.setCreatedAt(LocalDate.now());
+        userAccount.setLastSeen(LocalDate.now());
+        userAccount.setDisableMail(false);
+        userAccount.setSignInCount(0);
+        userAccount.setLanguage("default");
+        userAccount.setAutoFollowBack(true);
+        userAccount.setColorTheme("default");
+        userAccount.setCurrentSignInAt(LocalDate.now());
+        userAccount.setCurrentSignInIp("CurrentSignInIp");
+        userAccount.setExportE("ExportE");
+        userAccount.setExporting(false);
+        userAccount.setGettingStarted(false);
+        userAccount.setLastSignInAt(LocalDate.now());
+        userAccount.setStripExif(false);
+        userAccount.setPostDefaultPublic(true);
+        userAccount.setUser(user);
+        
+        //userAccount.setPerson(person);
+        userAccountService.save(userAccount);
+        
+        Person person = new Person();
+        person.setId(user.getId());
+        person.serializedPublicKey(RSAKeysGenerator.getRsaPublicKey(userAccount.getSerializedPrivateKey()));
+        person.setClosedAccount(false);
+        person.setCreatedAt(LocalDate.now());
+        person.setGuid(UUID.nameUUIDFromBytes(userAccount.getUser().getLogin().getBytes()).toString());
+        //person.setPodId();
+        try {
+            person.setDiasporaId(userAccount.getUser().getLogin() + "@" + InetAddress.getLocalHost().getHostName());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        person.setUserAccount(userAccount);
+        
+        //person.setProfile(profile);
+        personService.save(person);
+        
+        Profile profile = new Profile();
+        profile.setId(user.getId());
+        profile.setAuthor(person.getDiasporaId());
+        profile.setPerson(person);
+               
+        profileService.save(profile);
+        
     }
 
     public Optional<User> completePasswordReset(String newPassword, String key) {
@@ -117,6 +184,7 @@ public class UserService {
         userRepository.save(newUser);
         userSearchRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
+        createdUserAccount (newUser);
         return newUser;
     }
 
