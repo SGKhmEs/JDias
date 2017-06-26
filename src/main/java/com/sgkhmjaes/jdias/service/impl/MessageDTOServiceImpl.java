@@ -4,6 +4,7 @@ package com.sgkhmjaes.jdias.service.impl;
 import com.sgkhmjaes.jdias.domain.Conversation;
 import com.sgkhmjaes.jdias.domain.Message;
 import com.sgkhmjaes.jdias.domain.Person;
+import com.sgkhmjaes.jdias.repository.ConversationRepository;
 import com.sgkhmjaes.jdias.repository.MessageRepository;
 import com.sgkhmjaes.jdias.repository.PersonRepository;
 import com.sgkhmjaes.jdias.repository.UserRepository;
@@ -36,16 +37,18 @@ public class MessageDTOServiceImpl {
     private final MessageSearchRepository messageSearchRepository;
     private final UserRepository userRepository;
     private final PersonRepository personRepository;
+    private final ConversationRepository conversationRepository;
     private final ConversationDTOServiceImpl conversationDTOServiceImpl;
     //private final MessageDTO messageDTO;
 
     public MessageDTOServiceImpl(MessageRepository messageRepository, MessageSearchRepository messageSearchRepository, 
-            UserRepository userRepository, PersonRepository personRepository, 
+            UserRepository userRepository, PersonRepository personRepository, ConversationRepository conversationRepository,
             ConversationDTOServiceImpl conversationDTOServiceImpl/*, MessageDTO messageDTO*/) {
         this.messageRepository = messageRepository;
         this.messageSearchRepository = messageSearchRepository;
         this.userRepository  = userRepository;
         this.personRepository = personRepository;
+        this.conversationRepository = conversationRepository;
         this.conversationDTOServiceImpl = conversationDTOServiceImpl;
         //this.messageDTO = messageDTO;
     }
@@ -66,8 +69,10 @@ public class MessageDTOServiceImpl {
         if (conversation == null) conversation = new Conversation (message.getText());
         else conversation = conversationDTOServiceImpl.findOne(conversation.getId());
         if (message.getPerson() != null) conversation.addParticipants(message.getPerson());
+        if (conversation.getMessage() == null) conversation.setMessage(message.getText());
         message.setPerson(currentPerson);
         conversation.addMessages(message);
+        Hibernate.initialize(conversation.getParticipants());
         Conversation saveConversation = conversationDTOServiceImpl.save(conversation);
         message.setConversation(saveConversation);
         message.setConversationGuid(saveConversation.getGuid());
@@ -127,9 +132,20 @@ public class MessageDTOServiceImpl {
     public void delete(Long id) {
         log.debug("Request to delete Message : {}", id);
         //messageRepository.findOne(id).getAuthor()
-        if (getCurrentPerson().getDiasporaId().equals(messageRepository.findOne(id).getAuthor())){
+        Person currentPerson = getCurrentPerson();
+        Message findMessage = messageRepository.findOne(id);
+        System.out.println("================="+currentPerson.getId()+" == "+findMessage.getPerson().getId());
+        if (currentPerson.getId().equals(findMessage.getPerson().getId())){
+            Conversation conversation = findMessage.getConversation();
+            conversation.getMessages().remove(findMessage);
+            currentPerson.getMessages().remove(findMessage);
+            
             messageRepository.delete(id);
             messageSearchRepository.delete(id);
+
+            personRepository.save(currentPerson);
+            conversationRepository.save(conversation);
+            
         }
         /*
         if (messageRepository.findOne(id).getConversation().getParticipants().
