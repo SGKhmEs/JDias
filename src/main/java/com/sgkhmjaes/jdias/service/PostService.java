@@ -3,6 +3,7 @@ package com.sgkhmjaes.jdias.service;
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.domain.Reshare;
 import com.sgkhmjaes.jdias.domain.StatusMessage;
+import com.sgkhmjaes.jdias.service.dto.StatusMessageDTO;
 
 import java.util.List;
 import java.util.Set;
@@ -27,6 +28,14 @@ public interface PostService {
      * @return the persisted entity
      */
     StatusMessage save(StatusMessage statusMessage);
+
+    /**
+     * Save a statusMessage.
+     *
+     * @param statusMessageDTO the entity to save
+     * @return the persisted entity
+     */
+    StatusMessage save(StatusMessageDTO statusMessageDTO);
 
     /**
      * Save a reshare.

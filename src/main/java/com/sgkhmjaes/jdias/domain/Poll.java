@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A Poll.
@@ -42,6 +43,14 @@ public class Poll implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PollParticipation> pollparticipants = new HashSet<>();
+
+    public Poll(){}
+
+    public Poll(String question, Set<PollAnswer> pollanswers) {
+        this.guid = UUID.randomUUID().toString();
+        this.question = question;
+        this.pollanswers = pollanswers;
+    }
 
     public Long getId() {
         return id;

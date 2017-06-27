@@ -1,22 +1,24 @@
 package com.sgkhmjaes.jdias.service.impl;
 
-import com.sgkhmjaes.jdias.domain.Person;
-import com.sgkhmjaes.jdias.domain.Reshare;
-import com.sgkhmjaes.jdias.domain.StatusMessage;
+import com.sgkhmjaes.jdias.domain.*;
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
 import com.sgkhmjaes.jdias.repository.*;
 import com.sgkhmjaes.jdias.repository.search.ReshareSearchRepository;
 import com.sgkhmjaes.jdias.repository.search.StatusMessageSearchRepository;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
+import com.sgkhmjaes.jdias.service.PollAnswerService;
+import com.sgkhmjaes.jdias.service.PollService;
 import com.sgkhmjaes.jdias.service.PostService;
-import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.repository.search.PostSearchRepository;
+import com.sgkhmjaes.jdias.service.dto.StatusMessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -45,6 +47,11 @@ public class PostServiceImpl implements PostService {
 
     private final UserRepository userRepository;
     private final PersonRepository personRepository;
+
+    @Inject
+    private PollAnswerService pollAnswerService;
+    @Inject
+    private PollService pollService;
 
     public PostServiceImpl(PostRepository postRepository, PostSearchRepository postSearchRepository,
                            StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository,
@@ -103,6 +110,26 @@ public class PostServiceImpl implements PostService {
             statusMessageSearchRepository.save(result);
             return result;
         }
+    }
+
+    /**
+     * Save a statusMessage.
+     *
+     * @param statusMessageDTO the entity to save
+     * @return the persisted entity
+     */
+    @Override
+    public StatusMessage save(StatusMessageDTO statusMessageDTO) {
+        Set<PollAnswer> pollAnswers = new HashSet<>();
+        Poll poll = pollService.save(new Poll(statusMessageDTO.getPollQuestion(), null));
+        for(String s: statusMessageDTO.getPollAnswers()) {
+            PollAnswer pollAnswer = new PollAnswer(s, poll);
+            pollAnswers.add(pollAnswerService.save(pollAnswer));
+        }
+        poll = pollService.save(new Poll(statusMessageDTO.getPollQuestion(), pollAnswers));
+        StatusMessage statusMessage = statusMessageDTO.getStatusMessage();
+        statusMessage.setPoll(poll);
+        return save(statusMessage);
     }
 
     /**
