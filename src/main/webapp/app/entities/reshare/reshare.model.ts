@@ -1,6 +1,4 @@
-import { BaseEntity } from './../../shared';
-
-export class Reshare implements BaseEntity {
+export class Reshare {
     constructor(
         public id?: number,
         public rootAuthor?: string,

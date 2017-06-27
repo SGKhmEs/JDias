@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,8 +56,8 @@ public class MessageResourceIntTest {
     private static final String DEFAULT_TEXT = "AAAAAAAAAA";
     private static final String UPDATED_TEXT = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
+    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.now();
+    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now();
 
     @Autowired
     private MessageRepository messageRepository;

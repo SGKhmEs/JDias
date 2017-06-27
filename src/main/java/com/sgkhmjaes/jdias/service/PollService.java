@@ -17,33 +17,33 @@ public interface PollService {
     Poll save(Poll poll);
 
     /**
-     * Get all the polls.
+     *  Get all the polls.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     List<Poll> findAll();
 
     /**
-     * Get the "id" poll.
+     *  Get the "id" poll.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     Poll findOne(Long id);
 
     /**
-     * Delete the "id" poll.
+     *  Delete the "id" poll.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the poll corresponding to the query.
      *
-     * @param query the query of the search
-     *
-     * @return the list of entities
+     *  @param query the query of the search
+     *  
+     *  @return the list of entities
      */
     List<Poll> search(String query);
 }

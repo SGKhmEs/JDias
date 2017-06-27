@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { Post } from './post.model';
 import { PostPopupService } from './post-popup.service';
@@ -33,12 +33,12 @@ export class PostDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private postService: PostService,
         private statusMessageService: StatusMessageService,
         private reshareService: ReshareService,
         private personService: PersonService,
-        private eventManager: JhiEventManager
+        private eventManager: EventManager
     ) {
     }
 
@@ -74,7 +74,6 @@ export class PostDialogComponent implements OnInit {
         this.personService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }

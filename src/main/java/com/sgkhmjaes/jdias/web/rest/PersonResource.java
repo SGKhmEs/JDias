@@ -62,7 +62,7 @@ public class PersonResource {
      * @param person the person to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated person,
      * or with status 400 (Bad Request) if the person is not valid,
-     * or with status 500 (Internal Server Error) if the person couldn't be updated
+     * or with status 500 (Internal Server Error) if the person couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/people")

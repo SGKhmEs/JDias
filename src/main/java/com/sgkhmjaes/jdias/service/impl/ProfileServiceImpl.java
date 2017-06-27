@@ -42,7 +42,6 @@ public class ProfileServiceImpl implements ProfileService{
     @Override
     public Profile save(Profile profile) {
         log.debug("Request to save Profile : {}", profile);
-        //profile.setId(profile.getPerson().getId());
         Profile result = profileRepository.save(profile);
         profileSearchRepository.save(result);
         return result;

@@ -137,12 +137,12 @@ public class Participation implements Serializable {
 
     @Override
     public String toString() {
-        return "Participation{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", guid='" + getGuid() + "'"
-                + ", parentGuid='" + getParentGuid() + "'"
-                + ", parentType='" + getParentType() + "'"
-                + "}";
+        return "Participation{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", guid='" + getGuid() + "'" +
+            ", parentGuid='" + getParentGuid() + "'" +
+            ", parentType='" + getParentType() + "'" +
+            "}";
     }
 }

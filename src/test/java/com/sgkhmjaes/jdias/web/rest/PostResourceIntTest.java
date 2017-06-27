@@ -33,8 +33,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
-import com.sgkhmjaes.jdias.service.impl.PostDTOServiceImpl;
-
 /**
  * Test class for the PostResource REST controller.
  *
@@ -67,9 +65,6 @@ public class PostResourceIntTest {
 
     @Autowired
     private PostService postService;
-    
-    @Autowired
-    private PostDTOServiceImpl postDTOServiceImpl;
 
     @Autowired
     private PostSearchRepository postSearchRepository;
@@ -93,11 +88,11 @@ public class PostResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PostResource postResource = new PostResource(postService, postDTOServiceImpl);
+        PostResource postResource = new PostResource(postService);
         this.restPostMockMvc = MockMvcBuilders.standaloneSetup(postResource)
-                .setCustomArgumentResolvers(pageableArgumentResolver)
-                .setControllerAdvice(exceptionTranslator)
-                .setMessageConverters(jacksonMessageConverter).build();
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -108,12 +103,12 @@ public class PostResourceIntTest {
      */
     public static Post createEntity(EntityManager em) {
         Post post = new Post()
-                .author(DEFAULT_AUTHOR)
-                .guid(DEFAULT_GUID)
-                .createdAt(DEFAULT_CREATED_AT)
-                .pub(DEFAULT_PUB)
-                .providerDisplayName(DEFAULT_PROVIDER_DISPLAY_NAME)
-                .postType(DEFAULT_POST_TYPE);
+            .author(DEFAULT_AUTHOR)
+            .guid(DEFAULT_GUID)
+            .createdAt(DEFAULT_CREATED_AT)
+            .pub(DEFAULT_PUB)
+            .providerDisplayName(DEFAULT_PROVIDER_DISPLAY_NAME)
+            .postType(DEFAULT_POST_TYPE);
         return post;
     }
 
@@ -130,9 +125,9 @@ public class PostResourceIntTest {
 
         // Create the Post
         restPostMockMvc.perform(post("/api/posts")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(post)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(post)))
+            .andExpect(status().isCreated());
 
         // Validate the Post in the database
         List<Post> postList = postRepository.findAll();
@@ -160,9 +155,9 @@ public class PostResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restPostMockMvc.perform(post("/api/posts")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(post)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(post)))
+            .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Post> postList = postRepository.findAll();
@@ -177,15 +172,15 @@ public class PostResourceIntTest {
 
         // Get all the postList
         restPostMockMvc.perform(get("/api/posts?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(post.getId().intValue())))
-                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].pub").value(hasItem(DEFAULT_PUB.booleanValue())))
-                .andExpect(jsonPath("$.[*].providerDisplayName").value(hasItem(DEFAULT_PROVIDER_DISPLAY_NAME.toString())))
-                .andExpect(jsonPath("$.[*].postType").value(hasItem(DEFAULT_POST_TYPE.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(post.getId().intValue())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].pub").value(hasItem(DEFAULT_PUB.booleanValue())))
+            .andExpect(jsonPath("$.[*].providerDisplayName").value(hasItem(DEFAULT_PROVIDER_DISPLAY_NAME.toString())))
+            .andExpect(jsonPath("$.[*].postType").value(hasItem(DEFAULT_POST_TYPE.toString())));
     }
 
     @Test
@@ -196,15 +191,15 @@ public class PostResourceIntTest {
 
         // Get the post
         restPostMockMvc.perform(get("/api/posts/{id}", post.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id").value(post.getId().intValue()))
-                .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-                .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-                .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-                .andExpect(jsonPath("$.pub").value(DEFAULT_PUB.booleanValue()))
-                .andExpect(jsonPath("$.providerDisplayName").value(DEFAULT_PROVIDER_DISPLAY_NAME.toString()))
-                .andExpect(jsonPath("$.postType").value(DEFAULT_POST_TYPE.toString()));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(post.getId().intValue()))
+            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
+            .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.pub").value(DEFAULT_PUB.booleanValue()))
+            .andExpect(jsonPath("$.providerDisplayName").value(DEFAULT_PROVIDER_DISPLAY_NAME.toString()))
+            .andExpect(jsonPath("$.postType").value(DEFAULT_POST_TYPE.toString()));
     }
 
     @Test
@@ -212,7 +207,7 @@ public class PostResourceIntTest {
     public void getNonExistingPost() throws Exception {
         // Get the post
         restPostMockMvc.perform(get("/api/posts/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -226,17 +221,17 @@ public class PostResourceIntTest {
         // Update the post
         Post updatedPost = postRepository.findOne(post.getId());
         updatedPost
-                .author(UPDATED_AUTHOR)
-                .guid(UPDATED_GUID)
-                .createdAt(UPDATED_CREATED_AT)
-                .pub(UPDATED_PUB)
-                .providerDisplayName(UPDATED_PROVIDER_DISPLAY_NAME)
-                .postType(UPDATED_POST_TYPE);
+            .author(UPDATED_AUTHOR)
+            .guid(UPDATED_GUID)
+            .createdAt(UPDATED_CREATED_AT)
+            .pub(UPDATED_PUB)
+            .providerDisplayName(UPDATED_PROVIDER_DISPLAY_NAME)
+            .postType(UPDATED_POST_TYPE);
 
         restPostMockMvc.perform(put("/api/posts")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedPost)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedPost)))
+            .andExpect(status().isOk());
 
         // Validate the Post in the database
         List<Post> postList = postRepository.findAll();
@@ -260,11 +255,12 @@ public class PostResourceIntTest {
         int databaseSizeBeforeUpdate = postRepository.findAll().size();
 
         // Create the Post
+
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restPostMockMvc.perform(put("/api/posts")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(post)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(post)))
+            .andExpect(status().isCreated());
 
         // Validate the Post in the database
         List<Post> postList = postRepository.findAll();
@@ -281,8 +277,8 @@ public class PostResourceIntTest {
 
         // Get the post
         restPostMockMvc.perform(delete("/api/posts/{id}", post.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean postExistsInEs = postSearchRepository.exists(post.getId());
@@ -301,15 +297,15 @@ public class PostResourceIntTest {
 
         // Search the post
         restPostMockMvc.perform(get("/api/_search/posts?query=id:" + post.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(post.getId().intValue())))
-                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].pub").value(hasItem(DEFAULT_PUB.booleanValue())))
-                .andExpect(jsonPath("$.[*].providerDisplayName").value(hasItem(DEFAULT_PROVIDER_DISPLAY_NAME.toString())))
-                .andExpect(jsonPath("$.[*].postType").value(hasItem(DEFAULT_POST_TYPE.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(post.getId().intValue())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].pub").value(hasItem(DEFAULT_PUB.booleanValue())))
+            .andExpect(jsonPath("$.[*].providerDisplayName").value(hasItem(DEFAULT_PROVIDER_DISPLAY_NAME.toString())))
+            .andExpect(jsonPath("$.[*].postType").value(hasItem(DEFAULT_POST_TYPE.toString())));
     }
 
     @Test

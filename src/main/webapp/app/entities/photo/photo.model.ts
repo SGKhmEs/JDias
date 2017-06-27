@@ -1,6 +1,6 @@
-import { BaseEntity } from './../../shared';
-
-export class Photo implements BaseEntity {
+import { StatusMessage } from '../status-message';
+import { Person } from '../person';
+export class Photo {
     constructor(
         public id?: number,
         public author?: string,
@@ -12,8 +12,8 @@ export class Photo implements BaseEntity {
         public width?: number,
         public text?: string,
         public statusMessageGuid?: string,
-        public statusMessage?: BaseEntity,
-        public person?: BaseEntity,
+        public statusMessage?: StatusMessage,
+        public person?: Person,
     ) {
         this.guid = false;
     }

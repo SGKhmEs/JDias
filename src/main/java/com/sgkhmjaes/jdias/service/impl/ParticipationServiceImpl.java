@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class ParticipationServiceImpl implements ParticipationService {
+public class ParticipationServiceImpl implements ParticipationService{
 
     private final Logger log = LoggerFactory.getLogger(ParticipationServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     /**
-     * Get all the participations.
+     *  Get all the participations.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     /**
-     * Get one participation by id.
+     *  Get one participation by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     /**
-     * Delete the participation by id.
+     *  Delete the  participation by id.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class ParticipationServiceImpl implements ParticipationService {
     /**
      * Search for the participation corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     *  @param query the query of the search
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Participation> search(String query) {
         log.debug("Request to search Participations for query {}", query);
         return StreamSupport
-                .stream(participationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .stream(participationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

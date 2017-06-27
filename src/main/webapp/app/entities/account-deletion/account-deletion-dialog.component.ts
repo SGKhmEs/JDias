@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { AccountDeletion } from './account-deletion.model';
 import { AccountDeletionPopupService } from './account-deletion-popup.service';
@@ -22,9 +22,9 @@ export class AccountDeletionDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private accountDeletionService: AccountDeletionService,
-        private eventManager: JhiEventManager
+        private eventManager: EventManager
     ) {
     }
 
@@ -32,7 +32,6 @@ export class AccountDeletionDialogComponent implements OnInit {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }

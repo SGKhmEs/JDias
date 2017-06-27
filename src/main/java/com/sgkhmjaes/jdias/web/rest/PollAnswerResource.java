@@ -37,12 +37,10 @@ public class PollAnswerResource {
     }
 
     /**
-     * POST /poll-answers : Create a new pollAnswer.
+     * POST  /poll-answers : Create a new pollAnswer.
      *
      * @param pollAnswer the pollAnswer to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new pollAnswer, or with status 400 (Bad Request) if the pollAnswer has
-     * already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new pollAnswer, or with status 400 (Bad Request) if the pollAnswer has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/poll-answers")
@@ -54,18 +52,17 @@ public class PollAnswerResource {
         }
         PollAnswer result = pollAnswerService.save(pollAnswer);
         return ResponseEntity.created(new URI("/api/poll-answers/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /poll-answers : Updates an existing pollAnswer.
+     * PUT  /poll-answers : Updates an existing pollAnswer.
      *
      * @param pollAnswer the pollAnswer to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * pollAnswer, or with status 400 (Bad Request) if the pollAnswer is not
-     * valid, or with status 500 (Internal Server Error) if the pollAnswer
-     * couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated pollAnswer,
+     * or with status 400 (Bad Request) if the pollAnswer is not valid,
+     * or with status 500 (Internal Server Error) if the pollAnswer couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/poll-answers")
@@ -77,15 +74,14 @@ public class PollAnswerResource {
         }
         PollAnswer result = pollAnswerService.save(pollAnswer);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, pollAnswer.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, pollAnswer.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /poll-answers : get all the pollAnswers.
+     * GET  /poll-answers : get all the pollAnswers.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of
-     * pollAnswers in body
+     * @return the ResponseEntity with status 200 (OK) and the list of pollAnswers in body
      */
     @GetMapping("/poll-answers")
     @Timed
@@ -95,11 +91,10 @@ public class PollAnswerResource {
     }
 
     /**
-     * GET /poll-answers/:id : get the "id" pollAnswer.
+     * GET  /poll-answers/:id : get the "id" pollAnswer.
      *
      * @param id the id of the pollAnswer to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the
-     * pollAnswer, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the pollAnswer, or with status 404 (Not Found)
      */
     @GetMapping("/poll-answers/{id}")
     @Timed
@@ -110,7 +105,7 @@ public class PollAnswerResource {
     }
 
     /**
-     * DELETE /poll-answers/:id : delete the "id" pollAnswer.
+     * DELETE  /poll-answers/:id : delete the "id" pollAnswer.
      *
      * @param id the id of the pollAnswer to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -124,8 +119,8 @@ public class PollAnswerResource {
     }
 
     /**
-     * SEARCH /_search/poll-answers?query=:query : search for the pollAnswer
-     * corresponding to the query.
+     * SEARCH  /_search/poll-answers?query=:query : search for the pollAnswer corresponding
+     * to the query.
      *
      * @param query the query of the pollAnswer search
      * @return the result of the search

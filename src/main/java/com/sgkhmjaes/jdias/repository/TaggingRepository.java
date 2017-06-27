@@ -5,11 +5,12 @@ import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
 
+
 /**
  * Spring Data JPA repository for the Tagging entity.
  */
 @SuppressWarnings("unused")
 @Repository
-public interface TaggingRepository extends JpaRepository<Tagging, Long> {
+public interface TaggingRepository extends JpaRepository<Tagging,Long> {
 
 }

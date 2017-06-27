@@ -17,33 +17,33 @@ public interface EventService {
     Event save(Event event);
 
     /**
-     * Get all the events.
+     *  Get all the events.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     List<Event> findAll();
 
     /**
-     * Get the "id" event.
+     *  Get the "id" event.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     Event findOne(Long id);
 
     /**
-     * Delete the "id" event.
+     *  Delete the "id" event.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the event corresponding to the query.
      *
-     * @param query the query of the search
-     *
-     * @return the list of entities
+     *  @param query the query of the search
+     *  
+     *  @return the list of entities
      */
     List<Event> search(String query);
 }

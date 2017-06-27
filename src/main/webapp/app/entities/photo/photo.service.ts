@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { JhiDateUtils } from 'ng-jhipster';
+import { DateUtils } from 'ng-jhipster';
 
 import { Photo } from './photo.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
@@ -12,7 +12,7 @@ export class PhotoService {
     private resourceUrl = 'api/photos';
     private resourceSearchUrl = 'api/_search/photos';
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+    constructor(private http: Http, private dateUtils: DateUtils) { }
 
     create(photo: Photo): Observable<Photo> {
         const copy = this.convert(photo);

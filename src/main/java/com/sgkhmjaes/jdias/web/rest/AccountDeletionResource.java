@@ -37,12 +37,10 @@ public class AccountDeletionResource {
     }
 
     /**
-     * POST /account-deletions : Create a new accountDeletion.
+     * POST  /account-deletions : Create a new accountDeletion.
      *
      * @param accountDeletion the accountDeletion to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new accountDeletion, or with status 400 (Bad Request) if the
-     * accountDeletion has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new accountDeletion, or with status 400 (Bad Request) if the accountDeletion has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/account-deletions")
@@ -54,18 +52,17 @@ public class AccountDeletionResource {
         }
         AccountDeletion result = accountDeletionService.save(accountDeletion);
         return ResponseEntity.created(new URI("/api/account-deletions/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /account-deletions : Updates an existing accountDeletion.
+     * PUT  /account-deletions : Updates an existing accountDeletion.
      *
      * @param accountDeletion the accountDeletion to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * accountDeletion, or with status 400 (Bad Request) if the accountDeletion
-     * is not valid, or with status 500 (Internal Server Error) if the
-     * accountDeletion couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated accountDeletion,
+     * or with status 400 (Bad Request) if the accountDeletion is not valid,
+     * or with status 500 (Internal Server Error) if the accountDeletion couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/account-deletions")
@@ -77,15 +74,14 @@ public class AccountDeletionResource {
         }
         AccountDeletion result = accountDeletionService.save(accountDeletion);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, accountDeletion.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, accountDeletion.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /account-deletions : get all the accountDeletions.
+     * GET  /account-deletions : get all the accountDeletions.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of
-     * accountDeletions in body
+     * @return the ResponseEntity with status 200 (OK) and the list of accountDeletions in body
      */
     @GetMapping("/account-deletions")
     @Timed
@@ -95,11 +91,10 @@ public class AccountDeletionResource {
     }
 
     /**
-     * GET /account-deletions/:id : get the "id" accountDeletion.
+     * GET  /account-deletions/:id : get the "id" accountDeletion.
      *
      * @param id the id of the accountDeletion to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the
-     * accountDeletion, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the accountDeletion, or with status 404 (Not Found)
      */
     @GetMapping("/account-deletions/{id}")
     @Timed
@@ -110,7 +105,7 @@ public class AccountDeletionResource {
     }
 
     /**
-     * DELETE /account-deletions/:id : delete the "id" accountDeletion.
+     * DELETE  /account-deletions/:id : delete the "id" accountDeletion.
      *
      * @param id the id of the accountDeletion to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -124,8 +119,8 @@ public class AccountDeletionResource {
     }
 
     /**
-     * SEARCH /_search/account-deletions?query=:query : search for the
-     * accountDeletion corresponding to the query.
+     * SEARCH  /_search/account-deletions?query=:query : search for the accountDeletion corresponding
+     * to the query.
      *
      * @param query the query of the accountDeletion search
      * @return the result of the search

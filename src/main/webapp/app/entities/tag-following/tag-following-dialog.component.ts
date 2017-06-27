@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { TagFollowing } from './tag-following.model';
 import { TagFollowingPopupService } from './tag-following-popup.service';
@@ -31,11 +31,11 @@ export class TagFollowingDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private tagFollowingService: TagFollowingService,
         private tagService: TagService,
         private userAccountService: UserAccountService,
-        private eventManager: JhiEventManager
+        private eventManager: EventManager
     ) {
     }
 
@@ -47,7 +47,6 @@ export class TagFollowingDialogComponent implements OnInit {
         this.userAccountService.query()
             .subscribe((res: ResponseWrapper) => { this.useraccounts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }

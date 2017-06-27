@@ -104,11 +104,11 @@ public class Location implements Serializable {
 
     @Override
     public String toString() {
-        return "Location{"
-                + "id=" + getId()
-                + ", address='" + getAddress() + "'"
-                + ", lat='" + getLat() + "'"
-                + ", lng='" + getLng() + "'"
-                + "}";
+        return "Location{" +
+            "id=" + getId() +
+            ", address='" + getAddress() + "'" +
+            ", lat='" + getLat() + "'" +
+            ", lng='" + getLng() + "'" +
+            "}";
     }
 }

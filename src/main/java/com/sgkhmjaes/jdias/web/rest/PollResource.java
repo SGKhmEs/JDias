@@ -37,11 +37,10 @@ public class PollResource {
     }
 
     /**
-     * POST /polls : Create a new poll.
+     * POST  /polls : Create a new poll.
      *
      * @param poll the poll to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new poll, or with status 400 (Bad Request) if the poll has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new poll, or with status 400 (Bad Request) if the poll has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/polls")
@@ -53,17 +52,17 @@ public class PollResource {
         }
         Poll result = pollService.save(poll);
         return ResponseEntity.created(new URI("/api/polls/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /polls : Updates an existing poll.
+     * PUT  /polls : Updates an existing poll.
      *
      * @param poll the poll to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * poll, or with status 400 (Bad Request) if the poll is not valid, or with
-     * status 500 (Internal Server Error) if the poll couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated poll,
+     * or with status 400 (Bad Request) if the poll is not valid,
+     * or with status 500 (Internal Server Error) if the poll couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/polls")
@@ -75,15 +74,14 @@ public class PollResource {
         }
         Poll result = pollService.save(poll);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, poll.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, poll.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /polls : get all the polls.
+     * GET  /polls : get all the polls.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of polls in
-     * body
+     * @return the ResponseEntity with status 200 (OK) and the list of polls in body
      */
     @GetMapping("/polls")
     @Timed
@@ -93,11 +91,10 @@ public class PollResource {
     }
 
     /**
-     * GET /polls/:id : get the "id" poll.
+     * GET  /polls/:id : get the "id" poll.
      *
      * @param id the id of the poll to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the poll,
-     * or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the poll, or with status 404 (Not Found)
      */
     @GetMapping("/polls/{id}")
     @Timed
@@ -108,7 +105,7 @@ public class PollResource {
     }
 
     /**
-     * DELETE /polls/:id : delete the "id" poll.
+     * DELETE  /polls/:id : delete the "id" poll.
      *
      * @param id the id of the poll to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -122,8 +119,8 @@ public class PollResource {
     }
 
     /**
-     * SEARCH /_search/polls?query=:query : search for the poll corresponding to
-     * the query.
+     * SEARCH  /_search/polls?query=:query : search for the poll corresponding
+     * to the query.
      *
      * @param query the query of the poll search
      * @return the result of the search

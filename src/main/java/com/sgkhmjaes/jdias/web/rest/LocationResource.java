@@ -37,12 +37,10 @@ public class LocationResource {
     }
 
     /**
-     * POST /locations : Create a new location.
+     * POST  /locations : Create a new location.
      *
      * @param location the location to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new location, or with status 400 (Bad Request) if the location has
-     * already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new location, or with status 400 (Bad Request) if the location has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/locations")
@@ -54,18 +52,17 @@ public class LocationResource {
         }
         Location result = locationService.save(location);
         return ResponseEntity.created(new URI("/api/locations/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /locations : Updates an existing location.
+     * PUT  /locations : Updates an existing location.
      *
      * @param location the location to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * location, or with status 400 (Bad Request) if the location is not valid,
-     * or with status 500 (Internal Server Error) if the location couldnt be
-     * updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated location,
+     * or with status 400 (Bad Request) if the location is not valid,
+     * or with status 500 (Internal Server Error) if the location couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/locations")
@@ -77,15 +74,14 @@ public class LocationResource {
         }
         Location result = locationService.save(location);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, location.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, location.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /locations : get all the locations.
+     * GET  /locations : get all the locations.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of locations
-     * in body
+     * @return the ResponseEntity with status 200 (OK) and the list of locations in body
      */
     @GetMapping("/locations")
     @Timed
@@ -95,11 +91,10 @@ public class LocationResource {
     }
 
     /**
-     * GET /locations/:id : get the "id" location.
+     * GET  /locations/:id : get the "id" location.
      *
      * @param id the id of the location to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the
-     * location, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the location, or with status 404 (Not Found)
      */
     @GetMapping("/locations/{id}")
     @Timed
@@ -110,7 +105,7 @@ public class LocationResource {
     }
 
     /**
-     * DELETE /locations/:id : delete the "id" location.
+     * DELETE  /locations/:id : delete the "id" location.
      *
      * @param id the id of the location to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -124,8 +119,8 @@ public class LocationResource {
     }
 
     /**
-     * SEARCH /_search/locations?query=:query : search for the location
-     * corresponding to the query.
+     * SEARCH  /_search/locations?query=:query : search for the location corresponding
+     * to the query.
      *
      * @param query the query of the location search
      * @return the result of the search

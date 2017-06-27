@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { JhiDateUtils } from 'ng-jhipster';
+import { DateUtils } from 'ng-jhipster';
 
 import { Profile } from './profile.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
@@ -12,7 +12,7 @@ export class ProfileService {
     private resourceUrl = 'api/profiles';
     private resourceSearchUrl = 'api/_search/profiles';
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+    constructor(private http: Http, private dateUtils: DateUtils) { }
 
     create(profile: Profile): Observable<Profile> {
         const copy = this.convert(profile);

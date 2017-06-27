@@ -24,7 +24,6 @@ import java.time.LocalDate;
 import java.util.Set;
 import java.time.ZonedDateTime;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.UUID;
 import org.hibernate.Hibernate;
 
@@ -72,10 +71,9 @@ public class ConversationDTOServiceImpl {
 
         log.debug("Request to get all Conversations");
         List<Conversation> conversations = getCurrentPerson().getConversations();
-        Collections.sort(conversations, (Conversation c1, Conversation c2) -> c1.getUpdatedAt().compareTo(c2.getUpdatedAt()));
-        for (Conversation conversation : conversations) {
-            Hibernate.initialize(conversation.getParticipants());
-        }
+        Collections.sort(conversations, (Conversation c1, Conversation c2) -> c2.getUpdatedAt().compareTo(c1.getUpdatedAt()));
+        for (Conversation conversation : conversations) Hibernate.initialize(conversation.getParticipants());
+        
         return conversations;
     }
 

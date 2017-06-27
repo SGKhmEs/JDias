@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { JhiEventManager  } from 'ng-jhipster';
+import { EventManager  } from 'ng-jhipster';
 
 import { UserAccount } from './user-account.model';
 import { UserAccountService } from './user-account.service';
@@ -17,7 +17,7 @@ export class UserAccountDetailComponent implements OnInit, OnDestroy {
     private eventSubscriber: Subscription;
 
     constructor(
-        private eventManager: JhiEventManager,
+        private eventManager: EventManager,
         private userAccountService: UserAccountService,
         private route: ActivatedRoute
     ) {

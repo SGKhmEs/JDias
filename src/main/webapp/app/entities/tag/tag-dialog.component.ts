@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { Tag } from './tag.model';
 import { TagPopupService } from './tag-popup.service';
@@ -26,10 +26,10 @@ export class TagDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private tagService: TagService,
         private postService: PostService,
-        private eventManager: JhiEventManager
+        private eventManager: EventManager
     ) {
     }
 
@@ -39,7 +39,6 @@ export class TagDialogComponent implements OnInit {
         this.postService.query()
             .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }

@@ -37,12 +37,10 @@ public class PhotoResource {
     }
 
     /**
-     * POST /photos : Create a new photo.
+     * POST  /photos : Create a new photo.
      *
      * @param photo the photo to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new photo, or with status 400 (Bad Request) if the photo has already an
-     * ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new photo, or with status 400 (Bad Request) if the photo has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/photos")
@@ -54,17 +52,17 @@ public class PhotoResource {
         }
         Photo result = photoService.save(photo);
         return ResponseEntity.created(new URI("/api/photos/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /photos : Updates an existing photo.
+     * PUT  /photos : Updates an existing photo.
      *
      * @param photo the photo to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * photo, or with status 400 (Bad Request) if the photo is not valid, or
-     * with status 500 (Internal Server Error) if the photo couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated photo,
+     * or with status 400 (Bad Request) if the photo is not valid,
+     * or with status 500 (Internal Server Error) if the photo couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/photos")
@@ -76,15 +74,14 @@ public class PhotoResource {
         }
         Photo result = photoService.save(photo);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, photo.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, photo.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /photos : get all the photos.
+     * GET  /photos : get all the photos.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of photos in
-     * body
+     * @return the ResponseEntity with status 200 (OK) and the list of photos in body
      */
     @GetMapping("/photos")
     @Timed
@@ -94,11 +91,10 @@ public class PhotoResource {
     }
 
     /**
-     * GET /photos/:id : get the "id" photo.
+     * GET  /photos/:id : get the "id" photo.
      *
      * @param id the id of the photo to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the photo,
-     * or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the photo, or with status 404 (Not Found)
      */
     @GetMapping("/photos/{id}")
     @Timed
@@ -109,7 +105,7 @@ public class PhotoResource {
     }
 
     /**
-     * DELETE /photos/:id : delete the "id" photo.
+     * DELETE  /photos/:id : delete the "id" photo.
      *
      * @param id the id of the photo to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -123,7 +119,7 @@ public class PhotoResource {
     }
 
     /**
-     * SEARCH /_search/photos?query=:query : search for the photo corresponding
+     * SEARCH  /_search/photos?query=:query : search for the photo corresponding
      * to the query.
      *
      * @param query the query of the photo search

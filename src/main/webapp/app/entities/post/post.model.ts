@@ -1,11 +1,17 @@
-import { BaseEntity } from './../../shared';
 
 const enum PostType {
     'STATUSMESSAGE',
     'RESHARE'
-}
 
-export class Post implements BaseEntity {
+};
+import { StatusMessage } from '../status-message';
+import { Reshare } from '../reshare';
+import { Comment } from '../comment';
+import { AspectVisiblity } from '../aspect-visiblity';
+import { Like } from '../like';
+import { Tag } from '../tag';
+import { Person } from '../person';
+export class Post {
     constructor(
         public id?: number,
         public author?: string,
@@ -14,13 +20,13 @@ export class Post implements BaseEntity {
         public pub?: boolean,
         public providerDisplayName?: string,
         public postType?: PostType,
-        public statusMessage?: BaseEntity,
-        public reshare?: BaseEntity,
-        public comments?: BaseEntity[],
-        public aspectVisiblities?: BaseEntity[],
-        public likes?: BaseEntity[],
-        public tags?: BaseEntity[],
-        public person?: BaseEntity,
+        public statusMessage?: StatusMessage,
+        public reshare?: Reshare,
+        public comments?: Comment,
+        public aspectVisiblities?: AspectVisiblity,
+        public likes?: Like,
+        public tags?: Tag,
+        public person?: Person,
     ) {
         this.pub = false;
     }

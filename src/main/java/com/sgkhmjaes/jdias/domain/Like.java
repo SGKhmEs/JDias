@@ -3,6 +3,7 @@ package com.sgkhmjaes.jdias.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -200,17 +201,15 @@ public class Like implements Serializable {
 
     @Override
     public String toString() {
-        return "Like{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", guid='" + getGuid() + "'"
-                + ", parentGuid='" + getParentGuid() + "'"
-                + ", parentType='" + getParentType() + "'"
-                + ", positive='" + isPositive() + "'"
-                + ", authorSignature='" + getAuthorSignature() + "'"
-                + ", parentAuthorSignature='" + getParentAuthorSignature() + "'"
-                //+ ", post='" + getPost() + "'"
-                //+ ", person='" + getPerson() + "'"
-                + "}";
+        return "Like{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", guid='" + getGuid() + "'" +
+            ", parentGuid='" + getParentGuid() + "'" +
+            ", parentType='" + getParentType() + "'" +
+            ", positive='" + isPositive() + "'" +
+            ", authorSignature='" + getAuthorSignature() + "'" +
+            ", parentAuthorSignature='" + getParentAuthorSignature() + "'" +
+            "}";
     }
 }

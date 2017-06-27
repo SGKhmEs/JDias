@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService } from 'ng-jhipster';
+import { EventManager, ParseLinks, PaginationUtil, JhiLanguageService, AlertService } from 'ng-jhipster';
 
 import { AspectVisiblity } from './aspect-visiblity.model';
 import { AspectVisiblityService } from './aspect-visiblity.service';
@@ -20,8 +20,8 @@ aspectVisiblities: AspectVisiblity[];
 
     constructor(
         private aspectVisiblityService: AspectVisiblityService,
-        private alertService: JhiAlertService,
-        private eventManager: JhiEventManager,
+        private alertService: AlertService,
+        private eventManager: EventManager,
         private activatedRoute: ActivatedRoute,
         private principal: Principal
     ) {

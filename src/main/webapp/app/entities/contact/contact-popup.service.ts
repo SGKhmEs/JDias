@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Contact } from './contact.model';
 import { ContactService } from './contact.service';
-
 @Injectable()
 export class ContactPopupService {
     private isOpen = false;

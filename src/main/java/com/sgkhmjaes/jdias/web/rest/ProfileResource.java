@@ -62,7 +62,7 @@ public class ProfileResource {
      * @param profile the profile to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated profile,
      * or with status 400 (Bad Request) if the profile is not valid,
-     * or with status 500 (Internal Server Error) if the profile couldn't be updated
+     * or with status 500 (Internal Server Error) if the profile couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/profiles")

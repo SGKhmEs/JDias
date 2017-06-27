@@ -17,33 +17,33 @@ public interface PollAnswerService {
     PollAnswer save(PollAnswer pollAnswer);
 
     /**
-     * Get all the pollAnswers.
+     *  Get all the pollAnswers.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     List<PollAnswer> findAll();
 
     /**
-     * Get the "id" pollAnswer.
+     *  Get the "id" pollAnswer.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     PollAnswer findOne(Long id);
 
     /**
-     * Delete the "id" pollAnswer.
+     *  Delete the "id" pollAnswer.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the pollAnswer corresponding to the query.
      *
-     * @param query the query of the search
-     *
-     * @return the list of entities
+     *  @param query the query of the search
+     *  
+     *  @return the list of entities
      */
     List<PollAnswer> search(String query);
 }

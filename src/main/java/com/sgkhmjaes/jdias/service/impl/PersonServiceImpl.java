@@ -42,7 +42,6 @@ public class PersonServiceImpl implements PersonService{
     @Override
     public Person save(Person person) {
         log.debug("Request to save Person : {}", person);
-        //person.setId(person.getUserAccount().getId());
         Person result = personRepository.save(person);
         personSearchRepository.save(result);
         return result;

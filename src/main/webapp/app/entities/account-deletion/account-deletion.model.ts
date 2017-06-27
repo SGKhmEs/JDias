@@ -1,6 +1,4 @@
-import { BaseEntity } from './../../shared';
-
-export class AccountDeletion implements BaseEntity {
+export class AccountDeletion {
     constructor(
         public id?: number,
         public author?: string,

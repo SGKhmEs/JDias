@@ -1,4 +1,3 @@
-import { BaseEntity } from './../../shared';
 
 const enum Type {
     'ACCOUNTDELETION',
@@ -20,9 +19,11 @@ const enum Type {
     'RESHARE',
     'RETRACTION',
     'STATUSMESSAGE'
-}
 
-export class Like implements BaseEntity {
+};
+import { Post } from '../post';
+import { Person } from '../person';
+export class Like {
     constructor(
         public id?: number,
         public author?: string,
@@ -32,8 +33,8 @@ export class Like implements BaseEntity {
         public positive?: boolean,
         public authorSignature?: string,
         public parentAuthorSignature?: string,
-        public post?: BaseEntity,
-        public person?: BaseEntity,
+        public post?: Post,
+        public person?: Person,
     ) {
         this.positive = false;
     }

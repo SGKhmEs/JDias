@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { JhiDateUtils } from 'ng-jhipster';
+import { DateUtils } from 'ng-jhipster';
 
 import { Comment } from './comment.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
@@ -12,7 +12,7 @@ export class CommentService {
     private resourceUrl = 'api/comments';
     private resourceSearchUrl = 'api/_search/comments';
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+    constructor(private http: Http, private dateUtils: DateUtils) { }
 
     create(comment: Comment): Observable<Comment> {
         const copy = this.convert(comment);

@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { Aspect } from './aspect.model';
 import { AspectPopupService } from './aspect-popup.service';
@@ -24,9 +24,9 @@ export class AspectDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private aspectService: AspectService,
-        private eventManager: JhiEventManager
+        private eventManager: EventManager
     ) {
     }
 
@@ -34,7 +34,6 @@ export class AspectDialogComponent implements OnInit {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }

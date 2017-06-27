@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class PostServiceImpl implements PostService {
+public class PostServiceImpl implements PostService{
 
     private final Logger log = LoggerFactory.getLogger(PostServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * Get all the posts.
+     *  Get all the posts.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * Get one post by id.
+     *  Get one post by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * Delete the post by id.
+     *  Delete the  post by id.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class PostServiceImpl implements PostService {
     /**
      * Search for the post corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     *  @param query the query of the search
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Post> search(String query) {
         log.debug("Request to search Posts for query {}", query);
         return StreamSupport
-                .stream(postSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .stream(postSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

@@ -17,33 +17,33 @@ public interface PhotoService {
     Photo save(Photo photo);
 
     /**
-     * Get all the photos.
+     *  Get all the photos.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     List<Photo> findAll();
 
     /**
-     * Get the "id" photo.
+     *  Get the "id" photo.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     Photo findOne(Long id);
 
     /**
-     * Delete the "id" photo.
+     *  Delete the "id" photo.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the photo corresponding to the query.
      *
-     * @param query the query of the search
-     *
-     * @return the list of entities
+     *  @param query the query of the search
+     *  
+     *  @return the list of entities
      */
     List<Photo> search(String query);
 }

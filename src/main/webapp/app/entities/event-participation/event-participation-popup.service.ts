@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EventParticipation } from './event-participation.model';
 import { EventParticipationService } from './event-participation.service';
-
 @Injectable()
 export class EventParticipationPopupService {
     private isOpen = false;

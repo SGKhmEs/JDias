@@ -135,10 +135,10 @@ public class AspectMembership implements Serializable {
 
     @Override
     public String toString() {
-        return "AspectMembership{"
-                + "id=" + getId()
-                + ", createdAt='" + getCreatedAt() + "'"
-                + ", updatedAt='" + getUpdatedAt() + "'"
-                + "}";
+        return "AspectMembership{" +
+            "id=" + getId() +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
+            "}";
     }
 }

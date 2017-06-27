@@ -62,7 +62,7 @@ public class UserAccountResource {
      * @param userAccount the userAccount to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated userAccount,
      * or with status 400 (Bad Request) if the userAccount is not valid,
-     * or with status 500 (Internal Server Error) if the userAccount couldn't be updated
+     * or with status 500 (Internal Server Error) if the userAccount couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/user-accounts")

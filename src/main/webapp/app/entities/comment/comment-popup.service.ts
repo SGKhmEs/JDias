@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Comment } from './comment.model';
 import { CommentService } from './comment.service';
-
 @Injectable()
 export class CommentPopupService {
     private isOpen = false;

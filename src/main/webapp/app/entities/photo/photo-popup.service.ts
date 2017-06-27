@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Photo } from './photo.model';
 import { PhotoService } from './photo.service';
-
 @Injectable()
 export class PhotoPopupService {
     private isOpen = false;

@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PollParticipation } from './poll-participation.model';
 import { PollParticipationService } from './poll-participation.service';
-
 @Injectable()
 export class PollParticipationPopupService {
     private isOpen = false;

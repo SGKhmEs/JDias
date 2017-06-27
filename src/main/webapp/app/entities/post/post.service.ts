@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { JhiDateUtils } from 'ng-jhipster';
+import { DateUtils } from 'ng-jhipster';
 
 import { Post } from './post.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
@@ -12,7 +12,7 @@ export class PostService {
     private resourceUrl = 'api/posts';
     private resourceSearchUrl = 'api/_search/posts';
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+    constructor(private http: Http, private dateUtils: DateUtils) { }
 
     create(post: Post): Observable<Post> {
         const copy = this.convert(post);

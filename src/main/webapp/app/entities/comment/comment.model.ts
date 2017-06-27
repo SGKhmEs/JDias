@@ -1,6 +1,6 @@
-import { BaseEntity } from './../../shared';
-
-export class Comment implements BaseEntity {
+import { Post } from '../post';
+import { Person } from '../person';
+export class Comment {
     constructor(
         public id?: number,
         public author?: string,
@@ -11,8 +11,8 @@ export class Comment implements BaseEntity {
         public authorSignature?: string,
         public parentAuthorSignature?: string,
         public threadParentGuid?: string,
-        public post?: BaseEntity,
-        public person?: BaseEntity,
+        public post?: Post,
+        public person?: Person,
     ) {
     }
 }

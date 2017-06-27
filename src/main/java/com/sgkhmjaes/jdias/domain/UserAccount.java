@@ -115,6 +115,7 @@ public class UserAccount implements Serializable {
 
     @OneToOne
     @JoinColumn(unique = true)
+    @JsonIgnore
     private Person person;
 
     @OneToMany(mappedBy = "userAccount")

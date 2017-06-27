@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { Person } from './person.model';
 import { PersonPopupService } from './person-popup.service';
@@ -37,13 +37,13 @@ export class PersonDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private personService: PersonService,
         private profileService: ProfileService,
         private accountDeletionService: AccountDeletionService,
         private conversationService: ConversationService,
         private userAccountService: UserAccountService,
-        private eventManager: JhiEventManager
+        private eventManager: EventManager
     ) {
     }
 
@@ -92,7 +92,6 @@ export class PersonDialogComponent implements OnInit {
                 }
             }, (res: ResponseWrapper) => this.onError(res.json));
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }

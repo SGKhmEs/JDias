@@ -4,7 +4,6 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { Conversation } from './conversation.model';
 import { ConversationService } from './conversation.service';
-
 @Injectable()
 export class ConversationPopupService {
     private isOpen = false;

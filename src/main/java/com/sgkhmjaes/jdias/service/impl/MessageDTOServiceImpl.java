@@ -11,7 +11,7 @@ import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.repository.search.MessageSearchRepository;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.dto.MessageDTO;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import org.slf4j.Logger;
@@ -62,7 +62,7 @@ public class MessageDTOServiceImpl {
     public Message save(Message message) {
         log.debug("Request to save Message : {}", message);
         Person currentPerson = getCurrentPerson();
-        message.setCreatedAt(LocalDate.now());
+        message.setCreatedAt(ZonedDateTime.now());
         message.setGuid(UUID.randomUUID().toString());
         message.setAuthor(currentPerson.getDiasporaId());
         Conversation conversation = message.getConversation();
@@ -94,7 +94,7 @@ public class MessageDTOServiceImpl {
         Hibernate.initialize(currentPerson);
         for (Conversation conversation : currentPerson.getConversations()) 
             messages.addAll(conversation.getMessages());
-        Collections.sort(messages, (Message m1, Message m2) -> m1.getCreatedAt().compareTo(m2.getCreatedAt()));
+        Collections.sort(messages, (Message m1, Message m2) -> m2.getCreatedAt().compareTo(m1.getCreatedAt()));
         return messages;
     }
     
@@ -104,7 +104,7 @@ public class MessageDTOServiceImpl {
         if (conversation.getParticipants().contains(getCurrentPerson())){
             List<Message> messages = conversation.getMessages();
             Hibernate.initialize(messages);
-            Collections.sort(messages, (Message m1, Message m2) -> m1.getCreatedAt().compareTo(m2.getCreatedAt()));
+            Collections.sort(messages, (Message m1, Message m2) -> m2.getCreatedAt().compareTo(m1.getCreatedAt()));
             return messages;
         }
         else return new ArrayList <>();
@@ -131,28 +131,15 @@ public class MessageDTOServiceImpl {
      */
     public void delete(Long id) {
         log.debug("Request to delete Message : {}", id);
-        //messageRepository.findOne(id).getAuthor()
         Person currentPerson = getCurrentPerson();
         Message findMessage = messageRepository.findOne(id);
-        System.out.println("================="+currentPerson.getId()+" == "+findMessage.getPerson().getId());
         if (currentPerson.getId().equals(findMessage.getPerson().getId())){
             Conversation conversation = findMessage.getConversation();
-            conversation.getMessages().remove(findMessage);
-            currentPerson.getMessages().remove(findMessage);
-            
+            conversation.getMessages().remove(findMessage);            
             messageRepository.delete(id);
             messageSearchRepository.delete(id);
-
-            personRepository.save(currentPerson);
             conversationRepository.save(conversation);
-            
         }
-        /*
-        if (messageRepository.findOne(id).getConversation().getParticipants().
-                contains(getCurrentPerson())){
-            messageRepository.delete(id);
-            messageSearchRepository.delete(id);
-        }*/
     }
 
     /**

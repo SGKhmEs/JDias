@@ -37,12 +37,10 @@ public class ContactResource {
     }
 
     /**
-     * POST /contacts : Create a new contact.
+     * POST  /contacts : Create a new contact.
      *
      * @param contact the contact to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new contact, or with status 400 (Bad Request) if the contact has already
-     * an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new contact, or with status 400 (Bad Request) if the contact has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/contacts")
@@ -54,17 +52,17 @@ public class ContactResource {
         }
         Contact result = contactService.save(contact);
         return ResponseEntity.created(new URI("/api/contacts/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /contacts : Updates an existing contact.
+     * PUT  /contacts : Updates an existing contact.
      *
      * @param contact the contact to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * contact, or with status 400 (Bad Request) if the contact is not valid, or
-     * with status 500 (Internal Server Error) if the contact couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated contact,
+     * or with status 400 (Bad Request) if the contact is not valid,
+     * or with status 500 (Internal Server Error) if the contact couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/contacts")
@@ -76,15 +74,14 @@ public class ContactResource {
         }
         Contact result = contactService.save(contact);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, contact.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, contact.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /contacts : get all the contacts.
+     * GET  /contacts : get all the contacts.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of contacts
-     * in body
+     * @return the ResponseEntity with status 200 (OK) and the list of contacts in body
      */
     @GetMapping("/contacts")
     @Timed
@@ -94,11 +91,10 @@ public class ContactResource {
     }
 
     /**
-     * GET /contacts/:id : get the "id" contact.
+     * GET  /contacts/:id : get the "id" contact.
      *
      * @param id the id of the contact to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the
-     * contact, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the contact, or with status 404 (Not Found)
      */
     @GetMapping("/contacts/{id}")
     @Timed
@@ -109,7 +105,7 @@ public class ContactResource {
     }
 
     /**
-     * DELETE /contacts/:id : delete the "id" contact.
+     * DELETE  /contacts/:id : delete the "id" contact.
      *
      * @param id the id of the contact to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -123,8 +119,8 @@ public class ContactResource {
     }
 
     /**
-     * SEARCH /_search/contacts?query=:query : search for the contact
-     * corresponding to the query.
+     * SEARCH  /_search/contacts?query=:query : search for the contact corresponding
+     * to the query.
      *
      * @param query the query of the contact search
      * @return the result of the search

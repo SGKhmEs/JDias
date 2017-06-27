@@ -135,10 +135,10 @@ public class PollAnswer implements Serializable {
 
     @Override
     public String toString() {
-        return "PollAnswer{"
-                + "id=" + getId()
-                + ", guid='" + getGuid() + "'"
-                + ", answer='" + getAnswer() + "'"
-                + "}";
+        return "PollAnswer{" +
+            "id=" + getId() +
+            ", guid='" + getGuid() + "'" +
+            ", answer='" + getAnswer() + "'" +
+            "}";
     }
 }

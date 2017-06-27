@@ -1,12 +1,13 @@
-import { BaseEntity } from './../../shared';
-
-export class StatusMessage implements BaseEntity {
+import { Location } from '../location';
+import { Poll } from '../poll';
+import { Photo } from '../photo';
+export class StatusMessage {
     constructor(
         public id?: number,
         public text?: string,
-        public location?: BaseEntity,
-        public poll?: BaseEntity,
-        public photos?: BaseEntity[],
+        public location?: Location,
+        public poll?: Poll,
+        public photos?: Photo,
     ) {
     }
 }

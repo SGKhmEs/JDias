@@ -185,14 +185,14 @@ public class EventParticipation implements Serializable {
 
     @Override
     public String toString() {
-        return "EventParticipation{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", guid='" + getGuid() + "'"
-                + ", parentGuid='" + getParentGuid() + "'"
-                + ", status='" + getStatus() + "'"
-                + ", authorSignature='" + getAuthorSignature() + "'"
-                + ", parentAuthorSignature='" + getParentAuthorSignature() + "'"
-                + "}";
+        return "EventParticipation{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", guid='" + getGuid() + "'" +
+            ", parentGuid='" + getParentGuid() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", authorSignature='" + getAuthorSignature() + "'" +
+            ", parentAuthorSignature='" + getParentAuthorSignature() + "'" +
+            "}";
     }
 }

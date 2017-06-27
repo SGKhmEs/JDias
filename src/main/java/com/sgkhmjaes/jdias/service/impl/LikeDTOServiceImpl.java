@@ -29,7 +29,7 @@ public class LikeDTOServiceImpl {
 
     public List<LikeDTO> findAllByPostId(Long id) {
         log.debug("Method LikeDTOServiceImpl.findAllByPostId : id=", id);
-        List<Like> likeList = likeRepository.findAllByPostId(id);
+        List<Like> likeList = likeRepository.findaAllByPostId(id);
         List<LikeDTO> likeDTOList = new ArrayList<>();
         likeList.forEach((like) -> {likeDTOList.add(createLikeDTOfromLike(like));});
         return likeDTOList;

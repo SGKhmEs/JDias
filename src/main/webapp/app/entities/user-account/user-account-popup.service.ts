@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UserAccount } from './user-account.model';
 import { UserAccountService } from './user-account.service';
-
 @Injectable()
 export class UserAccountPopupService {
     private isOpen = false;

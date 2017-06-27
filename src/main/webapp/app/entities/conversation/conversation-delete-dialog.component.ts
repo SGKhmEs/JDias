@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
+import { AlertService, EventManager } from 'ng-jhipster';
 
 import { Conversation } from './conversation.model';
 import { ConversationPopupService } from './conversation-popup.service';
@@ -19,8 +19,8 @@ export class ConversationDeleteDialogComponent {
     constructor(
         private conversationService: ConversationService,
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
-        private eventManager: JhiEventManager
+        private alertService: AlertService,
+        private eventManager: EventManager
     ) {
     }
 

@@ -167,12 +167,12 @@ public class Contact implements Serializable {
 
     @Override
     public String toString() {
-        return "Contact{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", recipient='" + getRecipient() + "'"
-                + ", following='" + isFollowing() + "'"
-                + ", sharing='" + isSharing() + "'"
-                + "}";
+        return "Contact{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", recipient='" + getRecipient() + "'" +
+            ", following='" + isFollowing() + "'" +
+            ", sharing='" + isSharing() + "'" +
+            "}";
     }
 }

@@ -105,9 +105,9 @@ public class AspectVisiblity implements Serializable {
 
     @Override
     public String toString() {
-        return "AspectVisiblity{"
-                + "id=" + getId()
-                + ", postType='" + getPostType() + "'"
-                + "}";
+        return "AspectVisiblity{" +
+            "id=" + getId() +
+            ", postType='" + getPostType() + "'" +
+            "}";
     }
 }

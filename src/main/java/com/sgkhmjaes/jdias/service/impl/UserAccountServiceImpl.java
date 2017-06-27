@@ -42,7 +42,6 @@ public class UserAccountServiceImpl implements UserAccountService{
     @Override
     public UserAccount save(UserAccount userAccount) {
         log.debug("Request to save UserAccount : {}", userAccount);
-        //userAccount.setId(userAccount.getUser().getId());
         UserAccount result = userAccountRepository.save(userAccount);
         userAccountSearchRepository.save(result);
         return result;

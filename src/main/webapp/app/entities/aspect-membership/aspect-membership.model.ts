@@ -1,13 +1,14 @@
-import { BaseEntity } from './../../shared';
-
-export class AspectMembership implements BaseEntity {
+import { Aspect } from '../aspect';
+import { Contact } from '../contact';
+import { UserAccount } from '../user-account';
+export class AspectMembership {
     constructor(
         public id?: number,
         public createdAt?: any,
         public updatedAt?: any,
-        public aspect?: BaseEntity,
-        public contact?: BaseEntity,
-        public userAccount?: BaseEntity,
+        public aspect?: Aspect,
+        public contact?: Contact,
+        public userAccount?: UserAccount,
     ) {
     }
 }

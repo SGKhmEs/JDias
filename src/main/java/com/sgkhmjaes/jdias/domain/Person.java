@@ -56,6 +56,11 @@ public class Person implements Serializable {
 
     @OneToOne
     @JoinColumn(unique = true)
+    @JsonIgnore
+    private Profile profile;
+
+    @OneToOne
+    @JoinColumn(unique = true)
     private AccountDeletion accountdeletion;
 
     @OneToMany(mappedBy = "person")
@@ -101,10 +106,6 @@ public class Person implements Serializable {
     @OneToOne
     @JoinColumn(unique = true)
     private UserAccount userAccount;
-    
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Profile profile;
 
     public Long getId() {
         return id;

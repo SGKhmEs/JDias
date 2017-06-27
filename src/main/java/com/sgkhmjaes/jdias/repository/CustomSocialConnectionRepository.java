@@ -76,8 +76,8 @@ public class CustomSocialConnectionRepository implements ConnectionRepository {
     public Connection<?> getConnection(ConnectionKey connectionKey) {
         SocialUserConnection socialUserConnection = socialUserConnectionRepository.findOneByUserIdAndProviderIdAndProviderUserId(userId, connectionKey.getProviderId(), connectionKey.getProviderUserId());
         return Optional.ofNullable(socialUserConnection)
-                .map(this::socialUserConnectionToConnection)
-                .orElseThrow(() -> new NoSuchConnectionException(connectionKey));
+            .map(this::socialUserConnectionToConnection)
+            .orElseThrow(() -> new NoSuchConnectionException(connectionKey));
     }
 
     @Override
@@ -118,7 +118,7 @@ public class CustomSocialConnectionRepository implements ConnectionRepository {
     public void updateConnection(Connection<?> connection) {
         SocialUserConnection socialUserConnection = socialUserConnectionRepository.findOneByUserIdAndProviderIdAndProviderUserId(userId, connection.getKey().getProviderId(), connection.getKey().getProviderUserId());
         if (socialUserConnection != null) {
-            SocialUserConnection socialUserConnectionToUdpate = connectionToUserSocialConnection(connection, socialUserConnection.getRank());
+            SocialUserConnection socialUserConnectionToUdpate =  connectionToUserSocialConnection(connection, socialUserConnection.getRank());
             socialUserConnectionToUdpate.setId(socialUserConnection.getId());
             socialUserConnectionRepository.save(socialUserConnectionToUdpate);
         }
@@ -139,9 +139,9 @@ public class CustomSocialConnectionRepository implements ConnectionRepository {
     private Double getNewMaxRank(String providerId) {
         List<SocialUserConnection> socialUserConnections = socialUserConnectionRepository.findAllByUserIdAndProviderIdOrderByRankAsc(userId, providerId);
         return socialUserConnections.stream()
-                .mapToDouble(SocialUserConnection::getRank)
-                .max()
-                .orElse(0D) + 1D;
+            .mapToDouble(SocialUserConnection::getRank)
+            .max()
+            .orElse(0D) + 1D;
     }
 
     private Connection<?> findPrimaryConnection(String providerId) {
@@ -156,17 +156,17 @@ public class CustomSocialConnectionRepository implements ConnectionRepository {
     private SocialUserConnection connectionToUserSocialConnection(Connection<?> connection, Long rank) {
         ConnectionData connectionData = connection.createData();
         return new SocialUserConnection(
-                userId,
-                connection.getKey().getProviderId(),
-                connection.getKey().getProviderUserId(),
-                rank,
-                connection.getDisplayName(),
-                connection.getProfileUrl(),
-                connection.getImageUrl(),
-                connectionData.getAccessToken(),
-                connectionData.getSecret(),
-                connectionData.getRefreshToken(),
-                connectionData.getExpireTime()
+            userId,
+            connection.getKey().getProviderId(),
+            connection.getKey().getProviderUserId(),
+            rank,
+            connection.getDisplayName(),
+            connection.getProfileUrl(),
+            connection.getImageUrl(),
+            connectionData.getAccessToken(),
+            connectionData.getSecret(),
+            connectionData.getRefreshToken(),
+            connectionData.getExpireTime()
         );
     }
 
@@ -177,20 +177,20 @@ public class CustomSocialConnectionRepository implements ConnectionRepository {
 
     private List<Connection<?>> socialUserConnectionsToConnections(List<SocialUserConnection> socialUserConnections) {
         return socialUserConnections.stream()
-                .map(this::socialUserConnectionToConnection)
-                .collect(Collectors.toList());
+            .map(this::socialUserConnectionToConnection)
+            .collect(Collectors.toList());
     }
 
     private Connection<?> socialUserConnectionToConnection(SocialUserConnection socialUserConnection) {
         ConnectionData connectionData = new ConnectionData(socialUserConnection.getProviderId(),
-                socialUserConnection.getProviderUserId(),
-                socialUserConnection.getDisplayName(),
-                socialUserConnection.getProfileURL(),
-                socialUserConnection.getImageURL(),
-                socialUserConnection.getAccessToken(),
-                socialUserConnection.getSecret(),
-                socialUserConnection.getRefreshToken(),
-                socialUserConnection.getExpireTime());
+            socialUserConnection.getProviderUserId(),
+            socialUserConnection.getDisplayName(),
+            socialUserConnection.getProfileURL(),
+            socialUserConnection.getImageURL(),
+            socialUserConnection.getAccessToken(),
+            socialUserConnection.getSecret(),
+            socialUserConnection.getRefreshToken(),
+            socialUserConnection.getExpireTime());
         ConnectionFactory<?> connectionFactory = connectionFactoryLocator.getConnectionFactory(connectionData.getProviderId());
         return connectionFactory.createConnection(connectionData);
     }

@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class AspectMembershipServiceImpl implements AspectMembershipService {
+public class AspectMembershipServiceImpl implements AspectMembershipService{
 
     private final Logger log = LoggerFactory.getLogger(AspectMembershipServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class AspectMembershipServiceImpl implements AspectMembershipService {
     }
 
     /**
-     * Get all the aspectMemberships.
+     *  Get all the aspectMemberships.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class AspectMembershipServiceImpl implements AspectMembershipService {
     }
 
     /**
-     * Get one aspectMembership by id.
+     *  Get one aspectMembership by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class AspectMembershipServiceImpl implements AspectMembershipService {
     }
 
     /**
-     * Delete the aspectMembership by id.
+     *  Delete the  aspectMembership by id.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class AspectMembershipServiceImpl implements AspectMembershipService {
     /**
      * Search for the aspectMembership corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     *  @param query the query of the search
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<AspectMembership> search(String query) {
         log.debug("Request to search AspectMemberships for query {}", query);
         return StreamSupport
-                .stream(aspectMembershipSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .stream(aspectMembershipSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

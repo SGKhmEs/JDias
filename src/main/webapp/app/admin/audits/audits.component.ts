@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { JhiParseLinks } from 'ng-jhipster';
+import { ParseLinks } from 'ng-jhipster';
 
 import { Audit } from './audit.model';
 import { AuditsService } from './audits.service';
@@ -24,7 +24,7 @@ export class AuditsComponent implements OnInit {
 
     constructor(
         private auditsService: AuditsService,
-        private parseLinks: JhiParseLinks,
+        private parseLinks: ParseLinks,
         private paginationConfig: PaginationConfig,
         private datePipe: DatePipe
     ) {

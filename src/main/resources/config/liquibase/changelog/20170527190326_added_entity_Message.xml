@@ -37,7 +37,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="created_at" type="date">
+            <column name="created_at" type="timestamp">
                 <constraints nullable="true" />
             </column>
 
@@ -51,6 +51,7 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <dropDefaultValue tableName="message" columnName="created_at" columnDataType="datetime"/>
         
     </changeSet>
 </databaseChangeLog>

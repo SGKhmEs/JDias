@@ -3,7 +3,7 @@ services:
     jdias-postgresql:
         image: postgres:9.6.2
         # volumes:
-        #     - ~/volumes/jhipster/JDias/postgresql/:/var/lib/postgresql/data/
+        #     - ~/volumes/jhipster/JDias/postgresql/:/var/lib/postgresql/
         environment:
             - POSTGRES_USER=JDias
             - POSTGRES_PASSWORD=

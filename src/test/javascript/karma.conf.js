@@ -1,12 +1,11 @@
+'use strict';
+
 const path = require('path');
 const webpack = require('webpack');
-const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
-
 const WATCH = process.argv.indexOf('--watch') > -1;
+const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 
-const root = __path => path.join(__dirname, __path);
-
-module.exports = (config) => {
+module.exports = function (config) {
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -63,7 +62,7 @@ module.exports = (config) => {
                         loaders: ['file-loader?hash=sha512&digest=hex&name=[hash].[ext]']
                     },
                     {
-                        test: /src[/|\\]main[/|\\]webapp[/|\\].+\.ts$/,
+                        test: /src[\/|\\]main[\/|\\]webapp[\/|\\].+\.ts$/,
                         enforce: 'post',
                         exclude: /(test|node_modules)/,
                         loader: 'sourcemap-istanbul-instrumenter-loader?force-sourcemap=true'
@@ -126,13 +125,12 @@ module.exports = (config) => {
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
         browsers: ['PhantomJS'],
 
-        // Ensure all browsers can run tests written in .ts files
-        mime: {
-            'text/x-typescript': ['ts','tsx']
-        },
-
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
         singleRun: !WATCH
     });
 };
+
+function root(__path) {
+    return path.join(__dirname, __path);
+}

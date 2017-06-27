@@ -106,34 +106,40 @@ public class UserService {
         userAccount.setLastSignInAt(LocalDate.now());
         userAccount.setStripExif(false);
         userAccount.setPostDefaultPublic(true);
-        userAccount.setUser(user);
         
-        //userAccount.setPerson(person);
-        userAccountService.save(userAccount);
         
         Person person = new Person();
         person.setId(user.getId());
         person.serializedPublicKey(RSAKeysGenerator.getRsaPublicKey(userAccount.getSerializedPrivateKey()));
         person.setClosedAccount(false);
         person.setCreatedAt(LocalDate.now());
-        person.setGuid(UUID.nameUUIDFromBytes(userAccount.getUser().getLogin().getBytes()).toString());
+        person.setUpdatedAt(LocalDate.now());
+        person.setGuid(UUID.nameUUIDFromBytes(user.getLogin().getBytes()).toString());
         //person.setPodId();
         try {
-            person.setDiasporaId(userAccount.getUser().getLogin() + "@" + InetAddress.getLocalHost().getHostName());
+            person.setDiasporaId(user.getLogin() + "@" + InetAddress.getLocalHost().getHostName());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        person.setUserAccount(userAccount);
-        
-        //person.setProfile(profile);
-        personService.save(person);
         
         Profile profile = new Profile();
         profile.setId(user.getId());
         profile.setAuthor(person.getDiasporaId());
+        
+        userAccount.setUser(user);
+        userAccountService.save(userAccount);
+        
+        person.setUserAccount(userAccount);
+        personService.save(person);
+        
         profile.setPerson(person);
-               
         profileService.save(profile);
+        
+        userAccount.setPerson(person);
+        userAccountService.save(userAccount);
+        
+        person.setProfile(profile);
+        personService.save(person);
         
     }
 
