@@ -38,30 +38,37 @@ public class ConversationDTOServiceImpl {
     private final PersonRepository personRepository;
     private final MessageRepository messageRepository;
     private final MessageSearchRepository messageSearchRepository;
-    //private final ConversationDTO conversationDTO;
 
     public ConversationDTOServiceImpl(ConversationRepository conversationRepository, UserRepository userRepository, 
             PersonRepository personRepository, ConversationSearchRepository conversationSearchRepository, 
-            MessageRepository messageRepository, MessageSearchRepository messageSearchRepository
-            /*, ConversationDTO conversationDTO*/) {
+            MessageRepository messageRepository, MessageSearchRepository messageSearchRepository) {
         this.conversationRepository = conversationRepository;
         this.conversationSearchRepository = conversationSearchRepository;
         this.userRepository=userRepository;
         this.personRepository = personRepository;
         this.messageRepository = messageRepository;
         this.messageSearchRepository = messageSearchRepository;
-        //this.conversationDTO = conversationDTO;
     }
     
     public Conversation save(Conversation conversation) {
-        //avatar
+        return save (conversation, null, getCurrentPerson ());
+    }
+    
+    public Conversation save(Conversation conversation, Message message, Person currentPerson) {
         log.debug("Request to save Conversation : {}", conversation);
-        Person currentPerson = getCurrentPerson ();
-        conversation.setUpdatedAt(ZonedDateTime.now()); 
-        conversation.addParticipants(currentPerson);
-        if (conversation.getCreatedAt() == null) conversation.setCreatedAt(LocalDate.now());
-        if (conversation.getGuid()== null) conversation.setGuid(UUID.randomUUID().toString());
-        if (conversation.getAuthor()== null) conversation.setAuthor(currentPerson.getDiasporaId());
+        if (conversation == null || conversation.getId() == null) {
+            conversation = new Conversation (currentPerson, conversation);
+            if (conversation.getMessage() == null && message != null) conversation.setMessage(message.getText());
+        }
+        else{
+            Conversation findConversation = conversationRepository.findOne(conversation.getId());
+            if (!findConversation.getParticipants().contains(currentPerson)) return new Conversation();
+            findConversation.setUpdatedAt(ZonedDateTime.now());
+            findConversation.addAllParticipants (conversation.getParticipants());
+            conversation = findConversation;
+        }
+        
+        Hibernate.initialize(conversation);
         Conversation result = conversationRepository.save(conversation);
         conversationSearchRepository.save(result);
         return result;
@@ -73,7 +80,6 @@ public class ConversationDTOServiceImpl {
         List<Conversation> conversations = getCurrentPerson().getConversations();
         Collections.sort(conversations, (Conversation c1, Conversation c2) -> c2.getUpdatedAt().compareTo(c1.getUpdatedAt()));
         for (Conversation conversation : conversations) Hibernate.initialize(conversation.getParticipants());
-        
         return conversations;
     }
 
@@ -89,12 +95,10 @@ public class ConversationDTOServiceImpl {
         Conversation conversation = conversationRepository.findOne(id);
         Set<Person> participants = conversation.getParticipants();
         Person currentPerson = getCurrentPerson ();
-        
         if (participants.remove(currentPerson)){
             currentPerson.getConversations().remove(conversation);
             personRepository.save(currentPerson);
         }
-        
         if (participants.isEmpty()){
             for (Message message : conversation.getMessages()) {
                 messageRepository.delete(message.getId());
@@ -117,5 +121,3 @@ public class ConversationDTOServiceImpl {
     }
     
 }
-
-

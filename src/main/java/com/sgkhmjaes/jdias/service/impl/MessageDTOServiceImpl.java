@@ -39,18 +39,16 @@ public class MessageDTOServiceImpl {
     private final PersonRepository personRepository;
     private final ConversationRepository conversationRepository;
     private final ConversationDTOServiceImpl conversationDTOServiceImpl;
-    //private final MessageDTO messageDTO;
 
     public MessageDTOServiceImpl(MessageRepository messageRepository, MessageSearchRepository messageSearchRepository, 
             UserRepository userRepository, PersonRepository personRepository, ConversationRepository conversationRepository,
-            ConversationDTOServiceImpl conversationDTOServiceImpl/*, MessageDTO messageDTO*/) {
+            ConversationDTOServiceImpl conversationDTOServiceImpl) {
         this.messageRepository = messageRepository;
         this.messageSearchRepository = messageSearchRepository;
         this.userRepository  = userRepository;
         this.personRepository = personRepository;
         this.conversationRepository = conversationRepository;
         this.conversationDTOServiceImpl = conversationDTOServiceImpl;
-        //this.messageDTO = messageDTO;
     }
     
     /**
@@ -62,22 +60,14 @@ public class MessageDTOServiceImpl {
     public Message save(Message message) {
         log.debug("Request to save Message : {}", message);
         Person currentPerson = getCurrentPerson();
-        message.setCreatedAt(ZonedDateTime.now());
-        message.setGuid(UUID.randomUUID().toString());
-        message.setAuthor(currentPerson.getDiasporaId());
-        Conversation conversation = message.getConversation();
-        if (conversation == null) conversation = new Conversation (message.getText());
-        else conversation = conversationDTOServiceImpl.findOne(conversation.getId());
-        if (message.getPerson() != null) conversation.addParticipants(message.getPerson());
-        if (conversation.getMessage() == null) conversation.setMessage(message.getText());
-        message.setPerson(currentPerson);
-        conversation.addMessages(message);
-        Hibernate.initialize(conversation.getParticipants());
-        Conversation saveConversation = conversationDTOServiceImpl.save(conversation);
-        message.setConversation(saveConversation);
-        message.setConversationGuid(saveConversation.getGuid());
+        message = new Message (currentPerson, message);
+        Conversation conversation = conversationDTOServiceImpl.save(message.getConversation(), message, currentPerson);  
+        message.setConversation(conversation);
+        message.setConversationGuid(conversation.getGuid());
         Message result = messageRepository.save(message);
         messageSearchRepository.save(result);
+        conversation.addMessages(message);
+        Hibernate.initialize(currentPerson);
         return result;
     }
 
@@ -91,9 +81,8 @@ public class MessageDTOServiceImpl {
         log.debug("Request to get all Messages");
         List <Message> messages = new ArrayList <> ();
         Person currentPerson = getCurrentPerson();
-        Hibernate.initialize(currentPerson);
-        for (Conversation conversation : currentPerson.getConversations()) 
-            messages.addAll(conversation.getMessages());
+        for (Conversation conversation : currentPerson.getConversations()) {
+            messages.addAll(conversation.getMessages());}
         Collections.sort(messages, (Message m1, Message m2) -> m2.getCreatedAt().compareTo(m1.getCreatedAt()));
         return messages;
     }

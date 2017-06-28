@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A Conversation.
@@ -24,12 +25,6 @@ import java.util.Objects;
 @Document(indexName = "conversation")
 public class Conversation implements Serializable {
     
-    public Conversation () {}
-    
-    public Conversation (String message) {
-        this.message = message;
-    }
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -66,7 +61,27 @@ public class Conversation implements Serializable {
                joinColumns = @JoinColumn(name="conversations_id", referencedColumnName="id"),
                inverseJoinColumns = @JoinColumn(name="participants_id", referencedColumnName="id"))
     private Set<Person> participants = new HashSet<>();
-
+    
+    public Conversation () {}
+    /*
+    public Conversation (String message) {
+        this.message = message;
+    }
+    */
+    public Conversation (Person person, Conversation conversation){
+        this.updatedAt = ZonedDateTime.now();
+        this.createdAt = LocalDate.now();
+        this.guid = UUID.randomUUID().toString();
+        if (person != null){
+            this.participants.add(person);
+            this.author = person.getDiasporaId();
+        }
+        if(conversation != null){
+            this.subject = conversation.getSubject();
+            this.messages = conversation.getMessages();
+        }
+    }
+    
     public Long getId() {
         return id;
     }
@@ -190,6 +205,12 @@ public class Conversation implements Serializable {
     public Conversation addParticipants(Person person) {
         this.participants.add(person);
         person.getConversations().add(this);
+        return this;
+    }
+    
+    public Conversation addAllParticipants(Set <Person> persons) {
+        for (Person person : persons)
+            if (!this.participants.contains(person))addParticipants (person);
         return this;
     }
 

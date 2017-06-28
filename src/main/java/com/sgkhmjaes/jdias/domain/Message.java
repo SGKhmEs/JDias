@@ -3,11 +3,11 @@ package com.sgkhmjaes.jdias.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A Message.
@@ -45,6 +45,17 @@ public class Message implements Serializable {
 
     @ManyToOne
     private Person person;
+    
+    public Message () {}
+    
+    public Message (Person person, Message message) {
+        this.person = person;
+        this.author = person.getDiasporaId();
+        this.createdAt = ZonedDateTime.now();
+        this.guid = UUID.randomUUID().toString();
+        this.text = message.getText();
+        this.conversation = message.getConversation();
+    }
 
     public Long getId() {
         return id;

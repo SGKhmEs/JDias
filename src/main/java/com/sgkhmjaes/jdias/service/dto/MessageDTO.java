@@ -1,54 +1,36 @@
 
 package com.sgkhmjaes.jdias.service.dto;
 
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
+import java.time.ZonedDateTime;
 
-public class MessageDTO {
+public class MessageDTO implements AutoMapping{
     
-    /*
-    <message>
-  <author>alice@example.org</author>
-  <guid>5cc5692029eb013487753131731751e9</guid>
-  <conversation_guid>9b1376a029eb013487753131731751e9</conversation_guid>
-  <text>this is a very informative text</text>
-  <created_at>2016-07-11T23:17:48Z</created_at>
-</message>
-    */
-    
-    //private Long id;
-    private String author; // The diaspora ID of the author of the message.
-    private String guid; // The GUID of the message.
-    private String conversationGuid; // The GUID of the Conversation.
+    private Long id;
     private String text; // The message text.
-    private LocalDate createdAt; // The create timestamp of the message.
-    //private Conversation conversation;
+    private ZonedDateTime createdAt; // The create timestamp of the message.
+    @JsonProperty("author")
+    private AuthorDTO authorDTO; // The diaspora ID of the author of the message.
     
     public MessageDTO (){}
 
-    public String getAuthor() {
-        return author;
+    public Long getId() {
+        return id;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getGuid() {
-        return guid;
+    public AuthorDTO getAuthorDTO() {
+        return authorDTO;
     }
 
-    public void setGuid(String guid) {
-        this.guid = guid;
+    public void setAuthorDTO(AuthorDTO authorDTO) {
+        this.authorDTO = authorDTO;
     }
-
-    public String getConversationGuid() {
-        return conversationGuid;
-    }
-
-    public void setConversationGuid(String conversationGuid) {
-        this.conversationGuid = conversationGuid;
-    }
-
+    
     public String getText() {
         return text;
     }
@@ -57,11 +39,11 @@ public class MessageDTO {
         this.text = text;
     }
 
-    public LocalDate getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(ZonedDateTime createdAt) {
         this.createdAt = createdAt;
     }
     
