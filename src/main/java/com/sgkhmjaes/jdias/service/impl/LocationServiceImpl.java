@@ -46,12 +46,12 @@ public class LocationServiceImpl implements LocationService {
      */
     @Override
     public Location save(Location location) {
-        NominatimClient nominatimClient = new JsonNominatimClient(new DefaultHttpClient(), "kjfidjf@dlkgog.df");
+        /*NominatimClient nominatimClient = new JsonNominatimClient(new DefaultHttpClient(), "kjfidjf@dlkgog.df");
         try {
             location.setAddress(nominatimClient.getAddress(location.getLng(), location.getLat()).getDisplayName());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         log.debug("Request to save Location : {}", location);
         Location result = locationRepository.save(location);
         locationSearchRepository.save(result);
