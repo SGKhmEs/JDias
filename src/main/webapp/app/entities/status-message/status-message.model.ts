@@ -7,14 +7,12 @@ import { Photo } from '../photo';
         constructor(
             public id?: number,
             public text?: string,
-            public location?: Location,
         ) {
     }
 }
 
     export class StatusMessageDTO {
         constructor(
-            public id?: number,
             public status_message?: StatusMessage,
             public aspect_ids?: string[],
             public photos?: string[],

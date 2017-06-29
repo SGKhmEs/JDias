@@ -83,17 +83,17 @@
             </div>
 
             <div class="location-container form-group" [hidden]="isLocation" style="padding: 4px 6px;">
-                <span class="location_coords" id="location_coords">{{locationCoord}}</span>
+                <span class="location_coords" id="location_coords">{{statusMessage.location_address}}</span>
             </div>
 
             <div class="poll-creator-container" id="poll_creator_container" [hidden]="isPoll">
                 <div class="poll-question form-group">
-                    <input class="input-block-level form-control" placeholder="Question" [(ngModel)]="statusM.poll_question"  type="text" name="poll_question">
+                    <input class="input-block-level form-control" placeholder="Question" [(ngModel)]="statusMessage.poll_question"  type="text" name="poll_question">
                 </div>
-                <div class="poll-answers form-group clearfix row" *ngFor="let item of pollAnswers; let i = index">
+                <div class="poll-answers form-group clearfix row" *ngFor="let item of inputAnswers; let i = index; trackBy:trackPoll">
                     <div class="poll-answer form-group clearfix">
                         <div class="col-sm-9">
-                            <input type="text" class="input-block-level form-control" [(ngModel)]="pollAnswers[i].answer"  name="inputAnswers{{i}}" placeholder="Answer">
+                            <input type="text" class="input-block-level form-control" [(ngModel)]="inputAnswers[i]" (keypress) = "pushArrayValue()" name="inputAnswers{{i}}" placeholder="Answer">
                         </div>
                         <div class="col-sm-1">
                             <i class="remove-answer fa fa-trash-o"></i>

@@ -34,7 +34,7 @@ public class Poll implements Serializable {
     @Column(name = "question")
     private String question;
 
-    @OneToMany(mappedBy = "poll")
+    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PollAnswer> pollanswers = new HashSet<>();
@@ -46,10 +46,9 @@ public class Poll implements Serializable {
 
     public Poll(){}
 
-    public Poll(String question, Set<PollAnswer> pollanswers) {
+    public Poll(String question) {
         this.guid = UUID.randomUUID().toString();
         this.question = question;
-        this.pollanswers = pollanswers;
     }
 
     public Long getId() {

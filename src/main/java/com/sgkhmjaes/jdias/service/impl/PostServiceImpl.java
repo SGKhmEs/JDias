@@ -6,6 +6,7 @@ import com.sgkhmjaes.jdias.repository.*;
 import com.sgkhmjaes.jdias.repository.search.ReshareSearchRepository;
 import com.sgkhmjaes.jdias.repository.search.StatusMessageSearchRepository;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
+import com.sgkhmjaes.jdias.service.LocationService;
 import com.sgkhmjaes.jdias.service.PollAnswerService;
 import com.sgkhmjaes.jdias.service.PollService;
 import com.sgkhmjaes.jdias.service.PostService;
@@ -52,6 +53,8 @@ public class PostServiceImpl implements PostService {
     private PollAnswerService pollAnswerService;
     @Inject
     private PollService pollService;
+    @Inject
+    private LocationService locationService;
 
     public PostServiceImpl(PostRepository postRepository, PostSearchRepository postSearchRepository,
                            StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository,
@@ -120,15 +123,20 @@ public class PostServiceImpl implements PostService {
      */
     @Override
     public StatusMessage save(StatusMessageDTO statusMessageDTO) {
-        Set<PollAnswer> pollAnswers = new HashSet<>();
-        Poll poll = pollService.save(new Poll(statusMessageDTO.getPollQuestion(), null));
-        for(String s: statusMessageDTO.getPollAnswers()) {
-            PollAnswer pollAnswer = new PollAnswer(s, poll);
-            pollAnswers.add(pollAnswerService.save(pollAnswer));
-        }
-        poll = pollService.save(new Poll(statusMessageDTO.getPollQuestion(), pollAnswers));
         StatusMessage statusMessage = statusMessageDTO.getStatusMessage();
-        statusMessage.setPoll(poll);
+        if(statusMessageDTO.getPollQuestion() != null) {
+            Poll poll = pollService.save(new Poll(statusMessageDTO.getPollQuestion()));
+            for (String s : statusMessageDTO.getPollAnswers()) {
+                PollAnswer pollAnswer = pollAnswerService.save(new PollAnswer(s, poll));
+                poll.addPollanswers(pollAnswer);
+            }
+            poll = pollService.save(poll);
+            statusMessage.setPoll(poll);
+        }
+        if(statusMessageDTO.getLocationAddress() != null){
+            String [] coords = statusMessageDTO.getLocationCoords().split(", ");
+            statusMessage.setLocation(locationService.save(new Location(statusMessageDTO.getLocationAddress(),Float.parseFloat(coords[0]),Float.parseFloat(coords[1]))));
+        }
         return save(statusMessage);
     }
 

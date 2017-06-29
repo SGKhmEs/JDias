@@ -16,6 +16,7 @@ import {Poll} from '../poll/poll.model';
 import {PollAnswer} from '../poll-answer/poll-answer.model';
 import {PollService} from '../poll/poll.service';
 import {PollAnswerService} from '../poll-answer/poll-answer.service';
+import { Http, Response } from '@angular/http';
 
 @Component({
     selector: 'jhi-status-message',
@@ -27,11 +28,10 @@ import {PollAnswerService} from '../poll-answer/poll-answer.service';
 export class StatusMessageComponent implements OnInit, OnDestroy {
 
     //#region Variables
+    profile = {};
     statusM: StatusMessage = new StatusMessage();
     statusMessage: StatusMessageDTO = new StatusMessageDTO();
-    poll: Poll = new Poll;
-    pollAnswers: PollAnswer[] = [new PollAnswer, new PollAnswer];
-    inputAnswers: string[] = new Array(2);
+    inputAnswers: string[] = ['', ''];
     statusMessages: StatusMessage[];
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -39,8 +39,8 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
     isLocation = true;
     isPhoto = true;
     isPoll = true;
-    locationCoord: string;
-    location: Location = new Location();
+    lat: number;
+    lng: number;
     isSaving: boolean;
     isShareDisabled = false;
     options = {
@@ -53,32 +53,26 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
 
     //#region Constructor
     constructor(
-        // public activeModal: NgbActiveModal,
         private statusMessageService: StatusMessageService,
         private alertService: AlertService,
         private eventManager: EventManager,
         private activatedRoute: ActivatedRoute,
         private principal: Principal,
-        private locationService: LocationService,
-        private pollService: PollService,
-        private pollAnswerService: PollAnswerService
+        private http: Http
 ) {
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
     }
     //#endregion
 
     //#region Location
+    getAdress() {
+        return this.http.get('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + this.lat +
+            '&lon=' + this.lng + '&addressdetails=3').map((res: Response) =>
+            res.json());
+        }
+
     removeLocation() {
-        this.locationService.delete(this.location.id).subscribe((response) => {
-            this.eventManager.broadcast({
-                name: 'statusMessageListModification',
-                content: 'Deleted an statusMessage'
-            });
-        });
-        this.alertService.success('jDiasApp.statusMessage.deleted', { param : this.location.id }, null);
-        this.location.id = null;
-        this.locationCoord = null;
-        // this.statusMessage.location = null;
+        this.statusMessage.location_address = null;
         this.isLocation = true;
     }
 
@@ -87,12 +81,10 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
     }
 
     successCallback = (position) => {
-        this.location.lat = position.coords.latitude;
-        this.location.lng = position.coords.longitude;
-        console.log(this.location.lng, this.location.lat);
-        this.subscribeToSaveResponse(
-            this.locationService.create(this.location), false);
-        // this.locationService.create(this.location);
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        console.log(this.lng, this.lat);
+        this.subscribeToSaveResponse(this.getAdress(), true);
     }
 
     errorCallback = (error) => {
@@ -111,49 +103,40 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
         console.log(errorMessage);
     }
 
-    private subscribeToSaveResponse(result: Observable<Location>, isCreated: boolean) {
-        result.subscribe((res: Location) =>
+    private subscribeToSaveResponse(result: any, isCreated: boolean) {
+        result.subscribe((res: any) =>
             this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Location, isCreated: boolean) {
+    private onSaveSuccess(result: any, isCreated: boolean) {
         this.alertService.success(
             isCreated ? 'jDiasApp.location.created'
                 : 'jDiasApp.location.updated',
-            { param : result.id }, null);
+            {param: result['display_name']}, null);
 
-        this.locationService.find(result.id).subscribe((location) => {
-            this.location = location;
-            this.location.id = result.id;
-            this.locationCoord = this.location.address;
-            this.isLocation = false;
-            // this.statusMessage.location = this.location;
-        });
-
-        this.eventManager.broadcast({ name: 'locationListModification', content: 'OK'});
+        this.statusMessage.location_address = result['display_name'];
+        this.isLocation = false;
+        this.eventManager.broadcast({name: 'locationListModification', content: 'OK'});
         this.isSaving = false;
     }
-//#endregion
+    //#endregion
 
     //#regionStatusMessage
 
     saveStatusMessage() {
-        // this.savePoll();
-        /*for (const answer of this.pollAnswers) {
-            answer.poll = this.poll;
-            this.savePollAnswer(answer);
-        }*/
-        this.statusMessage.location_address = this.location.address;
-        this.statusMessage.poll_question = this.poll.question;
-        this.statusMessage.poll_answers = [this.pollAnswers[0].answer, this.pollAnswers[1].answer];
-        this.statusMessage.location_coords = this.location.lng + ', ' + this.location.lat;
+        for (let i = 0; i < this.inputAnswers.length; i++) {
+            if (this.inputAnswers[i] === '') {
+                this.inputAnswers.splice(i, 1);
+            }
+        }
+        this.statusMessage.poll_answers = this.inputAnswers;
+        this.statusMessage.location_coords = this.lat + ', ' + this.lng;
         this.statusMessage.photos = [];
         this.statusMessage.aspect_ids = [];
-        this.statusM.location = this.location;
         this.statusMessage.status_message = this.statusM;
         this.isSaving = true;
        // this.statusMessage.text = 'test';
-        if (this.statusMessage.id !== undefined) {
+        if (this.statusMessage.status_message.id !== undefined) {
             this.subscribeToSaveStatusMessageResponse(
                 this.statusMessageService.update(this.statusMessage), false);
         } else {
@@ -167,7 +150,7 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
             this.onSaveStatusMessageSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveStatusMessageSuccess(result: StatusMessageDTO, isCreated: boolean) {
+    private onSaveStatusMessageSuccess(result: StatusMessage, isCreated: boolean) {
         this.alertService.success(
             isCreated ? 'jDiasApp.statusMessage.created'
                 : 'jDiasApp.statusMessage.updated',
@@ -179,72 +162,29 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
 
     //#endregion
 
-    //#region Poll Answers
-
-    savePollAnswer(pollAnswer: PollAnswer) {
-        this.isSaving = true;
-        if (pollAnswer.id !== undefined) {
-            this.subscribeToSavePollAnswerResponse(
-                this.pollAnswerService.update(pollAnswer), false);
-        } else {
-            this.subscribeToSavePollAnswerResponse(
-                this.pollAnswerService.create(pollAnswer), true);
-        }
-    }
-
-    private subscribeToSavePollAnswerResponse(result: Observable<PollAnswer>, isCreated: boolean) {
-        result.subscribe((res: PollAnswer) =>
-            this.onSavePollAnswerSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
-    }
-
-    private onSavePollAnswerSuccess(result: PollAnswer, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.pollAnswer.created'
-                : 'jDiasApp.pollAnswer.updated',
-            { param : result.id }, null);
-        this.pollAnswerService.find(result.id).subscribe((polanswer) => {});
-        this.eventManager.broadcast({ name: 'pollAnswerListModification', content: 'OK'});
-        this.isSaving = false;
-    }
-
-    //#endregion
-
     //#region Poll Question
 
     createPoll() {
         this.isPoll = !this.isPoll;
-    }
-
-    savePoll() {
-        this.isSaving = true;
-        if (this.poll.id !== undefined) {
-            this.subscribeToSavePollResponse(
-                this.pollService.update(this.poll), false);
-        } else {
-            this.subscribeToSavePollResponse(
-                this.pollService.create(this.poll), true);
+        if (this.isPoll) {
+            this.inputAnswers = ['', ''];
         }
     }
 
-    private subscribeToSavePollResponse(result: Observable<Poll>, isCreated: boolean) {
-        result.subscribe((res: Poll) =>
-            this.onSavePollSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+    pushArrayValue() {
+       const length = this.inputAnswers.length - 1;
+       if (this.inputAnswers[length] !== '') {
+           this.inputAnswers.push('');
+       }
     }
 
-    private onSavePollSuccess(result: Poll, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.poll.created'
-                : 'jDiasApp.poll.updated',
-            { param : result.id }, null);
-        this.pollService.find(result.id).subscribe((poll) => {
-            this.poll.id = result.id;
-            // this.statusMessage.poll = this.poll;
-        });
-        this.eventManager.broadcast({ name: 'pollListModification', content: 'OK'});
-        this.isSaving = false;
+    trackPoll(index: any, item: any) {
+        return index;
     }
 
     //#endregion
+
+    //#region Other
 
     loadAll() {
         if (this.currentSearch) {
@@ -312,4 +252,5 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
     private onError(error) {
         this.alertService.error(error.message, null, null);
     }
+    //#endregion
 }
