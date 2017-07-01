@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { EventManager, ParseLinks, PaginationUtil, JhiLanguageService, AlertService } from 'ng-jhipster';
@@ -17,17 +17,22 @@ import {PollAnswer} from '../poll-answer/poll-answer.model';
 import {PollService} from '../poll/poll.service';
 import {PollAnswerService} from '../poll-answer/poll-answer.service';
 import { Http, Response } from '@angular/http';
+import {UploadService} from './upload.service';
 
 @Component({
     selector: 'jhi-status-message',
     templateUrl: './status-message.component.html',
     styleUrls: ['../../../content/scss/sm.css'],
-    providers: [LocationService]
+    providers: [UploadService]
 })
 
 export class StatusMessageComponent implements OnInit, OnDestroy {
 
     //#region Variables
+    @Input() multiple = false;
+    @ViewChild('fileinput') inputEl: ElementRef;
+    private resourceUrl = '/api/file';
+    @ViewChild('fileInput') fileInput;
     profile = {};
     statusM: StatusMessage = new StatusMessage();
     statusMessage: StatusMessageDTO = new StatusMessageDTO();
@@ -51,6 +56,34 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
 
     //#endregion
 
+    //#region Photos
+
+    onChange(event) {
+        console.log('onChange');
+        const files = event.srcElement.files;
+        console.log(files);
+        this.subscribeToSaveResponse(this.fileChange(event), true);
+    }
+
+    fileChange(event) {
+        const fileList: FileList = event.target.files;
+        if (fileList.length > 0) {
+            const formData: FormData = new FormData();
+            for (let i = 0; i < fileList.length; i++) {
+                formData.append('file', fileList[i], fileList[i].name);
+            }
+            this.http.post(this.resourceUrl, formData)
+                .map((res: Response) => res.json())
+                .catch((error) => Observable.throw(error))
+                .subscribe(
+                    (data) => console.log('success'),
+                    (error) => console.log(error)
+                );
+        }
+    }
+
+    //#endregion
+
     //#region Constructor
     constructor(
         private statusMessageService: StatusMessageService,
@@ -58,17 +91,20 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
         private eventManager: EventManager,
         private activatedRoute: ActivatedRoute,
         private principal: Principal,
-        private http: Http
+        private http: Http,
+        private service: UploadService
 ) {
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
+        this.service.progress$.subscribe((data) => {
+                console.log('progress = ' + data);
+            });
     }
     //#endregion
 
     //#region Location
     getAdress() {
         return this.http.get('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + this.lat +
-            '&lon=' + this.lng + '&addressdetails=3').map((res: Response) =>
-            res.json());
+            '&lon=' + this.lng + '&addressdetails=3');
         }
 
     removeLocation() {

@@ -111,10 +111,14 @@
 -->
                 </div>
             </div>
-
+            <div>
+                <input type="file" (change)="onChange($event)" class="file" name="file" multiple = "true"/>
+                <i class="fa fa-camera publisher_image"></i>
+            </div>
             <div id="button_container">
                 <div class="publisher-buttonbar" id="publisher-images">
-                    <div class="btn btn-link poll-creator" id="poll_creator" title="Add a poll" (click)="createPoll()">
+
+                    <div class="btn btn-link poll-creator" id="poll_creator" title="Add a poll" (click)="createPoll()" style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0; height: 100%;">
                         <i class="fa fa-bar-chart"></i>
                     </div>
                     <div class="btn btn-link file-upload" id="file-upload" title="Upload photos" style="position: relative; overflow: hidden; direction: ltr;">

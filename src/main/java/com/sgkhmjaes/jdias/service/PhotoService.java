@@ -1,6 +1,10 @@
 package com.sgkhmjaes.jdias.service;
 
 import com.sgkhmjaes.jdias.domain.Photo;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -15,6 +19,8 @@ public interface PhotoService {
      * @return the persisted entity
      */
     Photo save(Photo photo);
+
+    Photo save(File file) throws IOException;
 
     /**
      * Get all the photos.

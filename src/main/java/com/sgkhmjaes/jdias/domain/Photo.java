@@ -58,6 +58,19 @@ public class Photo implements Serializable {
     @ManyToOne
     private Person person;
 
+    public Photo(){}
+
+    public Photo(String author, Boolean guid, String remotePhotoPath, String remotePhotoName, Integer height, Integer width, String text) {
+        this.author = author;
+        this.guid = guid;
+        this.createdAt = LocalDate.now();
+        this.remotePhotoPath = remotePhotoPath;
+        this.remotePhotoName = remotePhotoName;
+        this.height = height;
+        this.width = width;
+        this.text = text;
+    }
+
     public Long getId() {
         return id;
     }
