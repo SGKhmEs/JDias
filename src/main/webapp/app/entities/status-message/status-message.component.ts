@@ -1,38 +1,24 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { EventManager, ParseLinks, PaginationUtil, JhiLanguageService, AlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { StatusMessage, StatusMessageDTO } from './status-message.model';
 import { StatusMessageService } from './status-message.service';
-import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
-import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
-import {LocationDialogComponent} from '../location/location-dialog.component';
-import {LocationService} from '../location/location.service';
-import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import {Location} from '../location/location.model';
+import { Principal, ResponseWrapper } from '../../shared';
 import {Observable} from 'rxjs/Observable';
-import {Poll} from '../poll/poll.model';
-import {PollAnswer} from '../poll-answer/poll-answer.model';
-import {PollService} from '../poll/poll.service';
-import {PollAnswerService} from '../poll-answer/poll-answer.service';
 import { Http, Response } from '@angular/http';
-import {UploadService} from './upload.service';
 
 @Component({
     selector: 'jhi-status-message',
     templateUrl: './status-message.component.html',
     styleUrls: ['../../../content/scss/sm.css'],
-    providers: [UploadService]
 })
 
 export class StatusMessageComponent implements OnInit, OnDestroy {
 
     //#region Variables
-    @Input() multiple = false;
-    @ViewChild('fileinput') inputEl: ElementRef;
     private resourceUrl = '/api/file';
-    @ViewChild('fileInput') fileInput;
     profile = {};
     statusM: StatusMessage = new StatusMessage();
     statusMessage: StatusMessageDTO = new StatusMessageDTO();
@@ -54,6 +40,19 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
         maximumAge: 0
     };
 
+    //#endregion
+
+    //#region Constructor
+    constructor(
+        private statusMessageService: StatusMessageService,
+        private alertService: AlertService,
+        private eventManager: EventManager,
+        private activatedRoute: ActivatedRoute,
+        private principal: Principal,
+        private http: Http
+    ) {
+        this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
+    }
     //#endregion
 
     //#region Photos
@@ -82,23 +81,6 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
         }
     }
 
-    //#endregion
-
-    //#region Constructor
-    constructor(
-        private statusMessageService: StatusMessageService,
-        private alertService: AlertService,
-        private eventManager: EventManager,
-        private activatedRoute: ActivatedRoute,
-        private principal: Principal,
-        private http: Http,
-        private service: UploadService
-) {
-        this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
-        this.service.progress$.subscribe((data) => {
-                console.log('progress = ' + data);
-            });
-    }
     //#endregion
 
     //#region Location
