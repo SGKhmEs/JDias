@@ -13,7 +13,7 @@ public class AuthorDTO implements AutoMapping {
     @JsonProperty("guid")
     private String guid;
     @JsonProperty("id")
-    private long id;
+    private Long id;
     @JsonProperty("avatar")
     private AvatarDTO avatarDTO;
 
@@ -36,11 +36,11 @@ public class AuthorDTO implements AutoMapping {
         this.guid = guid;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

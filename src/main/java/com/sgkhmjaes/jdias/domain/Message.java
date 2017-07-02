@@ -56,6 +56,13 @@ public class Message implements Serializable {
         this.text = message.getText();
         this.conversation = message.getConversation();
     }
+    
+    public Message (Person person) {
+        this.person = person;
+        this.author = person.getDiasporaId();
+        this.createdAt = ZonedDateTime.now();
+        this.guid = UUID.randomUUID().toString();
+    }
 
     public Long getId() {
         return id;

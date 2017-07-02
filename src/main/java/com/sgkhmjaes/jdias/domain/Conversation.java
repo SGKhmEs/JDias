@@ -55,31 +55,32 @@ public class Conversation implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private List <Message> messages = new ArrayList<>();
 
-    @ManyToMany//(fetch = FetchType.EAGER)
+    @ManyToMany (mappedBy = "conversations")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "conversation_participants",
-               joinColumns = @JoinColumn(name="conversations_id", referencedColumnName="id"),
-               inverseJoinColumns = @JoinColumn(name="participants_id", referencedColumnName="id"))
     private Set<Person> participants = new HashSet<>();
     
     public Conversation () {}
-    /*
-    public Conversation (String message) {
-        this.message = message;
-    }
-    */
+    
     public Conversation (Person person, Conversation conversation){
         this.updatedAt = ZonedDateTime.now();
         this.createdAt = LocalDate.now();
         this.guid = UUID.randomUUID().toString();
+        if(conversation != null){
+            this.subject = conversation.getSubject();
+            this.messages = conversation.getMessages();
+            this.participants = conversation.getParticipants();
+        }
         if (person != null){
             this.participants.add(person);
             this.author = person.getDiasporaId();
         }
-        if(conversation != null){
-            this.subject = conversation.getSubject();
-            this.messages = conversation.getMessages();
-        }
+    }
+    
+    public Conversation (Person person){
+        this.updatedAt = ZonedDateTime.now();
+        this.createdAt = LocalDate.now();
+        this.guid = UUID.randomUUID().toString();
+        if (person != null) this.author = person.getDiasporaId();
     }
     
     public Long getId() {
@@ -209,8 +210,11 @@ public class Conversation implements Serializable {
     }
     
     public Conversation addAllParticipants(Set <Person> persons) {
-        for (Person person : persons)
-            if (!this.participants.contains(person))addParticipants (person);
+        for (Person person : persons){
+            if (!this.participants.contains(person)){
+                addParticipants (person);
+            }
+        }
         return this;
     }
 

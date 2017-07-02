@@ -10,7 +10,11 @@ import com.sgkhmjaes.jdias.repository.PersonRepository;
 import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.repository.search.MessageSearchRepository;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
+import com.sgkhmjaes.jdias.service.MessageService;
+import com.sgkhmjaes.jdias.service.dto.AuthorDTO;
+import com.sgkhmjaes.jdias.service.dto.AvatarDTO;
 import com.sgkhmjaes.jdias.service.dto.MessageDTO;
+import java.lang.reflect.InvocationTargetException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -39,16 +44,18 @@ public class MessageDTOServiceImpl {
     private final PersonRepository personRepository;
     private final ConversationRepository conversationRepository;
     private final ConversationDTOServiceImpl conversationDTOServiceImpl;
+    private final AvatarDTOServiceImpl avatarDTOServiceImpl;
 
     public MessageDTOServiceImpl(MessageRepository messageRepository, MessageSearchRepository messageSearchRepository, 
             UserRepository userRepository, PersonRepository personRepository, ConversationRepository conversationRepository,
-            ConversationDTOServiceImpl conversationDTOServiceImpl) {
+            ConversationDTOServiceImpl conversationDTOServiceImpl, AvatarDTOServiceImpl avatarDTOServiceImpl) {
         this.messageRepository = messageRepository;
         this.messageSearchRepository = messageSearchRepository;
         this.userRepository  = userRepository;
         this.personRepository = personRepository;
         this.conversationRepository = conversationRepository;
         this.conversationDTOServiceImpl = conversationDTOServiceImpl;
+        this.avatarDTOServiceImpl = avatarDTOServiceImpl;
     }
     
     /**
@@ -57,6 +64,7 @@ public class MessageDTOServiceImpl {
      * @param message the entity to save
      * @return the persisted entity
      */
+    
     public Message save(Message message) {
         log.debug("Request to save Message : {}", message);
         Person currentPerson = getCurrentPerson();
@@ -77,6 +85,7 @@ public class MessageDTOServiceImpl {
      *  @return the list of entities
      */
     @Transactional(readOnly = true)
+    
     public List<Message> findAll() {
         log.debug("Request to get all Messages");
         List <Message> messages = new ArrayList <> ();
@@ -118,6 +127,7 @@ public class MessageDTOServiceImpl {
      *
      *  @param id the id of the entity
      */
+    
     public void delete(Long id) {
         log.debug("Request to delete Message : {}", id);
         Person currentPerson = getCurrentPerson();
@@ -143,6 +153,31 @@ public class MessageDTOServiceImpl {
         return StreamSupport
             .stream(messageSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
+    }
+    
+    private Message createMessageFromMessageDTO (MessageDTO messageDTO, Person currentPerson){
+        Message message = new Message (currentPerson);
+        try {
+            messageDTO.mappingFromDTO(message);
+        } catch (InvocationTargetException ex) {
+            java.util.logging.Logger.getLogger(LikeDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        message.setPerson(personRepository.findOne(messageDTO.getAuthorDTO().getId()));
+        return message;
+    }
+    
+    private MessageDTO createMessageDTOFromMessage (Message message/*, Person currentPerson*/){
+        MessageDTO messageDTO = new MessageDTO ();
+        AuthorDTO authorDTO = new AuthorDTO() ;
+        AvatarDTO avatarDTO = avatarDTOServiceImpl.findOne(message.getPerson().getId());
+        //AvatarDTO avatarDTO = avatarDTOServiceImpl.findOne(currentPerson.getId());
+        try {
+            authorDTO.mappingToDTO(avatarDTO, message.getPerson().getId());
+            messageDTO.mappingToDTO(message, authorDTO);
+        } catch (InvocationTargetException ex) {
+            java.util.logging.Logger.getLogger(LikeDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return messageDTO;
     }
     
     private Person getCurrentPerson (){

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -53,6 +52,10 @@ public class Person implements Serializable {
 
     @Column(name = "pod_id")
     private Integer podId;
+    
+    @OneToOne
+    @JoinColumn(unique = true)
+    private UserAccount userAccount;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -97,15 +100,14 @@ public class Person implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private List<Message> messages = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "participants")
+    
     @JsonIgnore
+    @ManyToMany()
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private List<Conversation> conversations = new ArrayList<>();
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private UserAccount userAccount;
+    @JoinTable(name = "conversation_participants",
+            joinColumns = @JoinColumn(name="participants_id", referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name="conversations_id", referencedColumnName="id"))
+    private List <Conversation> conversations = new ArrayList <>();
 
     public Long getId() {
         return id;
@@ -433,6 +435,15 @@ public class Person implements Serializable {
         this.conversations.add(conversation);
         conversation.getParticipants().add(this);
         return this;
+    }
+    
+    public boolean addUniqueConversation(Conversation conversation) {
+        if (!this.conversations.contains(conversation)) {
+            this.conversations.add(conversation);
+            conversation.getParticipants().add(this);
+            return true;
+        }
+        else return false;
     }
 
     public Person removeConversation(Conversation conversation) {
