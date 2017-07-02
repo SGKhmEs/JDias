@@ -78,8 +78,13 @@
 
             <input value="" class="clear_on_submit hidden" name="status_message[text]" id="status_message_text">
 
-            <div class="container-fluid photodropzone-container" id="photodropzone_container" [hidden]="isPhoto">
-                <ul id="photodropzone"></ul>
+            <div class="container-fluid photodropzone-container"  id="photodropzone_container" [hidden]="isPhoto">
+                <ul id="photodropzone"  >
+                    <li class="publisher_photo" *ngFor="let item of src; let i = index;" style="position:relative;">
+                        <div class="x"></div>
+                        <div class="circle"></div>
+                        <img [src]="item"></li>
+                </ul>
             </div>
 
             <div class="location-container form-group" [hidden]="isLocation" style="padding: 4px 6px;">
@@ -99,16 +104,6 @@
                             <i class="remove-answer fa fa-trash-o"></i>
                         </div>
                     </div>
-<!--
-                    <div class="poll-answer form-group clearfix">
-                        <div class="col-sm-9">
-                            <input type="text" class="input-block-level form-control" [(ngModel)]="inputAnswers[i]" name="poll_answers{{i}}" placeholder="Answer">
-                        </div>
-                        <div class="col-sm-1">
-                            <i class="remove-answer fa fa-trash-o"></i>
-                        </div>
-                    </div>
--->
                 </div>
             </div>
 
@@ -119,7 +114,7 @@
                     </div>
                     <div class="btn btn-link file-upload" id="file-upload" title="Upload photos" style="position: relative; overflow: hidden; direction: ltr;">
                         <i class="fa fa-camera publisher_image"></i>
-                        <input type="file" (change)="onChange($event)" class="file" name="file" multiple = "true" style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0; height: 100%;"></div>
+                        <input type="file" accept="image/*" (change)="onChange($event)" class="file" name="file" multiple = "true" style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0; height: 100%;"></div>
                     <div class="btn btn-link locator" id="locator" title="Get your location" [hidden]="!isLocation" (click)="getLocation()">
 
                         <i class="fa fa-map-marker publisher_image"></i>

@@ -2,12 +2,102 @@ body #publisher_textarea_wrapper>#button_container>span.markdownIndications>a {
     color: rgba(0, 153, 0, 0.6);
 }
 
+/*
+ */
+
+
+
+
+
+style {
+    position: relative;
+}
+
+.publisher_photo {
+    list-style: none;
+    float: left;
+    margin: 8px;
+    height: 80px;
+    width: 80px;
+    overflow: hidden;
+    line-height: 80px;
+    vertical-align: middle;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+
+
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+
+
+.publisher {
+    z-index: 1;
+    color: #999;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+
+.body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333333;
+    background-color: #fff;
+}
+
+
+html {
+    font-size: 10px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+
+*:before, *:after {
+    box-sizing: border-box;
+}
+
+
+*:before, *:after {
+    box-sizing: border-box;
+}
+
+
+
+
+
+
+
+/*
+ */
 @supports (-ms-overflow-style: none) {
     .ps-container {
         overflow: auto !important;
     }
 }
 
+.horizontal { display: inline}
 
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)

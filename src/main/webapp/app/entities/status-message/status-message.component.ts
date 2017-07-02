@@ -8,6 +8,7 @@ import { StatusMessageService } from './status-message.service';
 import { Principal, ResponseWrapper } from '../../shared';
 import {Observable} from 'rxjs/Observable';
 import { Http, Response } from '@angular/http';
+import {Photo} from '../photo/photo.model';
 
 @Component({
     selector: 'jhi-status-message',
@@ -19,11 +20,13 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
 
     //#region Variables
     private resourceUrl = '/api/file';
-    profile = {};
+    private imgUrl = '/api/files/';
     statusM: StatusMessage = new StatusMessage();
     statusMessage: StatusMessageDTO = new StatusMessageDTO();
     inputAnswers: string[] = ['', ''];
     statusMessages: StatusMessage[];
+    photos: Photo[];
+    src: string[] = [];
     currentAccount: any;
     eventSubscriber: Subscription;
     currentSearch: string;
@@ -59,35 +62,75 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
 
     onChange(event) {
         console.log('onChange');
-        const files = event.srcElement.files;
-        console.log(files);
-        this.subscribeToSaveResponse(this.fileChange(event), true);
-    }
-
-    fileChange(event) {
         const fileList: FileList = event.target.files;
+        const formData: FormData = new FormData();
         if (fileList.length > 0) {
-            const formData: FormData = new FormData();
             for (let i = 0; i < fileList.length; i++) {
                 formData.append('file', fileList[i], fileList[i].name);
             }
-            this.http.post(this.resourceUrl, formData)
-                .map((res: Response) => res.json())
-                .catch((error) => Observable.throw(error))
-                .subscribe(
-                    (data) => console.log('success'),
-                    (error) => console.log(error)
-                );
         }
+        this.subscribeToSavePhotoResponse(this.fileChange(formData), true);
+    }
+
+    fileChange(formData: FormData): Observable<Photo> {
+        return this.http.post(this.resourceUrl, formData).map((res: Response) => {
+            return res.json();
+        });
+    }
+
+    private subscribeToSavePhotoResponse(result: Observable<Photo[]>, isCreated: boolean) {
+        result.subscribe((res: Photo[]) =>
+            this.onSavePhotoSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+    }
+
+    private onSavePhotoSuccess(result: Photo[], isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.post.created'
+                : 'jDiasApp.post.updated',
+            { param : result[0].id }, null);
+        this.isPhoto = false;
+        for (const p of result) {
+            this.showImage(p.remotePhotoName);
+        }
+        this.eventManager.broadcast({ name: 'postListModification', content: 'OK'});
+        this.isSaving = false;
+    }
+
+    showImage(filename: string) {
+         this.getImage(filename)
+            .subscribe((file) => {
+             console.log(file);
+             const s: string = file;
+                this.src.push(s);
+                for (const g of this.src){
+                    console.log(g);
+                }
+            });
+    }
+
+    getImage(filename: String): Observable<any> {
+        return this.http.get(this.imgUrl + filename)
+            .map(this.extractUrl);
+    }
+
+    extractUrl(res: Response): string {
+        return res.url;
     }
 
     //#endregion
 
     //#region Location
-    getAdress() {
+    getAdress(): any {
         return this.http.get('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + this.lat +
-            '&lon=' + this.lng + '&addressdetails=3');
-        }
+            '&lon=' + this.lng + '&addressdetails=3').subscribe((res: any) => {
+            this.statusMessage.location_address = res.json()['display_name'];
+            console.log(this.statusMessage.location_address);
+            this.isLocation = false;
+            this.eventManager.broadcast({name: 'locationListModification', content: 'OK'});
+            this.isSaving = false;
+            return res.json();
+        });
+    }
 
     removeLocation() {
         this.statusMessage.location_address = null;
@@ -102,7 +145,8 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
         console.log(this.lng, this.lat);
-        this.subscribeToSaveResponse(this.getAdress(), true);
+        this.getAdress();
+        // this.subscribeToSaveResponse(this.getAdress(), true);
     }
 
     errorCallback = (error) => {
@@ -133,6 +177,7 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
             {param: result['display_name']}, null);
 
         this.statusMessage.location_address = result['display_name'];
+        console.log(this.statusMessage.location_address);
         this.isLocation = false;
         this.eventManager.broadcast({name: 'locationListModification', content: 'OK'});
         this.isSaving = false;
@@ -251,6 +296,10 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
 
     trackId(index: number, item: StatusMessage) {
         return item.id;
+    }
+
+    trackPhoto(index: any, item: any) {
+        return index;
     }
 
     registerChangeInStatusMessages() {
