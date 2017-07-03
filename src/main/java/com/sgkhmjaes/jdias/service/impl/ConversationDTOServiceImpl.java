@@ -11,7 +11,6 @@ import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.repository.search.ConversationSearchRepository;
 import com.sgkhmjaes.jdias.repository.search.MessageSearchRepository;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
-import com.sgkhmjaes.jdias.service.ConversationService;
 import com.sgkhmjaes.jdias.service.dto.AuthorDTO;
 import com.sgkhmjaes.jdias.service.dto.AvatarDTO;
 import com.sgkhmjaes.jdias.service.dto.ConversationDTO;
@@ -29,7 +28,6 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.logging.Level;
 import org.hibernate.Hibernate;
 
@@ -64,34 +62,32 @@ public class ConversationDTOServiceImpl {
     
     public Conversation save(Conversation conversation, Message message, Person currentPerson) {
         log.debug("Request to save Conversation : {}", conversation);
-        if (conversation == null || conversation.getId() == null) {
-            conversation = new Conversation (currentPerson, conversation);
-            //set first message in conversation
-            if (conversation.getMessage() == null && message != null) conversation.setMessage(message.getText());
-        }
+        if (conversation == null || conversation.getId() == null) conversation = new Conversation (currentPerson, conversation);
         else{
             Conversation findConversation = conversationRepository.findOne(conversation.getId());
             if (!findConversation.getParticipants().contains(currentPerson)) return new Conversation();
             //chenge subject of conversation
-            if (!conversation.getSubject().isEmpty())findConversation.setSubject(conversation.getSubject());
+            if (conversation.getSubject() != null && !conversation.getSubject().isEmpty())findConversation.setSubject(conversation.getSubject());
             findConversation.setUpdatedAt(ZonedDateTime.now());
             findConversation.addAllParticipants (conversation.getParticipants());
             conversation = findConversation;
         }
+        //set first message in conversation
+        if (conversation.getMessage() == null && message != null) conversation.setMessage(message.getText());
         
         Conversation result = conversationRepository.save(conversation);        
         conversationSearchRepository.save(result);
         
         ArrayList<Person> personList = new ArrayList<>(result.getParticipants());
         for (Person person: personList) if (person.addUniqueConversation(result)) personRepository.save(person);
-                
+        
         return result;
     }
     
     public List<Conversation> findAll() {
         log.debug("Request to get all Conversations");
         List<Conversation> conversations = getCurrentPerson().getConversations();
-        Collections.sort(conversations, (Conversation c1, Conversation c2) -> c2.getUpdatedAt().compareTo(c1.getUpdatedAt()));
+        //Collections.sort(conversations, (Conversation c1, Conversation c2) -> c2.getUpdatedAt().compareTo(c1.getUpdatedAt()));
         conversations.forEach((conversation) -> {Hibernate.initialize(conversation.getParticipants());});
         return conversations;
     }

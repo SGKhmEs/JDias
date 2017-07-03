@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Objects;
+import org.hibernate.annotations.SortNatural;
 
 /**
  * A Person.
@@ -103,6 +104,7 @@ public class Person implements Serializable {
     
     @JsonIgnore
     @ManyToMany()
+    @OrderBy(value="updatedAt DESC")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "conversation_participants",
             joinColumns = @JoinColumn(name="participants_id", referencedColumnName="id"),

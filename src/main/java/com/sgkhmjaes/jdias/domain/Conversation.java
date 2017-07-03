@@ -49,9 +49,10 @@ public class Conversation implements Serializable {
 
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
-
-    @OneToMany(mappedBy = "conversation")
+    
     @JsonIgnore
+    @OneToMany(mappedBy = "conversation")
+    @OrderBy(value="createdAt DESC")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private List <Message> messages = new ArrayList<>();
 

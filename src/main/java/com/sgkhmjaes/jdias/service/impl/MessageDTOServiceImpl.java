@@ -10,12 +10,10 @@ import com.sgkhmjaes.jdias.repository.PersonRepository;
 import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.repository.search.MessageSearchRepository;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
-import com.sgkhmjaes.jdias.service.MessageService;
 import com.sgkhmjaes.jdias.service.dto.AuthorDTO;
 import com.sgkhmjaes.jdias.service.dto.AvatarDTO;
 import com.sgkhmjaes.jdias.service.dto.MessageDTO;
 import java.lang.reflect.InvocationTargetException;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import org.slf4j.Logger;
@@ -23,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -68,30 +65,25 @@ public class MessageDTOServiceImpl {
     public Message save(Message message) {
         log.debug("Request to save Message : {}", message);
         Person currentPerson = getCurrentPerson();
-        message = new Message (currentPerson, message);
-        Conversation conversation = conversationDTOServiceImpl.save(message.getConversation(), message, currentPerson);  
-        message.setConversation(conversation);
-        message.setConversationGuid(conversation.getGuid());
-        Message result = messageRepository.save(message);
+        Conversation conversation = conversationDTOServiceImpl.save(message.getConversation(), message, currentPerson);
+        Message result = messageRepository.save(new Message (currentPerson, conversation, message));
         messageSearchRepository.save(result);
         conversation.addMessages(message);
         Hibernate.initialize(currentPerson);
         return result;
     }
-
+    
     /**
      *  Get all the messages.
      *
      *  @return the list of entities
      */
     @Transactional(readOnly = true)
-    
     public List<Message> findAll() {
         log.debug("Request to get all Messages");
         List <Message> messages = new ArrayList <> ();
         Person currentPerson = getCurrentPerson();
-        for (Conversation conversation : currentPerson.getConversations()) {
-            messages.addAll(conversation.getMessages());}
+        for (Conversation conversation : currentPerson.getConversations()) messages.addAll(conversation.getMessages());
         Collections.sort(messages, (Message m1, Message m2) -> m2.getCreatedAt().compareTo(m1.getCreatedAt()));
         return messages;
     }
@@ -102,7 +94,7 @@ public class MessageDTOServiceImpl {
         if (conversation.getParticipants().contains(getCurrentPerson())){
             List<Message> messages = conversation.getMessages();
             Hibernate.initialize(messages);
-            Collections.sort(messages, (Message m1, Message m2) -> m2.getCreatedAt().compareTo(m1.getCreatedAt()));
+            //Collections.sort(messages, (Message m1, Message m2) -> m2.getCreatedAt().compareTo(m1.getCreatedAt()));
             return messages;
         }
         else return new ArrayList <>();
