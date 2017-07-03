@@ -16,9 +16,9 @@ public class StatusMessageDTO implements AutoMapping {
     @JsonProperty("status_message")
     private StatusMessage statusMessage;
     @JsonProperty("aspect_ids")
-    private Set<String> aspectIds = null;
+    private Set<String> aspectIds;
     @JsonProperty("photos")
-    private Set<String> photos = null;
+    private Set<String> photos;
     @JsonProperty("location_address")
     private String locationAddress;
     @JsonProperty("location_coords")
@@ -26,7 +26,7 @@ public class StatusMessageDTO implements AutoMapping {
     @JsonProperty("poll_question")
     private String pollQuestion;
     @JsonProperty("poll_answers")
-    private Set<String> pollAnswers = null;
+    private Set<String> pollAnswers;
 
     public StatusMessageDTO(){}
 
