@@ -33,6 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
+import com.sgkhmjaes.jdias.service.impl.PostDTOServiceImpl;
 /**
  * Test class for the PostResource REST controller.
  *
@@ -80,6 +81,9 @@ public class PostResourceIntTest {
 
     @Autowired
     private EntityManager em;
+    
+    @Autowired
+    PostDTOServiceImpl postDTOServiceImpl;
 
     private MockMvc restPostMockMvc;
 
@@ -88,7 +92,7 @@ public class PostResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PostResource postResource = new PostResource(postService);
+        PostResource postResource = new PostResource(postService, postDTOServiceImpl);
         this.restPostMockMvc = MockMvcBuilders.standaloneSetup(postResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
