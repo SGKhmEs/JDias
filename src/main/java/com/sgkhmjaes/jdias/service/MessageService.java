@@ -1,5 +1,6 @@
 package com.sgkhmjaes.jdias.service;
 
+import com.sgkhmjaes.jdias.domain.Conversation;
 import com.sgkhmjaes.jdias.domain.Message;
 import java.util.List;
 
@@ -22,6 +23,13 @@ public interface MessageService {
      *  @return the list of entities
      */
     List<Message> findAll();
+
+    /**
+     *
+     * @param conversation
+     * @return
+     */
+    List<Message> findAllByConversation(Conversation conversation);
 
     /**
      *  Get the "id" message.

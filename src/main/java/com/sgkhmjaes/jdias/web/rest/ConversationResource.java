@@ -3,22 +3,17 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Conversation;
 import com.sgkhmjaes.jdias.service.ConversationService;
-import com.sgkhmjaes.jdias.service.impl.ConversationDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.StreamSupport;
-
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -33,11 +28,9 @@ public class ConversationResource {
     private static final String ENTITY_NAME = "conversation";
 
     private final ConversationService conversationService;
-    private final ConversationDTOServiceImpl conversationDTOServiceImpl;
 
-    public ConversationResource(ConversationService conversationService, ConversationDTOServiceImpl conversationDTOServiceImpl) {
+    public ConversationResource(ConversationService conversationService) {
         this.conversationService = conversationService;
-        this.conversationDTOServiceImpl = conversationDTOServiceImpl;
     }
 
     /**
@@ -54,8 +47,7 @@ public class ConversationResource {
         if (conversation.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new conversation cannot already have an ID")).body(null);
         }
-        Conversation result = conversationDTOServiceImpl.save(conversation);
-        //Conversation result = conversationService.save(conversation);
+        Conversation result = conversationService.save(conversation);
         return ResponseEntity.created(new URI("/api/conversations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -77,7 +69,7 @@ public class ConversationResource {
         if (conversation.getId() == null) {
             return createConversation(conversation);
         }
-        Conversation result = conversationDTOServiceImpl.save(conversation);
+        Conversation result = conversationService.save(conversation);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, conversation.getId().toString()))
             .body(result);
@@ -92,7 +84,7 @@ public class ConversationResource {
     @Timed
     public List<Conversation> getAllConversations() {
         log.debug("REST request to get all Conversations");
-        return conversationDTOServiceImpl.findAll();
+        return conversationService.findAll();
     }
 
     /**
@@ -105,7 +97,7 @@ public class ConversationResource {
     @Timed
     public ResponseEntity<Conversation> getConversation(@PathVariable Long id) {
         log.debug("REST request to get Conversation : {}", id);
-        Conversation conversation = conversationDTOServiceImpl.findOne(id);
+        Conversation conversation = conversationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(conversation));
     }
 
@@ -119,7 +111,7 @@ public class ConversationResource {
     @Timed
     public ResponseEntity<Void> deleteConversation(@PathVariable Long id) {
         log.debug("REST request to delete Conversation : {}", id);
-        conversationDTOServiceImpl.delete(id);
+        conversationService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -134,7 +126,7 @@ public class ConversationResource {
     @Timed
     public List<Conversation> searchConversations(@RequestParam String query) {
         log.debug("REST request to search Conversations for query {}", query);
-        return conversationDTOServiceImpl.search(query);
+        return conversationService.search(query);
     }
 
 }

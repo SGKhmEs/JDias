@@ -1,52 +1,53 @@
+
 package com.sgkhmjaes.jdias.service;
 
-import com.sgkhmjaes.jdias.domain.Conversation;
 import com.sgkhmjaes.jdias.domain.Message;
 import com.sgkhmjaes.jdias.domain.Person;
+import com.sgkhmjaes.jdias.service.dto.ConversationDTO;
 import java.util.List;
 
 /**
- * Service Interface for managing Conversation.
+ *
+ * @author Админ
  */
-public interface ConversationService {
+public interface ConversationDTOService {
 
     /**
      * Save a conversation.
      *
-     * @param conversation the entity to save
+     * @param conversationDTO the entity to save
      * @return the persisted entity
      */
-    Conversation save(Conversation conversation);
-    Conversation save(Conversation conversation, Message message, Person person);
+    ConversationDTO save(ConversationDTO conversationDTO);
 
     /**
-     *  Get all the conversations.
+     *  Get all the conversationDTOs.
      *
      *  @return the list of entities
      */
-    List<Conversation> findAll();
+    List<ConversationDTO> findAll();
 
     /**
-     *  Get the "id" conversation.
+     *  Get the "id" conversationDTO.
      *
      *  @param id the id of the entity
      *  @return the entity
      */
-    Conversation findOne(Long id);
+    ConversationDTO findOne(Long id);
 
     /**
-     *  Delete the "id" conversation.
+     *  Delete the "id" conversationDTO.
      *
      *  @param id the id of the entity
      */
     void delete(Long id);
 
     /**
-     * Search for the conversation corresponding to the query.
+     * Search for the conversationDTO corresponding to the query.
      *
      *  @param query the query of the search
      *  
      *  @return the list of entities
      */
-    List<Conversation> search(String query);
+    List<ConversationDTO> search(String query);
 }

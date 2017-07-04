@@ -7,11 +7,15 @@ import java.time.ZonedDateTime;
 
 public class MessageDTO implements AutoMapping{
     
+    @JsonProperty("id")
     private Long id;
-    private String text; // The message text.
-    private ZonedDateTime createdAt; // The create timestamp of the message.
     @JsonProperty("author")
     private AuthorDTO authorDTO; // The diaspora ID of the author of the message.
+    @JsonProperty("text")
+    private String text; // The message text.
+    @JsonProperty("createdAt")
+    private ZonedDateTime createdAt; // The create timestamp of the message.
+
     
     public MessageDTO (){}
 
@@ -47,6 +51,14 @@ public class MessageDTO implements AutoMapping{
         this.createdAt = createdAt;
     }
     
-    
+    @Override
+public String toString() {
+StringBuilder sb = new StringBuilder();
+sb.append ("MessageDTO: {").append("id=").append(id).append(", ").
+append("author d t o=").append(authorDTO).append(", ").
+append("text=").append(text).append(", ").
+append("created at=").append(createdAt).append("}; \n"); 
+return sb.toString();
+}
     
 }

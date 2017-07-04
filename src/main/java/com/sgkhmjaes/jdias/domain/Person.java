@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Objects;
-import org.hibernate.annotations.SortNatural;
 
 /**
  * A Person.

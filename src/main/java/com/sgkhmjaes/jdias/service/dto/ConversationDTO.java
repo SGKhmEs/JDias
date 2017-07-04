@@ -11,13 +11,17 @@ import java.util.Set;
 
 public class ConversationDTO implements AutoMapping {
     
+    @JsonProperty("id")
     private Long id;
-    private String author; // The diaspora ID of the author of the conversation.
-    private String subject; // The subject of the conversation
-    private ZonedDateTime updatedAt; // The last message timestamp of the conversation.
-    @JsonProperty("message")
-    private List <MessageDTO> messagesDTO = new ArrayList <>(); // All* message of this conversation
     @JsonProperty("author")
+    private String author; // The diaspora ID of the author of the conversation.
+    @JsonProperty("subject")
+    private String subject; // The subject of the conversation
+    @JsonProperty("updatedAt")
+    private ZonedDateTime updatedAt; // The last message timestamp of the conversation.
+    @JsonProperty("messages")
+    private List <MessageDTO> messagesDTO = new ArrayList <>(); // All* message of this conversation
+    @JsonProperty("participants")
     private Set <AuthorDTO> authorDTO = new HashSet <> ();
     
     public ConversationDTO (){}
@@ -83,6 +87,16 @@ public class ConversationDTO implements AutoMapping {
         return authorDTO;
     }
     
-    
+    @Override
+public String toString() {
+StringBuilder sb = new StringBuilder();
+sb.append ("ConversationDTO: {").append("id=").append(id).append(", ").
+append("author=").append(author).append(", ").
+append("subject=").append(subject).append(", ").
+append("updated at=").append(updatedAt).append(", ").
+append("messages d t o=").append(messagesDTO).append(", ").
+append("author d t o=").append(authorDTO).append("}; \n"); 
+return sb.toString();
+}
         
 }

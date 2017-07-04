@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -15,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Objects;
 import java.util.UUID;
+//import org.hibernate.annotations.OrderBy;
 
 /**
  * A Conversation.
@@ -77,11 +77,11 @@ public class Conversation implements Serializable {
         }
     }
     
-    public Conversation (Person person){
+    public Conversation (String author){
         this.updatedAt = ZonedDateTime.now();
         this.createdAt = LocalDate.now();
         this.guid = UUID.randomUUID().toString();
-        if (person != null) this.author = person.getDiasporaId();
+        this.author = author;
     }
     
     public Long getId() {

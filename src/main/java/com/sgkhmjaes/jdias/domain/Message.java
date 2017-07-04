@@ -48,22 +48,30 @@ public class Message implements Serializable {
     
     public Message () {}
     
-    public Message (Person person, Conversation conversation, Message message) {
+    public Message(Person person, Conversation conversation, Message message) {
         this.createdAt = ZonedDateTime.now();
         this.guid = UUID.randomUUID().toString();
-        this.person = person;
-        this.author = person.getDiasporaId();
-        this.text = message.getText();
-        this.conversation = message.getConversation();
-        this.conversation = conversation;
-        this.conversationGuid = conversation.getGuid();
+        if (person != null) {
+            this.person = person;
+            this.author = person.getDiasporaId();
+        }
+        if (conversation != null) {
+            this.conversation = conversation;
+            this.conversationGuid = conversation.getGuid();
+        }
+        if (message != null) {
+            this.text = message.getText();
+            this.conversation = message.getConversation();
+        }
     }
     
     public Message (Person person) {
-        this.person = person;
-        this.author = person.getDiasporaId();
         this.createdAt = ZonedDateTime.now();
         this.guid = UUID.randomUUID().toString();
+        if (person != null) {
+            this.person = person;
+            this.author = person.getDiasporaId();
+        }
     }
 
     public Long getId() {

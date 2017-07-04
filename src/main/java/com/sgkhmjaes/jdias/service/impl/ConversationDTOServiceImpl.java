@@ -4,169 +4,124 @@ package com.sgkhmjaes.jdias.service.impl;
 import com.sgkhmjaes.jdias.domain.Conversation;
 import com.sgkhmjaes.jdias.domain.Message;
 import com.sgkhmjaes.jdias.domain.Person;
-import com.sgkhmjaes.jdias.repository.ConversationRepository;
-import com.sgkhmjaes.jdias.repository.MessageRepository;
-import com.sgkhmjaes.jdias.repository.PersonRepository;
-import com.sgkhmjaes.jdias.repository.UserRepository;
-import com.sgkhmjaes.jdias.repository.search.ConversationSearchRepository;
-import com.sgkhmjaes.jdias.repository.search.MessageSearchRepository;
-import com.sgkhmjaes.jdias.security.SecurityUtils;
+import com.sgkhmjaes.jdias.service.ConversationDTOService;
+import com.sgkhmjaes.jdias.service.ConversationService;
+import com.sgkhmjaes.jdias.service.UserService;
 import com.sgkhmjaes.jdias.service.dto.AuthorDTO;
 import com.sgkhmjaes.jdias.service.dto.AvatarDTO;
 import com.sgkhmjaes.jdias.service.dto.ConversationDTO;
+import com.sgkhmjaes.jdias.service.dto.MessageDTO;
 import java.lang.reflect.InvocationTargetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-import static org.elasticsearch.index.query.QueryBuilders.*;
 import java.util.Set;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
-import org.hibernate.Hibernate;
 
 @Service
 @Transactional
-public class ConversationDTOServiceImpl {
+public class ConversationDTOServiceImpl implements ConversationDTOService{
     
     private final Logger log = LoggerFactory.getLogger(ConversationDTOServiceImpl.class);
-    private final ConversationRepository conversationRepository;
-    private final ConversationSearchRepository conversationSearchRepository;
-    private final UserRepository userRepository;
-    private final PersonRepository personRepository;
-    private final MessageRepository messageRepository;
-    private final MessageSearchRepository messageSearchRepository;
     private final AvatarDTOServiceImpl avatarDTOServiceImpl;
+    private final ConversationService conversationService;
+    private final UserService userService;
 
-    public ConversationDTOServiceImpl(ConversationRepository conversationRepository, UserRepository userRepository, 
-            PersonRepository personRepository, ConversationSearchRepository conversationSearchRepository, 
-            MessageRepository messageRepository, MessageSearchRepository messageSearchRepository, AvatarDTOServiceImpl avatarDTOServiceImpl) {
-        this.conversationRepository = conversationRepository;
-        this.conversationSearchRepository = conversationSearchRepository;
-        this.userRepository=userRepository;
-        this.personRepository = personRepository;
-        this.messageRepository = messageRepository;
-        this.messageSearchRepository = messageSearchRepository;
+    public ConversationDTOServiceImpl(ConversationService conversationService, UserService userService, 
+            AvatarDTOServiceImpl avatarDTOServiceImpl) {
         this.avatarDTOServiceImpl= avatarDTOServiceImpl;
+        this.conversationService = conversationService;
+        this.userService = userService;
     }
     
-    public Conversation save(Conversation conversation) {
-        return save (conversation, null, getCurrentPerson ());
+    @Override
+    public ConversationDTO save(ConversationDTO conversationDTO) {
+        log.debug("Request to save ConversationDTO: " + conversationDTO);
+        Conversation conversation = createConversationFromConversationDTO(conversationDTO, userService.getCurrentPerson());
+        Conversation saveConversation = conversationService.save(conversation);
+        return createConversationDTOfromConversation(saveConversation);
     }
-    
-    public Conversation save(Conversation conversation, Message message, Person currentPerson) {
-        log.debug("Request to save Conversation : {}", conversation);
-        if (conversation == null || conversation.getId() == null) conversation = new Conversation (currentPerson, conversation);
-        else{
-            Conversation findConversation = conversationRepository.findOne(conversation.getId());
-            if (!findConversation.getParticipants().contains(currentPerson)) return new Conversation();
-            //chenge subject of conversation
-            if (conversation.getSubject() != null && !conversation.getSubject().isEmpty())findConversation.setSubject(conversation.getSubject());
-            findConversation.setUpdatedAt(ZonedDateTime.now());
-            findConversation.addAllParticipants (conversation.getParticipants());
-            conversation = findConversation;
+        
+    @Override
+    public List<ConversationDTO> findAll() {
+        log.debug("Request to get all ConversationDTOs");
+        ArrayList <ConversationDTO> conversationDTOs = new ArrayList <>();
+        for (Conversation conversation : conversationService.findAll()) {
+            conversationDTOs.add(createConversationDTOfromConversation(conversation));
         }
-        //set first message in conversation
-        if (conversation.getMessage() == null && message != null) conversation.setMessage(message.getText());
-        
-        Conversation result = conversationRepository.save(conversation);        
-        conversationSearchRepository.save(result);
-        
-        ArrayList<Person> personList = new ArrayList<>(result.getParticipants());
-        for (Person person: personList) if (person.addUniqueConversation(result)) personRepository.save(person);
-        
-        return result;
+        return conversationDTOs;
     }
     
-    public List<Conversation> findAll() {
-        log.debug("Request to get all Conversations");
-        List<Conversation> conversations = getCurrentPerson().getConversations();
-        //Collections.sort(conversations, (Conversation c1, Conversation c2) -> c2.getUpdatedAt().compareTo(c1.getUpdatedAt()));
-        conversations.forEach((conversation) -> {Hibernate.initialize(conversation.getParticipants());});
-        return conversations;
+    @Override
+    public ConversationDTO findOne(Long id) {
+        log.debug("Request to get ConversationDTO : {}", id);
+        return createConversationDTOfromConversation(conversationService.findOne(id));
     }
     
-    public Conversation findOne(Long id) {
-        log.debug("Request to get Conversation : {}", id);
-        Conversation conversation = conversationRepository.findOne(id);
-        if (conversation.getParticipants().contains(getCurrentPerson ()))return conversationRepository.findOne(id);
-        else return new Conversation();
-    }
-    
+    @Override
     public void delete(Long id) {
-        log.debug("Request to delete Conversation : {}", id);
-        Conversation conversation = conversationRepository.findOne(id);
-        Set<Person> participants = conversation.getParticipants();
-        Person currentPerson = getCurrentPerson ();
-        if (participants.remove(currentPerson)){
-            currentPerson.getConversations().remove(conversation);
-            personRepository.save(currentPerson);
-        }
-        if (participants.isEmpty()){
-            for (Message message : conversation.getMessages()) {
-                messageRepository.delete(message.getId());
-                messageSearchRepository.delete(message.getId());
-            }
-            conversationRepository.delete(id);
-            conversationSearchRepository.delete(id);
-        }
+        log.debug("Request to delete ConversationDTO : {}", id);
+        conversationService.delete(id);
     }
     
-    public List<Conversation> search(String query) {
-        log.debug("Request to search Conversations for query {}", query);
-        return StreamSupport
-            .stream(conversationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+    @Override
+    public List<ConversationDTO> search(String query) {
+        log.debug("Request to search ConversationDTOs for query {}", query);
+        ArrayList <ConversationDTO> conversationDTOs = new ArrayList <>();
+        for (Conversation conversation : conversationService.search(query)) {
+            conversationDTOs.add(createConversationDTOfromConversation(conversation));
+        }
+        return conversationDTOs;
     }
     
-    private Conversation createConversationFromConversationDTO (ConversationDTO conversationDTO, Person currentPerson){
-        Conversation conversation = new Conversation (currentPerson);
-        for (AuthorDTO authorDTO : conversationDTO.getAuthorDTO()) {
-            if (authorDTO.getId() != null) conversation.addParticipants(personRepository.findOne(authorDTO.getId()));
-            else {
-                //search in repository by diapora id
-                //conversation.addParticipants(personRepository.findOne(authorDTO.getDiasporaId()));
-            }
-        }
+    
+    private Conversation createConversationFromConversationDTO(ConversationDTO conversationDTO, Person currentPerson) {
+        Conversation conversation = conversationService.findOne(conversationDTO.getId());
+        if (conversation == null) conversation = new Conversation(conversationDTO.getAuthor());
         try {
             conversationDTO.mappingFromDTO(conversation);
+            for (MessageDTO messageDTO : conversationDTO.getMessagesDTO()) {
+                Message message = new Message();
+                messageDTO.mappingFromDTO(message);
+                //add new messages only
+                if (messageDTO.getId()==null) {
+                    conversation.addMessages(new Message(currentPerson, conversation, message));
+                }
+            }
         } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(LikeDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conversation;
     }
     
-    private ConversationDTO createConversationDTOfromConversation (Conversation conversation/*, Person currentPerson*/){
+    private ConversationDTO createConversationDTOfromConversation (Conversation conversation){
         ConversationDTO conversationDTO = new ConversationDTO ();
-        Set <AuthorDTO> authorDTO = new HashSet <> (conversation.getParticipants().size());
+        HashMap <String, AuthorDTO> authorsDTO = new HashMap <> (conversation.getParticipants().size());
         try {
             for (Person participants : conversation.getParticipants()) {
                 AuthorDTO authorDto = new AuthorDTO();
-                AvatarDTO avatarDTO=null;
-                if (participants.getId() != null) avatarDTO = avatarDTOServiceImpl.findOne(participants.getId());
-                else {
-                    //search in repository by diapora id
-                    //avatarDTO = avatarDTOServiceImpl.findOne(participants.getDiasporaId());
-                }
+                AvatarDTO avatarDTO = avatarDTOServiceImpl.findOne(participants.getId());
                 authorDto.mappingToDTO(participants, avatarDTO);
-                authorDTO.add(authorDto);
+                authorsDTO.put(authorDto.getDiasporaId(), authorDto);
             }
-            conversationDTO.mappingToDTO(conversation);
-            conversationDTO.setAuthorDTO(authorDTO);
+            List <MessageDTO> messagesDTO = new ArrayList <>(conversation.getMessages().size());
+            MessageDTO messageDTO = new MessageDTO();
+            for (Message message : conversation.getMessages()) {
+                messageDTO.mappingToDTO(message, authorsDTO.get(message.getAuthor()));
+                messagesDTO.add(messageDTO);
+            }
+            conversationDTO.mappingToDTO(conversation);            
+            conversationDTO.setAuthorDTO(new HashSet(authorsDTO.values()));
+            conversationDTO.setMessageDTO(messagesDTO);
         } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(LikeDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conversationDTO;
     }
-    
-    private Person getCurrentPerson (){
-        return personRepository.getOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
-    }
-    
+        
 }

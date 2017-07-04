@@ -7,7 +7,6 @@ import com.sgkhmjaes.jdias.repository.MessageRepository;
 import com.sgkhmjaes.jdias.service.MessageService;
 import com.sgkhmjaes.jdias.repository.search.MessageSearchRepository;
 import com.sgkhmjaes.jdias.service.impl.MessageDTOServiceImpl;
-import com.sgkhmjaes.jdias.service.impl.MessageServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -90,7 +89,7 @@ public class MessageResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        MessageResource messageResource = new MessageResource(messageService, messageDTOServiceImpl);
+        MessageResource messageResource = new MessageResource(messageService);
         this.restMessageMockMvc = MockMvcBuilders.standaloneSetup(messageResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

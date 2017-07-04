@@ -69,9 +69,6 @@ public class ConversationResourceIntTest {
 
     @Autowired
     private ConversationService conversationService;
-    
-    @Autowired
-    private ConversationDTOServiceImpl conversationDTOServiceImpl;
 
     @Autowired
     private ConversationSearchRepository conversationSearchRepository;
@@ -95,7 +92,7 @@ public class ConversationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ConversationResource conversationResource = new ConversationResource(conversationService, conversationDTOServiceImpl);
+        ConversationResource conversationResource = new ConversationResource(conversationService);
         this.restConversationMockMvc = MockMvcBuilders.standaloneSetup(conversationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
