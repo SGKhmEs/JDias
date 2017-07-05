@@ -64,11 +64,19 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
     removeImage(url: string) {
         const fileName = url.replace(/^.*[\\\/]/, '');
         this.http.delete(`${this.imgUrl}${fileName}`).subscribe((response) => {
+            this.alertService.success('jDiasApp.statusMessage.deleted', {param: this.fileName}, null);
             this.eventManager.broadcast({
                 name: 'image',
                 content: 'Deleted an image'
             });
-            this.alertService.success('jDiasApp.statusMessage.deleted', {param: this.fileName}, null);
+            for (let i = 0; i < this.src.length; i++) {
+                if (this.src[i] === url) {
+                    this.src.splice(i, 1);
+                }
+            }
+            if (this.src.length === 0) {
+                this.isPhoto = true;
+            }
             return response.json();
         });
     }
