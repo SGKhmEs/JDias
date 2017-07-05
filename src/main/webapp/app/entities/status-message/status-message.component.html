@@ -80,7 +80,7 @@
 
             <div class="container-fluid photodropzone-container"  id="photodropzone_container" [hidden]="isPhoto">
                 <ul id="photodropzone"  >
-                    <li class="publisher_photo" *ngFor="let item of src; let i = index;" style="position:relative;">
+                    <li class="publisher_photo" (click)="removeImage(item)" *ngFor="let item of src; let i = index;" style="position:relative;">
                         <div class="x"></div>
                         <div class="circle"></div>
                         <img [src]="item"></li>

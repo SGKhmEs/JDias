@@ -128,4 +128,9 @@ public class PhotoServiceImpl implements PhotoService {
                 .stream(photoSearchRepository.search(queryStringQuery(query)).spliterator(), false)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void delete(String filename) {
+        delete(photoRepository.findByRemotePhotoName(filename).getId());
+    }
 }

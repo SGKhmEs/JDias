@@ -52,4 +52,6 @@ public interface PhotoService {
      * @return the list of entities
      */
     List<Photo> search(String query);
+
+    void delete(String filename);
 }

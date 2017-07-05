@@ -37,6 +37,7 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
     lng: number;
     isSaving: boolean;
     isShareDisabled = false;
+    fileName: string;
     options = {
         enableHighAccuracy: true,
         timeout: 3000,
@@ -59,6 +60,28 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
     //#endregion
 
     //#region Photos
+
+    removeImage(url: string) {
+        const fileName = url.replace(/^.*[\\\/]/, '');
+        this.http.delete(`${this.imgUrl}${fileName}`).subscribe((response) => {
+            this.eventManager.broadcast({
+                name: 'image',
+                content: 'Deleted an image'
+            });
+            this.alertService.success('jDiasApp.statusMessage.deleted', {param: this.fileName}, null);
+            return response.json();
+        });
+    }
+
+   /* removeImage() {
+        this.deleteImg(this.fileName).subscribe((response) => {
+            this.eventManager.broadcast({
+                name: 'image',
+                content: 'Deleted an image'
+            });
+        });
+        this.alertService.success('jDiasApp.statusMessage.deleted', {param: this.fileName}, null);
+    }*/
 
     onChange(event) {
         console.log('onChange');

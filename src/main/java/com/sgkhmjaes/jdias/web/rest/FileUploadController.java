@@ -32,6 +32,8 @@ import java.util.stream.Collectors;
 public class FileUploadController {
 
     private final StorageService storageService;
+    private static final String SMALL_PREFIX = "small_";
+    private static final String MEDIUM_PREFIX = "medium_";
 
     private final Logger log = LoggerFactory.getLogger(FileUploadController.class);
     @Inject
@@ -78,6 +80,16 @@ public class FileUploadController {
         }
         return ResponseEntity.ok().headers(HeaderUtil.createAlert("PHOTOS", "UPLOADED"))
             .body(photos);
+    }
+
+    @DeleteMapping("/files/{filename:.+}")
+    public ResponseEntity<Void> deleteImage(@PathVariable String filename) {
+        log.debug("REST request to delete Image : {}", filename);
+        storageService.deleteImage(filename);
+        storageService.deleteImage(SMALL_PREFIX + filename);
+        storageService.deleteImage(MEDIUM_PREFIX + filename);
+        photoService.delete(filename);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("PHOTO", filename)).build();
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

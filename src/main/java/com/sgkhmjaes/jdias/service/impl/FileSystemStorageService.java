@@ -103,6 +103,13 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
+    public void deleteImage(String filename) {
+        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        Path userPath = Paths.get(rootLocation + "/" + person.getGuid());
+        FileSystemUtils.deleteRecursively(userPath.resolve(filename).toFile());
+    }
+
+    @Override
     public void init() {
         try {
             Files.createDirectory(rootLocation);

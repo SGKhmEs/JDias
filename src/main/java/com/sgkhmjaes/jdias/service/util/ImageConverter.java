@@ -25,8 +25,8 @@ public class ImageConverter {
     private static final int HEIGHT_MEDIUM = 100;
     private static final int WIDTH_MEDIUM = 100;
     //private static final String IMAGE_CATALOG_NAME = "images";
-    private static final String SMALL_PREFIX = "small_";
-    private static final String MEDIUM_PREFIX = "medium_";
+    private static final String SMALL_PREFIX = "/small_";
+    private static final String MEDIUM_PREFIX = "/medium_";
     //static {new File(IMAGE_CATALOG_NAME).mkdir();}
 
     public ImageConverter() {}
