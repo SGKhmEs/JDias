@@ -11,13 +11,11 @@ import com.sgkhmjaes.jdias.domain.UserAccount;
 import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.repository.search.UserSearchRepository;
 import com.sgkhmjaes.jdias.security.AuthoritiesConstants;
-import com.sgkhmjaes.jdias.security.RSAKeysGenerator;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.util.RandomUtil;
 import com.sgkhmjaes.jdias.service.dto.UserDTO;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -26,7 +24,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -88,39 +85,16 @@ public class UserService {
     
     private void createdUserAccount (User user){
         
-        UserAccount userAccount = new UserAccount();
-        userAccount.setId(user.getId());
-        userAccount.setSerializedPrivateKey(RSAKeysGenerator.getRsaPrivateKey());
-        userAccount.setCreatedAt(LocalDate.now());
-        userAccount.setLastSeen(LocalDate.now());
-        userAccount.setDisableMail(false);
-        userAccount.setSignInCount(0);
-        userAccount.setLanguage("default");
-        userAccount.setAutoFollowBack(true);
-        userAccount.setColorTheme("default");
-        userAccount.setCurrentSignInAt(LocalDate.now());
-        userAccount.setCurrentSignInIp("CurrentSignInIp");
-        userAccount.setExportE("ExportE");
-        userAccount.setExporting(false);
-        userAccount.setGettingStarted(false);
-        userAccount.setLastSignInAt(LocalDate.now());
-        userAccount.setStripExif(false);
-        userAccount.setPostDefaultPublic(true);
-        
-        
-        Person person = new Person();
-        person.setId(user.getId());
-        person.serializedPublicKey(RSAKeysGenerator.getRsaPublicKey(userAccount.getSerializedPrivateKey()));
-        person.setClosedAccount(false);
-        person.setCreatedAt(LocalDate.now());
-        person.setUpdatedAt(LocalDate.now());
-        person.setGuid(UUID.nameUUIDFromBytes(user.getLogin().getBytes()).toString());
+        UserAccount userAccount = new UserAccount(user.getId());
+        Person person = new Person(user.getId(), userAccount.getSerializedPrivateKey(), user.getLogin());
         //person.setPodId();
+        String hostName;
         try {
-            person.setDiasporaId(user.getLogin() + "@" + InetAddress.getLocalHost().getHostName());
+            hostName = user.getLogin() + "@" + InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            hostName = user.getLogin() + "@" + UUID.randomUUID().toString();
         }
+        person.setDiasporaId(hostName);
         
         Profile profile = new Profile();
         profile.setId(user.getId());
@@ -142,7 +116,7 @@ public class UserService {
         personService.save(person);
         
     }
-
+    
     public Optional<User> completePasswordReset(String newPassword, String key) {
        log.debug("Reset user password for reset key {}", key);
 

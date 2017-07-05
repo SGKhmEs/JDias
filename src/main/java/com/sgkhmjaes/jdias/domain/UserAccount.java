@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
-
+import com.sgkhmjaes.jdias.security.RSAKeysGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -127,6 +127,28 @@ public class UserAccount implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TagFollowing> tagfollowings = new HashSet<>();
+    
+    public UserAccount (){}
+    
+    public UserAccount (Long id){
+        this.id=id;
+        this.serializedPrivateKey = RSAKeysGenerator.getRsaPrivateKey();
+        this.createdAt = LocalDate.now();
+        this.lastSeen = LocalDate.now();
+        this.disableMail = false;
+        this.signInCount = 0;
+        this.language = "default";
+        this.autoFollowBack = true;
+        this.colorTheme = "default";
+        this.currentSignInAt = LocalDate.now();
+        this.currentSignInIp = "CurrentSignInIp";
+        this.exportE = "ExportE";
+        this.exporting = false;
+        this.gettingStarted = false;
+        this.lastSignInAt = LocalDate.now();
+        this.stripExif = false;
+        this.postDefaultPublic = true;
+    }
 
     public Long getId() {
         return id;

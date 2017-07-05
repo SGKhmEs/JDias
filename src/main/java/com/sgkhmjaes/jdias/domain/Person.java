@@ -1,17 +1,21 @@
 package com.sgkhmjaes.jdias.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sgkhmjaes.jdias.security.RSAKeysGenerator;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A Person.
@@ -109,7 +113,18 @@ public class Person implements Serializable {
             joinColumns = @JoinColumn(name="participants_id", referencedColumnName="id"),
             inverseJoinColumns = @JoinColumn(name="conversations_id", referencedColumnName="id"))
     private List <Conversation> conversations = new ArrayList <>();
-
+    
+    public Person (){}
+    
+    public Person (Long id, String serializedPublicKey, String login){
+        this.id = id;
+        this.serializedPublicKey = RSAKeysGenerator.getRsaPublicKey(serializedPublicKey);
+        this.closedAccount = false;
+        this.createdAt = LocalDate.now();
+        this.updatedAt = LocalDate.now();
+        this.guid = UUID.nameUUIDFromBytes(login.getBytes()).toString();
+    }
+    
     public Long getId() {
         return id;
     }
