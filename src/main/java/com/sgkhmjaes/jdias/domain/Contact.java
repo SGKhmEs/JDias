@@ -39,10 +39,12 @@ public class Contact implements Serializable {
     @Column(name = "sharing")
     private Boolean sharing;
 
+    @Column(name = "own_id")
+    private Long ownId;
+
     @OneToMany(mappedBy = "contact")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<AspectMembership> aspectMemberships = new HashSet<>();
 
     @ManyToOne
     private Person person;
@@ -107,29 +109,17 @@ public class Contact implements Serializable {
         this.sharing = sharing;
     }
 
-    public Set<AspectMembership> getAspectMemberships() {
-        return aspectMemberships;
+    public Long getOwnId() {
+        return ownId;
     }
 
-    public Contact aspectMemberships(Set<AspectMembership> aspectMemberships) {
-        this.aspectMemberships = aspectMemberships;
+    public Contact ownId(Long ownId) {
+        this.ownId = ownId;
         return this;
     }
 
-    public Contact addAspectMemberships(AspectMembership aspectMembership) {
-        this.aspectMemberships.add(aspectMembership);
-        aspectMembership.setContact(this);
-        return this;
-    }
-
-    public Contact removeAspectMemberships(AspectMembership aspectMembership) {
-        this.aspectMemberships.remove(aspectMembership);
-        aspectMembership.setContact(null);
-        return this;
-    }
-
-    public void setAspectMemberships(Set<AspectMembership> aspectMemberships) {
-        this.aspectMemberships = aspectMemberships;
+    public void setOwnId(Long ownId) {
+        this.ownId = ownId;
     }
 
     public Person getPerson() {
@@ -173,6 +163,7 @@ public class Contact implements Serializable {
             ", recipient='" + getRecipient() + "'" +
             ", following='" + isFollowing() + "'" +
             ", sharing='" + isSharing() + "'" +
+            ", ownId='" + getOwnId() + "'" +
             "}";
     }
 }

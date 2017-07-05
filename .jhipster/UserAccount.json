@@ -19,12 +19,6 @@
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "aspectmemberships",
-            "otherEntityName": "aspectMembership",
-            "otherEntityRelationshipName": "userAccount"
-        },
-        {
-            "relationshipType": "one-to-many",
             "relationshipName": "tagfollowings",
             "otherEntityName": "tagFollowing",
             "otherEntityRelationshipName": "userAccount"

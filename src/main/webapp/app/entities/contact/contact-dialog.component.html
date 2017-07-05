@@ -36,6 +36,12 @@
                 [(ngModel)]="contact.sharing"
              />
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.contact.ownId" for="field_ownId">Own Id</label>
+            <input type="number" class="form-control" name="ownId" id="field_ownId"
+                [(ngModel)]="contact.ownId"
+             />
+        </div>
 
         <div class="form-group">
             <label jhiTranslate="jDiasApp.contact.person" for="field_person">Person</label>

@@ -121,11 +121,6 @@ public class UserAccount implements Serializable {
     @OneToMany(mappedBy = "userAccount")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<AspectMembership> aspectmemberships = new HashSet<>();
-
-    @OneToMany(mappedBy = "userAccount")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TagFollowing> tagfollowings = new HashSet<>();
 
     public Long getId() {
@@ -511,31 +506,6 @@ public class UserAccount implements Serializable {
 
     public void setPerson(Person person) {
         this.person = person;
-    }
-
-    public Set<AspectMembership> getAspectmemberships() {
-        return aspectmemberships;
-    }
-
-    public UserAccount aspectmemberships(Set<AspectMembership> aspectMemberships) {
-        this.aspectmemberships = aspectMemberships;
-        return this;
-    }
-
-    public UserAccount addAspectmemberships(AspectMembership aspectMembership) {
-        this.aspectmemberships.add(aspectMembership);
-        aspectMembership.setUserAccount(this);
-        return this;
-    }
-
-    public UserAccount removeAspectmemberships(AspectMembership aspectMembership) {
-        this.aspectmemberships.remove(aspectMembership);
-        aspectMembership.setUserAccount(null);
-        return this;
-    }
-
-    public void setAspectmemberships(Set<AspectMembership> aspectMemberships) {
-        this.aspectmemberships = aspectMemberships;
     }
 
     public Set<TagFollowing> getTagfollowings() {

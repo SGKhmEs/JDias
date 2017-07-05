@@ -51,6 +51,9 @@ public class ContactResourceIntTest {
     private static final Boolean DEFAULT_SHARING = false;
     private static final Boolean UPDATED_SHARING = true;
 
+    private static final Long DEFAULT_OWN_ID = 1L;
+    private static final Long UPDATED_OWN_ID = 2L;
+
     @Autowired
     private ContactRepository contactRepository;
 
@@ -97,7 +100,8 @@ public class ContactResourceIntTest {
             .author(DEFAULT_AUTHOR)
             .recipient(DEFAULT_RECIPIENT)
             .following(DEFAULT_FOLLOWING)
-            .sharing(DEFAULT_SHARING);
+            .sharing(DEFAULT_SHARING)
+            .ownId(DEFAULT_OWN_ID);
         return contact;
     }
 
@@ -126,6 +130,7 @@ public class ContactResourceIntTest {
         assertThat(testContact.getRecipient()).isEqualTo(DEFAULT_RECIPIENT);
         assertThat(testContact.isFollowing()).isEqualTo(DEFAULT_FOLLOWING);
         assertThat(testContact.isSharing()).isEqualTo(DEFAULT_SHARING);
+        assertThat(testContact.getOwnId()).isEqualTo(DEFAULT_OWN_ID);
 
         // Validate the Contact in Elasticsearch
         Contact contactEs = contactSearchRepository.findOne(testContact.getId());
@@ -165,7 +170,8 @@ public class ContactResourceIntTest {
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].recipient").value(hasItem(DEFAULT_RECIPIENT.toString())))
             .andExpect(jsonPath("$.[*].following").value(hasItem(DEFAULT_FOLLOWING.booleanValue())))
-            .andExpect(jsonPath("$.[*].sharing").value(hasItem(DEFAULT_SHARING.booleanValue())));
+            .andExpect(jsonPath("$.[*].sharing").value(hasItem(DEFAULT_SHARING.booleanValue())))
+            .andExpect(jsonPath("$.[*].ownId").value(hasItem(DEFAULT_OWN_ID.intValue())));
     }
 
     @Test
@@ -182,7 +188,8 @@ public class ContactResourceIntTest {
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
             .andExpect(jsonPath("$.recipient").value(DEFAULT_RECIPIENT.toString()))
             .andExpect(jsonPath("$.following").value(DEFAULT_FOLLOWING.booleanValue()))
-            .andExpect(jsonPath("$.sharing").value(DEFAULT_SHARING.booleanValue()));
+            .andExpect(jsonPath("$.sharing").value(DEFAULT_SHARING.booleanValue()))
+            .andExpect(jsonPath("$.ownId").value(DEFAULT_OWN_ID.intValue()));
     }
 
     @Test
@@ -207,7 +214,8 @@ public class ContactResourceIntTest {
             .author(UPDATED_AUTHOR)
             .recipient(UPDATED_RECIPIENT)
             .following(UPDATED_FOLLOWING)
-            .sharing(UPDATED_SHARING);
+            .sharing(UPDATED_SHARING)
+            .ownId(UPDATED_OWN_ID);
 
         restContactMockMvc.perform(put("/api/contacts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -222,6 +230,7 @@ public class ContactResourceIntTest {
         assertThat(testContact.getRecipient()).isEqualTo(UPDATED_RECIPIENT);
         assertThat(testContact.isFollowing()).isEqualTo(UPDATED_FOLLOWING);
         assertThat(testContact.isSharing()).isEqualTo(UPDATED_SHARING);
+        assertThat(testContact.getOwnId()).isEqualTo(UPDATED_OWN_ID);
 
         // Validate the Contact in Elasticsearch
         Contact contactEs = contactSearchRepository.findOne(testContact.getId());
@@ -282,7 +291,8 @@ public class ContactResourceIntTest {
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].recipient").value(hasItem(DEFAULT_RECIPIENT.toString())))
             .andExpect(jsonPath("$.[*].following").value(hasItem(DEFAULT_FOLLOWING.booleanValue())))
-            .andExpect(jsonPath("$.[*].sharing").value(hasItem(DEFAULT_SHARING.booleanValue())));
+            .andExpect(jsonPath("$.[*].sharing").value(hasItem(DEFAULT_SHARING.booleanValue())))
+            .andExpect(jsonPath("$.[*].ownId").value(hasItem(DEFAULT_OWN_ID.intValue())));
     }
 
     @Test

@@ -3,12 +3,6 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "aspectMemberships",
-            "otherEntityName": "aspectMembership",
-            "otherEntityRelationshipName": "aspect"
-        },
-        {
-            "relationshipType": "one-to-many",
             "relationshipName": "aspectVisibilities",
             "otherEntityName": "aspectVisiblity",
             "otherEntityRelationshipName": "aspect"

@@ -34,6 +34,7 @@
             <th><span jhiTranslate="jDiasApp.contact.recipient">Recipient</span></th>
             <th><span jhiTranslate="jDiasApp.contact.following">Following</span></th>
             <th><span jhiTranslate="jDiasApp.contact.sharing">Sharing</span></th>
+            <th><span jhiTranslate="jDiasApp.contact.ownId">Own Id</span></th>
             <th><span jhiTranslate="jDiasApp.contact.person">Person</span></th>
             <th></th>
             </tr>
@@ -45,6 +46,7 @@
                 <td>{{contact.recipient}}</td>
                 <td>{{contact.following}}</td>
                 <td>{{contact.sharing}}</td>
+                <td>{{contact.ownId}}</td>
                 <td>
                     <div *ngIf="contact.person">
                         <a [routerLink]="['../person', contact.person?.id ]" >{{contact.person?.id}}</a>

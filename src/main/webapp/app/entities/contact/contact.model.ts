@@ -7,6 +7,7 @@ export class Contact {
         public recipient?: string,
         public following?: boolean,
         public sharing?: boolean,
+        public ownId?: number,
         public aspectMemberships?: AspectMembership,
         public person?: Person,
     ) {

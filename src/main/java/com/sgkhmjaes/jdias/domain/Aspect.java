@@ -49,11 +49,6 @@ public class Aspect implements Serializable {
     @OneToMany(mappedBy = "aspect")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<AspectMembership> aspectMemberships = new HashSet<>();
-
-    @OneToMany(mappedBy = "aspect")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<AspectVisiblity> aspectVisibilities = new HashSet<>();
 
     public Long getId() {
@@ -140,31 +135,6 @@ public class Aspect implements Serializable {
 
     public void setPostDefault(Boolean postDefault) {
         this.postDefault = postDefault;
-    }
-
-    public Set<AspectMembership> getAspectMemberships() {
-        return aspectMemberships;
-    }
-
-    public Aspect aspectMemberships(Set<AspectMembership> aspectMemberships) {
-        this.aspectMemberships = aspectMemberships;
-        return this;
-    }
-
-    public Aspect addAspectMemberships(AspectMembership aspectMembership) {
-        this.aspectMemberships.add(aspectMembership);
-        aspectMembership.setAspect(this);
-        return this;
-    }
-
-    public Aspect removeAspectMemberships(AspectMembership aspectMembership) {
-        this.aspectMemberships.remove(aspectMembership);
-        aspectMembership.setAspect(null);
-        return this;
-    }
-
-    public void setAspectMemberships(Set<AspectMembership> aspectMemberships) {
-        this.aspectMemberships = aspectMemberships;
     }
 
     public Set<AspectVisiblity> getAspectVisibilities() {
