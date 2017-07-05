@@ -9,6 +9,7 @@ import com.sgkhmjaes.jdias.domain.Photo;
 import com.sgkhmjaes.jdias.repository.PhotoRepository;
 import com.sgkhmjaes.jdias.repository.search.PhotoSearchRepository;
 import com.sgkhmjaes.jdias.service.StorageService;
+import com.sgkhmjaes.jdias.service.util.ImageConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -68,6 +69,8 @@ public class PhotoServiceImpl implements PhotoService {
     public Photo save(File file) throws IOException {
         Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
         BufferedImage image = ImageIO.read(file);
+        ImageConverter converter = new ImageConverter();
+        converter.convert(file);
         Photo result = photoRepository.save(new Photo(person.getDiasporaId(), true, file.getPath(), file.getName(), image.getHeight(), image.getWidth(), null));
         log.debug("Request to save Photo : {}", result);
         photoSearchRepository.save(result);

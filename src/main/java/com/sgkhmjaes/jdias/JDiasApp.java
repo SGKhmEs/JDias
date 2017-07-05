@@ -20,6 +20,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -90,10 +91,12 @@ public class JDiasApp {
     }
 
     @Bean
-    CommandLineRunner init(StorageService storageService) {
+    CommandLineRunner init(StorageService storageService, StorageProperties storageProperties) {
         return (args) -> {
-            storageService.deleteAll();
-            storageService.init();
+            File root = new File(storageProperties.getLocation());
+            if(!root.exists() && !root.isDirectory()) {
+                storageService.init();
+            }
         };
     }
 }

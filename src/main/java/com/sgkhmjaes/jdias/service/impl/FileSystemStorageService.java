@@ -1,6 +1,11 @@
 package com.sgkhmjaes.jdias.service.impl;
 
+import com.sgkhmjaes.jdias.domain.Person;
+import com.sgkhmjaes.jdias.repository.PersonRepository;
+import com.sgkhmjaes.jdias.repository.UserRepository;
+import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.StorageService;
+import com.sgkhmjaes.jdias.service.util.ImageConverter;
 import com.sgkhmjaes.jdias.storage.StorageException;
 import com.sgkhmjaes.jdias.storage.StorageFileNotFoundException;
 import com.sgkhmjaes.jdias.storage.StorageProperties;
@@ -23,19 +28,28 @@ import java.util.stream.Stream;
 public class FileSystemStorageService implements StorageService {
 
     private final Path rootLocation;
+    private final PersonRepository personRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public FileSystemStorageService(StorageProperties properties) {
+    public FileSystemStorageService(StorageProperties properties, PersonRepository personRepository, UserRepository userRepository) {
+        this.personRepository = personRepository;
+        this.userRepository = userRepository;
         this.rootLocation = Paths.get(properties.getLocation());
     }
 
     @Override
     public Path store(MultipartFile file) {
+        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        Path userPath = Paths.get(rootLocation + "/" + person.getGuid());
+        if (!userPath.toFile().exists() && !userPath.toFile().isDirectory()) {
+            userPath.toFile().mkdir();
+        }
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
             }
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), userPath.resolve(file.getOriginalFilename()));
             return load(file.getOriginalFilename());
 
         } catch (IOException e) {
@@ -45,10 +59,12 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public Stream<Path> loadAll() {
+        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        Path userPath = Paths.get(rootLocation + "/" + person.getGuid());
         try {
-            return Files.walk(this.rootLocation, 1)
-                    .filter(path -> !path.equals(this.rootLocation))
-                    .map(path -> this.rootLocation.relativize(path));
+            return Files.walk(userPath, 1)
+                    .filter(path -> !path.equals(userPath))
+                    .map(path -> userPath.relativize(path));
         } catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
         }
@@ -57,7 +73,9 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public Path load(String filename) {
-        return rootLocation.resolve(filename);
+        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        Path userPath = Paths.get(rootLocation + "/" + person.getGuid());
+        return userPath.resolve(filename);
     }
 
     @Override
@@ -79,7 +97,9 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public void deleteAll() {
-        FileSystemUtils.deleteRecursively(rootLocation.toFile());
+        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        Path userPath = Paths.get(rootLocation + "/" + person.getGuid());
+        FileSystemUtils.deleteRecursively(userPath.toFile());
     }
 
     @Override
