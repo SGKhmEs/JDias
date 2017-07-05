@@ -1,0 +1,64 @@
+entity Person {
+	guid String,
+	diasporaId String,
+	serializedPublicKey String,
+	createdAt LocalDate,
+	updatedAt LocalDate,  
+	closedAccount Boolean,
+	fetchStatus Integer,
+	podId Integer
+}
+
+entity Post {
+	author String,
+    guid String,
+    createdAt LocalDate, //TimeStamp
+    pub Boolean, 
+    providerDisplayName String,
+	postType PostType
+}
+
+entity Aspect {
+	name String,
+    createdAt LocalDate,
+    updatedAt LocalDate,
+    contactVisible Boolean,
+    chatEnabled Boolean,
+    postDefault Boolean
+}
+
+
+entity AspectVisibility {
+    createdAt LocalDate,
+    updatedAt LocalDate
+}
+
+
+entity Contact {
+	author String, //Diaspora ID
+    recipient String, //Diaspora ID
+    following Boolean,
+    sharing Boolean //Aspects, AspectsMembership
+}
+
+relationship OneToMany {
+    Person{posts} to Post, 
+	Person{personAspect} to Aspect,
+	Person{personContact} to Contact,
+	Aspect{aspectContact} to Contact,
+	Aspect{aspectAspectVisibility} to AspectVisibility,
+	Post{postAspectVisibility} to AspectVisibility
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
