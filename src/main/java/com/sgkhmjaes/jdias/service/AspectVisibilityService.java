@@ -1,49 +1,49 @@
 package com.sgkhmjaes.jdias.service;
 
-import com.sgkhmjaes.jdias.service.dto.AspectvisibilityDTO;
+import com.sgkhmjaes.jdias.service.dto.AspectVisibilityDTO;
 import java.util.List;
 
 /**
- * Service Interface for managing Aspectvisibility.
+ * Service Interface for managing AspectVisibility.
  */
-public interface AspectvisibilityService {
+public interface AspectVisibilityService {
 
     /**
-     * Save a aspectvisibility.
+     * Save a aspectVisibility.
      *
-     * @param aspectvisibilityDTO the entity to save
+     * @param aspectVisibilityDTO the entity to save
      * @return the persisted entity
      */
-    AspectvisibilityDTO save(AspectvisibilityDTO aspectvisibilityDTO);
+    AspectVisibilityDTO save(AspectVisibilityDTO aspectVisibilityDTO);
 
     /**
-     *  Get all the aspectvisibilities.
+     *  Get all the aspectVisibilities.
      *
      *  @return the list of entities
      */
-    List<AspectvisibilityDTO> findAll();
+    List<AspectVisibilityDTO> findAll();
 
     /**
-     *  Get the "id" aspectvisibility.
+     *  Get the "id" aspectVisibility.
      *
      *  @param id the id of the entity
      *  @return the entity
      */
-    AspectvisibilityDTO findOne(Long id);
+    AspectVisibilityDTO findOne(Long id);
 
     /**
-     *  Delete the "id" aspectvisibility.
+     *  Delete the "id" aspectVisibility.
      *
      *  @param id the id of the entity
      */
     void delete(Long id);
 
     /**
-     * Search for the aspectvisibility corresponding to the query.
+     * Search for the aspectVisibility corresponding to the query.
      *
      *  @param query the query of the search
      *  
      *  @return the list of entities
      */
-    List<AspectvisibilityDTO> search(String query);
+    List<AspectVisibilityDTO> search(String query);
 }

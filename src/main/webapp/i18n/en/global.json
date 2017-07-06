@@ -8,9 +8,10 @@
             "entities": {
                 "main": "Entities",
                 "aspectVisibility": "Aspect Visibility",
-                "aspectvisibility": "Aspectvisibility",
                 "aspect": "Aspect",
                 "person": "Person",
+                "post": "Post",
+                "contact": "Contact",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

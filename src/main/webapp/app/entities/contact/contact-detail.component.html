@@ -30,6 +30,12 @@
                 <a [routerLink]="['/person', contact.person?.id]">{{contact.person?.id}}</a>
             </div>
         </dd>
+        <dt><span jhiTranslate="jDiasApp.contact.aspect">Aspect</span></dt>
+        <dd>
+            <div *ngIf="contact.aspect">
+                <a [routerLink]="['/aspect', contact.aspect?.id]">{{contact.aspect?.id}}</a>
+            </div>
+        </dd>
     </dl>
 
     <button type="submit"

@@ -1,14 +1,11 @@
 package com.sgkhmjaes.jdias.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -42,12 +39,11 @@ public class Contact implements Serializable {
     @Column(name = "own_id")
     private Long ownId;
 
-    @OneToMany(mappedBy = "contact")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-
     @ManyToOne
     private Person person;
+
+    @ManyToOne
+    private Aspect aspect;
 
     public Long getId() {
         return id;
@@ -133,6 +129,19 @@ public class Contact implements Serializable {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Aspect getAspect() {
+        return aspect;
+    }
+
+    public Contact aspect(Aspect Aspect) {
+        this.aspect = Aspect;
+        return this;
+    }
+
+    public void setAspect(Aspect Aspect) {
+        this.aspect = Aspect;
     }
 
     @Override

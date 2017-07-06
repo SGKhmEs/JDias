@@ -2,12 +2,12 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.sgkhmjaes.jdias.JDiasApp;
 
-import com.sgkhmjaes.jdias.domain.Aspectvisibility;
-import com.sgkhmjaes.jdias.repository.AspectvisibilityRepository;
-import com.sgkhmjaes.jdias.service.AspectvisibilityService;
-import com.sgkhmjaes.jdias.repository.search.AspectvisibilitySearchRepository;
-import com.sgkhmjaes.jdias.service.dto.AspectvisibilityDTO;
-import com.sgkhmjaes.jdias.service.mapper.AspectvisibilityMapper;
+import com.sgkhmjaes.jdias.domain.AspectVisibility;
+import com.sgkhmjaes.jdias.repository.AspectVisibilityRepository;
+import com.sgkhmjaes.jdias.service.AspectVisibilityService;
+import com.sgkhmjaes.jdias.repository.search.AspectVisibilitySearchRepository;
+import com.sgkhmjaes.jdias.service.dto.AspectVisibilityDTO;
+import com.sgkhmjaes.jdias.service.mapper.AspectVisibilityMapper;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -33,25 +33,25 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Test class for the AspectvisibilityResource REST controller.
+ * Test class for the AspectVisibilityResource REST controller.
  *
- * @see AspectvisibilityResource
+ * @see AspectVisibilityResource
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = JDiasApp.class)
-public class AspectvisibilityResourceIntTest {
+public class AspectVisibilityResourceIntTest {
 
     @Autowired
-    private AspectvisibilityRepository aspectvisibilityRepository;
+    private AspectVisibilityRepository aspectVisibilityRepository;
 
     @Autowired
-    private AspectvisibilityMapper aspectvisibilityMapper;
+    private AspectVisibilityMapper aspectVisibilityMapper;
 
     @Autowired
-    private AspectvisibilityService aspectvisibilityService;
+    private AspectVisibilityService aspectVisibilityService;
 
     @Autowired
-    private AspectvisibilitySearchRepository aspectvisibilitySearchRepository;
+    private AspectVisibilitySearchRepository aspectVisibilitySearchRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -65,15 +65,15 @@ public class AspectvisibilityResourceIntTest {
     @Autowired
     private EntityManager em;
 
-    private MockMvc restAspectvisibilityMockMvc;
+    private MockMvc restAspectVisibilityMockMvc;
 
-    private Aspectvisibility aspectvisibility;
+    private AspectVisibility aspectVisibility;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        AspectvisibilityResource aspectvisibilityResource = new AspectvisibilityResource(aspectvisibilityService);
-        this.restAspectvisibilityMockMvc = MockMvcBuilders.standaloneSetup(aspectvisibilityResource)
+        AspectVisibilityResource aspectVisibilityResource = new AspectVisibilityResource(aspectVisibilityService);
+        this.restAspectVisibilityMockMvc = MockMvcBuilders.standaloneSetup(aspectVisibilityResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -85,210 +85,210 @@ public class AspectvisibilityResourceIntTest {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Aspectvisibility createEntity(EntityManager em) {
-        Aspectvisibility aspectvisibility = new Aspectvisibility();
-        return aspectvisibility;
+    public static AspectVisibility createEntity(EntityManager em) {
+        AspectVisibility aspectVisibility = new AspectVisibility();
+        return aspectVisibility;
     }
 
     @Before
     public void initTest() {
-        aspectvisibilitySearchRepository.deleteAll();
-        aspectvisibility = createEntity(em);
+        aspectVisibilitySearchRepository.deleteAll();
+        aspectVisibility = createEntity(em);
     }
 
     @Test
     @Transactional
-    public void createAspectvisibility() throws Exception {
-        int databaseSizeBeforeCreate = aspectvisibilityRepository.findAll().size();
+    public void createAspectVisibility() throws Exception {
+        int databaseSizeBeforeCreate = aspectVisibilityRepository.findAll().size();
 
-        // Create the Aspectvisibility
-        AspectvisibilityDTO aspectvisibilityDTO = aspectvisibilityMapper.toDto(aspectvisibility);
-        restAspectvisibilityMockMvc.perform(post("/api/aspectvisibilities")
+        // Create the AspectVisibility
+        AspectVisibilityDTO aspectVisibilityDTO = aspectVisibilityMapper.toDto(aspectVisibility);
+        restAspectVisibilityMockMvc.perform(post("/api/aspect-visibilities")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(aspectvisibilityDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(aspectVisibilityDTO)))
             .andExpect(status().isCreated());
 
-        // Validate the Aspectvisibility in the database
-        List<Aspectvisibility> aspectvisibilityList = aspectvisibilityRepository.findAll();
-        assertThat(aspectvisibilityList).hasSize(databaseSizeBeforeCreate + 1);
-        Aspectvisibility testAspectvisibility = aspectvisibilityList.get(aspectvisibilityList.size() - 1);
+        // Validate the AspectVisibility in the database
+        List<AspectVisibility> aspectVisibilityList = aspectVisibilityRepository.findAll();
+        assertThat(aspectVisibilityList).hasSize(databaseSizeBeforeCreate + 1);
+        AspectVisibility testAspectVisibility = aspectVisibilityList.get(aspectVisibilityList.size() - 1);
 
-        // Validate the Aspectvisibility in Elasticsearch
-        Aspectvisibility aspectvisibilityEs = aspectvisibilitySearchRepository.findOne(testAspectvisibility.getId());
-        assertThat(aspectvisibilityEs).isEqualToComparingFieldByField(testAspectvisibility);
+        // Validate the AspectVisibility in Elasticsearch
+        AspectVisibility aspectVisibilityEs = aspectVisibilitySearchRepository.findOne(testAspectVisibility.getId());
+        assertThat(aspectVisibilityEs).isEqualToComparingFieldByField(testAspectVisibility);
     }
 
     @Test
     @Transactional
-    public void createAspectvisibilityWithExistingId() throws Exception {
-        int databaseSizeBeforeCreate = aspectvisibilityRepository.findAll().size();
+    public void createAspectVisibilityWithExistingId() throws Exception {
+        int databaseSizeBeforeCreate = aspectVisibilityRepository.findAll().size();
 
-        // Create the Aspectvisibility with an existing ID
-        aspectvisibility.setId(1L);
-        AspectvisibilityDTO aspectvisibilityDTO = aspectvisibilityMapper.toDto(aspectvisibility);
+        // Create the AspectVisibility with an existing ID
+        aspectVisibility.setId(1L);
+        AspectVisibilityDTO aspectVisibilityDTO = aspectVisibilityMapper.toDto(aspectVisibility);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restAspectvisibilityMockMvc.perform(post("/api/aspectvisibilities")
+        restAspectVisibilityMockMvc.perform(post("/api/aspect-visibilities")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(aspectvisibilityDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(aspectVisibilityDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
-        List<Aspectvisibility> aspectvisibilityList = aspectvisibilityRepository.findAll();
-        assertThat(aspectvisibilityList).hasSize(databaseSizeBeforeCreate);
+        List<AspectVisibility> aspectVisibilityList = aspectVisibilityRepository.findAll();
+        assertThat(aspectVisibilityList).hasSize(databaseSizeBeforeCreate);
     }
 
     @Test
     @Transactional
-    public void getAllAspectvisibilities() throws Exception {
+    public void getAllAspectVisibilities() throws Exception {
         // Initialize the database
-        aspectvisibilityRepository.saveAndFlush(aspectvisibility);
+        aspectVisibilityRepository.saveAndFlush(aspectVisibility);
 
-        // Get all the aspectvisibilityList
-        restAspectvisibilityMockMvc.perform(get("/api/aspectvisibilities?sort=id,desc"))
+        // Get all the aspectVisibilityList
+        restAspectVisibilityMockMvc.perform(get("/api/aspect-visibilities?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(aspectvisibility.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(aspectVisibility.getId().intValue())));
     }
 
     @Test
     @Transactional
-    public void getAspectvisibility() throws Exception {
+    public void getAspectVisibility() throws Exception {
         // Initialize the database
-        aspectvisibilityRepository.saveAndFlush(aspectvisibility);
+        aspectVisibilityRepository.saveAndFlush(aspectVisibility);
 
-        // Get the aspectvisibility
-        restAspectvisibilityMockMvc.perform(get("/api/aspectvisibilities/{id}", aspectvisibility.getId()))
+        // Get the aspectVisibility
+        restAspectVisibilityMockMvc.perform(get("/api/aspect-visibilities/{id}", aspectVisibility.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(aspectvisibility.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(aspectVisibility.getId().intValue()));
     }
 
     @Test
     @Transactional
-    public void getNonExistingAspectvisibility() throws Exception {
-        // Get the aspectvisibility
-        restAspectvisibilityMockMvc.perform(get("/api/aspectvisibilities/{id}", Long.MAX_VALUE))
+    public void getNonExistingAspectVisibility() throws Exception {
+        // Get the aspectVisibility
+        restAspectVisibilityMockMvc.perform(get("/api/aspect-visibilities/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound());
     }
 
     @Test
     @Transactional
-    public void updateAspectvisibility() throws Exception {
+    public void updateAspectVisibility() throws Exception {
         // Initialize the database
-        aspectvisibilityRepository.saveAndFlush(aspectvisibility);
-        aspectvisibilitySearchRepository.save(aspectvisibility);
-        int databaseSizeBeforeUpdate = aspectvisibilityRepository.findAll().size();
+        aspectVisibilityRepository.saveAndFlush(aspectVisibility);
+        aspectVisibilitySearchRepository.save(aspectVisibility);
+        int databaseSizeBeforeUpdate = aspectVisibilityRepository.findAll().size();
 
-        // Update the aspectvisibility
-        Aspectvisibility updatedAspectvisibility = aspectvisibilityRepository.findOne(aspectvisibility.getId());
-        AspectvisibilityDTO aspectvisibilityDTO = aspectvisibilityMapper.toDto(updatedAspectvisibility);
+        // Update the aspectVisibility
+        AspectVisibility updatedAspectVisibility = aspectVisibilityRepository.findOne(aspectVisibility.getId());
+        AspectVisibilityDTO aspectVisibilityDTO = aspectVisibilityMapper.toDto(updatedAspectVisibility);
 
-        restAspectvisibilityMockMvc.perform(put("/api/aspectvisibilities")
+        restAspectVisibilityMockMvc.perform(put("/api/aspect-visibilities")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(aspectvisibilityDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(aspectVisibilityDTO)))
             .andExpect(status().isOk());
 
-        // Validate the Aspectvisibility in the database
-        List<Aspectvisibility> aspectvisibilityList = aspectvisibilityRepository.findAll();
-        assertThat(aspectvisibilityList).hasSize(databaseSizeBeforeUpdate);
-        Aspectvisibility testAspectvisibility = aspectvisibilityList.get(aspectvisibilityList.size() - 1);
+        // Validate the AspectVisibility in the database
+        List<AspectVisibility> aspectVisibilityList = aspectVisibilityRepository.findAll();
+        assertThat(aspectVisibilityList).hasSize(databaseSizeBeforeUpdate);
+        AspectVisibility testAspectVisibility = aspectVisibilityList.get(aspectVisibilityList.size() - 1);
 
-        // Validate the Aspectvisibility in Elasticsearch
-        Aspectvisibility aspectvisibilityEs = aspectvisibilitySearchRepository.findOne(testAspectvisibility.getId());
-        assertThat(aspectvisibilityEs).isEqualToComparingFieldByField(testAspectvisibility);
+        // Validate the AspectVisibility in Elasticsearch
+        AspectVisibility aspectVisibilityEs = aspectVisibilitySearchRepository.findOne(testAspectVisibility.getId());
+        assertThat(aspectVisibilityEs).isEqualToComparingFieldByField(testAspectVisibility);
     }
 
     @Test
     @Transactional
-    public void updateNonExistingAspectvisibility() throws Exception {
-        int databaseSizeBeforeUpdate = aspectvisibilityRepository.findAll().size();
+    public void updateNonExistingAspectVisibility() throws Exception {
+        int databaseSizeBeforeUpdate = aspectVisibilityRepository.findAll().size();
 
-        // Create the Aspectvisibility
-        AspectvisibilityDTO aspectvisibilityDTO = aspectvisibilityMapper.toDto(aspectvisibility);
+        // Create the AspectVisibility
+        AspectVisibilityDTO aspectVisibilityDTO = aspectVisibilityMapper.toDto(aspectVisibility);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
-        restAspectvisibilityMockMvc.perform(put("/api/aspectvisibilities")
+        restAspectVisibilityMockMvc.perform(put("/api/aspect-visibilities")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(aspectvisibilityDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(aspectVisibilityDTO)))
             .andExpect(status().isCreated());
 
-        // Validate the Aspectvisibility in the database
-        List<Aspectvisibility> aspectvisibilityList = aspectvisibilityRepository.findAll();
-        assertThat(aspectvisibilityList).hasSize(databaseSizeBeforeUpdate + 1);
+        // Validate the AspectVisibility in the database
+        List<AspectVisibility> aspectVisibilityList = aspectVisibilityRepository.findAll();
+        assertThat(aspectVisibilityList).hasSize(databaseSizeBeforeUpdate + 1);
     }
 
     @Test
     @Transactional
-    public void deleteAspectvisibility() throws Exception {
+    public void deleteAspectVisibility() throws Exception {
         // Initialize the database
-        aspectvisibilityRepository.saveAndFlush(aspectvisibility);
-        aspectvisibilitySearchRepository.save(aspectvisibility);
-        int databaseSizeBeforeDelete = aspectvisibilityRepository.findAll().size();
+        aspectVisibilityRepository.saveAndFlush(aspectVisibility);
+        aspectVisibilitySearchRepository.save(aspectVisibility);
+        int databaseSizeBeforeDelete = aspectVisibilityRepository.findAll().size();
 
-        // Get the aspectvisibility
-        restAspectvisibilityMockMvc.perform(delete("/api/aspectvisibilities/{id}", aspectvisibility.getId())
+        // Get the aspectVisibility
+        restAspectVisibilityMockMvc.perform(delete("/api/aspect-visibilities/{id}", aspectVisibility.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
-        boolean aspectvisibilityExistsInEs = aspectvisibilitySearchRepository.exists(aspectvisibility.getId());
-        assertThat(aspectvisibilityExistsInEs).isFalse();
+        boolean aspectVisibilityExistsInEs = aspectVisibilitySearchRepository.exists(aspectVisibility.getId());
+        assertThat(aspectVisibilityExistsInEs).isFalse();
 
         // Validate the database is empty
-        List<Aspectvisibility> aspectvisibilityList = aspectvisibilityRepository.findAll();
-        assertThat(aspectvisibilityList).hasSize(databaseSizeBeforeDelete - 1);
+        List<AspectVisibility> aspectVisibilityList = aspectVisibilityRepository.findAll();
+        assertThat(aspectVisibilityList).hasSize(databaseSizeBeforeDelete - 1);
     }
 
     @Test
     @Transactional
-    public void searchAspectvisibility() throws Exception {
+    public void searchAspectVisibility() throws Exception {
         // Initialize the database
-        aspectvisibilityRepository.saveAndFlush(aspectvisibility);
-        aspectvisibilitySearchRepository.save(aspectvisibility);
+        aspectVisibilityRepository.saveAndFlush(aspectVisibility);
+        aspectVisibilitySearchRepository.save(aspectVisibility);
 
-        // Search the aspectvisibility
-        restAspectvisibilityMockMvc.perform(get("/api/_search/aspectvisibilities?query=id:" + aspectvisibility.getId()))
+        // Search the aspectVisibility
+        restAspectVisibilityMockMvc.perform(get("/api/_search/aspect-visibilities?query=id:" + aspectVisibility.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(aspectvisibility.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(aspectVisibility.getId().intValue())));
     }
 
     @Test
     @Transactional
     public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Aspectvisibility.class);
-        Aspectvisibility aspectvisibility1 = new Aspectvisibility();
-        aspectvisibility1.setId(1L);
-        Aspectvisibility aspectvisibility2 = new Aspectvisibility();
-        aspectvisibility2.setId(aspectvisibility1.getId());
-        assertThat(aspectvisibility1).isEqualTo(aspectvisibility2);
-        aspectvisibility2.setId(2L);
-        assertThat(aspectvisibility1).isNotEqualTo(aspectvisibility2);
-        aspectvisibility1.setId(null);
-        assertThat(aspectvisibility1).isNotEqualTo(aspectvisibility2);
+        TestUtil.equalsVerifier(AspectVisibility.class);
+        AspectVisibility aspectVisibility1 = new AspectVisibility();
+        aspectVisibility1.setId(1L);
+        AspectVisibility aspectVisibility2 = new AspectVisibility();
+        aspectVisibility2.setId(aspectVisibility1.getId());
+        assertThat(aspectVisibility1).isEqualTo(aspectVisibility2);
+        aspectVisibility2.setId(2L);
+        assertThat(aspectVisibility1).isNotEqualTo(aspectVisibility2);
+        aspectVisibility1.setId(null);
+        assertThat(aspectVisibility1).isNotEqualTo(aspectVisibility2);
     }
 
     @Test
     @Transactional
     public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(AspectvisibilityDTO.class);
-        AspectvisibilityDTO aspectvisibilityDTO1 = new AspectvisibilityDTO();
-        aspectvisibilityDTO1.setId(1L);
-        AspectvisibilityDTO aspectvisibilityDTO2 = new AspectvisibilityDTO();
-        assertThat(aspectvisibilityDTO1).isNotEqualTo(aspectvisibilityDTO2);
-        aspectvisibilityDTO2.setId(aspectvisibilityDTO1.getId());
-        assertThat(aspectvisibilityDTO1).isEqualTo(aspectvisibilityDTO2);
-        aspectvisibilityDTO2.setId(2L);
-        assertThat(aspectvisibilityDTO1).isNotEqualTo(aspectvisibilityDTO2);
-        aspectvisibilityDTO1.setId(null);
-        assertThat(aspectvisibilityDTO1).isNotEqualTo(aspectvisibilityDTO2);
+        TestUtil.equalsVerifier(AspectVisibilityDTO.class);
+        AspectVisibilityDTO aspectVisibilityDTO1 = new AspectVisibilityDTO();
+        aspectVisibilityDTO1.setId(1L);
+        AspectVisibilityDTO aspectVisibilityDTO2 = new AspectVisibilityDTO();
+        assertThat(aspectVisibilityDTO1).isNotEqualTo(aspectVisibilityDTO2);
+        aspectVisibilityDTO2.setId(aspectVisibilityDTO1.getId());
+        assertThat(aspectVisibilityDTO1).isEqualTo(aspectVisibilityDTO2);
+        aspectVisibilityDTO2.setId(2L);
+        assertThat(aspectVisibilityDTO1).isNotEqualTo(aspectVisibilityDTO2);
+        aspectVisibilityDTO1.setId(null);
+        assertThat(aspectVisibilityDTO1).isNotEqualTo(aspectVisibilityDTO2);
     }
 
     @Test
     @Transactional
     public void testEntityFromId() {
-        assertThat(aspectvisibilityMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(aspectvisibilityMapper.fromId(null)).isNull();
+        assertThat(aspectVisibilityMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(aspectVisibilityMapper.fromId(null)).isNull();
     }
 }

@@ -6,11 +6,14 @@
 
     <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170706070904_added_entity_AspectVisibility.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170706070904_added_entity_Aspectvisibility.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170527190316_added_entity_Aspect.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170527190341_added_entity_Person.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170527190332_added_entity_Post.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170527190320_added_entity_Contact.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20170527190316_added_entity_constraints_Aspect.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170527190341_added_entity_constraints_Person.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170527190332_added_entity_constraints_Post.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170527190320_added_entity_constraints_Contact.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

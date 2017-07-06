@@ -7,7 +7,7 @@ const enum PostType {
 import { StatusMessage } from '../status-message';
 import { Reshare } from '../reshare';
 import { Comment } from '../comment';
-import { AspectVisiblity } from '../aspect-visiblity';
+import { AspectVisibility } from '../aspect-visibility';
 import { Like } from '../like';
 import { Tag } from '../tag';
 import { Person } from '../person';
@@ -23,7 +23,7 @@ export class Post {
         public statusMessage?: StatusMessage,
         public reshare?: Reshare,
         public comments?: Comment,
-        public aspectVisiblities?: AspectVisiblity,
+        public aspectVisibliti?: AspectVisibility,
         public likes?: Like,
         public tags?: Tag,
         public person?: Person,

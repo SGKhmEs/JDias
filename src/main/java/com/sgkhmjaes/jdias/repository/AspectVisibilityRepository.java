@@ -1,16 +1,16 @@
 package com.sgkhmjaes.jdias.repository;
 
-import com.sgkhmjaes.jdias.domain.Aspectvisibility;
+import com.sgkhmjaes.jdias.domain.AspectVisibility;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
 
 
 /**
- * Spring Data JPA repository for the Aspectvisibility entity.
+ * Spring Data JPA repository for the AspectVisibility entity.
  */
 @SuppressWarnings("unused")
 @Repository
-public interface AspectvisibilityRepository extends JpaRepository<Aspectvisibility,Long> {
+public interface AspectVisibilityRepository extends JpaRepository<AspectVisibility,Long> {
 
 }

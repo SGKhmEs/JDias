@@ -267,6 +267,7 @@ public class Person implements Serializable {
         contact.setPerson(null);
         return this;
     }
+	
 
     public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;

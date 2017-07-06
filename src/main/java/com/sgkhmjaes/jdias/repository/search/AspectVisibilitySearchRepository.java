@@ -1,10 +1,10 @@
 package com.sgkhmjaes.jdias.repository.search;
 
-import com.sgkhmjaes.jdias.domain.Aspectvisibility;
+import com.sgkhmjaes.jdias.domain.AspectVisibility;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
- * Spring Data Elasticsearch repository for the Aspectvisibility entity.
+ * Spring Data Elasticsearch repository for the AspectVisibility entity.
  */
-public interface AspectvisibilitySearchRepository extends ElasticsearchRepository<Aspectvisibility, Long> {
+public interface AspectVisibilitySearchRepository extends ElasticsearchRepository<AspectVisibility, Long> {
 }

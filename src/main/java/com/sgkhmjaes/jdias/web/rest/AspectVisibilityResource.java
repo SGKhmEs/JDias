@@ -1,9 +1,9 @@
 package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.sgkhmjaes.jdias.service.AspectvisibilityService;
+import com.sgkhmjaes.jdias.service.AspectVisibilityService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
-import com.sgkhmjaes.jdias.service.dto.AspectvisibilityDTO;
+import com.sgkhmjaes.jdias.service.dto.AspectVisibilityDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,116 +20,116 @@ import java.util.stream.StreamSupport;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
- * REST controller for managing Aspectvisibility.
+ * REST controller for managing AspectVisibility.
  */
 @RestController
 @RequestMapping("/api")
-public class AspectvisibilityResource {
+public class AspectVisibilityResource {
 
-    private final Logger log = LoggerFactory.getLogger(AspectvisibilityResource.class);
+    private final Logger log = LoggerFactory.getLogger(AspectVisibilityResource.class);
 
-    private static final String ENTITY_NAME = "aspectvisibility";
+    private static final String ENTITY_NAME = "aspectVisibility";
 
-    private final AspectvisibilityService aspectvisibilityService;
+    private final AspectVisibilityService aspectVisibilityService;
 
-    public AspectvisibilityResource(AspectvisibilityService aspectvisibilityService) {
-        this.aspectvisibilityService = aspectvisibilityService;
+    public AspectVisibilityResource(AspectVisibilityService aspectVisibilityService) {
+        this.aspectVisibilityService = aspectVisibilityService;
     }
 
     /**
-     * POST  /aspectvisibilities : Create a new aspectvisibility.
+     * POST  /aspect-visibilities : Create a new aspectVisibility.
      *
-     * @param aspectvisibilityDTO the aspectvisibilityDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new aspectvisibilityDTO, or with status 400 (Bad Request) if the aspectvisibility has already an ID
+     * @param aspectVisibilityDTO the aspectVisibilityDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new aspectVisibilityDTO, or with status 400 (Bad Request) if the aspectVisibility has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/aspectvisibilities")
+    @PostMapping("/aspect-visibilities")
     @Timed
-    public ResponseEntity<AspectvisibilityDTO> createAspectvisibility(@RequestBody AspectvisibilityDTO aspectvisibilityDTO) throws URISyntaxException {
-        log.debug("REST request to save Aspectvisibility : {}", aspectvisibilityDTO);
-        if (aspectvisibilityDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new aspectvisibility cannot already have an ID")).body(null);
+    public ResponseEntity<AspectVisibilityDTO> createAspectVisibility(@RequestBody AspectVisibilityDTO aspectVisibilityDTO) throws URISyntaxException {
+        log.debug("REST request to save AspectVisibility : {}", aspectVisibilityDTO);
+        if (aspectVisibilityDTO.getId() != null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new aspectVisibility cannot already have an ID")).body(null);
         }
-        AspectvisibilityDTO result = aspectvisibilityService.save(aspectvisibilityDTO);
-        return ResponseEntity.created(new URI("/api/aspectvisibilities/" + result.getId()))
+        AspectVisibilityDTO result = aspectVisibilityService.save(aspectVisibilityDTO);
+        return ResponseEntity.created(new URI("/api/aspect-visibilities/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
-     * PUT  /aspectvisibilities : Updates an existing aspectvisibility.
+     * PUT  /aspect-visibilities : Updates an existing aspectVisibility.
      *
-     * @param aspectvisibilityDTO the aspectvisibilityDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated aspectvisibilityDTO,
-     * or with status 400 (Bad Request) if the aspectvisibilityDTO is not valid,
-     * or with status 500 (Internal Server Error) if the aspectvisibilityDTO couldnt be updated
+     * @param aspectVisibilityDTO the aspectVisibilityDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated aspectVisibilityDTO,
+     * or with status 400 (Bad Request) if the aspectVisibilityDTO is not valid,
+     * or with status 500 (Internal Server Error) if the aspectVisibilityDTO couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PutMapping("/aspectvisibilities")
+    @PutMapping("/aspect-visibilities")
     @Timed
-    public ResponseEntity<AspectvisibilityDTO> updateAspectvisibility(@RequestBody AspectvisibilityDTO aspectvisibilityDTO) throws URISyntaxException {
-        log.debug("REST request to update Aspectvisibility : {}", aspectvisibilityDTO);
-        if (aspectvisibilityDTO.getId() == null) {
-            return createAspectvisibility(aspectvisibilityDTO);
+    public ResponseEntity<AspectVisibilityDTO> updateAspectVisibility(@RequestBody AspectVisibilityDTO aspectVisibilityDTO) throws URISyntaxException {
+        log.debug("REST request to update AspectVisibility : {}", aspectVisibilityDTO);
+        if (aspectVisibilityDTO.getId() == null) {
+            return createAspectVisibility(aspectVisibilityDTO);
         }
-        AspectvisibilityDTO result = aspectvisibilityService.save(aspectvisibilityDTO);
+        AspectVisibilityDTO result = aspectVisibilityService.save(aspectVisibilityDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, aspectvisibilityDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, aspectVisibilityDTO.getId().toString()))
             .body(result);
     }
 
     /**
-     * GET  /aspectvisibilities : get all the aspectvisibilities.
+     * GET  /aspect-visibilities : get all the aspectVisibilities.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of aspectvisibilities in body
+     * @return the ResponseEntity with status 200 (OK) and the list of aspectVisibilities in body
      */
-    @GetMapping("/aspectvisibilities")
+    @GetMapping("/aspect-visibilities")
     @Timed
-    public List<AspectvisibilityDTO> getAllAspectvisibilities() {
-        log.debug("REST request to get all Aspectvisibilities");
-        return aspectvisibilityService.findAll();
+    public List<AspectVisibilityDTO> getAllAspectVisibilities() {
+        log.debug("REST request to get all AspectVisibilities");
+        return aspectVisibilityService.findAll();
     }
 
     /**
-     * GET  /aspectvisibilities/:id : get the "id" aspectvisibility.
+     * GET  /aspect-visibilities/:id : get the "id" aspectVisibility.
      *
-     * @param id the id of the aspectvisibilityDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the aspectvisibilityDTO, or with status 404 (Not Found)
+     * @param id the id of the aspectVisibilityDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the aspectVisibilityDTO, or with status 404 (Not Found)
      */
-    @GetMapping("/aspectvisibilities/{id}")
+    @GetMapping("/aspect-visibilities/{id}")
     @Timed
-    public ResponseEntity<AspectvisibilityDTO> getAspectvisibility(@PathVariable Long id) {
-        log.debug("REST request to get Aspectvisibility : {}", id);
-        AspectvisibilityDTO aspectvisibilityDTO = aspectvisibilityService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(aspectvisibilityDTO));
+    public ResponseEntity<AspectVisibilityDTO> getAspectVisibility(@PathVariable Long id) {
+        log.debug("REST request to get AspectVisibility : {}", id);
+        AspectVisibilityDTO aspectVisibilityDTO = aspectVisibilityService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(aspectVisibilityDTO));
     }
 
     /**
-     * DELETE  /aspectvisibilities/:id : delete the "id" aspectvisibility.
+     * DELETE  /aspect-visibilities/:id : delete the "id" aspectVisibility.
      *
-     * @param id the id of the aspectvisibilityDTO to delete
+     * @param id the id of the aspectVisibilityDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @DeleteMapping("/aspectvisibilities/{id}")
+    @DeleteMapping("/aspect-visibilities/{id}")
     @Timed
-    public ResponseEntity<Void> deleteAspectvisibility(@PathVariable Long id) {
-        log.debug("REST request to delete Aspectvisibility : {}", id);
-        aspectvisibilityService.delete(id);
+    public ResponseEntity<Void> deleteAspectVisibility(@PathVariable Long id) {
+        log.debug("REST request to delete AspectVisibility : {}", id);
+        aspectVisibilityService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
     /**
-     * SEARCH  /_search/aspectvisibilities?query=:query : search for the aspectvisibility corresponding
+     * SEARCH  /_search/aspect-visibilities?query=:query : search for the aspectVisibility corresponding
      * to the query.
      *
-     * @param query the query of the aspectvisibility search
+     * @param query the query of the aspectVisibility search
      * @return the result of the search
      */
-    @GetMapping("/_search/aspectvisibilities")
+    @GetMapping("/_search/aspect-visibilities")
     @Timed
-    public List<AspectvisibilityDTO> searchAspectvisibilities(@RequestParam String query) {
-        log.debug("REST request to search Aspectvisibilities for query {}", query);
-        return aspectvisibilityService.search(query);
+    public List<AspectVisibilityDTO> searchAspectVisibilities(@RequestParam String query) {
+        log.debug("REST request to search AspectVisibilities for query {}", query);
+        return aspectVisibilityService.search(query);
     }
 
 }

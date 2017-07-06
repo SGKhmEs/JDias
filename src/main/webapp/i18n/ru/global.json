@@ -11,6 +11,9 @@
                 "aspectvisibility": "Aspectvisibility",
                 "aspect": "Aspect",
                 "person": "Person",
+                "forDel": "For Del",
+                "post": "Post",
+                "contact": "Contact",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

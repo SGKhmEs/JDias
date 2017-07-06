@@ -1,20 +1,20 @@
 {
     "jDiasApp": {
-        "aspectvisibility" : {
+        "aspectVisibility" : {
             "home": {
-                "title": "Aspectvisibilities",
-                "createLabel": "Create a new Aspectvisibility",
-                "createOrEditLabel": "Create or edit a Aspectvisibility",
-                "search": "Search for Aspectvisibility"
+                "title": "Aspect Visibilities",
+                "createLabel": "Create a new Aspect Visibility",
+                "createOrEditLabel": "Create or edit a Aspect Visibility",
+                "search": "Search for Aspect Visibility"
             },
-            "created": "A new Aspectvisibility is created with identifier {{ param }}",
-            "updated": "A Aspectvisibility is updated with identifier {{ param }}",
-            "deleted": "A Aspectvisibility is deleted with identifier {{ param }}",
+            "created": "A new Aspect Visibility is created with identifier {{ param }}",
+            "updated": "A Aspect Visibility is updated with identifier {{ param }}",
+            "deleted": "A Aspect Visibility is deleted with identifier {{ param }}",
             "delete": {
-                "question": "Are you sure you want to delete Aspectvisibility {{ id }}?"
+                "question": "Are you sure you want to delete Aspect Visibility {{ id }}?"
             },
             "detail": {
-                "title": "Aspectvisibility"
+                "title": "Aspect Visibility"
             }
         }
     }

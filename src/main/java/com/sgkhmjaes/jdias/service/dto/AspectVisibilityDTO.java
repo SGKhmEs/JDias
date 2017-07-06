@@ -5,9 +5,9 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the Aspectvisibility entity.
+ * A DTO for the AspectVisibility entity.
  */
-public class AspectvisibilityDTO implements Serializable {
+public class AspectVisibilityDTO implements Serializable {
 
     private Long id;
 
@@ -28,11 +28,11 @@ public class AspectvisibilityDTO implements Serializable {
             return false;
         }
 
-        AspectvisibilityDTO aspectvisibilityDTO = (AspectvisibilityDTO) o;
-        if(aspectvisibilityDTO.getId() == null || getId() == null) {
+        AspectVisibilityDTO aspectVisibilityDTO = (AspectVisibilityDTO) o;
+        if(aspectVisibilityDTO.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), aspectvisibilityDTO.getId());
+        return Objects.equals(getId(), aspectVisibilityDTO.getId());
     }
 
     @Override
@@ -42,7 +42,7 @@ public class AspectvisibilityDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "AspectvisibilityDTO{" +
+        return "AspectVisibilityDTO{" +
             "id=" + getId() +
             "}";
     }

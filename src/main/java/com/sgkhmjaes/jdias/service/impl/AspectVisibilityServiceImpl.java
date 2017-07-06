@@ -1,11 +1,11 @@
 package com.sgkhmjaes.jdias.service.impl;
 
-import com.sgkhmjaes.jdias.service.AspectvisibilityService;
-import com.sgkhmjaes.jdias.domain.Aspectvisibility;
-import com.sgkhmjaes.jdias.repository.AspectvisibilityRepository;
-import com.sgkhmjaes.jdias.repository.search.AspectvisibilitySearchRepository;
-import com.sgkhmjaes.jdias.service.dto.AspectvisibilityDTO;
-import com.sgkhmjaes.jdias.service.mapper.AspectvisibilityMapper;
+import com.sgkhmjaes.jdias.service.AspectVisibilityService;
+import com.sgkhmjaes.jdias.domain.AspectVisibility;
+import com.sgkhmjaes.jdias.repository.AspectVisibilityRepository;
+import com.sgkhmjaes.jdias.repository.search.AspectVisibilitySearchRepository;
+import com.sgkhmjaes.jdias.service.dto.AspectVisibilityDTO;
+import com.sgkhmjaes.jdias.service.mapper.AspectVisibilityMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,95 +19,95 @@ import java.util.stream.StreamSupport;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
- * Service Implementation for managing Aspectvisibility.
+ * Service Implementation for managing AspectVisibility.
  */
 @Service
 @Transactional
-public class AspectvisibilityServiceImpl implements AspectvisibilityService{
+public class AspectVisibilityServiceImpl implements AspectVisibilityService{
 
-    private final Logger log = LoggerFactory.getLogger(AspectvisibilityServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(AspectVisibilityServiceImpl.class);
 
-    private final AspectvisibilityRepository aspectvisibilityRepository;
+    private final AspectVisibilityRepository aspectVisibilityRepository;
 
-    private final AspectvisibilityMapper aspectvisibilityMapper;
+    private final AspectVisibilityMapper aspectVisibilityMapper;
 
-    private final AspectvisibilitySearchRepository aspectvisibilitySearchRepository;
+    private final AspectVisibilitySearchRepository aspectVisibilitySearchRepository;
 
-    public AspectvisibilityServiceImpl(AspectvisibilityRepository aspectvisibilityRepository, AspectvisibilityMapper aspectvisibilityMapper, AspectvisibilitySearchRepository aspectvisibilitySearchRepository) {
-        this.aspectvisibilityRepository = aspectvisibilityRepository;
-        this.aspectvisibilityMapper = aspectvisibilityMapper;
-        this.aspectvisibilitySearchRepository = aspectvisibilitySearchRepository;
+    public AspectVisibilityServiceImpl(AspectVisibilityRepository aspectVisibilityRepository, AspectVisibilityMapper aspectVisibilityMapper, AspectVisibilitySearchRepository aspectVisibilitySearchRepository) {
+        this.aspectVisibilityRepository = aspectVisibilityRepository;
+        this.aspectVisibilityMapper = aspectVisibilityMapper;
+        this.aspectVisibilitySearchRepository = aspectVisibilitySearchRepository;
     }
 
     /**
-     * Save a aspectvisibility.
+     * Save a aspectVisibility.
      *
-     * @param aspectvisibilityDTO the entity to save
+     * @param aspectVisibilityDTO the entity to save
      * @return the persisted entity
      */
     @Override
-    public AspectvisibilityDTO save(AspectvisibilityDTO aspectvisibilityDTO) {
-        log.debug("Request to save Aspectvisibility : {}", aspectvisibilityDTO);
-        Aspectvisibility aspectvisibility = aspectvisibilityMapper.toEntity(aspectvisibilityDTO);
-        aspectvisibility = aspectvisibilityRepository.save(aspectvisibility);
-        AspectvisibilityDTO result = aspectvisibilityMapper.toDto(aspectvisibility);
-        aspectvisibilitySearchRepository.save(aspectvisibility);
+    public AspectVisibilityDTO save(AspectVisibilityDTO aspectVisibilityDTO) {
+        log.debug("Request to save AspectVisibility : {}", aspectVisibilityDTO);
+        AspectVisibility aspectVisibility = aspectVisibilityMapper.toEntity(aspectVisibilityDTO);
+        aspectVisibility = aspectVisibilityRepository.save(aspectVisibility);
+        AspectVisibilityDTO result = aspectVisibilityMapper.toDto(aspectVisibility);
+        aspectVisibilitySearchRepository.save(aspectVisibility);
         return result;
     }
 
     /**
-     *  Get all the aspectvisibilities.
+     *  Get all the aspectVisibilities.
      *
      *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public List<AspectvisibilityDTO> findAll() {
-        log.debug("Request to get all Aspectvisibilities");
-        return aspectvisibilityRepository.findAll().stream()
-            .map(aspectvisibilityMapper::toDto)
+    public List<AspectVisibilityDTO> findAll() {
+        log.debug("Request to get all AspectVisibilities");
+        return aspectVisibilityRepository.findAll().stream()
+            .map(aspectVisibilityMapper::toDto)
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**
-     *  Get one aspectvisibility by id.
+     *  Get one aspectVisibility by id.
      *
      *  @param id the id of the entity
      *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
-    public AspectvisibilityDTO findOne(Long id) {
-        log.debug("Request to get Aspectvisibility : {}", id);
-        Aspectvisibility aspectvisibility = aspectvisibilityRepository.findOne(id);
-        return aspectvisibilityMapper.toDto(aspectvisibility);
+    public AspectVisibilityDTO findOne(Long id) {
+        log.debug("Request to get AspectVisibility : {}", id);
+        AspectVisibility aspectVisibility = aspectVisibilityRepository.findOne(id);
+        return aspectVisibilityMapper.toDto(aspectVisibility);
     }
 
     /**
-     *  Delete the  aspectvisibility by id.
+     *  Delete the  aspectVisibility by id.
      *
      *  @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Aspectvisibility : {}", id);
-        aspectvisibilityRepository.delete(id);
-        aspectvisibilitySearchRepository.delete(id);
+        log.debug("Request to delete AspectVisibility : {}", id);
+        aspectVisibilityRepository.delete(id);
+        aspectVisibilitySearchRepository.delete(id);
     }
 
     /**
-     * Search for the aspectvisibility corresponding to the query.
+     * Search for the aspectVisibility corresponding to the query.
      *
      *  @param query the query of the search
      *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public List<AspectvisibilityDTO> search(String query) {
-        log.debug("Request to search Aspectvisibilities for query {}", query);
+    public List<AspectVisibilityDTO> search(String query) {
+        log.debug("Request to search AspectVisibilities for query {}", query);
         return StreamSupport
-            .stream(aspectvisibilitySearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .map(aspectvisibilityMapper::toDto)
+            .stream(aspectVisibilitySearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .map(aspectVisibilityMapper::toDto)
             .collect(Collectors.toList());
     }
 }

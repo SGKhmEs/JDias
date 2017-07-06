@@ -9,13 +9,13 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A Aspectvisibility.
+ * A AspectVisibility.
  */
 @Entity
 @Table(name = "aspect_visibility")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "aspectvisibility")
-public class Aspectvisibility implements Serializable {
+public class AspectVisibility implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,11 +40,11 @@ public class Aspectvisibility implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Aspectvisibility aspectvisibility = (Aspectvisibility) o;
-        if (aspectvisibility.getId() == null || getId() == null) {
+        AspectVisibility aspectVisibility = (AspectVisibility) o;
+        if (aspectVisibility.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), aspectvisibility.getId());
+        return Objects.equals(getId(), aspectVisibility.getId());
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Aspectvisibility implements Serializable {
 
     @Override
     public String toString() {
-        return "Aspectvisibility{" +
+        return "AspectVisibility{" +
             "id=" + getId() +
             "}";
     }

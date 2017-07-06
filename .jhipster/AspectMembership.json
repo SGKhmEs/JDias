@@ -1,8 +1,0 @@
-{
-    "fluentMethods": true,
-    "changelogDate": "20170527190317",
-    "entityTableName": "aspect_membership",
-    "dto": "no",
-    "pagination": "no",
-    "service": "serviceImpl"
-}

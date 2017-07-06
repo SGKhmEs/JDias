@@ -21,8 +21,8 @@
             "following": "Following",
             "sharing": "Sharing",
             "ownId": "Own Id",
-            "aspectMemberships": "Aspect Memberships",
-            "person": "Person"
+            "person": "Person",
+            "aspect": "Aspect"
         }
     }
 }

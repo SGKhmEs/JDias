@@ -10,6 +10,7 @@ import { Contact } from './contact.model';
 import { ContactPopupService } from './contact-popup.service';
 import { ContactService } from './contact.service';
 import { Person, PersonService } from '../person';
+import { Aspect, AspectService } from '../aspect';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -24,11 +25,14 @@ export class ContactDialogComponent implements OnInit {
 
     people: Person[];
 
+    aspects: Aspect[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: AlertService,
         private contactService: ContactService,
         private personService: PersonService,
+        private AspectService: AspectService,
         private eventManager: EventManager
     ) {
     }
@@ -38,6 +42,8 @@ export class ContactDialogComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.personService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.AspectService.query()
+            .subscribe((res: ResponseWrapper) => { this.aspects = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
     clear() {
         this.activeModal.dismiss('cancel');
@@ -85,6 +91,10 @@ export class ContactDialogComponent implements OnInit {
     }
 
     trackPersonById(index: number, item: Person) {
+        return item.id;
+    }
+
+    trackAspectById(index: number, item: Aspect) {
         return item.id;
     }
 }

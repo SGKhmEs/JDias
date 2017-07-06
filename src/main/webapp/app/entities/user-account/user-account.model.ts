@@ -1,6 +1,5 @@
 import { User } from '../../shared';
 import { Person } from '../person';
-import { AspectMembership } from '../aspect-membership';
 import { TagFollowing } from '../tag-following';
 export class UserAccount {
     constructor(
@@ -34,7 +33,6 @@ export class UserAccount {
         public postDefaultPublic?: boolean,
         public user?: User,
         public person?: Person,
-        public aspectmemberships?: AspectMembership,
         public tagfollowings?: TagFollowing,
     ) {
         this.gettingStarted = false;

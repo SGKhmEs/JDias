@@ -44,7 +44,6 @@ public class CacheConfiguration {
             cm.createCache(com.sgkhmjaes.jdias.domain.User.class.getName() + ".persistentTokens", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.SocialUserConnection.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.AspectVisibility.class.getName(), jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.Aspectvisibility.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Aspect.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Aspect.class.getName() + ".aspectVisibilities", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Aspect.class.getName() + ".contacts", jcacheConfiguration);
@@ -58,6 +57,12 @@ public class CacheConfiguration {
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".messages", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".conversations", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".aspects", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".comments", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".aspectVisiblitis", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".likes", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".tags", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Contact.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
