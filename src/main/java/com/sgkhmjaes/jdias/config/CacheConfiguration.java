@@ -43,6 +43,21 @@ public class CacheConfiguration {
             cm.createCache(com.sgkhmjaes.jdias.domain.PersistentToken.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.User.class.getName() + ".persistentTokens", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.SocialUserConnection.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.AspectVisibility.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Aspectvisibility.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Aspect.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Aspect.class.getName() + ".aspectVisibilities", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Aspect.class.getName() + ".contacts", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".contacts", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".posts", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".photos", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".comments", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".participations", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".events", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".messages", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".conversations", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".aspects", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -1,0 +1,25 @@
+{
+    "fluentMethods": true,
+	"relationships": [
+		{
+            "relationshipName": "aspect",
+            "otherEntityName": "Aspect",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+		{
+            "relationshipName": "post",
+            "otherEntityName": "Post",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+			
+    ],
+    "relationships": [],
+    "fields": [],
+    "changelogDate": "20170706070904",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "aspect_visibility",
+    "pagination": "no"
+}

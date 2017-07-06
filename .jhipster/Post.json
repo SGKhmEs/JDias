@@ -25,7 +25,7 @@
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "aspectVisiblities",
+            "relationshipName": "aspectVisibliti",
             "otherEntityName": "aspectVisiblity",
             "otherEntityRelationshipName": "post"
         },

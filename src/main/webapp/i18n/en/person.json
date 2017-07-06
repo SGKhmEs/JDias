@@ -34,7 +34,8 @@
             "events": "Events",
             "message": "Message",
             "conversation": "Conversation",
-            "userAccount": "User Account"
+            "userAccount": "User Account",
+            "aspect": "Aspect"
         }
     }
 }

@@ -4,8 +4,20 @@
         {
             "relationshipType": "one-to-many",
             "relationshipName": "aspectVisibilities",
-            "otherEntityName": "aspectVisiblity",
+            "otherEntityName": "aspectVisibility",
             "otherEntityRelationshipName": "aspect"
+        },	
+		{
+            "relationshipType": "one-to-many",
+            "relationshipName": "contact",
+            "otherEntityName": "Contact",
+            "otherEntityRelationshipName": "aspect"
+        },
+		{
+            "relationshipName": "person",
+            "otherEntityName": "Person",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
         }
     ],
     "fields": [

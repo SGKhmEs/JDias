@@ -9,6 +9,7 @@ import { EventParticipation } from '../event-participation';
 import { Message } from '../message';
 import { Conversation } from '../conversation';
 import { UserAccount } from '../user-account';
+import { Aspect } from '../aspect';
 export class Person {
     constructor(
         public id?: number,
@@ -31,6 +32,7 @@ export class Person {
         public message?: Message,
         public conversation?: Conversation,
         public userAccount?: UserAccount,
+        public aspect?: Aspect,
     ) {
         this.closedAccount = false;
     }

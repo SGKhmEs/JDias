@@ -49,7 +49,15 @@ public class Aspect implements Serializable {
     @OneToMany(mappedBy = "aspect")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<AspectVisiblity> aspectVisibilities = new HashSet<>();
+    private Set<AspectVisibility> aspectVisibilities = new HashSet<>();
+
+    @OneToMany(mappedBy = "aspect")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Contact> contacts = new HashSet<>();
+
+    @ManyToOne
+    private Person person;
 
     public Long getId() {
         return id;
@@ -137,29 +145,67 @@ public class Aspect implements Serializable {
         this.postDefault = postDefault;
     }
 
-    public Set<AspectVisiblity> getAspectVisibilities() {
+    public Set<AspectVisibility> getAspectVisibilities() {
         return aspectVisibilities;
     }
 
-    public Aspect aspectVisibilities(Set<AspectVisiblity> aspectVisiblities) {
-        this.aspectVisibilities = aspectVisiblities;
+    public Aspect aspectVisibilities(Set<AspectVisibility> aspectVisibilities) {
+        this.aspectVisibilities = aspectVisibilities;
         return this;
     }
 
-    public Aspect addAspectVisibilities(AspectVisiblity aspectVisiblity) {
-        this.aspectVisibilities.add(aspectVisiblity);
-        aspectVisiblity.setAspect(this);
+    public Aspect addAspectVisibilities(AspectVisibility aspectVisibility) {
+        this.aspectVisibilities.add(aspectVisibility);
+        aspectVisibility.setAspect(this);
         return this;
     }
 
-    public Aspect removeAspectVisibilities(AspectVisiblity aspectVisiblity) {
-        this.aspectVisibilities.remove(aspectVisiblity);
-        aspectVisiblity.setAspect(null);
+    public Aspect removeAspectVisibilities(AspectVisibility aspectVisibility) {
+        this.aspectVisibilities.remove(aspectVisibility);
+        aspectVisibility.setAspect(null);
         return this;
     }
 
-    public void setAspectVisibilities(Set<AspectVisiblity> aspectVisiblities) {
-        this.aspectVisibilities = aspectVisiblities;
+    public void setAspectVisibilities(Set<AspectVisibility> aspectVisibilities) {
+        this.aspectVisibilities = aspectVisibilities;
+    }
+
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public Aspect contacts(Set<Contact> Contacts) {
+        this.contacts = Contacts;
+        return this;
+    }
+
+    public Aspect addContact(Contact Contact) {
+        this.contacts.add(Contact);
+        Contact.setAspect(this);
+        return this;
+    }
+
+    public Aspect removeContact(Contact Contact) {
+        this.contacts.remove(Contact);
+        Contact.setAspect(null);
+        return this;
+    }
+
+    public void setContacts(Set<Contact> Contacts) {
+        this.contacts = Contacts;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public Aspect person(Person Person) {
+        this.person = Person;
+        return this;
+    }
+
+    public void setPerson(Person Person) {
+        this.person = Person;
     }
 
     @Override

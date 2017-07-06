@@ -1,5 +1,6 @@
-import { AspectMembership } from '../aspect-membership';
-import { AspectVisiblity } from '../aspect-visiblity';
+import { AspectVisibility } from '../aspect-visibility';
+import { Contact } from '../contact';
+import { Person } from '../person';
 export class Aspect {
     constructor(
         public id?: number,
@@ -9,8 +10,9 @@ export class Aspect {
         public contactVisible?: boolean,
         public chatEnabled?: boolean,
         public postDefault?: boolean,
-        public aspectMemberships?: AspectMembership,
-        public aspectVisibilities?: AspectVisiblity,
+        public aspectVisibilities?: AspectVisibility,
+        public contact?: Contact,
+        public person?: Person,
     ) {
         this.contactVisible = false;
         this.chatEnabled = false;

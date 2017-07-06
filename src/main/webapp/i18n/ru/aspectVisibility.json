@@ -1,0 +1,21 @@
+{
+    "jDiasApp": {
+        "aspectvisibility" : {
+            "home": {
+                "title": "Aspectvisibilities",
+                "createLabel": "Создать новый Aspectvisibility",
+                "createOrEditLabel": "Создать или отредактировать Aspectvisibility",
+                "search": "Найти Aspectvisibility"
+            },
+            "created": "Новый Aspectvisibility создан с идентификатором {{ param }}",
+            "updated": "Aspectvisibility обновлен с идентификатором {{ param }}",
+            "deleted": "Aspectvisibility удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Aspectvisibility {{ id }}?"
+            },
+            "detail": {
+                "title": "Aspectvisibility"
+            }
+        }
+    }
+}

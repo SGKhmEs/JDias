@@ -6,7 +6,14 @@
             "otherEntityName": "person",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
+        },
+		{
+            "relationshipName": "aspect",
+            "otherEntityName": "Aspect",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
         }
+			
     ],
     "fields": [
         {
