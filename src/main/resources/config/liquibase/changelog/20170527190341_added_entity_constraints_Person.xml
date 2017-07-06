@@ -20,6 +20,17 @@
                                  referencedColumnNames="id"
                                  referencedTableName="account_deletion"/>
 
+        <addForeignKeyConstraint baseColumnNames="people_id"
+                                 baseTableName="person_conversation"
+                                 constraintName="fk_person_conversation_people_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="person"/>
+        <addForeignKeyConstraint baseColumnNames="conversations_id"
+                                 baseTableName="person_conversation"
+                                 constraintName="fk_person_conversation_conversations_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="conversation"/>
+        
         <addForeignKeyConstraint baseColumnNames="user_account_id"
                                  baseTableName="person"
                                  constraintName="fk_person_user_account_id"

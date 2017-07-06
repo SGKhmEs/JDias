@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -94,7 +93,7 @@ public class ConversationDTOServiceImpl implements ConversationDTOService{
                 }
             }
         } catch (InvocationTargetException ex) {
-            java.util.logging.Logger.getLogger(LikeDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConversationDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conversation;
     }
@@ -119,7 +118,7 @@ public class ConversationDTOServiceImpl implements ConversationDTOService{
             conversationDTO.setAuthorDTO(new HashSet(authorsDTO.values()));
             conversationDTO.setMessageDTO(messagesDTO);
         } catch (InvocationTargetException ex) {
-            java.util.logging.Logger.getLogger(LikeDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConversationDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conversationDTO;
     }

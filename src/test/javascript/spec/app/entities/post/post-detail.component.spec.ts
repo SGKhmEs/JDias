@@ -3,7 +3,7 @@ import { OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { DateUtils, DataUtils, EventManager } from 'ng-jhipster';
+import { JhiDateUtils, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
 import { JDiasTestModule } from '../../../test.module';
 import { MockActivatedRoute } from '../../../helpers/mock-route.service';
 import { PostDetailComponent } from '../../../../../../main/webapp/app/entities/post/post-detail.component';
@@ -22,15 +22,15 @@ describe('Component Tests', () => {
                 imports: [JDiasTestModule],
                 declarations: [PostDetailComponent],
                 providers: [
-                    DateUtils,
-                    DataUtils,
+                    JhiDateUtils,
+                    JhiDataUtils,
                     DatePipe,
                     {
                         provide: ActivatedRoute,
                         useValue: new MockActivatedRoute({id: 123})
                     },
                     PostService,
-                    EventManager
+                    JhiEventManager
                 ]
             }).overrideTemplate(PostDetailComponent, '')
             .compileComponents();

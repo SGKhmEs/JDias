@@ -62,7 +62,7 @@ public class ParticipationResource {
      * @param participation the participation to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated participation,
      * or with status 400 (Bad Request) if the participation is not valid,
-     * or with status 500 (Internal Server Error) if the participation couldnt be updated
+     * or with status 500 (Internal Server Error) if the participation couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/participations")

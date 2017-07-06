@@ -1,6 +1,6 @@
-import { Message } from '../message';
-import { Person } from '../person';
-export class Conversation {
+import { BaseEntity } from './../../shared';
+
+export class Conversation implements BaseEntity {
     constructor(
         public id?: number,
         public author?: string,
@@ -9,8 +9,8 @@ export class Conversation {
         public createdAt?: any,
         public message?: string,
         public updatedAt?: any,
-        public messages?: Message,
-        public participants?: Person,
+        public messages?: BaseEntity[],
+        public participants?: BaseEntity[],
     ) {
     }
 }

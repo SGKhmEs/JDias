@@ -1,0 +1,29 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "aspect",
+            "otherEntityName": "aspect",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "post",
+            "otherEntityName": "post",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "postType",
+            "fieldType": "PostType",
+            "fieldValues": "STATUSMESSAGE,RESHARE"
+        }
+    ],
+    "changelogDate": "20170527190318",
+    "entityTableName": "aspect_visiblity",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

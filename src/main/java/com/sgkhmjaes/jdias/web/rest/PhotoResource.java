@@ -62,7 +62,7 @@ public class PhotoResource {
      * @param photo the photo to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated photo,
      * or with status 400 (Bad Request) if the photo is not valid,
-     * or with status 500 (Internal Server Error) if the photo couldnt be updated
+     * or with status 500 (Internal Server Error) if the photo couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/photos")

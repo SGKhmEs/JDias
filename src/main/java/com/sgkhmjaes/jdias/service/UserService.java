@@ -5,13 +5,17 @@ import com.sgkhmjaes.jdias.domain.User;
 import com.sgkhmjaes.jdias.repository.AuthorityRepository;
 import com.sgkhmjaes.jdias.repository.PersistentTokenRepository;
 import com.sgkhmjaes.jdias.config.Constants;
+import com.sgkhmjaes.jdias.domain.Person;
+import com.sgkhmjaes.jdias.domain.Profile;
+import com.sgkhmjaes.jdias.domain.UserAccount;
 import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.repository.search.UserSearchRepository;
 import com.sgkhmjaes.jdias.security.AuthoritiesConstants;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.util.RandomUtil;
 import com.sgkhmjaes.jdias.service.dto.UserDTO;
-
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -20,12 +24,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.inject.Inject;
 
 /**
  * Service class for managing users.
@@ -48,6 +52,15 @@ public class UserService {
 
     private final AuthorityRepository authorityRepository;
 
+    @Inject
+    private UserAccountService userAccountService;
+
+    @Inject
+    private PersonService personService;
+
+    @Inject
+    private ProfileService profileService;
+
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -69,7 +82,41 @@ public class UserService {
                 return user;
             });
     }
-
+    
+    private void createdUserAccount (User user){
+        
+        UserAccount userAccount = new UserAccount(user.getId());
+        Person person = new Person(user.getId(), userAccount.getSerializedPrivateKey(), user.getLogin());
+        //person.setPodId();
+        String hostName;
+        try {
+            hostName = user.getLogin() + "@" + InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            hostName = user.getLogin() + "@" + UUID.randomUUID().toString();
+        }
+        person.setDiasporaId(hostName);
+        
+        Profile profile = new Profile();
+        profile.setId(user.getId());
+        profile.setAuthor(person.getDiasporaId());
+        
+        userAccount.setUser(user);
+        userAccountService.save(userAccount);
+        
+        person.setUserAccount(userAccount);
+        personService.save(person);
+        
+        profile.setPerson(person);
+        profileService.save(profile);
+        
+        userAccount.setPerson(person);
+        userAccountService.save(userAccount);
+        
+        person.setProfile(profile);
+        personService.save(person);
+        
+    }
+    
     public Optional<User> completePasswordReset(String newPassword, String key) {
        log.debug("Reset user password for reset key {}", key);
 
@@ -117,6 +164,7 @@ public class UserService {
         userRepository.save(newUser);
         userSearchRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
+        createdUserAccount (newUser);
         return newUser;
     }
 
@@ -193,6 +241,7 @@ public class UserService {
                 userDTO.getAuthorities().stream()
                     .map(authorityRepository::findOne)
                     .forEach(managedAuthorities::add);
+                userSearchRepository.save(user);
                 log.debug("Changed Information for User: {}", user);
                 return user;
             })
@@ -276,4 +325,9 @@ public class UserService {
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
     }
+    
+    public Person getCurrentPerson (){
+        return personService.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+    }
+       
 }

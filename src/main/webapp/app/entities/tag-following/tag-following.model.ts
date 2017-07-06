@@ -1,12 +1,12 @@
-import { Tag } from '../tag';
-import { UserAccount } from '../user-account';
-export class TagFollowing {
+import { BaseEntity } from './../../shared';
+
+export class TagFollowing implements BaseEntity {
     constructor(
         public id?: number,
         public createdAt?: any,
         public updatedAt?: any,
-        public tag?: Tag,
-        public userAccount?: UserAccount,
+        public tag?: BaseEntity,
+        public userAccount?: BaseEntity,
     ) {
     }
 }

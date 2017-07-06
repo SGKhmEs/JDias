@@ -62,7 +62,7 @@ public class TaggingResource {
      * @param tagging the tagging to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated tagging,
      * or with status 400 (Bad Request) if the tagging is not valid,
-     * or with status 500 (Internal Server Error) if the tagging couldnt be updated
+     * or with status 500 (Internal Server Error) if the tagging couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/taggings")

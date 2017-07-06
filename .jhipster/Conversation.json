@@ -11,8 +11,7 @@
             "relationshipName": "participants",
             "otherEntityName": "person",
             "relationshipType": "many-to-many",
-            "otherEntityField": "id",
-            "ownerSide": true,
+            "ownerSide": false,
             "otherEntityRelationshipName": "conversation"
         }
     ],

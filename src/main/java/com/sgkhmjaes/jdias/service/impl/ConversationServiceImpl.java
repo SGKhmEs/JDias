@@ -11,11 +11,6 @@ import com.sgkhmjaes.jdias.repository.search.MessageSearchRepository;
 import com.sgkhmjaes.jdias.service.ConversationService;
 import com.sgkhmjaes.jdias.service.PersonService;
 import com.sgkhmjaes.jdias.service.UserService;
-import com.sgkhmjaes.jdias.service.dto.AuthorDTO;
-import com.sgkhmjaes.jdias.service.dto.AvatarDTO;
-import com.sgkhmjaes.jdias.service.dto.ConversationDTO;
-import com.sgkhmjaes.jdias.service.dto.MessageDTO;
-import java.lang.reflect.InvocationTargetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -27,12 +22,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 import java.util.Set;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.logging.Level;
 import org.hibernate.Hibernate;
 
 @Service
@@ -46,18 +36,15 @@ public class ConversationServiceImpl implements ConversationService{
     private final PersonService personService;    
     private final MessageSearchRepository messageSearchRepository;
     private final MessageRepository messageRepository;
-    private final AvatarDTOServiceImpl avatarDTOServiceImpl;
 
     public ConversationServiceImpl(ConversationRepository conversationRepository, ConversationSearchRepository conversationSearchRepository, 
-            UserService userService,  PersonService personService, MessageSearchRepository messageSearchRepository, MessageRepository messageRepository, 
-            AvatarDTOServiceImpl avatarDTOServiceImpl) {
+            UserService userService,  PersonService personService, MessageSearchRepository messageSearchRepository, MessageRepository messageRepository) {
         this.conversationRepository = conversationRepository;
         this.conversationSearchRepository = conversationSearchRepository;
         this.userService = userService;
         this.personService = personService;
         this.messageSearchRepository = messageSearchRepository;
         this.messageRepository = messageRepository;
-        this.avatarDTOServiceImpl = avatarDTOServiceImpl;
     }
     
     @Override

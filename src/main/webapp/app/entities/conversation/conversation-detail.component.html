@@ -28,12 +28,6 @@
         <dd>
             <span>{{conversation.updatedAt | date:'medium'}}</span>
         </dd>
-        <dt><span jhiTranslate="jDiasApp.conversation.participants">Participants</span></dt>
-        <dd>
-            <span *ngFor="let participants of conversation.participants; let last = last">
-                <a [routerLink]="['/person', participants?.id ]">{{participants.id}}</a>{{last ? '' : ', '}}
-            </span>
-        </dd>
     </dl>
 
     <button type="submit"

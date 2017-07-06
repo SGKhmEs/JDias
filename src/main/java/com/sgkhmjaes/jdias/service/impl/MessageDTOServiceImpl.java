@@ -137,7 +137,7 @@ public class MessageDTOServiceImpl implements MessageDTOService {
         try {
             messageDTO.mappingFromDTO(message);
         } catch (InvocationTargetException ex) {
-            java.util.logging.Logger.getLogger(LikeDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MessageDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         message.setPerson(userService.getCurrentPerson());
         return message;
@@ -151,7 +151,7 @@ public class MessageDTOServiceImpl implements MessageDTOService {
             authorDTO.mappingToDTO(avatarDTO, message.getPerson().getId());
             messageDTO.mappingToDTO(message, authorDTO);
         } catch (InvocationTargetException ex) {
-            java.util.logging.Logger.getLogger(LikeDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MessageDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return messageDTO;
     }

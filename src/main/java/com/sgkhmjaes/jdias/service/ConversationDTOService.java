@@ -1,8 +1,6 @@
 
 package com.sgkhmjaes.jdias.service;
 
-import com.sgkhmjaes.jdias.domain.Message;
-import com.sgkhmjaes.jdias.domain.Person;
 import com.sgkhmjaes.jdias.service.dto.ConversationDTO;
 import java.util.List;
 

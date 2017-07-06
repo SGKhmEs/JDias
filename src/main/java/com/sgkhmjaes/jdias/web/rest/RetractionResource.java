@@ -62,7 +62,7 @@ public class RetractionResource {
      * @param retraction the retraction to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated retraction,
      * or with status 400 (Bad Request) if the retraction is not valid,
-     * or with status 500 (Internal Server Error) if the retraction couldnt be updated
+     * or with status 500 (Internal Server Error) if the retraction couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/retractions")

@@ -62,7 +62,7 @@ public class LocationResource {
      * @param location the location to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated location,
      * or with status 400 (Bad Request) if the location is not valid,
-     * or with status 500 (Internal Server Error) if the location couldnt be updated
+     * or with status 500 (Internal Server Error) if the location couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/locations")

@@ -62,7 +62,7 @@ public class PollParticipationResource {
      * @param pollParticipation the pollParticipation to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated pollParticipation,
      * or with status 400 (Bad Request) if the pollParticipation is not valid,
-     * or with status 500 (Internal Server Error) if the pollParticipation couldnt be updated
+     * or with status 500 (Internal Server Error) if the pollParticipation couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/poll-participations")

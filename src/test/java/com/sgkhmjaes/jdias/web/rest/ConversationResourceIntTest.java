@@ -6,7 +6,6 @@ import com.sgkhmjaes.jdias.domain.Conversation;
 import com.sgkhmjaes.jdias.repository.ConversationRepository;
 import com.sgkhmjaes.jdias.service.ConversationService;
 import com.sgkhmjaes.jdias.repository.search.ConversationSearchRepository;
-import com.sgkhmjaes.jdias.service.impl.ConversationDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;

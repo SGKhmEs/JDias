@@ -62,7 +62,7 @@ public class PostResource {
      * @param post the post to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated post,
      * or with status 400 (Bad Request) if the post is not valid,
-     * or with status 500 (Internal Server Error) if the post couldnt be updated
+     * or with status 500 (Internal Server Error) if the post couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/posts")

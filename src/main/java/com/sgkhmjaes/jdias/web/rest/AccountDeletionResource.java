@@ -62,7 +62,7 @@ public class AccountDeletionResource {
      * @param accountDeletion the accountDeletion to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated accountDeletion,
      * or with status 400 (Bad Request) if the accountDeletion is not valid,
-     * or with status 500 (Internal Server Error) if the accountDeletion couldnt be updated
+     * or with status 500 (Internal Server Error) if the accountDeletion couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/account-deletions")

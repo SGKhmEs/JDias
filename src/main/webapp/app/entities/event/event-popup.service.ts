@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Event } from './event.model';
 import { EventService } from './event.service';
+
 @Injectable()
 export class EventPopupService {
     private isOpen = false;

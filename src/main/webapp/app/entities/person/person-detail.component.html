@@ -48,6 +48,12 @@
                 <a [routerLink]="['/account-deletion', person.accountdeletion?.id]">{{person.accountdeletion?.id}}</a>
             </div>
         </dd>
+        <dt><span jhiTranslate="jDiasApp.person.conversation">Conversation</span></dt>
+        <dd>
+            <span *ngFor="let conversation of person.conversations; let last = last">
+                <a [routerLink]="['/conversation', conversation?.id ]">{{conversation.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
         <dt><span jhiTranslate="jDiasApp.person.userAccount">User Account</span></dt>
         <dd>
             <div *ngIf="person.userAccount">

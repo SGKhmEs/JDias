@@ -62,7 +62,7 @@ public class LikeResource {
      * @param like the like to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated like,
      * or with status 400 (Bad Request) if the like is not valid,
-     * or with status 500 (Internal Server Error) if the like couldnt be updated
+     * or with status 500 (Internal Server Error) if the like couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/likes")

@@ -62,7 +62,7 @@ public class TagFollowingResource {
      * @param tagFollowing the tagFollowing to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated tagFollowing,
      * or with status 400 (Bad Request) if the tagFollowing is not valid,
-     * or with status 500 (Internal Server Error) if the tagFollowing couldnt be updated
+     * or with status 500 (Internal Server Error) if the tagFollowing couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/tag-followings")

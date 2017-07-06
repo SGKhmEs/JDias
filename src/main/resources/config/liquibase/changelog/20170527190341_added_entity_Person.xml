@@ -29,7 +29,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="serialized_public_key" type="varchar(255)">
+            <column name="serialized_public_key" type="varchar(500)">
                 <constraints nullable="true" />
             </column>
 
@@ -61,6 +61,17 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        
+        <createTable tableName="person_conversation">
+            <column name="conversations_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="people_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="people_id, conversations_id" tableName="person_conversation"/>
         
     </changeSet>
 </databaseChangeLog>

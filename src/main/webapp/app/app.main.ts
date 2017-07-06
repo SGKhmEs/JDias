@@ -8,4 +8,6 @@ if (module['hot']) {
     module['hot'].accept();
 }
 
-platformBrowserDynamic().bootstrapModule(JDiasAppModule);
+platformBrowserDynamic().bootstrapModule(JDiasAppModule)
+.then((success) => console.log(`Application started`))
+.catch((err) => console.error(err));

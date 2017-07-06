@@ -49,7 +49,7 @@ public class Aspect implements Serializable {
     @OneToMany(mappedBy = "aspect")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<AspectVisibility> aspectVisibilities = new HashSet<>();
+    private Set<AspectVisiblity> aspectVisibilities = new HashSet<>();
 
     @OneToMany(mappedBy = "aspect")
     @JsonIgnore
@@ -145,28 +145,28 @@ public class Aspect implements Serializable {
         this.postDefault = postDefault;
     }
 
-    public Set<AspectVisibility> getAspectVisibilities() {
+    public Set<AspectVisiblity> getAspectVisibilities() {
         return aspectVisibilities;
     }
 
-    public Aspect aspectVisibilities(Set<AspectVisibility> aspectVisibilities) {
+    public Aspect aspectVisibilities(Set<AspectVisiblity> aspectVisibilities) {
         this.aspectVisibilities = aspectVisibilities;
         return this;
     }
 
-    public Aspect addAspectVisibilities(AspectVisibility aspectVisibility) {
-        this.aspectVisibilities.add(aspectVisibility);
-        aspectVisibility.setAspect(this);
+    public Aspect addAspectVisibilities(AspectVisiblity aspectVisiblity) {
+        this.aspectVisibilities.add(aspectVisiblity);
+        aspectVisiblity.setAspect(this);
         return this;
     }
 
-    public Aspect removeAspectVisibilities(AspectVisibility aspectVisibility) {
-        this.aspectVisibilities.remove(aspectVisibility);
-        aspectVisibility.setAspect(null);
+    public Aspect removeAspectVisibilities(AspectVisiblity aspectVisiblity) {
+        this.aspectVisibilities.remove(aspectVisiblity);
+        aspectVisiblity.setAspect(null);
         return this;
     }
 
-    public void setAspectVisibilities(Set<AspectVisibility> aspectVisibilities) {
+    public void setAspectVisibilities(Set<AspectVisiblity> aspectVisibilities) {
         this.aspectVisibilities = aspectVisibilities;
     }
 

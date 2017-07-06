@@ -62,7 +62,7 @@ public class TagResource {
      * @param tag the tag to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated tag,
      * or with status 400 (Bad Request) if the tag is not valid,
-     * or with status 500 (Internal Server Error) if the tag couldnt be updated
+     * or with status 500 (Internal Server Error) if the tag couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/tags")

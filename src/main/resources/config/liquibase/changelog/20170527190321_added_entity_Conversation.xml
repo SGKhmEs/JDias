@@ -49,16 +49,5 @@
         </createTable>
         <dropDefaultValue tableName="conversation" columnName="updated_at" columnDataType="datetime"/>
         
-        <createTable tableName="conversation_participants">
-            <column name="participants_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="conversations_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="conversations_id, participants_id" tableName="conversation_participants"/>
-        
     </changeSet>
 </databaseChangeLog>

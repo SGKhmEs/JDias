@@ -62,7 +62,7 @@ public class PollResource {
      * @param poll the poll to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated poll,
      * or with status 400 (Bad Request) if the poll is not valid,
-     * or with status 500 (Internal Server Error) if the poll couldnt be updated
+     * or with status 500 (Internal Server Error) if the poll couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/polls")
