@@ -21,6 +21,20 @@ export class AspectVisibilityPopupService {
 
         if (id) {
             this.aspectVisibilityService.find(id).subscribe((aspectVisibility) => {
+                if (aspectVisibility.createdAt) {
+                    aspectVisibility.createdAt = {
+                        year: aspectVisibility.createdAt.getFullYear(),
+                        month: aspectVisibility.createdAt.getMonth() + 1,
+                        day: aspectVisibility.createdAt.getDate()
+                    };
+                }
+                if (aspectVisibility.updatedAt) {
+                    aspectVisibility.updatedAt = {
+                        year: aspectVisibility.updatedAt.getFullYear(),
+                        month: aspectVisibility.updatedAt.getMonth() + 1,
+                        day: aspectVisibility.updatedAt.getDate()
+                    };
+                }
                 this.aspectVisibilityModalRef(component, aspectVisibility);
             });
         } else {

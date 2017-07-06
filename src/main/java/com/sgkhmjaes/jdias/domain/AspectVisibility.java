@@ -6,6 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -24,12 +25,76 @@ public class AspectVisibility implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
+    @Column(name = "created_at")
+    private LocalDate createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDate updatedAt;
+
+    @ManyToOne
+    private Aspect aspect;
+
+    @ManyToOne
+    private Post post;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public AspectVisibility createdAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDate getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public AspectVisibility updatedAt(LocalDate updatedAt) {
+        this.updatedAt = updatedAt;
+        return this;
+    }
+
+    public void setUpdatedAt(LocalDate updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Aspect getAspect() {
+        return aspect;
+    }
+
+    public AspectVisibility aspect(Aspect Aspect) {
+        this.aspect = Aspect;
+        return this;
+    }
+
+    public void setAspect(Aspect Aspect) {
+        this.aspect = Aspect;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public AspectVisibility post(Post Post) {
+        this.post = Post;
+        return this;
+    }
+
+    public void setPost(Post Post) {
+        this.post = Post;
     }
 
     @Override
@@ -56,6 +121,8 @@ public class AspectVisibility implements Serializable {
     public String toString() {
         return "AspectVisibility{" +
             "id=" + getId() +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
             "}";
     }
 }

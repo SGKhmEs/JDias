@@ -9,6 +9,9 @@ import { EventManager, AlertService } from 'ng-jhipster';
 import { AspectVisibility } from './aspect-visibility.model';
 import { AspectVisibilityPopupService } from './aspect-visibility-popup.service';
 import { AspectVisibilityService } from './aspect-visibility.service';
+import { Aspect, AspectService } from '../aspect';
+import { Post, PostService } from '../post';
+import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-aspect-visibility-dialog',
@@ -20,10 +23,18 @@ export class AspectVisibilityDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
+    aspects: Aspect[];
+
+    posts: Post[];
+    createdAtDp: any;
+    updatedAtDp: any;
+
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: AlertService,
         private aspectVisibilityService: AspectVisibilityService,
+        private AspectService: AspectService,
+        private PostService: PostService,
         private eventManager: EventManager
     ) {
     }
@@ -31,6 +42,10 @@ export class AspectVisibilityDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
+        this.AspectService.query()
+            .subscribe((res: ResponseWrapper) => { this.aspects = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.PostService.query()
+            .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
     clear() {
         this.activeModal.dismiss('cancel');
@@ -75,6 +90,14 @@ export class AspectVisibilityDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
+    }
+
+    trackAspectById(index: number, item: Aspect) {
+        return item.id;
+    }
+
+    trackPostById(index: number, item: Post) {
+        return item.id;
     }
 }
 

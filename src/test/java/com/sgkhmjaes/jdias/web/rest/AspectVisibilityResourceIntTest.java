@@ -25,6 +25,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,6 +42,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = JDiasApp.class)
 public class AspectVisibilityResourceIntTest {
+
+    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
+
+    private static final LocalDate DEFAULT_UPDATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_UPDATED_AT = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private AspectVisibilityRepository aspectVisibilityRepository;
@@ -86,7 +94,9 @@ public class AspectVisibilityResourceIntTest {
      * if they test an entity which requires the current entity.
      */
     public static AspectVisibility createEntity(EntityManager em) {
-        AspectVisibility aspectVisibility = new AspectVisibility();
+        AspectVisibility aspectVisibility = new AspectVisibility()
+            .createdAt(DEFAULT_CREATED_AT)
+            .updatedAt(DEFAULT_UPDATED_AT);
         return aspectVisibility;
     }
 
@@ -112,6 +122,8 @@ public class AspectVisibilityResourceIntTest {
         List<AspectVisibility> aspectVisibilityList = aspectVisibilityRepository.findAll();
         assertThat(aspectVisibilityList).hasSize(databaseSizeBeforeCreate + 1);
         AspectVisibility testAspectVisibility = aspectVisibilityList.get(aspectVisibilityList.size() - 1);
+        assertThat(testAspectVisibility.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
+        assertThat(testAspectVisibility.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
 
         // Validate the AspectVisibility in Elasticsearch
         AspectVisibility aspectVisibilityEs = aspectVisibilitySearchRepository.findOne(testAspectVisibility.getId());
@@ -148,7 +160,9 @@ public class AspectVisibilityResourceIntTest {
         restAspectVisibilityMockMvc.perform(get("/api/aspect-visibilities?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(aspectVisibility.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(aspectVisibility.getId().intValue())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
 
     @Test
@@ -161,7 +175,9 @@ public class AspectVisibilityResourceIntTest {
         restAspectVisibilityMockMvc.perform(get("/api/aspect-visibilities/{id}", aspectVisibility.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(aspectVisibility.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(aspectVisibility.getId().intValue()))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
     }
 
     @Test
@@ -182,6 +198,9 @@ public class AspectVisibilityResourceIntTest {
 
         // Update the aspectVisibility
         AspectVisibility updatedAspectVisibility = aspectVisibilityRepository.findOne(aspectVisibility.getId());
+        updatedAspectVisibility
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT);
         AspectVisibilityDTO aspectVisibilityDTO = aspectVisibilityMapper.toDto(updatedAspectVisibility);
 
         restAspectVisibilityMockMvc.perform(put("/api/aspect-visibilities")
@@ -193,6 +212,8 @@ public class AspectVisibilityResourceIntTest {
         List<AspectVisibility> aspectVisibilityList = aspectVisibilityRepository.findAll();
         assertThat(aspectVisibilityList).hasSize(databaseSizeBeforeUpdate);
         AspectVisibility testAspectVisibility = aspectVisibilityList.get(aspectVisibilityList.size() - 1);
+        assertThat(testAspectVisibility.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testAspectVisibility.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
 
         // Validate the AspectVisibility in Elasticsearch
         AspectVisibility aspectVisibilityEs = aspectVisibilitySearchRepository.findOne(testAspectVisibility.getId());
@@ -251,7 +272,9 @@ public class AspectVisibilityResourceIntTest {
         restAspectVisibilityMockMvc.perform(get("/api/_search/aspect-visibilities?query=id:" + aspectVisibility.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(aspectVisibility.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(aspectVisibility.getId().intValue())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
 
     @Test

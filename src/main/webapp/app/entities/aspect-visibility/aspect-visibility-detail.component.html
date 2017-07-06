@@ -4,6 +4,26 @@
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.aspectVisibility.createdAt">Created At</span></dt>
+        <dd>
+            <span>{{aspectVisibility.createdAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.aspectVisibility.updatedAt">Updated At</span></dt>
+        <dd>
+            <span>{{aspectVisibility.updatedAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.aspectVisibility.aspect">Aspect</span></dt>
+        <dd>
+            <div *ngIf="aspectVisibility.aspectId">
+                <a [routerLink]="['/aspect', aspectVisibility.aspectId]">{{aspectVisibility.aspectId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.aspectVisibility.post">Post</span></dt>
+        <dd>
+            <div *ngIf="aspectVisibility.postId">
+                <a [routerLink]="['/post', aspectVisibility.postId]">{{aspectVisibility.postId}}</a>
+            </div>
+        </dd>
     </dl>
 
     <button type="submit"

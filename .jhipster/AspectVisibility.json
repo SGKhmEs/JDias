@@ -15,8 +15,16 @@
         }
 			
     ],
-    "relationships": [],
-    "fields": [],
+    "fields": [       
+		{
+            "fieldName": "createdAt",
+            "fieldType": "LocalDate"
+        },
+				{
+            "fieldName": "updatedAt",
+            "fieldType": "LocalDate"
+        }	
+	],
     "changelogDate": "20170706070904",
     "dto": "mapstruct",
     "service": "serviceImpl",

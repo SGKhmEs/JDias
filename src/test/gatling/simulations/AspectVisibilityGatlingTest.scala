@@ -67,7 +67,7 @@ class AspectVisibilityGatlingTest extends Simulation {
             .exec(http("Create new aspectVisibility")
             .post("/api/aspect-visibilities")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null}""")).asJSON
+            .body(StringBody("""{"id":null, "createdAt":"2020-01-01T00:00:00.000Z", "updatedAt":"2020-01-01T00:00:00.000Z"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_aspectVisibility_url"))).exitHereIfFailed
             .pause(10)

@@ -30,12 +30,28 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="jDiasApp.aspectVisibility.createdAt">Created At</span></th>
+            <th><span jhiTranslate="jDiasApp.aspectVisibility.updatedAt">Updated At</span></th>
+            <th><span jhiTranslate="jDiasApp.aspectVisibility.aspect">Aspect</span></th>
+            <th><span jhiTranslate="jDiasApp.aspectVisibility.post">Post</span></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let aspectVisibility of aspectVisibilities ;trackBy: trackId">
                 <td><a [routerLink]="['../aspect-visibility', aspectVisibility.id ]">{{aspectVisibility.id}}</a></td>
+                <td>{{aspectVisibility.createdAt | date:'mediumDate'}}</td>
+                <td>{{aspectVisibility.updatedAt | date:'mediumDate'}}</td>
+                <td>
+                    <div *ngIf="aspectVisibility.aspectId">
+                        <a [routerLink]="['../aspect', aspectVisibility.aspectId  ]" >{{aspectVisibility.aspectId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="aspectVisibility.postId">
+                        <a [routerLink]="['../post', aspectVisibility.postId  ]" >{{aspectVisibility.postId}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

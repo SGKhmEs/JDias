@@ -15,7 +15,11 @@
             },
             "detail": {
                 "title": "Aspect Visibility"
-            }
+            },
+            "createdAt": "Created At",
+            "updatedAt": "Updated At",
+            "aspect": "Aspect",
+            "post": "Post"
         }
     }
 }
