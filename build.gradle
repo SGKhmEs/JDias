@@ -147,7 +147,7 @@ repositories {
 
 dependencies {
     compile group: 'fr.dudie', name: 'nominatim-api', version: '3.3'
-
+    compile "net.imagej:ij:1.49d"
     compile "cglib:cglib:3.2.5"
     compile "io.github.jhipster:jhipster:${jhipster_server_version}"
     compile "io.dropwizard.metrics:metrics-core:${dropwizard_metrics_version}"
