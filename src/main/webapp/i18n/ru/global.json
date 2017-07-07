@@ -29,8 +29,7 @@
                 "retraction": "Retraction",
                 "statusMessage": "Status Message",
                 "tag": "Tag",
-                "tagging": "Tagging",
-                "tagFollowing": "Tag Following",
+                "hashTag": "Hash Tag",
                 "userAccount": "User Account",
                 "person": "Person",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"

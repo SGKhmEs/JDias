@@ -39,8 +39,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = JDiasApp.class)
 public class TagResourceIntTest {
 
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_TAG_CONTEXT = "AAAAAAAAAA";
+    private static final String UPDATED_TAG_CONTEXT = "BBBBBBBBBB";
 
     @Autowired
     private TagRepository tagRepository;
@@ -85,7 +85,7 @@ public class TagResourceIntTest {
      */
     public static Tag createEntity(EntityManager em) {
         Tag tag = new Tag()
-            .name(DEFAULT_NAME);
+            .tagContext(DEFAULT_TAG_CONTEXT);
         return tag;
     }
 
@@ -110,7 +110,7 @@ public class TagResourceIntTest {
         List<Tag> tagList = tagRepository.findAll();
         assertThat(tagList).hasSize(databaseSizeBeforeCreate + 1);
         Tag testTag = tagList.get(tagList.size() - 1);
-        assertThat(testTag.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testTag.getTagContext()).isEqualTo(DEFAULT_TAG_CONTEXT);
 
         // Validate the Tag in Elasticsearch
         Tag tagEs = tagSearchRepository.findOne(testTag.getId());
@@ -147,7 +147,7 @@ public class TagResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tag.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+            .andExpect(jsonPath("$.[*].tagContext").value(hasItem(DEFAULT_TAG_CONTEXT.toString())));
     }
 
     @Test
@@ -161,7 +161,7 @@ public class TagResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(tag.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
+            .andExpect(jsonPath("$.tagContext").value(DEFAULT_TAG_CONTEXT.toString()));
     }
 
     @Test
@@ -183,7 +183,7 @@ public class TagResourceIntTest {
         // Update the tag
         Tag updatedTag = tagRepository.findOne(tag.getId());
         updatedTag
-            .name(UPDATED_NAME);
+            .tagContext(UPDATED_TAG_CONTEXT);
 
         restTagMockMvc.perform(put("/api/tags")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -194,7 +194,7 @@ public class TagResourceIntTest {
         List<Tag> tagList = tagRepository.findAll();
         assertThat(tagList).hasSize(databaseSizeBeforeUpdate);
         Tag testTag = tagList.get(tagList.size() - 1);
-        assertThat(testTag.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testTag.getTagContext()).isEqualTo(UPDATED_TAG_CONTEXT);
 
         // Validate the Tag in Elasticsearch
         Tag tagEs = tagSearchRepository.findOne(testTag.getId());
@@ -252,7 +252,7 @@ public class TagResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tag.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+            .andExpect(jsonPath("$.[*].tagContext").value(hasItem(DEFAULT_TAG_CONTEXT.toString())));
     }
 
     @Test

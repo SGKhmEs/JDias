@@ -9,7 +9,7 @@ export class Aspect implements BaseEntity {
         public contactVisible?: boolean,
         public chatEnabled?: boolean,
         public postDefault?: boolean,
-        public aspectVisibilities?: BaseEntity[],
+        public aspectVisiblities?: BaseEntity[],
         public contacts?: BaseEntity[],
         public person?: BaseEntity,
     ) {

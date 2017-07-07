@@ -72,10 +72,8 @@ public class Post implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Like> likes = new HashSet<>();
 
-    @OneToMany(mappedBy = "post")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Tag> tags = new HashSet<>();
+    @ManyToOne
+    private Tag tag;
 
     @ManyToOne
     private Person person;
@@ -221,8 +219,8 @@ public class Post implements Serializable {
         return aspectVisiblitis;
     }
 
-    public Post aspectVisiblitis(Set<AspectVisiblity> aspectVisibilities) {
-        this.aspectVisiblitis = aspectVisibilities;
+    public Post aspectVisiblitis(Set<AspectVisiblity> aspectVisiblities) {
+        this.aspectVisiblitis = aspectVisiblities;
         return this;
     }
 
@@ -238,8 +236,8 @@ public class Post implements Serializable {
         return this;
     }
 
-    public void setAspectVisiblitis(Set<AspectVisiblity> aspectVisibilities) {
-        this.aspectVisiblitis = aspectVisibilities;
+    public void setAspectVisiblitis(Set<AspectVisiblity> aspectVisiblities) {
+        this.aspectVisiblitis = aspectVisiblities;
     }
 
     public Set<Like> getLikes() {
@@ -267,29 +265,17 @@ public class Post implements Serializable {
         this.likes = likes;
     }
 
-    public Set<Tag> getTags() {
-        return tags;
+    public Tag getTag() {
+        return tag;
     }
 
-    public Post tags(Set<Tag> tags) {
-        this.tags = tags;
+    public Post tag(Tag tag) {
+        this.tag = tag;
         return this;
     }
 
-    public Post addTags(Tag tag) {
-        this.tags.add(tag);
-        tag.setPost(this);
-        return this;
-    }
-
-    public Post removeTags(Tag tag) {
-        this.tags.remove(tag);
-        tag.setPost(null);
-        return this;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 
     public Person getPerson() {

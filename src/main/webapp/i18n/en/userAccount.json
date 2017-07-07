@@ -44,8 +44,7 @@
             "colorTheme": "Color Theme",
             "postDefaultPublic": "Post Default Public",
             "user": "User",
-            "person": "Person",
-            "tagfollowings": "Tagfollowings"
+            "person": "Person"
         }
     }
 }

@@ -11,6 +11,7 @@ import { PostPopupService } from './post-popup.service';
 import { PostService } from './post.service';
 import { StatusMessage, StatusMessageService } from '../status-message';
 import { Reshare, ReshareService } from '../reshare';
+import { Tag, TagService } from '../tag';
 import { Person, PersonService } from '../person';
 import { ResponseWrapper } from '../../shared';
 
@@ -28,6 +29,8 @@ export class PostDialogComponent implements OnInit {
 
     reshares: Reshare[];
 
+    tags: Tag[];
+
     people: Person[];
     createdAtDp: any;
 
@@ -37,6 +40,7 @@ export class PostDialogComponent implements OnInit {
         private postService: PostService,
         private statusMessageService: StatusMessageService,
         private reshareService: ReshareService,
+        private tagService: TagService,
         private personService: PersonService,
         private eventManager: JhiEventManager
     ) {
@@ -71,6 +75,8 @@ export class PostDialogComponent implements OnInit {
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));
                 }
             }, (res: ResponseWrapper) => this.onError(res.json));
+        this.tagService.query()
+            .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.personService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
@@ -125,6 +131,10 @@ export class PostDialogComponent implements OnInit {
     }
 
     trackReshareById(index: number, item: Reshare) {
+        return item.id;
+    }
+
+    trackTagById(index: number, item: Tag) {
         return item.id;
     }
 

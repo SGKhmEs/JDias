@@ -20,6 +20,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="reshare"/>
 
+        <addForeignKeyConstraint baseColumnNames="tag_id"
+                                 baseTableName="post"
+                                 constraintName="fk_post_tag_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tag"/>
+
         <addForeignKeyConstraint baseColumnNames="person_id"
                                  baseTableName="post"
                                  constraintName="fk_post_person_id"

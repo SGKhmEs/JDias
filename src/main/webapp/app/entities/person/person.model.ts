@@ -16,6 +16,7 @@ export class Person implements BaseEntity {
         public contacts?: BaseEntity[],
         public posts?: BaseEntity[],
         public photos?: BaseEntity[],
+        public tags?: BaseEntity[],
         public comments?: BaseEntity[],
         public participations?: BaseEntity[],
         public events?: BaseEntity[],

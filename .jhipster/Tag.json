@@ -4,25 +4,25 @@
         {
             "relationshipName": "post",
             "otherEntityName": "post",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "tag"
+        },
+        {
+            "relationshipName": "person",
+            "otherEntityName": "person",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
         },
         {
-            "relationshipType": "one-to-many",
-            "relationshipName": "tagFollowings",
-            "otherEntityName": "tagFollowing",
-            "otherEntityRelationshipName": "tag"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "taggings",
-            "otherEntityName": "tagging",
-            "otherEntityRelationshipName": "tag"
+            "relationshipName": "hashTag",
+            "otherEntityName": "hashTag",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
         }
     ],
     "fields": [
         {
-            "fieldName": "name",
+            "fieldName": "tagContext",
             "fieldType": "String"
         }
     ],

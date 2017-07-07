@@ -22,8 +22,7 @@ import { JDiasReshareModule } from './reshare/reshare.module';
 import { JDiasRetractionModule } from './retraction/retraction.module';
 import { JDiasStatusMessageModule } from './status-message/status-message.module';
 import { JDiasTagModule } from './tag/tag.module';
-import { JDiasTaggingModule } from './tagging/tagging.module';
-import { JDiasTagFollowingModule } from './tag-following/tag-following.module';
+import { JDiasHashTagModule } from './hash-tag/hash-tag.module';
 import { JDiasUserAccountModule } from './user-account/user-account.module';
 import { JDiasPersonModule } from './person/person.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
@@ -52,8 +51,7 @@ import { JDiasPersonModule } from './person/person.module';
         JDiasRetractionModule,
         JDiasStatusMessageModule,
         JDiasTagModule,
-        JDiasTaggingModule,
-        JDiasTagFollowingModule,
+        JDiasHashTagModule,
         JDiasUserAccountModule,
         JDiasPersonModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */

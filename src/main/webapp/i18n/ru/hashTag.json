@@ -1,0 +1,22 @@
+{
+    "jDiasApp": {
+        "hashTag" : {
+            "home": {
+                "title": "Hash Tags",
+                "createLabel": "Создать новый Hash Tag",
+                "createOrEditLabel": "Создать или отредактировать Hash Tag",
+                "search": "Найти Hash Tag"
+            },
+            "created": "Новый Hash Tag создан с идентификатором {{ param }}",
+            "updated": "Hash Tag обновлен с идентификатором {{ param }}",
+            "deleted": "Hash Tag удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Hash Tag {{ id }}?"
+            },
+            "detail": {
+                "title": "Hash Tag"
+            },
+            "tags": "Tags"
+        }
+    }
+}

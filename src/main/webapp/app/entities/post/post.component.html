@@ -38,6 +38,7 @@
             <th><span jhiTranslate="jDiasApp.post.postType">Post Type</span></th>
             <th><span jhiTranslate="jDiasApp.post.statusMessage">Status Message</span></th>
             <th><span jhiTranslate="jDiasApp.post.reshare">Reshare</span></th>
+            <th><span jhiTranslate="jDiasApp.post.tag">Tag</span></th>
             <th><span jhiTranslate="jDiasApp.post.person">Person</span></th>
             <th></th>
             </tr>
@@ -59,6 +60,11 @@
                 <td>
                     <div *ngIf="post.reshare">
                         <a [routerLink]="['../reshare', post.reshare?.id ]" >{{post.reshare?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="post.tag">
+                        <a [routerLink]="['../tag', post.tag?.id ]" >{{post.tag?.id}}</a>
                     </div>
                 </td>
                 <td>

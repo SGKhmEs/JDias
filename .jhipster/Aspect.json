@@ -3,8 +3,8 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "aspectVisibilities",
-            "otherEntityName": "aspectVisibility",
+            "relationshipName": "aspectVisiblities",
+            "otherEntityName": "aspectVisiblity",
             "otherEntityRelationshipName": "aspect"
         },	
 		{

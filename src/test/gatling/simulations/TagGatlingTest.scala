@@ -67,7 +67,7 @@ class TagGatlingTest extends Simulation {
             .exec(http("Create new tag")
             .post("/api/tags")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "name":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "tagContext":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_tag_url"))).exitHereIfFailed
             .pause(10)

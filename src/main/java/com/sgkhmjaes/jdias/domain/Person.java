@@ -82,6 +82,11 @@ public class Person implements Serializable {
     @OneToMany(mappedBy = "person")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Tag> tags = new HashSet<>();
+
+    @OneToMany(mappedBy = "person")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Comment> comments = new HashSet<>();
 
     @OneToMany(mappedBy = "person")
@@ -116,7 +121,7 @@ public class Person implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Aspect> aspects = new HashSet<>();
-    
+
     public Person (){}
     
     public Person (Long id, String serializedPublicKey, String login){
@@ -341,6 +346,31 @@ public class Person implements Serializable {
         this.photos = photos;
     }
 
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public Person tags(Set<Tag> tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    public Person addTags(Tag tag) {
+        this.tags.add(tag);
+        tag.setPerson(this);
+        return this;
+    }
+
+    public Person removeTags(Tag tag) {
+        this.tags.remove(tag);
+        tag.setPerson(null);
+        return this;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
     public Set<Comment> getComments() {
         return comments;
     }
@@ -455,7 +485,7 @@ public class Person implements Serializable {
         conversation.getParticipants().add(this);
         return this;
     }
-    
+
     public boolean addUniqueConversation(Conversation conversation) {
         if (!this.conversations.contains(conversation)) {
             this.conversations.add(conversation);
@@ -486,6 +516,31 @@ public class Person implements Serializable {
 
     public void setUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
+    }
+
+    public Set<Aspect> getAspects() {
+        return aspects;
+    }
+
+    public Person aspects(Set<Aspect> aspects) {
+        this.aspects = aspects;
+        return this;
+    }
+
+    public Person addAspect(Aspect aspect) {
+        this.aspects.add(aspect);
+        aspect.setPerson(this);
+        return this;
+    }
+
+    public Person removeAspect(Aspect aspect) {
+        this.aspects.remove(aspect);
+        aspect.setPerson(null);
+        return this;
+    }
+
+    public void setAspects(Set<Aspect> aspects) {
+        this.aspects = aspects;
     }
 
     @Override

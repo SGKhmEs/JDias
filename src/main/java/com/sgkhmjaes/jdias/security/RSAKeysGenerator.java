@@ -27,7 +27,7 @@ public class RSAKeysGenerator {
         }
         kpg.initialize(512);
         KeyPair keyPair = kpg.generateKeyPair();
-        System.out.println("PUBLIC KEY " + Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded()));
+        //System.out.println("PUBLIC KEY " + Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded()));
         return Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded());
     }
 

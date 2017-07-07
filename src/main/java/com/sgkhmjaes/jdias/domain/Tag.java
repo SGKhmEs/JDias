@@ -27,21 +27,19 @@ public class Tag implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "tag_context")
+    private String tagContext;
+
+    @OneToMany(mappedBy = "tag")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Post> posts = new HashSet<>();
 
     @ManyToOne
-    private Post post;
+    private Person person;
 
-    @OneToMany(mappedBy = "tag")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<TagFollowing> tagFollowings = new HashSet<>();
-
-    @OneToMany(mappedBy = "tag")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Tagging> taggings = new HashSet<>();
+    @ManyToOne
+    private HashTag hashTag;
 
     public Long getId() {
         return id;
@@ -51,80 +49,68 @@ public class Tag implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTagContext() {
+        return tagContext;
     }
 
-    public Tag name(String name) {
-        this.name = name;
+    public Tag tagContext(String tagContext) {
+        this.tagContext = tagContext;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTagContext(String tagContext) {
+        this.tagContext = tagContext;
     }
 
-    public Post getPost() {
-        return post;
+    public Set<Post> getPosts() {
+        return posts;
     }
 
-    public Tag post(Post post) {
-        this.post = post;
+    public Tag posts(Set<Post> posts) {
+        this.posts = posts;
         return this;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    public Set<TagFollowing> getTagFollowings() {
-        return tagFollowings;
-    }
-
-    public Tag tagFollowings(Set<TagFollowing> tagFollowings) {
-        this.tagFollowings = tagFollowings;
+    public Tag addPost(Post post) {
+        this.posts.add(post);
+        post.setTag(this);
         return this;
     }
 
-    public Tag addTagFollowings(TagFollowing tagFollowing) {
-        this.tagFollowings.add(tagFollowing);
-        tagFollowing.setTag(this);
+    public Tag removePost(Post post) {
+        this.posts.remove(post);
+        post.setTag(null);
         return this;
     }
 
-    public Tag removeTagFollowings(TagFollowing tagFollowing) {
-        this.tagFollowings.remove(tagFollowing);
-        tagFollowing.setTag(null);
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public Tag person(Person person) {
+        this.person = person;
         return this;
     }
 
-    public void setTagFollowings(Set<TagFollowing> tagFollowings) {
-        this.tagFollowings = tagFollowings;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
-    public Set<Tagging> getTaggings() {
-        return taggings;
+    public HashTag getHashTag() {
+        return hashTag;
     }
 
-    public Tag taggings(Set<Tagging> taggings) {
-        this.taggings = taggings;
+    public Tag hashTag(HashTag hashTag) {
+        this.hashTag = hashTag;
         return this;
     }
 
-    public Tag addTaggings(Tagging tagging) {
-        this.taggings.add(tagging);
-        tagging.setTag(this);
-        return this;
-    }
-
-    public Tag removeTaggings(Tagging tagging) {
-        this.taggings.remove(tagging);
-        tagging.setTag(null);
-        return this;
-    }
-
-    public void setTaggings(Set<Tagging> taggings) {
-        this.taggings = taggings;
+    public void setHashTag(HashTag hashTag) {
+        this.hashTag = hashTag;
     }
 
     @Override
@@ -151,7 +137,7 @@ public class Tag implements Serializable {
     public String toString() {
         return "Tag{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
+            ", tagContext='" + getTagContext() + "'" +
             "}";
     }
 }

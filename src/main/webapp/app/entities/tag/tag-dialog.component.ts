@@ -9,7 +9,8 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Tag } from './tag.model';
 import { TagPopupService } from './tag-popup.service';
 import { TagService } from './tag.service';
-import { Post, PostService } from '../post';
+import { Person, PersonService } from '../person';
+import { HashTag, HashTagService } from '../hash-tag';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -22,13 +23,16 @@ export class TagDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
-    posts: Post[];
+    people: Person[];
+
+    hashtags: HashTag[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private tagService: TagService,
-        private postService: PostService,
+        private personService: PersonService,
+        private hashTagService: HashTagService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -36,8 +40,10 @@ export class TagDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.postService.query()
-            .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.personService.query()
+            .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.hashTagService.query()
+            .subscribe((res: ResponseWrapper) => { this.hashtags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -85,7 +91,11 @@ export class TagDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackPostById(index: number, item: Post) {
+    trackPersonById(index: number, item: Person) {
+        return item.id;
+    }
+
+    trackHashTagById(index: number, item: HashTag) {
         return item.id;
     }
 }

@@ -40,6 +40,12 @@
                 <a [routerLink]="['/reshare', post.reshare?.id]">{{post.reshare?.id}}</a>
             </div>
         </dd>
+        <dt><span jhiTranslate="jDiasApp.post.tag">Tag</span></dt>
+        <dd>
+            <div *ngIf="post.tag">
+                <a [routerLink]="['/tag', post.tag?.id]">{{post.tag?.id}}</a>
+            </div>
+        </dd>
         <dt><span jhiTranslate="jDiasApp.post.person">Person</span></dt>
         <dd>
             <div *ngIf="post.person">

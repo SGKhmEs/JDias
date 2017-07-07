@@ -37,6 +37,12 @@
         },
         {
             "relationshipType": "one-to-many",
+            "relationshipName": "tags",
+            "otherEntityName": "tag",
+            "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipType": "one-to-many",
             "relationshipName": "comments",
             "otherEntityName": "comment",
             "otherEntityRelationshipName": "person"
