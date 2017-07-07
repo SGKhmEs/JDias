@@ -1,18 +1,24 @@
 package com.sgkhmjaes.jdias.service.impl;
 
 import com.sgkhmjaes.jdias.domain.HashTag;
+import com.sgkhmjaes.jdias.domain.Post;
+import com.sgkhmjaes.jdias.domain.Person;
+import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.service.TagService;
 import com.sgkhmjaes.jdias.domain.Tag;
 import com.sgkhmjaes.jdias.repository.HashTagRepository;
 import com.sgkhmjaes.jdias.repository.TagRepository;
 import com.sgkhmjaes.jdias.repository.search.HashTagSearchRepository;
 import com.sgkhmjaes.jdias.repository.search.TagSearchRepository;
+import com.sgkhmjaes.jdias.service.util.SearchTags;
+import java.util.HashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -42,31 +48,66 @@ public class TagServiceImpl implements TagService{
     /**
      * Save a tag.
      *
+     * @param post
      * @param tag the entity to save
      * @return the persisted entity
      */
-    @Override
-    public Tag save(Tag tag) {
-        log.debug("Request to save Tag : {}", tag);
+    
+    
+    public void save (Post post){
+        Set<String> tagContextSet = getTagsFromPost (post.getStatusMessage().getText());
+        
+        String tagContext = "asd";
+        
         Tag tagResult;
-        Long tagHashCode = Long.valueOf(tag.hashCode());
+        Long tagHashCode = Long.valueOf( tagContext.hashCode());
         HashTag hashTag = hashTagRepository.getOne(tagHashCode);
         if (hashTag != null) {
             for (Tag tags : hashTag.getTags()) {
-                if (tags.equals(tag)) return tag;
+                if (tags.equals(tag)) return  tagContext;
             }
         }
         else hashTag = new HashTag();
         
-        tagResult = tagRepository.save(tag);
+        tagResult = tagRepository.save(tagContext);
         tagSearchRepository.save(tagResult);
         hashTag.setId(tagHashCode);
         hashTag.addTags(tagResult);
+        
+        
+        for (Tag tag : tagsFromPost) {
+            
+        }
+    }
+    
+    public Tag save (Post post, Tag tag){
+        tag.addPost(post);
+        return save (tag);
+    }
+    
+    @Override
+    public Tag save(Tag tag) {
+        log.debug("Request to save Tag : {}", tag);
+        
+
+        
         HashTag hashTagResult = hashTagRepository.save(hashTag);
         hashTagSearchRepository.save(hashTagResult);
+        
         return tagResult;
     }
-
+    /*
+    private Set <String> getTagsFromPost (Post post){
+        return getTagsFromPost (post.getStatusMessage().getText());
+    }
+    private Set <String> getTagsFromPost (StatusMessage statusMessage){
+        return getTagsFromPost (statusMessage.getText());
+    }
+    */
+    private Set <String> getTagsFromPost (String postText){
+        return new SearchTags ().searchingTags(postText);
+    }
+    
     /**
      *  Get all the tags.
      *
@@ -90,6 +131,26 @@ public class TagServiceImpl implements TagService{
     public Tag findOne(Long id) {
         log.debug("Request to get Tag : {}", id);
         return tagRepository.findOne(id);
+    }
+    
+    public Set <Post> findPostsByTag (String tagContext){
+        Long tagHashCode = Long.valueOf(tagContext.hashCode());
+        HashTag hashTag = hashTagRepository.getOne(tagHashCode);
+        if(hashTag == null)return new HashSet <> ();
+        for (Tag tag : hashTag.getTags()) {
+            if (tagContext.equals(tag.getTagContext())) return tag.getPosts();
+        }
+        return new HashSet <> ();
+    }
+    
+    public Tag findTagByContext (String tagContext){
+        Long tagHashCode = Long.valueOf(tagContext.hashCode());
+        HashTag hashTag = hashTagRepository.getOne(tagHashCode);
+        if(hashTag == null)return new Tag ();
+        for (Tag tag : hashTag.getTags()) {
+            if (tagContext.equals(tag.getTagContext())) return tag;
+        }
+        return new Tag ();
     }
 
     /**
