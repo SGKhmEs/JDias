@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
 import javax.servlet.annotation.MultipartConfig;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -69,14 +70,14 @@ public class FileUploadController {
     }
 
     @PostMapping(value = "/file", consumes = "multipart/form-data")
-    public ResponseEntity<Photo[]> handleFileUpload(@RequestParam("file") MultipartFile[] file, RedirectAttributes redirectAttributes) throws URISyntaxException, IOException {
-        Photo[] photos = new Photo[file.length];
-        for (int i = 0; i<file.length; i++) {
-            Path path = storageService.store(file[i]);
+    public ResponseEntity<Photo[]> handleFileUpload(@RequestParam("file") MultipartFile[] multipartFiles, RedirectAttributes redirectAttributes) throws URISyntaxException, IOException {
+        Photo[] photos = new Photo[multipartFiles.length];
+        for (int i = 0; i<multipartFiles.length; i++) {
+            File file = storageService.store(multipartFiles[i]);
             redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file[i].getOriginalFilename() + "!");
+                "You successfully uploaded " + multipartFiles[i].getOriginalFilename() + "!");
 
-            photos[i] = photoService.save(path.toFile());
+            photos[i] = photoService.save(file);
         }
         return ResponseEntity.ok().headers(HeaderUtil.createAlert("PHOTOS", "UPLOADED"))
             .body(photos);

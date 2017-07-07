@@ -11,6 +11,7 @@ import com.sgkhmjaes.jdias.service.PollAnswerService;
 import com.sgkhmjaes.jdias.service.PollService;
 import com.sgkhmjaes.jdias.service.PostService;
 import com.sgkhmjaes.jdias.repository.search.PostSearchRepository;
+import com.sgkhmjaes.jdias.service.dto.PostDTO;
 import com.sgkhmjaes.jdias.service.dto.StatusMessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -155,9 +156,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Reshare saveReshare(PostDTO postDTO) {
+        Post post = postRepository.findOne(postDTO.getId());
+        return saveReshare(post);
+    }
+
+    @Override
     public Reshare saveReshare(Post parrentPost) {
         Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
         Reshare reshare = reshareRepository.findOne(parrentPost.getReshare().getId());
+        StatusMessage statusMessage = statusMessageRepository.findOne(parrentPost.getStatusMessage().getId());
         Set<Post> posts = reshare.getPosts();
         boolean isHasRepost = false;
         for (Post p : posts) {
@@ -172,9 +180,11 @@ public class PostServiceImpl implements PostService {
             return parrentPost.getReshare();
         } else {
             Post post = save(new Post(person.getDiasporaId(), UUID.randomUUID().toString(),
-                LocalDate.now(), true, PostType.RESHARE, parrentPost.getStatusMessage(), parrentPost.getReshare(), person));
+                LocalDate.now(), true, PostType.RESHARE, statusMessage, reshare, person));
             reshare = parrentPost.getReshare();
             reshare.addPost(post);
+            statusMessage.addPost(post);
+            save(statusMessage);
             return save(reshare);
         }
     }

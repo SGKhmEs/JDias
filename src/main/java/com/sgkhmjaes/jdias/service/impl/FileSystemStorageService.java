@@ -39,7 +39,7 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public Path store(MultipartFile file) {
+    public File store(MultipartFile file) {
         Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
         Path userPath = Paths.get(rootLocation + "/" + person.getGuid());
         if (!userPath.toFile().exists() && !userPath.toFile().isDirectory()) {
@@ -50,7 +50,7 @@ public class FileSystemStorageService implements StorageService {
                 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
             }
             Files.copy(file.getInputStream(), userPath.resolve(file.getOriginalFilename()));
-            return load(file.getOriginalFilename());
+            return load(file.getOriginalFilename()).toFile();
 
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);

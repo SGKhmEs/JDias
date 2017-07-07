@@ -62,7 +62,7 @@ public class PostDTOServiceImpl {
         InteractionDTO interactionDTO = interactionDTOServiceImpl.findOneByPost(post.getId());
         System.out.println("++++++++++" + interactionDTO);
         PostDTO postDTO = new PostDTO();
-        StatusMessage statusMessage = statusMessageRepository.findOne(post.getId());
+        StatusMessage statusMessage = statusMessageRepository.findByPosts(post);
         PollDTO pollDTO = new PollDTO();
         try {
             System.out.println("-----post" + post.getId() + "\n author-----------\n" + authorDTO.getId() +

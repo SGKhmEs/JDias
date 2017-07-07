@@ -70,6 +70,7 @@ public class JDiasApp {
      */
     public static void main(String[] args) throws UnknownHostException {
         SpringApplication app = new SpringApplication(JDiasApp.class);
+        app.setHeadless(false);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         String protocol = "http";

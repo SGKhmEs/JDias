@@ -15,7 +15,7 @@ public class PostDTO implements AutoMapping {
     @JsonProperty("text")
     private String text;
     @JsonProperty("id")
-    private long id;
+    private Long id;
     @JsonProperty("guid")
     private String guid;
     private String open_graph_cache;
@@ -59,11 +59,11 @@ public class PostDTO implements AutoMapping {
         this.text = text;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

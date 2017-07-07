@@ -3,6 +3,7 @@ package com.sgkhmjaes.jdias.service;
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.domain.Reshare;
 import com.sgkhmjaes.jdias.domain.StatusMessage;
+import com.sgkhmjaes.jdias.service.dto.PostDTO;
 import com.sgkhmjaes.jdias.service.dto.StatusMessageDTO;
 
 import java.util.List;
@@ -152,4 +153,5 @@ public interface PostService {
      */
     List<Reshare> searchReshare(String query);
 
+    Reshare saveReshare(PostDTO postDTO);
 }
