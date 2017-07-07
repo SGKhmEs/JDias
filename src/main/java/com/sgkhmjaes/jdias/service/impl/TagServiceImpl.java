@@ -1,8 +1,11 @@
 package com.sgkhmjaes.jdias.service.impl;
 
+import com.sgkhmjaes.jdias.domain.HashTag;
 import com.sgkhmjaes.jdias.service.TagService;
 import com.sgkhmjaes.jdias.domain.Tag;
+import com.sgkhmjaes.jdias.repository.HashTagRepository;
 import com.sgkhmjaes.jdias.repository.TagRepository;
+import com.sgkhmjaes.jdias.repository.search.HashTagSearchRepository;
 import com.sgkhmjaes.jdias.repository.search.TagSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +26,17 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class TagServiceImpl implements TagService{
 
     private final Logger log = LoggerFactory.getLogger(TagServiceImpl.class);
-
     private final TagRepository tagRepository;
-
     private final TagSearchRepository tagSearchRepository;
+    private final HashTagRepository hashTagRepository;
+    private final HashTagSearchRepository hashTagSearchRepository;
 
-    public TagServiceImpl(TagRepository tagRepository, TagSearchRepository tagSearchRepository) {
+    public TagServiceImpl(TagRepository tagRepository, TagSearchRepository tagSearchRepository, 
+            HashTagRepository hashTagRepository, HashTagSearchRepository hashTagSearchRepository) {
         this.tagRepository = tagRepository;
         this.tagSearchRepository = tagSearchRepository;
+        this.hashTagRepository = hashTagRepository;
+        this.hashTagSearchRepository = hashTagSearchRepository;
     }
 
     /**
@@ -42,9 +48,23 @@ public class TagServiceImpl implements TagService{
     @Override
     public Tag save(Tag tag) {
         log.debug("Request to save Tag : {}", tag);
-        Tag result = tagRepository.save(tag);
-        tagSearchRepository.save(result);
-        return result;
+        Tag tagResult;
+        Long tagHashCode = Long.valueOf(tag.hashCode());
+        HashTag hashTag = hashTagRepository.getOne(tagHashCode);
+        if (hashTag != null) {
+            for (Tag tags : hashTag.getTags()) {
+                if (tags.equals(tag)) return tag;
+            }
+        }
+        else hashTag = new HashTag();
+        
+        tagResult = tagRepository.save(tag);
+        tagSearchRepository.save(tagResult);
+        hashTag.setId(tagHashCode);
+        hashTag.addTags(tagResult);
+        HashTag hashTagResult = hashTagRepository.save(hashTag);
+        hashTagSearchRepository.save(hashTagResult);
+        return tagResult;
     }
 
     /**
