@@ -1,6 +1,8 @@
 package com.sgkhmjaes.jdias.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -18,6 +20,7 @@ import java.util.Objects;
 @Table(name = "status_message")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "statusmessage")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class StatusMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,6 +28,7 @@ public class StatusMessage implements Serializable {
     @Id
     private Long id;
 
+    @JsonProperty("text")
     @Column(name = "text")
     private String text;
 

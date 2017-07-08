@@ -1,24 +1,19 @@
 package com.sgkhmjaes.jdias.service.impl;
 
-import com.sgkhmjaes.jdias.service.LocationService;
 import com.sgkhmjaes.jdias.domain.Location;
 import com.sgkhmjaes.jdias.repository.LocationRepository;
 import com.sgkhmjaes.jdias.repository.search.LocationSearchRepository;
-import fr.dudie.nominatim.client.JsonNominatimClient;
-import fr.dudie.nominatim.client.NominatimClient;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
+import com.sgkhmjaes.jdias.service.LocationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing Location.
@@ -46,12 +41,12 @@ public class LocationServiceImpl implements LocationService{
      */
     @Override
     public Location save(Location location) {
-        NominatimClient nominatimClient = new JsonNominatimClient(new DefaultHttpClient(), "kjfidjf@dlkgog.df");
+        /*NominatimClient nominatimClient = new JsonNominatimClient(new DefaultHttpClient(), "kjfidjf@dlkgog.df");
         try {
             location.setAddress(nominatimClient.getAddress(location.getLng(), location.getLat()).getDisplayName());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         log.debug("Request to save Location : {}", location);
         Location result = locationRepository.save(location);
         locationSearchRepository.save(result);

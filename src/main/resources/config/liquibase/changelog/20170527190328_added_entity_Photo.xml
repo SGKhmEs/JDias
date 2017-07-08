@@ -25,7 +25,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="guid" type="boolean">
+            <column name="guid" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
@@ -54,6 +54,22 @@
             </column>
 
             <column name="status_message_guid" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="thumb_small" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="thumb_medium" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="thumb_large" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="scaled_full" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 

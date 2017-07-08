@@ -14,6 +14,7 @@ export class LocationService {
     constructor(private http: Http) { }
 
     create(location: Location): Observable<Location> {
+        console.log('++++++++++++++++++++++');
         const copy = this.convert(location);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();

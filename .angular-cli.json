@@ -20,7 +20,8 @@
         "mobile": false,
         "styles": [
             "content/scss/vendor.scss",
-            "content/scss/global.scss"
+            "content/scss/global.scss",
+            "../node_modules/font-awesome/css/font-awesome.css"
         ],
         "scripts": []
     }],

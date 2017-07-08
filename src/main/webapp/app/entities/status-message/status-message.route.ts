@@ -28,6 +28,23 @@ export const statusMessageRoute: Routes = [
             pageTitle: 'jDiasApp.statusMessage.home.title'
         },
         canActivate: [UserRouteAccessService]
+    }, {
+        path: 'file',
+        component: StatusMessageComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jDiasApp.statusMessage.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'files/:filename',
+        component: StatusMessageComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jDiasApp.statusMessage.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     }
 ];
 

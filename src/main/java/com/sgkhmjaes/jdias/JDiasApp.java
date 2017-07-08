@@ -3,19 +3,24 @@ package com.sgkhmjaes.jdias;
 import com.sgkhmjaes.jdias.config.ApplicationProperties;
 import com.sgkhmjaes.jdias.config.DefaultProfileUtil;
 
+import com.sgkhmjaes.jdias.service.StorageService;
+import com.sgkhmjaes.jdias.storage.StorageProperties;
 import io.github.jhipster.config.JHipsterConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -23,7 +28,7 @@ import java.util.Collection;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
-@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
+@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class, StorageProperties.class})
 public class JDiasApp {
 
     private static final Logger log = LoggerFactory.getLogger(JDiasApp.class);
@@ -62,6 +67,7 @@ public class JDiasApp {
      */
     public static void main(String[] args) throws UnknownHostException {
         SpringApplication app = new SpringApplication(JDiasApp.class);
+        app.setHeadless(false);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         String protocol = "http";
@@ -80,5 +86,15 @@ public class JDiasApp {
             InetAddress.getLocalHost().getHostAddress(),
             env.getProperty("server.port"),
             env.getActiveProfiles());
+    }
+
+    @Bean
+    CommandLineRunner init(StorageService storageService, StorageProperties storageProperties) {
+        return (args) -> {
+            File root = new File(storageProperties.getLocation());
+            if(!root.exists() && !root.isDirectory()) {
+                storageService.init();
+            }
+        };
     }
 }

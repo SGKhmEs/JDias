@@ -1,12 +1,38 @@
-import { BaseEntity } from './../../shared';
+import { Location } from '../location';
+import { Poll } from '../poll';
+import { Post } from '../post';
+import { Photo } from '../photo';
 
-export class StatusMessage implements BaseEntity {
+    export class StatusMessage {
+        constructor(
+            public id?: number,
+            public text?: string,
+        ) {
+    }
+}
+
+    export class StatusMessageDTO {
+        constructor(
+            public status_message?: StatusMessage,
+            public aspect_ids?: string[],
+            public photos?: number[],
+            public location_address?: string,
+            public location_coords?: string,
+            public poll_question?: string,
+            public poll_answers?: string[],
+        ) {
+        }
+    }
+
+/*
+export class StatusMessage {
     constructor(
         public id?: number,
         public text?: string,
-        public location?: BaseEntity,
-        public poll?: BaseEntity,
-        public photos?: BaseEntity[],
+        public location?: Location,
+        public poll?: Poll,
+        public post?: Post,
+        public photos?: Photo,
     ) {
     }
-}
+}*/

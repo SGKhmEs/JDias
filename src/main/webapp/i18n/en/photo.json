@@ -25,6 +25,10 @@
             "width": "Width",
             "text": "Text",
             "statusMessageGuid": "Status Message Guid",
+            "thumb_small": "Thumb Small",
+            "thumb_medium": "Thumb Medium",
+            "thumb_large": "Thumb Large",
+            "scaled_full": "Scaled Full",
             "statusMessage": "Status Message",
             "person": "Person"
         }
