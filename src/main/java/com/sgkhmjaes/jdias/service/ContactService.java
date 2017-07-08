@@ -8,13 +8,13 @@ import java.util.List;
  */
 public interface ContactService {
 
-    /**
+  /*  /**
      * Save a contact.
      *
      * @param contact the entity to save
      * @return the persisted entity
-     */
-    Contact save(Contact contact);
+     *
+    Contact save(Contact contact);*/
 
    /* /**
      *  Get all the contacts.

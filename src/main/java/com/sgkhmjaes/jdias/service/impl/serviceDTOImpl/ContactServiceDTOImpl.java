@@ -1,8 +1,12 @@
 package com.sgkhmjaes.jdias.service.impl.serviceDTOImpl;
 
+import com.sgkhmjaes.jdias.domain.Aspect;
 import com.sgkhmjaes.jdias.domain.Contact;
+import com.sgkhmjaes.jdias.domain.Person;
 import com.sgkhmjaes.jdias.repository.ContactRepository;
 import com.sgkhmjaes.jdias.repository.search.ContactSearchRepository;
+import com.sgkhmjaes.jdias.service.AspectService;
+import com.sgkhmjaes.jdias.service.PersonService;
 import com.sgkhmjaes.jdias.service.UserService;
 import com.sgkhmjaes.jdias.service.dto.ContactDTO;
 import org.slf4j.Logger;
@@ -20,13 +24,19 @@ public class ContactServiceDTOImpl {
     private final UserService userService;
 
     private final ContactSearchRepository contactSearchRepository;
+    private final AspectService aspectService;
+    private final PersonService personService;
 
     public ContactServiceDTOImpl(ContactRepository contactRepository,
                                 ContactSearchRepository contactSearchRepository,
-                                UserService userService) {
+                                UserService userService,
+                                 AspectService aspectService,
+                                 PersonService personService) {
         this.contactRepository = contactRepository;
         this.contactSearchRepository = contactSearchRepository;
         this.userService = userService;
+        this.aspectService = aspectService;
+        this.personService = personService;
     }
 
     /**
@@ -41,8 +51,20 @@ public class ContactServiceDTOImpl {
         Contact contact = new Contact();
         try {
             contactDTO.mappingFromDTO(contact);
-        } catch (InvocationTargetException e) {e.printStackTrace();
+        } catch (InvocationTargetException e) {e.printStackTrace();}
+
+        Aspect aspect = aspectService.findOne(contactDTO.getAspectId());
+        if(!aspect.getContacts().contains(contact)) {
+            aspect.addContact(contact);
+            aspectService.save(aspect);
         }
+
+        Person person = userService.getCurrentPerson();
+        if(!person.getContacts().contains(contact)) {
+            person.addContacts(contact);
+            personService.save(person);
+        }
+
         Contact result = contactRepository.save(contact);
         contactSearchRepository.save(result);
         return result;

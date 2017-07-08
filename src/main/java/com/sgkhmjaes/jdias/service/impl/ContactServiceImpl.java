@@ -1,5 +1,6 @@
 package com.sgkhmjaes.jdias.service.impl;
 
+import com.sgkhmjaes.jdias.domain.Aspect;
 import com.sgkhmjaes.jdias.domain.Person;
 import com.sgkhmjaes.jdias.service.ContactService;
 import com.sgkhmjaes.jdias.domain.Contact;
@@ -40,19 +41,19 @@ public class ContactServiceImpl implements ContactService{
         this.userService = userService;
     }
 
-    /**
+  /*  /**
      * Save a contact.
      *
      * @param contact the entity to save
      * @return the persisted entity
-     */
+     *
     @Override
     public Contact save(Contact contact) {
         log.debug("Request to save Contact : {}", contact);
         Contact result = contactRepository.save(contact);
         contactSearchRepository.save(result);
         return result;
-    }
+    }*/
 
     /**
      *  Get all the contacts.
@@ -108,6 +109,15 @@ public class ContactServiceImpl implements ContactService{
         Contact contact = contactRepository.findOne(id);
 
         if(userService.getCurrentPerson().getContacts().contains(contact)) {
+
+            Person person = contact.getPerson();
+            if(person.getContacts().contains(contact))
+                person.removeContacts(contact);
+
+            Aspect aspect = contact.getAspect();
+            if(aspect.getContacts().contains(contact))
+                aspect.removeContact(contact);
+
             contactRepository.delete(id);
             contactSearchRepository.delete(id);
         }
