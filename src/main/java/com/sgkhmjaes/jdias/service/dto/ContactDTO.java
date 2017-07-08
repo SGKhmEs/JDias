@@ -1,9 +1,11 @@
 package com.sgkhmjaes.jdias.service.dto;
 
+import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
+
 /**
  * Created by inna on 7/8/17.
  */
-public class ContactDTO {
+public class ContactDTO implements AutoMapping{
 
     private Long id;
 
