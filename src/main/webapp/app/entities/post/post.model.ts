@@ -19,7 +19,7 @@ export class Post implements BaseEntity {
         public comments?: BaseEntity[],
         public aspectVisiblitis?: BaseEntity[],
         public likes?: BaseEntity[],
-        public tag?: BaseEntity,
+        public posttags?: BaseEntity[],
         public person?: BaseEntity,
     ) {
         this.pub = false;

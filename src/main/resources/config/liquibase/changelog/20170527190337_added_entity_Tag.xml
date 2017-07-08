@@ -25,12 +25,30 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="person_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        
+        <createTable tableName="tag_tagpost">
+            <column name="tagposts_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tags_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="tags_id, tagposts_id" tableName="tag_tagpost"/>
+        
+        <createTable tableName="tag_tagperson">
+            <column name="tagpeople_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tags_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="tags_id, tagpeople_id" tableName="tag_tagperson"/>
         
     </changeSet>
 </databaseChangeLog>

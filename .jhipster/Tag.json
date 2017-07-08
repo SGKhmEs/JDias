@@ -2,16 +2,18 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipName": "post",
-            "otherEntityName": "post",
-            "relationshipType": "one-to-many",
-            "otherEntityRelationshipName": "tag"
+            "relationshipName": "tagpost",
+            "otherEntityName": "Post",
+            "relationshipType": "many-to-many",
+			"ownerSide": true,
+            "otherEntityRelationshipName": "posttag"
         },
         {
-            "relationshipName": "person",
-            "otherEntityName": "person",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "relationshipName": "tagperson",
+            "otherEntityName": "Person",
+            "relationshipType": "many-to-many",
+			"ownerSide": true,
+            "otherEntityRelationshipName": "persontag"
         }
     ],
     "fields": [

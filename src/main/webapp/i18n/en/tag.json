@@ -17,8 +17,8 @@
                 "title": "Tag"
             },
             "tagContext": "Tag Context",
-            "post": "Post",
-            "person": "Person"
+            "tagpost": "Tagpost",
+            "tagperson": "Tagperson"
         }
     }
 }

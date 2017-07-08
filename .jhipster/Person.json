@@ -36,10 +36,11 @@
             "otherEntityRelationshipName": "person"
         },
         {
-            "relationshipType": "one-to-many",
-            "relationshipName": "tags",
-            "otherEntityName": "tag",
-            "otherEntityRelationshipName": "person"
+            "relationshipType": "many-to-many",
+            "relationshipName": "persontag",
+            "otherEntityName": "Tag",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "tagperson"
         },
         {
             "relationshipType": "one-to-many",

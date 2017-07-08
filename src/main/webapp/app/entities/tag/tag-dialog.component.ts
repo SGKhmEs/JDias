@@ -9,6 +9,7 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Tag } from './tag.model';
 import { TagPopupService } from './tag-popup.service';
 import { TagService } from './tag.service';
+import { Post, PostService } from '../post';
 import { Person, PersonService } from '../person';
 import { ResponseWrapper } from '../../shared';
 
@@ -22,13 +23,16 @@ export class TagDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
+    posts: Post[];
+
     people: Person[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private tagService: TagService,
-        private personService: PersonService,
+        private PostService: PostService,
+        private PersonService: PersonService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -36,7 +40,9 @@ export class TagDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.personService.query()
+        this.PostService.query()
+            .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.PersonService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
@@ -85,8 +91,23 @@ export class TagDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
+    trackPostById(index: number, item: Post) {
+        return item.id;
+    }
+
     trackPersonById(index: number, item: Person) {
         return item.id;
+    }
+
+    getSelected(selectedVals: Array<any>, option: any) {
+        if (selectedVals) {
+            for (let i = 0; i < selectedVals.length; i++) {
+                if (option.id === selectedVals[i].id) {
+                    return selectedVals[i];
+                }
+            }
+        }
+        return option;
     }
 }
 

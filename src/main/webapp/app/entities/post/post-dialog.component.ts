@@ -40,7 +40,7 @@ export class PostDialogComponent implements OnInit {
         private postService: PostService,
         private statusMessageService: StatusMessageService,
         private reshareService: ReshareService,
-        private tagService: TagService,
+        private TagService: TagService,
         private personService: PersonService,
         private eventManager: JhiEventManager
     ) {
@@ -75,7 +75,7 @@ export class PostDialogComponent implements OnInit {
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));
                 }
             }, (res: ResponseWrapper) => this.onError(res.json));
-        this.tagService.query()
+        this.TagService.query()
             .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.personService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
@@ -140,6 +140,17 @@ export class PostDialogComponent implements OnInit {
 
     trackPersonById(index: number, item: Person) {
         return item.id;
+    }
+
+    getSelected(selectedVals: Array<any>, option: any) {
+        if (selectedVals) {
+            for (let i = 0; i < selectedVals.length; i++) {
+                if (option.id === selectedVals[i].id) {
+                    return selectedVals[i];
+                }
+            }
+        }
+        return option;
     }
 }
 

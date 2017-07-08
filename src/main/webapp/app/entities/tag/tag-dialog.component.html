@@ -19,10 +19,15 @@
         </div>
 
         <div class="form-group">
-            <label jhiTranslate="jDiasApp.tag.person" for="field_person">Person</label>
-            <select class="form-control" id="field_person" name="person" [(ngModel)]="tag.person" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="personOption.id === tag.person?.id ? tag.person : personOption" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.id}}</option>
+            <label jhiTranslate="jDiasApp.tag.tagpost" for="field_tagpost">Tagpost</label>
+            <select class="form-control" id="field_tagpost" multiple name="tagpost" [(ngModel)]="tag.tagposts">
+                <option [ngValue]="getSelected(tag.tagposts, PostOption)" *ngFor="let PostOption of posts; trackBy: trackPostById">{{PostOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.tag.tagperson" for="field_tagperson">Tagperson</label>
+            <select class="form-control" id="field_tagperson" multiple name="tagperson" [(ngModel)]="tag.tagpeople">
+                <option [ngValue]="getSelected(tag.tagpeople, PersonOption)" *ngFor="let PersonOption of people; trackBy: trackPersonById">{{PersonOption.id}}</option>
             </select>
         </div>
     </div>

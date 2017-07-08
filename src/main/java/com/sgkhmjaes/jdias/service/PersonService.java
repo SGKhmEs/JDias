@@ -30,20 +30,12 @@ public interface PersonService {
      *  @return the entity
      */
     Person findOne(Long id);
-    
-    /**
-     *
-     * @param id
-     * @return
-     */
-    Person findPersonByDiasporaId(String id);
 
     /**
      *  Delete the "id" person.
      *
      *  @param id the id of the entity
      */
-        
     void delete(Long id);
 
     /**
@@ -54,5 +46,4 @@ public interface PersonService {
      *  @return the list of entities
      */
     List<Person> search(String query);
-
 }

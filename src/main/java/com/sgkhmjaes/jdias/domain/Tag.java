@@ -1,6 +1,5 @@
 package com.sgkhmjaes.jdias.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -30,13 +29,19 @@ public class Tag implements Serializable {
     @Column(name = "tag_context")
     private String tagContext;
 
-    @OneToMany(mappedBy = "tag")
-    @JsonIgnore
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Post> posts = new HashSet<>();
+    @JoinTable(name = "tag_tagpost",
+               joinColumns = @JoinColumn(name="tags_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="tagposts_id", referencedColumnName="id"))
+    private Set<Post> tagposts = new HashSet<>();
 
-    @ManyToOne
-    private Person person;
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "tag_tagperson",
+               joinColumns = @JoinColumn(name="tags_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="tagpeople_id", referencedColumnName="id"))
+    private Set<Person> tagpeople = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -59,42 +64,54 @@ public class Tag implements Serializable {
         this.tagContext = tagContext;
     }
 
-    public Set<Post> getPosts() {
-        return posts;
+    public Set<Post> getTagposts() {
+        return tagposts;
     }
 
-    public Tag posts(Set<Post> posts) {
-        this.posts = posts;
+    public Tag tagposts(Set<Post> Posts) {
+        this.tagposts = Posts;
         return this;
     }
 
-    public Tag addPost(Post post) {
-        this.posts.add(post);
-        post.setTag(this);
+    public Tag addTagpost(Post Post) {
+        this.tagposts.add(Post);
+        Post.getPosttags().add(this);
         return this;
     }
 
-    public Tag removePost(Post post) {
-        this.posts.remove(post);
-        post.setTag(null);
+    public Tag removeTagpost(Post Post) {
+        this.tagposts.remove(Post);
+        Post.getPosttags().remove(this);
         return this;
     }
 
-    public void setPosts(Set<Post> posts) {
-        this.posts = posts;
+    public void setTagposts(Set<Post> Posts) {
+        this.tagposts = Posts;
     }
 
-    public Person getPerson() {
-        return person;
+    public Set<Person> getTagpeople() {
+        return tagpeople;
     }
 
-    public Tag person(Person person) {
-        this.person = person;
+    public Tag tagpeople(Set<Person> People) {
+        this.tagpeople = People;
         return this;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public Tag addTagperson(Person Person) {
+        this.tagpeople.add(Person);
+        Person.getPersontags().add(this);
+        return this;
+    }
+
+    public Tag removeTagperson(Person Person) {
+        this.tagpeople.remove(Person);
+        Person.getPersontags().remove(this);
+        return this;
+    }
+
+    public void setTagpeople(Set<Person> People) {
+        this.tagpeople = People;
     }
 
     @Override

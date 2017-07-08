@@ -11,6 +11,7 @@ import { PersonPopupService } from './person-popup.service';
 import { PersonService } from './person.service';
 import { Profile, ProfileService } from '../profile';
 import { AccountDeletion, AccountDeletionService } from '../account-deletion';
+import { Tag, TagService } from '../tag';
 import { Conversation, ConversationService } from '../conversation';
 import { UserAccount, UserAccountService } from '../user-account';
 import { ResponseWrapper } from '../../shared';
@@ -29,6 +30,8 @@ export class PersonDialogComponent implements OnInit {
 
     accountdeletions: AccountDeletion[];
 
+    tags: Tag[];
+
     conversations: Conversation[];
 
     useraccounts: UserAccount[];
@@ -41,6 +44,7 @@ export class PersonDialogComponent implements OnInit {
         private personService: PersonService,
         private profileService: ProfileService,
         private accountDeletionService: AccountDeletionService,
+        private TagService: TagService,
         private conversationService: ConversationService,
         private userAccountService: UserAccountService,
         private eventManager: JhiEventManager
@@ -76,6 +80,8 @@ export class PersonDialogComponent implements OnInit {
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));
                 }
             }, (res: ResponseWrapper) => this.onError(res.json));
+        this.TagService.query()
+            .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.conversationService.query()
             .subscribe((res: ResponseWrapper) => { this.conversations = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.userAccountService
@@ -143,6 +149,10 @@ export class PersonDialogComponent implements OnInit {
     }
 
     trackAccountDeletionById(index: number, item: AccountDeletion) {
+        return item.id;
+    }
+
+    trackTagById(index: number, item: Tag) {
         return item.id;
     }
 

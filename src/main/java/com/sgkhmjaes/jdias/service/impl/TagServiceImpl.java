@@ -56,7 +56,7 @@ public class TagServiceImpl implements TagService{
     @Transactional(readOnly = true)
     public List<Tag> findAll() {
         log.debug("Request to get all Tags");
-        return tagRepository.findAll();
+        return tagRepository.findAllWithEagerRelationships();
     }
 
     /**
@@ -69,7 +69,7 @@ public class TagServiceImpl implements TagService{
     @Transactional(readOnly = true)
     public Tag findOne(Long id) {
         log.debug("Request to get Tag : {}", id);
-        return tagRepository.findOne(id);
+        return tagRepository.findOneWithEagerRelationships(id);
     }
 
     /**

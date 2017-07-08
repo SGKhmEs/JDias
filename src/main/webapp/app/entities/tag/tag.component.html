@@ -31,7 +31,8 @@
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="jDiasApp.tag.tagContext">Tag Context</span></th>
-            <th><span jhiTranslate="jDiasApp.tag.person">Person</span></th>
+            <th><span jhiTranslate="jDiasApp.tag.tagpost">Tagpost</span></th>
+            <th><span jhiTranslate="jDiasApp.tag.tagperson">Tagperson</span></th>
             <th></th>
             </tr>
             </thead>
@@ -40,9 +41,14 @@
                 <td><a [routerLink]="['../tag', tag.id ]">{{tag.id}}</a></td>
                 <td>{{tag.tagContext}}</td>
                 <td>
-                    <div *ngIf="tag.person">
-                        <a [routerLink]="['../person', tag.person?.id ]" >{{tag.person?.id}}</a>
-                    </div>
+                    <span *ngFor="let tagpost of tag.tagposts; let last = last">
+                            <a class="form-control-static" [routerLink]="['../post', tagpost?.id ]">{{tagpost.id}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <span *ngFor="let tagperson of tag.tagpeople; let last = last">
+                            <a class="form-control-static" [routerLink]="['../person', tagperson?.id ]">{{tagperson.id}}</a>{{last ? '' : ', '}}
+                        </span>
                 </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">

@@ -92,6 +92,10 @@ public class CacheConfiguration {
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".messages", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".conversations", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".aspects", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Tag.class.getName() + ".tagposts", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".posttags", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Tag.class.getName() + ".tagpeople", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".persontags", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

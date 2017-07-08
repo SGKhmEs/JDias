@@ -8,11 +8,17 @@
         <dd>
             <span>{{tag.tagContext}}</span>
         </dd>
-        <dt><span jhiTranslate="jDiasApp.tag.person">Person</span></dt>
+        <dt><span jhiTranslate="jDiasApp.tag.tagpost">Tagpost</span></dt>
         <dd>
-            <div *ngIf="tag.person">
-                <a [routerLink]="['/person', tag.person?.id]">{{tag.person?.id}}</a>
-            </div>
+            <span *ngFor="let tagpost of tag.tagposts; let last = last">
+                <a [routerLink]="['/post', tagpost?.id ]">{{tagpost.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.tag.tagperson">Tagperson</span></dt>
+        <dd>
+            <span *ngFor="let tagperson of tag.tagpeople; let last = last">
+                <a [routerLink]="['/person', tagperson?.id ]">{{tagperson.id}}</a>{{last ? '' : ', '}}
+            </span>
         </dd>
     </dl>
 

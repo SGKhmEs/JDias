@@ -72,8 +72,10 @@ public class Post implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Like> likes = new HashSet<>();
 
-    @ManyToOne
-    private Tag tag;
+    @ManyToMany(mappedBy = "tagposts")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Tag> posttags = new HashSet<>();
 
     @ManyToOne
     private Person person;
@@ -265,17 +267,29 @@ public class Post implements Serializable {
         this.likes = likes;
     }
 
-    public Tag getTag() {
-        return tag;
+    public Set<Tag> getPosttags() {
+        return posttags;
     }
 
-    public Post tag(Tag tag) {
-        this.tag = tag;
+    public Post posttags(Set<Tag> Tags) {
+        this.posttags = Tags;
         return this;
     }
 
-    public void setTag(Tag tag) {
-        this.tag = tag;
+    public Post addPosttag(Tag Tag) {
+        this.posttags.add(Tag);
+        Tag.getTagposts().add(this);
+        return this;
+    }
+
+    public Post removePosttag(Tag Tag) {
+        this.posttags.remove(Tag);
+        Tag.getTagposts().remove(this);
+        return this;
+    }
+
+    public void setPosttags(Set<Tag> Tags) {
+        this.posttags = Tags;
     }
 
     public Person getPerson() {

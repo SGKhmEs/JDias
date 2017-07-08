@@ -36,10 +36,11 @@
             "otherEntityRelationshipName": "post"
         },
         {
-            "relationshipType": "many-to-one",
-            "relationshipName": "tag",
-            "otherEntityName": "tag",
-            "otherEntityField": "id"
+            "relationshipType": "many-to-many",
+            "relationshipName": "posttag",
+            "otherEntityName": "Tag",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "tagpost"
         },
         {
             "relationshipName": "person",

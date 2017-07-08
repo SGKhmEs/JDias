@@ -8,9 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -21,7 +23,9 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class PersonServiceImpl implements PersonService{
 
     private final Logger log = LoggerFactory.getLogger(PersonServiceImpl.class);
+
     private final PersonRepository personRepository;
+
     private final PersonSearchRepository personSearchRepository;
 
     public PersonServiceImpl(PersonRepository personRepository, PersonSearchRepository personSearchRepository) {
@@ -52,7 +56,7 @@ public class PersonServiceImpl implements PersonService{
     @Transactional(readOnly = true)
     public List<Person> findAll() {
         log.debug("Request to get all People");
-        return personRepository.findAll();
+        return personRepository.findAllWithEagerRelationships();
     }
 
     /**
@@ -65,22 +69,14 @@ public class PersonServiceImpl implements PersonService{
     @Transactional(readOnly = true)
     public Person findOne(Long id) {
         log.debug("Request to get Person : {}", id);
-        return personRepository.findOne(id);
+        return personRepository.findOneWithEagerRelationships(id);
     }
 
     /**
      *  Delete the  person by id.
      *
-     * @param diasporaId
+     *  @param id the id of the entity
      */
-    
-    @Override
-    public Person findPersonByDiasporaId(String diasporaId){
-        log.debug("Request to get Person by diasporaID : {}", diasporaId);
-        return personRepository.findPersonByDiasporaId(diasporaId);
-    }
-    
-    
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Person : {}", id);
@@ -102,5 +98,4 @@ public class PersonServiceImpl implements PersonService{
             .stream(personSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
     }
-        
 }
