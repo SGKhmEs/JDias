@@ -122,7 +122,8 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
         this.isPhoto = false;
         for (const p of result) {
             this.photos.push(p);
-            this.showImage(p.remotePhotoName);
+            const fileName = p.thumb_medium.replace(/^.*[\\\/]/, '');
+            this.showImage(fileName);
         }
         this.eventManager.broadcast({ name: 'postListModification', content: 'OK'});
         this.isSaving = false;
