@@ -54,6 +54,11 @@ public class AspectServiceImpl implements AspectService{
     @Override
     public Aspect save(Aspect aspect) {
         log.debug("Request to save Aspect : {}", aspect);
+
+        Person person = userService.getCurrentPerson();
+        if(!person.getAspects().contains(aspect))
+            person.addAspect(aspect);
+
         Aspect result = aspectRepository.save(aspect);
         aspectSearchRepository.save(result);
         return result;
@@ -106,6 +111,9 @@ public class AspectServiceImpl implements AspectService{
         Aspect foundAspect =  aspectRepository.findOne(id);
 
         if(userService.getCurrentPerson().getAspects().contains(foundAspect)) {
+            Person person = userService.getCurrentPerson();
+            if(person.getAspects().contains(foundAspect))
+                person.removeAspect(foundAspect);
             aspectRepository.delete(id);
             aspectSearchRepository.delete(id);
         }

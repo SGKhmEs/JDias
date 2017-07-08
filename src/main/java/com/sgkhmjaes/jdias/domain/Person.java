@@ -496,6 +496,18 @@ public class Person implements Serializable {
         this.aspects = aspects;
     }
 
+    public Person addAspect(Aspect aspect) {
+        this.aspects.add(aspect);
+        aspect.setPerson(this);
+        return this;
+    }
+
+    public Person removeAspect(Aspect aspect) {
+        this.aspects.remove(aspect);
+        aspect.setPerson(null);
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
