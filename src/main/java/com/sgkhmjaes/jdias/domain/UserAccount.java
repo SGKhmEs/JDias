@@ -1,10 +1,9 @@
 package com.sgkhmjaes.jdias.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sgkhmjaes.jdias.security.RSAKeysGenerator;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -22,8 +21,8 @@ public class UserAccount implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    //@SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @Column(name = "serialized_private_key")
@@ -111,32 +110,9 @@ public class UserAccount implements Serializable {
     @JoinColumn(unique = true)
     private User user;
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(unique = true)
     private Person person;
-
-    public UserAccount (){}
-    
-    public UserAccount (Long id){
-        this.id=id;
-        this.serializedPrivateKey = RSAKeysGenerator.getRsaPrivateKey();
-        this.createdAt = LocalDate.now();
-        this.lastSeen = LocalDate.now();
-        this.disableMail = false;
-        this.signInCount = 0;
-        this.language = "default";
-        this.autoFollowBack = true;
-        this.colorTheme = "default";
-        this.currentSignInAt = LocalDate.now();
-        this.currentSignInIp = "CurrentSignInIp";
-        this.exportE = "ExportE";
-        this.exporting = false;
-        this.gettingStarted = false;
-        this.lastSignInAt = LocalDate.now();
-        this.stripExif = false;
-        this.postDefaultPublic = true;
-    }
 
     public Long getId() {
         return id;

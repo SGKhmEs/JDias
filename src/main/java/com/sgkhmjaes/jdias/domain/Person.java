@@ -232,101 +232,101 @@ public class Person implements Serializable {
         return profile;
     }
 
-    public Person profile(Profile profile) {
-        this.profile = profile;
+    public Person profile(Profile Profile) {
+        this.profile = Profile;
         return this;
     }
 
-    public void setProfile(Profile profile) {
-        this.profile = profile;
+    public void setProfile(Profile Profile) {
+        this.profile = Profile;
     }
 
     public AccountDeletion getAccountdeletion() {
         return accountdeletion;
     }
 
-    public Person accountdeletion(AccountDeletion accountDeletion) {
-        this.accountdeletion = accountDeletion;
+    public Person accountdeletion(AccountDeletion AccountDeletion) {
+        this.accountdeletion = AccountDeletion;
         return this;
     }
 
-    public void setAccountdeletion(AccountDeletion accountDeletion) {
-        this.accountdeletion = accountDeletion;
+    public void setAccountdeletion(AccountDeletion AccountDeletion) {
+        this.accountdeletion = AccountDeletion;
     }
 
     public Set<Contact> getContacts() {
         return contacts;
     }
 
-    public Person contacts(Set<Contact> contacts) {
-        this.contacts = contacts;
+    public Person contacts(Set<Contact> Contacts) {
+        this.contacts = Contacts;
         return this;
     }
 
-    public Person addContacts(Contact contact) {
-        this.contacts.add(contact);
-        contact.setPerson(this);
+    public Person addContacts(Contact Contact) {
+        this.contacts.add(Contact);
+        Contact.setPerson(this);
         return this;
     }
 
-    public Person removeContacts(Contact contact) {
-        this.contacts.remove(contact);
-        contact.setPerson(null);
+    public Person removeContacts(Contact Contact) {
+        this.contacts.remove(Contact);
+        Contact.setPerson(null);
         return this;
     }
 
-    public void setContacts(Set<Contact> contacts) {
-        this.contacts = contacts;
+    public void setContacts(Set<Contact> Contacts) {
+        this.contacts = Contacts;
     }
 
     public Set<Post> getPosts() {
         return posts;
     }
 
-    public Person posts(Set<Post> posts) {
-        this.posts = posts;
+    public Person posts(Set<Post> Posts) {
+        this.posts = Posts;
         return this;
     }
 
-    public Person addPosts(Post post) {
-        this.posts.add(post);
-        post.setPerson(this);
+    public Person addPosts(Post Post) {
+        this.posts.add(Post);
+        Post.setPerson(this);
         return this;
     }
 
-    public Person removePosts(Post post) {
-        this.posts.remove(post);
-        post.setPerson(null);
+    public Person removePosts(Post Post) {
+        this.posts.remove(Post);
+        Post.setPerson(null);
         return this;
     }
 
-    public void setPosts(Set<Post> posts) {
-        this.posts = posts;
+    public void setPosts(Set<Post> Posts) {
+        this.posts = Posts;
     }
 
     public Set<Photo> getPhotos() {
         return photos;
     }
 
-    public Person photos(Set<Photo> photos) {
-        this.photos = photos;
+    public Person photos(Set<Photo> Photos) {
+        this.photos = Photos;
         return this;
     }
 
-    public Person addPhotos(Photo photo) {
-        this.photos.add(photo);
-        photo.setPerson(this);
+    public Person addPhotos(Photo Photo) {
+        this.photos.add(Photo);
+        Photo.setPerson(this);
         return this;
     }
 
-    public Person removePhotos(Photo photo) {
-        this.photos.remove(photo);
-        photo.setPerson(null);
+    public Person removePhotos(Photo Photo) {
+        this.photos.remove(Photo);
+        Photo.setPerson(null);
         return this;
     }
 
-    public void setPhotos(Set<Photo> photos) {
-        this.photos = photos;
+    public void setPhotos(Set<Photo> Photos) {
+        this.photos = Photos;
     }
 
     public Set<Tag> getPersontags() {
@@ -358,75 +358,75 @@ public class Person implements Serializable {
         return comments;
     }
 
-    public Person comments(Set<Comment> comments) {
-        this.comments = comments;
+    public Person comments(Set<Comment> Comments) {
+        this.comments = Comments;
         return this;
     }
 
-    public Person addComments(Comment comment) {
-        this.comments.add(comment);
-        comment.setPerson(this);
+    public Person addComments(Comment Comment) {
+        this.comments.add(Comment);
+        Comment.setPerson(this);
         return this;
     }
 
-    public Person removeComments(Comment comment) {
-        this.comments.remove(comment);
-        comment.setPerson(null);
+    public Person removeComments(Comment Comment) {
+        this.comments.remove(Comment);
+        Comment.setPerson(null);
         return this;
     }
 
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
+    public void setComments(Set<Comment> Comments) {
+        this.comments = Comments;
     }
 
     public Set<Participation> getParticipations() {
         return participations;
     }
 
-    public Person participations(Set<Participation> participations) {
-        this.participations = participations;
+    public Person participations(Set<Participation> Participations) {
+        this.participations = Participations;
         return this;
     }
 
-    public Person addParticipations(Participation participation) {
-        this.participations.add(participation);
-        participation.setPerson(this);
+    public Person addParticipations(Participation Participation) {
+        this.participations.add(Participation);
+        Participation.setPerson(this);
         return this;
     }
 
-    public Person removeParticipations(Participation participation) {
-        this.participations.remove(participation);
-        participation.setPerson(null);
+    public Person removeParticipations(Participation Participation) {
+        this.participations.remove(Participation);
+        Participation.setPerson(null);
         return this;
     }
 
-    public void setParticipations(Set<Participation> participations) {
-        this.participations = participations;
+    public void setParticipations(Set<Participation> Participations) {
+        this.participations = Participations;
     }
 
     public Set<EventParticipation> getEvents() {
         return events;
     }
 
-    public Person events(Set<EventParticipation> eventParticipations) {
-        this.events = eventParticipations;
+    public Person events(Set<EventParticipation> EventParticipations) {
+        this.events = EventParticipations;
         return this;
     }
 
-    public Person addEvents(EventParticipation eventParticipation) {
-        this.events.add(eventParticipation);
-        eventParticipation.setPerson(this);
+    public Person addEvents(EventParticipation EventParticipation) {
+        this.events.add(EventParticipation);
+        EventParticipation.setPerson(this);
         return this;
     }
 
-    public Person removeEvents(EventParticipation eventParticipation) {
-        this.events.remove(eventParticipation);
-        eventParticipation.setPerson(null);
+    public Person removeEvents(EventParticipation EventParticipation) {
+        this.events.remove(EventParticipation);
+        EventParticipation.setPerson(null);
         return this;
     }
 
-    public void setEvents(Set<EventParticipation> eventParticipations) {
-        this.events = eventParticipations;
+    public void setEvents(Set<EventParticipation> EventParticipations) {
+        this.events = EventParticipations;
     }
 
     public Set<Message> getMessages() {
@@ -458,63 +458,63 @@ public class Person implements Serializable {
         return conversations;
     }
 
-    public Person conversations(Set<Conversation> conversations) {
-        this.conversations = conversations;
+    public Person conversations(Set<Conversation> Conversations) {
+        this.conversations = Conversations;
         return this;
     }
 
-    public Person addConversation(Conversation conversation) {
-        this.conversations.add(conversation);
-        conversation.getParticipants().add(this);
+    public Person addConversation(Conversation Conversation) {
+        this.conversations.add(Conversation);
+        Conversation.getParticipants().add(this);
         return this;
     }
 
-    public Person removeConversation(Conversation conversation) {
-        this.conversations.remove(conversation);
-        conversation.getParticipants().remove(this);
+    public Person removeConversation(Conversation Conversation) {
+        this.conversations.remove(Conversation);
+        Conversation.getParticipants().remove(this);
         return this;
     }
 
-    public void setConversations(Set<Conversation> conversations) {
-        this.conversations = conversations;
+    public void setConversations(Set<Conversation> Conversations) {
+        this.conversations = Conversations;
     }
 
     public UserAccount getUserAccount() {
         return userAccount;
     }
 
-    public Person userAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
+    public Person userAccount(UserAccount UserAccount) {
+        this.userAccount = UserAccount;
         return this;
     }
 
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
+    public void setUserAccount(UserAccount UserAccount) {
+        this.userAccount = UserAccount;
     }
 
     public Set<Aspect> getAspects() {
         return aspects;
     }
 
-    public Person aspects(Set<Aspect> aspects) {
-        this.aspects = aspects;
+    public Person aspects(Set<Aspect> Aspects) {
+        this.aspects = Aspects;
         return this;
     }
 
-    public Person addAspect(Aspect aspect) {
-        this.aspects.add(aspect);
-        aspect.setPerson(this);
+    public Person addAspect(Aspect Aspect) {
+        this.aspects.add(Aspect);
+        Aspect.setPerson(this);
         return this;
     }
 
-    public Person removeAspect(Aspect aspect) {
-        this.aspects.remove(aspect);
-        aspect.setPerson(null);
+    public Person removeAspect(Aspect Aspect) {
+        this.aspects.remove(Aspect);
+        Aspect.setPerson(null);
         return this;
     }
 
-    public void setAspects(Set<Aspect> aspects) {
-        this.aspects = aspects;
+    public void setAspects(Set<Aspect> Aspects) {
+        this.aspects = Aspects;
     }
 
     @Override

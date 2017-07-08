@@ -4,7 +4,7 @@
         {
             "relationshipType": "one-to-one",
             "relationshipName": "profile",
-            "otherEntityName": "profile",
+            "otherEntityName": "Profile",
             "otherEntityField": "id",
             "ownerSide": true,
             "otherEntityRelationshipName": "person"
@@ -12,7 +12,7 @@
         {
             "relationshipType": "one-to-one",
             "relationshipName": "accountdeletion",
-            "otherEntityName": "accountDeletion",
+            "otherEntityName": "AccountDeletion",
             "otherEntityField": "id",
             "ownerSide": true,
             "otherEntityRelationshipName": "person"
@@ -20,19 +20,19 @@
         {
             "relationshipType": "one-to-many",
             "relationshipName": "contacts",
-            "otherEntityName": "contact",
+            "otherEntityName": "Contact",
             "otherEntityRelationshipName": "person"
         },
         {
             "relationshipType": "one-to-many",
             "relationshipName": "posts",
-            "otherEntityName": "post",
+            "otherEntityName": "Post",
             "otherEntityRelationshipName": "person"
         },
         {
             "relationshipType": "one-to-many",
             "relationshipName": "photos",
-            "otherEntityName": "photo",
+            "otherEntityName": "Photo",
             "otherEntityRelationshipName": "person"
         },
         {
@@ -45,19 +45,19 @@
         {
             "relationshipType": "one-to-many",
             "relationshipName": "comments",
-            "otherEntityName": "comment",
+            "otherEntityName": "Comment",
             "otherEntityRelationshipName": "person"
         },
         {
             "relationshipType": "one-to-many",
             "relationshipName": "participations",
-            "otherEntityName": "participation",
+            "otherEntityName": "Participation",
             "otherEntityRelationshipName": "person"
         },
         {
             "relationshipType": "one-to-many",
             "relationshipName": "events",
-            "otherEntityName": "eventParticipation",
+            "otherEntityName": "EventParticipation",
             "otherEntityRelationshipName": "person"
         },
         {
@@ -68,7 +68,7 @@
         },
         {
             "relationshipName": "conversation",
-            "otherEntityName": "conversation",
+            "otherEntityName": "Conversation",
             "relationshipType": "many-to-many",
             "otherEntityField": "id",
             "ownerSide": true,
@@ -76,7 +76,7 @@
         },
         {
             "relationshipName": "userAccount",
-            "otherEntityName": "userAccount",
+            "otherEntityName": "UserAccount",
             "relationshipType": "one-to-one",
             "otherEntityField": "id",
             "ownerSide": true,
@@ -84,7 +84,7 @@
         },
 		{
             "relationshipName": "aspect",
-            "otherEntityName": "aspect",
+            "otherEntityName": "Aspect",
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "person"
         }

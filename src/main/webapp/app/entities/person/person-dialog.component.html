@@ -67,27 +67,27 @@
             <label jhiTranslate="jDiasApp.person.profile" for="field_profile">Profile</label>
             <select class="form-control" id="field_profile" name="profile" [(ngModel)]="person.profile">
                 <option [ngValue]="null"></option>
-                <option [ngValue]="profileOption.id === person.profile?.id ? person.profile : profileOption" *ngFor="let profileOption of profiles; trackBy: trackProfileById">{{profileOption.id}}</option>
+                <option [ngValue]="ProfileOption.id === person.profile?.id ? person.profile : ProfileOption" *ngFor="let ProfileOption of profiles; trackBy: trackProfileById">{{ProfileOption.id}}</option>
             </select>
         </div>
         <div class="form-group">
             <label jhiTranslate="jDiasApp.person.accountdeletion" for="field_accountdeletion">Accountdeletion</label>
             <select class="form-control" id="field_accountdeletion" name="accountdeletion" [(ngModel)]="person.accountdeletion">
                 <option [ngValue]="null"></option>
-                <option [ngValue]="accountDeletionOption.id === person.accountdeletion?.id ? person.accountdeletion : accountDeletionOption" *ngFor="let accountDeletionOption of accountdeletions; trackBy: trackAccountDeletionById">{{accountDeletionOption.id}}</option>
+                <option [ngValue]="AccountDeletionOption.id === person.accountdeletion?.id ? person.accountdeletion : AccountDeletionOption" *ngFor="let AccountDeletionOption of accountdeletions; trackBy: trackAccountDeletionById">{{AccountDeletionOption.id}}</option>
             </select>
         </div>
         <div class="form-group">
             <label jhiTranslate="jDiasApp.person.conversation" for="field_conversation">Conversation</label>
             <select class="form-control" id="field_conversation" multiple name="conversation" [(ngModel)]="person.conversations">
-                <option [ngValue]="getSelected(person.conversations, conversationOption)" *ngFor="let conversationOption of conversations; trackBy: trackConversationById">{{conversationOption.id}}</option>
+                <option [ngValue]="getSelected(person.conversations, ConversationOption)" *ngFor="let ConversationOption of conversations; trackBy: trackConversationById">{{ConversationOption.id}}</option>
             </select>
         </div>
         <div class="form-group">
             <label jhiTranslate="jDiasApp.person.userAccount" for="field_userAccount">User Account</label>
             <select class="form-control" id="field_userAccount" name="userAccount" [(ngModel)]="person.userAccount">
                 <option [ngValue]="null"></option>
-                <option [ngValue]="userAccountOption.id === person.userAccount?.id ? person.userAccount : userAccountOption" *ngFor="let userAccountOption of useraccounts; trackBy: trackUserAccountById">{{userAccountOption.id}}</option>
+                <option [ngValue]="UserAccountOption.id === person.userAccount?.id ? person.userAccount : UserAccountOption" *ngFor="let UserAccountOption of useraccounts; trackBy: trackUserAccountById">{{UserAccountOption.id}}</option>
             </select>
         </div>
     </div>

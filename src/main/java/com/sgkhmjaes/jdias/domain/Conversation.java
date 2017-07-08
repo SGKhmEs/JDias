@@ -4,17 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.Objects;
-import java.util.UUID;
-//import org.hibernate.annotations.OrderBy;
 
 /**
  * A Conversation.
@@ -24,7 +21,7 @@ import java.util.UUID;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "conversation")
 public class Conversation implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -49,41 +46,17 @@ public class Conversation implements Serializable {
 
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
-    
-    @JsonIgnore
-    @OneToMany(mappedBy = "conversation")
-    @OrderBy(value="createdAt DESC")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private List <Message> messages = new ArrayList<>();
 
-    @ManyToMany (mappedBy = "conversations")
+    @OneToMany(mappedBy = "conversation")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Message> messages = new HashSet<>();
+
+    @ManyToMany(mappedBy = "conversations")
+    @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Person> participants = new HashSet<>();
-    
-    public Conversation () {}
-    
-    public Conversation (Person person, Conversation conversation){
-        this.updatedAt = ZonedDateTime.now();
-        this.createdAt = LocalDate.now();
-        this.guid = UUID.randomUUID().toString();
-        if(conversation != null){
-            this.subject = conversation.getSubject();
-            this.messages = conversation.getMessages();
-            this.participants = conversation.getParticipants();
-        }
-        if (person != null){
-            this.participants.add(person);
-            this.author = person.getDiasporaId();
-        }
-    }
-    
-    public Conversation (String author){
-        this.updatedAt = ZonedDateTime.now();
-        this.createdAt = LocalDate.now();
-        this.guid = UUID.randomUUID().toString();
-        this.author = author;
-    }
-    
+
     public Long getId() {
         return id;
     }
@@ -170,63 +143,54 @@ public class Conversation implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public List<Message> getMessages() {
+    public Set<Message> getMessages() {
         return messages;
     }
 
-    public Conversation messages(List<Message> messages) {
-        this.messages = messages;
+    public Conversation messages(Set<Message> Messages) {
+        this.messages = Messages;
         return this;
     }
 
-    public Conversation addMessages(Message message) {
-        this.messages.add(message);
-        message.setConversation(this);
+    public Conversation addMessages(Message Message) {
+        this.messages.add(Message);
+        Message.setConversation(this);
         return this;
     }
 
-    public Conversation removeMessages(Message message) {
-        this.messages.remove(message);
-        message.setConversation(null);
+    public Conversation removeMessages(Message Message) {
+        this.messages.remove(Message);
+        Message.setConversation(null);
         return this;
     }
 
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
+    public void setMessages(Set<Message> Messages) {
+        this.messages = Messages;
     }
 
     public Set<Person> getParticipants() {
         return participants;
     }
 
-    public Conversation participants(Set<Person> people) {
-        this.participants = people;
+    public Conversation participants(Set<Person> People) {
+        this.participants = People;
         return this;
     }
 
-    public Conversation addParticipants(Person person) {
-        this.participants.add(person);
-        person.getConversations().add(this);
-        return this;
-    }
-    
-    public Conversation addAllParticipants(Set <Person> persons) {
-        for (Person person : persons){
-            if (!this.participants.contains(person)){
-                addParticipants (person);
-            }
-        }
+    public Conversation addParticipants(Person Person) {
+        this.participants.add(Person);
+        Person.getConversations().add(this);
         return this;
     }
 
-    public Conversation removeParticipants(Person person) {
-        this.participants.remove(person);
-        person.getConversations().remove(this);
+    public Conversation removeParticipants(Person Person) {
+        this.participants.remove(Person);
+        Person.getConversations().remove(this);
         return this;
     }
 
-    public void setParticipants(Set<Person> people) {
-        this.participants = people;
+    public void setParticipants(Set<Person> People) {
+        this.participants = People;
     }
 
     @Override

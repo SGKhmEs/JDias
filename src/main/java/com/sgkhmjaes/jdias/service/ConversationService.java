@@ -1,8 +1,6 @@
 package com.sgkhmjaes.jdias.service;
 
 import com.sgkhmjaes.jdias.domain.Conversation;
-import com.sgkhmjaes.jdias.domain.Message;
-import com.sgkhmjaes.jdias.domain.Person;
 import java.util.List;
 
 /**
@@ -17,7 +15,6 @@ public interface ConversationService {
      * @return the persisted entity
      */
     Conversation save(Conversation conversation);
-    Conversation save(Conversation conversation, Message message, Person person);
 
     /**
      *  Get all the conversations.

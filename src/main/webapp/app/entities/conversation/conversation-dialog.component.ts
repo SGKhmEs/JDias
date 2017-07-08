@@ -29,7 +29,7 @@ export class ConversationDialogComponent implements OnInit {
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private conversationService: ConversationService,
-        private personService: PersonService,
+        private PersonService: PersonService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -37,7 +37,7 @@ export class ConversationDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.personService.query()
+        this.PersonService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 

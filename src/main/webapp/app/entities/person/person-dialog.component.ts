@@ -42,11 +42,11 @@ export class PersonDialogComponent implements OnInit {
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private personService: PersonService,
-        private profileService: ProfileService,
-        private accountDeletionService: AccountDeletionService,
+        private ProfileService: ProfileService,
+        private AccountDeletionService: AccountDeletionService,
         private TagService: TagService,
-        private conversationService: ConversationService,
-        private userAccountService: UserAccountService,
+        private ConversationService: ConversationService,
+        private UserAccountService: UserAccountService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -54,26 +54,26 @@ export class PersonDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.profileService
+        this.ProfileService
             .query({filter: 'person-is-null'})
             .subscribe((res: ResponseWrapper) => {
                 if (!this.person.profile || !this.person.profile.id) {
                     this.profiles = res.json;
                 } else {
-                    this.profileService
+                    this.ProfileService
                         .find(this.person.profile.id)
                         .subscribe((subRes: Profile) => {
                             this.profiles = [subRes].concat(res.json);
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));
                 }
             }, (res: ResponseWrapper) => this.onError(res.json));
-        this.accountDeletionService
+        this.AccountDeletionService
             .query({filter: 'person-is-null'})
             .subscribe((res: ResponseWrapper) => {
                 if (!this.person.accountdeletion || !this.person.accountdeletion.id) {
                     this.accountdeletions = res.json;
                 } else {
-                    this.accountDeletionService
+                    this.AccountDeletionService
                         .find(this.person.accountdeletion.id)
                         .subscribe((subRes: AccountDeletion) => {
                             this.accountdeletions = [subRes].concat(res.json);
@@ -82,15 +82,15 @@ export class PersonDialogComponent implements OnInit {
             }, (res: ResponseWrapper) => this.onError(res.json));
         this.TagService.query()
             .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.conversationService.query()
+        this.ConversationService.query()
             .subscribe((res: ResponseWrapper) => { this.conversations = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.userAccountService
+        this.UserAccountService
             .query({filter: 'person-is-null'})
             .subscribe((res: ResponseWrapper) => {
                 if (!this.person.userAccount || !this.person.userAccount.id) {
                     this.useraccounts = res.json;
                 } else {
-                    this.userAccountService
+                    this.UserAccountService
                         .find(this.person.userAccount.id)
                         .subscribe((subRes: UserAccount) => {
                             this.useraccounts = [subRes].concat(res.json);
