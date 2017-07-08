@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -36,9 +37,6 @@ public class Tag implements Serializable {
 
     @ManyToOne
     private Person person;
-
-    @ManyToOne
-    private HashTag hashTag;
 
     public Long getId() {
         return id;
@@ -97,19 +95,6 @@ public class Tag implements Serializable {
 
     public void setPerson(Person person) {
         this.person = person;
-    }
-
-    public HashTag getHashTag() {
-        return hashTag;
-    }
-
-    public Tag hashTag(HashTag hashTag) {
-        this.hashTag = hashTag;
-        return this;
-    }
-
-    public void setHashTag(HashTag hashTag) {
-        this.hashTag = hashTag;
     }
 
     @Override

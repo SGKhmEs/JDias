@@ -1,12 +1,6 @@
 {
     "fluentMethods": true,
     "relationships": [
-        {
-            "relationshipName": "tags",
-            "otherEntityName": "tag",
-            "relationshipType": "one-to-many",
-            "otherEntityRelationshipName": "hashTag"
-        }
     ],
     "fields": [
     ],

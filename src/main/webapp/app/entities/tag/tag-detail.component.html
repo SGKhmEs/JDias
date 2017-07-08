@@ -14,12 +14,6 @@
                 <a [routerLink]="['/person', tag.person?.id]">{{tag.person?.id}}</a>
             </div>
         </dd>
-        <dt><span jhiTranslate="jDiasApp.tag.hashTag">Hash Tag</span></dt>
-        <dd>
-            <div *ngIf="tag.hashTag">
-                <a [routerLink]="['/hash-tag', tag.hashTag?.id]">{{tag.hashTag?.id}}</a>
-            </div>
-        </dd>
     </dl>
 
     <button type="submit"

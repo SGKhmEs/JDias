@@ -25,13 +25,6 @@
                 <option [ngValue]="personOption.id === tag.person?.id ? tag.person : personOption" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.id}}</option>
             </select>
         </div>
-        <div class="form-group">
-            <label jhiTranslate="jDiasApp.tag.hashTag" for="field_hashTag">Hash Tag</label>
-            <select class="form-control" id="field_hashTag" name="hashTag" [(ngModel)]="tag.hashTag" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="hashTagOption.id === tag.hashTag?.id ? tag.hashTag : hashTagOption" *ngFor="let hashTagOption of hashtags; trackBy: trackHashTagById">{{hashTagOption.id}}</option>
-            </select>
-        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

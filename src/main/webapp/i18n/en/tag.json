@@ -18,8 +18,7 @@
             },
             "tagContext": "Tag Context",
             "post": "Post",
-            "person": "Person",
-            "hashTag": "Hash Tag"
+            "person": "Person"
         }
     }
 }

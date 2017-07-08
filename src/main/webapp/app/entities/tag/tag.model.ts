@@ -6,7 +6,6 @@ export class Tag implements BaseEntity {
         public tagContext?: string,
         public posts?: BaseEntity[],
         public person?: BaseEntity,
-        public hashTag?: BaseEntity,
     ) {
     }
 }

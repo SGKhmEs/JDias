@@ -12,12 +12,6 @@
             "otherEntityName": "person",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
-        },
-        {
-            "relationshipName": "hashTag",
-            "otherEntityName": "hashTag",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
         }
     ],
     "fields": [

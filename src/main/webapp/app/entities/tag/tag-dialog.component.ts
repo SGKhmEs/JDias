@@ -10,7 +10,6 @@ import { Tag } from './tag.model';
 import { TagPopupService } from './tag-popup.service';
 import { TagService } from './tag.service';
 import { Person, PersonService } from '../person';
-import { HashTag, HashTagService } from '../hash-tag';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -25,14 +24,11 @@ export class TagDialogComponent implements OnInit {
 
     people: Person[];
 
-    hashtags: HashTag[];
-
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private tagService: TagService,
         private personService: PersonService,
-        private hashTagService: HashTagService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -42,8 +38,6 @@ export class TagDialogComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.personService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.hashTagService.query()
-            .subscribe((res: ResponseWrapper) => { this.hashtags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -92,10 +86,6 @@ export class TagDialogComponent implements OnInit {
     }
 
     trackPersonById(index: number, item: Person) {
-        return item.id;
-    }
-
-    trackHashTagById(index: number, item: HashTag) {
         return item.id;
     }
 }
