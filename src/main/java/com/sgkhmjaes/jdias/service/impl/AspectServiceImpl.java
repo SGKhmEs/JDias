@@ -124,7 +124,15 @@ public class AspectServiceImpl implements AspectService{
 
         Iterable<Aspect> userAspects = new ArrayList<>(userService.getCurrentPerson().getAspects());
 
-        return StreamSupport.stream(userAspects.spliterator(), false)
+        List<Aspect> foundAspectList =  StreamSupport.stream(userAspects.spliterator(), false)
             .collect(Collectors.toList());
+
+        List<Aspect> userAspect = new ArrayList<>(userService.getCurrentPerson().getAspects());
+
+        foundAspectList.forEach(aspect ->{
+            if(!userAspect.contains(aspect))
+                foundAspectList.remove(aspect);
+        });
+        return foundAspectList;
     }
 }
