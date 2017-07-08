@@ -47,9 +47,9 @@ public class AspectResource {
     @Timed
     public ResponseEntity<Aspect> createAspect(@RequestBody Aspect aspect) throws URISyntaxException {
         log.debug("REST request to save Aspect : {}", aspect);
-        if (aspect.getId() != null) {
+       /* if (aspect.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new aspect cannot already have an ID")).body(null);
-        }
+        }*/
         Aspect result = aspectService.save(aspect);
         return ResponseEntity.created(new URI("/api/aspects/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -87,7 +87,8 @@ public class AspectResource {
     @Timed
     public List<Aspect> getAllAspects() {
         log.debug("REST request to get all Aspects");
-        return aspectService.findAll();
+        //return aspectService.findAll();
+        return aspectService.findAllByUser();
     }
 
     /**
