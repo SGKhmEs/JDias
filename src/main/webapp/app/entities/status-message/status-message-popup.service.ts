@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { StatusMessage } from './status-message.model';
 import { StatusMessageService } from './status-message.service';
+
 @Injectable()
 export class StatusMessagePopupService {
     private isOpen = false;

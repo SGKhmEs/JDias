@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Reshare } from './reshare.model';
 import { ReshareService } from './reshare.service';
+
 @Injectable()
 export class ResharePopupService {
     private isOpen = false;

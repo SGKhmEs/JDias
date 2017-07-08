@@ -216,16 +216,16 @@ public class Event implements Serializable {
 
     @Override
     public String toString() {
-        return "Event{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", guid='" + getGuid() + "'"
-                + ", summary='" + getSummary() + "'"
-                + ", start='" + getStart() + "'"
-                + ", end='" + getEnd() + "'"
-                + ", allDay='" + isAllDay() + "'"
-                + ", timezone='" + getTimezone() + "'"
-                + ", description='" + getDescription() + "'"
-                + "}";
+        return "Event{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", guid='" + getGuid() + "'" +
+            ", summary='" + getSummary() + "'" +
+            ", start='" + getStart() + "'" +
+            ", end='" + getEnd() + "'" +
+            ", allDay='" + isAllDay() + "'" +
+            ", timezone='" + getTimezone() + "'" +
+            ", description='" + getDescription() + "'" +
+            "}";
     }
 }

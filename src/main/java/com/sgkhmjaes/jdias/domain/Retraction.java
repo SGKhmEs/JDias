@@ -105,11 +105,11 @@ public class Retraction implements Serializable {
 
     @Override
     public String toString() {
-        return "Retraction{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", targetGuid='" + getTargetGuid() + "'"
-                + ", targetType='" + getTargetType() + "'"
-                + "}";
+        return "Retraction{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", targetGuid='" + getTargetGuid() + "'" +
+            ", targetType='" + getTargetType() + "'" +
+            "}";
     }
 }

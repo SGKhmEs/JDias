@@ -35,6 +35,14 @@ public class Location implements Serializable {
     @Column(name = "lng")
     private Float lng;
 
+    public Location() {}
+
+    public Location(String address, Float lat, Float lng) {
+        this.address = address;
+        this.lat = lat;
+        this.lng = lng;
+    }
+
     public Long getId() {
         return id;
     }
@@ -104,11 +112,11 @@ public class Location implements Serializable {
 
     @Override
     public String toString() {
-        return "Location{"
-                + "id=" + getId()
-                + ", address='" + getAddress() + "'"
-                + ", lat='" + getLat() + "'"
-                + ", lng='" + getLng() + "'"
-                + "}";
+        return "Location{" +
+            "id=" + getId() +
+            ", address='" + getAddress() + "'" +
+            ", lat='" + getLat() + "'" +
+            ", lng='" + getLng() + "'" +
+            "}";
     }
 }

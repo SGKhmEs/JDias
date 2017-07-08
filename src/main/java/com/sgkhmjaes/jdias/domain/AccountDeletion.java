@@ -70,9 +70,9 @@ public class AccountDeletion implements Serializable {
 
     @Override
     public String toString() {
-        return "AccountDeletion{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + "}";
+        return "AccountDeletion{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            "}";
     }
 }

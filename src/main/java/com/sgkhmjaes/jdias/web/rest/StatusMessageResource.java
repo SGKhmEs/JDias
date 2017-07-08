@@ -46,10 +46,15 @@ public class StatusMessageResource {
      */
     @PostMapping("/status-messages")
     @Timed
-    public void createStatusMessage(@RequestBody StatusMessage statusMessage) throws URISyntaxException {
+    public ResponseEntity<StatusMessage> createStatusMessage(@RequestBody StatusMessageDTO statusMessage) throws URISyntaxException {
         log.debug("REST request to save StatusMessage : {}", statusMessage);
-        postService.save(statusMessage);
-    }
+        if (statusMessage.getStatusMessage().getId() != null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new statusMessage cannot already have an ID")).body(null);
+        }
+        StatusMessage result = postService.save(statusMessage);
+        return ResponseEntity.created(new URI("/api/status-message/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);     }
 
     /**
      * PUT  /status-messages : Updates an existing statusMessage.
@@ -62,9 +67,15 @@ public class StatusMessageResource {
      */
     @PutMapping("/status-messages")
     @Timed
-    public void updateStatusMessage(@RequestBody StatusMessage statusMessage) throws URISyntaxException {
+    public ResponseEntity<StatusMessage> updateStatusMessage(@RequestBody StatusMessageDTO statusMessage) throws URISyntaxException {
         log.debug("REST request to update StatusMessage : {}", statusMessage);
-        postService.save(statusMessage);
+        if (statusMessage.getStatusMessage().getId() == null) {
+            return createStatusMessage(statusMessage);
+        }
+        StatusMessage result = postService.save(statusMessage);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, statusMessage.getStatusMessage().getId().toString()))
+            .body(result);
     }
 
     /**
@@ -103,7 +114,7 @@ public class StatusMessageResource {
     @Timed
     public ResponseEntity<Void> deleteStatusMessage(@PathVariable Long id) {
         log.debug("REST request to delete StatusMessage : {}", id);
-        postService.delete(id);
+        postService.deleteStatusMessage(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 

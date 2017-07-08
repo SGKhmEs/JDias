@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A Poll.
@@ -33,7 +34,7 @@ public class Poll implements Serializable {
     @Column(name = "question")
     private String question;
 
-    @OneToMany(mappedBy = "poll")
+    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PollAnswer> pollanswers = new HashSet<>();
@@ -42,6 +43,13 @@ public class Poll implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PollParticipation> pollparticipants = new HashSet<>();
+
+    public Poll(){}
+
+    public Poll(String question) {
+        this.guid = UUID.randomUUID().toString();
+        this.question = question;
+    }
 
     public Long getId() {
         return id;
@@ -149,10 +157,10 @@ public class Poll implements Serializable {
 
     @Override
     public String toString() {
-        return "Poll{"
-                + "id=" + getId()
-                + ", guid='" + getGuid() + "'"
-                + ", question='" + getQuestion() + "'"
-                + "}";
+        return "Poll{" +
+            "id=" + getId() +
+            ", guid='" + getGuid() + "'" +
+            ", question='" + getQuestion() + "'" +
+            "}";
     }
 }

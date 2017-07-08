@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TagFollowing } from './tag-following.model';
 import { TagFollowingService } from './tag-following.service';
+
 @Injectable()
 export class TagFollowingPopupService {
     private isOpen = false;

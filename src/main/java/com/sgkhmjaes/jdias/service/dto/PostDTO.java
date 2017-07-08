@@ -3,11 +3,11 @@ package com.sgkhmjaes.jdias.service.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sgkhmjaes.jdias.domain.Location;
 import com.sgkhmjaes.jdias.domain.Photo;
-import com.sgkhmjaes.jdias.domain.Poll;
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
 import com.sgkhmjaes.jdias.service.mapper.AutoMapping;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public class PostDTO implements AutoMapping {
 //public class PostDTO extends AutoMapping1{
@@ -15,7 +15,7 @@ public class PostDTO implements AutoMapping {
     @JsonProperty("text")
     private String text;
     @JsonProperty("id")
-    private long id;
+    private Long id;
     @JsonProperty("guid")
     private String guid;
     private String open_graph_cache;
@@ -35,7 +35,8 @@ public class PostDTO implements AutoMapping {
     private PostDTO postDTO; // root
     @JsonProperty("author")
     private AuthorDTO authorDTO; // author
-    private Poll poll;
+    @JsonProperty("poll")
+    private PollDTO pollDTO;
     private Location location;
 
     @JsonProperty("post_type")
@@ -43,7 +44,7 @@ public class PostDTO implements AutoMapping {
     @JsonProperty("mentioned_people")
     private List<String> mentioned_people;
 
-    private List<Photo> photos;
+    private Set<Photo> photos;
     @JsonProperty("interactions")
     private InteractionDTO interactionDTO;
 
@@ -58,11 +59,11 @@ public class PostDTO implements AutoMapping {
         this.text = text;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -170,12 +171,12 @@ public class PostDTO implements AutoMapping {
         this.authorDTO = authorDTO;
     }
 
-    public Poll getPoll() {
-        return poll;
+    public PollDTO getPollDTO() {
+        return pollDTO;
     }
 
-    public void setPoll(Poll poll) {
-        this.poll = poll;
+    public void setPollDTO(PollDTO pollDTO) {
+        this.pollDTO = pollDTO;
     }
 
     public Location getLocation() {
@@ -202,11 +203,11 @@ public class PostDTO implements AutoMapping {
         this.mentioned_people = mentioned_people;
     }
 
-    public List<Photo> getPhotos() {
+    public Set<Photo> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(List<Photo> photos) {
+    public void setPhotos(Set<Photo> photos) {
         this.photos = photos;
     }
 
@@ -235,7 +236,7 @@ public class PostDTO implements AutoMapping {
                 append("Post pub: ").append(pub).append("\r\n").
                 append("Interacted_at: ").append(interacted_at).append("\r\n").
                 append("AuthorDTO: ").append(authorDTO).append("\r\n").
-                append("Poll: ").append(poll).append("\r\n").
+                append("Poll: ").append(pollDTO).append("\r\n").
                 append("Post type: ").append(postType).append("\r\n").
                 append("Location: ").append(location).append("\r\n").
                 append("Photos: ").append(photos).append("\r\n").

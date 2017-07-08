@@ -1,22 +1,26 @@
 package com.sgkhmjaes.jdias.service.impl;
 
-import com.sgkhmjaes.jdias.domain.Person;
-import com.sgkhmjaes.jdias.domain.Reshare;
-import com.sgkhmjaes.jdias.domain.StatusMessage;
+import com.sgkhmjaes.jdias.domain.*;
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
 import com.sgkhmjaes.jdias.repository.*;
 import com.sgkhmjaes.jdias.repository.search.ReshareSearchRepository;
 import com.sgkhmjaes.jdias.repository.search.StatusMessageSearchRepository;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
+import com.sgkhmjaes.jdias.service.LocationService;
+import com.sgkhmjaes.jdias.service.PollAnswerService;
+import com.sgkhmjaes.jdias.service.PollService;
 import com.sgkhmjaes.jdias.service.PostService;
-import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.repository.search.PostSearchRepository;
+import com.sgkhmjaes.jdias.service.dto.PostDTO;
+import com.sgkhmjaes.jdias.service.dto.StatusMessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -45,6 +49,15 @@ public class PostServiceImpl implements PostService {
 
     private final UserRepository userRepository;
     private final PersonRepository personRepository;
+
+    @Inject
+    private PollAnswerService pollAnswerService;
+    @Inject
+    private PollService pollService;
+    @Inject
+    private LocationService locationService;
+    @Inject
+    private PhotoRepository photoRepository;
 
     public PostServiceImpl(PostRepository postRepository, PostSearchRepository postSearchRepository,
                            StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository,
@@ -106,6 +119,36 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
+     * Save a statusMessage.
+     *
+     * @param statusMessageDTO the entity to save
+     * @return the persisted entity
+     */
+    @Override
+    public StatusMessage save(StatusMessageDTO statusMessageDTO) {
+        StatusMessage statusMessage = statusMessageDTO.getStatusMessage();
+        if(statusMessageDTO.getPollQuestion() != null) {
+            Poll poll = pollService.save(new Poll(statusMessageDTO.getPollQuestion()));
+            for (String s : statusMessageDTO.getPollAnswers()) {
+                PollAnswer pollAnswer = pollAnswerService.save(new PollAnswer(s, poll));
+                poll.addPollanswers(pollAnswer);
+            }
+            poll = pollService.save(poll);
+            statusMessage.setPoll(poll);
+        }
+        if(statusMessageDTO.getLocationAddress() != null){
+            String [] coords = statusMessageDTO.getLocationCoords().split(", ");
+            statusMessage.setLocation(locationService.save(new Location(statusMessageDTO.getLocationAddress(),Float.parseFloat(coords[0]),Float.parseFloat(coords[1]))));
+        }
+        if(statusMessageDTO.getPhotos() != null){
+            for(Long id: statusMessageDTO.getPhotos()) {
+                statusMessage.addPhotos(photoRepository.findOne(id));
+            }
+        }
+        return save(statusMessage);
+    }
+
+    /**
      * Save a reshare.
      *
      * @param reshare the entity to save
@@ -120,9 +163,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Reshare saveReshare(PostDTO postDTO) {
+        Post post = postRepository.findOne(postDTO.getId());
+        return saveReshare(post);
+    }
+
+    @Override
     public Reshare saveReshare(Post parrentPost) {
         Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
         Reshare reshare = reshareRepository.findOne(parrentPost.getReshare().getId());
+        StatusMessage statusMessage = statusMessageRepository.findOne(parrentPost.getStatusMessage().getId());
         Set<Post> posts = reshare.getPosts();
         boolean isHasRepost = false;
         for (Post p : posts) {
@@ -137,9 +187,11 @@ public class PostServiceImpl implements PostService {
             return parrentPost.getReshare();
         } else {
             Post post = save(new Post(person.getDiasporaId(), UUID.randomUUID().toString(),
-                LocalDate.now(), true, PostType.RESHARE, parrentPost.getStatusMessage(), parrentPost.getReshare(), person));
+                LocalDate.now(), true, PostType.RESHARE, statusMessage, reshare, person));
             reshare = parrentPost.getReshare();
             reshare.addPost(post);
+            statusMessage.addPost(post);
+            save(statusMessage);
             return save(reshare);
         }
     }

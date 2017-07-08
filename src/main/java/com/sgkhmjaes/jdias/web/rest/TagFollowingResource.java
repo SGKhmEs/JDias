@@ -37,12 +37,10 @@ public class TagFollowingResource {
     }
 
     /**
-     * POST /tag-followings : Create a new tagFollowing.
+     * POST  /tag-followings : Create a new tagFollowing.
      *
      * @param tagFollowing the tagFollowing to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new tagFollowing, or with status 400 (Bad Request) if the tagFollowing
-     * has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new tagFollowing, or with status 400 (Bad Request) if the tagFollowing has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/tag-followings")
@@ -54,18 +52,17 @@ public class TagFollowingResource {
         }
         TagFollowing result = tagFollowingService.save(tagFollowing);
         return ResponseEntity.created(new URI("/api/tag-followings/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /tag-followings : Updates an existing tagFollowing.
+     * PUT  /tag-followings : Updates an existing tagFollowing.
      *
      * @param tagFollowing the tagFollowing to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * tagFollowing, or with status 400 (Bad Request) if the tagFollowing is not
-     * valid, or with status 500 (Internal Server Error) if the tagFollowing
-     * couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated tagFollowing,
+     * or with status 400 (Bad Request) if the tagFollowing is not valid,
+     * or with status 500 (Internal Server Error) if the tagFollowing couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/tag-followings")
@@ -77,15 +74,14 @@ public class TagFollowingResource {
         }
         TagFollowing result = tagFollowingService.save(tagFollowing);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tagFollowing.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tagFollowing.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /tag-followings : get all the tagFollowings.
+     * GET  /tag-followings : get all the tagFollowings.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of
-     * tagFollowings in body
+     * @return the ResponseEntity with status 200 (OK) and the list of tagFollowings in body
      */
     @GetMapping("/tag-followings")
     @Timed
@@ -95,11 +91,10 @@ public class TagFollowingResource {
     }
 
     /**
-     * GET /tag-followings/:id : get the "id" tagFollowing.
+     * GET  /tag-followings/:id : get the "id" tagFollowing.
      *
      * @param id the id of the tagFollowing to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the
-     * tagFollowing, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the tagFollowing, or with status 404 (Not Found)
      */
     @GetMapping("/tag-followings/{id}")
     @Timed
@@ -110,7 +105,7 @@ public class TagFollowingResource {
     }
 
     /**
-     * DELETE /tag-followings/:id : delete the "id" tagFollowing.
+     * DELETE  /tag-followings/:id : delete the "id" tagFollowing.
      *
      * @param id the id of the tagFollowing to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -124,8 +119,8 @@ public class TagFollowingResource {
     }
 
     /**
-     * SEARCH /_search/tag-followings?query=:query : search for the tagFollowing
-     * corresponding to the query.
+     * SEARCH  /_search/tag-followings?query=:query : search for the tagFollowing corresponding
+     * to the query.
      *
      * @param query the query of the tagFollowing search
      * @return the result of the search

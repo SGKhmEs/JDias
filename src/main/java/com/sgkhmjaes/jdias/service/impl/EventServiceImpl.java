@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class EventServiceImpl implements EventService {
+public class EventServiceImpl implements EventService{
 
     private final Logger log = LoggerFactory.getLogger(EventServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class EventServiceImpl implements EventService {
     }
 
     /**
-     * Get all the events.
+     *  Get all the events.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class EventServiceImpl implements EventService {
     }
 
     /**
-     * Get one event by id.
+     *  Get one event by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class EventServiceImpl implements EventService {
     }
 
     /**
-     * Delete the event by id.
+     *  Delete the  event by id.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class EventServiceImpl implements EventService {
     /**
      * Search for the event corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     *  @param query the query of the search
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Event> search(String query) {
         log.debug("Request to search Events for query {}", query);
         return StreamSupport
-                .stream(eventSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .stream(eventSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

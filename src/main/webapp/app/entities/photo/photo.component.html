@@ -39,6 +39,10 @@
             <th><span jhiTranslate="jDiasApp.photo.width">Width</span></th>
             <th><span jhiTranslate="jDiasApp.photo.text">Text</span></th>
             <th><span jhiTranslate="jDiasApp.photo.statusMessageGuid">Status Message Guid</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.thumb_small">Thumb Small</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.thumb_medium">Thumb Medium</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.thumb_large">Thumb Large</span></th>
+            <th><span jhiTranslate="jDiasApp.photo.scaled_full">Scaled Full</span></th>
             <th><span jhiTranslate="jDiasApp.photo.statusMessage">Status Message</span></th>
             <th><span jhiTranslate="jDiasApp.photo.person">Person</span></th>
             <th></th>
@@ -56,6 +60,10 @@
                 <td>{{photo.width}}</td>
                 <td>{{photo.text}}</td>
                 <td>{{photo.statusMessageGuid}}</td>
+                <td>{{photo.thumb_small}}</td>
+                <td>{{photo.thumb_medium}}</td>
+                <td>{{photo.thumb_large}}</td>
+                <td>{{photo.scaled_full}}</td>
                 <td>
                     <div *ngIf="photo.statusMessage">
                         <a [routerLink]="['../status-message', photo.statusMessage?.id ]" >{{photo.statusMessage?.id}}</a>

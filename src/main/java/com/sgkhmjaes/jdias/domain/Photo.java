@@ -1,5 +1,6 @@
 package com.sgkhmjaes.jdias.domain;
 
+import com.sgkhmjaes.jdias.service.dto.PhotoSizesDTO;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A Photo.
@@ -29,7 +31,7 @@ public class Photo implements Serializable {
     private String author;
 
     @Column(name = "guid")
-    private Boolean guid;
+    private String guid;
 
     @Column(name = "created_at")
     private LocalDate createdAt;
@@ -52,11 +54,41 @@ public class Photo implements Serializable {
     @Column(name = "status_message_guid")
     private String statusMessageGuid;
 
+    @Column(name = "thumb_small")
+    private String thumb_small;
+
+    @Column(name = "thumb_medium")
+    private String thumb_medium;
+
+    @Column(name = "thumb_large")
+    private String thumb_large;
+
+    @Column(name = "scaled_full")
+    private String scaled_full;
+
     @ManyToOne
     private StatusMessage statusMessage;
 
     @ManyToOne
     private Person person;
+
+    public Photo(){}
+
+    public Photo(String author, String fileName, String remotePhotoPath, String remotePhotoName, Integer height, Integer width, String text, PhotoSizesDTO photoSizesDTO, Person person) {
+        this.author = author;
+        this.guid = UUID.nameUUIDFromBytes(fileName.getBytes()).toString();
+        this.createdAt = LocalDate.now();
+        this.remotePhotoPath = remotePhotoPath;
+        this.remotePhotoName = remotePhotoName;
+        this.height = height;
+        this.width = width;
+        this.text = text;
+        this.thumb_small = photoSizesDTO.getThumbSmall();
+        this.thumb_medium = photoSizesDTO.getThumbMedium();
+        this.thumb_large = photoSizesDTO.getThumbLarge();
+        this.scaled_full = photoSizesDTO.getScaledFull();
+        this.person = person;
+    }
 
     public Long getId() {
         return id;
@@ -79,16 +111,16 @@ public class Photo implements Serializable {
         this.author = author;
     }
 
-    public Boolean isGuid() {
+    public String getGuid() {
         return guid;
     }
 
-    public Photo guid(Boolean guid) {
+    public Photo guid(String guid) {
         this.guid = guid;
         return this;
     }
 
-    public void setGuid(Boolean guid) {
+    public void setGuid(String guid) {
         this.guid = guid;
     }
 
@@ -183,6 +215,58 @@ public class Photo implements Serializable {
         this.statusMessageGuid = statusMessageGuid;
     }
 
+    public String getThumb_small() {
+        return thumb_small;
+    }
+
+    public Photo thumb_small(String thumb_small) {
+        this.thumb_small = thumb_small;
+        return this;
+    }
+
+    public void setThumb_small(String thumb_small) {
+        this.thumb_small = thumb_small;
+    }
+
+    public String getThumb_medium() {
+        return thumb_medium;
+    }
+
+    public Photo thumb_medium(String thumb_medium) {
+        this.thumb_medium = thumb_medium;
+        return this;
+    }
+
+    public void setThumb_medium(String thumb_medium) {
+        this.thumb_medium = thumb_medium;
+    }
+
+    public String getThumb_large() {
+        return thumb_large;
+    }
+
+    public Photo thumb_large(String thumb_large) {
+        this.thumb_large = thumb_large;
+        return this;
+    }
+
+    public void setThumb_large(String thumb_large) {
+        this.thumb_large = thumb_large;
+    }
+
+    public String getScaled_full() {
+        return scaled_full;
+    }
+
+    public Photo scaled_full(String scaled_full) {
+        this.scaled_full = scaled_full;
+        return this;
+    }
+
+    public void setScaled_full(String scaled_full) {
+        this.scaled_full = scaled_full;
+    }
+
     public StatusMessage getStatusMessage() {
         return statusMessage;
     }
@@ -231,17 +315,21 @@ public class Photo implements Serializable {
 
     @Override
     public String toString() {
-        return "Photo{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", guid='" + isGuid() + "'"
-                + ", createdAt='" + getCreatedAt() + "'"
-                + ", remotePhotoPath='" + getRemotePhotoPath() + "'"
-                + ", remotePhotoName='" + getRemotePhotoName() + "'"
-                + ", height='" + getHeight() + "'"
-                + ", width='" + getWidth() + "'"
-                + ", text='" + getText() + "'"
-                + ", statusMessageGuid='" + getStatusMessageGuid() + "'"
-                + "}";
+        return "Photo{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", guid='" + getGuid() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", remotePhotoPath='" + getRemotePhotoPath() + "'" +
+            ", remotePhotoName='" + getRemotePhotoName() + "'" +
+            ", height='" + getHeight() + "'" +
+            ", width='" + getWidth() + "'" +
+            ", text='" + getText() + "'" +
+            ", statusMessageGuid='" + getStatusMessageGuid() + "'" +
+            ", thumb_small='" + getThumb_small() + "'" +
+            ", thumb_medium='" + getThumb_medium() + "'" +
+            ", thumb_large='" + getThumb_large() + "'" +
+            ", scaled_full='" + getScaled_full() + "'" +
+            "}";
     }
 }

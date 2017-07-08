@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { StatusMessage } from './status-message.model';
 import { StatusMessagePopupService } from './status-message-popup.service';
@@ -29,18 +29,18 @@ export class StatusMessageDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private statusMessageService: StatusMessageService,
         private locationService: LocationService,
         private pollService: PollService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.locationService
+        /*this.locationService
             .query({filter: 'statusmessage-is-null'})
             .subscribe((res: ResponseWrapper) => {
                 if (!this.statusMessage.location || !this.statusMessage.location.id) {
@@ -65,8 +65,9 @@ export class StatusMessageDialogComponent implements OnInit {
                             this.polls = [subRes].concat(res.json);
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));
                 }
-            }, (res: ResponseWrapper) => this.onError(res.json));
+            }, (res: ResponseWrapper) => this.onError(res.json));*/
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }

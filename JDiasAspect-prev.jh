@@ -1,0 +1,78 @@
+entity Person {
+	guid String,
+	diasporaId String,
+	serializedPublicKey String,
+	createdAt LocalDate,
+	updatedAt LocalDate,  
+	closedAccount Boolean,
+	fetchStatus Integer,
+	podId Integer
+}
+
+entity Post {
+	author String,
+    guid String,
+    createdAt LocalDate, //TimeStamp
+    pub Boolean, 
+    providerDisplayName String,
+	postType PostType
+}
+
+entity Aspect {
+	name String,
+    createdAt LocalDate,
+    updatedAt LocalDate,
+    contactVisible Boolean,
+    chatEnabled Boolean,
+    postDefault Boolean
+}
+
+
+entity AspectMembership {
+    createdAt LocalDate,
+    updatedAt LocalDate
+}
+
+
+entity PostAspectVisibility {
+	visibilityType VisibilityType
+    createdAt LocalDate,
+    updatedAt LocalDate
+}
+
+entity PostTypeAspectVisibility {
+	visibilityType VisibilityType
+    createdAt LocalDate,
+    updatedAt LocalDate
+}
+
+enum PostType {
+		STATUS, PHOTO, VIDEO, OFFER, EVENT, OTHER
+}
+
+enum VisibilityType {
+		VISIBLE, UNVISIBLE, PART
+}
+
+relationship OneToMany {
+    Person{posts} to Post,
+	Person{aspectAspectMembership} to AspectMembership,
+	Aspect{aspectAspectMembership} to AspectMembership,
+	Aspect{aspectPostAspectVisibility} to PostAspectVisibility,
+	Aspect{aspectPostTypeAspectVisibility} to PostTypeAspectVisibility,
+	Post{postPostAspectVisibility} to PostAspectVisibility,
+	PostType{postTypePostTypeAspectVisibility} to PostTypeAspectVisibility
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

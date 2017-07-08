@@ -78,9 +78,9 @@ public class LocationResourceIntTest {
         MockitoAnnotations.initMocks(this);
         LocationResource locationResource = new LocationResource(locationService);
         this.restLocationMockMvc = MockMvcBuilders.standaloneSetup(locationResource)
-                .setCustomArgumentResolvers(pageableArgumentResolver)
-                .setControllerAdvice(exceptionTranslator)
-                .setMessageConverters(jacksonMessageConverter).build();
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -91,9 +91,9 @@ public class LocationResourceIntTest {
      */
     public static Location createEntity(EntityManager em) {
         Location location = new Location()
-                .address(DEFAULT_ADDRESS)
-                .lat(DEFAULT_LAT)
-                .lng(DEFAULT_LNG);
+            .address(DEFAULT_ADDRESS)
+            .lat(DEFAULT_LAT)
+            .lng(DEFAULT_LNG);
         return location;
     }
 
@@ -110,9 +110,9 @@ public class LocationResourceIntTest {
 
         // Create the Location
         restLocationMockMvc.perform(post("/api/locations")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(location)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(location)))
+            .andExpect(status().isCreated());
 
         // Validate the Location in the database
         List<Location> locationList = locationRepository.findAll();
@@ -137,9 +137,9 @@ public class LocationResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restLocationMockMvc.perform(post("/api/locations")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(location)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(location)))
+            .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Location> locationList = locationRepository.findAll();
@@ -154,12 +154,12 @@ public class LocationResourceIntTest {
 
         // Get all the locationList
         restLocationMockMvc.perform(get("/api/locations?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(location.getId().intValue())))
-                .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
-                .andExpect(jsonPath("$.[*].lat").value(hasItem(DEFAULT_LAT.doubleValue())))
-                .andExpect(jsonPath("$.[*].lng").value(hasItem(DEFAULT_LNG.doubleValue())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(location.getId().intValue())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
+            .andExpect(jsonPath("$.[*].lat").value(hasItem(DEFAULT_LAT.doubleValue())))
+            .andExpect(jsonPath("$.[*].lng").value(hasItem(DEFAULT_LNG.doubleValue())));
     }
 
     @Test
@@ -170,12 +170,12 @@ public class LocationResourceIntTest {
 
         // Get the location
         restLocationMockMvc.perform(get("/api/locations/{id}", location.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id").value(location.getId().intValue()))
-                .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()))
-                .andExpect(jsonPath("$.lat").value(DEFAULT_LAT.doubleValue()))
-                .andExpect(jsonPath("$.lng").value(DEFAULT_LNG.doubleValue()));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(location.getId().intValue()))
+            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()))
+            .andExpect(jsonPath("$.lat").value(DEFAULT_LAT.doubleValue()))
+            .andExpect(jsonPath("$.lng").value(DEFAULT_LNG.doubleValue()));
     }
 
     @Test
@@ -183,7 +183,7 @@ public class LocationResourceIntTest {
     public void getNonExistingLocation() throws Exception {
         // Get the location
         restLocationMockMvc.perform(get("/api/locations/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -197,14 +197,14 @@ public class LocationResourceIntTest {
         // Update the location
         Location updatedLocation = locationRepository.findOne(location.getId());
         updatedLocation
-                .address(UPDATED_ADDRESS)
-                .lat(UPDATED_LAT)
-                .lng(UPDATED_LNG);
+            .address(UPDATED_ADDRESS)
+            .lat(UPDATED_LAT)
+            .lng(UPDATED_LNG);
 
         restLocationMockMvc.perform(put("/api/locations")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedLocation)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedLocation)))
+            .andExpect(status().isOk());
 
         // Validate the Location in the database
         List<Location> locationList = locationRepository.findAll();
@@ -225,11 +225,12 @@ public class LocationResourceIntTest {
         int databaseSizeBeforeUpdate = locationRepository.findAll().size();
 
         // Create the Location
+
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restLocationMockMvc.perform(put("/api/locations")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(location)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(location)))
+            .andExpect(status().isCreated());
 
         // Validate the Location in the database
         List<Location> locationList = locationRepository.findAll();
@@ -246,8 +247,8 @@ public class LocationResourceIntTest {
 
         // Get the location
         restLocationMockMvc.perform(delete("/api/locations/{id}", location.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean locationExistsInEs = locationSearchRepository.exists(location.getId());
@@ -266,12 +267,12 @@ public class LocationResourceIntTest {
 
         // Search the location
         restLocationMockMvc.perform(get("/api/_search/locations?query=id:" + location.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(location.getId().intValue())))
-                .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
-                .andExpect(jsonPath("$.[*].lat").value(hasItem(DEFAULT_LAT.doubleValue())))
-                .andExpect(jsonPath("$.[*].lng").value(hasItem(DEFAULT_LNG.doubleValue())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(location.getId().intValue())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
+            .andExpect(jsonPath("$.[*].lat").value(hasItem(DEFAULT_LAT.doubleValue())))
+            .andExpect(jsonPath("$.[*].lng").value(hasItem(DEFAULT_LNG.doubleValue())));
     }
 
     @Test

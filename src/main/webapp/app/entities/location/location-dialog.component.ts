@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Location } from './location.model';
 import { LocationPopupService } from './location-popup.service';
@@ -28,17 +28,18 @@ export class LocationDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private locationService: LocationService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
-        navigator.geolocation.getCurrentPosition(this.successCallback,this.errorCallback,this.options);
+        navigator.geolocation.getCurrentPosition(this.successCallback, this.errorCallback, this.options);
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -53,6 +54,17 @@ export class LocationDialogComponent implements OnInit {
                 this.locationService.create(this.location), true);
         }
     }
+
+    /*saveLocation(location: Location) {
+        this.isSaving = true;
+        if (location.id !== undefined) {
+            this.subscribeToSaveResponse(
+                this.locationService.update(location), false);
+        } else {
+            this.subscribeToSaveResponse(
+                this.locationService.create(location), true);
+        }
+    }*/
 
     private subscribeToSaveResponse(result: Observable<Location>, isCreated: boolean) {
         result.subscribe((res: Location) =>
@@ -84,14 +96,14 @@ export class LocationDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    successCallback = (position)=> {
+    successCallback = (position) => {
         this.location.lat = position.coords.latitude;
         this.location.lng = position.coords.longitude;
     }
 
     errorCallback = (error) => {
         let errorMessage = 'Unknown error';
-        switch(error.code) {
+        switch (error.code) {
             case 1:
                 errorMessage = 'Permission denied';
                 break;
@@ -103,7 +115,7 @@ export class LocationDialogComponent implements OnInit {
                 break;
         }
         console.log(errorMessage);
-    };
+    }
 }
 
 @Component({

@@ -1,14 +1,11 @@
 package com.sgkhmjaes.jdias.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -39,13 +36,14 @@ public class Contact implements Serializable {
     @Column(name = "sharing")
     private Boolean sharing;
 
-    @OneToMany(mappedBy = "contact")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<AspectMembership> aspectMemberships = new HashSet<>();
+    @Column(name = "own_id")
+    private Long ownId;
 
     @ManyToOne
     private Person person;
+
+    @ManyToOne
+    private Aspect aspect;
 
     public Long getId() {
         return id;
@@ -107,29 +105,17 @@ public class Contact implements Serializable {
         this.sharing = sharing;
     }
 
-    public Set<AspectMembership> getAspectMemberships() {
-        return aspectMemberships;
+    public Long getOwnId() {
+        return ownId;
     }
 
-    public Contact aspectMemberships(Set<AspectMembership> aspectMemberships) {
-        this.aspectMemberships = aspectMemberships;
+    public Contact ownId(Long ownId) {
+        this.ownId = ownId;
         return this;
     }
 
-    public Contact addAspectMemberships(AspectMembership aspectMembership) {
-        this.aspectMemberships.add(aspectMembership);
-        aspectMembership.setContact(this);
-        return this;
-    }
-
-    public Contact removeAspectMemberships(AspectMembership aspectMembership) {
-        this.aspectMemberships.remove(aspectMembership);
-        aspectMembership.setContact(null);
-        return this;
-    }
-
-    public void setAspectMemberships(Set<AspectMembership> aspectMemberships) {
-        this.aspectMemberships = aspectMemberships;
+    public void setOwnId(Long ownId) {
+        this.ownId = ownId;
     }
 
     public Person getPerson() {
@@ -143,6 +129,19 @@ public class Contact implements Serializable {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Aspect getAspect() {
+        return aspect;
+    }
+
+    public Contact aspect(Aspect Aspect) {
+        this.aspect = Aspect;
+        return this;
+    }
+
+    public void setAspect(Aspect Aspect) {
+        this.aspect = Aspect;
     }
 
     @Override
@@ -167,12 +166,13 @@ public class Contact implements Serializable {
 
     @Override
     public String toString() {
-        return "Contact{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", recipient='" + getRecipient() + "'"
-                + ", following='" + isFollowing() + "'"
-                + ", sharing='" + isSharing() + "'"
-                + "}";
+        return "Contact{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", recipient='" + getRecipient() + "'" +
+            ", following='" + isFollowing() + "'" +
+            ", sharing='" + isSharing() + "'" +
+            ", ownId='" + getOwnId() + "'" +
+            "}";
     }
 }

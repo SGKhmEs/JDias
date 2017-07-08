@@ -3,8 +3,6 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.service.PostService;
-import com.sgkhmjaes.jdias.service.dto.PostDTO;
-import com.sgkhmjaes.jdias.service.impl.PostDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -30,19 +28,15 @@ public class PostResource {
 
     private final PostService postService;
 
-    private final PostDTOServiceImpl postDTOServiceImpl;
-
-    public PostResource(PostService postService, PostDTOServiceImpl postDTOServiceImpl) {
+    public PostResource(PostService postService) {
         this.postService = postService;
-        this.postDTOServiceImpl = postDTOServiceImpl;
     }
 
     /**
-     * POST /posts : Create a new post.
+     * POST  /posts : Create a new post.
      *
      * @param post the post to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new post, or with status 400 (Bad Request) if the post has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new post, or with status 400 (Bad Request) if the post has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/posts")
@@ -54,17 +48,17 @@ public class PostResource {
         }
         Post result = postService.save(post);
         return ResponseEntity.created(new URI("/api/posts/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /posts : Updates an existing post.
+     * PUT  /posts : Updates an existing post.
      *
      * @param post the post to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * post, or with status 400 (Bad Request) if the post is not valid, or with
-     * status 500 (Internal Server Error) if the post couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated post,
+     * or with status 400 (Bad Request) if the post is not valid,
+     * or with status 500 (Internal Server Error) if the post couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/posts")
@@ -76,40 +70,38 @@ public class PostResource {
         }
         Post result = postService.save(post);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, post.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, post.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /posts : get all the posts.
+     * GET  /posts : get all the posts.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of posts in
-     * body
+     * @return the ResponseEntity with status 200 (OK) and the list of posts in body
      */
     @GetMapping("/posts")
     @Timed
-    public List<PostDTO> getAllPosts() {
+    public List<Post> getAllPosts() {
         log.debug("REST request to get all Posts");
-        return postDTOServiceImpl.findAll();
+        return postService.findAllPost();
     }
 
     /**
-     * GET /posts/:id : get the "id" post.
+     * GET  /posts/:id : get the "id" post.
      *
      * @param id the id of the post to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the post,
-     * or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the post, or with status 404 (Not Found)
      */
     @GetMapping("/posts/{id}")
     @Timed
-    public ResponseEntity<PostDTO> getPost(@PathVariable Long id) {
+    public ResponseEntity<Post> getPost(@PathVariable Long id) {
         log.debug("REST request to get Post : {}", id);
-        PostDTO post = postDTOServiceImpl.findOne(id);
+        Post post = postService.findOnePost(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(post));
     }
 
     /**
-     * DELETE /posts/:id : delete the "id" post.
+     * DELETE  /posts/:id : delete the "id" post.
      *
      * @param id the id of the post to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -123,8 +115,8 @@ public class PostResource {
     }
 
     /**
-     * SEARCH /_search/posts?query=:query : search for the post corresponding to
-     * the query.
+     * SEARCH  /_search/posts?query=:query : search for the post corresponding
+     * to the query.
      *
      * @param query the query of the post search
      * @return the result of the search

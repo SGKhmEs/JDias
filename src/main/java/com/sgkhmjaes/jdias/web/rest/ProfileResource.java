@@ -37,12 +37,10 @@ public class ProfileResource {
     }
 
     /**
-     * POST /profiles : Create a new profile.
+     * POST  /profiles : Create a new profile.
      *
      * @param profile the profile to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new profile, or with status 400 (Bad Request) if the profile has already
-     * an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new profile, or with status 400 (Bad Request) if the profile has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/profiles")
@@ -54,17 +52,17 @@ public class ProfileResource {
         }
         Profile result = profileService.save(profile);
         return ResponseEntity.created(new URI("/api/profiles/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /profiles : Updates an existing profile.
+     * PUT  /profiles : Updates an existing profile.
      *
      * @param profile the profile to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * profile, or with status 400 (Bad Request) if the profile is not valid, or
-     * with status 500 (Internal Server Error) if the profile couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated profile,
+     * or with status 400 (Bad Request) if the profile is not valid,
+     * or with status 500 (Internal Server Error) if the profile couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/profiles")
@@ -76,15 +74,14 @@ public class ProfileResource {
         }
         Profile result = profileService.save(profile);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, profile.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, profile.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /profiles : get all the profiles.
+     * GET  /profiles : get all the profiles.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of profiles
-     * in body
+     * @return the ResponseEntity with status 200 (OK) and the list of profiles in body
      */
     @GetMapping("/profiles")
     @Timed
@@ -94,11 +91,10 @@ public class ProfileResource {
     }
 
     /**
-     * GET /profiles/:id : get the "id" profile.
+     * GET  /profiles/:id : get the "id" profile.
      *
      * @param id the id of the profile to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the
-     * profile, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the profile, or with status 404 (Not Found)
      */
     @GetMapping("/profiles/{id}")
     @Timed
@@ -109,7 +105,7 @@ public class ProfileResource {
     }
 
     /**
-     * DELETE /profiles/:id : delete the "id" profile.
+     * DELETE  /profiles/:id : delete the "id" profile.
      *
      * @param id the id of the profile to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -123,8 +119,8 @@ public class ProfileResource {
     }
 
     /**
-     * SEARCH /_search/profiles?query=:query : search for the profile
-     * corresponding to the query.
+     * SEARCH  /_search/profiles?query=:query : search for the profile corresponding
+     * to the query.
      *
      * @param query the query of the profile search
      * @return the result of the search

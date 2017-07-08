@@ -27,14 +27,13 @@ public class CustomSignInAdapter implements SignInAdapter {
         this.userDetailsService = userDetailsService;
         this.jHipsterProperties = jHipsterProperties;
     }
-
     @Override
     public String signIn(String userId, Connection<?> connection, NativeWebRequest request) {
         UserDetails user = userDetailsService.loadUserByUsername(userId);
         Authentication newAuth = new UsernamePasswordAuthenticationToken(
-                user,
-                null,
-                user.getAuthorities());
+            user,
+            null,
+            user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(newAuth);
         return jHipsterProperties.getSocial().getRedirectAfterSignIn();
     }

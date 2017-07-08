@@ -15,20 +15,17 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.conversation.author" for="field_author">Author</label>
             <input type="text" class="form-control" name="author" id="field_author"
-                [(ngModel)]="conversation.author"
-             />
+                [(ngModel)]="conversation.author"  />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.conversation.guid" for="field_guid">Guid</label>
             <input type="text" class="form-control" name="guid" id="field_guid"
-                [(ngModel)]="conversation.guid"
-             />
+                [(ngModel)]="conversation.guid"  />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.conversation.subject" for="field_subject">Subject</label>
             <input type="text" class="form-control" name="subject" id="field_subject"
-                [(ngModel)]="conversation.subject"
-             />
+                [(ngModel)]="conversation.subject"  />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.conversation.createdAt" for="field_createdAt">Created At</label>
@@ -43,17 +40,16 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.conversation.message" for="field_message">Message</label>
             <input type="text" class="form-control" name="message" id="field_message"
-                [(ngModel)]="conversation.message"
-             />
+                [(ngModel)]="conversation.message"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.conversation.updatedAt" for="field_updatedAt">Updated At</label>
+            <div class="d-flex">
+                <input id="field_updatedAt" type="datetime-local" class="form-control" name="updatedAt" [(ngModel)]="conversation.updatedAt"
+                  />
+            </div>
         </div>
 
-        <div class="form-group">
-            <label jhiTranslate="jDiasApp.conversation.userAccount" for="field_userAccount">User Account</label>
-            <select class="form-control" id="field_userAccount" name="userAccount" [(ngModel)]="conversation.userAccount" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="userAccountOption.id === conversation.userAccount?.id ? conversation.userAccount : userAccountOption" *ngFor="let userAccountOption of useraccounts; trackBy: trackUserAccountById">{{userAccountOption.id}}</option>
-            </select>
-        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

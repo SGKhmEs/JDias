@@ -17,33 +17,33 @@ public interface ParticipationService {
     Participation save(Participation participation);
 
     /**
-     * Get all the participations.
+     *  Get all the participations.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     List<Participation> findAll();
 
     /**
-     * Get the "id" participation.
+     *  Get the "id" participation.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     Participation findOne(Long id);
 
     /**
-     * Delete the "id" participation.
+     *  Delete the "id" participation.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the participation corresponding to the query.
      *
-     * @param query the query of the search
-     *
-     * @return the list of entities
+     *  @param query the query of the search
+     *  
+     *  @return the list of entities
      */
     List<Participation> search(String query);
 }

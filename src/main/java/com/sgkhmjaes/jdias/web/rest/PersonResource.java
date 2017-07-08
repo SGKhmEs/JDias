@@ -37,12 +37,10 @@ public class PersonResource {
     }
 
     /**
-     * POST /people : Create a new person.
+     * POST  /people : Create a new person.
      *
      * @param person the person to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new person, or with status 400 (Bad Request) if the person has already an
-     * ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new person, or with status 400 (Bad Request) if the person has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/people")
@@ -54,17 +52,17 @@ public class PersonResource {
         }
         Person result = personService.save(person);
         return ResponseEntity.created(new URI("/api/people/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /people : Updates an existing person.
+     * PUT  /people : Updates an existing person.
      *
      * @param person the person to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * person, or with status 400 (Bad Request) if the person is not valid, or
-     * with status 500 (Internal Server Error) if the person couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated person,
+     * or with status 400 (Bad Request) if the person is not valid,
+     * or with status 500 (Internal Server Error) if the person couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/people")
@@ -76,15 +74,14 @@ public class PersonResource {
         }
         Person result = personService.save(person);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, person.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, person.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /people : get all the people.
+     * GET  /people : get all the people.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of people in
-     * body
+     * @return the ResponseEntity with status 200 (OK) and the list of people in body
      */
     @GetMapping("/people")
     @Timed
@@ -94,11 +91,10 @@ public class PersonResource {
     }
 
     /**
-     * GET /people/:id : get the "id" person.
+     * GET  /people/:id : get the "id" person.
      *
      * @param id the id of the person to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the person,
-     * or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the person, or with status 404 (Not Found)
      */
     @GetMapping("/people/{id}")
     @Timed
@@ -109,7 +105,7 @@ public class PersonResource {
     }
 
     /**
-     * DELETE /people/:id : delete the "id" person.
+     * DELETE  /people/:id : delete the "id" person.
      *
      * @param id the id of the person to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -123,7 +119,7 @@ public class PersonResource {
     }
 
     /**
-     * SEARCH /_search/people?query=:query : search for the person corresponding
+     * SEARCH  /_search/people?query=:query : search for the person corresponding
      * to the query.
      *
      * @param query the query of the person search

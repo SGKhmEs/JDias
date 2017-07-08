@@ -1,10 +1,10 @@
 package com.sgkhmjaes.jdias.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sgkhmjaes.jdias.security.RSAKeysGenerator;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -24,6 +24,8 @@ public class UserAccount implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    //@SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @Column(name = "serialized_private_key")
@@ -111,6 +113,7 @@ public class UserAccount implements Serializable {
     @JoinColumn(unique = true)
     private User user;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(unique = true)
     private Person person;
@@ -118,17 +121,29 @@ public class UserAccount implements Serializable {
     @OneToMany(mappedBy = "userAccount")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Conversation> conversations = new HashSet<>();
-
-    @OneToMany(mappedBy = "userAccount")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<AspectMembership> aspectmemberships = new HashSet<>();
-
-    @OneToMany(mappedBy = "userAccount")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TagFollowing> tagfollowings = new HashSet<>();
+
+    public UserAccount (){}
+    
+    public UserAccount (Long id){
+        this.id=id;
+        this.serializedPrivateKey = RSAKeysGenerator.getRsaPrivateKey();
+        this.createdAt = LocalDate.now();
+        this.lastSeen = LocalDate.now();
+        this.disableMail = false;
+        this.signInCount = 0;
+        this.language = "default";
+        this.autoFollowBack = true;
+        this.colorTheme = "default";
+        this.currentSignInAt = LocalDate.now();
+        this.currentSignInIp = "CurrentSignInIp";
+        this.exportE = "ExportE";
+        this.exporting = false;
+        this.gettingStarted = false;
+        this.lastSignInAt = LocalDate.now();
+        this.stripExif = false;
+        this.postDefaultPublic = true;
+    }
 
     public Long getId() {
         return id;
@@ -515,56 +530,6 @@ public class UserAccount implements Serializable {
         this.person = person;
     }
 
-    public Set<Conversation> getConversations() {
-        return conversations;
-    }
-
-    public UserAccount conversations(Set<Conversation> conversations) {
-        this.conversations = conversations;
-        return this;
-    }
-
-    public UserAccount addConversations(Conversation conversation) {
-        this.conversations.add(conversation);
-        conversation.setUserAccount(this);
-        return this;
-    }
-
-    public UserAccount removeConversations(Conversation conversation) {
-        this.conversations.remove(conversation);
-        conversation.setUserAccount(null);
-        return this;
-    }
-
-    public void setConversations(Set<Conversation> conversations) {
-        this.conversations = conversations;
-    }
-
-    public Set<AspectMembership> getAspectmemberships() {
-        return aspectmemberships;
-    }
-
-    public UserAccount aspectmemberships(Set<AspectMembership> aspectMemberships) {
-        this.aspectmemberships = aspectMemberships;
-        return this;
-    }
-
-    public UserAccount addAspectmemberships(AspectMembership aspectMembership) {
-        this.aspectmemberships.add(aspectMembership);
-        aspectMembership.setUserAccount(this);
-        return this;
-    }
-
-    public UserAccount removeAspectmemberships(AspectMembership aspectMembership) {
-        this.aspectmemberships.remove(aspectMembership);
-        aspectMembership.setUserAccount(null);
-        return this;
-    }
-
-    public void setAspectmemberships(Set<AspectMembership> aspectMemberships) {
-        this.aspectmemberships = aspectMemberships;
-    }
-
     public Set<TagFollowing> getTagfollowings() {
         return tagfollowings;
     }
@@ -612,35 +577,36 @@ public class UserAccount implements Serializable {
 
     @Override
     public String toString() {
-        return "UserAccount{"
-                + "id=" + getId()
-                + ", serializedPrivateKey='" + getSerializedPrivateKey() + "'"
-                + ", gettingStarted='" + isGettingStarted() + "'"
-                + ", disableMail='" + isDisableMail() + "'"
-                + ", language='" + getLanguage() + "'"
-                + ", rememberCreatedAt='" + getRememberCreatedAt() + "'"
-                + ", signInCount='" + getSignInCount() + "'"
-                + ", currentSignInAt='" + getCurrentSignInAt() + "'"
-                + ", lastSignInAt='" + getLastSignInAt() + "'"
-                + ", currentSignInIp='" + getCurrentSignInIp() + "'"
-                + ", lastSignInIp='" + getLastSignInIp() + "'"
-                + ", createdAt='" + getCreatedAt() + "'"
-                + ", updatedAt='" + getUpdatedAt() + "'"
-                + ", lockedAt='" + getLockedAt() + "'"
-                + ", showCommunitySpotlightInStream='" + isShowCommunitySpotlightInStream() + "'"
-                + ", autoFollowBack='" + isAutoFollowBack() + "'"
-                + ", autoFollowBackAspectId='" + getAutoFollowBackAspectId() + "'"
-                + ", hiddenShareables='" + getHiddenShareables() + "'"
-                + ", lastSeen='" + getLastSeen() + "'"
-                + ", exportE='" + getExportE() + "'"
-                + ", exportedAt='" + getExportedAt() + "'"
-                + ", exporting='" + isExporting() + "'"
-                + ", stripExif='" + isStripExif() + "'"
-                + ", exportedPhotosFile='" + getExportedPhotosFile() + "'"
-                + ", exportedPhotosAt='" + getExportedPhotosAt() + "'"
-                + ", exportingPhotos='" + isExportingPhotos() + "'"
-                + ", colorTheme='" + getColorTheme() + "'"
-                + ", postDefaultPublic='" + isPostDefaultPublic() + "'"
-                + "}";
+        return "UserAccount{" +
+            "id=" + getId() +
+            ", serializedPrivateKey='" + getSerializedPrivateKey() + "'" +
+            ", gettingStarted='" + isGettingStarted() + "'" +
+            ", disableMail='" + isDisableMail() + "'" +
+            ", language='" + getLanguage() + "'" +
+            ", rememberCreatedAt='" + getRememberCreatedAt() + "'" +
+            ", signInCount='" + getSignInCount() + "'" +
+            ", currentSignInAt='" + getCurrentSignInAt() + "'" +
+            ", lastSignInAt='" + getLastSignInAt() + "'" +
+            ", currentSignInIp='" + getCurrentSignInIp() + "'" +
+            ", lastSignInIp='" + getLastSignInIp() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
+            ", lockedAt='" + getLockedAt() + "'" +
+            ", showCommunitySpotlightInStream='" + isShowCommunitySpotlightInStream() + "'" +
+            ", autoFollowBack='" + isAutoFollowBack() + "'" +
+            ", autoFollowBackAspectId='" + getAutoFollowBackAspectId() + "'" +
+            ", hiddenShareables='" + getHiddenShareables() + "'" +
+            ", lastSeen='" + getLastSeen() + "'" +
+            ", exportE='" + getExportE() + "'" +
+            ", exportedAt='" + getExportedAt() + "'" +
+            ", exporting='" + isExporting() + "'" +
+            ", stripExif='" + isStripExif() + "'" +
+            ", exportedPhotosFile='" + getExportedPhotosFile() + "'" +
+            ", exportedPhotosAt='" + getExportedPhotosAt() + "'" +
+            ", exportingPhotos='" + isExportingPhotos() + "'" +
+            ", colorTheme='" + getColorTheme() + "'" +
+            ", postDefaultPublic='" + isPostDefaultPublic() + "'" +
+            "}";
     }
+
 }

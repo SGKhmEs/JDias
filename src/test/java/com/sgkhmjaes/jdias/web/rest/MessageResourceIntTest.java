@@ -23,10 +23,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.List;
 
+import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -53,8 +56,8 @@ public class MessageResourceIntTest {
     private static final String DEFAULT_TEXT = "AAAAAAAAAA";
     private static final String UPDATED_TEXT = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
+    private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     @Autowired
     private MessageRepository messageRepository;
@@ -86,9 +89,9 @@ public class MessageResourceIntTest {
         MockitoAnnotations.initMocks(this);
         MessageResource messageResource = new MessageResource(messageService);
         this.restMessageMockMvc = MockMvcBuilders.standaloneSetup(messageResource)
-                .setCustomArgumentResolvers(pageableArgumentResolver)
-                .setControllerAdvice(exceptionTranslator)
-                .setMessageConverters(jacksonMessageConverter).build();
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -99,11 +102,11 @@ public class MessageResourceIntTest {
      */
     public static Message createEntity(EntityManager em) {
         Message message = new Message()
-                .author(DEFAULT_AUTHOR)
-                .guid(DEFAULT_GUID)
-                .conversationGuid(DEFAULT_CONVERSATION_GUID)
-                .text(DEFAULT_TEXT)
-                .createdAt(DEFAULT_CREATED_AT);
+            .author(DEFAULT_AUTHOR)
+            .guid(DEFAULT_GUID)
+            .conversationGuid(DEFAULT_CONVERSATION_GUID)
+            .text(DEFAULT_TEXT)
+            .createdAt(DEFAULT_CREATED_AT);
         return message;
     }
 
@@ -120,9 +123,9 @@ public class MessageResourceIntTest {
 
         // Create the Message
         restMessageMockMvc.perform(post("/api/messages")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(message)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(message)))
+            .andExpect(status().isCreated());
 
         // Validate the Message in the database
         List<Message> messageList = messageRepository.findAll();
@@ -149,9 +152,9 @@ public class MessageResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restMessageMockMvc.perform(post("/api/messages")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(message)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(message)))
+            .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Message> messageList = messageRepository.findAll();
@@ -166,14 +169,14 @@ public class MessageResourceIntTest {
 
         // Get all the messageList
         restMessageMockMvc.perform(get("/api/messages?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(message.getId().intValue())))
-                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-                .andExpect(jsonPath("$.[*].conversationGuid").value(hasItem(DEFAULT_CONVERSATION_GUID.toString())))
-                .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(message.getId().intValue())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].conversationGuid").value(hasItem(DEFAULT_CONVERSATION_GUID.toString())))
+            .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))));
     }
 
     @Test
@@ -184,14 +187,14 @@ public class MessageResourceIntTest {
 
         // Get the message
         restMessageMockMvc.perform(get("/api/messages/{id}", message.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id").value(message.getId().intValue()))
-                .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-                .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-                .andExpect(jsonPath("$.conversationGuid").value(DEFAULT_CONVERSATION_GUID.toString()))
-                .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()))
-                .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(message.getId().intValue()))
+            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
+            .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
+            .andExpect(jsonPath("$.conversationGuid").value(DEFAULT_CONVERSATION_GUID.toString()))
+            .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()))
+            .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)));
     }
 
     @Test
@@ -199,7 +202,7 @@ public class MessageResourceIntTest {
     public void getNonExistingMessage() throws Exception {
         // Get the message
         restMessageMockMvc.perform(get("/api/messages/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -213,16 +216,16 @@ public class MessageResourceIntTest {
         // Update the message
         Message updatedMessage = messageRepository.findOne(message.getId());
         updatedMessage
-                .author(UPDATED_AUTHOR)
-                .guid(UPDATED_GUID)
-                .conversationGuid(UPDATED_CONVERSATION_GUID)
-                .text(UPDATED_TEXT)
-                .createdAt(UPDATED_CREATED_AT);
+            .author(UPDATED_AUTHOR)
+            .guid(UPDATED_GUID)
+            .conversationGuid(UPDATED_CONVERSATION_GUID)
+            .text(UPDATED_TEXT)
+            .createdAt(UPDATED_CREATED_AT);
 
         restMessageMockMvc.perform(put("/api/messages")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedMessage)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedMessage)))
+            .andExpect(status().isOk());
 
         // Validate the Message in the database
         List<Message> messageList = messageRepository.findAll();
@@ -245,11 +248,12 @@ public class MessageResourceIntTest {
         int databaseSizeBeforeUpdate = messageRepository.findAll().size();
 
         // Create the Message
+
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restMessageMockMvc.perform(put("/api/messages")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(message)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(message)))
+            .andExpect(status().isCreated());
 
         // Validate the Message in the database
         List<Message> messageList = messageRepository.findAll();
@@ -266,8 +270,8 @@ public class MessageResourceIntTest {
 
         // Get the message
         restMessageMockMvc.perform(delete("/api/messages/{id}", message.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean messageExistsInEs = messageSearchRepository.exists(message.getId());
@@ -286,14 +290,14 @@ public class MessageResourceIntTest {
 
         // Search the message
         restMessageMockMvc.perform(get("/api/_search/messages?query=id:" + message.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(message.getId().intValue())))
-                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-                .andExpect(jsonPath("$.[*].conversationGuid").value(hasItem(DEFAULT_CONVERSATION_GUID.toString())))
-                .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(message.getId().intValue())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].conversationGuid").value(hasItem(DEFAULT_CONVERSATION_GUID.toString())))
+            .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))));
     }
 
     @Test

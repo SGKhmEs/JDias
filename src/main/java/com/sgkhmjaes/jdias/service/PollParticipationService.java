@@ -17,33 +17,33 @@ public interface PollParticipationService {
     PollParticipation save(PollParticipation pollParticipation);
 
     /**
-     * Get all the pollParticipations.
+     *  Get all the pollParticipations.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     List<PollParticipation> findAll();
 
     /**
-     * Get the "id" pollParticipation.
+     *  Get the "id" pollParticipation.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     PollParticipation findOne(Long id);
 
     /**
-     * Delete the "id" pollParticipation.
+     *  Delete the "id" pollParticipation.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the pollParticipation corresponding to the query.
      *
-     * @param query the query of the search
-     *
-     * @return the list of entities
+     *  @param query the query of the search
+     *  
+     *  @return the list of entities
      */
     List<PollParticipation> search(String query);
 }

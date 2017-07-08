@@ -89,9 +89,9 @@ public class AspectResourceIntTest {
         MockitoAnnotations.initMocks(this);
         AspectResource aspectResource = new AspectResource(aspectService);
         this.restAspectMockMvc = MockMvcBuilders.standaloneSetup(aspectResource)
-                .setCustomArgumentResolvers(pageableArgumentResolver)
-                .setControllerAdvice(exceptionTranslator)
-                .setMessageConverters(jacksonMessageConverter).build();
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -102,12 +102,12 @@ public class AspectResourceIntTest {
      */
     public static Aspect createEntity(EntityManager em) {
         Aspect aspect = new Aspect()
-                .name(DEFAULT_NAME)
-                .createdAt(DEFAULT_CREATED_AT)
-                .updatedAt(DEFAULT_UPDATED_AT)
-                .contactVisible(DEFAULT_CONTACT_VISIBLE)
-                .chatEnabled(DEFAULT_CHAT_ENABLED)
-                .postDefault(DEFAULT_POST_DEFAULT);
+            .name(DEFAULT_NAME)
+            .createdAt(DEFAULT_CREATED_AT)
+            .updatedAt(DEFAULT_UPDATED_AT)
+            .contactVisible(DEFAULT_CONTACT_VISIBLE)
+            .chatEnabled(DEFAULT_CHAT_ENABLED)
+            .postDefault(DEFAULT_POST_DEFAULT);
         return aspect;
     }
 
@@ -124,9 +124,9 @@ public class AspectResourceIntTest {
 
         // Create the Aspect
         restAspectMockMvc.perform(post("/api/aspects")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(aspect)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(aspect)))
+            .andExpect(status().isCreated());
 
         // Validate the Aspect in the database
         List<Aspect> aspectList = aspectRepository.findAll();
@@ -154,9 +154,9 @@ public class AspectResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restAspectMockMvc.perform(post("/api/aspects")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(aspect)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(aspect)))
+            .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Aspect> aspectList = aspectRepository.findAll();
@@ -171,15 +171,15 @@ public class AspectResourceIntTest {
 
         // Get all the aspectList
         restAspectMockMvc.perform(get("/api/aspects?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(aspect.getId().intValue())))
-                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].contactVisible").value(hasItem(DEFAULT_CONTACT_VISIBLE.booleanValue())))
-                .andExpect(jsonPath("$.[*].chatEnabled").value(hasItem(DEFAULT_CHAT_ENABLED.booleanValue())))
-                .andExpect(jsonPath("$.[*].postDefault").value(hasItem(DEFAULT_POST_DEFAULT.booleanValue())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(aspect.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].contactVisible").value(hasItem(DEFAULT_CONTACT_VISIBLE.booleanValue())))
+            .andExpect(jsonPath("$.[*].chatEnabled").value(hasItem(DEFAULT_CHAT_ENABLED.booleanValue())))
+            .andExpect(jsonPath("$.[*].postDefault").value(hasItem(DEFAULT_POST_DEFAULT.booleanValue())));
     }
 
     @Test
@@ -190,15 +190,15 @@ public class AspectResourceIntTest {
 
         // Get the aspect
         restAspectMockMvc.perform(get("/api/aspects/{id}", aspect.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id").value(aspect.getId().intValue()))
-                .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-                .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-                .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
-                .andExpect(jsonPath("$.contactVisible").value(DEFAULT_CONTACT_VISIBLE.booleanValue()))
-                .andExpect(jsonPath("$.chatEnabled").value(DEFAULT_CHAT_ENABLED.booleanValue()))
-                .andExpect(jsonPath("$.postDefault").value(DEFAULT_POST_DEFAULT.booleanValue()));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(aspect.getId().intValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
+            .andExpect(jsonPath("$.contactVisible").value(DEFAULT_CONTACT_VISIBLE.booleanValue()))
+            .andExpect(jsonPath("$.chatEnabled").value(DEFAULT_CHAT_ENABLED.booleanValue()))
+            .andExpect(jsonPath("$.postDefault").value(DEFAULT_POST_DEFAULT.booleanValue()));
     }
 
     @Test
@@ -206,7 +206,7 @@ public class AspectResourceIntTest {
     public void getNonExistingAspect() throws Exception {
         // Get the aspect
         restAspectMockMvc.perform(get("/api/aspects/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -220,17 +220,17 @@ public class AspectResourceIntTest {
         // Update the aspect
         Aspect updatedAspect = aspectRepository.findOne(aspect.getId());
         updatedAspect
-                .name(UPDATED_NAME)
-                .createdAt(UPDATED_CREATED_AT)
-                .updatedAt(UPDATED_UPDATED_AT)
-                .contactVisible(UPDATED_CONTACT_VISIBLE)
-                .chatEnabled(UPDATED_CHAT_ENABLED)
-                .postDefault(UPDATED_POST_DEFAULT);
+            .name(UPDATED_NAME)
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT)
+            .contactVisible(UPDATED_CONTACT_VISIBLE)
+            .chatEnabled(UPDATED_CHAT_ENABLED)
+            .postDefault(UPDATED_POST_DEFAULT);
 
         restAspectMockMvc.perform(put("/api/aspects")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedAspect)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedAspect)))
+            .andExpect(status().isOk());
 
         // Validate the Aspect in the database
         List<Aspect> aspectList = aspectRepository.findAll();
@@ -254,11 +254,12 @@ public class AspectResourceIntTest {
         int databaseSizeBeforeUpdate = aspectRepository.findAll().size();
 
         // Create the Aspect
+
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restAspectMockMvc.perform(put("/api/aspects")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(aspect)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(aspect)))
+            .andExpect(status().isCreated());
 
         // Validate the Aspect in the database
         List<Aspect> aspectList = aspectRepository.findAll();
@@ -275,8 +276,8 @@ public class AspectResourceIntTest {
 
         // Get the aspect
         restAspectMockMvc.perform(delete("/api/aspects/{id}", aspect.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean aspectExistsInEs = aspectSearchRepository.exists(aspect.getId());
@@ -295,15 +296,15 @@ public class AspectResourceIntTest {
 
         // Search the aspect
         restAspectMockMvc.perform(get("/api/_search/aspects?query=id:" + aspect.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(aspect.getId().intValue())))
-                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].contactVisible").value(hasItem(DEFAULT_CONTACT_VISIBLE.booleanValue())))
-                .andExpect(jsonPath("$.[*].chatEnabled").value(hasItem(DEFAULT_CHAT_ENABLED.booleanValue())))
-                .andExpect(jsonPath("$.[*].postDefault").value(hasItem(DEFAULT_POST_DEFAULT.booleanValue())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(aspect.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].contactVisible").value(hasItem(DEFAULT_CONTACT_VISIBLE.booleanValue())))
+            .andExpect(jsonPath("$.[*].chatEnabled").value(hasItem(DEFAULT_CHAT_ENABLED.booleanValue())))
+            .andExpect(jsonPath("$.[*].postDefault").value(hasItem(DEFAULT_POST_DEFAULT.booleanValue())));
     }
 
     @Test

@@ -44,8 +44,8 @@ public class PhotoResourceIntTest {
     private static final String DEFAULT_AUTHOR = "AAAAAAAAAA";
     private static final String UPDATED_AUTHOR = "BBBBBBBBBB";
 
-    private static final Boolean DEFAULT_GUID = false;
-    private static final Boolean UPDATED_GUID = true;
+    private static final String DEFAULT_GUID = "false";
+    private static final String UPDATED_GUID = "true";
 
     private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
@@ -145,7 +145,7 @@ public class PhotoResourceIntTest {
         assertThat(photoList).hasSize(databaseSizeBeforeCreate + 1);
         Photo testPhoto = photoList.get(photoList.size() - 1);
         assertThat(testPhoto.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
-        assertThat(testPhoto.isGuid()).isEqualTo(DEFAULT_GUID);
+        assertThat(testPhoto.getGuid()).isEqualTo(DEFAULT_GUID);
         assertThat(testPhoto.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testPhoto.getRemotePhotoPath()).isEqualTo(DEFAULT_REMOTE_PHOTO_PATH);
         assertThat(testPhoto.getRemotePhotoName()).isEqualTo(DEFAULT_REMOTE_PHOTO_NAME);
@@ -190,7 +190,7 @@ public class PhotoResourceIntTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(photo.getId().intValue())))
                 .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.booleanValue())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID)))
                 .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
                 .andExpect(jsonPath("$.[*].remotePhotoPath").value(hasItem(DEFAULT_REMOTE_PHOTO_PATH.toString())))
                 .andExpect(jsonPath("$.[*].remotePhotoName").value(hasItem(DEFAULT_REMOTE_PHOTO_NAME.toString())))
@@ -212,7 +212,7 @@ public class PhotoResourceIntTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.id").value(photo.getId().intValue()))
                 .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-                .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.booleanValue()))
+                .andExpect(jsonPath("$.guid").value(DEFAULT_GUID))
                 .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
                 .andExpect(jsonPath("$.remotePhotoPath").value(DEFAULT_REMOTE_PHOTO_PATH.toString()))
                 .andExpect(jsonPath("$.remotePhotoName").value(DEFAULT_REMOTE_PHOTO_NAME.toString()))
@@ -261,7 +261,7 @@ public class PhotoResourceIntTest {
         assertThat(photoList).hasSize(databaseSizeBeforeUpdate);
         Photo testPhoto = photoList.get(photoList.size() - 1);
         assertThat(testPhoto.getAuthor()).isEqualTo(UPDATED_AUTHOR);
-        assertThat(testPhoto.isGuid()).isEqualTo(UPDATED_GUID);
+        assertThat(testPhoto.getGuid()).isEqualTo(UPDATED_GUID);
         assertThat(testPhoto.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testPhoto.getRemotePhotoPath()).isEqualTo(UPDATED_REMOTE_PHOTO_PATH);
         assertThat(testPhoto.getRemotePhotoName()).isEqualTo(UPDATED_REMOTE_PHOTO_NAME);
@@ -326,7 +326,7 @@ public class PhotoResourceIntTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(photo.getId().intValue())))
                 .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.booleanValue())))
+                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID)))
                 .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
                 .andExpect(jsonPath("$.[*].remotePhotoPath").value(hasItem(DEFAULT_REMOTE_PHOTO_PATH.toString())))
                 .andExpect(jsonPath("$.[*].remotePhotoName").value(hasItem(DEFAULT_REMOTE_PHOTO_NAME.toString())))

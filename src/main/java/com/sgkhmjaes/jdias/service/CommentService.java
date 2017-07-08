@@ -17,33 +17,33 @@ public interface CommentService {
     Comment save(Comment comment);
 
     /**
-     * Get all the comments.
+     *  Get all the comments.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     List<Comment> findAll();
 
     /**
-     * Get the "id" comment.
+     *  Get the "id" comment.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     Comment findOne(Long id);
 
     /**
-     * Delete the "id" comment.
+     *  Delete the "id" comment.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the comment corresponding to the query.
      *
-     * @param query the query of the search
-     *
-     * @return the list of entities
+     *  @param query the query of the search
+     *  
+     *  @return the list of entities
      */
     List<Comment> search(String query);
 }

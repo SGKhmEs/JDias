@@ -43,6 +43,7 @@
             <th><span jhiTranslate="jDiasApp.profile.searchable">Searchable</span></th>
             <th><span jhiTranslate="jDiasApp.profile.nsfw">Nsfw</span></th>
             <th><span jhiTranslate="jDiasApp.profile.tagString">Tag String</span></th>
+            <th><span jhiTranslate="jDiasApp.profile.person">Person</span></th>
             <th></th>
             </tr>
             </thead>
@@ -62,6 +63,11 @@
                 <td>{{profile.searchable}}</td>
                 <td>{{profile.nsfw}}</td>
                 <td>{{profile.tagString}}</td>
+                <td>
+                    <div *ngIf="profile.person">
+                        <a [routerLink]="['../person', profile.person?.id ]" >{{profile.person?.id}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

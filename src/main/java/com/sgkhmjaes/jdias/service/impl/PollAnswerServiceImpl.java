@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class PollAnswerServiceImpl implements PollAnswerService {
+public class PollAnswerServiceImpl implements PollAnswerService{
 
     private final Logger log = LoggerFactory.getLogger(PollAnswerServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class PollAnswerServiceImpl implements PollAnswerService {
     }
 
     /**
-     * Get all the pollAnswers.
+     *  Get all the pollAnswers.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class PollAnswerServiceImpl implements PollAnswerService {
     }
 
     /**
-     * Get one pollAnswer by id.
+     *  Get one pollAnswer by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class PollAnswerServiceImpl implements PollAnswerService {
     }
 
     /**
-     * Delete the pollAnswer by id.
+     *  Delete the  pollAnswer by id.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class PollAnswerServiceImpl implements PollAnswerService {
     /**
      * Search for the pollAnswer corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     *  @param query the query of the search
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<PollAnswer> search(String query) {
         log.debug("Request to search PollAnswers for query {}", query);
         return StreamSupport
-                .stream(pollAnswerSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .stream(pollAnswerSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

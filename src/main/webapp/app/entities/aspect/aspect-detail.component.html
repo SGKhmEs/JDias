@@ -28,6 +28,12 @@
         <dd>
             <span>{{aspect.postDefault}}</span>
         </dd>
+        <dt><span jhiTranslate="jDiasApp.aspect.person">Person</span></dt>
+        <dd>
+            <div *ngIf="aspect.person">
+                <a [routerLink]="['/person', aspect.person?.id]">{{aspect.person?.id}}</a>
+            </div>
+        </dd>
     </dl>
 
     <button type="submit"

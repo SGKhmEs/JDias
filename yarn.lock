@@ -130,6 +130,14 @@
     magic-string "^0.19.0"
     source-map "^0.5.6"
 
+"@ngx-translate/core@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@ngx-translate/core/-/core-7.0.0.tgz#5b6f63bd4042164d44cd85f68703af96e9392e7d"
+
+"@ngx-translate/http-loader@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@ngx-translate/http-loader/-/http-loader-0.1.0.tgz#6029325561d7868fe325a419de2770e98ff1502e"
+
 "@types/jasmine@2.5.47":
   version "2.5.47"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.5.47.tgz#bbba9bcf0e95e7890c6f4a47394e8bacaa960eb6"
@@ -246,10 +254,6 @@ alphanum-sort@^1.0.1, alphanum-sort@^1.0.2:
 amdefine@>=0.0.4, amdefine@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
-
-angular2-cookie@1.2.6:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/angular2-cookie/-/angular2-cookie-1.2.6.tgz#8fa845531e777adb042fe2f339c0040f6ddbf09d"
 
 angular2-template-loader@0.6.2:
   version "0.6.2"
@@ -640,11 +644,7 @@ binary-extensions@^1.0.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.8.0.tgz#48ec8d16df4377eae5fa5884682480af4d95c774"
 
-"binaryextensions@1 || 2":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/binaryextensions/-/binaryextensions-2.0.0.tgz#e597d1a7a6a3558a2d1c7241a16c99965e6aa40f"
-
-binaryextensions@~1.0.0:
+"binaryextensions@1 || 2", binaryextensions@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/binaryextensions/-/binaryextensions-1.0.1.tgz#1e637488b35b58bda5f4774bf96a5212a8c90755"
 
@@ -2679,9 +2679,35 @@ fast-levenshtein@~2.0.4:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
 
+fastfall@^1.5.0:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/fastfall/-/fastfall-1.5.1.tgz#3fee03331a49d1d39b3cdf7a5e9cd66f475e7b94"
+  dependencies:
+    reusify "^1.0.0"
+
+fastparallel@^2.2.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/fastparallel/-/fastparallel-2.3.0.tgz#1e709bfb6a03993f3857e3ce7f01311ce7602613"
+  dependencies:
+    reusify "^1.0.0"
+    xtend "^4.0.1"
+
 fastparse@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/fastparse/-/fastparse-1.1.1.tgz#d1e2643b38a94d7583b479060e6c4affc94071f8"
+
+fastq@^1.3.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/fastq/-/fastq-1.5.0.tgz#05e32ffb999ec2d945dda27461bf08941436448b"
+  dependencies:
+    reusify "^1.0.0"
+
+fastseries@^1.7.0:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/fastseries/-/fastseries-1.7.2.tgz#d22ce13b9433dff3388d91dbd6b8bda9b21a0f4b"
+  dependencies:
+    reusify "^1.0.0"
+    xtend "^4.0.0"
 
 faye-websocket@^0.10.0:
   version "0.10.0"
@@ -3206,9 +3232,9 @@ generator-jhipster@2.25.0:
     yeoman-generator "0.20.3"
     yo "1.4.8"
 
-generator-jhipster@4.5.2, generator-jhipster@>2.26.0, generator-jhipster@>3.6.0, generator-jhipster@>=2.26.0, generator-jhipster@>=3.0.0, generator-jhipster@>=3.6.1, generator-jhipster@>=4.0.0:
-  version "4.5.2"
-  resolved "https://registry.yarnpkg.com/generator-jhipster/-/generator-jhipster-4.5.2.tgz#dfadb726c86bef09c67fc8e730a664d0fab4b964"
+generator-jhipster@4.5.5, generator-jhipster@>2.26.0, generator-jhipster@>3.6.0, generator-jhipster@>=2.26.0, generator-jhipster@>=2.27.0, generator-jhipster@>=3.0.0, generator-jhipster@>=3.6.1, generator-jhipster@>=4.0.0:
+  version "4.5.5"
+  resolved "https://registry.yarnpkg.com/generator-jhipster/-/generator-jhipster-4.5.5.tgz#390fa73927b24be94e44ec7a56d785d412648004"
   dependencies:
     chalk "1.1.3"
     cheerio "0.22.0"
@@ -3218,32 +3244,7 @@ generator-jhipster@4.5.2, generator-jhipster@>2.26.0, generator-jhipster@>3.6.0,
     glob "7.1.1"
     html-wiring "1.2.0"
     insight "0.8.4"
-    jhipster-core "1.3.2"
-    js-yaml "3.8.3"
-    lodash "4.17.4"
-    mkdirp "0.5.1"
-    pluralize "4.0.0"
-    randexp "0.4.5"
-    semver "5.3.0"
-    shelljs "0.7.7"
-    tabtab "2.2.2"
-    yeoman-environment "1.6.6"
-    yeoman-generator "1.1.1"
-    yo "1.8.5"
-
-generator-jhipster@>=2.27.0, generator-jhipster@latest:
-  version "4.5.3"
-  resolved "https://registry.yarnpkg.com/generator-jhipster/-/generator-jhipster-4.5.3.tgz#23173fa29f288adab8fbe5c659d0ba3bc8eca876"
-  dependencies:
-    chalk "1.1.3"
-    cheerio "0.22.0"
-    commander "2.9.0"
-    didyoumean "1.2.1"
-    ejs "2.5.6"
-    glob "7.1.1"
-    html-wiring "1.2.0"
-    insight "0.8.4"
-    jhipster-core "1.3.2"
+    jhipster-core "1.3.3"
     js-yaml "3.8.3"
     lodash "4.17.4"
     mkdirp "0.5.1"
@@ -3274,6 +3275,31 @@ generator-jhipster@^3.6.0:
     semver "5.3.0"
     shelljs "0.7.4"
     yeoman-generator "0.24.1"
+    yo "1.8.5"
+
+generator-jhipster@latest:
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/generator-jhipster/-/generator-jhipster-4.5.3.tgz#23173fa29f288adab8fbe5c659d0ba3bc8eca876"
+  dependencies:
+    chalk "1.1.3"
+    cheerio "0.22.0"
+    commander "2.9.0"
+    didyoumean "1.2.1"
+    ejs "2.5.6"
+    glob "7.1.1"
+    html-wiring "1.2.0"
+    insight "0.8.4"
+    jhipster-core "1.3.2"
+    js-yaml "3.8.3"
+    lodash "4.17.4"
+    mkdirp "0.5.1"
+    pluralize "4.0.0"
+    randexp "0.4.5"
+    semver "5.3.0"
+    shelljs "0.7.7"
+    tabtab "2.2.2"
+    yeoman-environment "1.6.6"
+    yeoman-generator "1.1.1"
     yo "1.8.5"
 
 get-caller-file@^1.0.0, get-caller-file@^1.0.1:
@@ -4587,6 +4613,12 @@ jhipster-core@1.3.2:
   dependencies:
     lodash "4.17.4"
 
+jhipster-core@1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/jhipster-core/-/jhipster-core-1.3.3.tgz#2e26079d96cae9e5441bae81b480bbed759ace62"
+  dependencies:
+    lodash "4.17.4"
+
 jquery@3.2.1, jquery@>=1.9.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
@@ -4930,7 +4962,7 @@ loader-runner@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-2.3.0.tgz#f482aea82d543e07921700d5a46ef26fdac6b8a2"
 
-loader-utils@0.x.x, loader-utils@^0.2.15, loader-utils@^0.2.16, loader-utils@^0.2.5, loader-utils@~0.2.2, loader-utils@~0.2.3, loader-utils@~0.2.5:
+loader-utils@0.x.x, loader-utils@^0.2.12, loader-utils@^0.2.15, loader-utils@^0.2.16, loader-utils@^0.2.5, loader-utils@~0.2.2, loader-utils@~0.2.3, loader-utils@~0.2.5:
   version "0.2.17"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-0.2.17.tgz#f86e6374d43205a6e6c60e9196f17c0299bfb348"
   dependencies:
@@ -5595,19 +5627,20 @@ nested-error-stacks@^1.0.0:
   dependencies:
     inherits "~2.0.1"
 
-ng-jhipster@0.1.16:
-  version "0.1.16"
-  resolved "https://registry.yarnpkg.com/ng-jhipster/-/ng-jhipster-0.1.16.tgz#5539af3e49e88b332d4f725ca9d51612fa7e394e"
+ng-jhipster@0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/ng-jhipster/-/ng-jhipster-0.2.3.tgz#6bd8b2b61c2501bcdd6407b4bf174cf50fe0a6ce"
   dependencies:
-    ng2-translate "4.2.0"
-
-ng2-translate@4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/ng2-translate/-/ng2-translate-4.2.0.tgz#83bc8feca329b5fc56a636e36073241c6280c659"
+    "@ngx-translate/core" "7.0.0"
+    "@ngx-translate/http-loader" "0.1.0"
 
 ng2-webstorage@1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/ng2-webstorage/-/ng2-webstorage-1.8.0.tgz#02bac5f29cecc2b7a4dfea17d9cebc720edf6b49"
+
+ngx-cookie@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-cookie/-/ngx-cookie-1.0.0.tgz#004fc653febd849b4dd3ee2c63c4cf171f464da9"
 
 ngx-infinite-scroll@0.4.1:
   version "0.4.1"
@@ -6879,7 +6912,7 @@ readable-stream@1.1, readable-stream@~1.1.9:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-readable-stream@^2.0.0, readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.4, readable-stream@^2.0.5, readable-stream@^2.0.6, readable-stream@^2.1.4, readable-stream@^2.1.5, readable-stream@^2.2.6, readable-stream@^2.2.9:
+readable-stream@^2.0.0, readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.4, readable-stream@^2.0.5, readable-stream@^2.0.6, readable-stream@^2.1.4, readable-stream@^2.2.6, readable-stream@^2.2.9:
   version "2.2.11"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.2.11.tgz#0796b31f8d7688007ff0b93a8088d34aa17c0f72"
   dependencies:
@@ -7218,6 +7251,10 @@ restore-cursor@^2.0.0:
 ret@~0.1.10:
   version "0.1.14"
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.14.tgz#58c636837b12e161f8a380cf081c6a230fd1664e"
+
+reusify@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/reusify/-/reusify-1.0.1.tgz#f53584367adc825c87431917263fc7aa19118693"
 
 right-align@^0.1.1:
   version "0.1.3"
@@ -7870,6 +7907,16 @@ stdout-stream@^1.4.0:
   dependencies:
     readable-stream "^2.0.1"
 
+steed@^1.1.2:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/steed/-/steed-1.1.3.tgz#f1525dd5adb12eb21bf74749537668d625b9abc5"
+  dependencies:
+    fastfall "^1.5.0"
+    fastparallel "^2.2.0"
+    fastq "^1.3.0"
+    fastseries "^1.7.0"
+    reusify "^1.0.0"
+
 stream-browserify@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/stream-browserify/-/stream-browserify-2.0.1.tgz#66266ee5f9bdb9940a4e4514cafb43bb71e5c9db"
@@ -8221,11 +8268,7 @@ text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
 
-"textextensions@1 || 2":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/textextensions/-/textextensions-2.1.0.tgz#1be0dc2a0dc244d44be8a09af6a85afb93c4dbc3"
-
-textextensions@~1.0.0:
+"textextensions@1 || 2", textextensions@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/textextensions/-/textextensions-1.0.2.tgz#65486393ee1f2bb039a60cbba05b0b68bd9501d2"
 
@@ -8247,7 +8290,7 @@ through2-filter@^2.0.0:
     through2 "~2.0.0"
     xtend "~4.0.0"
 
-through2@2.0.1:
+through2@2.0.1, through2@^2.0.0, through2@^2.0.1, through2@~2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.1.tgz#384e75314d49f32de12eebb8136b8eb6b5d59da9"
   dependencies:
@@ -8260,13 +8303,6 @@ through2@^0.6.0, through2@^0.6.1:
   dependencies:
     readable-stream ">=1.0.33-1 <1.1.0-0"
     xtend ">=4.0.0 <4.1.0-0"
-
-through2@^2.0.0, through2@^2.0.1, through2@~2.0.0:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.3.tgz#0004569b37c7c74ba39c43f3ced78d1ad94140be"
-  dependencies:
-    readable-stream "^2.1.5"
-    xtend "~4.0.1"
 
 through@2, through@X.X.X, through@^2.3.6, through@~2.3, through@~2.3.1, through@~2.3.4, through@~2.3.6:
   version "2.3.8"
@@ -8864,6 +8900,13 @@ wbuf@^1.1.0, wbuf@^1.7.2:
   dependencies:
     minimalistic-assert "^1.0.0"
 
+web-app-manifest-loader@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/web-app-manifest-loader/-/web-app-manifest-loader-0.1.1.tgz#861186a70f37b69ee10496b7ed0353d56fbdd11a"
+  dependencies:
+    loader-utils "^0.2.12"
+    steed "^1.1.2"
+
 webdriver-js-extender@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/webdriver-js-extender/-/webdriver-js-extender-1.0.0.tgz#81c533a9e33d5bfb597b4e63e2cdb25b54777515"
@@ -9152,16 +9195,9 @@ ws@1.1.1:
     options ">=0.0.5"
     ultron "1.0.x"
 
-ws@1.1.2:
+ws@1.1.2, ws@^1.0.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.2.tgz#8a244fa052401e08c9886cf44a85189e1fd4067f"
-  dependencies:
-    options ">=0.0.5"
-    ultron "1.0.x"
-
-ws@^1.0.1:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.4.tgz#57f40d036832e5f5055662a397c4de76ed66bf61"
   dependencies:
     options ">=0.0.5"
     ultron "1.0.x"
@@ -9216,7 +9252,7 @@ xmlhttprequest-ssl@1.5.3:
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/xmlhttprequest-ssl/-/xmlhttprequest-ssl-1.5.3.tgz#185a888c04eca46c3e4070d99f7b49de3528992d"
 
-"xtend@>=4.0.0 <4.1.0-0", xtend@^4.0.0, xtend@~4.0.0, xtend@~4.0.1:
+"xtend@>=4.0.0 <4.1.0-0", xtend@^4.0.0, xtend@^4.0.1, xtend@~4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 

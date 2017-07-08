@@ -37,12 +37,10 @@ public class PollParticipationResource {
     }
 
     /**
-     * POST /poll-participations : Create a new pollParticipation.
+     * POST  /poll-participations : Create a new pollParticipation.
      *
      * @param pollParticipation the pollParticipation to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new pollParticipation, or with status 400 (Bad Request) if the
-     * pollParticipation has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new pollParticipation, or with status 400 (Bad Request) if the pollParticipation has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/poll-participations")
@@ -54,18 +52,17 @@ public class PollParticipationResource {
         }
         PollParticipation result = pollParticipationService.save(pollParticipation);
         return ResponseEntity.created(new URI("/api/poll-participations/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /poll-participations : Updates an existing pollParticipation.
+     * PUT  /poll-participations : Updates an existing pollParticipation.
      *
      * @param pollParticipation the pollParticipation to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * pollParticipation, or with status 400 (Bad Request) if the
-     * pollParticipation is not valid, or with status 500 (Internal Server
-     * Error) if the pollParticipation couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated pollParticipation,
+     * or with status 400 (Bad Request) if the pollParticipation is not valid,
+     * or with status 500 (Internal Server Error) if the pollParticipation couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/poll-participations")
@@ -77,15 +74,14 @@ public class PollParticipationResource {
         }
         PollParticipation result = pollParticipationService.save(pollParticipation);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, pollParticipation.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, pollParticipation.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /poll-participations : get all the pollParticipations.
+     * GET  /poll-participations : get all the pollParticipations.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of
-     * pollParticipations in body
+     * @return the ResponseEntity with status 200 (OK) and the list of pollParticipations in body
      */
     @GetMapping("/poll-participations")
     @Timed
@@ -95,11 +91,10 @@ public class PollParticipationResource {
     }
 
     /**
-     * GET /poll-participations/:id : get the "id" pollParticipation.
+     * GET  /poll-participations/:id : get the "id" pollParticipation.
      *
      * @param id the id of the pollParticipation to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the
-     * pollParticipation, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the pollParticipation, or with status 404 (Not Found)
      */
     @GetMapping("/poll-participations/{id}")
     @Timed
@@ -110,7 +105,7 @@ public class PollParticipationResource {
     }
 
     /**
-     * DELETE /poll-participations/:id : delete the "id" pollParticipation.
+     * DELETE  /poll-participations/:id : delete the "id" pollParticipation.
      *
      * @param id the id of the pollParticipation to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -124,8 +119,8 @@ public class PollParticipationResource {
     }
 
     /**
-     * SEARCH /_search/poll-participations?query=:query : search for the
-     * pollParticipation corresponding to the query.
+     * SEARCH  /_search/poll-participations?query=:query : search for the pollParticipation corresponding
+     * to the query.
      *
      * @param query the query of the pollParticipation search
      * @return the result of the search

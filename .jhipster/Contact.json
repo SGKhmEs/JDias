@@ -2,17 +2,18 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "one-to-many",
-            "relationshipName": "aspectMemberships",
-            "otherEntityName": "aspectMembership",
-            "otherEntityRelationshipName": "contact"
-        },
-        {
-            "relationshipType": "many-to-one",
             "relationshipName": "person",
             "otherEntityName": "person",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+		{
+            "relationshipName": "aspect",
+            "otherEntityName": "Aspect",
+            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
+			
     ],
     "fields": [
         {
@@ -30,11 +31,15 @@
         {
             "fieldName": "sharing",
             "fieldType": "Boolean"
-        }
+        },
+		{
+            "fieldName": "ownId",
+            "fieldType": "Long"
+        }	
     ],
     "changelogDate": "20170527190320",
     "entityTableName": "contact",
     "dto": "no",
     "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl"
 }

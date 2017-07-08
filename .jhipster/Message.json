@@ -2,9 +2,15 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "many-to-one",
             "relationshipName": "conversation",
             "otherEntityName": "conversation",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "person",
+            "otherEntityName": "person",
+            "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
     ],
@@ -27,12 +33,12 @@
         },
         {
             "fieldName": "createdAt",
-            "fieldType": "LocalDate"
+            "fieldType": "ZonedDateTime"
         }
     ],
     "changelogDate": "20170527190326",
-    "entityTableName": "message",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl",
+    "entityTableName": "message",
+    "pagination": "no"
 }

@@ -1,31 +1,26 @@
 package com.sgkhmjaes.jdias.service.impl;
 
-import com.sgkhmjaes.jdias.service.LocationService;
 import com.sgkhmjaes.jdias.domain.Location;
 import com.sgkhmjaes.jdias.repository.LocationRepository;
 import com.sgkhmjaes.jdias.repository.search.LocationSearchRepository;
-import fr.dudie.nominatim.client.JsonNominatimClient;
-import fr.dudie.nominatim.client.NominatimClient;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
+import com.sgkhmjaes.jdias.service.LocationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing Location.
  */
 @Service
 @Transactional
-public class LocationServiceImpl implements LocationService {
+public class LocationServiceImpl implements LocationService{
 
     private final Logger log = LoggerFactory.getLogger(LocationServiceImpl.class);
 
@@ -46,12 +41,12 @@ public class LocationServiceImpl implements LocationService {
      */
     @Override
     public Location save(Location location) {
-        NominatimClient nominatimClient = new JsonNominatimClient(new DefaultHttpClient(), "kjfidjf@dlkgog.df");
+        /*NominatimClient nominatimClient = new JsonNominatimClient(new DefaultHttpClient(), "kjfidjf@dlkgog.df");
         try {
             location.setAddress(nominatimClient.getAddress(location.getLng(), location.getLat()).getDisplayName());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         log.debug("Request to save Location : {}", location);
         Location result = locationRepository.save(location);
         locationSearchRepository.save(result);
@@ -59,9 +54,9 @@ public class LocationServiceImpl implements LocationService {
     }
 
     /**
-     * Get all the locations.
+     *  Get all the locations.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -71,10 +66,10 @@ public class LocationServiceImpl implements LocationService {
     }
 
     /**
-     * Get one location by id.
+     *  Get one location by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -84,9 +79,9 @@ public class LocationServiceImpl implements LocationService {
     }
 
     /**
-     * Delete the location by id.
+     *  Delete the  location by id.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -98,15 +93,15 @@ public class LocationServiceImpl implements LocationService {
     /**
      * Search for the location corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     *  @param query the query of the search
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Location> search(String query) {
         log.debug("Request to search Locations for query {}", query);
         return StreamSupport
-                .stream(locationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .stream(locationSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

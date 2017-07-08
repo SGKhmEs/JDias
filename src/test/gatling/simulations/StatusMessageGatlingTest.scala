@@ -64,7 +64,7 @@ class StatusMessageGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .check(status.is(200)))
             .pause(10 seconds, 20 seconds)
-            .exec(http("Create new statusMessage")
+            .exec(http("Create new status_message")
             .post("/api/status-messages")
             .headers(headers_http_authenticated)
             .body(StringBody("""{"id":null, "text":"SAMPLE_TEXT"}""")).asJSON
@@ -72,12 +72,12 @@ class StatusMessageGatlingTest extends Simulation {
             .check(headerRegex("Location", "(.*)").saveAs("new_statusMessage_url"))).exitHereIfFailed
             .pause(10)
             .repeat(5) {
-                exec(http("Get created statusMessage")
+                exec(http("Get created status_message")
                 .get("${new_statusMessage_url}")
                 .headers(headers_http_authenticated))
                 .pause(10)
             }
-            .exec(http("Delete created statusMessage")
+            .exec(http("Delete created status_message")
             .delete("${new_statusMessage_url}")
             .headers(headers_http_authenticated))
             .pause(10)

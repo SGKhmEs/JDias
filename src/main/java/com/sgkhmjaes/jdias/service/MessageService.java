@@ -1,5 +1,6 @@
 package com.sgkhmjaes.jdias.service;
 
+import com.sgkhmjaes.jdias.domain.Conversation;
 import com.sgkhmjaes.jdias.domain.Message;
 import java.util.List;
 
@@ -17,33 +18,40 @@ public interface MessageService {
     Message save(Message message);
 
     /**
-     * Get all the messages.
+     *  Get all the messages.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     List<Message> findAll();
 
     /**
-     * Get the "id" message.
      *
-     * @param id the id of the entity
-     * @return the entity
+     * @param conversation
+     * @return
+     */
+    List<Message> findAllByConversation(Conversation conversation);
+
+    /**
+     *  Get the "id" message.
+     *
+     *  @param id the id of the entity
+     *  @return the entity
      */
     Message findOne(Long id);
 
     /**
-     * Delete the "id" message.
+     *  Delete the "id" message.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the message corresponding to the query.
      *
-     * @param query the query of the search
-     *
-     * @return the list of entities
+     *  @param query the query of the search
+     *  
+     *  @return the list of entities
      */
     List<Message> search(String query);
 }
