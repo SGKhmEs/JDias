@@ -6,10 +6,7 @@ import com.sgkhmjaes.jdias.repository.*;
 import com.sgkhmjaes.jdias.repository.search.ReshareSearchRepository;
 import com.sgkhmjaes.jdias.repository.search.StatusMessageSearchRepository;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
-import com.sgkhmjaes.jdias.service.LocationService;
-import com.sgkhmjaes.jdias.service.PollAnswerService;
-import com.sgkhmjaes.jdias.service.PollService;
-import com.sgkhmjaes.jdias.service.PostService;
+import com.sgkhmjaes.jdias.service.*;
 import com.sgkhmjaes.jdias.repository.search.PostSearchRepository;
 import com.sgkhmjaes.jdias.service.dto.PostDTO;
 import com.sgkhmjaes.jdias.service.dto.StatusMessageDTO;
@@ -58,6 +55,8 @@ public class PostServiceImpl implements PostService {
     private LocationService locationService;
     @Inject
     private PhotoRepository photoRepository;
+    @Inject
+    private UserService userService;
 
     public PostServiceImpl(PostRepository postRepository, PostSearchRepository postSearchRepository,
                            StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository,
@@ -97,7 +96,7 @@ public class PostServiceImpl implements PostService {
     public StatusMessage save(StatusMessage statusMessage) {
         log.debug("Request to save StatusMessage : {}", statusMessage);
         if (statusMessage.getId() == null) {
-            Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+            Person person = userService.getCurrentPerson();//personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
             Post post = save(new Post(person.getDiasporaId(), UUID.randomUUID().toString(),
                 LocalDate.now(), true, PostType.STATUSMESSAGE, null, null, person));
             statusMessage.setId(post.getId());
@@ -140,7 +139,9 @@ public class PostServiceImpl implements PostService {
             String [] coords = statusMessageDTO.getLocationCoords().split(", ");
             statusMessage.setLocation(locationService.save(new Location(statusMessageDTO.getLocationAddress(),Float.parseFloat(coords[0]),Float.parseFloat(coords[1]))));
         }
+        statusMessage = save(statusMessage);
         if(statusMessageDTO.getPhotos() != null){
+            Set<Photo> photos = new HashSet<>();
             for(Long id: statusMessageDTO.getPhotos()) {
                 statusMessage.addPhotos(photoRepository.findOne(id));
             }

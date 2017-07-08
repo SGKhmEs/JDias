@@ -120,8 +120,8 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
                 : 'jDiasApp.post.updated',
             { param : result[0].id }, null);
         this.isPhoto = false;
-        this.photos = result;
         for (const p of result) {
+            this.photos.push(p);
             this.showImage(p.remotePhotoName);
         }
         this.eventManager.broadcast({ name: 'postListModification', content: 'OK'});
@@ -224,6 +224,7 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
                 this.inputAnswers.splice(i, 1);
             }
         }
+        this.statusMessage.photos = [];
         for (let i = 0; i < this.photos.length; i++) {
             this.statusMessage.photos.push(this.photos[i].id);
         }

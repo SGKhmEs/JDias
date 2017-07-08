@@ -91,7 +91,7 @@ public class LikeResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        LikeResource likeResource = new LikeResource(likeService, likeDTOService);
+        LikeResource likeResource = new LikeResource(likeService);
         this.restLikeMockMvc = MockMvcBuilders.standaloneSetup(likeResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

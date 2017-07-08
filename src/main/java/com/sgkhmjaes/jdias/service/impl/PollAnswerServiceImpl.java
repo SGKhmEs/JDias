@@ -42,7 +42,7 @@ public class PollAnswerServiceImpl implements PollAnswerService{
     @Override
     public PollAnswer save(PollAnswer pollAnswer) {
         log.debug("Request to save PollAnswer : {}", pollAnswer);
-        PollAnswer result = pollAnswerRepository.save(pollAnswer);
+        PollAnswer result = pollAnswerRepository.saveAndFlush(pollAnswer);
         pollAnswerSearchRepository.save(result);
         return result;
     }

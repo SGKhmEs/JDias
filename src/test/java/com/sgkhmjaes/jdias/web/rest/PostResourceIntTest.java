@@ -90,7 +90,7 @@ public class PostResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PostResource postResource = new PostResource(postService, postDTOService);
+        PostResource postResource = new PostResource(postService);
         this.restPostMockMvc = MockMvcBuilders.standaloneSetup(postResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

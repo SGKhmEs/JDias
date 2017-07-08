@@ -72,7 +72,7 @@ public class PhotoServiceImpl implements PhotoService{
         BufferedImage image = ImageIO.read(file);
         ImageConverter converter = new ImageConverter();
         PhotoSizesDTO photoSizesDTO = converter.convert(file);
-        Photo result = photoRepository.save(new Photo(person.getDiasporaId(), file.getName(), file.getPath(), file.getName(), image.getHeight(), image.getWidth(), null, photoSizesDTO, person));
+        Photo result = photoRepository.saveAndFlush(new Photo(person.getDiasporaId(), file.getName(), file.getPath(), file.getName(), image.getHeight(), image.getWidth(), null, photoSizesDTO, person));
         log.debug("Request to save Photo : {}", result);
         photoSearchRepository.save(result);
         return result;

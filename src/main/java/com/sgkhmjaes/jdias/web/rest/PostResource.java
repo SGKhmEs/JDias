@@ -3,13 +3,17 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.service.PostService;
+import com.sgkhmjaes.jdias.service.dto.PostDTO;
+import com.sgkhmjaes.jdias.service.impl.PostDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -27,6 +31,8 @@ public class PostResource {
     private static final String ENTITY_NAME = "post";
 
     private final PostService postService;
+    @Inject
+    private PostDTOServiceImpl postDTOService;
 
     public PostResource(PostService postService) {
         this.postService = postService;
@@ -81,9 +87,9 @@ public class PostResource {
      */
     @GetMapping("/posts")
     @Timed
-    public List<Post> getAllPosts() {
+    public List<PostDTO> getAllPosts() {
         log.debug("REST request to get all Posts");
-        return postService.findAllPost();
+        return postDTOService.findAll();
     }
 
     /**
@@ -94,9 +100,9 @@ public class PostResource {
      */
     @GetMapping("/posts/{id}")
     @Timed
-    public ResponseEntity<Post> getPost(@PathVariable Long id) {
+    public ResponseEntity<PostDTO> getPost(@PathVariable Long id) {
         log.debug("REST request to get Post : {}", id);
-        Post post = postService.findOnePost(id);
+        PostDTO post = postDTOService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(post));
     }
 

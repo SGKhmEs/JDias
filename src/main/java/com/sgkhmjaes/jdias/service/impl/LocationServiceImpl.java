@@ -48,7 +48,7 @@ public class LocationServiceImpl implements LocationService{
             e.printStackTrace();
         }*/
         log.debug("Request to save Location : {}", location);
-        Location result = locationRepository.save(location);
+        Location result = locationRepository.saveAndFlush(location);
         locationSearchRepository.save(result);
         return result;
     }
