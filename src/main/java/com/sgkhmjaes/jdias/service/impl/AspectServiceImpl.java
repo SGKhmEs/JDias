@@ -122,9 +122,8 @@ public class AspectServiceImpl implements AspectService{
     public List<Aspect> search(String query) {
         log.debug("Request to search Aspects for query {}", query);
 
-        Iterable<Aspect> userAspects = new ArrayList<>(userService.getCurrentPerson().getAspects());
-
-        List<Aspect> foundAspectList =  StreamSupport.stream(userAspects.spliterator(), false)
+        List<Aspect> foundAspectList =  StreamSupport.stream(aspectSearchRepository.search(queryStringQuery(query))
+            .spliterator(), false)
             .collect(Collectors.toList());
 
         List<Aspect> userAspect = new ArrayList<>(userService.getCurrentPerson().getAspects());
