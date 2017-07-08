@@ -16,12 +16,19 @@ public interface ContactService {
      */
     Contact save(Contact contact);
 
-    /**
+   /* /**
      *  Get all the contacts.
      *
      *  @return the list of entities
+     *
+    List<Contact> findAll();*/
+
+    /**
+     *  Get all the contacts by user.
+     *
+     *  @return the list of entities
      */
-    List<Contact> findAll();
+    List<Contact> findAllByUser();
 
     /**
      *  Get the "id" contact.
@@ -42,7 +49,7 @@ public interface ContactService {
      * Search for the contact corresponding to the query.
      *
      *  @param query the query of the search
-     *  
+     *
      *  @return the list of entities
      */
     List<Contact> search(String query);

@@ -87,7 +87,7 @@ public class ContactResource {
     @Timed
     public List<Contact> getAllContacts() {
         log.debug("REST request to get all Contacts");
-        return contactService.findAll();
+        return contactService.findAllByUser();
     }
 
     /**
