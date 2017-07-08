@@ -15,7 +15,7 @@ import { Photo } from '../photo';
         constructor(
             public status_message?: StatusMessage,
             public aspect_ids?: string[],
-            public photos?: string[],
+            public photos?: number[],
             public location_address?: string,
             public location_coords?: string,
             public poll_question?: string,

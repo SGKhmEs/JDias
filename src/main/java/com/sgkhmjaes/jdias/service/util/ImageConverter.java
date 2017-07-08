@@ -1,14 +1,15 @@
 
 package com.sgkhmjaes.jdias.service.util;
 
+import com.sgkhmjaes.jdias.config.Constants;
 import com.sgkhmjaes.jdias.service.dto.AvatarDTO;
+import com.sgkhmjaes.jdias.service.dto.PhotoSizesDTO;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.io.Opener;
 import ij.process.ImageProcessor;
 import java.io.File;
-import java.time.LocalDate;
-import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,23 +19,27 @@ public class ImageConverter {
     private final static double COMPRESS_FACTOR = 0.1;
     private final static int SIZE_SMALL = 50;
     private final static int SIZE_MEDIUM = 100;
-    private final static int SIZE_LARGE = 800;
+    private final static int SIZE_LARGE = 300;
+    private final static int SIZE_SCALED_FULL = 700;
 
     // for use add to gradle dependencies compile "net.imagej:ij:1.49d"
     public ImageConverter() {}
 
     // AvatarDTO convert = new ImageConverter().convert("D:/1.JPG"); - use example
-    public AvatarDTO convert (File file) {
+    public PhotoSizesDTO convert (File file) {
 
         //String fileParent = IMAGE_CATALOG_NAME + "/" + LocalDate.now().toString() + UUID.randomUUID();
-        String fileParent = file.getParent();
+        String fileParent = file.getParent() + "/";
         String fileName = file.getName();
-        resizeImage(file.getPath(), fileParent + "/small_" + fileName, SIZE_SMALL);
-        resizeImage(file.getPath(), fileParent + "/medium_" + fileName, SIZE_MEDIUM);
-        resizeImage(file.getPath(), fileParent + "/large_" + fileName, SIZE_LARGE);
+        resizeImage(file.getPath(), fileParent + Constants.SMALL_PREFIX + fileName, SIZE_SMALL);
+        resizeImage(file.getPath(), fileParent + Constants.MEDIUM_PREFIX + fileName, SIZE_MEDIUM);
+        resizeImage(file.getPath(), fileParent + Constants.LARGE_PREFIX + fileName, SIZE_LARGE);
+        resizeImage(file.getPath(), fileParent + Constants.SCALED_FULL_PREFIX + fileName, SIZE_SCALED_FULL);
 
-        return new AvatarDTO(fileParent + "/small_" + fileName,
-            fileParent + "/medium_" + fileName, fileParent + "/large_" + fileName);
+        return new PhotoSizesDTO(fileParent + Constants.SMALL_PREFIX + fileName,
+            fileParent + Constants.MEDIUM_PREFIX + fileName,
+            fileParent + Constants.LARGE_PREFIX + fileName,
+            fileParent + Constants.SCALED_FULL_PREFIX + fileName);
     }
 
     private void resizeImage(String inputFilePath, String outputFilePath, int size) {

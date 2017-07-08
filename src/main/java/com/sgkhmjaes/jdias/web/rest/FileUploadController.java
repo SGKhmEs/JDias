@@ -1,5 +1,6 @@
 package com.sgkhmjaes.jdias.web.rest;
 
+import com.sgkhmjaes.jdias.config.Constants;
 import com.sgkhmjaes.jdias.domain.Photo;
 import com.sgkhmjaes.jdias.service.PhotoService;
 import com.sgkhmjaes.jdias.service.StorageService;
@@ -33,15 +34,18 @@ import java.util.stream.Collectors;
 public class FileUploadController {
 
     private final StorageService storageService;
-    private static final String SMALL_PREFIX = "small_";
-    private static final String MEDIUM_PREFIX = "medium_";
+    private final PhotoService photoService;
+
+    private static final String SMALL_PREFIX = "thumb_small_";
+    private static final String MEDIUM_PREFIX = "thumb_medium_";
+    private static final String LARGE_PREFIX = "thumb_large_";
+    private static final String SCALED_FULL_PREFIX = "/scaled_full_";
 
     private final Logger log = LoggerFactory.getLogger(FileUploadController.class);
-    @Inject
-    private PhotoService photoService;
 
-    public FileUploadController(StorageService storageService) {
+    public FileUploadController(StorageService storageService, PhotoService photoService) {
         this.storageService = storageService;
+        this.photoService = photoService;
     }
 
     @GetMapping("/files")
@@ -87,8 +91,11 @@ public class FileUploadController {
     public ResponseEntity<Void> deleteImage(@PathVariable String filename) {
         log.debug("REST request to delete Image : {}", filename);
         storageService.deleteImage(filename);
-        storageService.deleteImage(SMALL_PREFIX + filename);
-        storageService.deleteImage(MEDIUM_PREFIX + filename);
+        storageService.deleteImage(Constants.SMALL_PREFIX + filename);
+        storageService.deleteImage(Constants.MEDIUM_PREFIX + filename);
+        storageService.deleteImage(Constants.LARGE_PREFIX + filename);
+        storageService.deleteImage(Constants.SCALED_FULL_PREFIX + filename);
+
         photoService.delete(filename);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("PHOTO", filename)).build();
     }

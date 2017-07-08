@@ -25,7 +25,7 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
     statusMessage: StatusMessageDTO = new StatusMessageDTO();
     inputAnswers: string[] = ['', ''];
     statusMessages: StatusMessage[];
-    photos: Photo[];
+    photos: Photo[] = [];
     src: string[] = [];
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -120,6 +120,7 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
                 : 'jDiasApp.post.updated',
             { param : result[0].id }, null);
         this.isPhoto = false;
+        this.photos = result;
         for (const p of result) {
             this.showImage(p.remotePhotoName);
         }
@@ -223,9 +224,12 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
                 this.inputAnswers.splice(i, 1);
             }
         }
+        for (let i = 0; i < this.photos.length; i++) {
+            this.statusMessage.photos.push(this.photos[i].id);
+        }
         this.statusMessage.poll_answers = this.inputAnswers;
         this.statusMessage.location_coords = this.lat + ', ' + this.lng;
-        this.statusMessage.photos = [];
+        // this.statusMessage.photos = [];
         this.statusMessage.aspect_ids = [];
         this.statusMessage.status_message = this.statusM;
         this.isSaving = true;

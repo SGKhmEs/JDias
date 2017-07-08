@@ -21,7 +21,7 @@
         },
         {
             "fieldName": "guid",
-            "fieldType": "Boolean"
+            "fieldType": "String"
         },
         {
             "fieldName": "createdAt",
@@ -49,6 +49,22 @@
         },
         {
             "fieldName": "statusMessageGuid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "thumb_small",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "thumb_medium",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "thumb_large",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "scaled_full",
             "fieldType": "String"
         }
     ],

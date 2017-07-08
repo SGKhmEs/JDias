@@ -56,6 +56,8 @@ public class PostServiceImpl implements PostService {
     private PollService pollService;
     @Inject
     private LocationService locationService;
+    @Inject
+    private PhotoRepository photoRepository;
 
     public PostServiceImpl(PostRepository postRepository, PostSearchRepository postSearchRepository,
                            StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository,
@@ -137,6 +139,11 @@ public class PostServiceImpl implements PostService {
         if(statusMessageDTO.getLocationAddress() != null){
             String [] coords = statusMessageDTO.getLocationCoords().split(", ");
             statusMessage.setLocation(locationService.save(new Location(statusMessageDTO.getLocationAddress(),Float.parseFloat(coords[0]),Float.parseFloat(coords[1]))));
+        }
+        if(statusMessageDTO.getPhotos() != null){
+            for(Long id: statusMessageDTO.getPhotos()) {
+                statusMessage.addPhotos(photoRepository.findOne(id));
+            }
         }
         return save(statusMessage);
     }
