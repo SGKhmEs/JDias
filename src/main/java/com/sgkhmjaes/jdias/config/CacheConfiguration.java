@@ -74,6 +74,8 @@ public class CacheConfiguration {
             cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".tags", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Profile.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Reshare.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Reshare.class.getName()+".posts", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.StatusMessage.class.getName()+".posts", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Retraction.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.StatusMessage.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.StatusMessage.class.getName() + ".photos", jcacheConfiguration);

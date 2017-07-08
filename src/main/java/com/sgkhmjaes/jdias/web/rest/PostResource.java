@@ -83,7 +83,7 @@ public class PostResource {
     @Timed
     public List<Post> getAllPosts() {
         log.debug("REST request to get all Posts");
-        return postService.findAll();
+        return postService.findAllPost();
     }
 
     /**
@@ -96,7 +96,7 @@ public class PostResource {
     @Timed
     public ResponseEntity<Post> getPost(@PathVariable Long id) {
         log.debug("REST request to get Post : {}", id);
-        Post post = postService.findOne(id);
+        Post post = postService.findOnePost(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(post));
     }
 
