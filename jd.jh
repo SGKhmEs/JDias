@@ -1,0 +1,291 @@
+// JDL definition for application 'JDias' generated with command 'jhipster export-jdl'
+
+entity AccountDeletion (account_deletion) {
+  author String
+}
+entity Aspect (aspect) {
+  name String,
+  createdAt LocalDate,
+  updatedAt LocalDate,
+  contactVisible Boolean,
+  chatEnabled Boolean,
+  postDefault Boolean
+}
+entity AspectVisiblity (aspect_visiblity) {
+  postType PostType
+}
+entity Comment (comment) {
+  author String,
+  guid String,
+  parentGuid String,
+  text String,
+  createdAt LocalDate,
+  authorSignature String,
+  parentAuthorSignature String,
+  threadParentGuid String
+}
+entity Contact (contact) {
+  author String,
+  recipient String,
+  following Boolean,
+  sharing Boolean,
+  ownId Long
+}
+entity Conversation (conversation) {
+  author String,
+  guid String,
+  subject String,
+  createdAt LocalDate,
+  message String,
+  updatedAt ZonedDateTime
+}
+entity Event (event) {
+  author String,
+  guid String,
+  summary String,
+  start LocalDate,
+  end LocalDate,
+  allDay Boolean,
+  timezone String,
+  description String
+}
+entity EventParticipation (event_participation) {
+  author String,
+  guid String,
+  parentGuid String,
+  status EventStatus,
+  authorSignature String,
+  parentAuthorSignature String
+}
+entity Like (jhi_like) {
+  author String,
+  guid String,
+  parentGuid String,
+  parentType Type,
+  positive Boolean,
+  authorSignature String,
+  parentAuthorSignature String
+}
+/**
+ * not an ignored comment
+ */
+entity Location (location) {
+  address String,
+  lat Float,
+  lng Float
+}
+entity Message (message) {
+  author String,
+  guid String,
+  conversationGuid String,
+  text String,
+  createdAt ZonedDateTime
+}
+entity Participation (participation) {
+  author String,
+  guid String,
+  parentGuid String,
+  parentType Type
+}
+entity Photo (photo) {
+  author String,
+  guid String,
+  createdAt LocalDate,
+  remotePhotoPath String,
+  remotePhotoName String,
+  height Integer,
+  width Integer,
+  text String,
+  statusMessageGuid String,
+  thumb_small String,
+  thumb_medium String,
+  thumb_large String,
+  scaled_full String
+}
+entity Poll (poll) {
+  guid String,
+  question String
+}
+entity PollAnswer (poll_answer) {
+  guid String,
+  answer String
+}
+entity PollParticipation (poll_participation) {
+  author String,
+  guid String,
+  parentGuid String,
+  pollAnswerGuid String,
+  authorSignature String,
+  parentAuthorSignature String
+}
+entity Post (post) {
+  author String,
+  guid String,
+  createdAt LocalDate,
+  pub Boolean,
+  providerDisplayName String,
+  postType PostType
+}
+entity Profile (profile) {
+  author String,
+  firstName String,
+  lastName String,
+  imageUrl String,
+  imageUrlSmall String,
+  imageUrlMedium String,
+  birthday LocalDate,
+  gender String,
+  bio String,
+  location String,
+  searchable Boolean,
+  nsfw Boolean,
+  tagString String
+}
+entity Reshare (reshare) {
+  rootAuthor String,
+  rootGuid String
+}
+entity Retraction (retraction) {
+  author String,
+  targetGuid String,
+  targetType Type
+}
+entity StatusMessage (status_message) {
+  text String
+}
+entity Tag (tag) {
+  name String
+}
+entity Tagging (tagging) {
+  context String,
+  createdAt LocalDate
+}
+entity TagFollowing (tag_following) {
+  createdAt LocalDate,
+  updatedAt LocalDate
+}
+entity UserAccount (user_account) {
+  serializedPrivateKey String,
+  gettingStarted Boolean,
+  disableMail Boolean,
+  language String,
+  rememberCreatedAt LocalDate,
+  signInCount Integer,
+  currentSignInAt LocalDate,
+  lastSignInAt LocalDate,
+  currentSignInIp String,
+  lastSignInIp String,
+  createdAt LocalDate,
+  updatedAt LocalDate,
+  lockedAt LocalDate,
+  showCommunitySpotlightInStream Boolean,
+  autoFollowBack Boolean,
+  autoFollowBackAspectId Integer,
+  hiddenShareables String,
+  lastSeen LocalDate,
+  exportE String,
+  exportedAt LocalDate,
+  exporting Boolean,
+  stripExif Boolean,
+  exportedPhotosFile String,
+  exportedPhotosAt LocalDate,
+  exportingPhotos Boolean,
+  colorTheme String,
+  postDefaultPublic Boolean
+}
+entity Person (person) {
+  guid String,
+  diasporaId String,
+  serializedPublicKey String,
+  createdAt LocalDate,
+  updatedAt LocalDate,
+  closedAccount Boolean,
+  fetchStatus Integer,
+  podId Integer
+}
+
+enum PostType {
+  STATUSMESSAGE,
+  RESHARE
+}
+
+enum EventStatus {
+  ACCEPTED,
+  DECLINED,
+  TENTATIVE
+}
+
+enum Type {
+  ACCOUNTDELETION,
+  COMMENT,
+  CONTACT,
+  CONVERSATION,
+  EVENT,
+  EVENTPARTICIPATION,
+  LIKE,
+  LOCATION,
+  MESSAGE,
+  PARTICIPATION,
+  PHOTO,
+  POLL,
+  POLLANSWER,
+  POLLPARTICIPATION,
+  POST,
+  PROFILE,
+  RESHARE,
+  RETRACTION,
+  STATUSMESSAGE
+}
+
+relationship OneToOne {
+  Post{statusMessage} to StatusMessage{post},
+  Post{reshare} to Reshare{post},
+  Profile{person} to Person{profile},
+  StatusMessage{location} to Location,
+  StatusMessage{poll} to Poll,
+  UserAccount{user} to User,
+  UserAccount{person} to Person{userAccount},
+  Person{profile} to Profile{person},
+  Person{accountdeletion} to AccountDeletion,
+  Person{userAccount} to UserAccount{person}
+}
+relationship OneToMany {
+  Person{aspect} to Aspect{person},
+  Post{comments} to Comment{post},
+  Person{comments} to Comment{person},
+  Person{contacts} to Contact{person},
+  Aspect{contact} to Contact{aspect},
+  Event{eventPatricipations} to EventParticipation{event},
+  Person{events} to EventParticipation{person},
+  Post{likes} to Like{post},
+  Conversation{messages} to Message{conversation},
+  Person{message} to Message{person},
+  Person{participations} to Participation{person},
+  StatusMessage{photos} to Photo{statusMessage},
+  Person{photos} to Photo{person},
+  Poll{pollanswers} to PollAnswer{poll},
+  Poll{pollparticipants} to PollParticipation{poll},
+  PollAnswer{pollanswers1} to PollParticipation{pollAnswer},
+  Person{posts} to Post{person},
+  Post{tags} to Tag{post},
+  Tag{taggings} to Tagging{tag},
+  Tag{tagFollowings} to TagFollowing{tag},
+  UserAccount{tagfollowings} to TagFollowing{userAccount}
+}
+relationship ManyToOne {
+  AspectVisiblity{aspect} to Aspect,
+  AspectVisiblity{post} to Post,
+  Like{person} to Person
+}
+relationship ManyToMany {
+  Person{conversation} to Conversation{participants}
+}
+
+service Contact with serviceImpl
+service Conversation with serviceImpl
+service Like with serviceImpl
+service Message with serviceImpl
+service Post with serviceImpl
+service Profile with serviceImpl
+service UserAccount with serviceImpl
+service Person with serviceImpl
