@@ -116,9 +116,9 @@ public class Person implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Aspect> aspects = new HashSet<>();
-    
+
     public Person (){}
-    
+
     public Person (Long id, String serializedPublicKey, String login){
         this.id = id;
         this.serializedPublicKey = RSAKeysGenerator.getRsaPublicKey(serializedPublicKey);
@@ -455,7 +455,7 @@ public class Person implements Serializable {
         conversation.getParticipants().add(this);
         return this;
     }
-    
+
     public boolean addUniqueConversation(Conversation conversation) {
         if (!this.conversations.contains(conversation)) {
             this.conversations.add(conversation);
@@ -486,6 +486,14 @@ public class Person implements Serializable {
 
     public void setUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
+    }
+
+    public Set<Aspect> getAspects() {
+        return aspects;
+    }
+
+    public void setAspects(Set<Aspect> aspects) {
+        this.aspects = aspects;
     }
 
     @Override
