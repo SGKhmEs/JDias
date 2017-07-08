@@ -141,7 +141,6 @@ public class PostServiceImpl implements PostService {
         }
         statusMessage = save(statusMessage);
         if(statusMessageDTO.getPhotos() != null){
-            Set<Photo> photos = new HashSet<>();
             for(Long id: statusMessageDTO.getPhotos()) {
                 statusMessage.addPhotos(photoRepository.findOne(id));
             }

@@ -79,9 +79,9 @@ public class Post implements Serializable {
 
     @ManyToOne
     private Person person;
-    
+
     public Post() {
-        
+
     }
 
     public Post(String author, String guid, LocalDate createdAt, Boolean pub, PostType postType, StatusMessage statusMessage, Reshare reshare, Person person) {
