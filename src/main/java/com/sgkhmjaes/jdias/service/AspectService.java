@@ -17,33 +17,33 @@ public interface AspectService {
     Aspect save(Aspect aspect);
 
     /**
-     * Get all the aspects.
+     *  Get all the aspects.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     List<Aspect> findAll();
 
     /**
-     * Get the "id" aspect.
+     *  Get the "id" aspect.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     Aspect findOne(Long id);
 
     /**
-     * Delete the "id" aspect.
+     *  Delete the "id" aspect.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the aspect corresponding to the query.
      *
-     * @param query the query of the search
-     *
-     * @return the list of entities
+     *  @param query the query of the search
+     *  
+     *  @return the list of entities
      */
     List<Aspect> search(String query);
 }

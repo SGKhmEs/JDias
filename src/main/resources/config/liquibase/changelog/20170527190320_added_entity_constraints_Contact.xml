@@ -14,5 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="person"/>
 
+        <addForeignKeyConstraint baseColumnNames="aspect_id"
+                                 baseTableName="contact"
+                                 constraintName="fk_contact_aspect_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="aspect"/>
+
     </changeSet>
 </databaseChangeLog>

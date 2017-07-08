@@ -15,8 +15,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.aspect.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
-                [(ngModel)]="aspect.name"
-             />
+                [(ngModel)]="aspect.name"  />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.aspect.createdAt" for="field_createdAt">Created At</label>
@@ -41,22 +40,26 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.aspect.contactVisible" for="field_contactVisible">Contact Visible</label>
             <input type="checkbox" class="form-control" name="contactVisible" id="field_contactVisible"
-                [(ngModel)]="aspect.contactVisible"
-             />
+                [(ngModel)]="aspect.contactVisible"  />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.aspect.chatEnabled" for="field_chatEnabled">Chat Enabled</label>
             <input type="checkbox" class="form-control" name="chatEnabled" id="field_chatEnabled"
-                [(ngModel)]="aspect.chatEnabled"
-             />
+                [(ngModel)]="aspect.chatEnabled"  />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.aspect.postDefault" for="field_postDefault">Post Default</label>
             <input type="checkbox" class="form-control" name="postDefault" id="field_postDefault"
-                [(ngModel)]="aspect.postDefault"
-             />
+                [(ngModel)]="aspect.postDefault"  />
         </div>
 
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.aspect.person" for="field_person">Person</label>
+            <select class="form-control" id="field_person" name="person" [(ngModel)]="aspect.person" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="PersonOption.id === aspect.person?.id ? aspect.person : PersonOption" *ngFor="let PersonOption of people; trackBy: trackPersonById">{{PersonOption.id}}</option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

@@ -37,12 +37,10 @@ public class AspectResource {
     }
 
     /**
-     * POST /aspects : Create a new aspect.
+     * POST  /aspects : Create a new aspect.
      *
      * @param aspect the aspect to create
-     * @return the ResponseEntity with status 201 (Created) and with body the
-     * new aspect, or with status 400 (Bad Request) if the aspect has already an
-     * ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new aspect, or with status 400 (Bad Request) if the aspect has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/aspects")
@@ -54,17 +52,17 @@ public class AspectResource {
         }
         Aspect result = aspectService.save(aspect);
         return ResponseEntity.created(new URI("/api/aspects/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
-     * PUT /aspects : Updates an existing aspect.
+     * PUT  /aspects : Updates an existing aspect.
      *
      * @param aspect the aspect to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated
-     * aspect, or with status 400 (Bad Request) if the aspect is not valid, or
-     * with status 500 (Internal Server Error) if the aspect couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated aspect,
+     * or with status 400 (Bad Request) if the aspect is not valid,
+     * or with status 500 (Internal Server Error) if the aspect couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/aspects")
@@ -76,15 +74,14 @@ public class AspectResource {
         }
         Aspect result = aspectService.save(aspect);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, aspect.getId().toString()))
-                .body(result);
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, aspect.getId().toString()))
+            .body(result);
     }
 
     /**
-     * GET /aspects : get all the aspects.
+     * GET  /aspects : get all the aspects.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of aspects
-     * in body
+     * @return the ResponseEntity with status 200 (OK) and the list of aspects in body
      */
     @GetMapping("/aspects")
     @Timed
@@ -94,11 +91,10 @@ public class AspectResource {
     }
 
     /**
-     * GET /aspects/:id : get the "id" aspect.
+     * GET  /aspects/:id : get the "id" aspect.
      *
      * @param id the id of the aspect to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the aspect,
-     * or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the aspect, or with status 404 (Not Found)
      */
     @GetMapping("/aspects/{id}")
     @Timed
@@ -109,7 +105,7 @@ public class AspectResource {
     }
 
     /**
-     * DELETE /aspects/:id : delete the "id" aspect.
+     * DELETE  /aspects/:id : delete the "id" aspect.
      *
      * @param id the id of the aspect to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -123,8 +119,8 @@ public class AspectResource {
     }
 
     /**
-     * SEARCH /_search/aspects?query=:query : search for the aspect
-     * corresponding to the query.
+     * SEARCH  /_search/aspects?query=:query : search for the aspect corresponding
+     * to the query.
      *
      * @param query the query of the aspect search
      * @return the result of the search

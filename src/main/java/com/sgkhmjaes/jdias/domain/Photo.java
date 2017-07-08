@@ -231,17 +231,17 @@ public class Photo implements Serializable {
 
     @Override
     public String toString() {
-        return "Photo{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", guid='" + isGuid() + "'"
-                + ", createdAt='" + getCreatedAt() + "'"
-                + ", remotePhotoPath='" + getRemotePhotoPath() + "'"
-                + ", remotePhotoName='" + getRemotePhotoName() + "'"
-                + ", height='" + getHeight() + "'"
-                + ", width='" + getWidth() + "'"
-                + ", text='" + getText() + "'"
-                + ", statusMessageGuid='" + getStatusMessageGuid() + "'"
-                + "}";
+        return "Photo{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", guid='" + isGuid() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", remotePhotoPath='" + getRemotePhotoPath() + "'" +
+            ", remotePhotoName='" + getRemotePhotoName() + "'" +
+            ", height='" + getHeight() + "'" +
+            ", width='" + getWidth() + "'" +
+            ", text='" + getText() + "'" +
+            ", statusMessageGuid='" + getStatusMessageGuid() + "'" +
+            "}";
     }
 }

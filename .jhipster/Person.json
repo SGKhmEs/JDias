@@ -19,26 +19,14 @@
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "comments",
-            "otherEntityName": "comment",
-            "otherEntityRelationshipName": "person"
-        },
-        {
-            "relationshipType": "one-to-many",
             "relationshipName": "contacts",
             "otherEntityName": "contact",
             "otherEntityRelationshipName": "person"
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "events",
-            "otherEntityName": "eventParticipation",
-            "otherEntityRelationshipName": "person"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "participations",
-            "otherEntityName": "participation",
+            "relationshipName": "posts",
+            "otherEntityName": "post",
             "otherEntityRelationshipName": "person"
         },
         {
@@ -49,15 +37,49 @@
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "posts",
-            "otherEntityName": "post",
+            "relationshipName": "comments",
+            "otherEntityName": "comment",
             "otherEntityRelationshipName": "person"
         },
         {
-            "relationshipType": "many-to-one",
+            "relationshipType": "one-to-many",
+            "relationshipName": "participations",
+            "otherEntityName": "participation",
+            "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "events",
+            "otherEntityName": "eventParticipation",
+            "otherEntityRelationshipName": "person"
+        },
+        {
+            "relationshipName": "message",
+            "otherEntityName": "message",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "person"
+        },
+        {
             "relationshipName": "conversation",
             "otherEntityName": "conversation",
-            "otherEntityField": "id"
+            "relationshipType": "many-to-many",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "participants"
+        },
+        {
+            "relationshipName": "userAccount",
+            "otherEntityName": "userAccount",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "person"
+        },
+		{
+            "relationshipName": "aspect",
+            "otherEntityName": "aspect",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "person"
         }
     ],
     "fields": [
@@ -95,8 +117,8 @@
         }
     ],
     "changelogDate": "20170527190341",
-    "entityTableName": "person",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl",
+    "entityTableName": "person",
+    "pagination": "no"
 }

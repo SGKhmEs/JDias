@@ -35,7 +35,7 @@
             <th><span jhiTranslate="jDiasApp.conversation.subject">Subject</span></th>
             <th><span jhiTranslate="jDiasApp.conversation.createdAt">Created At</span></th>
             <th><span jhiTranslate="jDiasApp.conversation.message">Message</span></th>
-            <th><span jhiTranslate="jDiasApp.conversation.userAccount">User Account</span></th>
+            <th><span jhiTranslate="jDiasApp.conversation.updatedAt">Updated At</span></th>
             <th></th>
             </tr>
             </thead>
@@ -47,11 +47,7 @@
                 <td>{{conversation.subject}}</td>
                 <td>{{conversation.createdAt | date:'mediumDate'}}</td>
                 <td>{{conversation.message}}</td>
-                <td>
-                    <div *ngIf="conversation.userAccount">
-                        <a [routerLink]="['../user-account', conversation.userAccount?.id ]" >{{conversation.userAccount?.id}}</a>
-                    </div>
-                </td>
+                <td>{{conversation.updatedAt | date:'medium'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

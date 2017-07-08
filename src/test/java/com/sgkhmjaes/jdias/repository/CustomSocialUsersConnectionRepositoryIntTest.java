@@ -47,7 +47,7 @@ public class CustomSocialUsersConnectionRepositoryIntTest {
 
     @Before
     public void setUp() {
-        socialUserConnectionRepository.deleteAll();
+		socialUserConnectionRepository.deleteAll();
 
         connectionFactoryRegistry = new ConnectionFactoryRegistry();
         connectionFactory = new TestFacebookConnectionFactory();
@@ -172,8 +172,8 @@ public class CustomSocialUsersConnectionRepositoryIntTest {
         providerUsers.add("twitter", "1");
         MultiValueMap<String, Connection<?>> connectionsForUsers = connectionRepository.findConnectionsToUsers(providerUsers);
         assertEquals(2, connectionsForUsers.size());
-        String providerId = connectionsForUsers.getFirst("facebook").getKey().getProviderUserId();
-        assertTrue("10".equals(providerId) || "9".equals(providerId));
+        String providerId=connectionsForUsers.getFirst("facebook").getKey().getProviderUserId();
+        assertTrue("10".equals(providerId) || "9".equals(providerId) );
         assertFacebookConnection((Connection<TestFacebookApi>) connectionRepository.getConnection(new ConnectionKey("facebook", "9")));
         assertTwitterConnection((Connection<TestTwitterApi>) connectionsForUsers.getFirst("twitter"));
     }
@@ -316,102 +316,102 @@ public class CustomSocialUsersConnectionRepositoryIntTest {
 
     private SocialUserConnection insertTwitterConnection() {
         return createExistingSocialUserConnection(
-                "1",
-                "twitter",
-                "1",
-                1L,
-                "@kdonald",
-                "http://twitter.com/kdonald",
-                "http://twitter.com/kdonald/picture",
-                "123456789",
-                "987654321",
-                null,
-                null
+            "1",
+            "twitter",
+            "1",
+            1L,
+            "@kdonald",
+            "http://twitter.com/kdonald",
+            "http://twitter.com/kdonald/picture",
+            "123456789",
+            "987654321",
+            null,
+            null
         );
     }
 
     private SocialUserConnection insertFacebookConnection() {
         return createExistingSocialUserConnection(
-                "1",
-                "facebook",
-                "9",
-                1L,
-                null,
-                null,
-                null,
-                "234567890",
-                null,
-                "345678901",
-                System.currentTimeMillis() + 3600000);
+            "1",
+            "facebook",
+            "9",
+            1L,
+            null,
+            null,
+            null,
+            "234567890",
+            null,
+            "345678901",
+            System.currentTimeMillis() + 3600000);
     }
 
     private SocialUserConnection insertFacebookConnection2() {
         return createExistingSocialUserConnection(
-                "1",
-                "facebook",
-                "10",
-                2L,
-                null,
-                null,
-                null,
-                "456789012",
-                null,
-                "56789012",
-                System.currentTimeMillis() + 3600000);
+            "1",
+            "facebook",
+            "10",
+            2L,
+            null,
+            null,
+            null,
+            "456789012",
+            null,
+            "56789012",
+            System.currentTimeMillis() + 3600000);
     }
 
     private SocialUserConnection insertFacebookConnection3() {
         return createExistingSocialUserConnection(
-                "2",
-                "facebook",
-                "11", 2L,
-                null,
-                null,
-                null,
-                "456789012",
-                null,
-                "56789012",
-                System.currentTimeMillis() + 3600000);
+            "2",
+            "facebook",
+            "11", 2L,
+            null,
+            null,
+            null,
+            "456789012",
+            null,
+            "56789012",
+            System.currentTimeMillis() + 3600000);
     }
 
     private SocialUserConnection insertFacebookConnectionSameFacebookUser() {
         return createExistingSocialUserConnection(
-                "2",
-                "facebook",
-                "9",
-                1L,
-                null,
-                null,
-                null,
-                "234567890",
-                null,
-                "345678901",
-                System.currentTimeMillis() + 3600000);
+            "2",
+            "facebook",
+            "9",
+            1L,
+            null,
+            null,
+            null,
+            "234567890",
+            null,
+            "345678901",
+            System.currentTimeMillis() + 3600000);
     }
 
     private SocialUserConnection createExistingSocialUserConnection(String userId,
-            String providerId,
-            String providerUserId,
-            Long rank,
-            String displayName,
-            String profileURL,
-            String imageURL,
-            String accessToken,
-            String secret,
-            String refreshToken,
-            Long expireTime) {
+                                                                    String providerId,
+                                                                    String providerUserId,
+                                                                    Long rank,
+                                                                    String displayName,
+                                                                    String profileURL,
+                                                                    String imageURL,
+                                                                    String accessToken,
+                                                                    String secret,
+                                                                    String refreshToken,
+                                                                    Long expireTime) {
         SocialUserConnection socialUserConnectionToSabe = new SocialUserConnection(
-                userId,
-                providerId,
-                providerUserId,
-                rank,
-                displayName,
-                profileURL,
-                imageURL,
-                accessToken,
-                secret,
-                refreshToken,
-                expireTime);
+            userId,
+            providerId,
+            providerUserId,
+            rank,
+            displayName,
+            profileURL,
+            imageURL,
+            accessToken,
+            secret,
+            refreshToken,
+            expireTime);
         return socialUserConnectionRepository.save(socialUserConnectionToSabe);
     }
 

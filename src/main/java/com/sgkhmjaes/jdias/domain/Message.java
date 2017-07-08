@@ -3,11 +3,11 @@ package com.sgkhmjaes.jdias.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A Message.
@@ -38,10 +38,41 @@ public class Message implements Serializable {
     private String text;
 
     @Column(name = "created_at")
-    private LocalDate createdAt;
+    private ZonedDateTime createdAt;
 
     @ManyToOne
     private Conversation conversation;
+
+    @ManyToOne
+    private Person person;
+    
+    public Message () {}
+    
+    public Message(Person person, Conversation conversation, Message message) {
+        this.createdAt = ZonedDateTime.now();
+        this.guid = UUID.randomUUID().toString();
+        if (person != null) {
+            this.person = person;
+            this.author = person.getDiasporaId();
+        }
+        if (conversation != null) {
+            this.conversation = conversation;
+            this.conversationGuid = conversation.getGuid();
+        }
+        if (message != null) {
+            this.text = message.getText();
+            this.conversation = message.getConversation();
+        }
+    }
+    
+    public Message (Person person) {
+        this.createdAt = ZonedDateTime.now();
+        this.guid = UUID.randomUUID().toString();
+        if (person != null) {
+            this.person = person;
+            this.author = person.getDiasporaId();
+        }
+    }
 
     public Long getId() {
         return id;
@@ -103,16 +134,16 @@ public class Message implements Serializable {
         this.text = text;
     }
 
-    public LocalDate getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public Message createdAt(LocalDate createdAt) {
+    public Message createdAt(ZonedDateTime createdAt) {
         this.createdAt = createdAt;
         return this;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(ZonedDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -127,6 +158,19 @@ public class Message implements Serializable {
 
     public void setConversation(Conversation conversation) {
         this.conversation = conversation;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public Message person(Person person) {
+        this.person = person;
+        return this;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override
@@ -151,13 +195,13 @@ public class Message implements Serializable {
 
     @Override
     public String toString() {
-        return "Message{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", guid='" + getGuid() + "'"
-                + ", conversationGuid='" + getConversationGuid() + "'"
-                + ", text='" + getText() + "'"
-                + ", createdAt='" + getCreatedAt() + "'"
-                + "}";
+        return "Message{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", guid='" + getGuid() + "'" +
+            ", conversationGuid='" + getConversationGuid() + "'" +
+            ", text='" + getText() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            "}";
     }
 }

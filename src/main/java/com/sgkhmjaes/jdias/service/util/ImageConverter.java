@@ -2,87 +2,63 @@
 package com.sgkhmjaes.jdias.service.util;
 
 import com.sgkhmjaes.jdias.service.dto.AvatarDTO;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
+import ij.IJ;
+import ij.ImagePlus;
+import ij.io.Opener;
+import ij.process.ImageProcessor;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.UUID;
-import javax.imageio.ImageIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ImageConverter {
     
     private final Logger log = LoggerFactory.getLogger(ImageConverter.class);
-    private static final int HEIGHT_SMALL = 50;
-    private static final int WIDTH_SMALL = 50;
-    private static final int HEIGHT_MEDIUM = 100;
-    private static final int WIDTH_MEDIUM = 100;
-    private static final String IMAGE_CATALOG_NAME = "images";
+    private final static double COMPRESS_FACTOR = 0.1;
+    private final static int SIZE_SMALL = 50;
+    private final static int SIZE_MEDIUM = 100;
+    private final static int SIZE_LARGE = 800;
+    private final static String IMAGE_CATALOG_NAME = "images";
     static {new File(IMAGE_CATALOG_NAME).mkdir();}
-
+    
+    // for use add to gradle dependencies compile "net.imagej:ij:1.49d"
     public ImageConverter() {}
-
-    public AvatarDTO convert (File sourceImage) {
+    
+    // AvatarDTO convert = new ImageConverter().convert("D:/1.JPG"); - use example
+    public AvatarDTO convert (String sourceImagePath) {
         
-        if (sourceImage == null) return null;
-        
-        BufferedImage originalImage;
-        try {
-            originalImage = ImageIO.read(sourceImage);
-        } catch (IOException ex) {
-            log.debug("ImageConverter.convert finished with IOException", ex.getMessage());
-            return null;
-        }
-        
-        BufferedImage resizeImageSmall = resize(originalImage, WIDTH_SMALL, HEIGHT_SMALL);
-        BufferedImage resizeImageMedium = resize(originalImage, WIDTH_MEDIUM, HEIGHT_MEDIUM);
         String fileName = IMAGE_CATALOG_NAME + "/" + LocalDate.now().toString() + UUID.randomUUID();
+        resizeImage(sourceImagePath, fileName + "-small.jpg", SIZE_SMALL);
+        resizeImage(sourceImagePath, fileName + "-medium.jpg", SIZE_MEDIUM);
+        resizeImage(sourceImagePath, fileName + "-large.jpg", SIZE_LARGE);
         
-        try (ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileName + "-origin.jpg")))) {
-            out.writeObject(sourceImage);
-            ImageIO.write(resizeImageSmall, "JPG", new File(fileName + "-small.jpg"));
-            ImageIO.write(resizeImageMedium, "JPG", new File(fileName + "-medium.jpg"));
-        } catch (IOException ex) {
-            log.debug("ImageConverter.convert finished with IOException", ex.getMessage());
-            return null;
-        }
-
-        return new AvatarDTO(fileName+"-small.jpg", fileName+"-medium.jpg", fileName+"-origin.jpg");
-
+        return new AvatarDTO(fileName+"-small.jpg", fileName+"-medium.jpg", fileName+"-large.jpg");
     }
     
-    private BufferedImage resize(BufferedImage image, int width, int height) {
-        int w, h;
-        if (image.getWidth() == width && image.getHeight() == height) {
-            w = image.getWidth();
-            h = image.getHeight();
-        } 
-        else {
-            float dx = ((float) width) / image.getWidth();
-            float dy = ((float) height) / image.getHeight();
-            if (dx == dy) {
-                w = width;
-                h = (int) (dx * image.getHeight());
-            } else {
-                w = (int) (dy * image.getWidth());
-                h = height;
-            }
+    private void resizeImage(String inputFilePath, String outputFilePath, int size) {
+        log.debug("IMAGE CONVRTER, method 'resizePicture' start with parametrs: ", inputFilePath, outputFilePath, size);
+        
+        if (size<=0) return;
+        ImageProcessor ip;
+        try{
+            ip = new Opener().openImage(inputFilePath).getProcessor();
+        }catch (NullPointerException e){
+            log.debug("IMAGE CONVRTER exception: ", e);
+            return;
         }
-        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D graphics2D = null;
-        try {
-            graphics2D = bufferedImage.createGraphics();
-            graphics2D.fillRect(0, 0, width, height);
-            graphics2D.drawImage(image.getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH), 0, 0, null);
-        } finally {
-            if (graphics2D != null) graphics2D.dispose();
-        }
-        return bufferedImage;
+        
+        float scaleFactor;
+        float width = (float) size / ip.getWidth();
+        float height = (float) size / ip.getHeight();
+        if (width < height) scaleFactor = width;
+        else scaleFactor = height;
+        
+        ip.blurGaussian(COMPRESS_FACTOR / scaleFactor);
+        ip.setInterpolationMethod(ImageProcessor.NONE);
+        ImageProcessor outputProcessor = ip.resize((int)(ip.getWidth() * scaleFactor), (int)(ip.getHeight()*scaleFactor));
+        IJ.saveAs(new ImagePlus("", outputProcessor), outputFilePath.substring(outputFilePath.lastIndexOf('.')+1), outputFilePath);
+        
     }
 
 }

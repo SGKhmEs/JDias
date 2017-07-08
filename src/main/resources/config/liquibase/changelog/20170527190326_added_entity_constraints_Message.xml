@@ -14,5 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="conversation"/>
 
+        <addForeignKeyConstraint baseColumnNames="person_id"
+                                 baseTableName="message"
+                                 constraintName="fk_message_person_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="person"/>
+
     </changeSet>
 </databaseChangeLog>

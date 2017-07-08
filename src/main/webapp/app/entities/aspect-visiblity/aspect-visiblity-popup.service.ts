@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AspectVisiblity } from './aspect-visiblity.model';
 import { AspectVisiblityService } from './aspect-visiblity.service';
+
 @Injectable()
 export class AspectVisiblityPopupService {
     private isOpen = false;

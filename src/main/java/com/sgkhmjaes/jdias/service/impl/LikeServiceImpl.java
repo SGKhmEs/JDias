@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -19,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class LikeServiceImpl implements LikeService {
+public class LikeServiceImpl implements LikeService{
 
     private final Logger log = LoggerFactory.getLogger(LikeServiceImpl.class);
 
@@ -47,9 +48,9 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * Get all the likes.
+     *  Get all the likes.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -59,10 +60,10 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * Get one like by id.
+     *  Get one like by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -72,9 +73,9 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * Delete the like by id.
+     *  Delete the  like by id.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -86,15 +87,15 @@ public class LikeServiceImpl implements LikeService {
     /**
      * Search for the like corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     *  @param query the query of the search
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Like> search(String query) {
         log.debug("Request to search Likes for query {}", query);
         return StreamSupport
-                .stream(likeSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .stream(likeSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

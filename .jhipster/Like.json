@@ -2,15 +2,15 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipName": "post",
+            "otherEntityName": "post",
             "relationshipType": "many-to-one",
-            "relationshipName": "person",
-            "otherEntityName": "person",
             "otherEntityField": "id"
         },
         {
+            "relationshipName": "person",
+            "otherEntityName": "person",
             "relationshipType": "many-to-one",
-            "relationshipName": "post",
-            "otherEntityName": "post",
             "otherEntityField": "id"
         }
     ],
@@ -46,8 +46,8 @@
         }
     ],
     "changelogDate": "20170527190324",
-    "entityTableName": "jhi_like",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl",
+    "entityTableName": "jhi_like",
+    "pagination": "no"
 }

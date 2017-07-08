@@ -8,16 +8,11 @@
             "otherEntityRelationshipName": "conversation"
         },
         {
-            "relationshipType": "one-to-many",
             "relationshipName": "participants",
             "otherEntityName": "person",
+            "relationshipType": "many-to-many",
+            "ownerSide": false,
             "otherEntityRelationshipName": "conversation"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "relationshipName": "userAccount",
-            "otherEntityName": "userAccount",
-            "otherEntityField": "id"
         }
     ],
     "fields": [
@@ -40,11 +35,15 @@
         {
             "fieldName": "message",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "updatedAt",
+            "fieldType": "ZonedDateTime"
         }
     ],
     "changelogDate": "20170527190321",
-    "entityTableName": "conversation",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "serviceImpl",
+    "entityTableName": "conversation",
+    "pagination": "no"
 }

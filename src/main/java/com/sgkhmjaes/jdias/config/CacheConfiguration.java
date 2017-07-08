@@ -17,21 +17,21 @@ import org.springframework.context.annotation.*;
 
 @Configuration
 @EnableCaching
-@AutoConfigureAfter(value = {MetricsConfiguration.class})
-@AutoConfigureBefore(value = {WebConfigurer.class, DatabaseConfiguration.class})
+@AutoConfigureAfter(value = { MetricsConfiguration.class })
+@AutoConfigureBefore(value = { WebConfigurer.class, DatabaseConfiguration.class })
 public class CacheConfiguration {
 
     private final javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration;
 
     public CacheConfiguration(JHipsterProperties jHipsterProperties) {
-        JHipsterProperties.Cache.Ehcache ehcache
-                = jHipsterProperties.getCache().getEhcache();
+        JHipsterProperties.Cache.Ehcache ehcache =
+            jHipsterProperties.getCache().getEhcache();
 
         jcacheConfiguration = Eh107Configuration.fromEhcacheCacheConfiguration(
-                CacheConfigurationBuilder.newCacheConfigurationBuilder(Object.class, Object.class,
-                        ResourcePoolsBuilder.heap(ehcache.getMaxEntries()))
-                        .withExpiry(Expirations.timeToLiveExpiration(Duration.of(ehcache.getTimeToLiveSeconds(), TimeUnit.SECONDS)))
-                        .build());
+            CacheConfigurationBuilder.newCacheConfigurationBuilder(Object.class, Object.class,
+                ResourcePoolsBuilder.heap(ehcache.getMaxEntries()))
+                .withExpiry(Expirations.timeToLiveExpiration(Duration.of(ehcache.getTimeToLiveSeconds(), TimeUnit.SECONDS)))
+                .build());
     }
 
     @Bean
@@ -45,16 +45,14 @@ public class CacheConfiguration {
             cm.createCache(com.sgkhmjaes.jdias.domain.SocialUserConnection.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.AccountDeletion.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Aspect.class.getName(), jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.Aspect.class.getName() + ".aspectMemberships", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Aspect.class.getName() + ".aspectVisibilities", jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.AspectMembership.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Aspect.class.getName() + ".contacts", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.AspectVisiblity.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Comment.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Contact.class.getName(), jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.Contact.class.getName() + ".aspectMemberships", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Conversation.class.getName(), jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.Conversation.class.getName() + ".participants", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Conversation.class.getName() + ".messages", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Conversation.class.getName() + ".participants", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Event.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Event.class.getName() + ".eventPatricipations", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.EventParticipation.class.getName(), jcacheConfiguration);
@@ -71,7 +69,7 @@ public class CacheConfiguration {
             cm.createCache(com.sgkhmjaes.jdias.domain.PollParticipation.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".comments", jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".aspectVisiblities", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".aspectVisiblitis", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".likes", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".tags", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Profile.class.getName(), jcacheConfiguration);
@@ -85,8 +83,6 @@ public class CacheConfiguration {
             cm.createCache(com.sgkhmjaes.jdias.domain.Tagging.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.TagFollowing.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.UserAccount.class.getName(), jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.UserAccount.class.getName() + ".conversations", jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.UserAccount.class.getName() + ".aspectmemberships", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.UserAccount.class.getName() + ".tagfollowings", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".contacts", jcacheConfiguration);
@@ -95,9 +91,9 @@ public class CacheConfiguration {
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".comments", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".participations", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".events", jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.StatusMessage.class.getName() + ".posts", jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.Reshare.class.getName() + ".posts", jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.Reshare.class.getName() + ".people", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".messages", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".conversations", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".aspects", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

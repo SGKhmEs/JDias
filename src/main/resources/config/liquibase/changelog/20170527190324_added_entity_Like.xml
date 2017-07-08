@@ -16,7 +16,7 @@
     <!--
         Added the entity Like.
     -->
-    <changeSet id="20170527190324" author="jhipster">
+    <changeSet id="20170527190324-1" author="jhipster">
         <createTable tableName="jhi_like">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>

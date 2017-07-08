@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class CommentServiceImpl implements CommentService {
+public class CommentServiceImpl implements CommentService{
 
     private final Logger log = LoggerFactory.getLogger(CommentServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * Get all the comments.
+     *  Get all the comments.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * Get one comment by id.
+     *  Get one comment by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * Delete the comment by id.
+     *  Delete the  comment by id.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class CommentServiceImpl implements CommentService {
     /**
      * Search for the comment corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     *  @param query the query of the search
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Comment> search(String query) {
         log.debug("Request to search Comments for query {}", query);
         return StreamSupport
-                .stream(commentSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .stream(commentSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

@@ -4,12 +4,13 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Message } from './message.model';
 import { MessagePopupService } from './message-popup.service';
 import { MessageService } from './message.service';
 import { Conversation, ConversationService } from '../conversation';
+import { Person, PersonService } from '../person';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -23,14 +24,16 @@ export class MessageDialogComponent implements OnInit {
     isSaving: boolean;
 
     conversations: Conversation[];
-    createdAtDp: any;
+
+    people: Person[];
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private messageService: MessageService,
         private conversationService: ConversationService,
-        private eventManager: EventManager
+        private personService: PersonService,
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -39,7 +42,10 @@ export class MessageDialogComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.conversationService.query()
             .subscribe((res: ResponseWrapper) => { this.conversations = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.personService.query()
+            .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -86,6 +92,10 @@ export class MessageDialogComponent implements OnInit {
     }
 
     trackConversationById(index: number, item: Conversation) {
+        return item.id;
+    }
+
+    trackPersonById(index: number, item: Person) {
         return item.id;
     }
 }

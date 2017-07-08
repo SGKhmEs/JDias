@@ -17,33 +17,33 @@ public interface TaggingService {
     Tagging save(Tagging tagging);
 
     /**
-     * Get all the taggings.
+     *  Get all the taggings.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     List<Tagging> findAll();
 
     /**
-     * Get the "id" tagging.
+     *  Get the "id" tagging.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     Tagging findOne(Long id);
 
     /**
-     * Delete the "id" tagging.
+     *  Delete the "id" tagging.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     void delete(Long id);
 
     /**
      * Search for the tagging corresponding to the query.
      *
-     * @param query the query of the search
-     *
-     * @return the list of entities
+     *  @param query the query of the search
+     *  
+     *  @return the list of entities
      */
     List<Tagging> search(String query);
 }

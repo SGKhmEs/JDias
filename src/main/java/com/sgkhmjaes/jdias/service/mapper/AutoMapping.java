@@ -41,7 +41,13 @@ public interface AutoMapping {
 
                 if (methodSet != null) {
                     methodsEntityDTO.put(aClass, methodSet);
-                    methodSet.invoke(this, new Object[]{arg});
+                    try{
+                        methodSet.invoke(this, new Object[]{arg});
+                    }catch (InvocationTargetException e){
+                        String messageException = "AUTOMAPPING EXCEPTION. Method '"+methodSet+"' calling for object '" + this + "' with an argument '" + arg + "'.";
+                        System.err.println(messageException);
+                        throw new InvocationTargetException (e);
+                    }
                     continue;
                 }
                 ArrayList<FastMethod> fastMethodList = new ArrayList<>();
@@ -55,7 +61,13 @@ public interface AutoMapping {
                             fastMethodList.add(fastMethodGetter);
                             fastMethodList.add(fastMethodSetter);
                             if (invoke != null && !invoke.toString().equals("0") && !invoke.toString().equals("false")) {
-                                fastMethodSetter.invoke(this, new Object[]{invoke});
+                                try {
+                                    fastMethodSetter.invoke(this, new Object[]{invoke});
+                                } catch (InvocationTargetException e) {
+                                    String messageException = "AUTOMAPPING EXCEPTION. Method '"+fastMethodSetter+"' calling for object '" + this + "' with an argument '" + invoke + "'.";
+                                    System.err.println(messageException);
+                                    throw new InvocationTargetException (e);
+                                }
                             }
                         }
                     }
@@ -122,18 +134,25 @@ public interface AutoMapping {
                     methodsGetter.put(methodName, dtoFastClass.getMethod(method));
                 }
             }
-
+            
             for (Object arg : args) {
 
                 Class<?> aClass = arg.getClass();
                 FastClass destFastClass = FastClass.create(aClass);
-                FastMethod gettterDTO = methodsGetter.get("get" + aClass.getSimpleName());
+                FastMethod getterDTO = methodsGetter.get("get" + aClass.getSimpleName());
 
-                if (gettterDTO != null) {
-                    Object getterDtoResult = gettterDTO.invoke(this, null);
+                if (getterDTO != null) {
+                    Object getterDtoResult;
+                    try {
+                        getterDtoResult = getterDTO.invoke(this, null);
+                    } catch (InvocationTargetException e) {
+                        String messageException = "AUTOMAPPING EXCEPTION. Method '"+getterDTO+"' calling for object '" + this + "'.";
+                        System.err.println(messageException);
+                        throw new InvocationTargetException (e);
+                    }
 
                     ArrayList<FastMethod> fastMethodList = new ArrayList<>();
-                    fastMethodList.add(gettterDTO);
+                    fastMethodList.add(getterDTO);
                     Method[] allMethods = aClass.getMethods();
                     for (Method setterMethod : aClass.getMethods()) {
                         String methodName = setterMethod.getName();
@@ -149,7 +168,14 @@ public interface AutoMapping {
                                 break;
                             }
                             FastMethod fastSetterMethod = destFastClass.getMethod(setterMethod);
-                            fastSetterMethod.invoke(arg, new Object[]{getterDtoInsideObject.invoke(getterDtoResult, null)});
+                            try {
+                                fastSetterMethod.invoke(arg, new Object[]{getterDtoInsideObject.invoke(getterDtoResult, null)});
+                            } catch (InvocationTargetException e) {
+                                String messageException = "AUTOMAPPING EXCEPTION. Method '"+getterDtoInsideObject+"' calling for object '" + getterDtoResult +
+                                        "', and method '"+fastSetterMethod+"' calling for result invoke last operation.";
+                                System.err.println(messageException);
+                                throw new InvocationTargetException (e);
+                            }
                             fastMethodList.add(getterDtoInsideObject);
                             fastMethodList.add(fastSetterMethod);
                         }
@@ -161,7 +187,14 @@ public interface AutoMapping {
                         FastMethod getterDto = methodsGetter.get(methodName.replaceFirst("set", "get"));
                         if (getterDto != null && methodName.length() > 3 && "set".equals(methodName.substring(0, 3))
                                 && !methodName.substring(3, 4).toLowerCase().equals(methodName.substring(3, 4))) {
-                            destFastClass.getMethod(setterMethod).invoke(arg, new Object[]{getterDto.invoke(this, null)});
+                            try {
+                                destFastClass.getMethod(setterMethod).invoke(arg, new Object[]{getterDto.invoke(this, null)});
+                            } catch (InvocationTargetException e) {
+                                String messageException = "AUTOMAPPING EXCEPTION. Method '"+getterDto+"' calling for object '" + this +
+                                        "', and method '"+destFastClass.getMethod(setterMethod)+"' calling for result invoke last operation.";
+                                System.err.println(messageException);
+                                throw new InvocationTargetException (e);
+                            }
                             FastMethod fastSetter = destFastClass.getMethod(setterMethod);
                             methodsDTOEntityM.put(aClass, new FastMethod[]{getterDto, fastSetter});
                         }

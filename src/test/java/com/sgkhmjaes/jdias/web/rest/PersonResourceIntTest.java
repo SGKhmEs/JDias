@@ -95,9 +95,9 @@ public class PersonResourceIntTest {
         MockitoAnnotations.initMocks(this);
         PersonResource personResource = new PersonResource(personService);
         this.restPersonMockMvc = MockMvcBuilders.standaloneSetup(personResource)
-                .setCustomArgumentResolvers(pageableArgumentResolver)
-                .setControllerAdvice(exceptionTranslator)
-                .setMessageConverters(jacksonMessageConverter).build();
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -108,14 +108,14 @@ public class PersonResourceIntTest {
      */
     public static Person createEntity(EntityManager em) {
         Person person = new Person()
-                .guid(DEFAULT_GUID)
-                .diasporaId(DEFAULT_DIASPORA_ID)
-                .serializedPublicKey(DEFAULT_SERIALIZED_PUBLIC_KEY)
-                .createdAt(DEFAULT_CREATED_AT)
-                .updatedAt(DEFAULT_UPDATED_AT)
-                .closedAccount(DEFAULT_CLOSED_ACCOUNT)
-                .fetchStatus(DEFAULT_FETCH_STATUS)
-                .podId(DEFAULT_POD_ID);
+            .guid(DEFAULT_GUID)
+            .diasporaId(DEFAULT_DIASPORA_ID)
+            .serializedPublicKey(DEFAULT_SERIALIZED_PUBLIC_KEY)
+            .createdAt(DEFAULT_CREATED_AT)
+            .updatedAt(DEFAULT_UPDATED_AT)
+            .closedAccount(DEFAULT_CLOSED_ACCOUNT)
+            .fetchStatus(DEFAULT_FETCH_STATUS)
+            .podId(DEFAULT_POD_ID);
         return person;
     }
 
@@ -132,9 +132,9 @@ public class PersonResourceIntTest {
 
         // Create the Person
         restPersonMockMvc.perform(post("/api/people")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(person)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(person)))
+            .andExpect(status().isCreated());
 
         // Validate the Person in the database
         List<Person> personList = personRepository.findAll();
@@ -164,9 +164,9 @@ public class PersonResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restPersonMockMvc.perform(post("/api/people")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(person)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(person)))
+            .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Person> personList = personRepository.findAll();
@@ -181,17 +181,17 @@ public class PersonResourceIntTest {
 
         // Get all the personList
         restPersonMockMvc.perform(get("/api/people?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(person.getId().intValue())))
-                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-                .andExpect(jsonPath("$.[*].diasporaId").value(hasItem(DEFAULT_DIASPORA_ID.toString())))
-                .andExpect(jsonPath("$.[*].serializedPublicKey").value(hasItem(DEFAULT_SERIALIZED_PUBLIC_KEY.toString())))
-                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].closedAccount").value(hasItem(DEFAULT_CLOSED_ACCOUNT.booleanValue())))
-                .andExpect(jsonPath("$.[*].fetchStatus").value(hasItem(DEFAULT_FETCH_STATUS)))
-                .andExpect(jsonPath("$.[*].podId").value(hasItem(DEFAULT_POD_ID)));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(person.getId().intValue())))
+            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].diasporaId").value(hasItem(DEFAULT_DIASPORA_ID.toString())))
+            .andExpect(jsonPath("$.[*].serializedPublicKey").value(hasItem(DEFAULT_SERIALIZED_PUBLIC_KEY.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].closedAccount").value(hasItem(DEFAULT_CLOSED_ACCOUNT.booleanValue())))
+            .andExpect(jsonPath("$.[*].fetchStatus").value(hasItem(DEFAULT_FETCH_STATUS)))
+            .andExpect(jsonPath("$.[*].podId").value(hasItem(DEFAULT_POD_ID)));
     }
 
     @Test
@@ -202,17 +202,17 @@ public class PersonResourceIntTest {
 
         // Get the person
         restPersonMockMvc.perform(get("/api/people/{id}", person.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id").value(person.getId().intValue()))
-                .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-                .andExpect(jsonPath("$.diasporaId").value(DEFAULT_DIASPORA_ID.toString()))
-                .andExpect(jsonPath("$.serializedPublicKey").value(DEFAULT_SERIALIZED_PUBLIC_KEY.toString()))
-                .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-                .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
-                .andExpect(jsonPath("$.closedAccount").value(DEFAULT_CLOSED_ACCOUNT.booleanValue()))
-                .andExpect(jsonPath("$.fetchStatus").value(DEFAULT_FETCH_STATUS))
-                .andExpect(jsonPath("$.podId").value(DEFAULT_POD_ID));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(person.getId().intValue()))
+            .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
+            .andExpect(jsonPath("$.diasporaId").value(DEFAULT_DIASPORA_ID.toString()))
+            .andExpect(jsonPath("$.serializedPublicKey").value(DEFAULT_SERIALIZED_PUBLIC_KEY.toString()))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
+            .andExpect(jsonPath("$.closedAccount").value(DEFAULT_CLOSED_ACCOUNT.booleanValue()))
+            .andExpect(jsonPath("$.fetchStatus").value(DEFAULT_FETCH_STATUS))
+            .andExpect(jsonPath("$.podId").value(DEFAULT_POD_ID));
     }
 
     @Test
@@ -220,7 +220,7 @@ public class PersonResourceIntTest {
     public void getNonExistingPerson() throws Exception {
         // Get the person
         restPersonMockMvc.perform(get("/api/people/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -234,19 +234,19 @@ public class PersonResourceIntTest {
         // Update the person
         Person updatedPerson = personRepository.findOne(person.getId());
         updatedPerson
-                .guid(UPDATED_GUID)
-                .diasporaId(UPDATED_DIASPORA_ID)
-                .serializedPublicKey(UPDATED_SERIALIZED_PUBLIC_KEY)
-                .createdAt(UPDATED_CREATED_AT)
-                .updatedAt(UPDATED_UPDATED_AT)
-                .closedAccount(UPDATED_CLOSED_ACCOUNT)
-                .fetchStatus(UPDATED_FETCH_STATUS)
-                .podId(UPDATED_POD_ID);
+            .guid(UPDATED_GUID)
+            .diasporaId(UPDATED_DIASPORA_ID)
+            .serializedPublicKey(UPDATED_SERIALIZED_PUBLIC_KEY)
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT)
+            .closedAccount(UPDATED_CLOSED_ACCOUNT)
+            .fetchStatus(UPDATED_FETCH_STATUS)
+            .podId(UPDATED_POD_ID);
 
         restPersonMockMvc.perform(put("/api/people")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedPerson)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedPerson)))
+            .andExpect(status().isOk());
 
         // Validate the Person in the database
         List<Person> personList = personRepository.findAll();
@@ -272,11 +272,12 @@ public class PersonResourceIntTest {
         int databaseSizeBeforeUpdate = personRepository.findAll().size();
 
         // Create the Person
+
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restPersonMockMvc.perform(put("/api/people")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(person)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(person)))
+            .andExpect(status().isCreated());
 
         // Validate the Person in the database
         List<Person> personList = personRepository.findAll();
@@ -293,8 +294,8 @@ public class PersonResourceIntTest {
 
         // Get the person
         restPersonMockMvc.perform(delete("/api/people/{id}", person.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean personExistsInEs = personSearchRepository.exists(person.getId());
@@ -313,17 +314,17 @@ public class PersonResourceIntTest {
 
         // Search the person
         restPersonMockMvc.perform(get("/api/_search/people?query=id:" + person.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(person.getId().intValue())))
-                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-                .andExpect(jsonPath("$.[*].diasporaId").value(hasItem(DEFAULT_DIASPORA_ID.toString())))
-                .andExpect(jsonPath("$.[*].serializedPublicKey").value(hasItem(DEFAULT_SERIALIZED_PUBLIC_KEY.toString())))
-                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].closedAccount").value(hasItem(DEFAULT_CLOSED_ACCOUNT.booleanValue())))
-                .andExpect(jsonPath("$.[*].fetchStatus").value(hasItem(DEFAULT_FETCH_STATUS)))
-                .andExpect(jsonPath("$.[*].podId").value(hasItem(DEFAULT_POD_ID)));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(person.getId().intValue())))
+            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].diasporaId").value(hasItem(DEFAULT_DIASPORA_ID.toString())))
+            .andExpect(jsonPath("$.[*].serializedPublicKey").value(hasItem(DEFAULT_SERIALIZED_PUBLIC_KEY.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].closedAccount").value(hasItem(DEFAULT_CLOSED_ACCOUNT.booleanValue())))
+            .andExpect(jsonPath("$.[*].fetchStatus").value(hasItem(DEFAULT_FETCH_STATUS)))
+            .andExpect(jsonPath("$.[*].podId").value(hasItem(DEFAULT_POD_ID)));
     }
 
     @Test

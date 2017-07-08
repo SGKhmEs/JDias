@@ -20,7 +20,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class RetractionServiceImpl implements RetractionService {
+public class RetractionServiceImpl implements RetractionService{
 
     private final Logger log = LoggerFactory.getLogger(RetractionServiceImpl.class);
 
@@ -48,9 +48,9 @@ public class RetractionServiceImpl implements RetractionService {
     }
 
     /**
-     * Get all the retractions.
+     *  Get all the retractions.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,10 @@ public class RetractionServiceImpl implements RetractionService {
     }
 
     /**
-     * Get one retraction by id.
+     *  Get one retraction by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,9 +73,9 @@ public class RetractionServiceImpl implements RetractionService {
     }
 
     /**
-     * Delete the retraction by id.
+     *  Delete the  retraction by id.
      *
-     * @param id the id of the entity
+     *  @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
@@ -87,15 +87,15 @@ public class RetractionServiceImpl implements RetractionService {
     /**
      * Search for the retraction corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     *  @param query the query of the search
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Retraction> search(String query) {
         log.debug("Request to search Retractions for query {}", query);
         return StreamSupport
-                .stream(retractionSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .stream(retractionSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 }

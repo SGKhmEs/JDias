@@ -49,12 +49,15 @@ public class Aspect implements Serializable {
     @OneToMany(mappedBy = "aspect")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<AspectMembership> aspectMemberships = new HashSet<>();
+    private Set<AspectVisiblity> aspectVisibilities = new HashSet<>();
 
     @OneToMany(mappedBy = "aspect")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<AspectVisiblity> aspectVisibilities = new HashSet<>();
+    private Set<Contact> contacts = new HashSet<>();
+
+    @ManyToOne
+    private Person person;
 
     public Long getId() {
         return id;
@@ -142,37 +145,12 @@ public class Aspect implements Serializable {
         this.postDefault = postDefault;
     }
 
-    public Set<AspectMembership> getAspectMemberships() {
-        return aspectMemberships;
-    }
-
-    public Aspect aspectMemberships(Set<AspectMembership> aspectMemberships) {
-        this.aspectMemberships = aspectMemberships;
-        return this;
-    }
-
-    public Aspect addAspectMemberships(AspectMembership aspectMembership) {
-        this.aspectMemberships.add(aspectMembership);
-        aspectMembership.setAspect(this);
-        return this;
-    }
-
-    public Aspect removeAspectMemberships(AspectMembership aspectMembership) {
-        this.aspectMemberships.remove(aspectMembership);
-        aspectMembership.setAspect(null);
-        return this;
-    }
-
-    public void setAspectMemberships(Set<AspectMembership> aspectMemberships) {
-        this.aspectMemberships = aspectMemberships;
-    }
-
     public Set<AspectVisiblity> getAspectVisibilities() {
         return aspectVisibilities;
     }
 
-    public Aspect aspectVisibilities(Set<AspectVisiblity> aspectVisiblities) {
-        this.aspectVisibilities = aspectVisiblities;
+    public Aspect aspectVisibilities(Set<AspectVisiblity> aspectVisibilities) {
+        this.aspectVisibilities = aspectVisibilities;
         return this;
     }
 
@@ -188,8 +166,46 @@ public class Aspect implements Serializable {
         return this;
     }
 
-    public void setAspectVisibilities(Set<AspectVisiblity> aspectVisiblities) {
-        this.aspectVisibilities = aspectVisiblities;
+    public void setAspectVisibilities(Set<AspectVisiblity> aspectVisibilities) {
+        this.aspectVisibilities = aspectVisibilities;
+    }
+
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public Aspect contacts(Set<Contact> Contacts) {
+        this.contacts = Contacts;
+        return this;
+    }
+
+    public Aspect addContact(Contact Contact) {
+        this.contacts.add(Contact);
+        Contact.setAspect(this);
+        return this;
+    }
+
+    public Aspect removeContact(Contact Contact) {
+        this.contacts.remove(Contact);
+        Contact.setAspect(null);
+        return this;
+    }
+
+    public void setContacts(Set<Contact> Contacts) {
+        this.contacts = Contacts;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public Aspect person(Person Person) {
+        this.person = Person;
+        return this;
+    }
+
+    public void setPerson(Person Person) {
+        this.person = Person;
     }
 
     @Override
@@ -214,14 +230,14 @@ public class Aspect implements Serializable {
 
     @Override
     public String toString() {
-        return "Aspect{"
-                + "id=" + getId()
-                + ", name='" + getName() + "'"
-                + ", createdAt='" + getCreatedAt() + "'"
-                + ", updatedAt='" + getUpdatedAt() + "'"
-                + ", contactVisible='" + isContactVisible() + "'"
-                + ", chatEnabled='" + isChatEnabled() + "'"
-                + ", postDefault='" + isPostDefault() + "'"
-                + "}";
+        return "Aspect{" +
+            "id=" + getId() +
+            ", name='" + getName() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
+            ", contactVisible='" + isContactVisible() + "'" +
+            ", chatEnabled='" + isChatEnabled() + "'" +
+            ", postDefault='" + isPostDefault() + "'" +
+            "}";
     }
 }

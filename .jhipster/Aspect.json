@@ -3,15 +3,21 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "aspectMemberships",
-            "otherEntityName": "aspectMembership",
+            "relationshipName": "aspectVisibilities",
+            "otherEntityName": "aspectVisibility",
+            "otherEntityRelationshipName": "aspect"
+        },	
+		{
+            "relationshipType": "one-to-many",
+            "relationshipName": "contact",
+            "otherEntityName": "Contact",
             "otherEntityRelationshipName": "aspect"
         },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "aspectVisibilities",
-            "otherEntityName": "aspectVisiblity",
-            "otherEntityRelationshipName": "aspect"
+		{
+            "relationshipName": "person",
+            "otherEntityName": "Person",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
         }
     ],
     "fields": [

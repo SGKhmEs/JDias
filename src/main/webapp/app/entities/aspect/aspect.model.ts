@@ -1,6 +1,6 @@
-import { AspectMembership } from '../aspect-membership';
-import { AspectVisiblity } from '../aspect-visiblity';
-export class Aspect {
+import { BaseEntity } from './../../shared';
+
+export class Aspect implements BaseEntity {
     constructor(
         public id?: number,
         public name?: string,
@@ -9,8 +9,9 @@ export class Aspect {
         public contactVisible?: boolean,
         public chatEnabled?: boolean,
         public postDefault?: boolean,
-        public aspectMemberships?: AspectMembership,
-        public aspectVisibilities?: AspectVisiblity,
+        public aspectVisibilities?: BaseEntity[],
+        public contacts?: BaseEntity[],
+        public person?: BaseEntity,
     ) {
         this.contactVisible = false;
         this.chatEnabled = false;

@@ -87,9 +87,9 @@ public class PollParticipationResourceIntTest {
         MockitoAnnotations.initMocks(this);
         PollParticipationResource pollParticipationResource = new PollParticipationResource(pollParticipationService);
         this.restPollParticipationMockMvc = MockMvcBuilders.standaloneSetup(pollParticipationResource)
-                .setCustomArgumentResolvers(pageableArgumentResolver)
-                .setControllerAdvice(exceptionTranslator)
-                .setMessageConverters(jacksonMessageConverter).build();
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -100,12 +100,12 @@ public class PollParticipationResourceIntTest {
      */
     public static PollParticipation createEntity(EntityManager em) {
         PollParticipation pollParticipation = new PollParticipation()
-                .author(DEFAULT_AUTHOR)
-                .guid(DEFAULT_GUID)
-                .parentGuid(DEFAULT_PARENT_GUID)
-                .pollAnswerGuid(DEFAULT_POLL_ANSWER_GUID)
-                .authorSignature(DEFAULT_AUTHOR_SIGNATURE)
-                .parentAuthorSignature(DEFAULT_PARENT_AUTHOR_SIGNATURE);
+            .author(DEFAULT_AUTHOR)
+            .guid(DEFAULT_GUID)
+            .parentGuid(DEFAULT_PARENT_GUID)
+            .pollAnswerGuid(DEFAULT_POLL_ANSWER_GUID)
+            .authorSignature(DEFAULT_AUTHOR_SIGNATURE)
+            .parentAuthorSignature(DEFAULT_PARENT_AUTHOR_SIGNATURE);
         return pollParticipation;
     }
 
@@ -122,9 +122,9 @@ public class PollParticipationResourceIntTest {
 
         // Create the PollParticipation
         restPollParticipationMockMvc.perform(post("/api/poll-participations")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(pollParticipation)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(pollParticipation)))
+            .andExpect(status().isCreated());
 
         // Validate the PollParticipation in the database
         List<PollParticipation> pollParticipationList = pollParticipationRepository.findAll();
@@ -152,9 +152,9 @@ public class PollParticipationResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restPollParticipationMockMvc.perform(post("/api/poll-participations")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(pollParticipation)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(pollParticipation)))
+            .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<PollParticipation> pollParticipationList = pollParticipationRepository.findAll();
@@ -169,15 +169,15 @@ public class PollParticipationResourceIntTest {
 
         // Get all the pollParticipationList
         restPollParticipationMockMvc.perform(get("/api/poll-participations?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(pollParticipation.getId().intValue())))
-                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-                .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
-                .andExpect(jsonPath("$.[*].pollAnswerGuid").value(hasItem(DEFAULT_POLL_ANSWER_GUID.toString())))
-                .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
-                .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(pollParticipation.getId().intValue())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].pollAnswerGuid").value(hasItem(DEFAULT_POLL_ANSWER_GUID.toString())))
+            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
     }
 
     @Test
@@ -188,15 +188,15 @@ public class PollParticipationResourceIntTest {
 
         // Get the pollParticipation
         restPollParticipationMockMvc.perform(get("/api/poll-participations/{id}", pollParticipation.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id").value(pollParticipation.getId().intValue()))
-                .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-                .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
-                .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
-                .andExpect(jsonPath("$.pollAnswerGuid").value(DEFAULT_POLL_ANSWER_GUID.toString()))
-                .andExpect(jsonPath("$.authorSignature").value(DEFAULT_AUTHOR_SIGNATURE.toString()))
-                .andExpect(jsonPath("$.parentAuthorSignature").value(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString()));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(pollParticipation.getId().intValue()))
+            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
+            .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.toString()))
+            .andExpect(jsonPath("$.parentGuid").value(DEFAULT_PARENT_GUID.toString()))
+            .andExpect(jsonPath("$.pollAnswerGuid").value(DEFAULT_POLL_ANSWER_GUID.toString()))
+            .andExpect(jsonPath("$.authorSignature").value(DEFAULT_AUTHOR_SIGNATURE.toString()))
+            .andExpect(jsonPath("$.parentAuthorSignature").value(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString()));
     }
 
     @Test
@@ -204,7 +204,7 @@ public class PollParticipationResourceIntTest {
     public void getNonExistingPollParticipation() throws Exception {
         // Get the pollParticipation
         restPollParticipationMockMvc.perform(get("/api/poll-participations/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -218,17 +218,17 @@ public class PollParticipationResourceIntTest {
         // Update the pollParticipation
         PollParticipation updatedPollParticipation = pollParticipationRepository.findOne(pollParticipation.getId());
         updatedPollParticipation
-                .author(UPDATED_AUTHOR)
-                .guid(UPDATED_GUID)
-                .parentGuid(UPDATED_PARENT_GUID)
-                .pollAnswerGuid(UPDATED_POLL_ANSWER_GUID)
-                .authorSignature(UPDATED_AUTHOR_SIGNATURE)
-                .parentAuthorSignature(UPDATED_PARENT_AUTHOR_SIGNATURE);
+            .author(UPDATED_AUTHOR)
+            .guid(UPDATED_GUID)
+            .parentGuid(UPDATED_PARENT_GUID)
+            .pollAnswerGuid(UPDATED_POLL_ANSWER_GUID)
+            .authorSignature(UPDATED_AUTHOR_SIGNATURE)
+            .parentAuthorSignature(UPDATED_PARENT_AUTHOR_SIGNATURE);
 
         restPollParticipationMockMvc.perform(put("/api/poll-participations")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedPollParticipation)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedPollParticipation)))
+            .andExpect(status().isOk());
 
         // Validate the PollParticipation in the database
         List<PollParticipation> pollParticipationList = pollParticipationRepository.findAll();
@@ -252,11 +252,12 @@ public class PollParticipationResourceIntTest {
         int databaseSizeBeforeUpdate = pollParticipationRepository.findAll().size();
 
         // Create the PollParticipation
+
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restPollParticipationMockMvc.perform(put("/api/poll-participations")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(pollParticipation)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(pollParticipation)))
+            .andExpect(status().isCreated());
 
         // Validate the PollParticipation in the database
         List<PollParticipation> pollParticipationList = pollParticipationRepository.findAll();
@@ -273,8 +274,8 @@ public class PollParticipationResourceIntTest {
 
         // Get the pollParticipation
         restPollParticipationMockMvc.perform(delete("/api/poll-participations/{id}", pollParticipation.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean pollParticipationExistsInEs = pollParticipationSearchRepository.exists(pollParticipation.getId());
@@ -293,15 +294,15 @@ public class PollParticipationResourceIntTest {
 
         // Search the pollParticipation
         restPollParticipationMockMvc.perform(get("/api/_search/poll-participations?query=id:" + pollParticipation.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(pollParticipation.getId().intValue())))
-                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
-                .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
-                .andExpect(jsonPath("$.[*].pollAnswerGuid").value(hasItem(DEFAULT_POLL_ANSWER_GUID.toString())))
-                .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
-                .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(pollParticipation.getId().intValue())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].parentGuid").value(hasItem(DEFAULT_PARENT_GUID.toString())))
+            .andExpect(jsonPath("$.[*].pollAnswerGuid").value(hasItem(DEFAULT_POLL_ANSWER_GUID.toString())))
+            .andExpect(jsonPath("$.[*].authorSignature").value(hasItem(DEFAULT_AUTHOR_SIGNATURE.toString())))
+            .andExpect(jsonPath("$.[*].parentAuthorSignature").value(hasItem(DEFAULT_PARENT_AUTHOR_SIGNATURE.toString())));
     }
 
     @Test

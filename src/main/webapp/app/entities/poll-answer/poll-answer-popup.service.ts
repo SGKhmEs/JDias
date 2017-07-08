@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PollAnswer } from './poll-answer.model';
 import { PollAnswerService } from './poll-answer.service';
+
 @Injectable()
 export class PollAnswerPopupService {
     private isOpen = false;

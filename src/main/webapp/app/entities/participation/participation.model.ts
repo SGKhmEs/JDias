@@ -1,3 +1,4 @@
+import { BaseEntity } from './../../shared';
 
 const enum Type {
     'ACCOUNTDELETION',
@@ -19,17 +20,16 @@ const enum Type {
     'RESHARE',
     'RETRACTION',
     'STATUSMESSAGE'
+}
 
-};
-import { Person } from '../person';
-export class Participation {
+export class Participation implements BaseEntity {
     constructor(
         public id?: number,
         public author?: string,
         public guid?: string,
         public parentGuid?: string,
         public parentType?: Type,
-        public person?: Person,
+        public person?: BaseEntity,
     ) {
     }
 }

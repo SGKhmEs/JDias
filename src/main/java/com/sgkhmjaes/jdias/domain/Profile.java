@@ -21,6 +21,8 @@ public class Profile implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    //@SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @Column(name = "author")
@@ -61,6 +63,10 @@ public class Profile implements Serializable {
 
     @Column(name = "tag_string")
     private String tagString;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Person person;
 
     public Long getId() {
         return id;
@@ -239,6 +245,19 @@ public class Profile implements Serializable {
         this.tagString = tagString;
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
+    public Profile person(Person person) {
+        this.person = person;
+        return this;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -261,21 +280,21 @@ public class Profile implements Serializable {
 
     @Override
     public String toString() {
-        return "Profile{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", firstName='" + getFirstName() + "'"
-                + ", lastName='" + getLastName() + "'"
-                + ", imageUrl='" + getImageUrl() + "'"
-                + ", imageUrlSmall='" + getImageUrlSmall() + "'"
-                + ", imageUrlMedium='" + getImageUrlMedium() + "'"
-                + ", birthday='" + getBirthday() + "'"
-                + ", gender='" + getGender() + "'"
-                + ", bio='" + getBio() + "'"
-                + ", location='" + getLocation() + "'"
-                + ", searchable='" + isSearchable() + "'"
-                + ", nsfw='" + isNsfw() + "'"
-                + ", tagString='" + getTagString() + "'"
-                + "}";
+        return "Profile{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", firstName='" + getFirstName() + "'" +
+            ", lastName='" + getLastName() + "'" +
+            ", imageUrl='" + getImageUrl() + "'" +
+            ", imageUrlSmall='" + getImageUrlSmall() + "'" +
+            ", imageUrlMedium='" + getImageUrlMedium() + "'" +
+            ", birthday='" + getBirthday() + "'" +
+            ", gender='" + getGender() + "'" +
+            ", bio='" + getBio() + "'" +
+            ", location='" + getLocation() + "'" +
+            ", searchable='" + isSearchable() + "'" +
+            ", nsfw='" + isNsfw() + "'" +
+            ", tagString='" + getTagString() + "'" +
+            "}";
     }
 }

@@ -33,13 +33,13 @@ public class SocialController {
             Connection<?> connection = providerSignInUtils.getConnectionFromSession(webRequest);
             socialService.createSocialUser(connection, langKey.replace("\"", ""));
             return new RedirectView(URIBuilder.fromUri("/#/social-register/" + connection.getKey().getProviderId())
-                    .queryParam("success", "true")
-                    .build().toString(), true);
+                .queryParam("success", "true")
+                .build().toString(), true);
         } catch (Exception e) {
             log.error("Exception creating social user: ", e);
             return new RedirectView(URIBuilder.fromUri("/#/social-register/no-provider")
-                    .queryParam("success", "false")
-                    .build().toString(), true);
+                .queryParam("success", "false")
+                .build().toString(), true);
         }
     }
 }

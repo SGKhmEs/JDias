@@ -182,14 +182,14 @@ public class PollParticipation implements Serializable {
 
     @Override
     public String toString() {
-        return "PollParticipation{"
-                + "id=" + getId()
-                + ", author='" + getAuthor() + "'"
-                + ", guid='" + getGuid() + "'"
-                + ", parentGuid='" + getParentGuid() + "'"
-                + ", pollAnswerGuid='" + getPollAnswerGuid() + "'"
-                + ", authorSignature='" + getAuthorSignature() + "'"
-                + ", parentAuthorSignature='" + getParentAuthorSignature() + "'"
-                + "}";
+        return "PollParticipation{" +
+            "id=" + getId() +
+            ", author='" + getAuthor() + "'" +
+            ", guid='" + getGuid() + "'" +
+            ", parentGuid='" + getParentGuid() + "'" +
+            ", pollAnswerGuid='" + getPollAnswerGuid() + "'" +
+            ", authorSignature='" + getAuthorSignature() + "'" +
+            ", parentAuthorSignature='" + getParentAuthorSignature() + "'" +
+            "}";
     }
 }

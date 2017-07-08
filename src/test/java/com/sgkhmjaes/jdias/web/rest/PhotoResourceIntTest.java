@@ -98,9 +98,9 @@ public class PhotoResourceIntTest {
         MockitoAnnotations.initMocks(this);
         PhotoResource photoResource = new PhotoResource(photoService);
         this.restPhotoMockMvc = MockMvcBuilders.standaloneSetup(photoResource)
-                .setCustomArgumentResolvers(pageableArgumentResolver)
-                .setControllerAdvice(exceptionTranslator)
-                .setMessageConverters(jacksonMessageConverter).build();
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -111,15 +111,15 @@ public class PhotoResourceIntTest {
      */
     public static Photo createEntity(EntityManager em) {
         Photo photo = new Photo()
-                .author(DEFAULT_AUTHOR)
-                .guid(DEFAULT_GUID)
-                .createdAt(DEFAULT_CREATED_AT)
-                .remotePhotoPath(DEFAULT_REMOTE_PHOTO_PATH)
-                .remotePhotoName(DEFAULT_REMOTE_PHOTO_NAME)
-                .height(DEFAULT_HEIGHT)
-                .width(DEFAULT_WIDTH)
-                .text(DEFAULT_TEXT)
-                .statusMessageGuid(DEFAULT_STATUS_MESSAGE_GUID);
+            .author(DEFAULT_AUTHOR)
+            .guid(DEFAULT_GUID)
+            .createdAt(DEFAULT_CREATED_AT)
+            .remotePhotoPath(DEFAULT_REMOTE_PHOTO_PATH)
+            .remotePhotoName(DEFAULT_REMOTE_PHOTO_NAME)
+            .height(DEFAULT_HEIGHT)
+            .width(DEFAULT_WIDTH)
+            .text(DEFAULT_TEXT)
+            .statusMessageGuid(DEFAULT_STATUS_MESSAGE_GUID);
         return photo;
     }
 
@@ -136,9 +136,9 @@ public class PhotoResourceIntTest {
 
         // Create the Photo
         restPhotoMockMvc.perform(post("/api/photos")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(photo)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(photo)))
+            .andExpect(status().isCreated());
 
         // Validate the Photo in the database
         List<Photo> photoList = photoRepository.findAll();
@@ -169,9 +169,9 @@ public class PhotoResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restPhotoMockMvc.perform(post("/api/photos")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(photo)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(photo)))
+            .andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Photo> photoList = photoRepository.findAll();
@@ -186,18 +186,18 @@ public class PhotoResourceIntTest {
 
         // Get all the photoList
         restPhotoMockMvc.perform(get("/api/photos?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(photo.getId().intValue())))
-                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.booleanValue())))
-                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].remotePhotoPath").value(hasItem(DEFAULT_REMOTE_PHOTO_PATH.toString())))
-                .andExpect(jsonPath("$.[*].remotePhotoName").value(hasItem(DEFAULT_REMOTE_PHOTO_NAME.toString())))
-                .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT)))
-                .andExpect(jsonPath("$.[*].width").value(hasItem(DEFAULT_WIDTH)))
-                .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-                .andExpect(jsonPath("$.[*].statusMessageGuid").value(hasItem(DEFAULT_STATUS_MESSAGE_GUID.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(photo.getId().intValue())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.booleanValue())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].remotePhotoPath").value(hasItem(DEFAULT_REMOTE_PHOTO_PATH.toString())))
+            .andExpect(jsonPath("$.[*].remotePhotoName").value(hasItem(DEFAULT_REMOTE_PHOTO_NAME.toString())))
+            .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT)))
+            .andExpect(jsonPath("$.[*].width").value(hasItem(DEFAULT_WIDTH)))
+            .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
+            .andExpect(jsonPath("$.[*].statusMessageGuid").value(hasItem(DEFAULT_STATUS_MESSAGE_GUID.toString())));
     }
 
     @Test
@@ -208,18 +208,18 @@ public class PhotoResourceIntTest {
 
         // Get the photo
         restPhotoMockMvc.perform(get("/api/photos/{id}", photo.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id").value(photo.getId().intValue()))
-                .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-                .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.booleanValue()))
-                .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-                .andExpect(jsonPath("$.remotePhotoPath").value(DEFAULT_REMOTE_PHOTO_PATH.toString()))
-                .andExpect(jsonPath("$.remotePhotoName").value(DEFAULT_REMOTE_PHOTO_NAME.toString()))
-                .andExpect(jsonPath("$.height").value(DEFAULT_HEIGHT))
-                .andExpect(jsonPath("$.width").value(DEFAULT_WIDTH))
-                .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()))
-                .andExpect(jsonPath("$.statusMessageGuid").value(DEFAULT_STATUS_MESSAGE_GUID.toString()));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(photo.getId().intValue()))
+            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
+            .andExpect(jsonPath("$.guid").value(DEFAULT_GUID.booleanValue()))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.remotePhotoPath").value(DEFAULT_REMOTE_PHOTO_PATH.toString()))
+            .andExpect(jsonPath("$.remotePhotoName").value(DEFAULT_REMOTE_PHOTO_NAME.toString()))
+            .andExpect(jsonPath("$.height").value(DEFAULT_HEIGHT))
+            .andExpect(jsonPath("$.width").value(DEFAULT_WIDTH))
+            .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()))
+            .andExpect(jsonPath("$.statusMessageGuid").value(DEFAULT_STATUS_MESSAGE_GUID.toString()));
     }
 
     @Test
@@ -227,7 +227,7 @@ public class PhotoResourceIntTest {
     public void getNonExistingPhoto() throws Exception {
         // Get the photo
         restPhotoMockMvc.perform(get("/api/photos/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -241,20 +241,20 @@ public class PhotoResourceIntTest {
         // Update the photo
         Photo updatedPhoto = photoRepository.findOne(photo.getId());
         updatedPhoto
-                .author(UPDATED_AUTHOR)
-                .guid(UPDATED_GUID)
-                .createdAt(UPDATED_CREATED_AT)
-                .remotePhotoPath(UPDATED_REMOTE_PHOTO_PATH)
-                .remotePhotoName(UPDATED_REMOTE_PHOTO_NAME)
-                .height(UPDATED_HEIGHT)
-                .width(UPDATED_WIDTH)
-                .text(UPDATED_TEXT)
-                .statusMessageGuid(UPDATED_STATUS_MESSAGE_GUID);
+            .author(UPDATED_AUTHOR)
+            .guid(UPDATED_GUID)
+            .createdAt(UPDATED_CREATED_AT)
+            .remotePhotoPath(UPDATED_REMOTE_PHOTO_PATH)
+            .remotePhotoName(UPDATED_REMOTE_PHOTO_NAME)
+            .height(UPDATED_HEIGHT)
+            .width(UPDATED_WIDTH)
+            .text(UPDATED_TEXT)
+            .statusMessageGuid(UPDATED_STATUS_MESSAGE_GUID);
 
         restPhotoMockMvc.perform(put("/api/photos")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedPhoto)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedPhoto)))
+            .andExpect(status().isOk());
 
         // Validate the Photo in the database
         List<Photo> photoList = photoRepository.findAll();
@@ -281,11 +281,12 @@ public class PhotoResourceIntTest {
         int databaseSizeBeforeUpdate = photoRepository.findAll().size();
 
         // Create the Photo
+
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restPhotoMockMvc.perform(put("/api/photos")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(photo)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(photo)))
+            .andExpect(status().isCreated());
 
         // Validate the Photo in the database
         List<Photo> photoList = photoRepository.findAll();
@@ -302,8 +303,8 @@ public class PhotoResourceIntTest {
 
         // Get the photo
         restPhotoMockMvc.perform(delete("/api/photos/{id}", photo.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean photoExistsInEs = photoSearchRepository.exists(photo.getId());
@@ -322,18 +323,18 @@ public class PhotoResourceIntTest {
 
         // Search the photo
         restPhotoMockMvc.perform(get("/api/_search/photos?query=id:" + photo.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(photo.getId().intValue())))
-                .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-                .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.booleanValue())))
-                .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-                .andExpect(jsonPath("$.[*].remotePhotoPath").value(hasItem(DEFAULT_REMOTE_PHOTO_PATH.toString())))
-                .andExpect(jsonPath("$.[*].remotePhotoName").value(hasItem(DEFAULT_REMOTE_PHOTO_NAME.toString())))
-                .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT)))
-                .andExpect(jsonPath("$.[*].width").value(hasItem(DEFAULT_WIDTH)))
-                .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
-                .andExpect(jsonPath("$.[*].statusMessageGuid").value(hasItem(DEFAULT_STATUS_MESSAGE_GUID.toString())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(photo.getId().intValue())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
+            .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.booleanValue())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].remotePhotoPath").value(hasItem(DEFAULT_REMOTE_PHOTO_PATH.toString())))
+            .andExpect(jsonPath("$.[*].remotePhotoName").value(hasItem(DEFAULT_REMOTE_PHOTO_NAME.toString())))
+            .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT)))
+            .andExpect(jsonPath("$.[*].width").value(hasItem(DEFAULT_WIDTH)))
+            .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
+            .andExpect(jsonPath("$.[*].statusMessageGuid").value(hasItem(DEFAULT_STATUS_MESSAGE_GUID.toString())));
     }
 
     @Test

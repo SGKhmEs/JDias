@@ -28,7 +28,7 @@ public class LoggingConfiguration {
     private final JHipsterProperties jHipsterProperties;
 
     public LoggingConfiguration(@Value("${spring.application.name}") String appName, @Value("${server.port}") String serverPort,
-            JHipsterProperties jHipsterProperties) {
+         JHipsterProperties jHipsterProperties) {
         this.appName = appName;
         this.serverPort = serverPort;
         this.jHipsterProperties = jHipsterProperties;
@@ -75,10 +75,9 @@ public class LoggingConfiguration {
     }
 
     /**
-     * Logback configuration is achieved by configuration file and API. When
-     * configuration file change is detected, the configuration is reset. This
-     * listener ensures that the programmatic configuration is also re-applied
-     * after reset.
+     * Logback configuration is achieved by configuration file and API.
+     * When configuration file change is detected, the configuration is reset.
+     * This listener ensures that the programmatic configuration is also re-applied after reset.
      */
     class LogbackLoggerContextListener extends ContextAwareBase implements LoggerContextListener {
 

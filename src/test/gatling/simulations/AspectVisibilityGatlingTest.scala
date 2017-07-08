@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.duration._
 
 /**
- * Performance test for the AspectMembership entity.
+ * Performance test for the AspectVisibility entity.
  */
-class AspectMembershipGatlingTest extends Simulation {
+class AspectVisibilityGatlingTest extends Simulation {
 
     val context: LoggerContext = LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
     // Log all HTTP requests
@@ -37,7 +37,7 @@ class AspectMembershipGatlingTest extends Simulation {
         "X-XSRF-TOKEN" -> "${xsrf_token}"
     )
 
-    val scn = scenario("Test the AspectMembership entity")
+    val scn = scenario("Test the AspectVisibility entity")
         .exec(http("First unauthenticated request")
         .get("/api/account")
         .headers(headers_http)
@@ -59,26 +59,26 @@ class AspectMembershipGatlingTest extends Simulation {
         .check(status.is(200)))
         .pause(10)
         .repeat(2) {
-            exec(http("Get all aspectMemberships")
-            .get("/api/aspect-memberships")
+            exec(http("Get all aspectVisibilities")
+            .get("/api/aspect-visibilities")
             .headers(headers_http_authenticated)
             .check(status.is(200)))
             .pause(10 seconds, 20 seconds)
-            .exec(http("Create new aspectMembership")
-            .post("/api/aspect-memberships")
+            .exec(http("Create new aspectVisibility")
+            .post("/api/aspect-visibilities")
             .headers(headers_http_authenticated)
             .body(StringBody("""{"id":null, "createdAt":"2020-01-01T00:00:00.000Z", "updatedAt":"2020-01-01T00:00:00.000Z"}""")).asJSON
             .check(status.is(201))
-            .check(headerRegex("Location", "(.*)").saveAs("new_aspectMembership_url"))).exitHereIfFailed
+            .check(headerRegex("Location", "(.*)").saveAs("new_aspectVisibility_url"))).exitHereIfFailed
             .pause(10)
             .repeat(5) {
-                exec(http("Get created aspectMembership")
-                .get("${new_aspectMembership_url}")
+                exec(http("Get created aspectVisibility")
+                .get("${new_aspectVisibility_url}")
                 .headers(headers_http_authenticated))
                 .pause(10)
             }
-            .exec(http("Delete created aspectMembership")
-            .delete("${new_aspectMembership_url}")
+            .exec(http("Delete created aspectVisibility")
+            .delete("${new_aspectVisibility_url}")
             .headers(headers_http_authenticated))
             .pause(10)
         }

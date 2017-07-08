@@ -8,11 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -20,12 +18,10 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class PersonServiceImpl implements PersonService {
+public class PersonServiceImpl implements PersonService{
 
     private final Logger log = LoggerFactory.getLogger(PersonServiceImpl.class);
-
     private final PersonRepository personRepository;
-
     private final PersonSearchRepository personSearchRepository;
 
     public PersonServiceImpl(PersonRepository personRepository, PersonSearchRepository personSearchRepository) {
@@ -48,9 +44,9 @@ public class PersonServiceImpl implements PersonService {
     }
 
     /**
-     * Get all the people.
+     *  Get all the people.
      *
-     * @return the list of entities
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +56,10 @@ public class PersonServiceImpl implements PersonService {
     }
 
     /**
-     * Get one person by id.
+     *  Get one person by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     *  @param id the id of the entity
+     *  @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -73,10 +69,18 @@ public class PersonServiceImpl implements PersonService {
     }
 
     /**
-     * Delete the person by id.
+     *  Delete the  person by id.
      *
-     * @param id the id of the entity
+     * @param diasporaId
      */
+    
+    @Override
+    public Person findPersonByDiasporaId(String diasporaId){
+        log.debug("Request to get Person by diasporaID : {}", diasporaId);
+        return personRepository.findPersonByDiasporaId(diasporaId);
+    }
+    
+    
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Person : {}", id);
@@ -87,15 +91,16 @@ public class PersonServiceImpl implements PersonService {
     /**
      * Search for the person corresponding to the query.
      *
-     * @param query the query of the search
-     * @return the list of entities
+     *  @param query the query of the search
+     *  @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public List<Person> search(String query) {
         log.debug("Request to search People for query {}", query);
         return StreamSupport
-                .stream(personSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .stream(personSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
+        
 }
