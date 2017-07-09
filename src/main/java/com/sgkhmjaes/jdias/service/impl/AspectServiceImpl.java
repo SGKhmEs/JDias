@@ -1,27 +1,23 @@
 package com.sgkhmjaes.jdias.service.impl;
 
-import com.google.common.collect.Lists;
 import com.sgkhmjaes.jdias.domain.Person;
-import com.sgkhmjaes.jdias.domain.UserAccount;
-import com.sgkhmjaes.jdias.repository.PersonRepository;
-import com.sgkhmjaes.jdias.repository.UserAccountRepository;
-import com.sgkhmjaes.jdias.repository.UserRepository;
-import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.AspectService;
 import com.sgkhmjaes.jdias.domain.Aspect;
+import com.sgkhmjaes.jdias.domain.Contact;
 import com.sgkhmjaes.jdias.repository.AspectRepository;
 import com.sgkhmjaes.jdias.repository.search.AspectSearchRepository;
+import com.sgkhmjaes.jdias.service.PersonService;
 import com.sgkhmjaes.jdias.service.UserService;
+import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -32,17 +28,18 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class AspectServiceImpl implements AspectService{
 
     private final Logger log = LoggerFactory.getLogger(AspectServiceImpl.class);
-
+    private final String aspectDefultName = "My aspect";
     private final AspectRepository aspectRepository;
     private final AspectSearchRepository aspectSearchRepository;
     private final UserService userService;
+    private final PersonService personService;
 
-    public AspectServiceImpl(AspectRepository aspectRepository,
-                             AspectSearchRepository aspectSearchRepository,
-                             UserService userService) {
+    public AspectServiceImpl(AspectRepository aspectRepository, AspectSearchRepository aspectSearchRepository,
+            UserService userService, PersonService personService) {
         this.aspectRepository = aspectRepository;
         this.aspectSearchRepository = aspectSearchRepository;
         this.userService = userService;
+        this.personService = personService;
     }
 
     /**se
@@ -54,13 +51,43 @@ public class AspectServiceImpl implements AspectService{
     @Override
     public Aspect save(Aspect aspect) {
         log.debug("Request to save Aspect : {}", aspect);
-
+        
+        if (aspect.getName() == null)aspect.setName(aspectDefultName);
+        String aspectName = aspect.getName().trim();
+        if (aspectName.isEmpty()) aspect.setName(aspectDefultName);
+        else aspect.setName(aspectName);
+        
         Person person = userService.getCurrentPerson();
-        if(!person.getAspects().contains(aspect))
-            person.addAspect(aspect);
-
+        Set<Aspect> aspects = person.getAspects();
+        aspects.contains(aspect);
+        
+        for (Aspect pesonAspect : person.getAspects()) {
+            if (pesonAspect.getName().equals(aspect.getName())) {
+                person.removeAspect(pesonAspect);
+                pesonAspect.setUpdatedAt(LocalDate.now());
+                pesonAspect.setContactVisible(aspect.getContactVisible());
+                pesonAspect.setChatEnabled(aspect.getChatEnabled());
+                pesonAspect.setPostDefault(aspect.getPostDefault());
+                person.addAspect(pesonAspect);
+                
+                Aspect result = aspectRepository.save(pesonAspect);
+                aspectSearchRepository.save(result);
+                
+                //person.addAspect(result);
+                personService.save(person);
+                return result;
+            }
+        }
+        aspect.setCreatedAt(LocalDate.now());
+        aspect.setUpdatedAt(LocalDate.now());
+        
+        person.addAspect(aspect);
+        
         Aspect result = aspectRepository.save(aspect);
         aspectSearchRepository.save(result);
+        
+        //person.addAspect(result);
+        personService.save(person);
         return result;
     }
 
@@ -96,7 +123,7 @@ public class AspectServiceImpl implements AspectService{
 
         if(userService.getCurrentPerson().getAspects().contains(foundAspect))
             return foundAspect;
-        else return null;
+        else return new Aspect();
         // or return new UnauthorizedException
     }
 
@@ -116,6 +143,7 @@ public class AspectServiceImpl implements AspectService{
                 person.removeAspect(foundAspect);
             aspectRepository.delete(id);
             aspectSearchRepository.delete(id);
+            personService.save(person);
         }
     }
 

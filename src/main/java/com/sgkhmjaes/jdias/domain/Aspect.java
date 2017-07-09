@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -46,16 +45,16 @@ public class Aspect implements Serializable {
     @Column(name = "post_default")
     private Boolean postDefault;
 
-    @OneToMany(mappedBy = "aspect")
     @JsonIgnore
+    @OneToMany(mappedBy = "aspect")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<AspectVisiblity> aspectVisibilities = new HashSet<>();
 
     @OneToMany(mappedBy = "aspect")
-    @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Contact> contacts = new HashSet<>();
 
+    //@JsonIgnore
     @ManyToOne
     private Person person;
 
@@ -191,6 +190,18 @@ public class Aspect implements Serializable {
         return this;
     }
 
+    public Boolean getChatEnabled() {
+        return chatEnabled;
+    }
+
+    public Boolean getContactVisible() {
+        return contactVisible;
+    }
+
+    public Boolean getPostDefault() {
+        return postDefault;
+    }
+
     public void setContacts(Set<Contact> Contacts) {
         this.contacts = Contacts;
     }
@@ -217,15 +228,16 @@ public class Aspect implements Serializable {
             return false;
         }
         Aspect aspect = (Aspect) o;
-        if (aspect.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), aspect.getId());
+        if (aspect.getName() == null || getName() == null) return false;
+        return Objects.equals(getName(), aspect.getName());
+        //if (aspect.getId() == null || getId() == null) return false;
+        //return Objects.equals(getId(), aspect.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return Objects.hashCode(getName());
+        //return Objects.hashCode(getId());
     }
 
     @Override
@@ -238,6 +250,8 @@ public class Aspect implements Serializable {
             ", contactVisible='" + isContactVisible() + "'" +
             ", chatEnabled='" + isChatEnabled() + "'" +
             ", postDefault='" + isPostDefault() + "'" +
+                ", person='" + getPerson() + "'" +
+                ", contacts='" + getContacts() + "'" +
             "}";
     }
 }

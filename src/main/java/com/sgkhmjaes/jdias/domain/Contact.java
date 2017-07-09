@@ -18,26 +18,26 @@ import java.util.Objects;
 public class Contact implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @Column(name = "author")
-    private String author;
+    private String author; // diaspora* ID 	The diaspora* ID of the sender of the contact.
 
     @Column(name = "recipient")
-    private String recipient;
+    private String recipient; // diaspora* ID 	The diaspora* ID of the recipient.
 
     @Column(name = "following")
-    private Boolean following;
+    private Boolean following; // Boolean 	true if the author is following the recipient.
 
     @Column(name = "sharing")
-    private Boolean sharing;
+    private Boolean sharing; // Boolean 	true if the author is sharing with the recipient.
 
     @Column(name = "own_id")
-    private Long ownId;
+    private Long ownId; // The ID of the recipient.
 
     @ManyToOne
     private Person person;
@@ -144,6 +144,15 @@ public class Contact implements Serializable {
         this.aspect = Aspect;
     }
 
+    public Boolean getFollowing() {
+        return following;
+    }
+
+    public Boolean getSharing() {
+        return sharing;
+    }
+    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -153,15 +162,22 @@ public class Contact implements Serializable {
             return false;
         }
         Contact contact = (Contact) o;
+        if (contact.getRecipient() == null || getRecipient() == null) {
+            return false;
+        }
+        return Objects.equals(getRecipient(), contact.getRecipient());
+        /*
+        Contact contact = (Contact) o;
         if (contact.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), contact.getId());
+        return Objects.equals(getId(), contact.getId());*/
     }
-
+    
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        //return Objects.hashCode(getId());
+        return Objects.hashCode(getRecipient());
     }
 
     @Override
@@ -173,6 +189,8 @@ public class Contact implements Serializable {
             ", following='" + isFollowing() + "'" +
             ", sharing='" + isSharing() + "'" +
             ", ownId='" + getOwnId() + "'" +
+                ", person='" + getPerson() + "'" +
+                ", aspect='" + getAspect() + "'" +
             "}";
     }
 }
