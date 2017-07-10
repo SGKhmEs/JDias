@@ -18,11 +18,11 @@
             },
             "name": "Name",
             "createdAt": "Created At",
-            "updatedAt": "Updated At",
             "contactVisible": "Contact Visible",
             "chatEnabled": "Chat Enabled",
             "postDefault": "Post Default",
-            "aspectVisibilities": "Aspect Visibilities",
+            "updatedAt": "Updated At",
+            "aspectVisiblity": "Aspect Visiblity",
             "contact": "Contact",
             "person": "Person"
         }

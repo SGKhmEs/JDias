@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -85,7 +86,7 @@ public class AspectResource {
      */
     @GetMapping("/aspects")
     @Timed
-    public List<Aspect> getAllAspects() {
+    public Set<Aspect> getAllAspects() {
         log.debug("REST request to get all Aspects");
         //return aspectService.findAll();
         return aspectService.findAllByUser();
@@ -128,7 +129,7 @@ public class AspectResource {
      */
     @GetMapping("/_search/aspects")
     @Timed
-    public List<Aspect> searchAspects(@RequestParam String query) {
+    public Set<Aspect> searchAspects(@RequestParam String query) {
         log.debug("REST request to search Aspects for query {}", query);
         return aspectService.search(query);
     }

@@ -1,7 +1,7 @@
 package com.sgkhmjaes.jdias.service;
 
 import com.sgkhmjaes.jdias.domain.Aspect;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Service Interface for managing Aspect.
@@ -29,7 +29,7 @@ public interface AspectService {
      *
      *  @return the list of entities
      */
-    List<Aspect> findAllByUser();
+    Set<Aspect> findAllByUser();
     /**
      *  Get the "id" aspect.
      *
@@ -52,5 +52,5 @@ public interface AspectService {
      *
      *  @return the list of entities
      */
-    List<Aspect> search(String query);
+    Set<Aspect> search(String query);
 }

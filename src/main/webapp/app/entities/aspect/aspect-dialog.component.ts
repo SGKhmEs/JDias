@@ -24,7 +24,6 @@ export class AspectDialogComponent implements OnInit {
 
     people: Person[];
     createdAtDp: any;
-    updatedAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,

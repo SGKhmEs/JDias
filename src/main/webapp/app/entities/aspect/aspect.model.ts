@@ -5,11 +5,11 @@ export class Aspect implements BaseEntity {
         public id?: number,
         public name?: string,
         public createdAt?: any,
-        public updatedAt?: any,
         public contactVisible?: boolean,
         public chatEnabled?: boolean,
         public postDefault?: boolean,
-        public aspectVisibilities?: BaseEntity[],
+        public updatedAt?: any,
+        public aspectVisiblities?: BaseEntity[],
         public contacts?: BaseEntity[],
         public person?: BaseEntity,
     ) {

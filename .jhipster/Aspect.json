@@ -3,17 +3,17 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "aspectVisibilities",
-            "otherEntityName": "aspectVisibility",
-            "otherEntityRelationshipName": "aspect"
-        },	
-		{
-            "relationshipType": "one-to-many",
-            "relationshipName": "contact",
-            "otherEntityName": "Contact",
+            "relationshipName": "aspectVisiblity",
+            "otherEntityName": "aspectVisiblity",
             "otherEntityRelationshipName": "aspect"
         },
-		{
+        {
+            "relationshipName": "contact",
+            "otherEntityName": "Contact",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "aspect"
+        },
+        {
             "relationshipName": "person",
             "otherEntityName": "Person",
             "relationshipType": "many-to-one",
@@ -30,10 +30,6 @@
             "fieldType": "LocalDate"
         },
         {
-            "fieldName": "updatedAt",
-            "fieldType": "LocalDate"
-        },
-        {
             "fieldName": "contactVisible",
             "fieldType": "Boolean"
         },
@@ -44,11 +40,15 @@
         {
             "fieldName": "postDefault",
             "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "updatedAt",
+            "fieldType": "ZonedDateTime"
         }
     ],
     "changelogDate": "20170527190316",
-    "entityTableName": "aspect",
     "dto": "no",
-    "pagination": "no",
-    "service": "serviceImpl"
+    "service": "serviceImpl",
+    "entityTableName": "aspect",
+    "pagination": "no"
 }

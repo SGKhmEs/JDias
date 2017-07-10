@@ -3,21 +3,19 @@ package com.sgkhmjaes.jdias.service.impl;
 import com.sgkhmjaes.jdias.domain.Person;
 import com.sgkhmjaes.jdias.service.AspectService;
 import com.sgkhmjaes.jdias.domain.Aspect;
-import com.sgkhmjaes.jdias.domain.Contact;
 import com.sgkhmjaes.jdias.repository.AspectRepository;
 import com.sgkhmjaes.jdias.repository.search.AspectSearchRepository;
 import com.sgkhmjaes.jdias.service.PersonService;
 import com.sgkhmjaes.jdias.service.UserService;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -64,7 +62,7 @@ public class AspectServiceImpl implements AspectService{
         for (Aspect pesonAspect : person.getAspects()) {
             if (pesonAspect.getName().equals(aspect.getName())) {
                 person.removeAspect(pesonAspect);
-                pesonAspect.setUpdatedAt(LocalDate.now());
+                pesonAspect.setUpdatedAt(ZonedDateTime.now());
                 pesonAspect.setContactVisible(aspect.getContactVisible());
                 pesonAspect.setChatEnabled(aspect.getChatEnabled());
                 pesonAspect.setPostDefault(aspect.getPostDefault());
@@ -73,20 +71,18 @@ public class AspectServiceImpl implements AspectService{
                 Aspect result = aspectRepository.save(pesonAspect);
                 aspectSearchRepository.save(result);
                 
-                //person.addAspect(result);
                 personService.save(person);
                 return result;
             }
         }
         aspect.setCreatedAt(LocalDate.now());
-        aspect.setUpdatedAt(LocalDate.now());
+        aspect.setUpdatedAt(ZonedDateTime.now());
         
         person.addAspect(aspect);
         
         Aspect result = aspectRepository.save(aspect);
         aspectSearchRepository.save(result);
         
-        //person.addAspect(result);
         personService.save(person);
         return result;
     }
@@ -104,9 +100,9 @@ public class AspectServiceImpl implements AspectService{
     }*/
 
     @Override
-    public List<Aspect> findAllByUser() {
+    public Set<Aspect> findAllByUser() {
         log.debug("Request to get all Aspects by user");
-        return new ArrayList<>(userService.getCurrentPerson().getAspects());
+        return userService.getCurrentPerson().getAspects();
     }
 
     /**
@@ -120,7 +116,7 @@ public class AspectServiceImpl implements AspectService{
     public Aspect findOne(Long id) {
         log.debug("Request to get Aspect : {}", id);
         Aspect foundAspect =  aspectRepository.findOne(id);
-
+        
         if(userService.getCurrentPerson().getAspects().contains(foundAspect))
             return foundAspect;
         else return new Aspect();
@@ -139,8 +135,7 @@ public class AspectServiceImpl implements AspectService{
 
         if(userService.getCurrentPerson().getAspects().contains(foundAspect)) {
             Person person = userService.getCurrentPerson();
-            if(person.getAspects().contains(foundAspect))
-                person.removeAspect(foundAspect);
+            if(person.getAspects().contains(foundAspect)) person.removeAspect(foundAspect);
             aspectRepository.delete(id);
             aspectSearchRepository.delete(id);
             personService.save(person);
@@ -155,19 +150,16 @@ public class AspectServiceImpl implements AspectService{
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Aspect> search(String query) {
+    public Set<Aspect> search(String query) {
         log.debug("Request to search Aspects for query {}", query);
-
-        List<Aspect> foundAspectList =  StreamSupport.stream(aspectSearchRepository.search(queryStringQuery(query))
-            .spliterator(), false)
-            .collect(Collectors.toList());
-
-        List<Aspect> userAspect = new ArrayList<>(userService.getCurrentPerson().getAspects());
-
-        foundAspectList.forEach(aspect ->{
-            if(!userAspect.contains(aspect))
-                foundAspectList.remove(aspect);
-        });
-        return foundAspectList;
+        Set <Aspect> findAspects = new HashSet <>();
+        Set<Aspect> aspects = userService.getCurrentPerson().getAspects();
+        Iterable<Aspect> search = aspectSearchRepository.search(queryStringQuery(query));
+        Iterator<Aspect> iterator = search.iterator();
+        while (iterator.hasNext()) {
+            Aspect aspect = iterator.next();
+            if (aspects.contains(aspect)) findAspects.add(aspect);
+        }
+        return findAspects;
     }
 }

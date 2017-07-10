@@ -28,16 +28,6 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.aspect.updatedAt" for="field_updatedAt">Updated At</label>
-            <div class="input-group">
-                <input id="field_updatedAt" type="text" class="form-control" name="updatedAt" ngbDatepicker  #updatedAtDp="ngbDatepicker" [(ngModel)]="aspect.updatedAt"
-                />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="updatedAtDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.aspect.contactVisible" for="field_contactVisible">Contact Visible</label>
             <input type="checkbox" class="form-control" name="contactVisible" id="field_contactVisible"
                 [(ngModel)]="aspect.contactVisible"  />
@@ -51,6 +41,13 @@
             <label class="form-control-label" jhiTranslate="jDiasApp.aspect.postDefault" for="field_postDefault">Post Default</label>
             <input type="checkbox" class="form-control" name="postDefault" id="field_postDefault"
                 [(ngModel)]="aspect.postDefault"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.aspect.updatedAt" for="field_updatedAt">Updated At</label>
+            <div class="d-flex">
+                <input id="field_updatedAt" type="datetime-local" class="form-control" name="updatedAt" [(ngModel)]="aspect.updatedAt"
+                  />
+            </div>
         </div>
 
         <div class="form-group">

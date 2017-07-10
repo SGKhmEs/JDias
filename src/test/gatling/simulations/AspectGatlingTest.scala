@@ -67,7 +67,7 @@ class AspectGatlingTest extends Simulation {
             .exec(http("Create new aspect")
             .post("/api/aspects")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "name":"SAMPLE_TEXT", "createdAt":"2020-01-01T00:00:00.000Z", "updatedAt":"2020-01-01T00:00:00.000Z", "contactVisible":null, "chatEnabled":null, "postDefault":null}""")).asJSON
+            .body(StringBody("""{"id":null, "name":"SAMPLE_TEXT", "createdAt":"2020-01-01T00:00:00.000Z", "contactVisible":null, "chatEnabled":null, "postDefault":null, "updatedAt":"2020-01-01T00:00:00.000Z"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_aspect_url"))).exitHereIfFailed
             .pause(10)

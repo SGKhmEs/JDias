@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -33,9 +35,6 @@ public class Aspect implements Serializable {
     @Column(name = "created_at")
     private LocalDate createdAt;
 
-    @Column(name = "updated_at")
-    private LocalDate updatedAt;
-
     @Column(name = "contact_visible")
     private Boolean contactVisible;
 
@@ -45,17 +44,21 @@ public class Aspect implements Serializable {
     @Column(name = "post_default")
     private Boolean postDefault;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "aspect")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<AspectVisiblity> aspectVisibilities = new HashSet<>();
+    @Column(name = "updated_at")
+    private ZonedDateTime updatedAt;
 
     @OneToMany(mappedBy = "aspect")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<AspectVisiblity> aspectVisiblities = new HashSet<>();
+
+    @OneToMany(mappedBy = "aspect")
+    //@JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Contact> contacts = new HashSet<>();
-
-    //@JsonIgnore
+    
     @ManyToOne
+    //@JsonIgnore
     private Person person;
 
     public Long getId() {
@@ -90,19 +93,6 @@ public class Aspect implements Serializable {
 
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public LocalDate getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public Aspect updatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
-        return this;
-    }
-
-    public void setUpdatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public Boolean isContactVisible() {
@@ -144,29 +134,42 @@ public class Aspect implements Serializable {
         this.postDefault = postDefault;
     }
 
-    public Set<AspectVisiblity> getAspectVisibilities() {
-        return aspectVisibilities;
+    public ZonedDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
-    public Aspect aspectVisibilities(Set<AspectVisiblity> aspectVisibilities) {
-        this.aspectVisibilities = aspectVisibilities;
+    public Aspect updatedAt(ZonedDateTime updatedAt) {
+        this.updatedAt = updatedAt;
         return this;
     }
 
-    public Aspect addAspectVisibilities(AspectVisiblity aspectVisiblity) {
-        this.aspectVisibilities.add(aspectVisiblity);
+    public void setUpdatedAt(ZonedDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Set<AspectVisiblity> getAspectVisiblities() {
+        return aspectVisiblities;
+    }
+
+    public Aspect aspectVisiblities(Set<AspectVisiblity> aspectVisiblities) {
+        this.aspectVisiblities = aspectVisiblities;
+        return this;
+    }
+
+    public Aspect addAspectVisiblity(AspectVisiblity aspectVisiblity) {
+        this.aspectVisiblities.add(aspectVisiblity);
         aspectVisiblity.setAspect(this);
         return this;
     }
 
-    public Aspect removeAspectVisibilities(AspectVisiblity aspectVisiblity) {
-        this.aspectVisibilities.remove(aspectVisiblity);
+    public Aspect removeAspectVisiblity(AspectVisiblity aspectVisiblity) {
+        this.aspectVisiblities.remove(aspectVisiblity);
         aspectVisiblity.setAspect(null);
         return this;
     }
 
-    public void setAspectVisibilities(Set<AspectVisiblity> aspectVisibilities) {
-        this.aspectVisibilities = aspectVisibilities;
+    public void setAspectVisiblities(Set<AspectVisiblity> aspectVisiblities) {
+        this.aspectVisiblities = aspectVisiblities;
     }
 
     public Set<Contact> getContacts() {
