@@ -1,7 +1,7 @@
 package com.sgkhmjaes.jdias.service;
 
 import com.sgkhmjaes.jdias.domain.Contact;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Service Interface for managing Contact.
@@ -21,7 +21,7 @@ public interface ContactService {
      *
      *  @return the list of entities
      */
-    List<Contact> findAll();
+    Set<Contact> findAll();
 
     /**
      *  Get the "id" contact.
@@ -45,5 +45,5 @@ public interface ContactService {
      *  
      *  @return the list of entities
      */
-    List<Contact> search(String query);
+    Set<Contact> search(String query);
 }

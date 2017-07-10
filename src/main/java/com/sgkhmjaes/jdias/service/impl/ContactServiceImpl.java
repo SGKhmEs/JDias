@@ -7,13 +7,12 @@ import com.sgkhmjaes.jdias.repository.ContactRepository;
 import com.sgkhmjaes.jdias.repository.search.ContactSearchRepository;
 import com.sgkhmjaes.jdias.service.PersonService;
 import com.sgkhmjaes.jdias.service.UserService;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 import java.util.Set;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.hibernate.Hibernate;
@@ -52,23 +51,29 @@ public class ContactServiceImpl implements ContactService{
         
         Person recipientContact = contact.getPerson();
         Person currentPerson = userService.getCurrentPerson();
+        if (currentPerson.equals(contact.getPerson())) {
+            // for testing: need replase Person to Contact
+            contact.setPerson(getRecipientPerson(contact));
+            recipientContact = contact.getPerson();
+            if (currentPerson.equals(contact.getPerson())) return new Contact(); 
+            //return new Contact();
+        }
         
         contact.setOwnId(recipientContact.getId());
         contact.setRecipient(recipientContact.getDiasporaId());
         contact.setAuthor(currentPerson.getDiasporaId());
         contact.setPerson(currentPerson);
         
-        if (currentPerson.getContacts().contains(contact)) {
-            for (Contact currentPersonContact : currentPerson.getContacts()) 
-                if (currentPersonContact.equals(contact)) return currentPersonContact;
-        }
-        
-        currentPerson.addContacts(contact);
-        personService.save(currentPerson);
+        if (!currentPerson.getContacts().contains(contact)) {
+            currentPerson.addContacts(contact);
+            personService.save(currentPerson);
+        } 
         
         Contact result = contactRepository.save(contact);
         contactSearchRepository.save(result);
+        
         return result;
+
     }
 
     /**
@@ -78,12 +83,12 @@ public class ContactServiceImpl implements ContactService{
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Contact> findAll() {
+    public Set<Contact> findAll() {
         log.debug("Request to get all Contacts");
         Person currentPerson = userService.getCurrentPerson();
         Set<Contact> contacts = currentPerson.getContacts();
         Hibernate.initialize(contacts);
-        return new ArrayList<>(contacts);
+        return contacts;
     }
 
     /**
@@ -131,9 +136,9 @@ public class ContactServiceImpl implements ContactService{
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Contact> search(String query) {
+    public Set<Contact> search(String query) {
         log.debug("Request to search Contacts for query {}", query);
-        List <Contact> findContacts = new ArrayList<>();
+        Set <Contact> findContacts = new HashSet<>();
         Person currentPerson = userService.getCurrentPerson();
         Set<Contact> contacts = currentPerson.getContacts();
         

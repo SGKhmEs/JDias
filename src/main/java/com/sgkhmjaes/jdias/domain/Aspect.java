@@ -253,8 +253,8 @@ public class Aspect implements Serializable {
             ", contactVisible='" + isContactVisible() + "'" +
             ", chatEnabled='" + isChatEnabled() + "'" +
             ", postDefault='" + isPostDefault() + "'" +
-                ", person='" + getPerson() + "'" +
-                ", contacts='" + getContacts() + "'" +
+                //", person='" + getPerson() + "'" +
+                //", contacts='" + getContacts() + "'" +
             "}";
     }
 }
