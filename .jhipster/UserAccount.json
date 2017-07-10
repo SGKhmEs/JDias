@@ -16,12 +16,6 @@
             "otherEntityField": "id",
             "ownerSide": true,
             "otherEntityRelationshipName": "userAccount"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "tagfollowings",
-            "otherEntityName": "tagFollowing",
-            "otherEntityRelationshipName": "userAccount"
         }
     ],
     "fields": [

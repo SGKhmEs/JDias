@@ -2,7 +2,9 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.TagFollowing;
-import com.sgkhmjaes.jdias.service.TagFollowingService;
+
+import com.sgkhmjaes.jdias.repository.TagFollowingRepository;
+import com.sgkhmjaes.jdias.repository.search.TagFollowingSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -30,10 +33,13 @@ public class TagFollowingResource {
 
     private static final String ENTITY_NAME = "tagFollowing";
 
-    private final TagFollowingService tagFollowingService;
+    private final TagFollowingRepository tagFollowingRepository;
 
-    public TagFollowingResource(TagFollowingService tagFollowingService) {
-        this.tagFollowingService = tagFollowingService;
+    private final TagFollowingSearchRepository tagFollowingSearchRepository;
+
+    public TagFollowingResource(TagFollowingRepository tagFollowingRepository, TagFollowingSearchRepository tagFollowingSearchRepository) {
+        this.tagFollowingRepository = tagFollowingRepository;
+        this.tagFollowingSearchRepository = tagFollowingSearchRepository;
     }
 
     /**
@@ -50,7 +56,8 @@ public class TagFollowingResource {
         if (tagFollowing.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new tagFollowing cannot already have an ID")).body(null);
         }
-        TagFollowing result = tagFollowingService.save(tagFollowing);
+        TagFollowing result = tagFollowingRepository.save(tagFollowing);
+        tagFollowingSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/tag-followings/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -72,7 +79,8 @@ public class TagFollowingResource {
         if (tagFollowing.getId() == null) {
             return createTagFollowing(tagFollowing);
         }
-        TagFollowing result = tagFollowingService.save(tagFollowing);
+        TagFollowing result = tagFollowingRepository.save(tagFollowing);
+        tagFollowingSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tagFollowing.getId().toString()))
             .body(result);
@@ -87,7 +95,7 @@ public class TagFollowingResource {
     @Timed
     public List<TagFollowing> getAllTagFollowings() {
         log.debug("REST request to get all TagFollowings");
-        return tagFollowingService.findAll();
+        return tagFollowingRepository.findAll();
     }
 
     /**
@@ -100,7 +108,7 @@ public class TagFollowingResource {
     @Timed
     public ResponseEntity<TagFollowing> getTagFollowing(@PathVariable Long id) {
         log.debug("REST request to get TagFollowing : {}", id);
-        TagFollowing tagFollowing = tagFollowingService.findOne(id);
+        TagFollowing tagFollowing = tagFollowingRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(tagFollowing));
     }
 
@@ -114,7 +122,8 @@ public class TagFollowingResource {
     @Timed
     public ResponseEntity<Void> deleteTagFollowing(@PathVariable Long id) {
         log.debug("REST request to delete TagFollowing : {}", id);
-        tagFollowingService.delete(id);
+        tagFollowingRepository.delete(id);
+        tagFollowingSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -129,7 +138,9 @@ public class TagFollowingResource {
     @Timed
     public List<TagFollowing> searchTagFollowings(@RequestParam String query) {
         log.debug("REST request to search TagFollowings for query {}", query);
-        return tagFollowingService.search(query);
+        return StreamSupport
+            .stream(tagFollowingSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 }

@@ -10,6 +10,7 @@ import { Tagging } from './tagging.model';
 import { TaggingPopupService } from './tagging-popup.service';
 import { TaggingService } from './tagging.service';
 import { Tag, TagService } from '../tag';
+import { Post, PostService } from '../post';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -23,13 +24,15 @@ export class TaggingDialogComponent implements OnInit {
     isSaving: boolean;
 
     tags: Tag[];
-    createdAtDp: any;
+
+    posts: Post[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private taggingService: TaggingService,
         private tagService: TagService,
+        private postService: PostService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -39,6 +42,8 @@ export class TaggingDialogComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.tagService.query()
             .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.postService.query()
+            .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -87,6 +92,10 @@ export class TaggingDialogComponent implements OnInit {
     }
 
     trackTagById(index: number, item: Tag) {
+        return item.id;
+    }
+
+    trackPostById(index: number, item: Post) {
         return item.id;
     }
 }

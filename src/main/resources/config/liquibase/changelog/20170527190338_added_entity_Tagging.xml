@@ -21,15 +21,11 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="context" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-
-            <column name="created_at" type="date">
-                <constraints nullable="true" />
-            </column>
-
             <column name="tag_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="post_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

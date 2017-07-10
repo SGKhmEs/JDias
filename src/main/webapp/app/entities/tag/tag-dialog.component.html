@@ -13,16 +13,33 @@
                    [(ngModel)]="tag.id" readonly />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.tag.name" for="field_name">Name</label>
-            <input type="text" class="form-control" name="name" id="field_name"
-                [(ngModel)]="tag.name"  />
+            <label class="form-control-label" jhiTranslate="jDiasApp.tag.tagContext" for="field_tagContext">Tag Context</label>
+            <input type="text" class="form-control" name="tagContext" id="field_tagContext"
+                [(ngModel)]="tag.tagContext"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.tag.createdAt" for="field_createdAt">Created At</label>
+            <div class="input-group">
+                <input id="field_createdAt" type="text" class="form-control" name="createdAt" ngbDatepicker  #createdAtDp="ngbDatepicker" [(ngModel)]="tag.createdAt"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="createdAtDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="jDiasApp.tag.updatedAt" for="field_updatedAt">Updated At</label>
+            <div class="d-flex">
+                <input id="field_updatedAt" type="datetime-local" class="form-control" name="updatedAt" [(ngModel)]="tag.updatedAt"
+                  />
+            </div>
         </div>
 
         <div class="form-group">
-            <label jhiTranslate="jDiasApp.tag.post" for="field_post">Post</label>
-            <select class="form-control" id="field_post" name="post" [(ngModel)]="tag.post" >
+            <label jhiTranslate="jDiasApp.tag.hashTag" for="field_hashTag">Hash Tag</label>
+            <select class="form-control" id="field_hashTag" name="hashTag" [(ngModel)]="tag.hashTag" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="postOption.id === tag.post?.id ? tag.post : postOption" *ngFor="let postOption of posts; trackBy: trackPostById">{{postOption.id}}</option>
+                <option [ngValue]="hashTagOption.id === tag.hashTag?.id ? tag.hashTag : hashTagOption" *ngFor="let hashTagOption of hashtags; trackBy: trackHashTagById">{{hashTagOption.id}}</option>
             </select>
         </div>
     </div>

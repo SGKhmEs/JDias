@@ -14,11 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="tag"/>
 
-        <addForeignKeyConstraint baseColumnNames="user_account_id"
+        <addForeignKeyConstraint baseColumnNames="person_id"
                                  baseTableName="tag_following"
-                                 constraintName="fk_tag_following_user_account_id"
+                                 constraintName="fk_tag_following_person_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="user_account"/>
+                                 referencedTableName="person"/>
 
     </changeSet>
 </databaseChangeLog>

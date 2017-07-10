@@ -14,13 +14,13 @@ export class Post implements BaseEntity {
         public pub?: boolean,
         public providerDisplayName?: string,
         public postType?: PostType,
-        public statusMessage?: BaseEntity,
-        public reshare?: BaseEntity,
+        public aspectVisiblities?: BaseEntity[],
         public comments?: BaseEntity[],
-        public aspectVisiblitis?: BaseEntity[],
         public likes?: BaseEntity[],
-        public tags?: BaseEntity[],
         public person?: BaseEntity,
+        public reshare?: BaseEntity,
+        public statusMessage?: BaseEntity,
+        public taggings?: BaseEntity[],
     ) {
         this.pub = false;
     }

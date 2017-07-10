@@ -16,9 +16,8 @@
             "detail": {
                 "title": "Tagging"
             },
-            "context": "Context",
-            "createdAt": "Created At",
-            "tag": "Tag"
+            "tag": "Tag",
+            "post": "Post"
         }
     }
 }

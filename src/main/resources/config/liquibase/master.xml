@@ -31,6 +31,7 @@
     <include file="classpath:config/liquibase/changelog/20170527190339_added_entity_TagFollowing.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170527190340_added_entity_UserAccount.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170527190341_added_entity_Person.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170710161301_added_entity_HashTag.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20170527190316_added_entity_constraints_Aspect.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170527190318_added_entity_constraints_AspectVisiblity.xml" relativeToChangelogFile="false"/>

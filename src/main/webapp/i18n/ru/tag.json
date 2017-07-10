@@ -16,10 +16,12 @@
             "detail": {
                 "title": "Tag"
             },
-            "name": "Name",
-            "post": "Post",
+            "tagContext": "Tag Context",
+            "createdAt": "Created At",
+            "updatedAt": "Updated At",
+            "taggings": "Taggings",
             "tagFollowings": "Tag Followings",
-            "taggings": "Taggings"
+            "hashTag": "Hash Tag"
         }
     }
 }

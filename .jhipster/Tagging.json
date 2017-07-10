@@ -6,21 +6,18 @@
             "relationshipName": "tag",
             "otherEntityName": "tag",
             "otherEntityField": "id"
-        }
-    ],
-    "fields": [
-        {
-            "fieldName": "context",
-            "fieldType": "String"
         },
         {
-            "fieldName": "createdAt",
-            "fieldType": "LocalDate"
+            "relationshipName": "post",
+            "otherEntityName": "post",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
         }
     ],
+    "fields": [],
     "changelogDate": "20170527190338",
-    "entityTableName": "tagging",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "entityTableName": "tagging",
+    "pagination": "no"
 }

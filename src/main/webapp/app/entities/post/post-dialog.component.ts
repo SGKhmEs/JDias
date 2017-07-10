@@ -9,9 +9,9 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Post } from './post.model';
 import { PostPopupService } from './post-popup.service';
 import { PostService } from './post.service';
-import { StatusMessage, StatusMessageService } from '../status-message';
-import { Reshare, ReshareService } from '../reshare';
 import { Person, PersonService } from '../person';
+import { Reshare, ReshareService } from '../reshare';
+import { StatusMessage, StatusMessageService } from '../status-message';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -24,20 +24,20 @@ export class PostDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
-    statusmessages: StatusMessage[];
+    people: Person[];
 
     reshares: Reshare[];
 
-    people: Person[];
+    statusmessages: StatusMessage[];
     createdAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private postService: PostService,
-        private statusMessageService: StatusMessageService,
-        private reshareService: ReshareService,
         private personService: PersonService,
+        private reshareService: ReshareService,
+        private statusMessageService: StatusMessageService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -45,34 +45,12 @@ export class PostDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.statusMessageService
-            .query({filter: 'post-is-null'})
-            .subscribe((res: ResponseWrapper) => {
-                if (!this.post.statusMessage || !this.post.statusMessage.id) {
-                    this.statusmessages = res.json;
-                } else {
-                    this.statusMessageService
-                        .find(this.post.statusMessage.id)
-                        .subscribe((subRes: StatusMessage) => {
-                            this.statusmessages = [subRes].concat(res.json);
-                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
-                }
-            }, (res: ResponseWrapper) => this.onError(res.json));
-        this.reshareService
-            .query({filter: 'post-is-null'})
-            .subscribe((res: ResponseWrapper) => {
-                if (!this.post.reshare || !this.post.reshare.id) {
-                    this.reshares = res.json;
-                } else {
-                    this.reshareService
-                        .find(this.post.reshare.id)
-                        .subscribe((subRes: Reshare) => {
-                            this.reshares = [subRes].concat(res.json);
-                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
-                }
-            }, (res: ResponseWrapper) => this.onError(res.json));
         this.personService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.reshareService.query()
+            .subscribe((res: ResponseWrapper) => { this.reshares = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.statusMessageService.query()
+            .subscribe((res: ResponseWrapper) => { this.statusmessages = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -120,7 +98,7 @@ export class PostDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackStatusMessageById(index: number, item: StatusMessage) {
+    trackPersonById(index: number, item: Person) {
         return item.id;
     }
 
@@ -128,7 +106,7 @@ export class PostDialogComponent implements OnInit {
         return item.id;
     }
 
-    trackPersonById(index: number, item: Person) {
+    trackStatusMessageById(index: number, item: StatusMessage) {
         return item.id;
     }
 }

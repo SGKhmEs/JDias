@@ -54,20 +54,15 @@ public class Post implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<AspectVisiblity> aspectVisiblities = new HashSet<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "post")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Comment> comments = new HashSet<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Like> likes = new HashSet<>();
-
     @OneToMany(mappedBy = "post")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Tag> tags = new HashSet<>();
+    private Set<Like> likes = new HashSet<>();
 
     @ManyToOne
     private Person person;
@@ -78,20 +73,10 @@ public class Post implements Serializable {
     @ManyToOne
     private StatusMessage statusMessage;
 
-    public Post() {
-
-    }
-
-    public Post(String author, String guid, LocalDate createdAt, Boolean pub, PostType postType, StatusMessage statusMessage, Reshare reshare, Person person) {
-        this.author = author;
-        this.guid = guid;
-        this.createdAt = createdAt;
-        this.pub = pub;
-        this.postType = postType;
-        this.statusMessage = statusMessage;
-        this.reshare = reshare;
-        this.person = person;
-    }
+    @OneToMany(mappedBy = "post")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Tagging> taggings = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -188,13 +173,13 @@ public class Post implements Serializable {
         return this;
     }
 
-    public Post addAspectVisiblities(AspectVisiblity aspectVisiblity) {
+    public Post addAspectVisiblity(AspectVisiblity aspectVisiblity) {
         this.aspectVisiblities.add(aspectVisiblity);
         aspectVisiblity.setPost(this);
         return this;
     }
 
-    public Post removeAspectVisiblities(AspectVisiblity aspectVisiblity) {
+    public Post removeAspectVisiblity(AspectVisiblity aspectVisiblity) {
         this.aspectVisiblities.remove(aspectVisiblity);
         aspectVisiblity.setPost(null);
         return this;
@@ -254,31 +239,6 @@ public class Post implements Serializable {
         this.likes = likes;
     }
 
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public Post tags(Set<Tag> tags) {
-        this.tags = tags;
-        return this;
-    }
-
-    public Post addTags(Tag tag) {
-        this.tags.add(tag);
-        tag.setPost(this);
-        return this;
-    }
-
-    public Post removeTags(Tag tag) {
-        this.tags.remove(tag);
-        tag.setPost(null);
-        return this;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
-
     public Person getPerson() {
         return person;
     }
@@ -316,6 +276,31 @@ public class Post implements Serializable {
 
     public void setStatusMessage(StatusMessage statusMessage) {
         this.statusMessage = statusMessage;
+    }
+
+    public Set<Tagging> getTaggings() {
+        return taggings;
+    }
+
+    public Post taggings(Set<Tagging> taggings) {
+        this.taggings = taggings;
+        return this;
+    }
+
+    public Post addTagging(Tagging tagging) {
+        this.taggings.add(tagging);
+        tagging.setPost(this);
+        return this;
+    }
+
+    public Post removeTagging(Tagging tagging) {
+        this.taggings.remove(tagging);
+        tagging.setPost(null);
+        return this;
+    }
+
+    public void setTaggings(Set<Tagging> taggings) {
+        this.taggings = taggings;
     }
 
     @Override

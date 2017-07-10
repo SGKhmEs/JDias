@@ -16,10 +16,8 @@
             "detail": {
                 "title": "Tag Following"
             },
-            "createdAt": "Created At",
-            "updatedAt": "Updated At",
             "tag": "Tag",
-            "userAccount": "User Account"
+            "person": "Person"
         }
     }
 }

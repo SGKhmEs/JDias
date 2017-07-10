@@ -1,6 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 import { Tag } from './tag.model';
 import { TagService } from './tag.service';
 
@@ -8,6 +9,7 @@ import { TagService } from './tag.service';
 export class TagPopupService {
     private isOpen = false;
     constructor(
+        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private tagService: TagService
@@ -22,6 +24,15 @@ export class TagPopupService {
 
         if (id) {
             this.tagService.find(id).subscribe((tag) => {
+                if (tag.createdAt) {
+                    tag.createdAt = {
+                        year: tag.createdAt.getFullYear(),
+                        month: tag.createdAt.getMonth() + 1,
+                        day: tag.createdAt.getDate()
+                    };
+                }
+                tag.updatedAt = this.datePipe
+                    .transform(tag.updatedAt, 'yyyy-MM-ddThh:mm');
                 this.tagModalRef(component, tag);
             });
         } else {

@@ -6,7 +6,6 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -25,17 +24,11 @@ public class TagFollowing implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "created_at")
-    private LocalDate createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDate updatedAt;
-
     @ManyToOne
     private Tag tag;
 
     @ManyToOne
-    private UserAccount userAccount;
+    private Person person;
 
     public Long getId() {
         return id;
@@ -43,32 +36,6 @@ public class TagFollowing implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
-
-    public TagFollowing createdAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDate getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public TagFollowing updatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
-        return this;
-    }
-
-    public void setUpdatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public Tag getTag() {
@@ -84,17 +51,17 @@ public class TagFollowing implements Serializable {
         this.tag = tag;
     }
 
-    public UserAccount getUserAccount() {
-        return userAccount;
+    public Person getPerson() {
+        return person;
     }
 
-    public TagFollowing userAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
+    public TagFollowing person(Person person) {
+        this.person = person;
         return this;
     }
 
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override
@@ -121,8 +88,6 @@ public class TagFollowing implements Serializable {
     public String toString() {
         return "TagFollowing{" +
             "id=" + getId() +
-            ", createdAt='" + getCreatedAt() + "'" +
-            ", updatedAt='" + getUpdatedAt() + "'" +
             "}";
     }
 }

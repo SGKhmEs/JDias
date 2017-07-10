@@ -5,7 +5,6 @@ import { JhiDateUtils } from 'ng-jhipster';
 
 import { Post } from './post.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
-import {ReshareService} from '../reshare/reshare.service';
 
 @Injectable()
 export class PostService {
@@ -13,7 +12,7 @@ export class PostService {
     private resourceUrl = 'api/posts';
     private resourceSearchUrl = 'api/_search/posts';
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils, private reshareService: ReshareService) { }
+    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
 
     create(post: Post): Observable<Post> {
         const copy = this.convert(post);
@@ -26,12 +25,11 @@ export class PostService {
 
     update(post: Post): Observable<Post> {
         const copy = this.convert(post);
-        return this.reshareService.create(copy);
-        /*return this.http.put(this.resourceUrl, copy).map((res: Response) => {
+        return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
             this.convertItemFromServer(jsonResponse);
             return jsonResponse;
-        });*/
+        });
     }
 
     find(id: number): Observable<Post> {

@@ -22,13 +22,6 @@ export class TaggingPopupService {
 
         if (id) {
             this.taggingService.find(id).subscribe((tagging) => {
-                if (tagging.createdAt) {
-                    tagging.createdAt = {
-                        year: tagging.createdAt.getFullYear(),
-                        month: tagging.createdAt.getMonth() + 1,
-                        day: tagging.createdAt.getDate()
-                    };
-                }
                 this.taggingModalRef(component, tagging);
             });
         } else {

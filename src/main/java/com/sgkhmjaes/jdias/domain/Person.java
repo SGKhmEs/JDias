@@ -1,19 +1,16 @@
 package com.sgkhmjaes.jdias.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sgkhmjaes.jdias.security.RSAKeysGenerator;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * A Person.
@@ -27,8 +24,8 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    //@SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @Column(name = "guid")
@@ -55,7 +52,6 @@ public class Person implements Serializable {
     @Column(name = "pod_id")
     private Integer podId;
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(unique = true)
     private Profile profile;
@@ -97,16 +93,14 @@ public class Person implements Serializable {
     @OneToMany(mappedBy = "person")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private List<Message> messages = new ArrayList<>();
+    private Set<Message> messages = new HashSet<>();
 
-    @JsonIgnore
     @ManyToMany
-    @OrderBy(value="updatedAt DESC")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "person_conversation",
                joinColumns = @JoinColumn(name="people_id", referencedColumnName="id"),
                inverseJoinColumns = @JoinColumn(name="conversations_id", referencedColumnName="id"))
-    private List<Conversation> conversations = new ArrayList<>();
+    private Set<Conversation> conversations = new HashSet<>();
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -116,17 +110,6 @@ public class Person implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Aspect> aspects = new HashSet<>();
-    
-    public Person (){}
-    
-    public Person (Long id, String serializedPublicKey, String login){
-        this.id = id;
-        this.serializedPublicKey = RSAKeysGenerator.getRsaPublicKey(serializedPublicKey);
-        this.closedAccount = false;
-        this.createdAt = LocalDate.now();
-        this.updatedAt = LocalDate.now();
-        this.guid = UUID.nameUUIDFromBytes(login.getBytes()).toString();
-    }
 
     public Long getId() {
         return id;
@@ -416,11 +399,11 @@ public class Person implements Serializable {
         this.events = eventParticipations;
     }
 
-    public List<Message> getMessages() {
+    public Set<Message> getMessages() {
         return messages;
     }
 
-    public Person messages(List<Message> messages) {
+    public Person messages(Set<Message> messages) {
         this.messages = messages;
         return this;
     }
@@ -437,15 +420,15 @@ public class Person implements Serializable {
         return this;
     }
 
-    public void setMessages(List<Message> messages) {
+    public void setMessages(Set<Message> messages) {
         this.messages = messages;
     }
 
-    public List<Conversation> getConversations() {
+    public Set<Conversation> getConversations() {
         return conversations;
     }
 
-    public Person conversations(List<Conversation> conversations) {
+    public Person conversations(Set<Conversation> conversations) {
         this.conversations = conversations;
         return this;
     }
@@ -455,15 +438,6 @@ public class Person implements Serializable {
         conversation.getParticipants().add(this);
         return this;
     }
-    
-    public boolean addUniqueConversation(Conversation conversation) {
-        if (!this.conversations.contains(conversation)) {
-            this.conversations.add(conversation);
-            conversation.getParticipants().add(this);
-            return true;
-        }
-        else return false;
-    }
 
     public Person removeConversation(Conversation conversation) {
         this.conversations.remove(conversation);
@@ -471,7 +445,7 @@ public class Person implements Serializable {
         return this;
     }
 
-    public void setConversations(List<Conversation> conversations) {
+    public void setConversations(Set<Conversation> conversations) {
         this.conversations = conversations;
     }
 
@@ -486,6 +460,31 @@ public class Person implements Serializable {
 
     public void setUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
+    }
+
+    public Set<Aspect> getAspects() {
+        return aspects;
+    }
+
+    public Person aspects(Set<Aspect> aspects) {
+        this.aspects = aspects;
+        return this;
+    }
+
+    public Person addAspect(Aspect aspect) {
+        this.aspects.add(aspect);
+        aspect.setPerson(this);
+        return this;
+    }
+
+    public Person removeAspect(Aspect aspect) {
+        this.aspects.remove(aspect);
+        aspect.setPerson(null);
+        return this;
+    }
+
+    public void setAspects(Set<Aspect> aspects) {
+        this.aspects = aspects;
     }
 
     @Override

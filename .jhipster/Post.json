@@ -3,7 +3,7 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "aspectVisiblities",
+            "relationshipName": "aspectVisiblity",
             "otherEntityName": "aspectVisiblity",
             "otherEntityRelationshipName": "post"
         },
@@ -17,12 +17,6 @@
             "relationshipType": "one-to-many",
             "relationshipName": "likes",
             "otherEntityName": "like",
-            "otherEntityRelationshipName": "post"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "tags",
-            "otherEntityName": "tag",
             "otherEntityRelationshipName": "post"
         },
         {
@@ -42,6 +36,12 @@
             "otherEntityName": "statusMessage",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "tagging",
+            "otherEntityName": "tagging",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "post"
         }
     ],
     "fields": [
@@ -72,8 +72,8 @@
         }
     ],
     "changelogDate": "20170527190332",
-    "entityTableName": "post",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "entityTableName": "post",
+    "pagination": "no"
 }

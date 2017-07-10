@@ -30,26 +30,22 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="jDiasApp.tagFollowing.createdAt">Created At</span></th>
-            <th><span jhiTranslate="jDiasApp.tagFollowing.updatedAt">Updated At</span></th>
             <th><span jhiTranslate="jDiasApp.tagFollowing.tag">Tag</span></th>
-            <th><span jhiTranslate="jDiasApp.tagFollowing.userAccount">User Account</span></th>
+            <th><span jhiTranslate="jDiasApp.tagFollowing.person">Person</span></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let tagFollowing of tagFollowings ;trackBy: trackId">
                 <td><a [routerLink]="['../tag-following', tagFollowing.id ]">{{tagFollowing.id}}</a></td>
-                <td>{{tagFollowing.createdAt | date:'mediumDate'}}</td>
-                <td>{{tagFollowing.updatedAt | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="tagFollowing.tag">
                         <a [routerLink]="['../tag', tagFollowing.tag?.id ]" >{{tagFollowing.tag?.id}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="tagFollowing.userAccount">
-                        <a [routerLink]="['../user-account', tagFollowing.userAccount?.id ]" >{{tagFollowing.userAccount?.id}}</a>
+                    <div *ngIf="tagFollowing.person">
+                        <a [routerLink]="['../person', tagFollowing.person?.id ]" >{{tagFollowing.person?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

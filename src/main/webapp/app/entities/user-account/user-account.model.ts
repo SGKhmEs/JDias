@@ -32,7 +32,6 @@ export class UserAccount implements BaseEntity {
         public postDefaultPublic?: boolean,
         public user?: User,
         public person?: BaseEntity,
-        public tagfollowings?: BaseEntity[],
     ) {
         this.gettingStarted = false;
         this.disableMail = false;

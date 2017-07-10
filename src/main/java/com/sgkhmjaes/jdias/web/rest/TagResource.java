@@ -2,7 +2,9 @@ package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Tag;
-import com.sgkhmjaes.jdias.service.TagService;
+
+import com.sgkhmjaes.jdias.repository.TagRepository;
+import com.sgkhmjaes.jdias.repository.search.TagSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -30,10 +33,13 @@ public class TagResource {
 
     private static final String ENTITY_NAME = "tag";
 
-    private final TagService tagService;
+    private final TagRepository tagRepository;
 
-    public TagResource(TagService tagService) {
-        this.tagService = tagService;
+    private final TagSearchRepository tagSearchRepository;
+
+    public TagResource(TagRepository tagRepository, TagSearchRepository tagSearchRepository) {
+        this.tagRepository = tagRepository;
+        this.tagSearchRepository = tagSearchRepository;
     }
 
     /**
@@ -50,7 +56,8 @@ public class TagResource {
         if (tag.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new tag cannot already have an ID")).body(null);
         }
-        Tag result = tagService.save(tag);
+        Tag result = tagRepository.save(tag);
+        tagSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/tags/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -72,7 +79,8 @@ public class TagResource {
         if (tag.getId() == null) {
             return createTag(tag);
         }
-        Tag result = tagService.save(tag);
+        Tag result = tagRepository.save(tag);
+        tagSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, tag.getId().toString()))
             .body(result);
@@ -87,7 +95,7 @@ public class TagResource {
     @Timed
     public List<Tag> getAllTags() {
         log.debug("REST request to get all Tags");
-        return tagService.findAll();
+        return tagRepository.findAll();
     }
 
     /**
@@ -100,7 +108,7 @@ public class TagResource {
     @Timed
     public ResponseEntity<Tag> getTag(@PathVariable Long id) {
         log.debug("REST request to get Tag : {}", id);
-        Tag tag = tagService.findOne(id);
+        Tag tag = tagRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(tag));
     }
 
@@ -114,7 +122,8 @@ public class TagResource {
     @Timed
     public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
         log.debug("REST request to delete Tag : {}", id);
-        tagService.delete(id);
+        tagRepository.delete(id);
+        tagSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -129,7 +138,9 @@ public class TagResource {
     @Timed
     public List<Tag> searchTags(@RequestParam String query) {
         log.debug("REST request to search Tags for query {}", query);
-        return tagService.search(query);
+        return StreamSupport
+            .stream(tagSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+            .collect(Collectors.toList());
     }
 
 }

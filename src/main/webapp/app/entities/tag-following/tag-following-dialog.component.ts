@@ -10,7 +10,7 @@ import { TagFollowing } from './tag-following.model';
 import { TagFollowingPopupService } from './tag-following-popup.service';
 import { TagFollowingService } from './tag-following.service';
 import { Tag, TagService } from '../tag';
-import { UserAccount, UserAccountService } from '../user-account';
+import { Person, PersonService } from '../person';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -25,16 +25,14 @@ export class TagFollowingDialogComponent implements OnInit {
 
     tags: Tag[];
 
-    useraccounts: UserAccount[];
-    createdAtDp: any;
-    updatedAtDp: any;
+    people: Person[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private tagFollowingService: TagFollowingService,
         private tagService: TagService,
-        private userAccountService: UserAccountService,
+        private personService: PersonService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -44,8 +42,8 @@ export class TagFollowingDialogComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.tagService.query()
             .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.userAccountService.query()
-            .subscribe((res: ResponseWrapper) => { this.useraccounts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.personService.query()
+            .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -97,7 +95,7 @@ export class TagFollowingDialogComponent implements OnInit {
         return item.id;
     }
 
-    trackUserAccountById(index: number, item: UserAccount) {
+    trackPersonById(index: number, item: Person) {
         return item.id;
     }
 }
