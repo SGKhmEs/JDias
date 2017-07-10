@@ -59,6 +59,14 @@ public class Aspect implements Serializable {
     @ManyToOne
     private Person person;
 
+    public Aspect(){}
+    public Aspect(String name, LocalDate createdAt, LocalDate updatedAt, Person person) {
+        this.name = name;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.person = person;
+    }
+
     public Long getId() {
         return id;
     }

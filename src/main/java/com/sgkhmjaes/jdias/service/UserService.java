@@ -1,13 +1,9 @@
 package com.sgkhmjaes.jdias.service;
 
-import com.sgkhmjaes.jdias.domain.Authority;
-import com.sgkhmjaes.jdias.domain.User;
+import com.sgkhmjaes.jdias.domain.*;
 import com.sgkhmjaes.jdias.repository.AuthorityRepository;
 import com.sgkhmjaes.jdias.repository.PersistentTokenRepository;
 import com.sgkhmjaes.jdias.config.Constants;
-import com.sgkhmjaes.jdias.domain.Person;
-import com.sgkhmjaes.jdias.domain.Profile;
-import com.sgkhmjaes.jdias.domain.UserAccount;
 import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.repository.search.UserSearchRepository;
 import com.sgkhmjaes.jdias.security.AuthoritiesConstants;
@@ -60,6 +56,8 @@ public class UserService {
 
     @Inject
     private ProfileService profileService;
+    @Inject
+    private AspectService aspectService;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
@@ -82,9 +80,9 @@ public class UserService {
                 return user;
             });
     }
-    
+
     private void createdUserAccount (User user){
-        
+
         UserAccount userAccount = new UserAccount(user.getId());
         Person person = new Person(user.getId(), userAccount.getSerializedPrivateKey(), user.getLogin());
         //person.setPodId();
@@ -95,28 +93,33 @@ public class UserService {
             hostName = user.getLogin() + "@" + UUID.randomUUID().toString();
         }
         person.setDiasporaId(hostName);
-        
+
         Profile profile = new Profile();
         profile.setId(user.getId());
         profile.setAuthor(person.getDiasporaId());
-        
+
         userAccount.setUser(user);
         userAccountService.save(userAccount);
-        
+
         person.setUserAccount(userAccount);
         personService.save(person);
-        
+
         profile.setPerson(person);
         profileService.save(profile);
-        
+
         userAccount.setPerson(person);
         userAccountService.save(userAccount);
-        
+
         person.setProfile(profile);
+        person = personService.save(person);
+        person = person.addAspect(aspectService.save(new Aspect("Family", LocalDate.now(), LocalDate.now(), person)));
+        person = person.addAspect(aspectService.save(new Aspect("Friends", LocalDate.now(), LocalDate.now(), person)));
+        person = person.addAspect(aspectService.save(new Aspect("Work", LocalDate.now(), LocalDate.now(), person)));
+        person = person.addAspect(aspectService.save(new Aspect("Acquaintances", LocalDate.now(), LocalDate.now(), person)));
         personService.save(person);
-        
+
     }
-    
+
     public Optional<User> completePasswordReset(String newPassword, String key) {
        log.debug("Reset user password for reset key {}", key);
 
@@ -325,9 +328,9 @@ public class UserService {
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
     }
-    
+
     public Person getCurrentPerson (){
         return personService.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
     }
-       
+
 }

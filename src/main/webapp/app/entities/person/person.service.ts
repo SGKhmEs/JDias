@@ -64,7 +64,7 @@ export class PersonService {
         return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
-    private convertItemFromServer(entity: any) {
+    public convertItemFromServer(entity: any) {
         entity.createdAt = this.dateUtils
             .convertLocalDateFromServer(entity.createdAt);
         entity.updatedAt = this.dateUtils

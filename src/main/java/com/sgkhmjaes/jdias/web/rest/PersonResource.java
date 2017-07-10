@@ -1,7 +1,9 @@
 package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.sgkhmjaes.jdias.domain.Aspect;
 import com.sgkhmjaes.jdias.domain.Person;
+import com.sgkhmjaes.jdias.repository.AspectRepository;
 import com.sgkhmjaes.jdias.service.PersonService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -10,11 +12,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -31,6 +37,8 @@ public class PersonResource {
     private static final String ENTITY_NAME = "person";
 
     private final PersonService personService;
+    @Inject
+    private AspectRepository aspectRepository;
 
     public PersonResource(PersonService personService) {
         this.personService = personService;
@@ -102,6 +110,20 @@ public class PersonResource {
         log.debug("REST request to get Person : {}", id);
         Person person = personService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(person));
+    }
+
+    /**
+     * GET  /people/:id : get the "id" person.
+     *
+     * @param name the id of the person to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the person, or with status 404 (Not Found)
+     */
+    @GetMapping("/people/get/{name}")
+    @Timed
+    public List<Aspect> getPerson(@PathVariable String name) throws UnknownHostException {
+        log.debug("REST request to get Person : {}", name);
+        Person person = personService.findPersonByDiasporaId(name+ "@" + InetAddress.getLocalHost().getHostName());
+        return aspectRepository.findAllByPerson(person);
     }
 
     /**

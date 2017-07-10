@@ -140,73 +140,30 @@ You can use <a target="blank" href="https://diasporafoundation.org/formatting">M
         <div class="public_toggle clearfix">
             <div class="btn-toolbar pull-right">
                 <div class="btn-group aspect_dropdown">
-                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" (click)="showAspects()" >
                         <i class="fa fa-lock small" id="visibility-icon"></i>
-                        <span class="text">
-All aspects
-</span>
+                        <span class="text">All aspects</span>
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu pull-right" unselectable="on">
+                    <ul class="dropdown-menu pull-right" unselectable="on"[hidden]="!isShowAspects">
                         <li class="public radio" data-aspect_id="public">
                             <a>
                             <span class="status_indicator">
-<i class="fa fa-ok"></i>
-</span>
-                                <span class="text">
-Public
-</span>
+                                <i class="fa fa-ok"></i></span>
+                                <span class="text">Public</span>
                             </a>
                         </li>
                         <li class="all_aspects radio selected" data-aspect_id="all_aspects">
                             <a>
-                            <span class="status_indicator">
-<i class="fa fa-ok"></i>
-</span>
-                                <span class="text">
-All aspects
-</span>
+                            <span class="status_indicator"><i class="fa fa-ok"></i></span>
+                                <span class="text">All aspects</span>
                             </a>
                         </li>
                         <li class="divider"></li>
-                        <li class="aspect_selector" data-aspect_id="334">
+                        <li class="aspect_selector"  *ngFor="let aspect of aspects ;trackBy: trackAspect" data-aspect_id="aspect.id">
                             <a>
-                            <span class="status_indicator">
-<i class="fa fa-ok"></i>
-</span>
-                                <span class="text">
-Family
-</span>
-                            </a>
-                        </li>
-                        <li class="aspect_selector" data-aspect_id="335">
-                            <a>
-                            <span class="status_indicator">
-<i class="fa fa-ok"></i>
-</span>
-                                <span class="text">
-Friends
-</span>
-                            </a>
-                        </li>
-                        <li class="aspect_selector" data-aspect_id="336">
-                            <a>
-                            <span class="status_indicator">
-<i class="fa fa-ok"></i>
-</span>
-                                <span class="text">
-Work
-</span>
-                            </a>
-                        </li>
-                        <li class="aspect_selector" data-aspect_id="337">
-                            <a>
-                            <span class="status_indicator">
-<i class="fa fa-ok"></i>
-</span>
-                                <span class="text">
-Acquaintances
-</span>
+                            <span class="status_indicator"><i class="fa fa-ok"></i></span>
+                                <span class="text">{{aspect.name}}</span>
                             </a>
                         </li>
                     </ul>
@@ -279,4 +236,6 @@ Acquaintances
             </tbody>
         </table>
     </div>
+
+
 </div>

@@ -45,6 +45,15 @@ export const statusMessageRoute: Routes = [
             pageTitle: 'jDiasApp.statusMessage.home.title'
         },
         canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'people/get/:name',
+        component: StatusMessageComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jDiasApp.statusMessage.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     }
 ];
 
