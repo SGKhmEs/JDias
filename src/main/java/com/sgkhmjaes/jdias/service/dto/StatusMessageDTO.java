@@ -167,4 +167,20 @@ public class StatusMessageDTO implements AutoMapping {
     }
 
 */
+
+@Override
+public String toString() {
+StringBuilder sb = new StringBuilder();
+sb.append ("Class 'StatusMessageDTO': \r\n");
+sb.append("Status message=").append(statusMessage).append("\r\n").
+append("Aspect ids=").append(aspectIds).append("\r\n").
+append("Photos=").append(photos).append("\r\n").
+append("Location address=").append(locationAddress).append("\r\n").
+append("Location coords=").append(locationCoords).append("\r\n").
+append("Poll question=").append(pollQuestion).append("\r\n").
+append("Poll answers=").append(pollAnswers).append("\r\n");
+return sb.toString();
+}
+    
+    
 }

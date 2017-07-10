@@ -29,6 +29,13 @@ public class TagFollowing implements Serializable {
 
     @ManyToOne
     private Person person;
+    
+    public TagFollowing (){}
+    
+    public TagFollowing (Tag tag, Person person){
+        this.tag = tag;
+        this.person = person;
+    }
 
     public Long getId() {
         return id;

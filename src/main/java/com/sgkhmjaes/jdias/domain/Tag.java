@@ -50,6 +50,12 @@ public class Tag implements Serializable {
 
     @ManyToOne
     private HashTag hashTag;
+    
+    public Tag () {}
+    
+    public Tag (String tagContext) {
+        this.tagContext = tagContext;
+    }
 
     public Long getId() {
         return id;

@@ -29,7 +29,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="serialized_public_key" type="varchar(255)">
+            <column name="serialized_public_key" type="varchar(500)">
                 <constraints nullable="true" />
             </column>
 

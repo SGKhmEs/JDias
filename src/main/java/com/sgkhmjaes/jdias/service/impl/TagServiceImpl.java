@@ -5,6 +5,8 @@ import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.service.TagService;
 import com.sgkhmjaes.jdias.domain.Tag;
+import com.sgkhmjaes.jdias.domain.TagFollowing;
+import com.sgkhmjaes.jdias.domain.Tagging;
 import com.sgkhmjaes.jdias.repository.HashTagRepository;
 import com.sgkhmjaes.jdias.repository.TagRepository;
 import com.sgkhmjaes.jdias.repository.search.HashTagSearchRepository;
@@ -18,8 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -84,12 +84,14 @@ public class TagServiceImpl implements TagService{
         for (String tagContext : tagContextSet) {
             Long tagsHash = getHashCode(tagContext);
             Tag searchTagByContext = searchTagByContext(tagContext, tagsHash);
+            //tag with such hashcode dont exsist
             if (searchTagByContext == null) {
                 //comment for testin 
                 //Tag tag = save(tag, post, tagsHash);
                 Tag tagResult = save(new Tag(tagContext), null, tagsHash);
                 tags.add(tagResult);
             }
+            //tag with such hashcode already exsist
             else{
                 //comment for testin 
                 //Tag tag = save(searchTagByContext, post, tagsHash);
@@ -101,16 +103,24 @@ public class TagServiceImpl implements TagService{
     }
     
     private Tag save(Tag tag, Post post, Long tagsHash) {
-        if (post != null) tag.addPost(post);
+        //if (post != null) tag.addPost(post);   
+        
+        Tagging tagging = new Tagging(tag, post);
+        TagFollowing tagFollowing = new TagFollowing();
+        
         HashTag hashTag = new HashTag();
         hashTag.setId(tagsHash);
         hashTagRepository.saveAndFlush(hashTag);
         tag.setHashTag(hashTag);
+        
         Tag tagResult = tagRepository.saveAndFlush(tag);
         tagSearchRepository.save(tagResult);
-        hashTag.addTags(tagResult);
+        hashTag.addTag(tagResult);
         HashTag hashTagResult = hashTagRepository.save(hashTag);
         hashTagSearchRepository.save(hashTagResult);
+        
+
+        
         return tagResult;
     }
     
@@ -151,8 +161,9 @@ public class TagServiceImpl implements TagService{
     
     public Set <Post> findPostsByTag (String tagContext){
         Tag searchTagByContext = searchTagByContext(tagContext, getHashCode(tagContext));
-        if(searchTagByContext == null)return new HashSet <> ();
-        else return searchTagByContext.getPosts();
+        //if(searchTagByContext == null)
+            return new HashSet <> ();
+        //else return searchTagByContext.getPosts();
     }
     
     /**

@@ -29,6 +29,13 @@ public class Tagging implements Serializable {
 
     @ManyToOne
     private Post post;
+    
+    public Tagging (){}
+    
+    public Tagging (Tag tag, Post post){
+        this.post = post;
+        this.tag = tag;
+    }
 
     public Long getId() {
         return id;
