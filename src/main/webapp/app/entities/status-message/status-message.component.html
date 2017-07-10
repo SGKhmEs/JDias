@@ -160,7 +160,7 @@ You can use <a target="blank" href="https://diasporafoundation.org/formatting">M
                             </a>
                         </li>
                         <li class="divider"></li>
-                        <li class="aspect_selector"  *ngFor="let aspect of aspects ;trackBy: trackAspect" data-aspect_id="aspect.id">
+                        <li class="aspect_selector"  *ngFor="let aspect of aspects ;trackBy: trackAspect" (click)="addAspect(aspect.id)">
                             <a>
                             <span class="status_indicator"><i class="fa fa-ok"></i></span>
                                 <span class="text">{{aspect.name}}</span>

@@ -16,7 +16,7 @@ public class StatusMessageDTO implements AutoMapping {
     @JsonProperty("status_message")
     private StatusMessage statusMessage;
     @JsonProperty("aspect_ids")
-    private Set<String> aspectIds;
+    private Set<Long> aspectIds;
     @JsonProperty("photos")
     private Set<Long> photos;
     @JsonProperty("location_address")
@@ -41,12 +41,12 @@ public class StatusMessageDTO implements AutoMapping {
     }
 
     @JsonProperty("aspect_ids")
-    public Set<String> getAspectIds() {
+    public Set<Long> getAspectIds() {
         return aspectIds;
     }
 
     @JsonProperty("aspect_ids")
-    public void setAspectIds(Set<String> aspectIds) {
+    public void setAspectIds(Set<Long> aspectIds) {
         this.aspectIds = aspectIds;
     }
 

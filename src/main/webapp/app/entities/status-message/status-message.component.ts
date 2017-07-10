@@ -30,6 +30,7 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
      statusMessages: StatusMessage[];
      photos: Photo[] = [];
      aspects: Aspect[] = [];
+     aspectId: string[] = [];
      src: string[] = [];
      currentAccount: Account;
      eventSubscriber: Subscription;
@@ -68,6 +69,16 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
     //#region Aspects
     showAspects() {
         this.isShowAspects = !this.isShowAspects;
+    }
+
+    addAspect(id: string) {
+        console.log(id);
+        if (this.aspectId.indexOf(id) > -1) {
+            this.aspectId.splice(this.aspectId.indexOf(id), 1);
+        }else {
+            this.aspectId.push(id);
+        }
+        console.log(this.aspectId);
     }
 
     load() {
@@ -248,8 +259,7 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
         }
         this.statusMessage.poll_answers = this.inputAnswers;
         this.statusMessage.location_coords = this.lat + ', ' + this.lng;
-        // this.statusMessage.photos = [];
-        this.statusMessage.aspect_ids = [];
+        this.statusMessage.aspect_ids = this.aspectId;
         this.statusMessage.status_message = this.statusM;
         this.isSaving = true;
        // this.statusMessage.text = 'test';

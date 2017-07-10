@@ -48,6 +48,10 @@ public class PostServiceImpl implements PostService {
     private final LocationService locationService;
     private final PhotoRepository photoRepository;
     private final UserService userService;
+    @Inject
+    private AspectRepository aspectRepositort;
+    @Inject
+    private AspectVisiblityService aspectVisiblityService;
 
     public PostServiceImpl(PostRepository postRepository, PostSearchRepository postSearchRepository, StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository, ReshareRepository reshareRepository, ReshareSearchRepository reshareSearchRepository, UserRepository userRepository, PollAnswerService pollAnswerService, PollService pollService, LocationService locationService, PhotoRepository photoRepository, UserService userService) {
         this.postRepository = postRepository;
@@ -132,6 +136,20 @@ public class PostServiceImpl implements PostService {
             statusMessage.setLocation(locationService.save(new Location(statusMessageDTO.getLocationAddress(),Float.parseFloat(coords[0]),Float.parseFloat(coords[1]))));
         }
         statusMessage = save(statusMessage);
+        if(statusMessageDTO.getAspectIds() != null){
+            //Set<AspectVisiblity> aspectVisiblities = new HashSet<>();
+            Post post = findOnePost(statusMessage.getId());
+            for (Long id: statusMessageDTO.getAspectIds()) {
+                AspectVisiblity aspectVisiblity = new AspectVisiblity();
+                Aspect aspect = aspectRepositort.findOne(id);
+                aspectVisiblity.setAspect(aspect);
+                aspectVisiblity.setPost(post);
+                aspectVisiblity.setPostType(post.getPostType());
+                aspectVisiblityService.save(aspectVisiblity);
+               // aspectVisiblities.add(aspectVisiblity);
+            }
+            //post.setAspectVisiblities(aspectVisiblities);
+        }
         if(statusMessageDTO.getPhotos() != null){
             for(Long id: statusMessageDTO.getPhotos()) {
                 statusMessage.addPhotos(photoRepository.findOne(id));
