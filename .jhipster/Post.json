@@ -2,31 +2,15 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "one-to-one",
-            "relationshipName": "statusMessage",
-            "otherEntityName": "statusMessage",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "post"
-        },
-        {
-            "relationshipType": "one-to-one",
-            "relationshipName": "reshare",
-            "otherEntityName": "reshare",
-            "otherEntityField": "id",
-            "ownerSide": true,
+            "relationshipType": "one-to-many",
+            "relationshipName": "aspectVisiblities",
+            "otherEntityName": "aspectVisiblity",
             "otherEntityRelationshipName": "post"
         },
         {
             "relationshipType": "one-to-many",
             "relationshipName": "comments",
             "otherEntityName": "comment",
-            "otherEntityRelationshipName": "post"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "aspectVisibliti",
-            "otherEntityName": "aspectVisibility",
             "otherEntityRelationshipName": "post"
         },
         {
@@ -42,8 +26,20 @@
             "otherEntityRelationshipName": "post"
         },
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "person",
             "otherEntityName": "person",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "reshare",
+            "otherEntityName": "reshare",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "statusMessage",
+            "otherEntityName": "statusMessage",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
@@ -79,5 +75,5 @@
     "entityTableName": "post",
     "dto": "no",
     "pagination": "no",
-    "service": "serviceImpl"
+    "service": "no"
 }

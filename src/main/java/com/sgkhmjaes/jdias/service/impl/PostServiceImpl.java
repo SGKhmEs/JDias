@@ -40,28 +40,16 @@ public class PostServiceImpl implements PostService {
 
     private final StatusMessageRepository statusMessageRepository;
     private final StatusMessageSearchRepository statusMessageSearchRepository;
-
     private final ReshareRepository reshareRepository;
     private final ReshareSearchRepository reshareSearchRepository;
-
     private final UserRepository userRepository;
-    private final PersonRepository personRepository;
+    private final PollAnswerService pollAnswerService;
+    private final PollService pollService;
+    private final LocationService locationService;
+    private final PhotoRepository photoRepository;
+    private final UserService userService;
 
-    @Inject
-    private PollAnswerService pollAnswerService;
-    @Inject
-    private PollService pollService;
-    @Inject
-    private LocationService locationService;
-    @Inject
-    private PhotoRepository photoRepository;
-    @Inject
-    private UserService userService;
-
-    public PostServiceImpl(PostRepository postRepository, PostSearchRepository postSearchRepository,
-                           StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository,
-                           ReshareRepository reshareRepository, ReshareSearchRepository reshareSearchRepository,
-                           UserRepository userRepository, PersonRepository personRepository) {
+    public PostServiceImpl(PostRepository postRepository, PostSearchRepository postSearchRepository, StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository, ReshareRepository reshareRepository, ReshareSearchRepository reshareSearchRepository, UserRepository userRepository, PollAnswerService pollAnswerService, PollService pollService, LocationService locationService, PhotoRepository photoRepository, UserService userService) {
         this.postRepository = postRepository;
         this.postSearchRepository = postSearchRepository;
         this.statusMessageRepository = statusMessageRepository;
@@ -69,7 +57,11 @@ public class PostServiceImpl implements PostService {
         this.reshareRepository = reshareRepository;
         this.reshareSearchRepository = reshareSearchRepository;
         this.userRepository = userRepository;
-        this.personRepository = personRepository;
+        this.pollAnswerService = pollAnswerService;
+        this.pollService = pollService;
+        this.locationService = locationService;
+        this.photoRepository = photoRepository;
+        this.userService = userService;
     }
 
     /**
@@ -170,7 +162,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Reshare saveReshare(Post parrentPost) {
-        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        Person person = userService.getCurrentPerson();
         Reshare reshare = reshareRepository.findOne(parrentPost.getReshare().getId());
         StatusMessage statusMessage = statusMessageRepository.findOne(parrentPost.getStatusMessage().getId());
         Set<Post> posts = reshare.getPosts();
@@ -181,9 +173,7 @@ public class PostServiceImpl implements PostService {
                 break;
             }
         }
-        if (parrentPost.getAuthor().equals(person.getDiasporaId())) {
-            return parrentPost.getReshare();
-        } else if (isHasRepost) {
+        if (parrentPost.getAuthor().equals(person.getDiasporaId())||isHasRepost) {
             return parrentPost.getReshare();
         } else {
             Post post = save(new Post(person.getDiasporaId(), UUID.randomUUID().toString(),
@@ -291,12 +281,13 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deleteStatusMessage(Long id) {
         log.debug("Request to delete StatusMessage : {}", id);
-        Reshare reshare = findOneReshare(id);
-        Set<Post> postSet = reshare.getPosts();
-        deleteSetPosts(postSet);
-        deleteReshare(id);
-        statusMessageRepository.delete(id);
-        statusMessageSearchRepository.delete(id);
+        Post post = findOnePost(id);
+        Person person = userService.getCurrentPerson();
+        if (person.getDiasporaId().equals(post.getAuthor())) {
+            deleteReshare(id);
+            statusMessageRepository.delete(id);
+            statusMessageSearchRepository.delete(id);
+        }
     }
 
     /**
@@ -307,14 +298,18 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deleteReshare(Long id) {
         log.debug("Request to delete Reshare : {}", id);
-        reshareRepository.delete(id);
-        reshareSearchRepository.delete(id);
+        Post post = findOnePost(id);
+        Person person = userService.getCurrentPerson();
+        if (person.getDiasporaId().equals(post.getAuthor())) {
+            reshareRepository.delete(id);
+            reshareSearchRepository.delete(id);
+        }
     }
 
     @Override
     public void deletePost(Long id) {
         Post post = findOnePost(id);
-        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        Person person = userService.getCurrentPerson();
         StatusMessage statusMessage = findOneStatusMessage(post.getStatusMessage().getId());
         if (person.getDiasporaId().equals(post.getAuthor())) {
             if (post.getId().equals(statusMessage.getId())) {

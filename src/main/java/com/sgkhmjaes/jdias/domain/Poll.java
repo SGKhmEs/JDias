@@ -34,12 +34,12 @@ public class Poll implements Serializable {
     @Column(name = "question")
     private String question;
 
-    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PollAnswer> pollanswers = new HashSet<>();
 
-    @OneToMany(mappedBy = "poll")
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PollParticipation> pollparticipants = new HashSet<>();
