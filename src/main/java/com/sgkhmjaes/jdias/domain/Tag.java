@@ -55,6 +55,8 @@ public class Tag implements Serializable {
     
     public Tag (String tagContext) {
         this.tagContext = tagContext;
+        this.createdAt = LocalDate.now();
+        this.updatedAt = ZonedDateTime.now();
     }
 
     public Long getId() {

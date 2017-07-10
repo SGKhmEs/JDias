@@ -23,9 +23,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class TagFollowingServiceImpl implements TagFollowingService{
 
     private final Logger log = LoggerFactory.getLogger(TagFollowingServiceImpl.class);
-
     private final TagFollowingRepository tagFollowingRepository;
-
     private final TagFollowingSearchRepository tagFollowingSearchRepository;
 
     public TagFollowingServiceImpl(TagFollowingRepository tagFollowingRepository, TagFollowingSearchRepository tagFollowingSearchRepository) {

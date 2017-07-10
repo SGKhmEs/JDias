@@ -5,6 +5,7 @@ import com.sgkhmjaes.jdias.JDiasApp;
 import com.sgkhmjaes.jdias.domain.Tag;
 import com.sgkhmjaes.jdias.repository.TagRepository;
 import com.sgkhmjaes.jdias.repository.search.TagSearchRepository;
+import com.sgkhmjaes.jdias.service.TagService;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -58,6 +59,9 @@ public class TagResourceIntTest {
 
     @Autowired
     private TagSearchRepository tagSearchRepository;
+    
+    @Autowired
+    private TagService tagService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -78,7 +82,7 @@ public class TagResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        TagResource tagResource = new TagResource(tagRepository, tagSearchRepository);
+        TagResource tagResource = new TagResource(tagService);
         this.restTagMockMvc = MockMvcBuilders.standaloneSetup(tagResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

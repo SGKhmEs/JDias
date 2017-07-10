@@ -23,9 +23,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class TaggingServiceImpl implements TaggingService{
 
     private final Logger log = LoggerFactory.getLogger(TaggingServiceImpl.class);
-
     private final TaggingRepository taggingRepository;
-
     private final TaggingSearchRepository taggingSearchRepository;
 
     public TaggingServiceImpl(TaggingRepository taggingRepository, TaggingSearchRepository taggingSearchRepository) {
