@@ -32,20 +32,20 @@ public class StatusMessage implements Serializable {
     @Column(name = "text")
     private String text;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(unique = true)
     private Location location;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(unique = true)
     private Poll poll;
 
-    @OneToMany(mappedBy = "statusMessage")
+    @OneToMany(mappedBy = "statusMessage", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Post> posts = new HashSet<>();
 
-    @OneToMany(mappedBy = "statusMessage")
+    @OneToMany(mappedBy = "statusMessage", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Photo> photos = new HashSet<>();

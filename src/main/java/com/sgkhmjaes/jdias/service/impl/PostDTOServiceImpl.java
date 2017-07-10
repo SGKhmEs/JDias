@@ -80,6 +80,7 @@ public class PostDTOServiceImpl {
                 pollDTO.setPollAnswerDTOS(pollAnswerDTOS);
             }
             postDTO.mappingToDTO(post, authorDTO, interactionDTO, statusMessage, pollDTO);
+            postDTO.setId(post.getId());
         } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
