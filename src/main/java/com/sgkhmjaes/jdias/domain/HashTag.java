@@ -23,12 +23,13 @@ public class HashTag implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    //@SequenceGenerator(name = "sequenceGenerator")
     private Long id;
-
-    @OneToMany(mappedBy = "hashTag")
+    
     @JsonIgnore
+    //@NotFound(action = NotFoundAction.IGNORE)
+    @OneToMany(mappedBy = "hashTag", fetch=FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Tag> tags = new HashSet<>();
 
@@ -87,8 +88,7 @@ public class HashTag implements Serializable {
 
     @Override
     public String toString() {
-        return "HashTag{" +
-            "id=" + getId() +
-            "}";
+        return "HashTag{" + "id=" + getId() + ", tags=" + tags + "}";
     }
+
 }

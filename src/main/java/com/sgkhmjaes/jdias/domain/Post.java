@@ -54,12 +54,12 @@ public class Post implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<AspectVisiblity> aspectVisiblities = new HashSet<>();
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Comment> comments = new HashSet<>();
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Like> likes = new HashSet<>();
@@ -72,11 +72,24 @@ public class Post implements Serializable {
 
     @ManyToOne
     private StatusMessage statusMessage;
-
+    
     @OneToMany(mappedBy = "post")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Tagging> taggings = new HashSet<>();
+    
+    public Post() {}
+
+    public Post(String author, String guid, LocalDate createdAt, Boolean pub, PostType postType, StatusMessage statusMessage, Reshare reshare, Person person) {
+        this.author = author;
+        this.guid = guid;
+        this.createdAt = createdAt;
+        this.pub = pub;
+        this.postType = postType;
+        this.statusMessage = statusMessage;
+        this.reshare = reshare;
+        this.person = person;
+    }
 
     public Long getId() {
         return id;
@@ -173,13 +186,13 @@ public class Post implements Serializable {
         return this;
     }
 
-    public Post addAspectVisiblity(AspectVisiblity aspectVisiblity) {
+    public Post addAspectVisiblities(AspectVisiblity aspectVisiblity) {
         this.aspectVisiblities.add(aspectVisiblity);
         aspectVisiblity.setPost(this);
         return this;
     }
 
-    public Post removeAspectVisiblity(AspectVisiblity aspectVisiblity) {
+    public Post removeAspectVisiblities(AspectVisiblity aspectVisiblity) {
         this.aspectVisiblities.remove(aspectVisiblity);
         aspectVisiblity.setPost(null);
         return this;
