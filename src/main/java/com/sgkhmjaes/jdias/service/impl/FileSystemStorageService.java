@@ -29,29 +29,26 @@ import java.util.stream.Stream;
 public class FileSystemStorageService implements StorageService {
 
     private final Path rootLocation;
-    private final PersonRepository personRepository;
-    private final UserRepository userRepository;
+
 
     @Autowired
-    public FileSystemStorageService(StorageProperties properties, PersonRepository personRepository, UserRepository userRepository) {
-        this.personRepository = personRepository;
-        this.userRepository = userRepository;
+    public FileSystemStorageService(StorageProperties properties) {
         this.rootLocation = Paths.get(properties.getLocation());
     }
 
     @Override
     public File store(MultipartFile file) {
-        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        /*Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
         Path userPath = Paths.get(rootLocation + "/" + person.getGuid());
         if (!userPath.toFile().exists() && !userPath.toFile().isDirectory()) {
             userPath.toFile().mkdir();
-        }
+        }*/
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
             }
             String fileName = UUID.nameUUIDFromBytes(file.getOriginalFilename().getBytes()).toString()+".jpg";
-            Files.copy(file.getInputStream(), userPath.resolve(fileName));
+            Files.copy(file.getInputStream(), rootLocation.resolve(fileName));
             return load(fileName).toFile();
 
         } catch (IOException e) {
@@ -61,12 +58,12 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public Stream<Path> loadAll() {
-        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
-        Path userPath = Paths.get(rootLocation + "/" + person.getGuid());
+        /*Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        Path userPath = Paths.get(rootLocation + "/" + person.getGuid());*/
         try {
-            return Files.walk(userPath, 1)
-                    .filter(path -> !path.equals(userPath))
-                    .map(path -> userPath.relativize(path));
+            return Files.walk(rootLocation, 1)
+                    .filter(path -> !path.equals(rootLocation))
+                    .map(path -> rootLocation.relativize(path));
         } catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
         }
@@ -75,9 +72,9 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public Path load(String filename) {
-        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
-        Path userPath = Paths.get(rootLocation + "/" + person.getGuid());
-        return userPath.resolve(filename);
+       /* Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        Path userPath = Paths.get(rootLocation + "/" + person.getGuid());*/
+        return rootLocation.resolve(filename);
     }
 
     @Override
@@ -99,16 +96,16 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public void deleteAll() {
-        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
-        Path userPath = Paths.get(rootLocation + "/" + person.getGuid());
-        FileSystemUtils.deleteRecursively(userPath.toFile());
+      /*  Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        Path userPath = Paths.get(rootLocation + "/" + person.getGuid());*/
+        FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
     @Override
     public void deleteImage(String filename) {
-        Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
-        Path userPath = Paths.get(rootLocation + "/" + person.getGuid());
-        FileSystemUtils.deleteRecursively(userPath.resolve(filename).toFile());
+        /*Person person = personRepository.findOne(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId());
+        Path userPath = Paths.get(rootLocation + "/" + person.getGuid());*/
+        FileSystemUtils.deleteRecursively(rootLocation.resolve(filename).toFile());
     }
 
     @Override
