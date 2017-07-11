@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { JDiasAccountDeletionModule } from './account-deletion/account-deletion.module';
 import { JDiasAspectModule } from './aspect/aspect.module';
+import { JDiasAspectMembershipModule } from './aspect-membership/aspect-membership.module';
 import { JDiasAspectVisiblityModule } from './aspect-visiblity/aspect-visiblity.module';
 import { JDiasCommentModule } from './comment/comment.module';
 import { JDiasContactModule } from './contact/contact.module';
@@ -32,6 +33,7 @@ import { JDiasPersonModule } from './person/person.module';
     imports: [
         JDiasAccountDeletionModule,
         JDiasAspectModule,
+        JDiasAspectMembershipModule,
         JDiasAspectVisiblityModule,
         JDiasCommentModule,
         JDiasContactModule,

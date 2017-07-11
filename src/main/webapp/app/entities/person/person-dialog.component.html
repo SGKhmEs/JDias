@@ -15,17 +15,20 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.person.guid" for="field_guid">Guid</label>
             <input type="text" class="form-control" name="guid" id="field_guid"
-                [(ngModel)]="person.guid"  />
+                [(ngModel)]="person.guid"
+             />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.person.diasporaId" for="field_diasporaId">Diaspora Id</label>
             <input type="text" class="form-control" name="diasporaId" id="field_diasporaId"
-                [(ngModel)]="person.diasporaId"  />
+                [(ngModel)]="person.diasporaId"
+             />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.person.serializedPublicKey" for="field_serializedPublicKey">Serialized Public Key</label>
             <input type="text" class="form-control" name="serializedPublicKey" id="field_serializedPublicKey"
-                [(ngModel)]="person.serializedPublicKey"  />
+                [(ngModel)]="person.serializedPublicKey"
+             />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.person.createdAt" for="field_createdAt">Created At</label>
@@ -50,19 +53,29 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.person.closedAccount" for="field_closedAccount">Closed Account</label>
             <input type="checkbox" class="form-control" name="closedAccount" id="field_closedAccount"
-                [(ngModel)]="person.closedAccount"  />
+                [(ngModel)]="person.closedAccount"
+             />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.person.fetchStatus" for="field_fetchStatus">Fetch Status</label>
             <input type="number" class="form-control" name="fetchStatus" id="field_fetchStatus"
-                [(ngModel)]="person.fetchStatus"  />
+                [(ngModel)]="person.fetchStatus"
+             />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.person.podId" for="field_podId">Pod Id</label>
             <input type="number" class="form-control" name="podId" id="field_podId"
-                [(ngModel)]="person.podId"  />
+                [(ngModel)]="person.podId"
+             />
         </div>
 
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.person.reshare" for="field_reshare">Reshare</label>
+            <select class="form-control" id="field_reshare" name="reshare" [(ngModel)]="person.reshare" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="reshareOption.id === person.reshare?.id ? person.reshare : reshareOption" *ngFor="let reshareOption of reshares; trackBy: trackReshareById">{{reshareOption.id}}</option>
+            </select>
+        </div>
         <div class="form-group">
             <label jhiTranslate="jDiasApp.person.profile" for="field_profile">Profile</label>
             <select class="form-control" id="field_profile" name="profile" [(ngModel)]="person.profile">
@@ -79,15 +92,9 @@
         </div>
         <div class="form-group">
             <label jhiTranslate="jDiasApp.person.conversation" for="field_conversation">Conversation</label>
-            <select class="form-control" id="field_conversation" multiple name="conversation" [(ngModel)]="person.conversations">
-                <option [ngValue]="getSelected(person.conversations, conversationOption)" *ngFor="let conversationOption of conversations; trackBy: trackConversationById">{{conversationOption.id}}</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label jhiTranslate="jDiasApp.person.userAccount" for="field_userAccount">User Account</label>
-            <select class="form-control" id="field_userAccount" name="userAccount" [(ngModel)]="person.userAccount">
+            <select class="form-control" id="field_conversation" name="conversation" [(ngModel)]="person.conversation" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="userAccountOption.id === person.userAccount?.id ? person.userAccount : userAccountOption" *ngFor="let userAccountOption of useraccounts; trackBy: trackUserAccountById">{{userAccountOption.id}}</option>
+                <option [ngValue]="conversationOption.id === person.conversation?.id ? person.conversation : conversationOption" *ngFor="let conversationOption of conversations; trackBy: trackConversationById">{{conversationOption.id}}</option>
             </select>
         </div>
     </div>

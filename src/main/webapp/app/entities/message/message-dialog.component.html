@@ -15,28 +15,35 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.message.author" for="field_author">Author</label>
             <input type="text" class="form-control" name="author" id="field_author"
-                [(ngModel)]="message.author"  />
+                [(ngModel)]="message.author"
+             />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.message.guid" for="field_guid">Guid</label>
             <input type="text" class="form-control" name="guid" id="field_guid"
-                [(ngModel)]="message.guid"  />
+                [(ngModel)]="message.guid"
+             />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.message.conversationGuid" for="field_conversationGuid">Conversation Guid</label>
             <input type="text" class="form-control" name="conversationGuid" id="field_conversationGuid"
-                [(ngModel)]="message.conversationGuid"  />
+                [(ngModel)]="message.conversationGuid"
+             />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.message.text" for="field_text">Text</label>
             <input type="text" class="form-control" name="text" id="field_text"
-                [(ngModel)]="message.text"  />
+                [(ngModel)]="message.text"
+             />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="jDiasApp.message.createdAt" for="field_createdAt">Created At</label>
-            <div class="d-flex">
-                <input id="field_createdAt" type="datetime-local" class="form-control" name="createdAt" [(ngModel)]="message.createdAt"
-                  />
+            <div class="input-group">
+                <input id="field_createdAt" type="text" class="form-control" name="createdAt" ngbDatepicker  #createdAtDp="ngbDatepicker" [(ngModel)]="message.createdAt"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="createdAtDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
             </div>
         </div>
 
@@ -45,13 +52,6 @@
             <select class="form-control" id="field_conversation" name="conversation" [(ngModel)]="message.conversation" >
                 <option [ngValue]="null"></option>
                 <option [ngValue]="conversationOption.id === message.conversation?.id ? message.conversation : conversationOption" *ngFor="let conversationOption of conversations; trackBy: trackConversationById">{{conversationOption.id}}</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label jhiTranslate="jDiasApp.message.person" for="field_person">Person</label>
-            <select class="form-control" id="field_person" name="person" [(ngModel)]="message.person" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="personOption.id === message.person?.id ? message.person : personOption" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.id}}</option>
             </select>
         </div>
     </div>

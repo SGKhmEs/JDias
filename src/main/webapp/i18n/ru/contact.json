@@ -20,9 +20,8 @@
             "recipient": "Recipient",
             "following": "Following",
             "sharing": "Sharing",
-            "ownId": "Own Id",
-            "person": "Person",
-            "aspect": "Aspect"
+            "aspectMemberships": "Aspect Memberships",
+            "person": "Person"
         }
     }
 }

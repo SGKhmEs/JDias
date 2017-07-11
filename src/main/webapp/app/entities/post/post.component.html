@@ -654,10 +654,10 @@
 
                                                 <div *ngFor="let photo of post.photos ;trackBy: trackId"
                                                      class="photo_attachments nsfw-hidden">
-                                                    <a [href]="photo.remotePhotoPath+photo.remotePhotoName"
+                                                    <a [href]="photo.remotePhotoPath"
                                                        class="stream-photo-link gallery-picture">
                                                         <img
-                                                            [src]="photo.remotePhotoPath+photo.remotePhotoName"
+                                                            [src]="photo.remotePhotoPath"
                                                             class="stream-photo big_stream_photo">
                                                         <!--<img
                                                             src="/assets/images/scaled_full.jpg"

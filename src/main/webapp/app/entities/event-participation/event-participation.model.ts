@@ -1,12 +1,13 @@
-import { BaseEntity } from './../../shared';
 
 const enum EventStatus {
     'ACCEPTED',
     'DECLINED',
     'TENTATIVE'
-}
 
-export class EventParticipation implements BaseEntity {
+};
+import { Event } from '../event';
+import { Person } from '../person';
+export class EventParticipation {
     constructor(
         public id?: number,
         public author?: string,
@@ -15,8 +16,8 @@ export class EventParticipation implements BaseEntity {
         public status?: EventStatus,
         public authorSignature?: string,
         public parentAuthorSignature?: string,
-        public event?: BaseEntity,
-        public person?: BaseEntity,
+        public event?: Event,
+        public person?: Person,
     ) {
     }
 }

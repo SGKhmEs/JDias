@@ -22,9 +22,8 @@
             "contactVisible": "Contact Visible",
             "chatEnabled": "Chat Enabled",
             "postDefault": "Post Default",
-            "aspectVisibilities": "Aspect Visibilities",
-            "contact": "Contact",
-            "person": "Person"
+            "aspectMemberships": "Aspect Memberships",
+            "aspectVisibilities": "Aspect Visibilities"
         }
     }
 }

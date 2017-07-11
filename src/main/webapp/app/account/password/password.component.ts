@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Principal } from '../../shared';
-import { PasswordService } from './password.service';
+import { Password } from './password.service';
 
 @Component({
     selector: 'jhi-password',
@@ -16,7 +16,7 @@ export class PasswordComponent implements OnInit {
     confirmPassword: string;
 
     constructor(
-        private passwordService: PasswordService,
+        private passwordService: Password,
         private principal: Principal
     ) {
     }

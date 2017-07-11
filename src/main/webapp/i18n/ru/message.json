@@ -21,8 +21,7 @@
             "conversationGuid": "Conversation Guid",
             "text": "Text",
             "createdAt": "Created At",
-            "conversation": "Conversation",
-            "person": "Person"
+            "conversation": "Conversation"
         }
     }
 }

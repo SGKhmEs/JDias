@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
+import { AlertService, EventManager } from 'ng-jhipster';
 
 import { Retraction } from './retraction.model';
 import { RetractionPopupService } from './retraction-popup.service';
@@ -19,8 +19,8 @@ export class RetractionDeleteDialogComponent {
     constructor(
         private retractionService: RetractionService,
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
-        private eventManager: JhiEventManager
+        private alertService: AlertService,
+        private eventManager: EventManager
     ) {
     }
 

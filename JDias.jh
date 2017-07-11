@@ -135,7 +135,7 @@ entity Photo {
     remotePhotoName String,
     height Integer,
     width Integer
-
+    
     text String,
     statusMessageGuid String
 }
@@ -177,13 +177,13 @@ entity Post {
     guid String,
     createdAt LocalDate, //TimeStamp
     pub Boolean,
-
+    
     providerDisplayName String,
 	postType PostType
 }
 
 relationship OneToOne {
-	Post{status_message} to StatusMessage,
+	Post{statusMessage} to StatusMessage,
     Post{reshare} to Reshare
 }
 
@@ -216,7 +216,7 @@ entity Profile {
 entity Reshare {
     rootAuthor String,
     rootGuid String,
-
+    
 }
 
 entity Retraction {
@@ -227,7 +227,7 @@ entity Retraction {
 
 entity StatusMessage {
     text String // MarkDown
-
+    
 }
 
 relationship OneToOne {
@@ -292,7 +292,7 @@ entity UserAccount {
 	exportingPhotos Boolean,
 	colorTheme String,
 	postDefaultPublic Boolean
-
+	
 }
 
 relationship OneToOne {
@@ -311,7 +311,7 @@ entity Person {
 	diasporaId String,
 	serializedPublicKey String,
 	createdAt LocalDate,
-	updatedAt LocalDate,
+	updatedAt LocalDate,  
 	closedAccount Boolean,
 	fetchStatus Integer,
 	podId Integer

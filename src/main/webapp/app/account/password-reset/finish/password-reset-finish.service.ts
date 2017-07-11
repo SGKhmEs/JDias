@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()
-export class PasswordResetFinishService {
+export class PasswordResetFinish {
 
     constructor(private http: Http) {}
 

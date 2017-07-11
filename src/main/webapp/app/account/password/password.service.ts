@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()
-export class PasswordService {
+export class Password {
 
     constructor(private http: Http) {}
 

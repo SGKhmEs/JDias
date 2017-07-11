@@ -21,9 +21,9 @@
             "subject": "Subject",
             "createdAt": "Created At",
             "message": "Message",
-            "updatedAt": "Updated At",
+            "participants": "Participants",
             "messages": "Messages",
-            "participants": "Participants"
+            "userAccount": "User Account"
         }
     }
 }

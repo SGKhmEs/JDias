@@ -22,18 +22,12 @@
         </dd>
         <dt><span jhiTranslate="jDiasApp.message.createdAt">Created At</span></dt>
         <dd>
-            <span>{{message.createdAt | date:'medium'}}</span>
+            <span>{{message.createdAt | date:'mediumDate'}}</span>
         </dd>
         <dt><span jhiTranslate="jDiasApp.message.conversation">Conversation</span></dt>
         <dd>
             <div *ngIf="message.conversation">
                 <a [routerLink]="['/conversation', message.conversation?.id]">{{message.conversation?.id}}</a>
-            </div>
-        </dd>
-        <dt><span jhiTranslate="jDiasApp.message.person">Person</span></dt>
-        <dd>
-            <div *ngIf="message.person">
-                <a [routerLink]="['/person', message.person?.id]">{{message.person?.id}}</a>
             </div>
         </dd>
     </dl>

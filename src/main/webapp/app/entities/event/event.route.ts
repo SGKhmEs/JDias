@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { JhiPaginationUtil } from 'ng-jhipster';
+import { PaginationUtil } from 'ng-jhipster';
 
 import { EventComponent } from './event.component';
 import { EventDetailComponent } from './event-detail.component';

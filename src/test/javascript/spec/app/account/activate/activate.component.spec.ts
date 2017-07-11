@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { JDiasTestModule } from '../../../test.module';
 import { MockActivatedRoute } from '../../../helpers/mock-route.service';
 import { LoginModalService } from '../../../../../../main/webapp/app/shared';
-import { ActivateService } from '../../../../../../main/webapp/app/account/activate/activate.service';
+import { Activate } from '../../../../../../main/webapp/app/account/activate/activate.service';
 import { ActivateComponent } from '../../../../../../main/webapp/app/account/activate/activate.component';
 
 describe('Component Tests', () => {
@@ -18,7 +18,7 @@ describe('Component Tests', () => {
                 imports: [JDiasTestModule],
                 declarations: [ActivateComponent],
                 providers: [
-                    ActivateService,
+                    Activate,
                     {
                         provide: ActivatedRoute,
                         useValue: new MockActivatedRoute({'key': 'ABC123'})
@@ -33,13 +33,13 @@ describe('Component Tests', () => {
         }));
 
         beforeEach(() => {
-            let fixture = TestBed.createComponent(ActivateComponent);
+            const fixture = TestBed.createComponent(ActivateComponent);
             comp = fixture.componentInstance;
         });
 
         it('calls activate.get with the key from params',
-            inject([ActivateService],
-                fakeAsync((service: ActivateService) => {
+            inject([Activate],
+                fakeAsync((service: Activate) => {
                     spyOn(service, 'get').and.returnValue(Observable.of());
 
                     comp.ngOnInit();
@@ -51,8 +51,8 @@ describe('Component Tests', () => {
         );
 
         it('should set set success to OK upon successful activation',
-            inject([ActivateService],
-                fakeAsync((service: ActivateService) => {
+            inject([Activate],
+                fakeAsync((service: Activate) => {
                     spyOn(service, 'get').and.returnValue(Observable.of({}));
 
                     comp.ngOnInit();
@@ -65,8 +65,8 @@ describe('Component Tests', () => {
         );
 
         it('should set set error to ERROR upon activation failure',
-            inject([ActivateService],
-                fakeAsync((service: ActivateService) => {
+            inject([Activate],
+                fakeAsync((service: Activate) => {
                     spyOn(service, 'get').and.returnValue(Observable.throw('ERROR'));
 
                     comp.ngOnInit();

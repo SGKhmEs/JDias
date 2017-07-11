@@ -3,7 +3,7 @@ import { OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { JhiDateUtils, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
+import { DateUtils, DataUtils, EventManager } from 'ng-jhipster';
 import { JDiasTestModule } from '../../../test.module';
 import { MockActivatedRoute } from '../../../helpers/mock-route.service';
 import { ReshareDetailComponent } from '../../../../../../main/webapp/app/entities/reshare/reshare-detail.component';
@@ -22,15 +22,15 @@ describe('Component Tests', () => {
                 imports: [JDiasTestModule],
                 declarations: [ReshareDetailComponent],
                 providers: [
-                    JhiDateUtils,
-                    JhiDataUtils,
+                    DateUtils,
+                    DataUtils,
                     DatePipe,
                     {
                         provide: ActivatedRoute,
                         useValue: new MockActivatedRoute({id: 123})
                     },
                     ReshareService,
-                    JhiEventManager
+                    EventManager
                 ]
             }).overrideTemplate(ReshareDetailComponent, '')
             .compileComponents();

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { StatusMessage, StatusMessageDTO } from './status-message.model';
 import { StatusMessageService } from './status-message.service';
@@ -56,8 +56,8 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
     constructor(
         private personService: PersonService,
         private statusMessageService: StatusMessageService,
-        private alertService: JhiAlertService,
-        private eventManager: JhiEventManager,
+        private alertService: AlertService,
+        private eventManager: EventManager,
         private activatedRoute: ActivatedRoute,
         private principal: Principal,
         private http: Http

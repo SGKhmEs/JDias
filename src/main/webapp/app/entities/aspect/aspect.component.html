@@ -36,7 +36,6 @@
             <th><span jhiTranslate="jDiasApp.aspect.contactVisible">Contact Visible</span></th>
             <th><span jhiTranslate="jDiasApp.aspect.chatEnabled">Chat Enabled</span></th>
             <th><span jhiTranslate="jDiasApp.aspect.postDefault">Post Default</span></th>
-            <th><span jhiTranslate="jDiasApp.aspect.person">Person</span></th>
             <th></th>
             </tr>
             </thead>
@@ -49,11 +48,6 @@
                 <td>{{aspect.contactVisible}}</td>
                 <td>{{aspect.chatEnabled}}</td>
                 <td>{{aspect.postDefault}}</td>
-                <td>
-                    <div *ngIf="aspect.person">
-                        <a [routerLink]="['../person', aspect.person?.id ]" >{{aspect.person?.id}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { Location } from './location.model';
 import { LocationPopupService } from './location-popup.service';
@@ -28,9 +28,9 @@ export class LocationDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private locationService: LocationService,
-        private eventManager: JhiEventManager
+        private eventManager: EventManager
     ) {
     }
 
@@ -39,7 +39,6 @@ export class LocationDialogComponent implements OnInit {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -54,17 +53,6 @@ export class LocationDialogComponent implements OnInit {
                 this.locationService.create(this.location), true);
         }
     }
-
-    /*saveLocation(location: Location) {
-        this.isSaving = true;
-        if (location.id !== undefined) {
-            this.subscribeToSaveResponse(
-                this.locationService.update(location), false);
-        } else {
-            this.subscribeToSaveResponse(
-                this.locationService.create(location), true);
-        }
-    }*/
 
     private subscribeToSaveResponse(result: Observable<Location>, isCreated: boolean) {
         result.subscribe((res: Location) =>

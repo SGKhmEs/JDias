@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Tagging } from './tagging.model';
 import { TaggingService } from './tagging.service';
-
 @Injectable()
 export class TaggingPopupService {
     private isOpen = false;

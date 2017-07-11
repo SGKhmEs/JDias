@@ -9,6 +9,7 @@
                 "main": "Entities",
                 "accountDeletion": "Account Deletion",
                 "aspect": "Aspect",
+                "aspectMembership": "Aspect Membership",
                 "aspectVisiblity": "Aspect Visiblity",
                 "comment": "Comment",
                 "contact": "Contact",
