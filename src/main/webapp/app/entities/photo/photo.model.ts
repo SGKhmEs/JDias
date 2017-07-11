@@ -1,4 +1,5 @@
 import { Post } from '../post';
+import { Person } from '../person';
 export class Photo {
     constructor(
         public id?: number,
@@ -10,7 +11,7 @@ export class Photo {
         public width?: number,
         public text?: string,
         public statusMessageGuid?: string,
-        public post?: Post,
+        public person?: Person,
     ) {
         this.guid = false;
     }

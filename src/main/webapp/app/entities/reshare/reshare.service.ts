@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { Reshare } from './reshare.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
-import {Post} from "../post/post.model";
+import {Post} from '../post/post.model';
 
 @Injectable()
 export class ReshareService {
@@ -21,7 +21,7 @@ export class ReshareService {
         });
     }
 
-    createReshare(copy){
+    createReshare(copy) {
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });

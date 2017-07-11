@@ -15,6 +15,8 @@ import { Person } from '../person';
 import { Author } from '../author';
 import { Photo } from '../photo';
 import { Interaction } from '../interaction';
+import { Location } from '../location';
+import { Poll } from '../poll';
 
 export class Post {
     constructor(
@@ -48,9 +50,14 @@ export class Post {
         public person?: Person,
         public interactions?: Interaction,
         public photos?: Photo,
+
+        public location?: Location,
+        public poll?: Poll,
+        public open_graph_cache?: string,
+
     ) {
         this.pub = false;
+        this.nsfw = false;
         this.alreadyparticipatedinpoll = false;
-        this.pub = false;
     }
 }
