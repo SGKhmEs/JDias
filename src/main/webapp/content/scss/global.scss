@@ -11019,9 +11019,9 @@ footer.footer ul#footer_nav a {
     margin-bottom: 20px
 }
 
-.publisher.closed #button_container, .publisher.closed .location-container, .publisher.closed #hide_publisher, .publisher.closed #photodropzone_container, .publisher.closed .counter, .publisher.closed .options_and_submit {
+/*.publisher.closed #button_container, .publisher.closed .location-container, .publisher.closed #hide_publisher, .publisher.closed #photodropzone_container, .publisher.closed .counter, .publisher.closed .options_and_submit {
     display: none !important
-}
+}*/
 
 .publisher.closed .mentions-box {
     margin-top: 0
@@ -11250,9 +11250,9 @@ footer.footer ul#footer_nav a {
     margin-bottom: 0
 }
 
-.publisher-textarea-wrapper:not(.with-location) .location-container, .publisher-textarea-wrapper.markdown-preview .location-container, .publisher-textarea-wrapper:not(.with-poll) .poll-creator-container, .publisher-textarea-wrapper.markdown-preview .poll-creator-container, .publisher-textarea-wrapper.markdown-preview .photodropzone-container, .publisher-textarea-wrapper.markdown-preview .publisher-buttonbar {
+/*.publisher-textarea-wrapper:not(.with-location) .location-container, .publisher-textarea-wrapper.markdown-preview .location-container, .publisher-textarea-wrapper:not(.with-poll) .poll-creator-container, .publisher-textarea-wrapper.markdown-preview .poll-creator-container, .publisher-textarea-wrapper.markdown-preview .photodropzone-container, .publisher-textarea-wrapper.markdown-preview .publisher-buttonbar {
     display: none
-}
+}*/
 
 .publisher-textarea-wrapper.with-location .loader {
     height: 20px;
@@ -11278,9 +11278,11 @@ footer.footer ul#footer_nav a {
     margin-right: 10px
 }
 
+/*
 .publisher-textarea-wrapper:not(.with-location) .publisher-buttonbar .hide-location {
     display: none
 }
+*/
 
 .publisher-textarea-wrapper:not(.with-location) .publisher-buttonbar .locator {
     display: inline-block
@@ -11290,13 +11292,13 @@ footer.footer ul#footer_nav a {
     display: inline-block
 }
 
-.publisher-textarea-wrapper.with-location .publisher-buttonbar .locator {
+/*.publisher-textarea-wrapper.with-location .publisher-buttonbar .locator {
     display: none
 }
 
 .publisher-textarea-wrapper.submitting .mentions-box {
     display: none
-}
+}*/
 
 .publisher-textarea-wrapper .twitter-typeahead {
     left: -1px;
@@ -11486,10 +11488,12 @@ footer.footer ul#footer_nav a {
     bottom: -2px;
     position: relative
 }
+/*
 
 .publisher-textarea-wrapper:not(.active) .md-header {
     display: none
 }
+*/
 
 #bookmarklet {
     padding-bottom: 30px;

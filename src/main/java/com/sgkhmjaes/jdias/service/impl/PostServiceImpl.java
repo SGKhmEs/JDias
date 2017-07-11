@@ -1,5 +1,6 @@
 package com.sgkhmjaes.jdias.service.impl;
 
+import com.sgkhmjaes.jdias.config.Constants;
 import com.sgkhmjaes.jdias.domain.*;
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
 import com.sgkhmjaes.jdias.repository.*;
@@ -52,6 +53,8 @@ public class PostServiceImpl implements PostService {
     private AspectRepository aspectRepositort;
     @Inject
     private AspectVisiblityService aspectVisiblityService;
+    @Inject
+    private StorageService storageService;
 
     public PostServiceImpl(PostRepository postRepository, PostSearchRepository postSearchRepository, StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository, ReshareRepository reshareRepository, ReshareSearchRepository reshareSearchRepository, UserRepository userRepository, PollAnswerService pollAnswerService, PollService pollService, LocationService locationService, PhotoRepository photoRepository, UserService userService) {
         this.postRepository = postRepository;
@@ -302,6 +305,14 @@ public class PostServiceImpl implements PostService {
         Post post = findOnePost(id);
         Person person = userService.getCurrentPerson();
         if (person.getDiasporaId().equals(post.getAuthor())) {
+            StatusMessage statusMessage = findOneStatusMessage(id);
+            for (Photo photo: statusMessage.getPhotos()){
+                storageService.deleteImage(photo.getRemotePhotoName());
+                storageService.deleteImage(Constants.SMALL_PREFIX + photo.getRemotePhotoName());
+                storageService.deleteImage(Constants.MEDIUM_PREFIX + photo.getRemotePhotoName());
+                storageService.deleteImage(Constants.LARGE_PREFIX + photo.getRemotePhotoName());
+                storageService.deleteImage(Constants.SCALED_FULL_PREFIX + photo.getRemotePhotoName());
+            }
             deleteReshare(id);
             statusMessageRepository.delete(id);
             statusMessageSearchRepository.delete(id);

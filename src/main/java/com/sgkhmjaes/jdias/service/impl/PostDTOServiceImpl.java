@@ -49,7 +49,7 @@ public class PostDTOServiceImpl {
     }
 
     public List<PostDTO> findAll() {
-        List<Post> postList = postRepository.findAll();
+        List<Post> postList = postRepository.findAllByOrderByIdDesc();
         log.debug("Request to get all Posts : {}", postList.size());
         List<PostDTO> postDtoList = new ArrayList<>();
         postList.forEach((post) -> {postDtoList.add(createPostDTOfromPost(post));});

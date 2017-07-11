@@ -15,13 +15,14 @@ import { Http, Response } from '@angular/http';
 import {Photo} from '../photo/photo.model';
 import {Aspect} from '../aspect/aspect.model';
 import {PersonService} from '../person/person.service';
+import {Person} from '../person/person.model';
 
 @Component({
     selector: 'jhi-post',
     templateUrl: './post.component.html'
 })
 export class PostComponent implements OnInit, OnDestroy {
-posts: Post[];
+    posts: Post[] = [];
     currentAccount: any;
     eventSubscriber: Subscription;
     currentSearch: string;
@@ -46,6 +47,7 @@ posts: Post[];
     isShowAspects = false;
     isShareDisabled = false;
     fileName: string;
+    person: Person = new Person();
     options = {
         enableHighAccuracy: true,
         timeout: 3000,
@@ -70,21 +72,18 @@ posts: Post[];
         if (this.currentSearch) {
             this.postService.search({
                 query: this.currentSearch,
-                }).subscribe(
-                    (res: ResponseWrapper) => this.posts = res.json,
-                    (res: ResponseWrapper) => this.onError(res.json)
-                );
-            for (let i = 0; i < this.posts.length; i++) {
-                 this.showPopstImg(this.posts[i].photos[0].remotePhotoName);
-            }
+            }).subscribe(
+                (res: ResponseWrapper) => this.posts = res.json,
+                (res: ResponseWrapper) => this.onError(res.json),
+            );
             return;
-       }
+        }
         this.postService.query().subscribe(
             (res: ResponseWrapper) => {
-                this.posts = res.json;
+                // this.posts = res.json;
                 this.currentSearch = '';
-                for (let i = 0; i < this.posts.length; i++) {
-                    this.showPopstImg(this.posts[i].photos[0].remotePhotoName);
+                for (const p of res.json) {
+                    this.posts.push(this.showPopstImgg(p));
                 }
             },
             (res: ResponseWrapper) => this.onError(res.json)
@@ -163,6 +162,7 @@ posts: Post[];
     load() {
         this.findPerson().subscribe((aspect) => {
             this.aspects = aspect;
+            this.person = this.aspects[0].person;
             console.log(this.aspects);
         });
     }
@@ -177,6 +177,20 @@ posts: Post[];
     //#endregion
 
     //#region Photos
+
+    showPopstImgg(post: Post): Post {
+        for (const p of post.photos) {
+            const s = p.scaled_full.replace(/^.*[\\\/]/, '');
+            post.photoSrc = [];
+            console.log(s);
+            this.getImage(s)
+                .subscribe((file) => {
+                    console.log(file);
+                    post.photoSrc.push(file);
+                });
+        }
+        return post;
+    }
 
     showPopstImg(filename: string): string {
         let s = filename.replace(/^.*[\\\/]/, '');

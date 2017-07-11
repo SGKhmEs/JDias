@@ -49,7 +49,8 @@ export class Post {
         public author?: Author,
         public person?: Person,
         public interactions?: Interaction,
-        public photos?: Photo,
+        public photos?: Photo[],
+        public photoSrc?: string[],
 
         public location?: Location,
         public poll?: Poll,
