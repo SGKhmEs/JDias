@@ -9,7 +9,7 @@ public class LikeDTO implements AutoMapping {
     private Long id;
     private String guid;
     private LocalDate createdAt;
-    @JsonProperty("autorDTO")
+    @JsonProperty("author")
     private AuthorDTO authorDTO;
 
     public LikeDTO() {
@@ -46,5 +46,5 @@ public class LikeDTO implements AutoMapping {
     public void setAuthorDTO(AuthorDTO authorDTO) {
         this.authorDTO = authorDTO;
     }
-    
+
 }

@@ -1,79 +1,93 @@
-<div>
-    <h2>
-        <span jhiTranslate="jDiasApp.conversation.home.title">Conversations</span>
-        <button class="btn btn-primary float-right create-conversation" [routerLink]="['/', { outlets: { popup: ['conversation-new'] } }]">
-            <span class="fa fa-plus"></span>
-            <span class="hidden-sm-down"  jhiTranslate="jDiasApp.conversation.home.createLabel">
-            Create new Conversation
-            </span>
-        </button>
-    </h2>
-    <jhi-alert></jhi-alert>
+<div class="container-fluid" id="conversations-container">
     <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'jDiasApp.conversation.home.search' | translate }}">
-                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
-                        <span class="fa fa-search"></span>
-                    </button>
-                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <span class="fa fa-trash-o"></span>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <br/>
-    <div class="table-responsive" *ngIf="conversations">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-            <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="jDiasApp.conversation.author">Author</span></th>
-            <th><span jhiTranslate="jDiasApp.conversation.guid">Guid</span></th>
-            <th><span jhiTranslate="jDiasApp.conversation.subject">Subject</span></th>
-            <th><span jhiTranslate="jDiasApp.conversation.createdAt">Created At</span></th>
-            <th><span jhiTranslate="jDiasApp.conversation.message">Message</span></th>
-            <th><span jhiTranslate="jDiasApp.conversation.updatedAt">Updated At</span></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let conversation of conversations ;trackBy: trackId">
-                <td><a [routerLink]="['../conversation', conversation.id ]">{{conversation.id}}</a></td>
-                <td>{{conversation.author}}</td>
-                <td>{{conversation.guid}}</td>
-                <td>{{conversation.subject}}</td>
-                <td>{{conversation.createdAt | date:'mediumDate'}}</td>
-                <td>{{conversation.message}}</td>
-                <td>{{conversation.updatedAt | date:'medium'}}</td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['../conversation', conversation.id ]"
-                                class="btn btn-info btn-sm">
-                            <span class="fa fa-eye"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'conversation/'+ conversation.id + '/edit'} }]"
-                                replaceUrl="true"
-                                class="btn btn-primary btn-sm">
-                            <span class="fa fa-pencil"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'conversation/'+ conversation.id + '/delete'} }]"
-                                replaceUrl="true"
-                                class="btn btn-danger btn-sm">
-                            <span class="fa fa-remove"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
+        <div class="col-md-4">
+            <div class="sidebar" id="left_pane">
+                <div class="sidebar-header clearfix" id="left_pane_header">
+                    <div class="pull-right">
+                        <a class="new-conversation-btn btn btn-default" routeLink="/conversation">New conversation</a>
                     </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    <h3>
+                        Inbox
+                    </h3>
+                </div>
+                <div class="conversation-inbox" id="conversation-inbox">
+                    <div class="conversations-form-container stream conversations">
+                        <div class="conversation-wrapper" data-conversation-path="/conversations/75577">
+                            <div class="conversation stream-element" data-guid="75577">
+                                <div class="media">
+                                    <div class="img">
+                                        <img alt="podmin@joindiaspora.com" class="avatar img-responsive center-block" title="podmin@joindiaspora.com" data-person_id="620935" src="/content/images/thumb_small.jpg">
+                                    </div>
+                                    <div class="bg">
+                                        <div class="badge badge-default message-count pull-right">
+                                            1
+                                        </div>
+                                        <div class="subject">
+                                            <div class="ltr">
+                                                <span>Welcome to JDias*</span>
+                                            </div>
+                                        </div>
+                                        <div class="timestamp">
+                                            <time datetime="2017-06-16T06:59:21Z" class="timeago" title="16.06.2017, 9:59:21" data-time-ago="2017-06-16T06:59:21Z" data-original-title="16.06.2017, 9:59:21">4 days ago</time>
+                                        </div>
+                                        <div class="last_author">
+                                            <span>podmin@joindiaspora.com</span>
+                                        </div>
+                                        <div class="last_message">
+                                            <em>
+                                                Hey brownjone, welcome to #Diaspora!
+                                                If your stream is empty
+                                                start following #tags and/or interesting people.
+                                                Maybe also checkout the help page (/help) or FAQ_for_users (https://wiki.diasporafoundation.org/FAQ_for_users)
+                                                I hope you enjoy it,
+                                                Lukas (/people/18ad211f33c65726)
+                                                This is an auto-generated text. Please do not answer to this message!
+                                            </em>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pagination-container">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="conversations-form-container stream_container">
+                <div class="hidden" id="conversation-show">
+                </div>
+                <div class="framed-content clearfix" id="conversation-new">
+                    <div class="new-conversation">
+                        <h3 class="text-center">New conversation</h3>
+                        <div class="container-fluid">
+                            <form id="new-conversation" class="new-conversation form-horizontal" action="https://joindiaspora.com/conversations" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="✓"><div class="form-group">
+                                <label for="contacts-search-input" id="to-label">To</label>
+                                <div class="recipients-tag-list clearfix" id="recipients-tag-list"></div>
+                                <span class="twitter-typeahead" style="position: relative; display: inline-block;"><input type="text" name="contact_autocomplete" id="contacts-search-input" class="form-control tt-input" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top;" aria-activedescendant="" aria-owns="contacts-search-input_listbox" role="combobox" aria-readonly="true" aria-autocomplete="list"><span role="status" aria-live="polite" style="position: absolute; padding: 0px; border: 0px; height: 1px; width: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; clip: rect(0px 0px 0px 0px); white-space: nowrap;"></span><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><div role="listbox" class="tt-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;"><div role="presentation" class="tt-dataset tt-dataset-1"></div></div></span>
+                                <input type="hidden" name="person_ids" id="contact-ids" aria-labelledby="to-label">
+                            </div>
+                                <div class="form-group">
+                                    <label for="conversation-subject" id="subject-label">
+                                        Subject
+                                    </label>
+                                    <input id="conversation-subject" class="input-block-level form-control" aria-labelledby="subject-label" value="" placeholder="No subject" type="text" name="conversation[subject]">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="new-message-text" id="message-label">Message</label>
+                                    <textarea name="conversation[text]" id="new-message-text" rows="5" class="conversation-message-text input-block-level form-control" aria-labelledby="message-label" style="overflow: hidden; word-wrap: break-word; resize: none; height: 104.133px;"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" name="commit" value="Send" data-disable-with="Sending..." class="btn btn-primary pull-right">
+                                </div>
+                            </form></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

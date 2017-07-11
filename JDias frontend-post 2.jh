@@ -1,0 +1,113 @@
+entity Post {
+	text String,
+    id Long,
+	guid String,
+	open_graph_cache String,
+	title String,
+	provider_display_name String,  
+	nsfw Boolean,
+	o_embed_cache String,
+	participation String,
+    already_participated_in_poll Boolean,
+    created_at LocalDate,
+    pub Boolean,
+    interacted_at LocalDate,
+    post_type String,
+    mentioned_people String,
+}
+
+relationship OneToOne {
+ 	Post{root} to Post,
+    Post{author} to Author,
+    Post{interactions} to Interaction    
+}
+
+entity Photo {
+}
+
+relationship OneToMany {
+	Post{photos} to Photo
+}
+
+entity Location {
+	
+}
+
+relationship OneToOne {
+	Post{location} to Location
+}
+
+entity Poll {
+	
+}
+
+
+relationship OneToOne {
+	Post{poll} to Poll
+}
+
+entity Author {
+	diaspora_id String,
+    guid String,
+    id Long
+}
+
+relationship OneToOne {
+	Author{avatar} to Avatar   
+}
+
+entity Avatar {
+	imageUrlSmall String,
+    imageUrl String,
+    imageUrlMedium String
+}
+
+//entity Reshare {
+//	rootAuthor String,
+//    rootGuid String
+//}
+
+entity Interaction {
+	likes_count Integer,
+    reshares_count Integer,
+    comments_count Integer,
+    reshares String
+    
+}
+
+relationship OneToMany {
+	Interaction{likes} to Like,
+//    Interaction{reshares} to Reshare,
+    Interaction{comments} to Comment
+}
+
+entity Comment {
+	guid String,
+    id Long,
+    text String,
+    createdAt LocalDate
+}
+
+relationship OneToOne {
+	Comment{author} to Author
+}
+
+entity Like {
+	id Long,
+    guid String,
+    createdAt LocalDate
+}
+
+relationship OneToOne {
+	Like{author} to Author
+}
+
+
+
+
+
+
+
+
+
+
