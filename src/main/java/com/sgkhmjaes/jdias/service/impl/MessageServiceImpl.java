@@ -54,9 +54,9 @@ public class MessageServiceImpl implements MessageService {
         Person currentPerson = userService.getCurrentPerson();
         Conversation conversation = conversationService.save(message.getConversation(), message, currentPerson);
         Message result = messageRepository.save(new Message (currentPerson, conversation, message));
-        messageSearchRepository.save(result);
         conversation.addMessages(result);
         conversationService.save(result.getConversation(), result, currentPerson);
+        messageSearchRepository.save(result);
         return result;
 }
     
@@ -111,7 +111,7 @@ public class MessageServiceImpl implements MessageService {
         log.debug("Request to get Message : {}", id);
         Message message = messageRepository.findOne(id);
         if (message != null && message.getConversation().getParticipants().contains(userService.getCurrentPerson()))return message;
-        else return new Message();
+        else return null;
     }
 
     /**

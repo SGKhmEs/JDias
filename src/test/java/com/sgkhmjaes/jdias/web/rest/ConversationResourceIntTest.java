@@ -29,10 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.List;
-
-import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,7 +38,6 @@ import org.junit.After;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -164,7 +160,7 @@ public class ConversationResourceIntTest {
     @Transactional
     public void createConversation() throws Exception {
         int databaseSizeBeforeCreate = conversationRepository.findAll().size();
-
+        
         // Create the Conversation
         restConversationMockMvc.perform(post("/api/conversations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -175,9 +171,9 @@ public class ConversationResourceIntTest {
         List<Conversation> conversationList = conversationRepository.findAll();
         assertThat(conversationList).hasSize(databaseSizeBeforeCreate + 1);
         Conversation testConversation = conversationList.get(conversationList.size() - 1);        
-        DEFAULT_GUID = testConversation.getGuid();
+        //DEFAULT_GUID = testConversation.getGuid();
         assertThat(testConversation.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
-        assertThat(testConversation.getGuid()).isEqualTo(DEFAULT_GUID);
+        assertThat(testConversation.getGuid()).isNotNull();
         assertThat(testConversation.getSubject()).isEqualTo(DEFAULT_SUBJECT);
         assertThat(testConversation.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         //assertThat(testConversation.getMessage()).isEqualTo(DEFAULT_MESSAGE);
