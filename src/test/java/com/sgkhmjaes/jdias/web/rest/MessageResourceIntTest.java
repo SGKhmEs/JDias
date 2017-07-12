@@ -286,13 +286,13 @@ public class MessageResourceIntTest {
     @Transactional
     public void searchMessage() throws Exception {
         // Initialize the database
-        messageService.save(message);
+        Message saveMessage = messageService.save(message);
 
         // Search the message
-        restMessageMockMvc.perform(get("/api/_search/messages?query=id:" + message.getId()))
+        restMessageMockMvc.perform(get("/api/_search/messages?query=id:" + saveMessage.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(message.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(saveMessage.getId().intValue())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
             .andExpect(jsonPath("$.[*].guid").value(hasItem(DEFAULT_GUID.toString())))
             .andExpect(jsonPath("$.[*].conversationGuid").value(hasItem(DEFAULT_CONVERSATION_GUID.toString())))
