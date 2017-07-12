@@ -69,7 +69,7 @@ public class ConversationServiceImpl implements ConversationService{
         //set first message in conversation
         if (conversation.getMessage() == null && message != null) conversation.setMessage(message.getText());
         
-        Conversation result = conversationRepository.save(conversation);        
+        Conversation result = conversationRepository.save(conversation);
         conversationSearchRepository.save(result);
         for (Person person: new ArrayList<>(result.getParticipants())) if (person.addUniqueConversation(result)) personService.save(person);
         return result;
@@ -79,6 +79,7 @@ public class ConversationServiceImpl implements ConversationService{
     public List<Conversation> findAll() {
         log.debug("Request to get all Conversations");
         List<Conversation> conversations = userService.getCurrentPerson().getConversations();
+        if (conversations == null || conversations.isEmpty()) return null;
         Collections.sort(conversations, (Conversation c1, Conversation c2) -> c2.getUpdatedAt().compareTo(c1.getUpdatedAt()));
         conversations.forEach((conversation) -> {Hibernate.initialize(conversation.getParticipants());});
         return conversations;
@@ -88,8 +89,8 @@ public class ConversationServiceImpl implements ConversationService{
     public Conversation findOne(Long id) {
         log.debug("Request to get Conversation : {}", id);
         Conversation conversation = conversationRepository.findOne(id);
-        if (conversation.getParticipants().contains(userService.getCurrentPerson ()))return conversationRepository.findOne(id);
-        else return new Conversation();
+        if (conversation != null && conversation.getParticipants().contains(userService.getCurrentPerson ()))return conversationRepository.findOne(id);
+        else return null;
     }
     
     @Override

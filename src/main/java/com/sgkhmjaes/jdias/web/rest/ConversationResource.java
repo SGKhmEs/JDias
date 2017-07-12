@@ -100,7 +100,7 @@ public class ConversationResource {
         Conversation conversation = conversationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(conversation));
     }
-
+    
     /**
      * DELETE  /conversations/:id : delete the "id" conversation.
      *
