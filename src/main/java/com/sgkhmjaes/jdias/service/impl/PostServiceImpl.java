@@ -153,6 +153,8 @@ public class PostServiceImpl implements PostService {
     @Override
     public Reshare saveReshare(PostDTO postDTO) {
         Post post = postRepository.findOne(postDTO.getId());
+        Reshare saveReshare = saveReshare(post);
+        reshareSearchRepository.save(saveReshare);
         return saveReshare(post);
     }
 

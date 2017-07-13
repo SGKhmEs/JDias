@@ -122,15 +122,15 @@ public class StatusMessageResourceIntTest {
         
         userID = user.getId();
         
-        statusMessageSearchRepository.deleteAll();
         statusMessage = createEntity(em);
     }
     
     @After
     public void deleteCreatedAccount(){
-        userService.deleteUser("johndoe");
-        statusMessageSearchRepository.deleteAll();
         statusMessageRepository.deleteAll();
+        statusMessageSearchRepository.deleteAll();
+        userService.deleteUser("johndoe");
+
     }
 
     @Test

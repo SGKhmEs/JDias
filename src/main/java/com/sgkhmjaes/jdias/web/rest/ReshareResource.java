@@ -111,7 +111,7 @@ public class ReshareResource {
     @Timed
     public ResponseEntity<Void> deleteReshare(@PathVariable Long id) {
         log.debug("REST request to delete Reshare : {}", id);
-        postService.delete(id);
+        postService.deleteReshare(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
