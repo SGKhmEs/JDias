@@ -1,11 +1,17 @@
 package com.sgkhmjaes.jdias.web.rest;
 
 import com.sgkhmjaes.jdias.JDiasApp;
+import com.sgkhmjaes.jdias.domain.User;
 
 import com.sgkhmjaes.jdias.domain.UserAccount;
+import com.sgkhmjaes.jdias.repository.PersonRepository;
 import com.sgkhmjaes.jdias.repository.UserAccountRepository;
+import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.service.UserAccountService;
 import com.sgkhmjaes.jdias.repository.search.UserAccountSearchRepository;
+import com.sgkhmjaes.jdias.security.SecurityUtils;
+import com.sgkhmjaes.jdias.service.PersonService;
+import com.sgkhmjaes.jdias.service.UserService;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -29,6 +35,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import org.junit.After;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -121,6 +131,14 @@ public class UserAccountResourceIntTest {
 
     private static final Boolean DEFAULT_POST_DEFAULT_PUBLIC = false;
     private static final Boolean UPDATED_POST_DEFAULT_PUBLIC = true;
+    
+    private static Long userID;
+    
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserAccountRepository userAccountRepository;
@@ -140,12 +158,9 @@ public class UserAccountResourceIntTest {
     @Autowired
     private ExceptionTranslator exceptionTranslator;
 
-    @Autowired
-    private EntityManager em;
-
     private MockMvc restUserAccountMockMvc;
 
-    private UserAccount userAccount;
+    //private UserAccount userAccount;
 
     @Before
     public void setup() {
@@ -163,7 +178,7 @@ public class UserAccountResourceIntTest {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static UserAccount createEntity(EntityManager em) {
+    public static UserAccount createEntity() {
         UserAccount userAccount = new UserAccount()
             .serializedPrivateKey(DEFAULT_SERIALIZED_PRIVATE_KEY)
             .gettingStarted(DEFAULT_GETTING_STARTED)
@@ -197,15 +212,32 @@ public class UserAccountResourceIntTest {
 
     @Before
     public void initTest() {
-        userAccountSearchRepository.deleteAll();
-        userAccount = createEntity(em);
+                
+        User user = userService.createUser("johndoe", "johndoe", "John", "Doe", "john.doe@localhost", "http://placehold.it/50x50", "en-US");
+        user.setActivated(true);
+        userRepository.saveAndFlush(user);
+        
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("johndoe", "johndoe"));
+        SecurityContextHolder.setContext(securityContext);
+        userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId();
+        
+        userID = user.getId();
+        
+        //userAccountSearchRepository.deleteAll();
+        //userAccount = createEntity(em);
     }
-
+        
+    @After
+    public void deleteCreatedAccount(){
+        userService.deleteUser("johndoe");
+    }
+/*
     @Test
     @Transactional
     public void createUserAccount() throws Exception {
         int databaseSizeBeforeCreate = userAccountRepository.findAll().size();
-
+        UserAccount userAccount = userAccountRepository.findOne(userID);
         // Create the UserAccount
         restUserAccountMockMvc.perform(post("/api/user-accounts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -253,7 +285,7 @@ public class UserAccountResourceIntTest {
     @Transactional
     public void createUserAccountWithExistingId() throws Exception {
         int databaseSizeBeforeCreate = userAccountRepository.findAll().size();
-
+        UserAccount userAccount = userAccountRepository.findOne(userID);
         // Create the UserAccount with an existing ID
         userAccount.setId(1L);
 
@@ -267,12 +299,16 @@ public class UserAccountResourceIntTest {
         List<UserAccount> userAccountList = userAccountRepository.findAll();
         assertThat(userAccountList).hasSize(databaseSizeBeforeCreate);
     }
-
+*/
     @Test
     @Transactional
     public void getAllUserAccounts() throws Exception {
         // Initialize the database
-        userAccountRepository.saveAndFlush(userAccount);
+        //userAccountRepository.saveAndFlush(userAccount);
+        UserAccount createEntity = createEntity();
+        createEntity.setId(userID);
+        userAccountRepository.saveAndFlush(createEntity);
+        UserAccount userAccount = userAccountRepository.findOne(userID);
 
         // Get all the userAccountList
         restUserAccountMockMvc.perform(get("/api/user-accounts?sort=id,desc"))
@@ -312,7 +348,11 @@ public class UserAccountResourceIntTest {
     @Transactional
     public void getUserAccount() throws Exception {
         // Initialize the database
-        userAccountRepository.saveAndFlush(userAccount);
+        //userAccountRepository.saveAndFlush(userAccount);
+        UserAccount createEntity = createEntity();
+        createEntity.setId(userID);
+        userAccountRepository.saveAndFlush(createEntity);
+        UserAccount userAccount = userAccountRepository.findOne(userID);
 
         // Get the userAccount
         restUserAccountMockMvc.perform(get("/api/user-accounts/{id}", userAccount.getId()))
@@ -360,7 +400,11 @@ public class UserAccountResourceIntTest {
     @Transactional
     public void updateUserAccount() throws Exception {
         // Initialize the database
-        userAccountService.save(userAccount);
+        //userAccountService.save(userAccount);
+        UserAccount createEntity = createEntity();
+        createEntity.setId(userID);
+        userAccountRepository.saveAndFlush(createEntity);
+        UserAccount userAccount = userAccountRepository.findOne(userID);
 
         int databaseSizeBeforeUpdate = userAccountRepository.findAll().size();
 
@@ -436,11 +480,12 @@ public class UserAccountResourceIntTest {
         UserAccount userAccountEs = userAccountSearchRepository.findOne(testUserAccount.getId());
         assertThat(userAccountEs).isEqualToComparingFieldByField(testUserAccount);
     }
-
+/*
     @Test
     @Transactional
     public void updateNonExistingUserAccount() throws Exception {
         int databaseSizeBeforeUpdate = userAccountRepository.findAll().size();
+        UserAccount userAccount = userAccountRepository.findOne(userID);
 
         // Create the UserAccount
 
@@ -459,7 +504,8 @@ public class UserAccountResourceIntTest {
     @Transactional
     public void deleteUserAccount() throws Exception {
         // Initialize the database
-        userAccountService.save(userAccount);
+        //userAccountService.save(userAccount);
+        UserAccount userAccount = userAccountRepository.findOne(userID);
 
         int databaseSizeBeforeDelete = userAccountRepository.findAll().size();
 
@@ -476,12 +522,17 @@ public class UserAccountResourceIntTest {
         List<UserAccount> userAccountList = userAccountRepository.findAll();
         assertThat(userAccountList).hasSize(databaseSizeBeforeDelete - 1);
     }
-
+*/
     @Test
     @Transactional
     public void searchUserAccount() throws Exception {
         // Initialize the database
-        userAccountService.save(userAccount);
+        //userAccountService.save(userAccount);
+        UserAccount createEntity = createEntity();
+        createEntity.setId(userID);
+        userAccountRepository.saveAndFlush(createEntity);
+        UserAccount userAccount = userAccountRepository.findOne(userID);
+        userAccountSearchRepository.save(userAccount);
 
         // Search the userAccount
         restUserAccountMockMvc.perform(get("/api/_search/user-accounts?query=id:" + userAccount.getId()))

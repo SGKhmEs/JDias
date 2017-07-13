@@ -5,7 +5,6 @@ import com.sgkhmjaes.jdias.domain.enumeration.PostType;
 import com.sgkhmjaes.jdias.repository.*;
 import com.sgkhmjaes.jdias.repository.search.ReshareSearchRepository;
 import com.sgkhmjaes.jdias.repository.search.StatusMessageSearchRepository;
-import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.*;
 import com.sgkhmjaes.jdias.repository.search.PostSearchRepository;
 import com.sgkhmjaes.jdias.service.dto.PostDTO;
@@ -14,10 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.inject.Inject;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;

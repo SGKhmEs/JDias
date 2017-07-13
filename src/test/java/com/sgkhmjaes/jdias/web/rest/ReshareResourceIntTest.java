@@ -1,13 +1,23 @@
 package com.sgkhmjaes.jdias.web.rest;
 
 import com.sgkhmjaes.jdias.JDiasApp;
+import com.sgkhmjaes.jdias.domain.Post;
 
 import com.sgkhmjaes.jdias.domain.Reshare;
+import com.sgkhmjaes.jdias.domain.StatusMessage;
+import com.sgkhmjaes.jdias.domain.User;
+import com.sgkhmjaes.jdias.repository.PersonRepository;
 import com.sgkhmjaes.jdias.repository.ReshareRepository;
+import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.repository.search.ReshareSearchRepository;
+import com.sgkhmjaes.jdias.repository.search.StatusMessageSearchRepository;
+import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.PostService;
+import com.sgkhmjaes.jdias.service.UserService;
+import com.sgkhmjaes.jdias.service.dto.PostDTO;
+import com.sgkhmjaes.jdias.service.dto.StatusMessageDTO;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
-
+import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,12 +31,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import java.util.List;
-
+import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import org.junit.After;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.web.servlet.ResultActions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -44,6 +58,12 @@ public class ReshareResourceIntTest {
 
     private static final String DEFAULT_ROOT_GUID = "AAAAAAAAAA";
     private static final String UPDATED_ROOT_GUID = "BBBBBBBBBB";
+    
+    private static final String DEFAULT_TEXT = "TEST STATUS MESSAGES TEXT";
+    
+    private static Long userID;
+    
+    private static StatusMessage statusMessage;
 
     @Autowired
     private ReshareRepository reshareRepository;
@@ -53,6 +73,12 @@ public class ReshareResourceIntTest {
 
     @Autowired
     private ReshareSearchRepository reshareSearchRepository;
+    
+    @Autowired
+    private StatusMessageSearchRepository statusMessageSearchRepository;
+    
+    @Autowired
+    private StatusMessageSearchRepository statusMessageRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -62,11 +88,22 @@ public class ReshareResourceIntTest {
 
     @Autowired
     private ExceptionTranslator exceptionTranslator;
+    
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
+        
+    @Autowired
+    private PersonRepository personRepository;
 
     @Autowired
     private EntityManager em;
 
     private MockMvc restReshareMockMvc;
+    
+    private MockMvc restStatusMessageMockMvc;
 
     private Reshare reshare;
 
@@ -94,16 +131,49 @@ public class ReshareResourceIntTest {
     }
 
     @Before
-    public void initTest() {
-        reshareSearchRepository.deleteAll();
+    public void initTest() throws Exception {
+        
+        User user = userService.createUser("johndoe", "johndoe", "John", "Doe", "john.doe@localhost", "http://placehold.it/50x50", "en-US");
+        user.setActivated(true);
+        userRepository.saveAndFlush(user);
+        
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("johndoe", "johndoe"));
+        SecurityContextHolder.setContext(securityContext);
+        userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get().getId();
+        
+        userID = user.getId();
+        
+        StatusMessage sm = new StatusMessage();
+        sm.setText(DEFAULT_TEXT);
+        StatusMessageDTO smdto= new StatusMessageDTO();
+        smdto.setStatusMessage(sm);
+        
+        statusMessage = postService.save(smdto);
+        
+        //reshareSearchRepository.deleteAll();
         reshare = createEntity(em);
+    }
+    
+    @After
+    public void deleteCreatedAccount(){
+        userService.deleteUser("johndoe");
+        //reshareSearchRepository.deleteAll();
+        //reshareRepository.deleteAll();
+        //statusMessageSearchRepository.deleteAll();
+        //statusMessageRepository.deleteAll();
     }
 
     @Test
     @Transactional
     public void createReshare() throws Exception {
         int databaseSizeBeforeCreate = reshareRepository.findAll().size();
-
+        
+        System.err.println(statusMessage);
+        
+        PostDTO postDTO = new PostDTO();
+        postDTO.setId(statusMessage.getId());
+        
         // Create the Reshare
         restReshareMockMvc.perform(post("/api/reshares")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
