@@ -29,11 +29,81 @@
                         <li data-stream="mentions">
                             <a rel="backbone" class="hoverable" href="https://#joindiaspora.com/mentions">@Mentions</a>
                         </li>
-                        <li class="nested-list all-aspects">
-                            <a class="hoverable" rel="backbone" data-stream="aspects"
-                               href="https://#joindiaspora.com/aspects">My aspects</a>
-                            <ul id="aspects_list">
+                        <li class="nested-list all-aspects" ngbDropdown >
+                            <div class="hoverable" rel="backbone" data-stream="aspects"
+                               ngbDropdownToggle >My aspects</div>
+
+                            <ul id="aspects_list" ngbDropdownMenu>
+                                <li class="hoverable">
+                                    <a class="selectable toggle_selector" href="#">Deselect all</a>
+                                </li>
+                                <li *ngFor="let aspect of aspects ;trackBy: trackAspect" data-aspect_id="334" class="hoverable">
+                                    <a href="/aspects/query" class="selectable aspect-item" data-guid="334">
+                                        <i class="entypo-check selected"></i> {{aspect.name}}
+                                    </a>
+                                    <a href="/contacts?a_id=334" class="action modify_aspect pull-right">
+                                        <i class="entypo-pencil"></i>
+                                    </a>
+                                </li>
+                                <li class="hoverable">
+                                    <a href="#" class="selectable new_aspect" data-toggle="modal" data-target="#newAspectModal">
+                                        + Add an aspect
+                                    </a>
+                                </li>
+                                <div id="newAspectContainer">
+                                    <div>
+                                        <div class="modal fade" id="newAspectModal" tabindex="-1" role="dialog" aria-labelledby="newAspectModalLabel" aria-hidden="true" xmlns="http://www.w3.org/1999/html">
+
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button class="close" type="button" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        <h3 class="modal-title" id="newAspectModalLabel">Add a new aspect</h3>
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        <form>
+                                                            <fieldset>
+
+
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-2 control-label" for="aspect_name">Name</label>
+                                                                    <div class="col-sm-10">
+                                                                        <input id="aspect_name" class="input-block-level form-control" maxlength="20" type="text">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-offset-2 col-sm-10">
+                                                                        <div class="checkbox">
+                                                                            <label for="aspect_contacts_visible" class="checkbox inline">
+                                                                                <input id="aspect_contacts_visible" type="checkbox"> Make contacts in this aspect visible to each other?
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </fieldset>
+                                                        </form>
+
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <div class="btn btn-default" data-dismiss="modal" aria-hidden="true">
+                                                            Cancel
+                                                        </div>
+                                                        <div class="btn btn-primary">
+                                                            Create
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </ul>
+
 
                         </li>
                         <li class="nested-list">
