@@ -927,9 +927,9 @@ You can use <a target="blank" href="https://diasporafoundation.org/formatting">M
                                                             </div>
                                                             <div class="poll-content">
                                                                 <form>
-                                                                    <div class="result-row" *ngFor="let item of post.poll.poll_answers" >
-                                                                        <input type="radio" name="vote" value="post.poll.poll_answers.id">
-                                                                        <label>{{item.answer}}</label>
+                                                                    <div class="result-row" *ngFor="let item of post.poll?.poll_answers" >
+                                                                        <input type="radio" name="vote" value="item?.id">
+                                                                        <label>{{item?.answer}}</label>
                                                                         <div class="poll-result pull-right">
                                                                             <span class="percentage"><!--{{post.poll?.question?}}--></span>
                                                                             <!--{{post.poll?.question?}}-->
