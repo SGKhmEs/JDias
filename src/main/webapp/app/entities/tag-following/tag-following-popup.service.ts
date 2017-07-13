@@ -22,20 +22,6 @@ export class TagFollowingPopupService {
 
         if (id) {
             this.tagFollowingService.find(id).subscribe((tagFollowing) => {
-                if (tagFollowing.createdAt) {
-                    tagFollowing.createdAt = {
-                        year: tagFollowing.createdAt.getFullYear(),
-                        month: tagFollowing.createdAt.getMonth() + 1,
-                        day: tagFollowing.createdAt.getDate()
-                    };
-                }
-                if (tagFollowing.updatedAt) {
-                    tagFollowing.updatedAt = {
-                        year: tagFollowing.updatedAt.getFullYear(),
-                        month: tagFollowing.updatedAt.getMonth() + 1,
-                        day: tagFollowing.updatedAt.getDate()
-                    };
-                }
                 this.tagFollowingModalRef(component, tagFollowing);
             });
         } else {

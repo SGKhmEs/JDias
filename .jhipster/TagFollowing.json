@@ -8,25 +8,16 @@
             "otherEntityField": "id"
         },
         {
+            "relationshipName": "person",
+            "otherEntityName": "person",
             "relationshipType": "many-to-one",
-            "relationshipName": "userAccount",
-            "otherEntityName": "userAccount",
             "otherEntityField": "id"
         }
     ],
-    "fields": [
-        {
-            "fieldName": "createdAt",
-            "fieldType": "LocalDate"
-        },
-        {
-            "fieldName": "updatedAt",
-            "fieldType": "LocalDate"
-        }
-    ],
+    "fields": [],
     "changelogDate": "20170527190339",
-    "entityTableName": "tag_following",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "entityTableName": "tag_following",
+    "pagination": "no"
 }

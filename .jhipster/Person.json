@@ -75,7 +75,7 @@
             "ownerSide": true,
             "otherEntityRelationshipName": "person"
         },
-		{
+        {
             "relationshipName": "aspect",
             "otherEntityName": "aspect",
             "relationshipType": "one-to-many",

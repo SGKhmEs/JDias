@@ -14,5 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="tag"/>
 
+        <addForeignKeyConstraint baseColumnNames="post_id"
+                                 baseTableName="tagging"
+                                 constraintName="fk_tagging_post_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="post"/>
+
     </changeSet>
 </databaseChangeLog>

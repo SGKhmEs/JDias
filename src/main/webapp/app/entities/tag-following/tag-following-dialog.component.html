@@ -12,26 +12,6 @@
             <input type="text" class="form-control" id="id" name="id"
                    [(ngModel)]="tagFollowing.id" readonly />
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.tagFollowing.createdAt" for="field_createdAt">Created At</label>
-            <div class="input-group">
-                <input id="field_createdAt" type="text" class="form-control" name="createdAt" ngbDatepicker  #createdAtDp="ngbDatepicker" [(ngModel)]="tagFollowing.createdAt"
-                />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="createdAtDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.tagFollowing.updatedAt" for="field_updatedAt">Updated At</label>
-            <div class="input-group">
-                <input id="field_updatedAt" type="text" class="form-control" name="updatedAt" ngbDatepicker  #updatedAtDp="ngbDatepicker" [(ngModel)]="tagFollowing.updatedAt"
-                />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="updatedAtDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
-            </div>
-        </div>
 
         <div class="form-group">
             <label jhiTranslate="jDiasApp.tagFollowing.tag" for="field_tag">Tag</label>
@@ -41,10 +21,10 @@
             </select>
         </div>
         <div class="form-group">
-            <label jhiTranslate="jDiasApp.tagFollowing.userAccount" for="field_userAccount">User Account</label>
-            <select class="form-control" id="field_userAccount" name="userAccount" [(ngModel)]="tagFollowing.userAccount" >
+            <label jhiTranslate="jDiasApp.tagFollowing.person" for="field_person">Person</label>
+            <select class="form-control" id="field_person" name="person" [(ngModel)]="tagFollowing.person" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="userAccountOption.id === tagFollowing.userAccount?.id ? tagFollowing.userAccount : userAccountOption" *ngFor="let userAccountOption of useraccounts; trackBy: trackUserAccountById">{{userAccountOption.id}}</option>
+                <option [ngValue]="personOption.id === tagFollowing.person?.id ? tagFollowing.person : personOption" *ngFor="let personOption of people; trackBy: trackPersonById">{{personOption.id}}</option>
             </select>
         </div>
     </div>

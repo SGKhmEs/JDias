@@ -26,6 +26,7 @@ import { JDiasTaggingModule } from './tagging/tagging.module';
 import { JDiasTagFollowingModule } from './tag-following/tag-following.module';
 import { JDiasUserAccountModule } from './user-account/user-account.module';
 import { JDiasPersonModule } from './person/person.module';
+import { JDiasHashTagModule } from './hash-tag/hash-tag.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -56,6 +57,7 @@ import { JDiasPersonModule } from './person/person.module';
         JDiasTagFollowingModule,
         JDiasUserAccountModule,
         JDiasPersonModule,
+        JDiasHashTagModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

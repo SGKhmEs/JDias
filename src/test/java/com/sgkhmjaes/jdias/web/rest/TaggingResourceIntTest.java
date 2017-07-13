@@ -4,7 +4,6 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Tagging;
 import com.sgkhmjaes.jdias.repository.TaggingRepository;
-import com.sgkhmjaes.jdias.service.TaggingService;
 import com.sgkhmjaes.jdias.repository.search.TaggingSearchRepository;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
@@ -23,8 +22,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,17 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = JDiasApp.class)
 public class TaggingResourceIntTest {
 
-    private static final String DEFAULT_CONTEXT = "AAAAAAAAAA";
-    private static final String UPDATED_CONTEXT = "BBBBBBBBBB";
-
-    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
-
     @Autowired
     private TaggingRepository taggingRepository;
-
-    @Autowired
-    private TaggingService taggingService;
 
     @Autowired
     private TaggingSearchRepository taggingSearchRepository;
@@ -75,7 +63,7 @@ public class TaggingResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        TaggingResource taggingResource = new TaggingResource(taggingService);
+        TaggingResource taggingResource = new TaggingResource(taggingRepository, taggingSearchRepository);
         this.restTaggingMockMvc = MockMvcBuilders.standaloneSetup(taggingResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -89,9 +77,7 @@ public class TaggingResourceIntTest {
      * if they test an entity which requires the current entity.
      */
     public static Tagging createEntity(EntityManager em) {
-        Tagging tagging = new Tagging()
-            .context(DEFAULT_CONTEXT)
-            .createdAt(DEFAULT_CREATED_AT);
+        Tagging tagging = new Tagging();
         return tagging;
     }
 
@@ -116,8 +102,6 @@ public class TaggingResourceIntTest {
         List<Tagging> taggingList = taggingRepository.findAll();
         assertThat(taggingList).hasSize(databaseSizeBeforeCreate + 1);
         Tagging testTagging = taggingList.get(taggingList.size() - 1);
-        assertThat(testTagging.getContext()).isEqualTo(DEFAULT_CONTEXT);
-        assertThat(testTagging.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
 
         // Validate the Tagging in Elasticsearch
         Tagging taggingEs = taggingSearchRepository.findOne(testTagging.getId());
@@ -153,9 +137,7 @@ public class TaggingResourceIntTest {
         restTaggingMockMvc.perform(get("/api/taggings?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(tagging.getId().intValue())))
-            .andExpect(jsonPath("$.[*].context").value(hasItem(DEFAULT_CONTEXT.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(tagging.getId().intValue())));
     }
 
     @Test
@@ -168,9 +150,7 @@ public class TaggingResourceIntTest {
         restTaggingMockMvc.perform(get("/api/taggings/{id}", tagging.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(tagging.getId().intValue()))
-            .andExpect(jsonPath("$.context").value(DEFAULT_CONTEXT.toString()))
-            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()));
+            .andExpect(jsonPath("$.id").value(tagging.getId().intValue()));
     }
 
     @Test
@@ -185,15 +165,12 @@ public class TaggingResourceIntTest {
     @Transactional
     public void updateTagging() throws Exception {
         // Initialize the database
-        taggingService.save(tagging);
-
+        taggingRepository.saveAndFlush(tagging);
+        taggingSearchRepository.save(tagging);
         int databaseSizeBeforeUpdate = taggingRepository.findAll().size();
 
         // Update the tagging
         Tagging updatedTagging = taggingRepository.findOne(tagging.getId());
-        updatedTagging
-            .context(UPDATED_CONTEXT)
-            .createdAt(UPDATED_CREATED_AT);
 
         restTaggingMockMvc.perform(put("/api/taggings")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -204,8 +181,6 @@ public class TaggingResourceIntTest {
         List<Tagging> taggingList = taggingRepository.findAll();
         assertThat(taggingList).hasSize(databaseSizeBeforeUpdate);
         Tagging testTagging = taggingList.get(taggingList.size() - 1);
-        assertThat(testTagging.getContext()).isEqualTo(UPDATED_CONTEXT);
-        assertThat(testTagging.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
 
         // Validate the Tagging in Elasticsearch
         Tagging taggingEs = taggingSearchRepository.findOne(testTagging.getId());
@@ -234,8 +209,8 @@ public class TaggingResourceIntTest {
     @Transactional
     public void deleteTagging() throws Exception {
         // Initialize the database
-        taggingService.save(tagging);
-
+        taggingRepository.saveAndFlush(tagging);
+        taggingSearchRepository.save(tagging);
         int databaseSizeBeforeDelete = taggingRepository.findAll().size();
 
         // Get the tagging
@@ -256,15 +231,14 @@ public class TaggingResourceIntTest {
     @Transactional
     public void searchTagging() throws Exception {
         // Initialize the database
-        taggingService.save(tagging);
+        taggingRepository.saveAndFlush(tagging);
+        taggingSearchRepository.save(tagging);
 
         // Search the tagging
         restTaggingMockMvc.perform(get("/api/_search/taggings?query=id:" + tagging.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(tagging.getId().intValue())))
-            .andExpect(jsonPath("$.[*].context").value(hasItem(DEFAULT_CONTEXT.toString())))
-            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(tagging.getId().intValue())));
     }
 
     @Test

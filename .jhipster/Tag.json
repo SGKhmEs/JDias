@@ -14,21 +14,29 @@
             "otherEntityRelationshipName": "tag"
         },
         {
+            "relationshipName": "hashTag",
+            "otherEntityName": "hashTag",
             "relationshipType": "many-to-one",
-            "relationshipName": "post",
-            "otherEntityName": "post",
             "otherEntityField": "id"
         }
     ],
     "fields": [
         {
-            "fieldName": "name",
+            "fieldName": "tagContext",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "createdAt",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "updatedAt",
+            "fieldType": "ZonedDateTime"
         }
     ],
     "changelogDate": "20170527190337",
-    "entityTableName": "tag",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "entityTableName": "tag",
+    "pagination": "no"
 }

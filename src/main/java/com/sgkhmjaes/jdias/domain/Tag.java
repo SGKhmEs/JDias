@@ -7,6 +7,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -27,21 +29,35 @@ public class Tag implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "tag_context")
+    private String tagContext;
 
-    @ManyToOne
-    private Post post;
+    @Column(name = "created_at")
+    private LocalDate createdAt;
+
+    @Column(name = "updated_at")
+    private ZonedDateTime updatedAt;
+
+    @OneToMany(mappedBy = "tag")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Tagging> taggings = new HashSet<>();
 
     @OneToMany(mappedBy = "tag")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TagFollowing> tagFollowings = new HashSet<>();
 
-    @OneToMany(mappedBy = "tag")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Tagging> taggings = new HashSet<>();
+    @ManyToOne
+    private HashTag hashTag;
+    
+    public Tag () {}
+    
+    public Tag (String tagContext) {
+        this.tagContext = tagContext;
+        this.createdAt = LocalDate.now();
+        this.updatedAt = ZonedDateTime.now();
+    }
 
     public Long getId() {
         return id;
@@ -51,55 +67,43 @@ public class Tag implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTagContext() {
+        return tagContext;
     }
 
-    public Tag name(String name) {
-        this.name = name;
+    public Tag tagContext(String tagContext) {
+        this.tagContext = tagContext;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTagContext(String tagContext) {
+        this.tagContext = tagContext;
     }
 
-    public Post getPost() {
-        return post;
+    public LocalDate getCreatedAt() {
+        return createdAt;
     }
 
-    public Tag post(Post post) {
-        this.post = post;
+    public Tag createdAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Set<TagFollowing> getTagFollowings() {
-        return tagFollowings;
+    public ZonedDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
-    public Tag tagFollowings(Set<TagFollowing> tagFollowings) {
-        this.tagFollowings = tagFollowings;
+    public Tag updatedAt(ZonedDateTime updatedAt) {
+        this.updatedAt = updatedAt;
         return this;
     }
 
-    public Tag addTagFollowings(TagFollowing tagFollowing) {
-        this.tagFollowings.add(tagFollowing);
-        tagFollowing.setTag(this);
-        return this;
-    }
-
-    public Tag removeTagFollowings(TagFollowing tagFollowing) {
-        this.tagFollowings.remove(tagFollowing);
-        tagFollowing.setTag(null);
-        return this;
-    }
-
-    public void setTagFollowings(Set<TagFollowing> tagFollowings) {
-        this.tagFollowings = tagFollowings;
+    public void setUpdatedAt(ZonedDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Set<Tagging> getTaggings() {
@@ -127,6 +131,44 @@ public class Tag implements Serializable {
         this.taggings = taggings;
     }
 
+    public Set<TagFollowing> getTagFollowings() {
+        return tagFollowings;
+    }
+
+    public Tag tagFollowings(Set<TagFollowing> tagFollowings) {
+        this.tagFollowings = tagFollowings;
+        return this;
+    }
+
+    public Tag addTagFollowings(TagFollowing tagFollowing) {
+        this.tagFollowings.add(tagFollowing);
+        tagFollowing.setTag(this);
+        return this;
+    }
+
+    public Tag removeTagFollowings(TagFollowing tagFollowing) {
+        this.tagFollowings.remove(tagFollowing);
+        tagFollowing.setTag(null);
+        return this;
+    }
+
+    public void setTagFollowings(Set<TagFollowing> tagFollowings) {
+        this.tagFollowings = tagFollowings;
+    }
+
+    public HashTag getHashTag() {
+        return hashTag;
+    }
+
+    public Tag hashTag(HashTag hashTag) {
+        this.hashTag = hashTag;
+        return this;
+    }
+
+    public void setHashTag(HashTag hashTag) {
+        this.hashTag = hashTag;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -151,7 +193,9 @@ public class Tag implements Serializable {
     public String toString() {
         return "Tag{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
+            ", tagContext='" + getTagContext() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
             "}";
     }
 }

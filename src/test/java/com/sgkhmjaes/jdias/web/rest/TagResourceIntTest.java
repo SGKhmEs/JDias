@@ -4,8 +4,8 @@ import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Tag;
 import com.sgkhmjaes.jdias.repository.TagRepository;
-import com.sgkhmjaes.jdias.service.TagService;
 import com.sgkhmjaes.jdias.repository.search.TagSearchRepository;
+import com.sgkhmjaes.jdias.service.TagService;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -23,8 +23,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.List;
 
+import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -39,17 +45,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = JDiasApp.class)
 public class TagResourceIntTest {
 
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_TAG_CONTEXT = "AAAAAAAAAA";
+    private static final String UPDATED_TAG_CONTEXT = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
+
+    private static final ZonedDateTime DEFAULT_UPDATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_UPDATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     @Autowired
     private TagRepository tagRepository;
 
     @Autowired
-    private TagService tagService;
-
-    @Autowired
     private TagSearchRepository tagSearchRepository;
+    
+    @Autowired
+    private TagService tagService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -85,7 +97,9 @@ public class TagResourceIntTest {
      */
     public static Tag createEntity(EntityManager em) {
         Tag tag = new Tag()
-            .name(DEFAULT_NAME);
+            .tagContext(DEFAULT_TAG_CONTEXT)
+            .createdAt(DEFAULT_CREATED_AT)
+            .updatedAt(DEFAULT_UPDATED_AT);
         return tag;
     }
 
@@ -110,7 +124,9 @@ public class TagResourceIntTest {
         List<Tag> tagList = tagRepository.findAll();
         assertThat(tagList).hasSize(databaseSizeBeforeCreate + 1);
         Tag testTag = tagList.get(tagList.size() - 1);
-        assertThat(testTag.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testTag.getTagContext()).isEqualTo(DEFAULT_TAG_CONTEXT);
+        assertThat(testTag.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
+        assertThat(testTag.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
 
         // Validate the Tag in Elasticsearch
         Tag tagEs = tagSearchRepository.findOne(testTag.getId());
@@ -147,7 +163,9 @@ public class TagResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tag.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+            .andExpect(jsonPath("$.[*].tagContext").value(hasItem(DEFAULT_TAG_CONTEXT.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))));
     }
 
     @Test
@@ -161,7 +179,9 @@ public class TagResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(tag.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
+            .andExpect(jsonPath("$.tagContext").value(DEFAULT_TAG_CONTEXT.toString()))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(sameInstant(DEFAULT_UPDATED_AT)));
     }
 
     @Test
@@ -176,14 +196,16 @@ public class TagResourceIntTest {
     @Transactional
     public void updateTag() throws Exception {
         // Initialize the database
-        tagService.save(tag);
-
+        tagRepository.saveAndFlush(tag);
+        tagSearchRepository.save(tag);
         int databaseSizeBeforeUpdate = tagRepository.findAll().size();
 
         // Update the tag
         Tag updatedTag = tagRepository.findOne(tag.getId());
         updatedTag
-            .name(UPDATED_NAME);
+            .tagContext(UPDATED_TAG_CONTEXT)
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT);
 
         restTagMockMvc.perform(put("/api/tags")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -194,7 +216,9 @@ public class TagResourceIntTest {
         List<Tag> tagList = tagRepository.findAll();
         assertThat(tagList).hasSize(databaseSizeBeforeUpdate);
         Tag testTag = tagList.get(tagList.size() - 1);
-        assertThat(testTag.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testTag.getTagContext()).isEqualTo(UPDATED_TAG_CONTEXT);
+        assertThat(testTag.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testTag.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
 
         // Validate the Tag in Elasticsearch
         Tag tagEs = tagSearchRepository.findOne(testTag.getId());
@@ -223,8 +247,8 @@ public class TagResourceIntTest {
     @Transactional
     public void deleteTag() throws Exception {
         // Initialize the database
-        tagService.save(tag);
-
+        tagRepository.saveAndFlush(tag);
+        tagSearchRepository.save(tag);
         int databaseSizeBeforeDelete = tagRepository.findAll().size();
 
         // Get the tag
@@ -245,14 +269,17 @@ public class TagResourceIntTest {
     @Transactional
     public void searchTag() throws Exception {
         // Initialize the database
-        tagService.save(tag);
+        tagRepository.saveAndFlush(tag);
+        tagSearchRepository.save(tag);
 
         // Search the tag
         restTagMockMvc.perform(get("/api/_search/tags?query=id:" + tag.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tag.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+            .andExpect(jsonPath("$.[*].tagContext").value(hasItem(DEFAULT_TAG_CONTEXT.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))));
     }
 
     @Test

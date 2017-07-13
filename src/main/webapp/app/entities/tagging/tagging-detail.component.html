@@ -4,18 +4,16 @@
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="jDiasApp.tagging.context">Context</span></dt>
-        <dd>
-            <span>{{tagging.context}}</span>
-        </dd>
-        <dt><span jhiTranslate="jDiasApp.tagging.createdAt">Created At</span></dt>
-        <dd>
-            <span>{{tagging.createdAt | date:'mediumDate'}}</span>
-        </dd>
         <dt><span jhiTranslate="jDiasApp.tagging.tag">Tag</span></dt>
         <dd>
             <div *ngIf="tagging.tag">
                 <a [routerLink]="['/tag', tagging.tag?.id]">{{tagging.tag?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.tagging.post">Post</span></dt>
+        <dd>
+            <div *ngIf="tagging.post">
+                <a [routerLink]="['/post', tagging.post?.id]">{{tagging.post?.id}}</a>
             </div>
         </dd>
     </dl>

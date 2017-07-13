@@ -6,7 +6,6 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -25,14 +24,18 @@ public class Tagging implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "context")
-    private String context;
-
-    @Column(name = "created_at")
-    private LocalDate createdAt;
-
     @ManyToOne
     private Tag tag;
+
+    @ManyToOne
+    private Post post;
+    
+    public Tagging (){}
+    
+    public Tagging (Tag tag, Post post){
+        this.post = post;
+        this.tag = tag;
+    }
 
     public Long getId() {
         return id;
@@ -40,32 +43,6 @@ public class Tagging implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getContext() {
-        return context;
-    }
-
-    public Tagging context(String context) {
-        this.context = context;
-        return this;
-    }
-
-    public void setContext(String context) {
-        this.context = context;
-    }
-
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
-
-    public Tagging createdAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Tag getTag() {
@@ -79,6 +56,19 @@ public class Tagging implements Serializable {
 
     public void setTag(Tag tag) {
         this.tag = tag;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public Tagging post(Post post) {
+        this.post = post;
+        return this;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     @Override
@@ -105,8 +95,6 @@ public class Tagging implements Serializable {
     public String toString() {
         return "Tagging{" +
             "id=" + getId() +
-            ", context='" + getContext() + "'" +
-            ", createdAt='" + getCreatedAt() + "'" +
             "}";
     }
 }

@@ -3,6 +3,7 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.service.PostService;
+import com.sgkhmjaes.jdias.service.TagService;
 import com.sgkhmjaes.jdias.service.dto.StatusMessageDTO;
 import com.sgkhmjaes.jdias.service.impl.StatusMessageDTOServiceImpl;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
@@ -31,10 +32,13 @@ public class StatusMessageResource {
     private static final String ENTITY_NAME = "statusMessageDTOServiceImpl";
     private final PostService postService;
     private final StatusMessageDTOServiceImpl statusMessageDTOServiceImpl;
+    private final TagService tagService;
 
-    public StatusMessageResource(PostService postService, StatusMessageDTOServiceImpl statusMessageDTOServiceImpl) {
+    public StatusMessageResource(PostService postService, StatusMessageDTOServiceImpl statusMessageDTOServiceImpl,
+            TagService tagService) {
         this.postService = postService;
         this.statusMessageDTOServiceImpl = statusMessageDTOServiceImpl;
+        this.tagService = tagService;
     }
 
     /**
@@ -52,6 +56,8 @@ public class StatusMessageResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new statusMessage cannot already have an ID")).body(null);
         }
         StatusMessage result = postService.save(statusMessage);
+        tagService.saveAllTagsFromStatusMessages(result);
+        
         return ResponseEntity.created(new URI("/api/status-message/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);     }

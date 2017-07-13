@@ -30,18 +30,22 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="jDiasApp.tag.name">Name</span></th>
-            <th><span jhiTranslate="jDiasApp.tag.post">Post</span></th>
+            <th><span jhiTranslate="jDiasApp.tag.tagContext">Tag Context</span></th>
+            <th><span jhiTranslate="jDiasApp.tag.createdAt">Created At</span></th>
+            <th><span jhiTranslate="jDiasApp.tag.updatedAt">Updated At</span></th>
+            <th><span jhiTranslate="jDiasApp.tag.hashTag">Hash Tag</span></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let tag of tags ;trackBy: trackId">
                 <td><a [routerLink]="['../tag', tag.id ]">{{tag.id}}</a></td>
-                <td>{{tag.name}}</td>
+                <td>{{tag.tagContext}}</td>
+                <td>{{tag.createdAt | date:'mediumDate'}}</td>
+                <td>{{tag.updatedAt | date:'medium'}}</td>
                 <td>
-                    <div *ngIf="tag.post">
-                        <a [routerLink]="['../post', tag.post?.id ]" >{{tag.post?.id}}</a>
+                    <div *ngIf="tag.hashTag">
+                        <a [routerLink]="['../hash-tag', tag.hashTag?.id ]" >{{tag.hashTag?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

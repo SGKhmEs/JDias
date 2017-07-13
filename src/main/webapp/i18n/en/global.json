@@ -33,6 +33,7 @@
                 "tagFollowing": "Tag Following",
                 "userAccount": "User Account",
                 "person": "Person",
+                "hashTag": "Hash Tag",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

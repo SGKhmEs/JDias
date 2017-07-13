@@ -1,0 +1,22 @@
+{
+    "jDiasApp": {
+        "hashTag" : {
+            "home": {
+                "title": "Hash Tags",
+                "createLabel": "Create a new Hash Tag",
+                "createOrEditLabel": "Create or edit a Hash Tag",
+                "search": "Search for Hash Tag"
+            },
+            "created": "A new Hash Tag is created with identifier {{ param }}",
+            "updated": "A Hash Tag is updated with identifier {{ param }}",
+            "deleted": "A Hash Tag is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Hash Tag {{ id }}?"
+            },
+            "detail": {
+                "title": "Hash Tag"
+            },
+            "tag": "Tag"
+        }
+    }
+}

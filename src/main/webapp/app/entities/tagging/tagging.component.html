@@ -30,20 +30,22 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="jDiasApp.tagging.context">Context</span></th>
-            <th><span jhiTranslate="jDiasApp.tagging.createdAt">Created At</span></th>
             <th><span jhiTranslate="jDiasApp.tagging.tag">Tag</span></th>
+            <th><span jhiTranslate="jDiasApp.tagging.post">Post</span></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let tagging of taggings ;trackBy: trackId">
                 <td><a [routerLink]="['../tagging', tagging.id ]">{{tagging.id}}</a></td>
-                <td>{{tagging.context}}</td>
-                <td>{{tagging.createdAt | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="tagging.tag">
                         <a [routerLink]="['../tag', tagging.tag?.id ]" >{{tagging.tag?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="tagging.post">
+                        <a [routerLink]="['../post', tagging.post?.id ]" >{{tagging.post?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

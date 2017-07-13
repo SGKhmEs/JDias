@@ -1,0 +1,17 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "tag",
+            "otherEntityName": "tag",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "hashTag"
+        }
+    ],
+    "fields": [],
+    "changelogDate": "20170710161301",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "hash_tag",
+    "pagination": "no"
+}

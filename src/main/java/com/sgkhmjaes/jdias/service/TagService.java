@@ -1,43 +1,45 @@
 package com.sgkhmjaes.jdias.service;
 
+import com.sgkhmjaes.jdias.domain.Person;
+import com.sgkhmjaes.jdias.domain.Post;
+import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.domain.Tag;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Service Interface for managing Tag.
  */
 public interface TagService {
-
+    
+    /**
+     *
+     * @param statusMessage
+     * @return
+     */
+    Set <Tag> saveAllTagsFromStatusMessages (StatusMessage statusMessage);
+    
     /**
      * Save a tag.
      *
-     * @param tag the entity to save
+     * @param tagContext
      * @return the persisted entity
      */
-    Tag save(Tag tag);
-
+    Set <Post> findPostsByTag (String tagContext);
+    
     /**
-     *  Get all the tags.
      *
-     *  @return the list of entities
+     * @param tagContext
+     * @return
+     */
+    Set <Person> findPersonByTag (String tagContext);
+    
+    /**
+     *
+     * @return
      */
     List<Tag> findAll();
-
-    /**
-     *  Get the "id" tag.
-     *
-     *  @param id the id of the entity
-     *  @return the entity
-     */
-    Tag findOne(Long id);
-
-    /**
-     *  Delete the "id" tag.
-     *
-     *  @param id the id of the entity
-     */
-    void delete(Long id);
-
+    
     /**
      * Search for the tag corresponding to the query.
      *
