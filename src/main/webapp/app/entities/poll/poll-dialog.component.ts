@@ -38,7 +38,7 @@ export class PollDialogComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        if (this.poll.id !== undefined) {
+        if (this.poll.poll_id !== undefined) {
             this.subscribeToSaveResponse(
                 this.pollService.update(this.poll), false);
         } else {
@@ -56,7 +56,7 @@ export class PollDialogComponent implements OnInit {
         this.alertService.success(
             isCreated ? 'jDiasApp.poll.created'
             : 'jDiasApp.poll.updated',
-            { param : result.id }, null);
+            { param : result.poll_id }, null);
 
         this.eventManager.broadcast({ name: 'pollListModification', content: 'OK'});
         this.isSaving = false;

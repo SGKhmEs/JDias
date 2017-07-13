@@ -118,7 +118,7 @@ export class StatusMessageDialogComponent implements OnInit {
     }
 
     trackPollById(index: number, item: Poll) {
-        return item.id;
+        return item.poll_id;
     }
 }
 

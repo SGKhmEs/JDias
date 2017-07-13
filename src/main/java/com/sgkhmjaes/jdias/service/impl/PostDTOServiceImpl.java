@@ -63,11 +63,11 @@ public class PostDTOServiceImpl {
         System.out.println("++++++++++" + interactionDTO);
         PostDTO postDTO = new PostDTO();
         StatusMessage statusMessage = statusMessageRepository.findByPosts(post);
-        PollDTO pollDTO = new PollDTO();
         try {
             System.out.println("-----post" + post.getId() + "\n author-----------\n" + authorDTO.getId() +
                     "\n interaction \n" + interactionDTO + "\n stst\n" + statusMessage);
             if(statusMessage.getPoll() != null){
+                PollDTO pollDTO = new PollDTO();
                 pollDTO.setPostId(post.getId());
                 pollDTO.mappingToDTO(statusMessage.getPoll());
                 Set<PollAnswerDTO> pollAnswerDTOS = new HashSet<>();
@@ -78,9 +78,12 @@ public class PostDTOServiceImpl {
                     pollAnswerDTOS.add(pollAnswerDTO);
                 }
                 pollDTO.setPollAnswerDTOS(pollAnswerDTOS);
+                postDTO.mappingToDTO(post, authorDTO, interactionDTO, statusMessage, pollDTO);
+                postDTO.setId(post.getId());
+            }else {
+                postDTO.mappingToDTO(post, authorDTO, interactionDTO, statusMessage);
             }
-            postDTO.mappingToDTO(post, authorDTO, interactionDTO, statusMessage, pollDTO);
-            postDTO.setId(post.getId());
+
         } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

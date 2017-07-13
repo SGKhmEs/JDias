@@ -1,7 +1,3 @@
-import { Location } from '../location';
-import { Poll } from '../poll';
-import { Post } from '../post';
-import { Photo } from '../photo';
 
     export class StatusMessage {
         constructor(

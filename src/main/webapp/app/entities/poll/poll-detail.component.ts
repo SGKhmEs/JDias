@@ -47,7 +47,7 @@ export class PollDetailComponent implements OnInit, OnDestroy {
     registerChangeInPolls() {
         this.eventSubscriber = this.eventManager.subscribe(
             'pollListModification',
-            (response) => this.load(this.poll.id)
+            (response) => this.load(this.poll.poll_id)
         );
     }
 }

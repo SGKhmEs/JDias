@@ -72,7 +72,7 @@ polls: Poll[];
     }
 
     trackId(index: number, item: Poll) {
-        return item.id;
+        return item.poll_id;
     }
     registerChangeInPolls() {
         this.eventSubscriber = this.eventManager.subscribe('pollListModification', (response) => this.loadAll());
