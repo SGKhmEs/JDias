@@ -1,6 +1,8 @@
 package com.sgkhmjaes.jdias.service;
 
+import com.sgkhmjaes.jdias.domain.Aspect;
 import com.sgkhmjaes.jdias.domain.Contact;
+
 import java.util.Set;
 
 /**
@@ -32,6 +34,13 @@ public interface ContactService {
     Contact findOne(Long id);
 
     /**
+     *  Get all the contacts by aspect.
+     *
+     *  @return the list of entities
+     */
+    Set<Contact> findAllContactsByAspect(Aspect aspect);
+
+    /**
      *  Delete the "id" contact.
      *
      *  @param id the id of the entity
@@ -42,7 +51,7 @@ public interface ContactService {
      * Search for the contact corresponding to the query.
      *
      *  @param query the query of the search
-     *  
+     *
      *  @return the list of entities
      */
     Set<Contact> search(String query);

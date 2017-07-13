@@ -1,6 +1,7 @@
 package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.sgkhmjaes.jdias.domain.Aspect;
 import com.sgkhmjaes.jdias.domain.Contact;
 import com.sgkhmjaes.jdias.service.ContactService;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
@@ -85,6 +86,18 @@ public class ContactResource {
     public Set<Contact> getAllContacts() {
         log.debug("REST request to get all Contacts");
         return contactService.findAll();
+    }
+
+    /**
+     * POST  /contacts : get all the contacts.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of contacts in body
+     */
+    @PostMapping("/contacts/asp")
+    @Timed
+    public Set<Contact> getAllContactsByAspect(@RequestBody Aspect aspect) throws URISyntaxException  {
+        log.debug("REST request to get all Contacts by aspect");
+        return contactService.findAllContactsByAspect(aspect);
     }
 
     /**

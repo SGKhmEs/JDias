@@ -30,7 +30,6 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class AspectServiceImpl implements AspectService{
 
     private final Logger log = LoggerFactory.getLogger(AspectServiceImpl.class);
-    private final String aspectDefultName = "My aspect";
     private final AspectRepository aspectRepository;
     private final AspectSearchRepository aspectSearchRepository;
     private final UserService userService;
@@ -39,7 +38,7 @@ public class AspectServiceImpl implements AspectService{
     private final ContactRepository contactRepository;
 
     public AspectServiceImpl(AspectRepository aspectRepository, AspectSearchRepository aspectSearchRepository,
-            UserService userService, PersonService personService, ContactService contactService, 
+            UserService userService, PersonService personService, ContactService contactService,
             ContactRepository contactRepository, ContactSearchRepository contactSearchRepository) {
         this.aspectRepository = aspectRepository;
         this.aspectSearchRepository = aspectSearchRepository;
@@ -58,38 +57,40 @@ public class AspectServiceImpl implements AspectService{
     @Override
     public Aspect save(Aspect aspect) {
         log.debug("Request to save Aspect : {}", aspect);
-        
-        if (aspect.getName() == null)aspect.setName(aspectDefultName);
+
+        if (aspect.getName() == null)
+            aspect.setName(aspectDefaultName);
         String aspectName = aspect.getName().trim();
-        if (aspectName.isEmpty()) aspect.setName(aspectDefultName);
+        if (aspectName.isEmpty())
+            aspect.setName(aspectDefaultName);
         else aspect.setName(aspectName);
-        
+
         Person person = userService.getCurrentPerson();
-        
-        for (Aspect pesonAspect : person.getAspects()) {
-            if (pesonAspect.getName().equals(aspect.getName())) {
-                person.removeAspect(pesonAspect);
-                pesonAspect.setUpdatedAt(ZonedDateTime.now());
-                pesonAspect.setContactVisible(aspect.getContactVisible());
-                pesonAspect.setChatEnabled(aspect.getChatEnabled());
-                pesonAspect.setPostDefault(aspect.getPostDefault());
-                person.addAspect(pesonAspect);
-                
-                Aspect result = aspectRepository.save(pesonAspect);
+
+        for (Aspect personAspect : person.getAspects()) {
+            if (personAspect.getName().equals(aspect.getName())) {
+                person.removeAspect(personAspect);
+                personAspect.setUpdatedAt(ZonedDateTime.now());
+                personAspect.setContactVisible(aspect.getContactVisible());
+                personAspect.setChatEnabled(aspect.getChatEnabled());
+                personAspect.setPostDefault(aspect.getPostDefault());
+                person.addAspect(personAspect);
+
+                Aspect result = aspectRepository.save(personAspect);
                 aspectSearchRepository.save(result);
-                
+
                 personService.save(person);
                 return result;
             }
         }
         aspect.setCreatedAt(LocalDate.now());
         aspect.setUpdatedAt(ZonedDateTime.now());
-        
+
         person.addAspect(aspect);
-        
+
         Aspect result = aspectRepository.save(aspect);
         aspectSearchRepository.save(result);
-        
+
         personService.save(person);
         return result;
     }
@@ -125,8 +126,7 @@ public class AspectServiceImpl implements AspectService{
         log.debug("Request to get Aspect : {}", id);
         Aspect foundAspect =  aspectRepository.findOne(id);
         if(userService.getCurrentPerson().getAspects().contains(foundAspect)) return foundAspect;
-        else return new Aspect();
-        // or return new UnauthorizedException
+        else return null;
     }
 
     /**
@@ -146,7 +146,7 @@ public class AspectServiceImpl implements AspectService{
                 contact.setAspect(null);
                 contactSearchRepository.save(contactRepository.save(contact));
             }
-            if(currentPerson.getAspects().contains(foundAspect)) currentPerson.removeAspect(foundAspect);
+            currentPerson.removeAspect(foundAspect);
             aspectRepository.delete(id);
             aspectSearchRepository.delete(id);
             personService.save(currentPerson);
@@ -163,14 +163,14 @@ public class AspectServiceImpl implements AspectService{
     @Transactional(readOnly = true)
     public Set<Aspect> search(String query) {
         log.debug("Request to search Aspects for query {}", query);
-        Set <Aspect> findAspects = new HashSet <>();
+        Set <Aspect> foundAspects = new HashSet <>();
         Set<Aspect> currentPersonAspects = userService.getCurrentPerson().getAspects();
         Iterable<Aspect> search = aspectSearchRepository.search(queryStringQuery(query));
         Iterator<Aspect> iterator = search.iterator();
         while (iterator.hasNext()) {
             Aspect aspect = iterator.next();
-            if (currentPersonAspects.contains(aspect)) findAspects.add(aspect);
+            if (currentPersonAspects.contains(aspect)) foundAspects.add(aspect);
         }
-        return findAspects;
+        return foundAspects;
     }
 }

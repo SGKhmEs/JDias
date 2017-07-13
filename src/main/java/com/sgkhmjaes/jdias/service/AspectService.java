@@ -7,7 +7,7 @@ import java.util.Set;
  * Service Interface for managing Aspect.
  */
 public interface AspectService {
-
+    String aspectDefaultName = "All my contacts";
     /**
      * Save a aspect.
      *
