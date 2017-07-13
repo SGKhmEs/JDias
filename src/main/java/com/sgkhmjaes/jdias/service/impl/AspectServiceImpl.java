@@ -95,18 +95,11 @@ public class AspectServiceImpl implements AspectService{
         return result;
     }
 
-    /*/**
-     *  Get all the aspects.
+    /**
+     *  Get all the aspects by user.
      *
      *  @return the list of entities
-     *
-    @Override
-    @Transactional(readOnly = true)
-    public List<Aspect> findAll() {
-        log.debug("Request to get all Aspects");
-        return aspectRepository.findAll();
-    }*/
-
+     */
     @Override
     public Set<Aspect> findAllByUser() {
         log.debug("Request to get all Aspects by user");

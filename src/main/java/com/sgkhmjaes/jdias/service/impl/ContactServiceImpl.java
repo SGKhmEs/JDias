@@ -9,15 +9,14 @@ import com.sgkhmjaes.jdias.repository.ContactRepository;
 import com.sgkhmjaes.jdias.repository.search.ContactSearchRepository;
 import com.sgkhmjaes.jdias.service.PersonService;
 import com.sgkhmjaes.jdias.service.UserService;
-import java.util.HashSet;
-import java.util.Iterator;
+
+import java.util.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Set;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 import org.hibernate.Hibernate;
 
@@ -34,15 +33,13 @@ public class ContactServiceImpl implements ContactService{
     private final ContactSearchRepository contactSearchRepository;
     private final UserService userService;
     private final PersonService personService;
-   // private final AspectService aspectService;
 
     public ContactServiceImpl(ContactRepository contactRepository, ContactSearchRepository contactSearchRepository,
-            PersonService personService, UserService userService/*, AspectService aspectService*/) {
+            PersonService personService, UserService userService) {
         this.contactRepository = contactRepository;
         this.contactSearchRepository = contactSearchRepository;
         this.userService = userService;
         this.personService = personService;
-        //this.aspectService = aspectService;
     }
 
     /**
@@ -55,32 +52,29 @@ public class ContactServiceImpl implements ContactService{
     public Contact save(Contact contact) {
         log.debug("Request to save Contact : {}", contact);
 
-        Person recipientContact = contact.getPerson();
+        Person personOwnerContact = getRecipientPerson(contact);
         Person currentPerson = userService.getCurrentPerson();
+        Person recipientContact = contact.getPerson();
 
-        if (currentPerson.equals(recipientContact)) {
-            // for testing: need replace Person to Contact
-            contact.setPerson(getRecipientPerson(contact));
-            recipientContact = contact.getPerson();
-            if (currentPerson.equals(contact.getPerson())) return new Contact();
-            //return new Contact();
+        if(currentPerson.equals(personOwnerContact)){
+            if(recipientContact.equals(personOwnerContact))
+                return null;
+
+            contact.setRecipient(recipientContact.getDiasporaId());
+            contact.setAuthor(currentPerson.getDiasporaId());
+            contact.setPerson(currentPerson);
+
+            if (!currentPerson.getContacts().contains(contact)) {
+                currentPerson.addContacts(contact);
+                personService.save(currentPerson);
+            }
+
+            Contact result = contactRepository.save(contact);
+            contactSearchRepository.save(result);
+
+            return result;
         }
-
-        contact.setOwnId(recipientContact.getId());
-        contact.setRecipient(recipientContact.getDiasporaId());
-        contact.setAuthor(currentPerson.getDiasporaId());
-        contact.setPerson(currentPerson);
-
-        if (!currentPerson.getContacts().contains(contact)) {
-            currentPerson.addContacts(contact);
-            personService.save(currentPerson);
-        }
-
-        Contact result = contactRepository.save(contact);
-        contactSearchRepository.save(result);
-
-        return result;
-
+        else return null;
     }
 
     /**
@@ -124,10 +118,10 @@ public class ContactServiceImpl implements ContactService{
     public Set<Contact> findAllContactsByAspect(Aspect aspect) {
         log.debug("Request to get all Contact by aspect: {}", aspect);
         Person currentPerson = userService.getCurrentPerson();
-        Set<Contact> contactsByAspect = new HashSet<>();
-        if(currentPerson.getAspects().contains(aspect))
-            contactsByAspect = aspect.getContacts();
-        return contactsByAspect;
+
+        if(currentPerson.getAspects().contains(aspect)) {
+            return aspect.getContacts();
+        }else return null;
     }
 
     /**
@@ -141,18 +135,14 @@ public class ContactServiceImpl implements ContactService{
         Person currentPerson = userService.getCurrentPerson();
         Set<Contact> contacts = currentPerson.getContacts();
         Contact findContact = contactRepository.findOne(id);
-        //Aspect aspect = findContact.getAspect();
 
-        if (contacts.contains(findContact)) { // owner ?
+        if (contacts.contains(findContact)) {
             contacts.remove(findContact);
             contactRepository.delete(id);
             contactSearchRepository.delete(id);
 
             currentPerson.setContacts(contacts);
             personService.save(currentPerson);
-
-           // aspect.removeContact(findContact);// default aspect ?
-            //aspectService.save(aspect);
         }
     }
 
@@ -177,10 +167,6 @@ public class ContactServiceImpl implements ContactService{
             if (contacts.contains(findContact)) findContacts.add(findContact);
         }
         return findContacts;
-        /*
-        return StreamSupport
-            .stream(contactSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());*/
     }
 
     private Person getRecipientPerson (Contact contact) {

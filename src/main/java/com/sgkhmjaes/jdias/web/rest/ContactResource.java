@@ -71,6 +71,7 @@ public class ContactResource {
             return createContact(contact);
         }
         Contact result = contactService.save(contact);
+        if(contact.getAspect() != null)  System.out.println(result.getAspect().toString());
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, contact.getId().toString()))
             .body(result);
