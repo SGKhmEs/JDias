@@ -72,7 +72,24 @@ export class PostComponent implements OnInit, OnDestroy {
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
     }
 
+    init() {
+        this.posts = [];
+        this.statusM = new StatusMessage();
+        this.statusMessage = new StatusMessageDTO();
+        this.inputAnswers = ['', ''];
+        this.photos = [];
+        this.aspects = [];
+        this.aspectId = [];
+        this.src = [];
+        this.isLocation = true;
+        this.isPhoto = true;
+        this.isPoll = true;
+        this.isShowAspects = false;
+        this.isShareDisabled = false;
+        this.comment = new Comment();
+    }
     loadAll() {
+        this.init();
         if (this.currentSearch) {
             this.postService.search({
                 query: this.currentSearch,
@@ -263,7 +280,7 @@ export class PostComponent implements OnInit, OnDestroy {
             const fileName = p.thumb_medium.replace(/^.*[\\\/]/, '');
             this.showImage(fileName);
         }
-        this.eventManager.broadcast({ name: 'postListModification', content: 'OK'});
+        // this.eventManager.broadcast({ name: 'postListModification', content: 'OK'});
         this.isSaving = false;
     }
 
