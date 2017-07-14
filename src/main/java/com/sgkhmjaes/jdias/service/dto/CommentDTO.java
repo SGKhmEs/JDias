@@ -10,6 +10,8 @@ public class CommentDTO implements AutoMapping {
     private String guid;
     @JsonProperty("id")
     private Long id;
+    @JsonProperty("post_id")
+    private Long postId;
     @JsonProperty("author")
     private AuthorDTO authorDTO;
     @JsonProperty("text")
@@ -71,4 +73,11 @@ public class CommentDTO implements AutoMapping {
         return sb.toString();
     }
 
+    public Long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
+    }
 }

@@ -29,15 +29,17 @@
                         <li data-stream="mentions">
                             <a rel="backbone" class="hoverable" href="https://#joindiaspora.com/mentions">@Mentions</a>
                         </li>
-                        <li class="nested-list all-aspects" ngbDropdown >
+                        <li class="nested-list all-aspects" ngbDropdown>
                             <div class="hoverable" rel="backbone" data-stream="aspects"
-                               ngbDropdownToggle >My aspects</div>
+                                 ngbDropdownToggle>My aspects
+                            </div>
 
                             <ul id="aspects_list" ngbDropdownMenu>
                                 <li class="hoverable">
                                     <a class="selectable toggle_selector" href="#">Deselect all</a>
                                 </li>
-                                <li *ngFor="let aspect of aspects ;trackBy: trackAspect" data-aspect_id="334" class="hoverable">
+                                <li *ngFor="let aspect of aspects ;trackBy: trackAspect" data-aspect_id="334"
+                                    class="hoverable">
                                     <a href="/aspects/query" class="selectable aspect-item" data-guid="334">
                                         <i class="entypo-check selected"></i> {{aspect.name}}
                                     </a>
@@ -46,19 +48,25 @@
                                     </a>
                                 </li>
                                 <li class="hoverable">
-                                    <a href="#" class="selectable new_aspect" data-toggle="modal" data-target="#newAspectModal">
+                                    <a href="#" class="selectable new_aspect" data-toggle="modal"
+                                       data-target="#newAspectModal">
                                         + Add an aspect
                                     </a>
                                 </li>
                                 <div id="newAspectContainer">
                                     <div>
-                                        <div class="modal fade" id="newAspectModal" tabindex="-1" role="dialog" aria-labelledby="newAspectModalLabel" aria-hidden="true" xmlns="http://www.w3.org/1999/html">
+                                        <div class="modal fade" id="newAspectModal" tabindex="-1" role="dialog"
+                                             aria-labelledby="newAspectModalLabel" aria-hidden="true"
+                                             xmlns="http://www.w3.org/1999/html">
 
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <button class="close" type="button" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        <h3 class="modal-title" id="newAspectModalLabel">Add a new aspect</h3>
+                                                        <button class="close" type="button" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                        <h3 class="modal-title" id="newAspectModalLabel">Add a new
+                                                            aspect</h3>
                                                     </div>
 
                                                     <div class="modal-body">
@@ -67,17 +75,23 @@
 
 
                                                                 <div class="form-group">
-                                                                    <label class="col-sm-2 control-label" for="aspect_name">Name</label>
+                                                                    <label class="col-sm-2 control-label"
+                                                                           for="aspect_name">Name</label>
                                                                     <div class="col-sm-10">
-                                                                        <input id="aspect_name" class="input-block-level form-control" maxlength="20" type="text">
+                                                                        <input id="aspect_name"
+                                                                               class="input-block-level form-control"
+                                                                               maxlength="20" type="text">
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="form-group">
                                                                     <div class="col-sm-offset-2 col-sm-10">
                                                                         <div class="checkbox">
-                                                                            <label for="aspect_contacts_visible" class="checkbox inline">
-                                                                                <input id="aspect_contacts_visible" type="checkbox"> Make contacts in this aspect visible to each other?
+                                                                            <label for="aspect_contacts_visible"
+                                                                                   class="checkbox inline">
+                                                                                <input id="aspect_contacts_visible"
+                                                                                       type="checkbox"> Make contacts in
+                                                                                this aspect visible to each other?
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -90,7 +104,8 @@
                                                     </div>
 
                                                     <div class="modal-footer">
-                                                        <div class="btn btn-default" data-dismiss="modal" aria-hidden="true">
+                                                        <div class="btn btn-default" data-dismiss="modal"
+                                                             aria-hidden="true">
                                                             Cancel
                                                         </div>
                                                         <div class="btn btn-primary">
@@ -548,7 +563,8 @@ You can use <a target="blank" href="https://diasporafoundation.org/formatting">M
                                             <div class="btn-toolbar pull-right">
                                                 <div class="btn-group aspect_dropdown" ngbDropdown>
                                                     <button class="btn btn-default dropdown-toggle"
-                                                            data-toggle="dropdown" (click)="showAspects()" ngbDropdownToggle>
+                                                            data-toggle="dropdown" (click)="showAspects()"
+                                                            ngbDropdownToggle>
                                                         <i class="fa fa-lock small" id="visibility-icon"></i>
                                                         <span class="text">All aspects</span>
                                                     </button>
@@ -992,13 +1008,15 @@ You can use <a target="blank" href="https://diasporafoundation.org/formatting">M
                                                             <div class="poll_head">
                                                                 <strong>{{post.poll?.question}}</strong>
                                                                 <div class="poll_statistic pull-right">
-                                                                   {{post.poll?.participation_count}}
+                                                                    {{post.poll?.participation_count}}
                                                                 </div>
                                                             </div>
                                                             <div class="poll-content">
                                                                 <form>
-                                                                    <div class="result-row" *ngFor="let item of post.poll?.poll_answers" >
-                                                                        <input type="radio" name="vote" value="item?.id">
+                                                                    <div class="result-row"
+                                                                         *ngFor="let item of post.poll?.poll_answers">
+                                                                        <input type="radio" name="vote"
+                                                                               value="item?.id">
                                                                         <label>{{item?.answer}}</label>
                                                                         <div class="poll-result pull-right">
                                                                             <span class="percentage"><!--{{post.poll?.question?}}--></span>
@@ -1165,14 +1183,14 @@ You can use <a target="blank" href="https://diasporafoundation.org/formatting">M
                                                               class="new_comment open" id="new_comment_on_93235058"
                                                               method="post">
                                                             <textarea class="comment_box form-control"
-                                                                      id="comment_text_on_9325058"
+                                                                      id="post.id"
                                                                       [disabled]="isShareDisabled"
-                                                                      [(ngModel)]="comment.text" name="text" rows="1"
+                                                                      [(ngModel)]="post.comment" name="text" rows="1"
                                                                       required="" placeholder="Comment"
                                                                       style="overflow: hidden; word-wrap: break-word; height: 29px;"></textarea>
                                                             <div class="submit_button">
                                                                 <input class="btn btn-primary"
-                                                                       (click)="saveComment()"
+                                                                       (click)="saveComment(post.comment, post.id)"
                                                                        id="comment_submit_9325058" name="commit"
                                                                        type="submit" value="Comment">
                                                             </div>

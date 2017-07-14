@@ -55,6 +55,7 @@ export class Post {
         public location?: Location,
         public poll?: Poll,
         public open_graph_cache?: string,
+        public comment?: string,
 
     ) {
         this.pub = false;

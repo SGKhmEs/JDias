@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { EventManager, ParseLinks, PaginationUtil, JhiLanguageService, AlertService } from 'ng-jhipster';
@@ -35,7 +35,6 @@ export class PostComponent implements OnInit, OnDestroy {
     statusM: StatusMessage = new StatusMessage();
     statusMessage: StatusMessageDTO = new StatusMessageDTO();
     inputAnswers: string[] = ['', ''];
-    statusMessages: StatusMessage[];
     photos: Photo[] = [];
     aspects: Aspect[] = [];
     aspectId: string[] = [];
@@ -59,6 +58,7 @@ export class PostComponent implements OnInit, OnDestroy {
     comment: Comment = new Comment();
 
     constructor(
+        private changeDetectorRef: ChangeDetectorRef,
         private postService: PostService,
         private alertService: AlertService,
         private eventManager: EventManager,
@@ -107,6 +107,7 @@ export class PostComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
     ngOnInit() {
+        this.posts = [];
         this.loadAll();
         this.principal.identity().then((account) => {
             this.currentAccount = account;
@@ -391,33 +392,39 @@ export class PostComponent implements OnInit, OnDestroy {
             isCreated ? 'jDiasApp.statusMessage.created'
                 : 'jDiasApp.statusMessage.updated',
             { param : result.id }, null);
-        this.statusMessageService.find(result.id).subscribe((statusmessage) => {});
+        this.statusMessageService.find(result.id).subscribe((statusmessage) => {
+            console.log('STATUSMESSAGE CREATE');
+            this.ngOnInit();
+        });
         this.eventManager.broadcast({ name: 'statusMessageListModification', content: 'OK'});
         this.isSaving = false;
-
-        this.ngOnInit();
     }
 
     //#endregion
 
     //#region Comment
 
-    saveComment() {
+    saveComment(text: string, id: number) {
+        this.comment.post_id = id;
+        this.comment.text = text;
         this.subscribeToSaveCommentResponse(
             this.commentService.create(this.comment), true);
     }
 
     private subscribeToSaveCommentResponse(res: Observable<Comment>, isCreated: boolean) {
         res.subscribe((res: Comment) =>
-            this.onSaveCommentSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveCommentSuccess(res, isCreated), (res: Response) => this.onSaveError(res) );
     }
 
     private onSaveCommentSuccess(res: Comment, isCreated: boolean) {
+        console.log('SAVE COMMENT');
         this.alertService.success(
             isCreated ? 'jDiasApp.comment.created'
                 : 'jDiasApp.comment.updated',
             { param : res.id }, null);
-        this.statusMessageService.find(res.id).subscribe((comment) => {});
+        this.commentService.find(res.id).subscribe((comment) => {
+            this.ngOnInit();
+        });
         this.eventManager.broadcast({ name: 'commentListModification', content: 'OK'});
         this.isSaving = false;
     }

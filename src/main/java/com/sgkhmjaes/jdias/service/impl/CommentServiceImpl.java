@@ -1,15 +1,22 @@
 package com.sgkhmjaes.jdias.service.impl;
 
+import com.sgkhmjaes.jdias.domain.Person;
+import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.service.CommentService;
 import com.sgkhmjaes.jdias.domain.Comment;
 import com.sgkhmjaes.jdias.repository.CommentRepository;
 import com.sgkhmjaes.jdias.repository.search.CommentSearchRepository;
+import com.sgkhmjaes.jdias.service.PostService;
+import com.sgkhmjaes.jdias.service.UserService;
+import com.sgkhmjaes.jdias.service.dto.CommentDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -27,10 +34,14 @@ public class CommentServiceImpl implements CommentService{
     private final CommentRepository commentRepository;
 
     private final CommentSearchRepository commentSearchRepository;
+    private final PostService postService;
+    private final UserService userService;
 
-    public CommentServiceImpl(CommentRepository commentRepository, CommentSearchRepository commentSearchRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, CommentSearchRepository commentSearchRepository, PostService postService, UserService userService) {
         this.commentRepository = commentRepository;
         this.commentSearchRepository = commentSearchRepository;
+        this.postService = postService;
+        this.userService = userService;
     }
 
     /**
@@ -45,6 +56,15 @@ public class CommentServiceImpl implements CommentService{
         Comment result = commentRepository.save(comment);
         commentSearchRepository.save(result);
         return result;
+    }
+
+    @Override
+    public Comment save(CommentDTO commentDTO) {
+        Post post = postService.findOnePost(commentDTO.getPostId());
+        Person person = userService.getCurrentPerson();
+        Comment comment = save(new Comment(person.getDiasporaId(), UUID.nameUUIDFromBytes(commentDTO.getText().getBytes()).toString(),
+            commentDTO.getText(), LocalDate.now(), post, person));
+        return comment;
     }
 
     /**
