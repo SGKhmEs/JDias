@@ -54,9 +54,9 @@ public class MessageServiceImpl implements MessageService {
         Person currentPerson = userService.getCurrentPerson();
         Conversation conversation = conversationService.save(message.getConversation(), message, currentPerson);
         Message result = messageRepository.save(new Message (currentPerson, conversation, message));
-        messageSearchRepository.save(result);
         conversation.addMessages(result);
         conversationService.save(result.getConversation(), result, currentPerson);
+        messageSearchRepository.save(result);
         return result;
 }
     
@@ -75,6 +75,7 @@ public class MessageServiceImpl implements MessageService {
         List <Message> messages = new ArrayList <> ();
         Person currentPerson = userService.getCurrentPerson();
         for (Conversation conversation : currentPerson.getConversations()) messages.addAll(conversation.getMessages());
+        if (messages.isEmpty()) return null;
         Collections.sort(messages, (Message m1, Message m2) -> m2.getCreatedAt().compareTo(m1.getCreatedAt()));
         return messages;
     }
@@ -90,6 +91,7 @@ public class MessageServiceImpl implements MessageService {
         log.debug("Request to get all Messages");
         if (conversation.getParticipants().contains(userService.getCurrentPerson())){
             List<Message> messages = conversation.getMessages();
+            if (messages.isEmpty()) return null;
             //Hibernate.initialize(messages);
             Collections.sort(messages, (Message m1, Message m2) -> m2.getCreatedAt().compareTo(m1.getCreatedAt()));
             return messages;
@@ -108,8 +110,8 @@ public class MessageServiceImpl implements MessageService {
     public Message findOne(Long id) {
         log.debug("Request to get Message : {}", id);
         Message message = messageRepository.findOne(id);
-        if (message.getConversation().getParticipants().contains(userService.getCurrentPerson()))return message;
-        else return new Message();
+        if (message != null && message.getConversation().getParticipants().contains(userService.getCurrentPerson()))return message;
+        else return null;
     }
 
     /**

@@ -57,11 +57,12 @@ public class UserService {
 
     @Inject
     private PersonService personService;
-
+    
     @Inject
     private ProfileService profileService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, 
+            UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.socialService = socialService;
@@ -251,8 +252,14 @@ public class UserService {
     public void deleteUser(String login) {
         userRepository.findOneByLogin(login).ifPresent(user -> {
             socialService.deleteUserSocialConnection(user.getLogin());
+            
+            profileService.delete(user.getId());
+            personService.delete(user.getId());
+            userAccountService.delete(user.getId());
+            
             userRepository.delete(user);
             userSearchRepository.delete(user);
+            
             log.debug("Deleted User: {}", user);
         });
     }
@@ -314,6 +321,9 @@ public class UserService {
         List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS));
         for (User user : users) {
             log.debug("Deleting not activated user {}", user.getLogin());
+            profileService.delete(user.getId());
+            personService.delete(user.getId());
+            userAccountService.delete(user.getId());
             userRepository.delete(user);
             userSearchRepository.delete(user);
         }

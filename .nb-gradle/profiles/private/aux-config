@@ -5,21 +5,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
       <group>
-        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/LocationServiceImpl.java</file>
-        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/PostServiceImpl.java</file>
-        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/service/PostService.java</file>
-        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/config/CacheConfiguration.java</file>
-        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/web/rest/PostResource.java</file>
-        <file>file:/home/andrey/jh/JDias/src/main/java/com/sgkhmjaes/jdias/domain/Post.java</file>
+        <file>file:/C:/develop/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/ConversationServiceImpl.java</file>
+        <file>file:/C:/develop/JDias/src/test/java/com/sgkhmjaes/jdias/web/rest/ConversationResourceIntTest.java</file>
       </group>
     </open-files>
     <editor-bookmarks lastBookmarkId="0" xmlns="http://www.netbeans.org/ns/editor-bookmarks/2"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
       <group>
-        <file>file:/C:/tag/JDias/src/main/java/com/sgkhmjaes/jdias/domain/Tag.java</file>
-        <file>file:/C:/tag/JDias/src/main/java/com/sgkhmjaes/jdias/domain/HashTag.java</file>
-        <file>file:/C:/tag/JDias/src/main/java/com/sgkhmjaes/jdias/web/rest/StatusMessageResource.java</file>
-        <file>file:/C:/tag/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/TagServiceImpl.java</file>
+        <file>file:/C:/develop/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/ConversationServiceImpl.java</file>
+        <file>file:/C:/develop/JDias/src/test/java/com/sgkhmjaes/jdias/web/rest/ConversationResourceIntTest.java</file>
       </group>
     </open-files>
   </auxiliary>
