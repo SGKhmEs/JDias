@@ -1,18 +1,14 @@
 package com.sgkhmjaes.jdias.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.sgkhmjaes.jdias.domain.Tag;
-import com.sgkhmjaes.jdias.repository.TagRepository;
-import com.sgkhmjaes.jdias.repository.search.TagSearchRepository;
+import com.sgkhmjaes.jdias.domain.Person;
+import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.service.TagService;
+import java.net.URISyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import java.util.Set;
 
 /**
  * REST controller for managing Tag.
@@ -22,35 +18,28 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class TagResource {
 
     private final Logger log = LoggerFactory.getLogger(TagResource.class);
-    //private static final String ENTITY_NAME = "tag";
     private final TagService tagService;
 
     public TagResource(TagService tagService) {
         this.tagService = tagService;
     }
-
-    /**
-     * POST  /tags : Create a new tag.
-     *
-     * @param tag the tag to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new tag, or with status 400 (Bad Request) if the tag has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    /*
-    @PostMapping("/tags")
+    
+    @PostMapping("/tags/posts")
     @Timed
-    public ResponseEntity<Tag> createTag(@RequestBody Tag tag) throws URISyntaxException {
-        log.debug("REST request to save Tag : {}", tag);
-        if (tag.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new tag cannot already have an ID")).body(null);
-        }
-        Tag result = tagRepository.save(tag);
-        tagSearchRepository.save(result);
-        return ResponseEntity.created(new URI("/api/tags/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+    public Set <Post> searchPostByTag(@RequestBody String tag) throws URISyntaxException {
+        log.debug("REST request to search post by tag : {}", tag);
+        if (tag == null || tag.isEmpty())return null;
+        else return tagService.findPostsByTag(tag);
     }
-*/
+    
+    @PostMapping("/tags/persons")
+    @Timed
+    public Set <Person> searchPersonByTag(@RequestBody String tag) throws URISyntaxException {
+        log.debug("REST request to search post by tag : {}", tag);
+        if (tag == null || tag.isEmpty())return null;
+        else return tagService.findPersonByTag(tag);
+    }
+    
     /**
      * PUT  /tags : Updates an existing tag.
      *
@@ -80,13 +69,14 @@ public class TagResource {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of tags in body
      */
+    /*
     @GetMapping("/tags")
     @Timed
     public List<Tag> getAllTags() {
         log.debug("REST request to get all Tags");
         return tagService.findAll();
     }
-
+*/
     /**
      * GET  /tags/:id : get the "id" tag.
      *
@@ -125,11 +115,12 @@ public class TagResource {
      * @param query the query of the tag search
      * @return the result of the search
      */
+    /*
     @GetMapping("/_search/tags")
     @Timed
     public List<Tag> searchTags(@RequestParam String query) {
         log.debug("REST request to search Tags for query {}", query);
         return tagService.search(query);
     }
-
+*/
 }

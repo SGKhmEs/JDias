@@ -3,8 +3,6 @@ package com.sgkhmjaes.jdias.service;
 import com.sgkhmjaes.jdias.domain.Person;
 import com.sgkhmjaes.jdias.domain.Post;
 import com.sgkhmjaes.jdias.domain.StatusMessage;
-import com.sgkhmjaes.jdias.domain.Tag;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,7 +15,7 @@ public interface TagService {
      * @param statusMessage
      * @return
      */
-    Set <Tag> saveAllTagsFromStatusMessages (StatusMessage statusMessage);
+    String saveAllTagsFromStatusMessages (StatusMessage statusMessage);
     
     /**
      * Save a tag.
@@ -38,7 +36,7 @@ public interface TagService {
      *
      * @return
      */
-    List<Tag> findAll();
+    //List<Tag> findAll();
     
     /**
      * Search for the tag corresponding to the query.
@@ -47,5 +45,5 @@ public interface TagService {
      *  
      *  @return the list of entities
      */
-    List<Tag> search(String query);
+    //List<Tag> search(String query);
 }

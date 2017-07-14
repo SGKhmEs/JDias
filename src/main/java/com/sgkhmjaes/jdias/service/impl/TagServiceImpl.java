@@ -21,10 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -42,6 +40,8 @@ public class TagServiceImpl implements TagService{
     private final HashTagSearchRepository hashTagSearchRepository;
     private final TaggingService taggingService;
     private final TagFollowingService tagFollowingService;
+    
+    private String newPost;
 
     public TagServiceImpl(TagRepository tagRepository, TagSearchRepository tagSearchRepository, 
             HashTagRepository hashTagRepository, HashTagSearchRepository hashTagSearchRepository,
@@ -61,7 +61,7 @@ public class TagServiceImpl implements TagService{
      */
         
     @Override
-    public Set <Tag> saveAllTagsFromStatusMessages (StatusMessage statusMessage){
+    public String saveAllTagsFromStatusMessages (StatusMessage statusMessage){
         Set<String> tagContextSet = searchingTags(statusMessage.getText());
         Set <Tag> tags = new HashSet <>();
         for (String tagContext : tagContextSet) {
@@ -73,7 +73,7 @@ public class TagServiceImpl implements TagService{
                 tags.add(save(searchTagByContext, statusMessage, tagsHash));
             }
         }
-        return tags;
+        return newPost;
     }
     
     private Tag save(Tag tag, StatusMessage statusMessage, Long tagsHash) {
@@ -141,6 +141,7 @@ public class TagServiceImpl implements TagService{
      *
      *  @return the list of entities
      */
+    /*
     @Override
     @Transactional(readOnly = true)
     public List<Tag> findAll() {
@@ -166,7 +167,7 @@ public class TagServiceImpl implements TagService{
                 .stream(tagSearchRepository.search(queryStringQuery(query)).spliterator(), false)
                 .collect(Collectors.toList());
     }
-    
+    */
     private Long getHashCode (String tagContext) {
         int tagsHash = tagContext.hashCode();
         if (tagsHash < 0) return 2147483648L+tagsHash*-1;
@@ -193,7 +194,14 @@ public class TagServiceImpl implements TagService{
             else st.nextToken();
         }
         //tags.remove("");
-        return tags;
+        Set<String> tagsToLowerCase = new HashSet<>();
+        for (String tag : tags) {
+            String tagToLowerCase = tag.toLowerCase();
+            post = post.replace("#"+tag, "<a href=/api/tags/posts"+tagToLowerCase+">#"+tag+"</a>");
+            tagsToLowerCase.add(tagToLowerCase);
+        }
+        return tagsToLowerCase;
+        //return tags;
     }
     
 }
