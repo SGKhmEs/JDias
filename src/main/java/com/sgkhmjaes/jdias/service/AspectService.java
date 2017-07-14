@@ -1,13 +1,13 @@
 package com.sgkhmjaes.jdias.service;
 
 import com.sgkhmjaes.jdias.domain.Aspect;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Service Interface for managing Aspect.
  */
 public interface AspectService {
-
+    String aspectDefaultName = "All my contacts";
     /**
      * Save a aspect.
      *
@@ -16,13 +16,20 @@ public interface AspectService {
      */
     Aspect save(Aspect aspect);
 
-    /**
+  /*  /**
      *  Get all the aspects.
      *
      *  @return the list of entities
-     */
+     *
     List<Aspect> findAll();
+    */
 
+    /**
+     *  Get all the aspects by user.
+     *
+     *  @return the list of entities
+     */
+    Set<Aspect> findAllByUser();
     /**
      *  Get the "id" aspect.
      *
@@ -42,8 +49,8 @@ public interface AspectService {
      * Search for the aspect corresponding to the query.
      *
      *  @param query the query of the search
-     *  
+     *
      *  @return the list of entities
      */
-    List<Aspect> search(String query);
+    Set<Aspect> search(String query);
 }

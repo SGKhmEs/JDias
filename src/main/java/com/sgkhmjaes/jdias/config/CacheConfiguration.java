@@ -69,16 +69,19 @@ public class CacheConfiguration {
             cm.createCache(com.sgkhmjaes.jdias.domain.PollParticipation.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".comments", jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".aspectVisiblitis", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".aspectVisiblities", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".likes", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".tags", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".taggings", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Profile.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.HashTag.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.HashTag.class.getName() + ".tags", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Reshare.class.getName(), jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.Reshare.class.getName()+".posts", jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.StatusMessage.class.getName()+".posts", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Reshare.class.getName() + ".posts", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Retraction.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.StatusMessage.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.StatusMessage.class.getName() + ".photos", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.StatusMessage.class.getName() + ".posts", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Tag.class.getName(), jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Tag.class.getName() + ".tagFollowings", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Tag.class.getName() + ".taggings", jcacheConfiguration);
@@ -96,11 +99,7 @@ public class CacheConfiguration {
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".messages", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".conversations", jcacheConfiguration);
             cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".aspects", jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".aspectVisiblities", jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.HashTag.class.getName(), jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.HashTag.class.getName() + ".tags", jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.Person.class.getName() + ".tags", jcacheConfiguration);
-            cm.createCache(com.sgkhmjaes.jdias.domain.Post.class.getName() + ".taggings", jcacheConfiguration);
+            cm.createCache(com.sgkhmjaes.jdias.domain.Aspect.class.getName() + ".aspectVisiblities", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

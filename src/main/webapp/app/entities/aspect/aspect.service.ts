@@ -68,15 +68,15 @@ export class AspectService {
         entity.createdAt = this.dateUtils
             .convertLocalDateFromServer(entity.createdAt);
         entity.updatedAt = this.dateUtils
-            .convertLocalDateFromServer(entity.updatedAt);
+            .convertDateTimeFromServer(entity.updatedAt);
     }
 
     private convert(aspect: Aspect): Aspect {
         const copy: Aspect = Object.assign({}, aspect);
         copy.createdAt = this.dateUtils
             .convertLocalDateToServer(aspect.createdAt);
-        copy.updatedAt = this.dateUtils
-            .convertLocalDateToServer(aspect.updatedAt);
+
+        copy.updatedAt = this.dateUtils.toDate(aspect.updatedAt);
         return copy;
     }
 }

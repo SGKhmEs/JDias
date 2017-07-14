@@ -32,10 +32,10 @@
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="jDiasApp.aspect.name">Name</span></th>
             <th><span jhiTranslate="jDiasApp.aspect.createdAt">Created At</span></th>
-            <th><span jhiTranslate="jDiasApp.aspect.updatedAt">Updated At</span></th>
             <th><span jhiTranslate="jDiasApp.aspect.contactVisible">Contact Visible</span></th>
             <th><span jhiTranslate="jDiasApp.aspect.chatEnabled">Chat Enabled</span></th>
             <th><span jhiTranslate="jDiasApp.aspect.postDefault">Post Default</span></th>
+            <th><span jhiTranslate="jDiasApp.aspect.updatedAt">Updated At</span></th>
             <th><span jhiTranslate="jDiasApp.aspect.person">Person</span></th>
             <th></th>
             </tr>
@@ -45,10 +45,10 @@
                 <td><a [routerLink]="['../aspect', aspect.id ]">{{aspect.id}}</a></td>
                 <td>{{aspect.name}}</td>
                 <td>{{aspect.createdAt | date:'mediumDate'}}</td>
-                <td>{{aspect.updatedAt | date:'mediumDate'}}</td>
                 <td>{{aspect.contactVisible}}</td>
                 <td>{{aspect.chatEnabled}}</td>
                 <td>{{aspect.postDefault}}</td>
+                <td>{{aspect.updatedAt | date:'medium'}}</td>
                 <td>
                     <div *ngIf="aspect.person">
                         <a [routerLink]="['../person', aspect.person?.id ]" >{{aspect.person?.id}}</a>

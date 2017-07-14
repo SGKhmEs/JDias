@@ -24,9 +24,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.List;
 
+import static com.sgkhmjaes.jdias.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -47,9 +51,6 @@ public class AspectResourceIntTest {
     private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
 
-    private static final LocalDate DEFAULT_UPDATED_AT = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_UPDATED_AT = LocalDate.now(ZoneId.systemDefault());
-
     private static final Boolean DEFAULT_CONTACT_VISIBLE = false;
     private static final Boolean UPDATED_CONTACT_VISIBLE = true;
 
@@ -58,6 +59,9 @@ public class AspectResourceIntTest {
 
     private static final Boolean DEFAULT_POST_DEFAULT = false;
     private static final Boolean UPDATED_POST_DEFAULT = true;
+
+    private static final ZonedDateTime DEFAULT_UPDATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_UPDATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     @Autowired
     private AspectRepository aspectRepository;
@@ -104,10 +108,10 @@ public class AspectResourceIntTest {
         Aspect aspect = new Aspect()
             .name(DEFAULT_NAME)
             .createdAt(DEFAULT_CREATED_AT)
-            .updatedAt(DEFAULT_UPDATED_AT)
             .contactVisible(DEFAULT_CONTACT_VISIBLE)
             .chatEnabled(DEFAULT_CHAT_ENABLED)
-            .postDefault(DEFAULT_POST_DEFAULT);
+            .postDefault(DEFAULT_POST_DEFAULT)
+            .updatedAt(DEFAULT_UPDATED_AT);
         return aspect;
     }
 
@@ -134,10 +138,10 @@ public class AspectResourceIntTest {
         Aspect testAspect = aspectList.get(aspectList.size() - 1);
         assertThat(testAspect.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testAspect.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
-        assertThat(testAspect.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
         assertThat(testAspect.isContactVisible()).isEqualTo(DEFAULT_CONTACT_VISIBLE);
         assertThat(testAspect.isChatEnabled()).isEqualTo(DEFAULT_CHAT_ENABLED);
         assertThat(testAspect.isPostDefault()).isEqualTo(DEFAULT_POST_DEFAULT);
+        assertThat(testAspect.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
 
         // Validate the Aspect in Elasticsearch
         Aspect aspectEs = aspectSearchRepository.findOne(testAspect.getId());
@@ -176,10 +180,10 @@ public class AspectResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(aspect.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
             .andExpect(jsonPath("$.[*].contactVisible").value(hasItem(DEFAULT_CONTACT_VISIBLE.booleanValue())))
             .andExpect(jsonPath("$.[*].chatEnabled").value(hasItem(DEFAULT_CHAT_ENABLED.booleanValue())))
-            .andExpect(jsonPath("$.[*].postDefault").value(hasItem(DEFAULT_POST_DEFAULT.booleanValue())));
+            .andExpect(jsonPath("$.[*].postDefault").value(hasItem(DEFAULT_POST_DEFAULT.booleanValue())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))));
     }
 
     @Test
@@ -195,10 +199,10 @@ public class AspectResourceIntTest {
             .andExpect(jsonPath("$.id").value(aspect.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
             .andExpect(jsonPath("$.contactVisible").value(DEFAULT_CONTACT_VISIBLE.booleanValue()))
             .andExpect(jsonPath("$.chatEnabled").value(DEFAULT_CHAT_ENABLED.booleanValue()))
-            .andExpect(jsonPath("$.postDefault").value(DEFAULT_POST_DEFAULT.booleanValue()));
+            .andExpect(jsonPath("$.postDefault").value(DEFAULT_POST_DEFAULT.booleanValue()))
+            .andExpect(jsonPath("$.updatedAt").value(sameInstant(DEFAULT_UPDATED_AT)));
     }
 
     @Test
@@ -222,10 +226,10 @@ public class AspectResourceIntTest {
         updatedAspect
             .name(UPDATED_NAME)
             .createdAt(UPDATED_CREATED_AT)
-            .updatedAt(UPDATED_UPDATED_AT)
             .contactVisible(UPDATED_CONTACT_VISIBLE)
             .chatEnabled(UPDATED_CHAT_ENABLED)
-            .postDefault(UPDATED_POST_DEFAULT);
+            .postDefault(UPDATED_POST_DEFAULT)
+            .updatedAt(UPDATED_UPDATED_AT);
 
         restAspectMockMvc.perform(put("/api/aspects")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -238,10 +242,10 @@ public class AspectResourceIntTest {
         Aspect testAspect = aspectList.get(aspectList.size() - 1);
         assertThat(testAspect.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testAspect.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
-        assertThat(testAspect.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
         assertThat(testAspect.isContactVisible()).isEqualTo(UPDATED_CONTACT_VISIBLE);
         assertThat(testAspect.isChatEnabled()).isEqualTo(UPDATED_CHAT_ENABLED);
         assertThat(testAspect.isPostDefault()).isEqualTo(UPDATED_POST_DEFAULT);
+        assertThat(testAspect.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
 
         // Validate the Aspect in Elasticsearch
         Aspect aspectEs = aspectSearchRepository.findOne(testAspect.getId());
@@ -301,10 +305,10 @@ public class AspectResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(aspect.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
             .andExpect(jsonPath("$.[*].contactVisible").value(hasItem(DEFAULT_CONTACT_VISIBLE.booleanValue())))
             .andExpect(jsonPath("$.[*].chatEnabled").value(hasItem(DEFAULT_CHAT_ENABLED.booleanValue())))
-            .andExpect(jsonPath("$.[*].postDefault").value(hasItem(DEFAULT_POST_DEFAULT.booleanValue())));
+            .andExpect(jsonPath("$.[*].postDefault").value(hasItem(DEFAULT_POST_DEFAULT.booleanValue())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))));
     }
 
     @Test

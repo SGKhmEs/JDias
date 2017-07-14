@@ -5,12 +5,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
       <group>
-        <file>file:/C:/develop/JDias/src/test/java/com/sgkhmjaes/jdias/web/rest/ReshareResourceIntTest.java</file>
+        <file>file:/C:/aspect/JDias/src/main/java/com/sgkhmjaes/jdias/domain/Contact.java</file>
+        <file>file:/C:/aspect/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/ContactServiceImpl.java</file>
+        <file>file:/C:/aspect/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/AspectServiceImpl.java</file>
+        <file>file:/C:/aspect/JDias/src/main/java/com/sgkhmjaes/jdias/domain/Aspect.java</file>
       </group>
     </open-files>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
       <group>
-        <file>file:/C:/develop/JDias/src/test/java/com/sgkhmjaes/jdias/web/rest/ReshareResourceIntTest.java</file>
+        <file>file:/C:/aspect/JDias/src/main/java/com/sgkhmjaes/jdias/domain/Aspect.java</file>
+        <file>file:/C:/aspect/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/AspectServiceImpl.java</file>
+        <file>file:/C:/aspect/JDias/src/main/java/com/sgkhmjaes/jdias/service/impl/ContactServiceImpl.java</file>
+        <file>file:/C:/aspect/JDias/src/main/java/com/sgkhmjaes/jdias/domain/Contact.java</file>
       </group>
     </open-files>
   </auxiliary>

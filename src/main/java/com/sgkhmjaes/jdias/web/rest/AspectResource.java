@@ -9,12 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -47,9 +45,9 @@ public class AspectResource {
     @Timed
     public ResponseEntity<Aspect> createAspect(@RequestBody Aspect aspect) throws URISyntaxException {
         log.debug("REST request to save Aspect : {}", aspect);
-        if (aspect.getId() != null) {
+       /* if (aspect.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new aspect cannot already have an ID")).body(null);
-        }
+        }*/
         Aspect result = aspectService.save(aspect);
         return ResponseEntity.created(new URI("/api/aspects/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -85,9 +83,10 @@ public class AspectResource {
      */
     @GetMapping("/aspects")
     @Timed
-    public List<Aspect> getAllAspects() {
+    public Set<Aspect> getAllAspects() {
         log.debug("REST request to get all Aspects");
-        return aspectService.findAll();
+        //return aspectService.findAll();
+        return aspectService.findAllByUser();
     }
 
     /**
@@ -127,7 +126,7 @@ public class AspectResource {
      */
     @GetMapping("/_search/aspects")
     @Timed
-    public List<Aspect> searchAspects(@RequestParam String query) {
+    public Set<Aspect> searchAspects(@RequestParam String query) {
         log.debug("REST request to search Aspects for query {}", query);
         return aspectService.search(query);
     }
