@@ -16,6 +16,8 @@ import {Photo} from '../photo/photo.model';
 import {Aspect} from '../aspect/aspect.model';
 import {PersonService} from '../person/person.service';
 import {Person} from '../person/person.model';
+import { Comment } from '../comment/comment.model';
+import { CommentService } from '../comment/comment.service';
 
 @Component({
     selector: 'jhi-post',
@@ -54,6 +56,7 @@ export class PostComponent implements OnInit, OnDestroy {
         maximumAge: 0
     };
     postImg: string;
+    comment: Comment = new Comment();
 
     constructor(
         private postService: PostService,
@@ -63,7 +66,8 @@ export class PostComponent implements OnInit, OnDestroy {
         private principal: Principal,
         private personService: PersonService,
         private statusMessageService: StatusMessageService,
-        private http: Http
+        private http: Http,
+        private commentService: CommentService
     ) {
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
     }
@@ -389,6 +393,32 @@ export class PostComponent implements OnInit, OnDestroy {
             { param : result.id }, null);
         this.statusMessageService.find(result.id).subscribe((statusmessage) => {});
         this.eventManager.broadcast({ name: 'statusMessageListModification', content: 'OK'});
+        this.isSaving = false;
+
+        this.ngOnInit();
+    }
+
+    //#endregion
+
+    //#region Comment
+
+    saveComment() {
+        this.subscribeToSaveCommentResponse(
+            this.commentService.create(this.comment), true);
+    }
+
+    private subscribeToSaveCommentResponse(res: Observable<Comment>, isCreated: boolean) {
+        res.subscribe((res: Comment) =>
+            this.onSaveCommentSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+    }
+
+    private onSaveCommentSuccess(res: Comment, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'jDiasApp.comment.created'
+                : 'jDiasApp.comment.updated',
+            { param : res.id }, null);
+        this.statusMessageService.find(res.id).subscribe((comment) => {});
+        this.eventManager.broadcast({ name: 'commentListModification', content: 'OK'});
         this.isSaving = false;
     }
 

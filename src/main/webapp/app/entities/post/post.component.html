@@ -1165,11 +1165,14 @@ You can use <a target="blank" href="https://diasporafoundation.org/formatting">M
                                                               class="new_comment open" id="new_comment_on_93235058"
                                                               method="post">
                                                             <textarea class="comment_box form-control"
-                                                                      id="comment_text_on_9325058" name="text" rows="1"
+                                                                      id="comment_text_on_9325058"
+                                                                      [disabled]="isShareDisabled"
+                                                                      [(ngModel)]="comment.text" name="text" rows="1"
                                                                       required="" placeholder="Comment"
                                                                       style="overflow: hidden; word-wrap: break-word; height: 29px;"></textarea>
                                                             <div class="submit_button">
                                                                 <input class="btn btn-primary"
+                                                                       (click)="saveComment()"
                                                                        id="comment_submit_9325058" name="commit"
                                                                        type="submit" value="Comment">
                                                             </div>

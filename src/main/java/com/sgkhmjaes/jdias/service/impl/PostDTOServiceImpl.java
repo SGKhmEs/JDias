@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.Collections;
 
 @Service
 @Transactional
@@ -53,6 +54,7 @@ public class PostDTOServiceImpl {
         log.debug("Request to get all Posts : {}", postList.size());
         List<PostDTO> postDtoList = new ArrayList<>();
         postList.forEach((post) -> {postDtoList.add(createPostDTOfromPost(post));});
+        Collections.sort(postDtoList, (PostDTO p1, PostDTO p2) -> p2.getId().compareTo(p1.getId()));
         return postDtoList;
     }
 
