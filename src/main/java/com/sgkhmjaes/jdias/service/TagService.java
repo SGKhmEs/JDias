@@ -13,9 +13,10 @@ public interface TagService {
     /**
      *
      * @param statusMessage
+     * @param tagContextSet
      * @return
      */
-    String saveAllTagsFromStatusMessages (StatusMessage statusMessage);
+    String saveAllTagsFromStatusMessages (StatusMessage statusMessage, Set<String> tagContextSet);
     
     /**
      * Save a tag.

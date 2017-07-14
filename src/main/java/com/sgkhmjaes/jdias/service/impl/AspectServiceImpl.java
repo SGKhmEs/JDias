@@ -98,6 +98,7 @@ public class AspectServiceImpl implements AspectService {
         return result;
     }
 
+    @Override
     public Aspect saveOnRegister(Aspect aspect) {
         Aspect result = aspectRepository.save(aspect);
         aspectSearchRepository.save(result);

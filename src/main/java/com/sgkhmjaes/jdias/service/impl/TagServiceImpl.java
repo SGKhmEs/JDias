@@ -57,20 +57,22 @@ public class TagServiceImpl implements TagService{
     /**
      * Save a tag.
      *
+     * @param statusMessage
+     * @param tagContextSet
      * @return the persisted entity
      */
         
     @Override
-    public String saveAllTagsFromStatusMessages (StatusMessage statusMessage){
-        Set<String> tagContextSet = searchingTags(statusMessage.getText());
-        Set <Tag> tags = new HashSet <>();
+    public String saveAllTagsFromStatusMessages (StatusMessage statusMessage, Set<String> tagContextSet){
+        //Set<String> tagContextSet = searchingTags(statusMessage.getText());
+        //Set <Tag> tags = new HashSet <>();
         for (String tagContext : tagContextSet) {
             Long tagsHash = getHashCode(tagContext);
             Tag searchTagByContext = searchTagByContext(tagContext, tagsHash);
-            if (searchTagByContext == null) tags.add(save(new Tag(tagContext), statusMessage, tagsHash));
+            if (searchTagByContext == null) save(new Tag(tagContext), statusMessage, tagsHash);
             else {
                 searchTagByContext.setUpdatedAt(ZonedDateTime.now());
-                tags.add(save(searchTagByContext, statusMessage, tagsHash));
+                save(searchTagByContext, statusMessage, tagsHash);
             }
         }
         return newPost;
