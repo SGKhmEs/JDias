@@ -4,6 +4,8 @@ import com.sgkhmjaes.jdias.service.CommentService;
 import com.sgkhmjaes.jdias.domain.Comment;
 import com.sgkhmjaes.jdias.repository.CommentRepository;
 import com.sgkhmjaes.jdias.repository.search.CommentSearchRepository;
+import com.sgkhmjaes.jdias.service.UserService;
+import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -27,11 +29,16 @@ public class CommentServiceImpl implements CommentService{
     private final CommentRepository commentRepository;
 
     private final CommentSearchRepository commentSearchRepository;
+    
+    private final UserService userService;
 
-    public CommentServiceImpl(CommentRepository commentRepository, CommentSearchRepository commentSearchRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, CommentSearchRepository commentSearchRepository, UserService userService) {
         this.commentRepository = commentRepository;
         this.commentSearchRepository = commentSearchRepository;
+        this.userService = userService;
     }
+
+
 
     /**
      * Save a comment.
@@ -42,6 +49,8 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public Comment save(Comment comment) {
         log.debug("Request to save Comment : {}", comment);
+        comment.setPerson(userService.getCurrentPerson());
+        comment.setCreatedAt(LocalDate.now());
         Comment result = commentRepository.save(comment);
         commentSearchRepository.save(result);
         return result;
