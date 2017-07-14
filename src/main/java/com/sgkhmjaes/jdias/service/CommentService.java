@@ -1,6 +1,8 @@
 package com.sgkhmjaes.jdias.service;
 
 import com.sgkhmjaes.jdias.domain.Comment;
+import com.sgkhmjaes.jdias.service.dto.CommentDTO;
+
 import java.util.List;
 
 /**
@@ -15,6 +17,14 @@ public interface CommentService {
      * @return the persisted entity
      */
     Comment save(Comment comment);
+
+    /**
+     * Save a comment.
+     *
+     * @param comment the entity to save
+     * @return the persisted entity
+     */
+    Comment save(CommentDTO commentDTO);
 
     /**
      *  Get all the comments.
@@ -42,7 +52,7 @@ public interface CommentService {
      * Search for the comment corresponding to the query.
      *
      *  @param query the query of the search
-     *  
+     *
      *  @return the list of entities
      */
     List<Comment> search(String query);

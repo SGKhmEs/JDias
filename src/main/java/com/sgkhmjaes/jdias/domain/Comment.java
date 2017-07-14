@@ -55,6 +55,16 @@ public class Comment implements Serializable {
     @ManyToOne
     private Person person;
 
+    public Comment(String author, String guid, String text, LocalDate createdAt, Post post, Person person) {
+        this.author = author;
+        this.guid = guid;
+        this.text = text;
+        this.createdAt = createdAt;
+        this.post = post;
+        this.person = person;
+    }
+    public Comment(){}
+
     public Long getId() {
         return id;
     }

@@ -49,7 +49,7 @@ public class Post implements Serializable {
     @Column(name = "post_type")
     private PostType postType;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<AspectVisiblity> aspectVisiblities = new HashSet<>();

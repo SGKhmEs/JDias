@@ -1,16 +1,17 @@
-import { BaseEntity } from './../../shared';
 
 const enum PostType {
     'STATUSMESSAGE',
     'RESHARE'
-}
 
-export class AspectVisiblity implements BaseEntity {
+};
+import { Aspect } from '../aspect';
+import { Post } from '../post';
+export class AspectVisiblity {
     constructor(
         public id?: number,
         public postType?: PostType,
-        public aspect?: BaseEntity,
-        public post?: BaseEntity,
+        public aspect?: Aspect,
+        public post?: Post,
     ) {
     }
 }

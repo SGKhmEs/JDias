@@ -1,14 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { StatusMessage, StatusMessageDTO } from './status-message.model';
 import { StatusMessageService } from './status-message.service';
-import { Principal, ResponseWrapper } from '../../shared';
+import { Principal, Account, ResponseWrapper } from '../../shared';
 import {Observable} from 'rxjs/Observable';
 import { Http, Response } from '@angular/http';
 import {Photo} from '../photo/photo.model';
+import {Aspect} from '../aspect/aspect.model';
+import {PersonService} from '../person/person.service';
 
 @Component({
     selector: 'jhi-status-message',
@@ -19,26 +21,30 @@ import {Photo} from '../photo/photo.model';
 export class StatusMessageComponent implements OnInit, OnDestroy {
 
     //#region Variables
-    private resourceUrl = '/api/file';
-    private imgUrl = '/api/files/';
-    statusM: StatusMessage = new StatusMessage();
-    statusMessage: StatusMessageDTO = new StatusMessageDTO();
-    inputAnswers: string[] = ['', ''];
-    statusMessages: StatusMessage[];
-    photos: Photo[] = [];
-    src: string[] = [];
-    currentAccount: any;
-    eventSubscriber: Subscription;
-    currentSearch: string;
-    isLocation = true;
-    isPhoto = true;
-    isPoll = true;
-    lat: number;
-    lng: number;
-    isSaving: boolean;
-    isShareDisabled = false;
-    fileName: string;
-    options = {
+     resourceUrl = '/api/file';
+     imgUrl = '/api/files/';
+     personUrl = 'api/people/get';
+     statusM: StatusMessage = new StatusMessage();
+     statusMessage: StatusMessageDTO = new StatusMessageDTO();
+     inputAnswers: string[] = ['', ''];
+     statusMessages: StatusMessage[];
+     photos: Photo[] = [];
+     aspects: Aspect[] = [];
+     aspectId: string[] = [];
+     src: string[] = [];
+     currentAccount: Account;
+     eventSubscriber: Subscription;
+     currentSearch: string;
+     isLocation = true;
+     isPhoto = true;
+     isPoll = true;
+     lat: number;
+     lng: number;
+     isSaving: boolean;
+     isShowAspects = false;
+     isShareDisabled = false;
+     fileName: string;
+     options = {
         enableHighAccuracy: true,
         timeout: 3000,
         maximumAge: 0
@@ -48,14 +54,46 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
 
     //#region Constructor
     constructor(
+        private personService: PersonService,
         private statusMessageService: StatusMessageService,
-        private alertService: JhiAlertService,
-        private eventManager: JhiEventManager,
+        private alertService: AlertService,
+        private eventManager: EventManager,
         private activatedRoute: ActivatedRoute,
         private principal: Principal,
         private http: Http
     ) {
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
+    }
+    //#endregion
+
+    //#region Aspects
+    showAspects() {
+        this.isShowAspects = !this.isShowAspects;
+    }
+
+    addAspect(id: string) {
+        console.log(id);
+        if (this.aspectId.indexOf(id) > -1) {
+            this.aspectId.splice(this.aspectId.indexOf(id), 1);
+        }else {
+            this.aspectId.push(id);
+        }
+        console.log(this.aspectId);
+    }
+
+    load() {
+        this.findPerson().subscribe((aspect) => {
+            this.aspects = aspect;
+            console.log(this.aspects);
+        });
+    }
+
+    findPerson(): Observable<Aspect[]> {
+        return this.http.get(`${this.personUrl}/${this.currentAccount.login}`).map((res: Response) => {
+            const jsonResponse = res.json();
+            this.personService.convertItemFromServer(jsonResponse);
+            return jsonResponse;
+        });
     }
     //#endregion
 
@@ -80,16 +118,6 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
             return response.json();
         });
     }
-
-   /* removeImage() {
-        this.deleteImg(this.fileName).subscribe((response) => {
-            this.eventManager.broadcast({
-                name: 'image',
-                content: 'Deleted an image'
-            });
-        });
-        this.alertService.success('jDiasApp.statusMessage.deleted', {param: this.fileName}, null);
-    }*/
 
     onChange(event) {
         console.log('onChange');
@@ -231,8 +259,7 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
         }
         this.statusMessage.poll_answers = this.inputAnswers;
         this.statusMessage.location_coords = this.lat + ', ' + this.lng;
-        // this.statusMessage.photos = [];
-        this.statusMessage.aspect_ids = [];
+        this.statusMessage.aspect_ids = this.aspectId;
         this.statusMessage.status_message = this.statusM;
         this.isSaving = true;
        // this.statusMessage.text = 'test';
@@ -323,6 +350,8 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
         this.loadAll();
         this.principal.identity().then((account) => {
             this.currentAccount = account;
+            console.log(this.currentAccount);
+            this.load();
         });
         this.registerChangeInStatusMessages();
     }
@@ -332,6 +361,10 @@ export class StatusMessageComponent implements OnInit, OnDestroy {
     }
 
     trackId(index: number, item: StatusMessage) {
+        return item.id;
+    }
+
+    trackAspect(index: number, item: Aspect) {
         return item.id;
     }
 

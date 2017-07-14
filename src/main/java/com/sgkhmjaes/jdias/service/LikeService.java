@@ -1,6 +1,8 @@
 package com.sgkhmjaes.jdias.service;
 
 import com.sgkhmjaes.jdias.domain.Like;
+import com.sgkhmjaes.jdias.service.dto.LikeDTO;
+
 import java.util.List;
 
 /**
@@ -15,6 +17,14 @@ public interface LikeService {
      * @return the persisted entity
      */
     Like save(Like like);
+
+    /**
+     * Save a like.
+     *
+     * @param like the entity to save
+     * @return the persisted entity
+     */
+    Like save(LikeDTO like);
 
     /**
      *  Get all the likes.
@@ -42,7 +52,7 @@ public interface LikeService {
      * Search for the like corresponding to the query.
      *
      *  @param query the query of the search
-     *  
+     *
      *  @return the list of entities
      */
     List<Like> search(String query);

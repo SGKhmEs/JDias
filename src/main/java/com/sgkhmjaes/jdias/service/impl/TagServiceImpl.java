@@ -197,9 +197,11 @@ public class TagServiceImpl implements TagService{
         Set<String> tagsToLowerCase = new HashSet<>();
         for (String tag : tags) {
             String tagToLowerCase = tag.toLowerCase();
-            post = post.replace("#"+tag, "<a href=/api/tags/posts"+tagToLowerCase+">#"+tag+"</a>");
+            post = post.replace("#"+tag, "<a href=/api/tags/posts/"+tagToLowerCase+">#"+tag+"</a>");
             tagsToLowerCase.add(tagToLowerCase);
         }
+        newPost = post;
+        System.out.println("--------NewPost--------" + newPost);
         return tagsToLowerCase;
         //return tags;
     }

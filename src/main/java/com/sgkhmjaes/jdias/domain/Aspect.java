@@ -61,6 +61,14 @@ public class Aspect implements Serializable {
     //@JsonIgnore
     private Person person;
 
+    public Aspect(){}
+    public Aspect(String name, LocalDate createdAt, ZonedDateTime updatedAt, Person person) {
+        this.name = name;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.person = person;
+    }
+
     public Long getId() {
         return id;
     }

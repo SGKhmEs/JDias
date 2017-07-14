@@ -1,5 +1,6 @@
 package com.sgkhmjaes.jdias.service.impl;
 
+import com.sgkhmjaes.jdias.config.Constants;
 import com.sgkhmjaes.jdias.domain.*;
 import com.sgkhmjaes.jdias.domain.enumeration.PostType;
 import com.sgkhmjaes.jdias.repository.*;
@@ -44,8 +45,11 @@ public class PostServiceImpl implements PostService {
     private final LocationService locationService;
     private final PhotoRepository photoRepository;
     private final UserService userService;
+    private final AspectRepository aspectRepository;
+    private final AspectVisiblityService aspectVisiblityService;
+    private final StorageService storageService;
 
-    public PostServiceImpl(PostRepository postRepository, PostSearchRepository postSearchRepository, StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository, ReshareRepository reshareRepository, ReshareSearchRepository reshareSearchRepository, UserRepository userRepository, PollAnswerService pollAnswerService, PollService pollService, LocationService locationService, PhotoRepository photoRepository, UserService userService) {
+    public PostServiceImpl(PostRepository postRepository, PostSearchRepository postSearchRepository, StatusMessageRepository statusMessageRepository, StatusMessageSearchRepository statusMessageSearchRepository, ReshareRepository reshareRepository, ReshareSearchRepository reshareSearchRepository, UserRepository userRepository, PollAnswerService pollAnswerService, PollService pollService, LocationService locationService, PhotoRepository photoRepository, UserService userService, AspectRepository aspectRepository, AspectVisiblityService aspectVisiblityService, StorageService storageService) {
         this.postRepository = postRepository;
         this.postSearchRepository = postSearchRepository;
         this.statusMessageRepository = statusMessageRepository;
@@ -58,7 +62,12 @@ public class PostServiceImpl implements PostService {
         this.locationService = locationService;
         this.photoRepository = photoRepository;
         this.userService = userService;
+        this.aspectRepository = aspectRepository;
+        this.aspectVisiblityService = aspectVisiblityService;
+        this.storageService = storageService;
     }
+
+
 
     /**
      * Save a post.
@@ -128,6 +137,20 @@ public class PostServiceImpl implements PostService {
             statusMessage.setLocation(locationService.save(new Location(statusMessageDTO.getLocationAddress(),Float.parseFloat(coords[0]),Float.parseFloat(coords[1]))));
         }
         statusMessage = save(statusMessage);
+        if(statusMessageDTO.getAspectIds() != null){
+            //Set<AspectVisiblity> aspectVisiblities = new HashSet<>();
+            Post post = findOnePost(statusMessage.getId());
+            for (Long id: statusMessageDTO.getAspectIds()) {
+                AspectVisiblity aspectVisiblity = new AspectVisiblity();
+                Aspect aspect = aspectRepository.findOne(id);
+                aspectVisiblity.setAspect(aspect);
+                aspectVisiblity.setPost(post);
+                aspectVisiblity.setPostType(post.getPostType());
+                aspectVisiblityService.save(aspectVisiblity);
+               // aspectVisiblities.add(aspectVisiblity);
+            }
+            //post.setAspectVisiblities(aspectVisiblities);
+        }
         if(statusMessageDTO.getPhotos() != null){
             for(Long id: statusMessageDTO.getPhotos()) {
                 statusMessage.addPhotos(photoRepository.findOne(id));
@@ -282,6 +305,14 @@ public class PostServiceImpl implements PostService {
         Post post = findOnePost(id);
         Person person = userService.getCurrentPerson();
         if (person.getDiasporaId().equals(post.getAuthor())) {
+            StatusMessage statusMessage = findOneStatusMessage(id);
+            for (Photo photo: statusMessage.getPhotos()){
+                storageService.deleteImage(photo.getRemotePhotoName());
+                storageService.deleteImage(Constants.SMALL_PREFIX + photo.getRemotePhotoName());
+                storageService.deleteImage(Constants.MEDIUM_PREFIX + photo.getRemotePhotoName());
+                storageService.deleteImage(Constants.LARGE_PREFIX + photo.getRemotePhotoName());
+                storageService.deleteImage(Constants.SCALED_FULL_PREFIX + photo.getRemotePhotoName());
+            }
             deleteReshare(id);
             statusMessageRepository.delete(id);
             statusMessageSearchRepository.delete(id);

@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Retraction } from './retraction.model';
 import { RetractionService } from './retraction.service';
-
 @Injectable()
 export class RetractionPopupService {
     private isOpen = false;

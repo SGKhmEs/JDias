@@ -4,13 +4,11 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { Aspect } from './aspect.model';
 import { AspectPopupService } from './aspect-popup.service';
 import { AspectService } from './aspect.service';
-import { Person, PersonService } from '../person';
-import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-aspect-dialog',
@@ -21,26 +19,20 @@ export class AspectDialogComponent implements OnInit {
     aspect: Aspect;
     authorities: any[];
     isSaving: boolean;
-
-    people: Person[];
     createdAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private aspectService: AspectService,
-        private PersonService: PersonService,
-        private eventManager: JhiEventManager
+        private eventManager: EventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.PersonService.query()
-            .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -84,10 +76,6 @@ export class AspectDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
-    }
-
-    trackPersonById(index: number, item: Person) {
-        return item.id;
     }
 }
 

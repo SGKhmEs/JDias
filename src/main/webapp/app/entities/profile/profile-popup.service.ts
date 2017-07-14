@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Profile } from './profile.model';
 import { ProfileService } from './profile.service';
-
 @Injectable()
 export class ProfilePopupService {
     private isOpen = false;

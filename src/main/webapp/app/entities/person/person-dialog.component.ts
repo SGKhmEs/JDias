@@ -4,15 +4,15 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { Person } from './person.model';
 import { PersonPopupService } from './person-popup.service';
 import { PersonService } from './person.service';
+import { Reshare, ReshareService } from '../reshare';
 import { Profile, ProfileService } from '../profile';
 import { AccountDeletion, AccountDeletionService } from '../account-deletion';
 import { Conversation, ConversationService } from '../conversation';
-import { UserAccount, UserAccountService } from '../user-account';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -25,31 +25,33 @@ export class PersonDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
+    reshares: Reshare[];
+
     profiles: Profile[];
 
     accountdeletions: AccountDeletion[];
 
     conversations: Conversation[];
-
-    useraccounts: UserAccount[];
     createdAtDp: any;
     updatedAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private personService: PersonService,
+        private reshareService: ReshareService,
         private profileService: ProfileService,
         private accountDeletionService: AccountDeletionService,
         private conversationService: ConversationService,
-        private userAccountService: UserAccountService,
-        private eventManager: JhiEventManager
+        private eventManager: EventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
+        this.reshareService.query()
+            .subscribe((res: ResponseWrapper) => { this.reshares = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.profileService
             .query({filter: 'person-is-null'})
             .subscribe((res: ResponseWrapper) => {
@@ -78,21 +80,7 @@ export class PersonDialogComponent implements OnInit {
             }, (res: ResponseWrapper) => this.onError(res.json));
         this.conversationService.query()
             .subscribe((res: ResponseWrapper) => { this.conversations = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.userAccountService
-            .query({filter: 'person-is-null'})
-            .subscribe((res: ResponseWrapper) => {
-                if (!this.person.userAccount || !this.person.userAccount.id) {
-                    this.useraccounts = res.json;
-                } else {
-                    this.userAccountService
-                        .find(this.person.userAccount.id)
-                        .subscribe((subRes: UserAccount) => {
-                            this.useraccounts = [subRes].concat(res.json);
-                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
-                }
-            }, (res: ResponseWrapper) => this.onError(res.json));
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -138,6 +126,10 @@ export class PersonDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
+    trackReshareById(index: number, item: Reshare) {
+        return item.id;
+    }
+
     trackProfileById(index: number, item: Profile) {
         return item.id;
     }
@@ -148,21 +140,6 @@ export class PersonDialogComponent implements OnInit {
 
     trackConversationById(index: number, item: Conversation) {
         return item.id;
-    }
-
-    trackUserAccountById(index: number, item: UserAccount) {
-        return item.id;
-    }
-
-    getSelected(selectedVals: Array<any>, option: any) {
-        if (selectedVals) {
-            for (let i = 0; i < selectedVals.length; i++) {
-                if (option.id === selectedVals[i].id) {
-                    return selectedVals[i];
-                }
-            }
-        }
-        return option;
     }
 }
 

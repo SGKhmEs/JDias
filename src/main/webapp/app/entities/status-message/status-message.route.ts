@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { JhiPaginationUtil } from 'ng-jhipster';
+import { PaginationUtil } from 'ng-jhipster';
 
 import { StatusMessageComponent } from './status-message.component';
 import { StatusMessageDetailComponent } from './status-message-detail.component';
@@ -39,6 +39,15 @@ export const statusMessageRoute: Routes = [
     },
     {
         path: 'files/:filename',
+        component: StatusMessageComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'jDiasApp.statusMessage.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'people/get/:name',
         component: StatusMessageComponent,
         data: {
             authorities: ['ROLE_USER'],

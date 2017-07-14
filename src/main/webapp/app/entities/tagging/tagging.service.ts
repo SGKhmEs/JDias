@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { DateUtils } from 'ng-jhipster';
 
 import { Tagging } from './tagging.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
@@ -11,25 +12,31 @@ export class TaggingService {
     private resourceUrl = 'api/taggings';
     private resourceSearchUrl = 'api/_search/taggings';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private dateUtils: DateUtils) { }
 
     create(tagging: Tagging): Observable<Tagging> {
         const copy = this.convert(tagging);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
-            return res.json();
+            const jsonResponse = res.json();
+            this.convertItemFromServer(jsonResponse);
+            return jsonResponse;
         });
     }
 
     update(tagging: Tagging): Observable<Tagging> {
         const copy = this.convert(tagging);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            return res.json();
+            const jsonResponse = res.json();
+            this.convertItemFromServer(jsonResponse);
+            return jsonResponse;
         });
     }
 
     find(id: number): Observable<Tagging> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            return res.json();
+            const jsonResponse = res.json();
+            this.convertItemFromServer(jsonResponse);
+            return jsonResponse;
         });
     }
 
@@ -51,11 +58,21 @@ export class TaggingService {
 
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
+        for (let i = 0; i < jsonResponse.length; i++) {
+            this.convertItemFromServer(jsonResponse[i]);
+        }
         return new ResponseWrapper(res.headers, jsonResponse, res.status);
+    }
+
+    private convertItemFromServer(entity: any) {
+        entity.createdAt = this.dateUtils
+            .convertLocalDateFromServer(entity.createdAt);
     }
 
     private convert(tagging: Tagging): Tagging {
         const copy: Tagging = Object.assign({}, tagging);
+        copy.createdAt = this.dateUtils
+            .convertLocalDateToServer(tagging.createdAt);
         return copy;
     }
 }

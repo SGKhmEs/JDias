@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { StatusMessage } from './status-message.model';
 import { StatusMessagePopupService } from './status-message-popup.service';
@@ -29,11 +29,11 @@ export class StatusMessageDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private statusMessageService: StatusMessageService,
         private locationService: LocationService,
         private pollService: PollService,
-        private eventManager: JhiEventManager
+        private eventManager: EventManager
     ) {
     }
 
@@ -118,7 +118,7 @@ export class StatusMessageDialogComponent implements OnInit {
     }
 
     trackPollById(index: number, item: Poll) {
-        return item.id;
+        return item.poll_id;
     }
 }
 

@@ -9,6 +9,7 @@
                 "main": "Entities",
                 "accountDeletion": "Account Deletion",
                 "aspect": "Aspect",
+                "aspectMembership": "Aspect Membership",
                 "aspectVisiblity": "Aspect Visiblity",
                 "comment": "Comment",
                 "contact": "Contact",
@@ -62,7 +63,7 @@
         },
         "form": {
             "username": "Username",
-            "username.placeholder": "Your username",
+            "username.placeholder": "USERNAME",
             "newpassword": "New password",
             "newpassword.placeholder": "New password",
             "confirmpassword": "New password confirmation",

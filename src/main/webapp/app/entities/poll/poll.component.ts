@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService } from 'ng-jhipster';
+import { EventManager, ParseLinks, PaginationUtil, JhiLanguageService, AlertService } from 'ng-jhipster';
 
 import { Poll } from './poll.model';
 import { PollService } from './poll.service';
@@ -20,8 +20,8 @@ polls: Poll[];
 
     constructor(
         private pollService: PollService,
-        private alertService: JhiAlertService,
-        private eventManager: JhiEventManager,
+        private alertService: AlertService,
+        private eventManager: EventManager,
         private activatedRoute: ActivatedRoute,
         private principal: Principal
     ) {
@@ -72,7 +72,7 @@ polls: Poll[];
     }
 
     trackId(index: number, item: Poll) {
-        return item.id;
+        return item.poll_id;
     }
     registerChangeInPolls() {
         this.eventSubscriber = this.eventManager.subscribe('pollListModification', (response) => this.loadAll());

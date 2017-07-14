@@ -36,6 +36,12 @@
         <dd>
             <span>{{person.podId}}</span>
         </dd>
+        <dt><span jhiTranslate="jDiasApp.person.reshare">Reshare</span></dt>
+        <dd>
+            <div *ngIf="person.reshare">
+                <a [routerLink]="['/reshare', person.reshare?.id]">{{person.reshare?.id}}</a>
+            </div>
+        </dd>
         <dt><span jhiTranslate="jDiasApp.person.profile">Profile</span></dt>
         <dd>
             <div *ngIf="person.profile">
@@ -50,14 +56,8 @@
         </dd>
         <dt><span jhiTranslate="jDiasApp.person.conversation">Conversation</span></dt>
         <dd>
-            <span *ngFor="let conversation of person.conversations; let last = last">
-                <a [routerLink]="['/conversation', conversation?.id ]">{{conversation.id}}</a>{{last ? '' : ', '}}
-            </span>
-        </dd>
-        <dt><span jhiTranslate="jDiasApp.person.userAccount">User Account</span></dt>
-        <dd>
-            <div *ngIf="person.userAccount">
-                <a [routerLink]="['/user-account', person.userAccount?.id]">{{person.userAccount?.id}}</a>
+            <div *ngIf="person.conversation">
+                <a [routerLink]="['/conversation', person.conversation?.id]">{{person.conversation?.id}}</a>
             </div>
         </dd>
     </dl>

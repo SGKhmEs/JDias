@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AccountDeletion } from './account-deletion.model';
 import { AccountDeletionService } from './account-deletion.service';
-
 @Injectable()
 export class AccountDeletionPopupService {
     private isOpen = false;

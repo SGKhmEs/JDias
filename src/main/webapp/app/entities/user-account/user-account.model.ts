@@ -1,6 +1,9 @@
-import { BaseEntity, User } from './../../shared';
-
-export class UserAccount implements BaseEntity {
+import { User } from '../../shared';
+import { Person } from '../person';
+import { Conversation } from '../conversation';
+import { AspectMembership } from '../aspect-membership';
+import { TagFollowing } from '../tag-following';
+export class UserAccount {
     constructor(
         public id?: number,
         public serializedPrivateKey?: string,
@@ -31,7 +34,10 @@ export class UserAccount implements BaseEntity {
         public colorTheme?: string,
         public postDefaultPublic?: boolean,
         public user?: User,
-        public person?: BaseEntity,
+        public person?: Person,
+        public conversations?: Conversation,
+        public aspectmemberships?: AspectMembership,
+        public tagfollowings?: TagFollowing,
     ) {
         this.gettingStarted = false;
         this.disableMail = false;

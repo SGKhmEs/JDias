@@ -22,13 +22,13 @@
             "pub": "Pub",
             "providerDisplayName": "Provider Display Name",
             "postType": "Post Type",
-            "aspectVisiblity": "Aspect Visiblity",
+            "aspectVisiblities": "Aspect Visiblities",
             "comments": "Comments",
             "likes": "Likes",
+            "tags": "Tags",
             "person": "Person",
             "reshare": "Reshare",
-            "statusMessage": "Status Message",
-            "tagging": "Tagging"
+            "statusMessage": "Status Message"
         }
     }
 }

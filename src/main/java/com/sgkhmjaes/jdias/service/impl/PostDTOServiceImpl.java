@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.Collections;
 
 @Service
 @Transactional
@@ -49,30 +50,26 @@ public class PostDTOServiceImpl {
     }
 
     public List<PostDTO> findAll() {
-        List<Post> postList = postRepository.findAll();
+        List<Post> postList = postRepository.findAllByOrderByIdDesc();
         log.debug("Request to get all Posts : {}", postList.size());
         List<PostDTO> postDtoList = new ArrayList<>();
-        System.err.println("++++++1++++++++"+postList);
         postList.forEach((post) -> {postDtoList.add(createPostDTOfromPost(post));});
-        System.err.println("++++++2++++++++"+postDtoList);
+        Collections.sort(postDtoList, (PostDTO p1, PostDTO p2) -> p2.getId().compareTo(p1.getId()));
         return postDtoList;
     }
 
     private PostDTO createPostDTOfromPost (Post post) {
-        System.err.println("---------1-----------"+post.getPerson());
+
         AuthorDTO authorDTO = authorDTOServiceImpl.findOne(post.getPerson().getId());
-        System.err.println("---------2-----------");
         InteractionDTO interactionDTO = interactionDTOServiceImpl.findOneByPost(post.getId());
-        System.err.println("---------3-----------"+interactionDTO);
+        System.out.println("++++++++++" + interactionDTO);
         PostDTO postDTO = new PostDTO();
         StatusMessage statusMessage = statusMessageRepository.findByPosts(post);
-        System.err.println("---------4-----------");
-        PollDTO pollDTO = new PollDTO();
         try {
             System.out.println("-----post" + post.getId() + "\n author-----------\n" + authorDTO.getId() +
                     "\n interaction \n" + interactionDTO + "\n stst\n" + statusMessage);
             if(statusMessage.getPoll() != null){
-                System.err.println("---------5-----------");
+                PollDTO pollDTO = new PollDTO();
                 pollDTO.setPostId(post.getId());
                 pollDTO.mappingToDTO(statusMessage.getPoll());
                 Set<PollAnswerDTO> pollAnswerDTOS = new HashSet<>();
@@ -83,12 +80,13 @@ public class PostDTOServiceImpl {
                     pollAnswerDTOS.add(pollAnswerDTO);
                 }
                 pollDTO.setPollAnswerDTOS(pollAnswerDTOS);
+                postDTO.mappingToDTO(post, authorDTO, interactionDTO, statusMessage, pollDTO);
+                postDTO.setId(post.getId());
+            }else {
+                postDTO.mappingToDTO(post, authorDTO, interactionDTO, statusMessage);
+                postDTO.setId(post.getId());
             }
-            System.err.println("---------6-----------");
-            postDTO.mappingToDTO(post, authorDTO, interactionDTO, statusMessage, pollDTO);
-            System.err.println("---------7-----------");
-            postDTO.setId(post.getId());
-            System.err.println("---------8-----------");
+
         } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

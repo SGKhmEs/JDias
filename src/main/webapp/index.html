@@ -1,18 +1,16 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js">
 <head>
-    <base href="./" />
+    <base href="/" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>JDias</title>
     <meta name="description" content="">
     <meta name="google" value="notranslate">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#000000">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="manifest" href="manifest.webapp" />
 </head>
-<body>
+<body class="page-home action-show">
     <!--[if lt IE 9]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -26,18 +24,6 @@
             document.getElementsByTagName('head')[0].appendChild(script)
         }
     </script>
-    <noscript>
-        <h1>You must enable javascript to view this page.</h1>
-    </noscript>
-    <!-- uncomment this for adding service worker
-        <script>
-            if ('serviceWorker' in navigator) {
-                 navigator.serviceWorker
-                    .register('./sw.js')
-                    .then(function() { console.log('Service Worker Registered'); });
-            }
-        </script>
-    -->
     <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
     <script>
         (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
@@ -47,5 +33,22 @@
         r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
         ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>-->
+
+    <div class="blueimp-gallery blueimp-gallery-controls" id="blueimp-gallery">
+        <div class="slides"></div>
+        <a class="prev">
+            <div class="entypo-chevron-small-left"></div>
+        </a>
+        <a class="next">
+            <div class="entypo-chevron-small-right"></div>
+        </a>
+        <a class="close">
+            <div class="entypo-cross"></div>
+        </a>
+        <a class="play-pause"></a>
+        <ol class="indicator"></ol>
+    </div>
+    <div id="flash-container"></div>
+
 </body>
 </html>

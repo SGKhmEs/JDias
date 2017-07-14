@@ -128,6 +128,26 @@ public class Person implements Serializable {
         this.guid = UUID.nameUUIDFromBytes(login.getBytes()).toString();
     }
 
+    public Set<Aspect> getAspects() {
+        return aspects;
+    }
+
+    public void setAspects(Set<Aspect> aspects) {
+        this.aspects = aspects;
+    }
+
+    public Person addAspect(Aspect aspect) {
+        this.aspects.add(aspect);
+        aspect.setPerson(this);
+        return this;
+    }
+
+    public Person removeAspect(Aspect aspect) {
+        this.aspects.remove(aspect);
+        aspect.setPerson(null);
+        return this;
+    }
+
     public Long getId() {
         return id;
     }
@@ -488,25 +508,25 @@ public class Person implements Serializable {
         this.userAccount = userAccount;
     }
 
-    public Set<Aspect> getAspects() {
-        return aspects;
-    }
-
-    public void setAspects(Set<Aspect> aspects) {
-        this.aspects = aspects;
-    }
-
-    public Person addAspect(Aspect aspect) {
-        this.aspects.add(aspect);
-        aspect.setPerson(this);
-        return this;
-    }
-
-    public Person removeAspect(Aspect aspect) {
-        this.aspects.remove(aspect);
-        aspect.setPerson(null);
-        return this;
-    }
+//    public Set<Aspect> getAspects() {
+//        return aspects;
+//    }
+//
+//    public void setAspects(Set<Aspect> aspects) {
+//        this.aspects = aspects;
+//    }
+//
+//    public Person addAspect(Aspect aspect) {
+//        this.aspects.add(aspect);
+//        aspect.setPerson(this);
+//        return this;
+//    }
+//
+//    public Person removeAspect(Aspect aspect) {
+//        this.aspects.remove(aspect);
+//        aspect.setPerson(null);
+//        return this;
+//    }
 
     @Override
     public boolean equals(Object o) {

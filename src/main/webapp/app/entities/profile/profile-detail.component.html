@@ -56,12 +56,6 @@
         <dd>
             <span>{{profile.tagString}}</span>
         </dd>
-        <dt><span jhiTranslate="jDiasApp.profile.person">Person</span></dt>
-        <dd>
-            <div *ngIf="profile.person">
-                <a [routerLink]="['/person', profile.person?.id]">{{profile.person?.id}}</a>
-            </div>
-        </dd>
     </dl>
 
     <button type="submit"

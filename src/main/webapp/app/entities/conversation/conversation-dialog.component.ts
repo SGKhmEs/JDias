@@ -4,12 +4,12 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { Conversation } from './conversation.model';
 import { ConversationPopupService } from './conversation-popup.service';
 import { ConversationService } from './conversation.service';
-import { Person, PersonService } from '../person';
+import { UserAccount, UserAccountService } from '../user-account';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -22,25 +22,24 @@ export class ConversationDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
-    people: Person[];
+    useraccounts: UserAccount[];
     createdAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private conversationService: ConversationService,
-        private personService: PersonService,
-        private eventManager: JhiEventManager
+        private userAccountService: UserAccountService,
+        private eventManager: EventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.personService.query()
-            .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.userAccountService.query()
+            .subscribe((res: ResponseWrapper) => { this.useraccounts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -86,19 +85,8 @@ export class ConversationDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackPersonById(index: number, item: Person) {
+    trackUserAccountById(index: number, item: UserAccount) {
         return item.id;
-    }
-
-    getSelected(selectedVals: Array<any>, option: any) {
-        if (selectedVals) {
-            for (let i = 0; i < selectedVals.length; i++) {
-                if (option.id === selectedVals[i].id) {
-                    return selectedVals[i];
-                }
-            }
-        }
-        return option;
     }
 }
 

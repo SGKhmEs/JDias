@@ -4,13 +4,11 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { Profile } from './profile.model';
 import { ProfilePopupService } from './profile-popup.service';
 import { ProfileService } from './profile.service';
-import { Person, PersonService } from '../person';
-import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-profile-dialog',
@@ -21,37 +19,20 @@ export class ProfileDialogComponent implements OnInit {
     profile: Profile;
     authorities: any[];
     isSaving: boolean;
-
-    people: Person[];
     birthdayDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private profileService: ProfileService,
-        private personService: PersonService,
-        private eventManager: JhiEventManager
+        private eventManager: EventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.personService
-            .query({filter: 'profile-is-null'})
-            .subscribe((res: ResponseWrapper) => {
-                if (!this.profile.person || !this.profile.person.id) {
-                    this.people = res.json;
-                } else {
-                    this.personService
-                        .find(this.profile.person.id)
-                        .subscribe((subRes: Person) => {
-                            this.people = [subRes].concat(res.json);
-                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
-                }
-            }, (res: ResponseWrapper) => this.onError(res.json));
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -95,10 +76,6 @@ export class ProfileDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
-    }
-
-    trackPersonById(index: number, item: Person) {
-        return item.id;
     }
 }
 

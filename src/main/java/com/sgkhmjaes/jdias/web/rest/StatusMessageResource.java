@@ -45,7 +45,7 @@ public class StatusMessageResource {
      * POST  /status-messages : Create a new statusMessage.
      *
      * @param statusMessageDTO
-     * @param statusMessage the statusMessage to create
+     * @param statusMessageDTO the statusMessage to create
      * @return the ResponseEntity with status 201 (Created) and with body the new statusMessage, or with status 400 (Bad Request) if the statusMessage has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
@@ -53,15 +53,18 @@ public class StatusMessageResource {
     @Timed
     public ResponseEntity<StatusMessage> createStatusMessage(@RequestBody StatusMessageDTO statusMessageDTO) throws URISyntaxException {
         log.debug("REST request to save StatusMessage : {}", statusMessageDTO);
+        postService.save(statusMessageDTO);
         StatusMessage sm = statusMessageDTO.getStatusMessage();
         if (sm.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new statusMessage cannot already have an ID")).body(null);
         }
         String statusMessagesText = tagService.saveAllTagsFromStatusMessages(sm);
+        System.out.println("++++SM Before++++" + statusMessagesText + "--------" + sm.getText());
         sm.setText(statusMessagesText);
+        System.out.println("++++SM After++++" + sm.getText());
         statusMessageDTO.setStatusMessage(sm);
         StatusMessage result = postService.save(statusMessageDTO);
-        
+
         return ResponseEntity.created(new URI("/api/status-message/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);     }

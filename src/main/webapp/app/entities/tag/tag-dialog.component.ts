@@ -4,12 +4,12 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { Tag } from './tag.model';
 import { TagPopupService } from './tag-popup.service';
 import { TagService } from './tag.service';
-import { HashTag, HashTagService } from '../hash-tag';
+import { Post, PostService } from '../post';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -22,25 +22,23 @@ export class TagDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
-    hashtags: HashTag[];
-    createdAtDp: any;
+    posts: Post[];
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private tagService: TagService,
-        private hashTagService: HashTagService,
-        private eventManager: JhiEventManager
+        private postService: PostService,
+        private eventManager: EventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.hashTagService.query()
-            .subscribe((res: ResponseWrapper) => { this.hashtags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.postService.query()
+            .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -86,7 +84,7 @@ export class TagDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackHashTagById(index: number, item: HashTag) {
+    trackPostById(index: number, item: Post) {
         return item.id;
     }
 }

@@ -3,6 +3,7 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Comment;
 import com.sgkhmjaes.jdias.service.CommentService;
+import com.sgkhmjaes.jdias.service.dto.CommentDTO;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -45,7 +46,7 @@ public class CommentResource {
      */
     @PostMapping("/comments")
     @Timed
-    public ResponseEntity<Comment> createComment(@RequestBody Comment comment) throws URISyntaxException {
+    public ResponseEntity<Comment> createComment(@RequestBody CommentDTO comment) throws URISyntaxException {
         log.debug("REST request to save Comment : {}", comment);
         if (comment.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new comment cannot already have an ID")).body(null);
@@ -67,7 +68,7 @@ public class CommentResource {
      */
     @PutMapping("/comments")
     @Timed
-    public ResponseEntity<Comment> updateComment(@RequestBody Comment comment) throws URISyntaxException {
+    public ResponseEntity<Comment> updateComment(@RequestBody CommentDTO comment) throws URISyntaxException {
         log.debug("REST request to update Comment : {}", comment);
         if (comment.getId() == null) {
             return createComment(comment);

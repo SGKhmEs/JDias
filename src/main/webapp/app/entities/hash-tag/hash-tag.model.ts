@@ -1,9 +1,9 @@
-import { BaseEntity } from './../../shared';
+// import { JDiasBaseEntity } from './../../shared';
 
-export class HashTag implements BaseEntity {
+export class HashTag {
     constructor(
         public id?: number,
-        public tags?: BaseEntity[],
+
     ) {
     }
 }

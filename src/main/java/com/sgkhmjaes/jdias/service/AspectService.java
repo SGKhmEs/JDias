@@ -15,6 +15,14 @@ public interface AspectService {
      * @return the persisted entity
      */
     Aspect save(Aspect aspect);
+    
+        /**
+     * Save a aspect.
+     *
+     * @param aspect the entity to save
+     * @return the persisted entity
+     */
+    Aspect saveOnRegister(Aspect aspect);
 
   /*  /**
      *  Get all the aspects.

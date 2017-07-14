@@ -1,6 +1,4 @@
-import { BaseEntity } from './../../shared';
-
-export class Profile implements BaseEntity {
+export class Profile {
     constructor(
         public id?: number,
         public author?: string,
@@ -16,7 +14,6 @@ export class Profile implements BaseEntity {
         public searchable?: boolean,
         public nsfw?: boolean,
         public tagString?: string,
-        public person?: BaseEntity,
     ) {
         this.searchable = false;
         this.nsfw = false;

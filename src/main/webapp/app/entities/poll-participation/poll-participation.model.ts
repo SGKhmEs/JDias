@@ -1,6 +1,6 @@
-import { BaseEntity } from './../../shared';
-
-export class PollParticipation implements BaseEntity {
+import { Poll } from '../poll';
+import { PollAnswer } from '../poll-answer';
+export class PollParticipation {
     constructor(
         public id?: number,
         public author?: string,
@@ -9,8 +9,8 @@ export class PollParticipation implements BaseEntity {
         public pollAnswerGuid?: string,
         public authorSignature?: string,
         public parentAuthorSignature?: string,
-        public poll?: BaseEntity,
-        public pollAnswer?: BaseEntity,
+        public poll?: Poll,
+        public pollAnswer?: PollAnswer,
     ) {
     }
 }

@@ -3,6 +3,7 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sgkhmjaes.jdias.domain.Like;
 import com.sgkhmjaes.jdias.service.LikeService;
+import com.sgkhmjaes.jdias.service.dto.LikeDTO;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -45,7 +46,7 @@ public class LikeResource {
      */
     @PostMapping("/likes")
     @Timed
-    public ResponseEntity<Like> createLike(@RequestBody Like like) throws URISyntaxException {
+    public ResponseEntity<Like> createLike(@RequestBody LikeDTO like) throws URISyntaxException {
         log.debug("REST request to save Like : {}", like);
         if (like.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new like cannot already have an ID")).body(null);
@@ -67,7 +68,7 @@ public class LikeResource {
      */
     @PutMapping("/likes")
     @Timed
-    public ResponseEntity<Like> updateLike(@RequestBody Like like) throws URISyntaxException {
+    public ResponseEntity<Like> updateLike(@RequestBody LikeDTO like) throws URISyntaxException {
         log.debug("REST request to update Like : {}", like);
         if (like.getId() == null) {
             return createLike(like);

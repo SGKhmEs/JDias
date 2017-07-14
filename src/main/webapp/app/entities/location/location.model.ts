@@ -1,6 +1,4 @@
-import { BaseEntity } from './../../shared';
-
-export class Location implements BaseEntity {
+export class Location {
     constructor(
         public id?: number,
         public address?: string,

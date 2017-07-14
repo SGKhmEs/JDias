@@ -1,3 +1,40 @@
-<div class="footer">
-    <p jhiTranslate="footer">This is your footer</p>
-</div>
+<footer class="footer">
+    <div class="footer" [ngSwitch]="isAuthenticated()">
+        <!--<p jhiTranslate="footer">This is your footer</p>-->
+        <div *ngSwitchCase="true" class="empty_message" id="no_contacts">
+            <p class="lead">
+                You should add some more contacts!
+            </p>
+            <p>
+                You can search or <a class="invitations-link" data-toggle="modal"
+                                     href="https://joindiaspora.com/stream">invite</a> more contacts.
+            </p>
+            Or you can share with <a href="https://joindiaspora.com/community_spotlight">Community spotlight</a>
+        </div>
+
+        <div *ngSwitchCase="false" class="container">
+            <div class="pull-left">
+                <div class="powered-by-diaspora">
+                    <span>Powered by Diaspora*</span>
+                </div>
+            </div>
+            <ul class="pull-right" id="footer_nav">
+                <li><a href="https://diasporafoundation.org/">diasporafoundation.org</a></li>
+                <li><a href="https://wiki.diasporafoundation.org/">Wiki</a></li>
+                <li><a
+                    href="https://github.com/diaspora/diaspora/blob/b6164e4d69fec2723eb0027db0a7b8cd4b8df8b9/Changelog.md">What's
+                    new?</a></li>
+                <!--<li><a title="скачать исходный код" href="https://github.com/joindiaspora/joindiaspora">Код-->
+                    <!--0.6.6.0-pb6164e4d</a></li>-->
+                <li><a href="https://joindiaspora.com/statistics">Nod Statistic</a></li>
+                <li><a href="https://joindiaspora.com/terms">Terms of Service</a></li>
+
+                <li>
+                    <a href="https://zauberstuhl.de/#contact">Contact Info</a>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+</footer>

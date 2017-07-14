@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { AspectVisiblity } from './aspect-visiblity.model';
 import { AspectVisiblityPopupService } from './aspect-visiblity-popup.service';
@@ -29,11 +29,11 @@ export class AspectVisiblityDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private aspectVisiblityService: AspectVisiblityService,
         private aspectService: AspectService,
         private postService: PostService,
-        private eventManager: JhiEventManager
+        private eventManager: EventManager
     ) {
     }
 
@@ -45,7 +45,6 @@ export class AspectVisiblityDialogComponent implements OnInit {
         this.postService.query()
             .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }

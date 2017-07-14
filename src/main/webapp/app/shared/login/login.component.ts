@@ -1,7 +1,7 @@
-import { Component, AfterViewInit, Renderer, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { JhiEventManager } from 'ng-jhipster';
+import { JhiLanguageService, EventManager } from 'ng-jhipster';
 
 import { LoginService } from './login.service';
 import { StateStorageService } from '../auth/state-storage.service';
@@ -11,7 +11,7 @@ import { SocialService } from '../social/social.service';
     selector: 'jhi-login-modal',
     templateUrl: './login.component.html'
 })
-export class JhiLoginModalComponent implements AfterViewInit {
+export class JhiLoginModalComponent implements OnInit, AfterViewInit {
     authenticationError: boolean;
     password: string;
     rememberMe: boolean;
@@ -19,7 +19,8 @@ export class JhiLoginModalComponent implements AfterViewInit {
     credentials: any;
 
     constructor(
-        private eventManager: JhiEventManager,
+        private eventManager: EventManager,
+        private languageService: JhiLanguageService,
         private loginService: LoginService,
         private stateStorageService: StateStorageService,
         private elementRef: ElementRef,
@@ -29,6 +30,10 @@ export class JhiLoginModalComponent implements AfterViewInit {
         public activeModal: NgbActiveModal
     ) {
         this.credentials = {};
+    }
+
+    ngOnInit() {
+        this.languageService.addLocation('login');
     }
 
     ngAfterViewInit() {
@@ -65,10 +70,12 @@ export class JhiLoginModalComponent implements AfterViewInit {
 
             // // previousState was set in the authExpiredInterceptor before being redirected to login modal.
             // // since login is succesful, go to stored previousState and clear previousState
-            const redirect = this.stateStorageService.getUrl();
+           // comment by traster for redirect on /post
+           /* const redirect = this.stateStorageService.getUrl();
             if (redirect) {
                 this.router.navigate([redirect]);
-            }
+            }*/
+            this.router.navigate(['/post']);
         }).catch(() => {
             this.authenticationError = true;
         });

@@ -1,42 +1,113 @@
-<div class="row">
-    <div class="col-md-3">
-        <span class="hipster img-fluid img-rounded"></span>
-    </div>
-    <div class="col-md-9">
-        <h1 class="display-4" jhiTranslate="home.title">Welcome, Java Hipster!</h1>
-        <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>
-
-        <div [ngSwitch]="isAuthenticated()">
-            <div class="alert alert-success" *ngSwitchCase="true">
-                <span *ngIf="account" jhiTranslate="home.logged.message"
-                    translateValues="{username: '{{account.login}}'}"> You are logged in as user "{{account.login}}". </span>
+<div [ngSwitch]="isAuthenticated()">
+    <div class="row" *ngSwitchCase="false">
+        <div class="dandelion-background">
+            <div class="jumbotron">
+                <div class="container-fluid home-user">
+                    <div class="row">
+                        <div class="col-md-8 text-center">
+                            <h1>Welcome to JDias*</h1>
+                            <h2>Social network for you ;) </h2>
+                        </div>
+                        <div class="col-md-4 login-form">
+                            <form class="block-form form" id="new_user" role="form" (ngSubmit)="loginMain()"><input
+                                name="utf8" type="hidden" value="✓"><input
+                                type="hidden" name="authenticity_token"
+                                value="F4lqyI56TmGCNh7e/xgthIDKBz7mnMh2iTN56uoqiDUavWL8GxUvAlRDS/hnsFW9SOEcHcIN+JQpvTf8PkxnOA==">
+                                <fieldset>
+                                    <label class="sr-only" for="username" id="usernameLabel">
+                                        USER NAME
+                                    </label>
+                                    <i class="entypo-user"></i>
+                                    <input type="text" class="form-control" name="username" id="username"
+                                           placeholder="{{'global.form.username.placeholder' | translate}}"
+                                           [(ngModel)]="username"
+                                           style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAANJJREFUOBHdUzsOgzAMfaDOiIETcBjUDozcjetwh3CBdsnAgLiAa1uyG+gAtJ1qyYljv+dPAgBwY72z0kEV7JXV5QzZighHJeNVnJ+IcJGfYVZVhbZt3yjW1u7edR2FEAynibyDsiw9c1EUyHMPIY1lmXbuWEX1fY9pmtA0Deq6RowRwzAoKI05KzFeZRLnWVNn4jZtNuIRiEfws8XkDsZxNL/WuVi1eZ7NxLIsbothMSKC6FYs4+7Oz0j8jIbTPD/5kB7blg6cV5yvf6YDBf8a8gSLtXzq+l6rIQAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                                    <label class="sr-only" for="password" id="passwordLabel">
+                                        PASSWORD
+                                    </label>
+                                    <i class="entypo-lock"></i>
+                                    <input type="password" class="form-control" name="password" id="password"
+                                           placeholder="{{'login.form.password.placeholder' | translate}}"
+                                           [(ngModel)]="password"
+                                           style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                                </fieldset>
+                                <input value="1" type="hidden" name="user[remember_me]" id="user_remember_me">
+                                <input type="submit" name="commit" value="Sign In"
+                                       class="btn btn-large btn-block btn-primary">
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span jhiTranslate="global.messages.info.authenticated.prefix">If you want to </span>
-                <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">sign in</a><span jhiTranslate="global.messages.info.authenticated.suffix">, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").</span>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="landing-info-card text-center">
+                        <h3>Own your own data</h3>
+                        Many networks use your data to make money by analysing your interactions and using this
+                        information
+                        to advertise things to you. diaspora* doesn’t use your data for any purpose other than allowing
+                        you
+                        to connect and share with others.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="landing-info-card text-center">
+                        <h3>Choose your audience</h3>
+                        diaspora*’s aspects allow you to share with just those people you want to. You can be as public
+                        or
+                        as private as you like. Share a funny photo with the whole world, or a deep secret just with
+                        your
+                        closest friends. You’re in control.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="landing-info-card text-center">
+                        <h3>Be who you want to be</h3>
+                        A lot of networks insist that you use your real identity. Not diaspora*. Here you can choose who
+                        you
+                        want to be, and share as much or as little about yourself as you want. It really is up to you
+                        how
+                        you want to interact with other people.
+                    </div>
+                </div>
             </div>
-
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>
-                <a class="alert-link" routerLink="register" jhiTranslate="global.messages.info.register.link">Register a new account</a>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="landing-info-card text-center">
+                        <h3>Decentralization</h3>
+                        Diaspora* is completely decentralized, and any person from any pod can communicate with one
+                        another! You can register at any of these
+                        <a href="http://podupti.me/">other pods</a>
+                        as well. You can also choose to
+                        <a href="https://wiki.diasporafoundation.org/FAQ_for_pod_maintainers">set up your own pod</a>
+                        if you'd like.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="landing-info-card text-center">
+                        <h3>Make a contribution!</h3>
+                        <p>
+                            Make Diaspora even better! Fork the project on
+                            <a href="http://github.com/diaspora/diaspora">Github</a>
+                            make some changes, and submit a pull request.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="landing-info-card text-center">
+                        <h3>Tor .onion Service</h3>
+                        Tor makes it possible for users to hide their locations while offering various kinds of
+                        services,
+                        such as web publishing or an instant messaging server:
+                        <code>diasporaaqmjixh5.onion</code>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <p jhiTranslate="home.question">
-            If you have any question on JHipster:
-        </p>
-
-        <ul>
-            <li><a href="http://jhipster.github.io/" target="_blank" rel="noopener" jhiTranslate="home.link.homepage">JHipster homepage</a></li>
-            <li><a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener" jhiTranslate="home.link.stackoverflow">JHipster on Stack Overflow</a></li>
-            <li><a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener" jhiTranslate="home.link.bugtracker">JHipster bug tracker</a></li>
-            <li><a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener" jhiTranslate="home.link.chat">JHipster public chat room</a></li>
-            <li><a href="https://twitter.com/java_hipster" target="_blank" rel="noopener" jhiTranslate="home.link.follow">follow @java_hipster on Twitter</a></li>
-        </ul>
-
-        <p>
-            <span jhiTranslate="home.like">If you like JHipster, don't forget to give us a star on</span> <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener" jhiTranslate="home.github">Github</a>!
-        </p>
     </div>
+
+
 </div>

@@ -261,7 +261,7 @@ relationship OneToMany {
   Post{likes} to Like{post},
   Conversation{messages} to Message{conversation},
   Person{participations} to Participation{person},
-  StatusMessage{photos} to Photo{status_message},
+  StatusMessage{photos} to Photo{statusMessage},
   Person{photos} to Photo{person},
   Poll{pollanswers} to PollAnswer{poll},
   Poll{pollparticipants} to PollParticipation{poll},

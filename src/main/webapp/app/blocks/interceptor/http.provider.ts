@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { Http, XHRBackend, RequestOptions } from '@angular/http';
-import { JhiEventManager, JhiInterceptableHttp } from 'ng-jhipster';
+import { EventManager, InterceptableHttp } from 'ng-jhipster';
 
 import { StateStorageService } from '../../shared/auth/state-storage.service';
 import { AuthExpiredInterceptor } from './auth-expired.interceptor';
@@ -12,9 +12,9 @@ export function interceptableFactory(
     defaultOptions: RequestOptions,
     injector: Injector,
     stateStorageService: StateStorageService,
-    eventManager: JhiEventManager
+    eventManager: EventManager
 ) {
-    return new JhiInterceptableHttp(
+    return new InterceptableHttp(
         backend,
         defaultOptions,
         [
@@ -35,7 +35,7 @@ export function customHttpProvider() {
             RequestOptions,
             Injector,
             StateStorageService,
-            JhiEventManager
+            EventManager
         ]
     };
 };

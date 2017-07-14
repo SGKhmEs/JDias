@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { JhiDateUtils } from 'ng-jhipster';
+import { DateUtils } from 'ng-jhipster';
 
 import { Person } from './person.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
@@ -12,7 +12,7 @@ export class PersonService {
     private resourceUrl = 'api/people';
     private resourceSearchUrl = 'api/_search/people';
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+    constructor(private http: Http, private dateUtils: DateUtils) { }
 
     create(person: Person): Observable<Person> {
         const copy = this.convert(person);
@@ -64,7 +64,7 @@ export class PersonService {
         return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
-    private convertItemFromServer(entity: any) {
+    public convertItemFromServer(entity: any) {
         entity.createdAt = this.dateUtils
             .convertLocalDateFromServer(entity.createdAt);
         entity.updatedAt = this.dateUtils

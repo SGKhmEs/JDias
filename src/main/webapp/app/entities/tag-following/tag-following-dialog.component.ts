@@ -4,13 +4,13 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { EventManager, AlertService } from 'ng-jhipster';
 
 import { TagFollowing } from './tag-following.model';
 import { TagFollowingPopupService } from './tag-following-popup.service';
 import { TagFollowingService } from './tag-following.service';
 import { Tag, TagService } from '../tag';
-import { Person, PersonService } from '../person';
+import { UserAccount, UserAccountService } from '../user-account';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -25,15 +25,17 @@ export class TagFollowingDialogComponent implements OnInit {
 
     tags: Tag[];
 
-    people: Person[];
+    useraccounts: UserAccount[];
+    createdAtDp: any;
+    updatedAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private alertService: AlertService,
         private tagFollowingService: TagFollowingService,
         private tagService: TagService,
-        private personService: PersonService,
-        private eventManager: JhiEventManager
+        private userAccountService: UserAccountService,
+        private eventManager: EventManager
     ) {
     }
 
@@ -42,10 +44,9 @@ export class TagFollowingDialogComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.tagService.query()
             .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.personService.query()
-            .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.userAccountService.query()
+            .subscribe((res: ResponseWrapper) => { this.useraccounts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
-
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -95,7 +96,7 @@ export class TagFollowingDialogComponent implements OnInit {
         return item.id;
     }
 
-    trackPersonById(index: number, item: Person) {
+    trackUserAccountById(index: number, item: UserAccount) {
         return item.id;
     }
 }

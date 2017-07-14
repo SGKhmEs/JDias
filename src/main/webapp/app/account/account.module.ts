@@ -5,10 +5,10 @@ import { JDiasSharedModule } from '../shared';
 
 import {
     Register,
-    ActivateService,
-    PasswordService,
-    PasswordResetInitService,
-    PasswordResetFinishService,
+    Activate,
+    Password,
+    PasswordResetInit,
+    PasswordResetFinish,
     SessionsService,
     SessionsComponent,
     PasswordStrengthBarComponent,
@@ -41,10 +41,10 @@ import {
     providers: [
         SessionsService,
         Register,
-        ActivateService,
-        PasswordService,
-        PasswordResetInitService,
-        PasswordResetFinishService
+        Activate,
+        Password,
+        PasswordResetInit,
+        PasswordResetFinish
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

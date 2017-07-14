@@ -44,7 +44,10 @@
             "colorTheme": "Color Theme",
             "postDefaultPublic": "Post Default Public",
             "user": "User",
-            "person": "Person"
+            "person": "Person",
+            "conversations": "Conversations",
+            "aspectmemberships": "Aspectmemberships",
+            "tagfollowings": "Tagfollowings"
         }
     }
 }

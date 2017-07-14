@@ -1,16 +1,14 @@
 const webpack = require('webpack');
+const path = require('path');
+const commonConfig = require('./webpack.common.js');
 const writeFilePlugin = require('write-file-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ENV = 'dev';
 const execSync = require('child_process').execSync;
 const fs = require('fs');
-const path = require('path');
-
-const commonConfig = require('./webpack.common.js');
-
 const ddlPath = './build/www/vendor.json';
-const ENV = 'dev';
 
 if (!fs.existsSync(ddlPath)) {
     execSync('webpack --config webpack/webpack.vendor.js');
@@ -33,7 +31,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
             secure: false
         },{
             context: [
-                '/websocket'
+                '/websocket',
             ],
             target: 'ws://127.0.0.1:8080',
             ws: true
@@ -41,8 +39,8 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
     },
     output: {
         path: path.resolve('build/www'),
-        filename: 'app/[name].bundle.js',
-        chunkFilename: 'app/[id].chunk.js'
+        filename: '[name].bundle.js',
+        chunkFilename: '[id].chunk.js'
     },
     module: {
         rules: [{

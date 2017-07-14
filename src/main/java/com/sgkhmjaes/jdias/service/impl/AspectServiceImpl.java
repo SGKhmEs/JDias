@@ -27,7 +27,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class AspectServiceImpl implements AspectService{
+public class AspectServiceImpl implements AspectService {
 
     private final Logger log = LoggerFactory.getLogger(AspectServiceImpl.class);
     private final AspectRepository aspectRepository;
@@ -45,11 +45,11 @@ public class AspectServiceImpl implements AspectService{
         this.userService = userService;
         this.personService = personService;
         this.contactSearchRepository = contactSearchRepository;
-        this.contactRepository= contactRepository;
+        this.contactRepository = contactRepository;
     }
 
-    /**se
-     * Save a aspect.
+    /**
+     * se Save a aspect.
      *
      * @param aspect the entity to save
      * @return the persisted entity
@@ -58,12 +58,15 @@ public class AspectServiceImpl implements AspectService{
     public Aspect save(Aspect aspect) {
         log.debug("Request to save Aspect : {}", aspect);
 
-        if (aspect.getName() == null)
+        if (aspect.getName() == null) {
             aspect.setName(aspectDefaultName);
+        }
         String aspectName = aspect.getName().trim();
-        if (aspectName.isEmpty())
+        if (aspectName.isEmpty()) {
             aspect.setName(aspectDefaultName);
-        else aspect.setName(aspectName);
+        } else {
+            aspect.setName(aspectName);
+        }
 
         Person person = userService.getCurrentPerson();
 
@@ -95,10 +98,17 @@ public class AspectServiceImpl implements AspectService{
         return result;
     }
 
+    public Aspect saveOnRegister(Aspect aspect) {
+        Aspect result = aspectRepository.save(aspect);
+        aspectSearchRepository.save(result);
+
+        return result;
+    }
+
     /**
-     *  Get all the aspects by user.
+     * Get all the aspects by user.
      *
-     *  @return the list of entities
+     * @return the list of entities
      */
     @Override
     public Set<Aspect> findAllByUser() {
@@ -108,32 +118,35 @@ public class AspectServiceImpl implements AspectService{
     }
 
     /**
-     *  Get one aspect by id.
+     * Get one aspect by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
     public Aspect findOne(Long id) {
         log.debug("Request to get Aspect : {}", id);
-        Aspect foundAspect =  aspectRepository.findOne(id);
-        if(userService.getCurrentPerson().getAspects().contains(foundAspect)) return foundAspect;
-        else return null;
+        Aspect foundAspect = aspectRepository.findOne(id);
+        if (userService.getCurrentPerson().getAspects().contains(foundAspect)) {
+            return foundAspect;
+        } else {
+            return null;
+        }
     }
 
     /**
-     *  Delete the  aspect by id.
+     * Delete the aspect by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Aspect : {}", id);
-        Aspect foundAspect =  aspectRepository.findOne(id);
+        Aspect foundAspect = aspectRepository.findOne(id);
         Person currentPerson = userService.getCurrentPerson();
 
-        if(currentPerson.getAspects().contains(foundAspect)) {
+        if (currentPerson.getAspects().contains(foundAspect)) {
             Set<Contact> contacts = foundAspect.getContacts();
             for (Contact contact : contacts) {
                 contact.setAspect(null);
@@ -149,20 +162,22 @@ public class AspectServiceImpl implements AspectService{
     /**
      * Search for the aspect corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public Set<Aspect> search(String query) {
         log.debug("Request to search Aspects for query {}", query);
-        Set <Aspect> foundAspects = new HashSet <>();
+        Set<Aspect> foundAspects = new HashSet<>();
         Set<Aspect> currentPersonAspects = userService.getCurrentPerson().getAspects();
         Iterable<Aspect> search = aspectSearchRepository.search(queryStringQuery(query));
         Iterator<Aspect> iterator = search.iterator();
         while (iterator.hasNext()) {
             Aspect aspect = iterator.next();
-            if (currentPersonAspects.contains(aspect)) foundAspects.add(aspect);
+            if (currentPersonAspects.contains(aspect)) {
+                foundAspects.add(aspect);
+            }
         }
         return foundAspects;
     }
