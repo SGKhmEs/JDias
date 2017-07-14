@@ -53,7 +53,7 @@ public class StatusMessageResource {
     @Timed
     public ResponseEntity<StatusMessage> createStatusMessage(@RequestBody StatusMessageDTO statusMessageDTO) throws URISyntaxException {
         log.debug("REST request to save StatusMessage : {}", statusMessageDTO);
-        postService.save(statusMessageDTO);
+        //postService.save(statusMessageDTO);
         StatusMessage sm = statusMessageDTO.getStatusMessage();
         if (sm.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new statusMessage cannot already have an ID")).body(null);
