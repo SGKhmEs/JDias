@@ -189,8 +189,8 @@ public class Contact implements Serializable {
             ", following='" + isFollowing() + "'" +
             ", sharing='" + isSharing() + "'" +
             ", ownId='" + getOwnId() + "'" +
-                //", person='" + getPerson() + "'" +
-                //", aspect='" + getAspect() + "'" +
+//                ", person='" + getPerson() + "'" +
+//                ", aspect='" + getAspect() + "'" +
             "}";
     }
 }

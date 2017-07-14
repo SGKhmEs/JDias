@@ -52,29 +52,30 @@ public class ContactServiceImpl implements ContactService{
     public Contact save(Contact contact) {
         log.debug("Request to save Contact : {}", contact);
 
-        Person personOwnerContact = getRecipientPerson(contact);
+        Person recipientPerson = getRecipientPerson(contact);
         Person currentPerson = userService.getCurrentPerson();
-        Person recipientContact = contact.getPerson();
+//        Person recipientContact = contact.getPerson();
 
-        if(currentPerson.equals(personOwnerContact)){
-            if(recipientContact.equals(personOwnerContact))
-                return null;
+        if(currentPerson.equals(recipientPerson)) return null;
 
-            contact.setRecipient(recipientContact.getDiasporaId());
+
+            contact.setRecipient(recipientPerson.getDiasporaId());
             contact.setAuthor(currentPerson.getDiasporaId());
             contact.setPerson(currentPerson);
 
             if (!currentPerson.getContacts().contains(contact)) {
-                currentPerson.addContacts(contact);
+                Contact result = contactRepository.save(contact);
+                contactSearchRepository.save(result);
+                currentPerson.addContacts(result);
                 personService.save(currentPerson);
+                return result;
             }
 
-            Contact result = contactRepository.save(contact);
-            contactSearchRepository.save(result);
-
-            return result;
-        }
-        else return null;
+            
+            
+               return null;
+            
+            
     }
 
     /**
