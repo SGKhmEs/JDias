@@ -47,13 +47,10 @@ public class UserService {
     private final UserAccountService userAccountService;
     private final PersonService personService;
     private final ProfileService profileService;    
-    private final AspectService aspectService;
+    private final AspectRepository aspectRepository;
+    private final AspectSearchRepository aspectSearchRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, 
-            SocialService socialService, UserSearchRepository userSearchRepository, 
-            PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository, 
-            UserAccountService userAccountService, PersonService personService, ProfileService profileService, 
-            AspectService aspectService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository, UserAccountService userAccountService, PersonService personService, ProfileService profileService, AspectRepository aspectRepository, AspectSearchRepository aspectSearchRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.socialService = socialService;
@@ -63,7 +60,8 @@ public class UserService {
         this.userAccountService = userAccountService;
         this.personService = personService;
         this.profileService = profileService;
-        this.aspectService = aspectService;
+        this.aspectRepository = aspectRepository;
+        this.aspectSearchRepository = aspectSearchRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -110,11 +108,17 @@ public class UserService {
 
         person.setProfile(profile);
         person = personService.save(person);
-        person = person.addAspect(aspectService.saveOnRegister(new Aspect("Family", LocalDate.now(), ZonedDateTime.now(), person)));
-        person = person.addAspect(aspectService.saveOnRegister(new Aspect("Friends", LocalDate.now(), ZonedDateTime.now(), person)));
-        person = person.addAspect(aspectService.saveOnRegister(new Aspect("Work", LocalDate.now(), ZonedDateTime.now(), person)));
-        person = person.addAspect(aspectService.saveOnRegister(new Aspect("Acquaintances", LocalDate.now(), ZonedDateTime.now(), person)));
+        person = person.addAspect(saveOnRegister(new Aspect("Family", LocalDate.now(), ZonedDateTime.now(), person)));
+        person = person.addAspect(saveOnRegister(new Aspect("Friends", LocalDate.now(), ZonedDateTime.now(), person)));
+        person = person.addAspect(saveOnRegister(new Aspect("Work", LocalDate.now(), ZonedDateTime.now(), person)));
+        person = person.addAspect(saveOnRegister(new Aspect("Acquaintances", LocalDate.now(), ZonedDateTime.now(), person)));
         personService.save(person);
+    }
+    
+    private Aspect saveOnRegister(Aspect aspect) {
+        Aspect result = aspectRepository.save(aspect);
+        aspectSearchRepository.save(result);
+        return result;
     }
     
     public Optional<User> completePasswordReset(String newPassword, String key) {
