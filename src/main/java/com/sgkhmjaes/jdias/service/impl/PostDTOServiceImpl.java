@@ -84,6 +84,7 @@ public class PostDTOServiceImpl {
                 postDTO.setId(post.getId());
             }else {
                 postDTO.mappingToDTO(post, authorDTO, interactionDTO, statusMessage);
+                postDTO.setId(post.getId());
             }
 
         } catch (InvocationTargetException ex) {

@@ -930,10 +930,11 @@ You can use <a target="blank" href="https://diasporafoundation.org/formatting">M
                                                    data-original-title="Enable notifications for this post">
                                                     <i class="entypo-bell"></i>
                                                 </a>
-                                                <a href="https://#joindiaspora.com/stream#" rel="nofollow"
+                                                <div rel="nofollow"
+                                                   (click)="removePost(post.id)"
                                                    class="delete hide_post" title="" data-original-title="Hide">
                                                     <i class="entypo-cross"></i>
-                                                </a>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -1074,8 +1075,7 @@ You can use <a target="blank" href="https://diasporafoundation.org/formatting">M
                                                         <i class="entypo-heart"></i>
 
                                                         <div class="bd">
-                                                            <a href="https://#joindiaspora.com/stream#"
-                                                               class="expand-likes gray">
+                                                            <a href="#http://#/post#" class="expand-likes gray" (click)="createLike(post.id)">
                                                                 {{post.interactions.likes_count > 0 ?
                                                                 post.interactions.likes_count : 0 }} Likes
                                                             </a>
@@ -1093,6 +1093,7 @@ You can use <a target="blank" href="https://diasporafoundation.org/formatting">M
 
                                                         <div class="bd">
                                                             <a href="#https://#joindiaspora.com/stream#"
+                                                               (click)="createReshare(post)"
                                                                class="expand-reshares gray">
                                                                 {{post.interactions.reshares_count > 0 ?
                                                                 post.interactions.reshares_count : 0 }} Reshare

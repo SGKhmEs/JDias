@@ -18,6 +18,9 @@ import {PersonService} from '../person/person.service';
 import {Person} from '../person/person.model';
 import { Comment } from '../comment/comment.model';
 import { CommentService } from '../comment/comment.service';
+import {LikeService} from '../like/like.service';
+import {Like} from '../like/like.model';
+import {ReshareService} from '../reshare/reshare.service';
 
 @Component({
     selector: 'jhi-post',
@@ -58,6 +61,8 @@ export class PostComponent implements OnInit, OnDestroy {
     comment: Comment = new Comment();
 
     constructor(
+        private reshareService: ReshareService,
+        private likeService: LikeService,
         private changeDetectorRef: ChangeDetectorRef,
         private postService: PostService,
         private alertService: AlertService,
@@ -417,6 +422,28 @@ export class PostComponent implements OnInit, OnDestroy {
         this.isSaving = false;
     }
 
+    //#endregion
+
+    //#region Like Reshare
+    createLike(id: number) {
+        let like = new Like();
+        like.post_id = id;
+        this.likeService.create(like).subscribe((like) => {
+            this.ngOnInit();
+        });
+    }
+
+    createReshare(post: Post) {
+        this.reshareService.createReshare(post).subscribe((post) => {
+            this.ngOnInit();
+        });
+    }
+
+    removePost(id: number) {
+        this.postService.delete(id).subscribe((response) => {
+            this.ngOnInit();
+        });
+    }
     //#endregion
 
     //#region Comment

@@ -7,12 +7,21 @@ import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.annotation.J
 public class LikeDTO implements AutoMapping {
 
     private Long id;
+    private Long post_id;
     private String guid;
     private LocalDate createdAt;
     @JsonProperty("author")
     private AuthorDTO authorDTO;
 
     public LikeDTO() {
+    }
+
+    public Long getPost_id() {
+        return post_id;
+    }
+
+    public void setPost_id(Long post_id) {
+        this.post_id = post_id;
     }
 
     public Long getId() {

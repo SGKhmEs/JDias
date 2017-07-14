@@ -54,6 +54,20 @@ public class Like implements Serializable {
     @ManyToOne
     private Person person;
 
+    public Like(String author, String guid, String parentGuid, Type parentType, Boolean positive, Post post, Person person) {
+        this.author = author;
+        this.guid = guid;
+        this.parentGuid = parentGuid;
+        this.parentType = parentType;
+        this.positive = positive;
+        this.post = post;
+        this.person = person;
+    }
+
+    public Like() {
+
+    }
+
     public Long getId() {
         return id;
     }
