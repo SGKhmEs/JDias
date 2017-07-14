@@ -31,11 +31,11 @@ public class PostResource {
     private static final String ENTITY_NAME = "post";
 
     private final PostService postService;
-    @Inject
-    private PostDTOServiceImpl postDTOService;
+    private final PostDTOServiceImpl postDTOService;
 
-    public PostResource(PostService postService) {
+    public PostResource(PostService postService, PostDTOServiceImpl postDTOService) {
         this.postService = postService;
+        this.postDTOService = postDTOService;
     }
 
     /**

@@ -52,22 +52,27 @@ public class PostDTOServiceImpl {
         List<Post> postList = postRepository.findAll();
         log.debug("Request to get all Posts : {}", postList.size());
         List<PostDTO> postDtoList = new ArrayList<>();
+        System.err.println("++++++1++++++++"+postList);
         postList.forEach((post) -> {postDtoList.add(createPostDTOfromPost(post));});
+        System.err.println("++++++2++++++++"+postDtoList);
         return postDtoList;
     }
 
     private PostDTO createPostDTOfromPost (Post post) {
-
+        System.err.println("---------1-----------"+post.getPerson());
         AuthorDTO authorDTO = authorDTOServiceImpl.findOne(post.getPerson().getId());
+        System.err.println("---------2-----------");
         InteractionDTO interactionDTO = interactionDTOServiceImpl.findOneByPost(post.getId());
-        System.out.println("++++++++++" + interactionDTO);
+        System.err.println("---------3-----------"+interactionDTO);
         PostDTO postDTO = new PostDTO();
         StatusMessage statusMessage = statusMessageRepository.findByPosts(post);
+        System.err.println("---------4-----------");
         PollDTO pollDTO = new PollDTO();
         try {
             System.out.println("-----post" + post.getId() + "\n author-----------\n" + authorDTO.getId() +
                     "\n interaction \n" + interactionDTO + "\n stst\n" + statusMessage);
             if(statusMessage.getPoll() != null){
+                System.err.println("---------5-----------");
                 pollDTO.setPostId(post.getId());
                 pollDTO.mappingToDTO(statusMessage.getPoll());
                 Set<PollAnswerDTO> pollAnswerDTOS = new HashSet<>();
@@ -79,8 +84,11 @@ public class PostDTOServiceImpl {
                 }
                 pollDTO.setPollAnswerDTOS(pollAnswerDTOS);
             }
+            System.err.println("---------6-----------");
             postDTO.mappingToDTO(post, authorDTO, interactionDTO, statusMessage, pollDTO);
+            System.err.println("---------7-----------");
             postDTO.setId(post.getId());
+            System.err.println("---------8-----------");
         } catch (InvocationTargetException ex) {
             java.util.logging.Logger.getLogger(PostDTOServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

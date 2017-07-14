@@ -3,12 +3,15 @@ package com.sgkhmjaes.jdias.web.rest;
 import com.sgkhmjaes.jdias.JDiasApp;
 
 import com.sgkhmjaes.jdias.domain.Conversation;
+import com.sgkhmjaes.jdias.domain.StatusMessage;
 import com.sgkhmjaes.jdias.domain.User;
 import com.sgkhmjaes.jdias.repository.ConversationRepository;
 import com.sgkhmjaes.jdias.repository.PersonRepository;
+import com.sgkhmjaes.jdias.repository.StatusMessageRepository;
 import com.sgkhmjaes.jdias.repository.UserRepository;
 import com.sgkhmjaes.jdias.service.ConversationService;
 import com.sgkhmjaes.jdias.repository.search.ConversationSearchRepository;
+import com.sgkhmjaes.jdias.repository.search.StatusMessageSearchRepository;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
 import com.sgkhmjaes.jdias.service.UserService;
 import com.sgkhmjaes.jdias.web.rest.errors.ExceptionTranslator;
