@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -51,6 +52,7 @@ public class CommentServiceImpl implements CommentService{
         log.debug("Request to save Comment : {}", comment);
         comment.setPerson(userService.getCurrentPerson());
         comment.setCreatedAt(LocalDate.now());
+        comment.setGuid(UUID.nameUUIDFromBytes(comment.getText().getBytes()).toString());
         Comment result = commentRepository.save(comment);
         commentSearchRepository.save(result);
         return result;
