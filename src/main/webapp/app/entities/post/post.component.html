@@ -121,13 +121,41 @@
 
 
                         </li>
-                        <li class="nested-list">
-                            <a class="hoverable" data-stream="followed_tags"
-                               href="https://#joindiaspora.com/followed_tags">#Followed tags</a>
-                            <ul id="tags_list"></ul>
+                        <li class="nested-list"  ngbDropdown>
+                            <div class="hoverable" data-stream="followed_tags"
+                                ngbDropdownToggle  >
+                                <span>#Followed tags</span>
+                            </div>
+                            <ul id="tags_list"  ngbDropdownMenu>
+                                <li class="hoverable" id="tag-following-1"
+                                    style="display: list-item;">
+                                    <a href="https://#joindiaspora.com/tags/angular2" class="selectable">
+                                        #world
+                                    </a>
+                                </li>
+                                <li class="hoverable" id="tag-following-2"
+                                    style="display: list-item;">
+                                    <a href="https://joindiaspora.com/tags/angular2_forms" class="selectable">
+                                        #population
+                                    </a>
+                                </li>
+                                <li>
+                                    <form id="new_tag_following" accept-charset="UTF-8" action="https://#joindiaspora.com/tag_followings" method="post">
+                                        <ul class="as-selections" id="as-selections-tags">
+                                            <li class="as-original" id="as-original-tags">
+                                                <input class="tag_input form-control as-input" type="text" name="name" placeholder="Add a tag" autocomplete="off" id="tags">
+                                                <input type="hidden" class="as-values" name="tags" id="as-values-tags">
+                                            </li>
+                                        </ul>
+                                        <div class="as-results" id="as-results-tags" style="display: none;">
 
-                        </li>
-                        <li data-stream="public">
+                                        </div>
+                                    </form>
+                                </li>
+
+                            </ul>
+
+                        </li>                        <li data-stream="public">
                             <a rel="backbone" class="hoverable" href="https://#joindiaspora.com/public">Public
                                 activity</a>
                         </li>
