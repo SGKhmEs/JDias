@@ -98,13 +98,6 @@ public class AspectServiceImpl implements AspectService {
         return result;
     }
 
-    public Aspect saveOnRegister(Aspect aspect) {
-        Aspect result = aspectRepository.save(aspect);
-        aspectSearchRepository.save(result);
-
-        return result;
-    }
-
     /**
      * Get all the aspects by user.
      *

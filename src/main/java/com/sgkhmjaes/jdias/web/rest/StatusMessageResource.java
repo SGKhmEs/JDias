@@ -6,6 +6,7 @@ import com.sgkhmjaes.jdias.service.PostService;
 import com.sgkhmjaes.jdias.service.TagService;
 import com.sgkhmjaes.jdias.service.dto.StatusMessageDTO;
 import com.sgkhmjaes.jdias.service.impl.StatusMessageDTOServiceImpl;
+import com.sgkhmjaes.jdias.service.util.ParseTag;
 import com.sgkhmjaes.jdias.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -45,7 +46,6 @@ public class StatusMessageResource {
      * POST  /status-messages : Create a new statusMessage.
      *
      * @param statusMessageDTO
-     * @param statusMessageDTO the statusMessage to create
      * @return the ResponseEntity with status 201 (Created) and with body the new statusMessage, or with status 400 (Bad Request) if the statusMessage has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
@@ -58,16 +58,17 @@ public class StatusMessageResource {
         if (sm.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new statusMessage cannot already have an ID")).body(null);
         }
-        String statusMessagesText = tagService.saveAllTagsFromStatusMessages(sm);
-        System.out.println("++++SM Before++++" + statusMessagesText + "--------" + sm.getText());
-        sm.setText(statusMessagesText);
-        System.out.println("++++SM After++++" + sm.getText());
+        ParseTag parseTag = new ParseTag (statusMessageDTO.getStatusMessage().getText());
+        sm.setText(parseTag.getStatusMessageText());
         statusMessageDTO.setStatusMessage(sm);
+        
         StatusMessage result = postService.save(statusMessageDTO);
+        tagService.saveAllTagsFromStatusMessages(result, parseTag.getTag());
 
         return ResponseEntity.created(new URI("/api/status-message/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);     }
+            .body(result);
+    }
 
     /**
      * PUT  /status-messages : Updates an existing statusMessage.

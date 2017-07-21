@@ -4,7 +4,9 @@ import com.sgkhmjaes.jdias.domain.*;
 import com.sgkhmjaes.jdias.repository.AuthorityRepository;
 import com.sgkhmjaes.jdias.repository.PersistentTokenRepository;
 import com.sgkhmjaes.jdias.config.Constants;
+import com.sgkhmjaes.jdias.repository.AspectRepository;
 import com.sgkhmjaes.jdias.repository.UserRepository;
+import com.sgkhmjaes.jdias.repository.search.AspectSearchRepository;
 import com.sgkhmjaes.jdias.repository.search.UserSearchRepository;
 import com.sgkhmjaes.jdias.security.AuthoritiesConstants;
 import com.sgkhmjaes.jdias.security.SecurityUtils;
@@ -26,7 +28,6 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
-import javax.inject.Inject;
 
 /**
  * Service class for managing users.
@@ -38,36 +39,29 @@ public class UserService {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final SocialService socialService;
-
     private final UserSearchRepository userSearchRepository;
-
     private final PersistentTokenRepository persistentTokenRepository;
-
     private final AuthorityRepository authorityRepository;
+    private final UserAccountService userAccountService;
+    private final PersonService personService;
+    private final ProfileService profileService;    
+    private final AspectRepository aspectRepository;
+    private final AspectSearchRepository aspectSearchRepository;
 
-    @Inject
-    private UserAccountService userAccountService;
-
-    @Inject
-    private PersonService personService;
-    
-    @Inject
-    private ProfileService profileService;
-    @Inject
-    private AspectService aspectService;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, 
-            UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SocialService socialService, UserSearchRepository userSearchRepository, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository, UserAccountService userAccountService, PersonService personService, ProfileService profileService, AspectRepository aspectRepository, AspectSearchRepository aspectSearchRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.socialService = socialService;
         this.userSearchRepository = userSearchRepository;
         this.persistentTokenRepository = persistentTokenRepository;
         this.authorityRepository = authorityRepository;
+        this.userAccountService = userAccountService;
+        this.personService = personService;
+        this.profileService = profileService;
+        this.aspectRepository = aspectRepository;
+        this.aspectSearchRepository = aspectSearchRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -114,14 +108,19 @@ public class UserService {
 
         person.setProfile(profile);
         person = personService.save(person);
-        person = person.addAspect(aspectService.saveOnRegister(new Aspect("Family", LocalDate.now(), ZonedDateTime.now(), person)));
-        person = person.addAspect(aspectService.saveOnRegister(new Aspect("Friends", LocalDate.now(), ZonedDateTime.now(), person)));
-        person = person.addAspect(aspectService.saveOnRegister(new Aspect("Work", LocalDate.now(), ZonedDateTime.now(), person)));
-        person = person.addAspect(aspectService.saveOnRegister(new Aspect("Acquaintances", LocalDate.now(), ZonedDateTime.now(), person)));
+        person = person.addAspect(saveOnRegister(new Aspect("Family", LocalDate.now(), ZonedDateTime.now(), person)));
+        person = person.addAspect(saveOnRegister(new Aspect("Friends", LocalDate.now(), ZonedDateTime.now(), person)));
+        person = person.addAspect(saveOnRegister(new Aspect("Work", LocalDate.now(), ZonedDateTime.now(), person)));
+        person = person.addAspect(saveOnRegister(new Aspect("Acquaintances", LocalDate.now(), ZonedDateTime.now(), person)));
         personService.save(person);
-
     }
-
+    
+    private Aspect saveOnRegister(Aspect aspect) {
+        Aspect result = aspectRepository.save(aspect);
+        aspectSearchRepository.save(result);
+        return result;
+    }
+    
     public Optional<User> completePasswordReset(String newPassword, String key) {
        log.debug("Reset user password for reset key {}", key);
 
