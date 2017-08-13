@@ -4,12 +4,13 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Contact } from './contact.model';
 import { ContactPopupService } from './contact-popup.service';
 import { ContactService } from './contact.service';
 import { Person, PersonService } from '../person';
+import { Aspect, AspectService } from '../aspect';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -19,26 +20,30 @@ import { ResponseWrapper } from '../../shared';
 export class ContactDialogComponent implements OnInit {
 
     contact: Contact;
-    authorities: any[];
     isSaving: boolean;
 
     people: Person[];
 
+    aspects: Aspect[];
+
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private contactService: ContactService,
         private personService: PersonService,
-        private eventManager: EventManager
+        private AspectService: AspectService,
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.personService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.AspectService.query()
+            .subscribe((res: ResponseWrapper) => { this.aspects = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -47,24 +52,19 @@ export class ContactDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.contact.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.contactService.update(this.contact), false);
+                this.contactService.update(this.contact));
         } else {
             this.subscribeToSaveResponse(
-                this.contactService.create(this.contact), true);
+                this.contactService.create(this.contact));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Contact>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Contact>) {
         result.subscribe((res: Contact) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Contact, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.contact.created'
-            : 'jDiasApp.contact.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Contact) {
         this.eventManager.broadcast({ name: 'contactListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -87,6 +87,10 @@ export class ContactDialogComponent implements OnInit {
     trackPersonById(index: number, item: Person) {
         return item.id;
     }
+
+    trackAspectById(index: number, item: Aspect) {
+        return item.id;
+    }
 }
 
 @Component({
@@ -95,7 +99,6 @@ export class ContactDialogComponent implements OnInit {
 })
 export class ContactPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -106,11 +109,11 @@ export class ContactPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.contactPopupService
-                    .open(ContactDialogComponent, params['id']);
+                this.contactPopupService
+                    .open(ContactDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.contactPopupService
-                    .open(ContactDialogComponent);
+                this.contactPopupService
+                    .open(ContactDialogComponent as Component);
             }
         });
     }

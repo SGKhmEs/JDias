@@ -4,12 +4,12 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Conversation } from './conversation.model';
 import { ConversationPopupService } from './conversation-popup.service';
 import { ConversationService } from './conversation.service';
-import { UserAccount, UserAccountService } from '../user-account';
+import { Person, PersonService } from '../person';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -19,27 +19,26 @@ import { ResponseWrapper } from '../../shared';
 export class ConversationDialogComponent implements OnInit {
 
     conversation: Conversation;
-    authorities: any[];
     isSaving: boolean;
 
-    useraccounts: UserAccount[];
+    people: Person[];
     createdAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private conversationService: ConversationService,
-        private userAccountService: UserAccountService,
-        private eventManager: EventManager
+        private personService: PersonService,
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.userAccountService.query()
-            .subscribe((res: ResponseWrapper) => { this.useraccounts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.personService.query()
+            .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -48,24 +47,19 @@ export class ConversationDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.conversation.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.conversationService.update(this.conversation), false);
+                this.conversationService.update(this.conversation));
         } else {
             this.subscribeToSaveResponse(
-                this.conversationService.create(this.conversation), true);
+                this.conversationService.create(this.conversation));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Conversation>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Conversation>) {
         result.subscribe((res: Conversation) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Conversation, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.conversation.created'
-            : 'jDiasApp.conversation.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Conversation) {
         this.eventManager.broadcast({ name: 'conversationListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -85,8 +79,19 @@ export class ConversationDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackUserAccountById(index: number, item: UserAccount) {
+    trackPersonById(index: number, item: Person) {
         return item.id;
+    }
+
+    getSelected(selectedVals: Array<any>, option: any) {
+        if (selectedVals) {
+            for (let i = 0; i < selectedVals.length; i++) {
+                if (option.id === selectedVals[i].id) {
+                    return selectedVals[i];
+                }
+            }
+        }
+        return option;
     }
 }
 
@@ -96,7 +101,6 @@ export class ConversationDialogComponent implements OnInit {
 })
 export class ConversationPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -107,11 +111,11 @@ export class ConversationPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.conversationPopupService
-                    .open(ConversationDialogComponent, params['id']);
+                this.conversationPopupService
+                    .open(ConversationDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.conversationPopupService
-                    .open(ConversationDialogComponent);
+                this.conversationPopupService
+                    .open(ConversationDialogComponent as Component);
             }
         });
     }

@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Retraction } from './retraction.model';
 import { RetractionPopupService } from './retraction-popup.service';
@@ -17,21 +17,20 @@ import { RetractionService } from './retraction.service';
 export class RetractionDialogComponent implements OnInit {
 
     retraction: Retraction;
-    authorities: any[];
     isSaving: boolean;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private retractionService: RetractionService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -40,24 +39,19 @@ export class RetractionDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.retraction.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.retractionService.update(this.retraction), false);
+                this.retractionService.update(this.retraction));
         } else {
             this.subscribeToSaveResponse(
-                this.retractionService.create(this.retraction), true);
+                this.retractionService.create(this.retraction));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Retraction>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Retraction>) {
         result.subscribe((res: Retraction) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Retraction, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.retraction.created'
-            : 'jDiasApp.retraction.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Retraction) {
         this.eventManager.broadcast({ name: 'retractionListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -84,7 +78,6 @@ export class RetractionDialogComponent implements OnInit {
 })
 export class RetractionPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -95,11 +88,11 @@ export class RetractionPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.retractionPopupService
-                    .open(RetractionDialogComponent, params['id']);
+                this.retractionPopupService
+                    .open(RetractionDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.retractionPopupService
-                    .open(RetractionDialogComponent);
+                this.retractionPopupService
+                    .open(RetractionDialogComponent as Component);
             }
         });
     }

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService, EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Photo } from './photo.model';
 import { PhotoPopupService } from './photo-popup.service';
@@ -19,8 +19,7 @@ export class PhotoDeleteDialogComponent {
     constructor(
         private photoService: PhotoService,
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -36,7 +35,6 @@ export class PhotoDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('jDiasApp.photo.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class PhotoDeleteDialogComponent {
 })
 export class PhotoDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class PhotoDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.photoPopupService
-                .open(PhotoDeleteDialogComponent, params['id']);
+            this.photoPopupService
+                .open(PhotoDeleteDialogComponent as Component, params['id']);
         });
     }
 

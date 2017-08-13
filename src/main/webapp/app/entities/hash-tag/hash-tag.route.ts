@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { PaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { HashTagComponent } from './hash-tag.component';
 import { HashTagDetailComponent } from './hash-tag-detail.component';
 import { HashTagPopupComponent } from './hash-tag-dialog.component';
 import { HashTagDeletePopupComponent } from './hash-tag-delete-dialog.component';
-
-import { Principal } from '../../shared';
 
 export const hashTagRoute: Routes = [
     {

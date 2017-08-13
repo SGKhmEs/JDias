@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService, EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Aspect } from './aspect.model';
 import { AspectPopupService } from './aspect-popup.service';
@@ -19,8 +19,7 @@ export class AspectDeleteDialogComponent {
     constructor(
         private aspectService: AspectService,
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -36,7 +35,6 @@ export class AspectDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('jDiasApp.aspect.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class AspectDeleteDialogComponent {
 })
 export class AspectDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class AspectDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.aspectPopupService
-                .open(AspectDeleteDialogComponent, params['id']);
+            this.aspectPopupService
+                .open(AspectDeleteDialogComponent as Component, params['id']);
         });
     }
 

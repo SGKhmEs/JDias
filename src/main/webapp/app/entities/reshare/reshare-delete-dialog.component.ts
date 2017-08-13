@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService, EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Reshare } from './reshare.model';
 import { ResharePopupService } from './reshare-popup.service';
@@ -19,8 +19,7 @@ export class ReshareDeleteDialogComponent {
     constructor(
         private reshareService: ReshareService,
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -36,7 +35,6 @@ export class ReshareDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('jDiasApp.reshare.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class ReshareDeleteDialogComponent {
 })
 export class ReshareDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class ReshareDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.resharePopupService
-                .open(ReshareDeleteDialogComponent, params['id']);
+            this.resharePopupService
+                .open(ReshareDeleteDialogComponent as Component, params['id']);
         });
     }
 

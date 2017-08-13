@@ -31,7 +31,7 @@ describe('Tagging e2e test', () => {
         });
     });
 
-    it('should load create Tagging dialog', function () {
+    it('should load create Tagging dialog', () => {
         element(by.css('button.create-tagging')).click().then(() => {
             const expectVal = /jDiasApp.tagging.home.createOrEditLabel/;
             element.all(by.css('h4.modal-title')).first().getAttribute('jhiTranslate').then((value) => {
@@ -42,7 +42,7 @@ describe('Tagging e2e test', () => {
         });
     });
 
-    afterAll(function () {
+    afterAll(() => {
         accountMenu.click();
         logout.click();
     });

@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { EventParticipation } from './event-participation.model';
 import { EventParticipationPopupService } from './event-participation-popup.service';
@@ -20,7 +20,6 @@ import { ResponseWrapper } from '../../shared';
 export class EventParticipationDialogComponent implements OnInit {
 
     eventParticipation: EventParticipation;
-    authorities: any[];
     isSaving: boolean;
 
     events: Event[];
@@ -29,22 +28,22 @@ export class EventParticipationDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private eventParticipationService: EventParticipationService,
         private eventService: EventService,
         private personService: PersonService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.eventService.query()
             .subscribe((res: ResponseWrapper) => { this.events = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.personService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -53,24 +52,19 @@ export class EventParticipationDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.eventParticipation.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.eventParticipationService.update(this.eventParticipation), false);
+                this.eventParticipationService.update(this.eventParticipation));
         } else {
             this.subscribeToSaveResponse(
-                this.eventParticipationService.create(this.eventParticipation), true);
+                this.eventParticipationService.create(this.eventParticipation));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<EventParticipation>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<EventParticipation>) {
         result.subscribe((res: EventParticipation) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: EventParticipation, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.eventParticipation.created'
-            : 'jDiasApp.eventParticipation.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: EventParticipation) {
         this.eventManager.broadcast({ name: 'eventParticipationListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -105,7 +99,6 @@ export class EventParticipationDialogComponent implements OnInit {
 })
 export class EventParticipationPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -116,11 +109,11 @@ export class EventParticipationPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.eventParticipationPopupService
-                    .open(EventParticipationDialogComponent, params['id']);
+                this.eventParticipationPopupService
+                    .open(EventParticipationDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.eventParticipationPopupService
-                    .open(EventParticipationDialogComponent);
+                this.eventParticipationPopupService
+                    .open(EventParticipationDialogComponent as Component);
             }
         });
     }

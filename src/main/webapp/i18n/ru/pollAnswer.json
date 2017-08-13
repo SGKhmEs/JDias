@@ -18,8 +18,8 @@
             },
             "guid": "Guid",
             "answer": "Answer",
-            "poll": "Poll",
-            "pollanswers1": "Pollanswers 1"
+            "pollanswers1": "Pollanswers 1",
+            "poll": "Poll"
         }
     }
 }

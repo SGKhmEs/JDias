@@ -31,7 +31,7 @@ describe('Location e2e test', () => {
         });
     });
 
-    it('should load create Location dialog', function () {
+    it('should load create Location dialog', () => {
         element(by.css('button.create-location')).click().then(() => {
             const expectVal = /jDiasApp.location.home.createOrEditLabel/;
             element.all(by.css('h4.modal-title')).first().getAttribute('jhiTranslate').then((value) => {
@@ -42,7 +42,7 @@ describe('Location e2e test', () => {
         });
     });
 
-    afterAll(function () {
+    afterAll(() => {
         accountMenu.click();
         logout.click();
     });

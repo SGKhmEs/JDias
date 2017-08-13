@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { PaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { ConversationComponent } from './conversation.component';
 import { ConversationDetailComponent } from './conversation-detail.component';
 import { ConversationPopupComponent } from './conversation-dialog.component';
 import { ConversationDeletePopupComponent } from './conversation-delete-dialog.component';
-
-import { Principal } from '../../shared';
 
 export const conversationRoute: Routes = [
     {

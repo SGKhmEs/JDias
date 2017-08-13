@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { PaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { TagFollowingComponent } from './tag-following.component';
 import { TagFollowingDetailComponent } from './tag-following-detail.component';
 import { TagFollowingPopupComponent } from './tag-following-dialog.component';
 import { TagFollowingDeletePopupComponent } from './tag-following-delete-dialog.component';
-
-import { Principal } from '../../shared';
 
 export const tagFollowingRoute: Routes = [
     {

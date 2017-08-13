@@ -31,7 +31,7 @@ describe('Like e2e test', () => {
         });
     });
 
-    it('should load create Like dialog', function () {
+    it('should load create Like dialog', () => {
         element(by.css('button.create-like')).click().then(() => {
             const expectVal = /jDiasApp.like.home.createOrEditLabel/;
             element.all(by.css('h4.modal-title')).first().getAttribute('jhiTranslate').then((value) => {
@@ -42,7 +42,7 @@ describe('Like e2e test', () => {
         });
     });
 
-    afterAll(function () {
+    afterAll(() => {
         accountMenu.click();
         logout.click();
     });

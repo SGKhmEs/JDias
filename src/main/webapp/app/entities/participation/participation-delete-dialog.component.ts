@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService, EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Participation } from './participation.model';
 import { ParticipationPopupService } from './participation-popup.service';
@@ -19,8 +19,7 @@ export class ParticipationDeleteDialogComponent {
     constructor(
         private participationService: ParticipationService,
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -36,7 +35,6 @@ export class ParticipationDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('jDiasApp.participation.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class ParticipationDeleteDialogComponent {
 })
 export class ParticipationDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class ParticipationDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.participationPopupService
-                .open(ParticipationDeleteDialogComponent, params['id']);
+            this.participationPopupService
+                .open(ParticipationDeleteDialogComponent as Component, params['id']);
         });
     }
 

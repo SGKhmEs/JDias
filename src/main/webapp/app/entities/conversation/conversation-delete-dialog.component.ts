@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService, EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Conversation } from './conversation.model';
 import { ConversationPopupService } from './conversation-popup.service';
@@ -19,8 +19,7 @@ export class ConversationDeleteDialogComponent {
     constructor(
         private conversationService: ConversationService,
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -36,7 +35,6 @@ export class ConversationDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('jDiasApp.conversation.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class ConversationDeleteDialogComponent {
 })
 export class ConversationDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class ConversationDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.conversationPopupService
-                .open(ConversationDeleteDialogComponent, params['id']);
+            this.conversationPopupService
+                .open(ConversationDeleteDialogComponent as Component, params['id']);
         });
     }
 

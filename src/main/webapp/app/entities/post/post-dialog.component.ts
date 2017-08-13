@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Post } from './post.model';
 import { PostPopupService } from './post-popup.service';
@@ -21,7 +21,6 @@ import { ResponseWrapper } from '../../shared';
 export class PostDialogComponent implements OnInit {
 
     post: Post;
-    authorities: any[];
     isSaving: boolean;
 
     people: Person[];
@@ -33,18 +32,17 @@ export class PostDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private postService: PostService,
         private personService: PersonService,
         private reshareService: ReshareService,
         private statusMessageService: StatusMessageService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.personService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.reshareService.query()
@@ -52,6 +50,7 @@ export class PostDialogComponent implements OnInit {
         this.statusMessageService.query()
             .subscribe((res: ResponseWrapper) => { this.statusmessages = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -60,24 +59,19 @@ export class PostDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.post.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.postService.update(this.post), false);
+                this.postService.update(this.post));
         } else {
             this.subscribeToSaveResponse(
-                this.postService.create(this.post), true);
+                this.postService.create(this.post));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Post>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Post>) {
         result.subscribe((res: Post) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Post, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.post.created'
-            : 'jDiasApp.post.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Post) {
         this.eventManager.broadcast({ name: 'postListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -116,7 +110,6 @@ export class PostDialogComponent implements OnInit {
 })
 export class PostPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -127,11 +120,11 @@ export class PostPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.postPopupService
-                    .open(PostDialogComponent, params['id']);
+                this.postPopupService
+                    .open(PostDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.postPopupService
-                    .open(PostDialogComponent);
+                this.postPopupService
+                    .open(PostDialogComponent as Component);
             }
         });
     }

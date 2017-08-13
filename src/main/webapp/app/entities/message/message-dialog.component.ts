@@ -4,12 +4,13 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Message } from './message.model';
 import { MessagePopupService } from './message-popup.service';
 import { MessageService } from './message.service';
 import { Conversation, ConversationService } from '../conversation';
+import { Person, PersonService } from '../person';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -19,27 +20,30 @@ import { ResponseWrapper } from '../../shared';
 export class MessageDialogComponent implements OnInit {
 
     message: Message;
-    authorities: any[];
     isSaving: boolean;
 
     conversations: Conversation[];
-    createdAtDp: any;
+
+    people: Person[];
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private messageService: MessageService,
         private conversationService: ConversationService,
-        private eventManager: EventManager
+        private personService: PersonService,
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.conversationService.query()
             .subscribe((res: ResponseWrapper) => { this.conversations = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.personService.query()
+            .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -48,24 +52,19 @@ export class MessageDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.message.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.messageService.update(this.message), false);
+                this.messageService.update(this.message));
         } else {
             this.subscribeToSaveResponse(
-                this.messageService.create(this.message), true);
+                this.messageService.create(this.message));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Message>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Message>) {
         result.subscribe((res: Message) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Message, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.message.created'
-            : 'jDiasApp.message.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Message) {
         this.eventManager.broadcast({ name: 'messageListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -88,6 +87,10 @@ export class MessageDialogComponent implements OnInit {
     trackConversationById(index: number, item: Conversation) {
         return item.id;
     }
+
+    trackPersonById(index: number, item: Person) {
+        return item.id;
+    }
 }
 
 @Component({
@@ -96,7 +99,6 @@ export class MessageDialogComponent implements OnInit {
 })
 export class MessagePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -107,11 +109,11 @@ export class MessagePopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.messagePopupService
-                    .open(MessageDialogComponent, params['id']);
+                this.messagePopupService
+                    .open(MessageDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.messagePopupService
-                    .open(MessageDialogComponent);
+                this.messagePopupService
+                    .open(MessageDialogComponent as Component);
             }
         });
     }

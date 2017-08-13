@@ -26,13 +26,16 @@
             "podId": "Pod Id",
             "profile": "Profile",
             "accountdeletion": "Accountdeletion",
-            "comments": "Comments",
             "contacts": "Contacts",
-            "events": "Events",
-            "participations": "Participations",
-            "photos": "Photos",
             "posts": "Posts",
-            "conversation": "Conversation"
+            "photos": "Photos",
+            "comments": "Comments",
+            "participations": "Participations",
+            "events": "Events",
+            "message": "Message",
+            "conversation": "Conversation",
+            "userAccount": "User Account",
+            "aspect": "Aspect"
         }
     }
 }

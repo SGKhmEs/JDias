@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { AccountDeletion } from './account-deletion.model';
 import { AccountDeletionPopupService } from './account-deletion-popup.service';
@@ -17,21 +17,20 @@ import { AccountDeletionService } from './account-deletion.service';
 export class AccountDeletionDialogComponent implements OnInit {
 
     accountDeletion: AccountDeletion;
-    authorities: any[];
     isSaving: boolean;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private accountDeletionService: AccountDeletionService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -40,24 +39,19 @@ export class AccountDeletionDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.accountDeletion.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.accountDeletionService.update(this.accountDeletion), false);
+                this.accountDeletionService.update(this.accountDeletion));
         } else {
             this.subscribeToSaveResponse(
-                this.accountDeletionService.create(this.accountDeletion), true);
+                this.accountDeletionService.create(this.accountDeletion));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<AccountDeletion>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<AccountDeletion>) {
         result.subscribe((res: AccountDeletion) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: AccountDeletion, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.accountDeletion.created'
-            : 'jDiasApp.accountDeletion.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: AccountDeletion) {
         this.eventManager.broadcast({ name: 'accountDeletionListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -84,7 +78,6 @@ export class AccountDeletionDialogComponent implements OnInit {
 })
 export class AccountDeletionPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -95,11 +88,11 @@ export class AccountDeletionPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.accountDeletionPopupService
-                    .open(AccountDeletionDialogComponent, params['id']);
+                this.accountDeletionPopupService
+                    .open(AccountDeletionDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.accountDeletionPopupService
-                    .open(AccountDeletionDialogComponent);
+                this.accountDeletionPopupService
+                    .open(AccountDeletionDialogComponent as Component);
             }
         });
     }

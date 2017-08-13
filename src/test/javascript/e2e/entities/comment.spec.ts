@@ -31,7 +31,7 @@ describe('Comment e2e test', () => {
         });
     });
 
-    it('should load create Comment dialog', function () {
+    it('should load create Comment dialog', () => {
         element(by.css('button.create-comment')).click().then(() => {
             const expectVal = /jDiasApp.comment.home.createOrEditLabel/;
             element.all(by.css('h4.modal-title')).first().getAttribute('jhiTranslate').then((value) => {
@@ -42,7 +42,7 @@ describe('Comment e2e test', () => {
         });
     });
 
-    afterAll(function () {
+    afterAll(() => {
         accountMenu.click();
         logout.click();
     });

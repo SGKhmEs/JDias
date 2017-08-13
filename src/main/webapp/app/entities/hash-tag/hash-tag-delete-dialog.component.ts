@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService, EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { HashTag } from './hash-tag.model';
 import { HashTagPopupService } from './hash-tag-popup.service';
@@ -19,8 +19,7 @@ export class HashTagDeleteDialogComponent {
     constructor(
         private hashTagService: HashTagService,
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -36,7 +35,6 @@ export class HashTagDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('jDiasApp.hashTag.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class HashTagDeleteDialogComponent {
 })
 export class HashTagDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class HashTagDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.hashTagPopupService
-                .open(HashTagDeleteDialogComponent, params['id']);
+            this.hashTagPopupService
+                .open(HashTagDeleteDialogComponent as Component, params['id']);
         });
     }
 

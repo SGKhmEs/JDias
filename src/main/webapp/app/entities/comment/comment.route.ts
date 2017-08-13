@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { PaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { CommentComponent } from './comment.component';
 import { CommentDetailComponent } from './comment-detail.component';
 import { CommentPopupComponent } from './comment-dialog.component';
 import { CommentDeletePopupComponent } from './comment-delete-dialog.component';
-
-import { Principal } from '../../shared';
 
 export const commentRoute: Routes = [
     {

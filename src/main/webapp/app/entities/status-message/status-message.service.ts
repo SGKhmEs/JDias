@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import {StatusMessage, StatusMessageDTO} from './status-message.model';
+import { StatusMessage } from './status-message.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
 
 @Injectable()
@@ -13,14 +13,14 @@ export class StatusMessageService {
 
     constructor(private http: Http) { }
 
-    create(statusMessage: StatusMessageDTO): Observable<StatusMessageDTO> {
+    create(statusMessage: StatusMessage): Observable<StatusMessage> {
         const copy = this.convert(statusMessage);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
     }
 
-    update(statusMessage: StatusMessageDTO): Observable<StatusMessageDTO> {
+    update(statusMessage: StatusMessage): Observable<StatusMessage> {
         const copy = this.convert(statusMessage);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();

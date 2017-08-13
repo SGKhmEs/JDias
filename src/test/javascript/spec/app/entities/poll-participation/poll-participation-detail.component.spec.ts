@@ -1,9 +1,10 @@
+/* tslint:disable max-line-length */
 import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
 import { OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { DateUtils, DataUtils, EventManager } from 'ng-jhipster';
+import { JhiDateUtils, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
 import { JDiasTestModule } from '../../../test.module';
 import { MockActivatedRoute } from '../../../helpers/mock-route.service';
 import { PollParticipationDetailComponent } from '../../../../../../main/webapp/app/entities/poll-participation/poll-participation-detail.component';
@@ -22,15 +23,15 @@ describe('Component Tests', () => {
                 imports: [JDiasTestModule],
                 declarations: [PollParticipationDetailComponent],
                 providers: [
-                    DateUtils,
-                    DataUtils,
+                    JhiDateUtils,
+                    JhiDataUtils,
                     DatePipe,
                     {
                         provide: ActivatedRoute,
                         useValue: new MockActivatedRoute({id: 123})
                     },
                     PollParticipationService,
-                    EventManager
+                    JhiEventManager
                 ]
             }).overrideTemplate(PollParticipationDetailComponent, '')
             .compileComponents();
@@ -41,7 +42,6 @@ describe('Component Tests', () => {
             comp = fixture.componentInstance;
             service = fixture.debugElement.injector.get(PollParticipationService);
         });
-
 
         describe('OnInit', () => {
             it('Should call load all on init', () => {
@@ -54,7 +54,7 @@ describe('Component Tests', () => {
 
             // THEN
             expect(service.find).toHaveBeenCalledWith(123);
-            expect(comp.pollParticipation).toEqual(jasmine.objectContaining({id:10}));
+            expect(comp.pollParticipation).toEqual(jasmine.objectContaining({id: 10}));
             });
         });
     });

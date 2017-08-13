@@ -31,7 +31,7 @@ describe('PollAnswer e2e test', () => {
         });
     });
 
-    it('should load create PollAnswer dialog', function () {
+    it('should load create PollAnswer dialog', () => {
         element(by.css('button.create-poll-answer')).click().then(() => {
             const expectVal = /jDiasApp.pollAnswer.home.createOrEditLabel/;
             element.all(by.css('h4.modal-title')).first().getAttribute('jhiTranslate').then((value) => {
@@ -42,7 +42,7 @@ describe('PollAnswer e2e test', () => {
         });
     });
 
-    afterAll(function () {
+    afterAll(() => {
         accountMenu.click();
         logout.click();
     });

@@ -4,13 +4,13 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { TagFollowing } from './tag-following.model';
 import { TagFollowingPopupService } from './tag-following-popup.service';
 import { TagFollowingService } from './tag-following.service';
 import { Tag, TagService } from '../tag';
-import { UserAccount, UserAccountService } from '../user-account';
+import { Person, PersonService } from '../person';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -20,33 +20,30 @@ import { ResponseWrapper } from '../../shared';
 export class TagFollowingDialogComponent implements OnInit {
 
     tagFollowing: TagFollowing;
-    authorities: any[];
     isSaving: boolean;
 
     tags: Tag[];
 
-    useraccounts: UserAccount[];
-    createdAtDp: any;
-    updatedAtDp: any;
+    people: Person[];
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private tagFollowingService: TagFollowingService,
         private tagService: TagService,
-        private userAccountService: UserAccountService,
-        private eventManager: EventManager
+        private personService: PersonService,
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.tagService.query()
             .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.userAccountService.query()
-            .subscribe((res: ResponseWrapper) => { this.useraccounts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.personService.query()
+            .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -55,24 +52,19 @@ export class TagFollowingDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.tagFollowing.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.tagFollowingService.update(this.tagFollowing), false);
+                this.tagFollowingService.update(this.tagFollowing));
         } else {
             this.subscribeToSaveResponse(
-                this.tagFollowingService.create(this.tagFollowing), true);
+                this.tagFollowingService.create(this.tagFollowing));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<TagFollowing>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<TagFollowing>) {
         result.subscribe((res: TagFollowing) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: TagFollowing, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.tagFollowing.created'
-            : 'jDiasApp.tagFollowing.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: TagFollowing) {
         this.eventManager.broadcast({ name: 'tagFollowingListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -96,7 +88,7 @@ export class TagFollowingDialogComponent implements OnInit {
         return item.id;
     }
 
-    trackUserAccountById(index: number, item: UserAccount) {
+    trackPersonById(index: number, item: Person) {
         return item.id;
     }
 }
@@ -107,7 +99,6 @@ export class TagFollowingDialogComponent implements OnInit {
 })
 export class TagFollowingPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -118,11 +109,11 @@ export class TagFollowingPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.tagFollowingPopupService
-                    .open(TagFollowingDialogComponent, params['id']);
+                this.tagFollowingPopupService
+                    .open(TagFollowingDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.tagFollowingPopupService
-                    .open(TagFollowingDialogComponent);
+                this.tagFollowingPopupService
+                    .open(TagFollowingDialogComponent as Component);
             }
         });
     }

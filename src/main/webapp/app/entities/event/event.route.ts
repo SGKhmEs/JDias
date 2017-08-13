@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { PaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { EventComponent } from './event.component';
 import { EventDetailComponent } from './event-detail.component';
 import { EventPopupComponent } from './event-dialog.component';
 import { EventDeletePopupComponent } from './event-delete-dialog.component';
-
-import { Principal } from '../../shared';
 
 export const eventRoute: Routes = [
     {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { DateUtils } from 'ng-jhipster';
+import { JhiDateUtils } from 'ng-jhipster';
 
 import { Conversation } from './conversation.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
@@ -12,7 +12,7 @@ export class ConversationService {
     private resourceUrl = 'api/conversations';
     private resourceSearchUrl = 'api/_search/conversations';
 
-    constructor(private http: Http, private dateUtils: DateUtils) { }
+    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
 
     create(conversation: Conversation): Observable<Conversation> {
         const copy = this.convert(conversation);
@@ -67,12 +67,16 @@ export class ConversationService {
     private convertItemFromServer(entity: any) {
         entity.createdAt = this.dateUtils
             .convertLocalDateFromServer(entity.createdAt);
+        entity.updatedAt = this.dateUtils
+            .convertDateTimeFromServer(entity.updatedAt);
     }
 
     private convert(conversation: Conversation): Conversation {
         const copy: Conversation = Object.assign({}, conversation);
         copy.createdAt = this.dateUtils
             .convertLocalDateToServer(conversation.createdAt);
+
+        copy.updatedAt = this.dateUtils.toDate(conversation.updatedAt);
         return copy;
     }
 }

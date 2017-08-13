@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService, EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Post } from './post.model';
 import { PostPopupService } from './post-popup.service';
@@ -19,8 +19,7 @@ export class PostDeleteDialogComponent {
     constructor(
         private postService: PostService,
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -36,7 +35,6 @@ export class PostDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('jDiasApp.post.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class PostDeleteDialogComponent {
 })
 export class PostDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class PostDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.postPopupService
-                .open(PostDeleteDialogComponent, params['id']);
+            this.postPopupService
+                .open(PostDeleteDialogComponent as Component, params['id']);
         });
     }
 

@@ -3,7 +3,7 @@
         "title": "Sign in",
         "form": {
             "password": "Password",
-            "password.placeholder": "PASSWORD",
+            "password.placeholder": "Your password",
             "rememberme": "Remember me",
             "button": "Sign in"
         },

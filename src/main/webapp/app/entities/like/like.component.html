@@ -1,7 +1,7 @@
 <div>
     <h2>
         <span jhiTranslate="jDiasApp.like.home.title">Likes</span>
-        <button class="btn btn-primary float-right create-like" [routerLink]="['/', { outlets: { popup: ['like-new'] } }]">
+        <button class="btn btn-primary float-right jh-create-entity create-like" [routerLink]="['/', { outlets: { popup: ['like-new'] } }]">
             <span class="fa fa-plus"></span>
             <span class="hidden-sm-down"  jhiTranslate="jDiasApp.like.home.createLabel">
             Create new Like
@@ -39,7 +39,6 @@
             <th><span jhiTranslate="jDiasApp.like.parentAuthorSignature">Parent Author Signature</span></th>
             <th><span jhiTranslate="jDiasApp.like.post">Post</span></th>
             <th><span jhiTranslate="jDiasApp.like.person">Person</span></th>
-            <th><span jhiTranslate="jDiasApp.like.person">Person</span></th>
             <th></th>
             </tr>
             </thead>
@@ -56,11 +55,6 @@
                 <td>
                     <div *ngIf="like.post">
                         <a [routerLink]="['../post', like.post?.id ]" >{{like.post?.id}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="like.person">
-                        <a [routerLink]="['../person', like.person?.id ]" >{{like.person?.id}}</a>
                     </div>
                 </td>
                 <td>

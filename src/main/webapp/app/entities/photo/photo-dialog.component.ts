@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Photo } from './photo.model';
 import { PhotoPopupService } from './photo-popup.service';
@@ -20,7 +20,6 @@ import { ResponseWrapper } from '../../shared';
 export class PhotoDialogComponent implements OnInit {
 
     photo: Photo;
-    authorities: any[];
     isSaving: boolean;
 
     statusmessages: StatusMessage[];
@@ -30,22 +29,22 @@ export class PhotoDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private photoService: PhotoService,
         private statusMessageService: StatusMessageService,
         private personService: PersonService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.statusMessageService.query()
             .subscribe((res: ResponseWrapper) => { this.statusmessages = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.personService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -54,24 +53,19 @@ export class PhotoDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.photo.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.photoService.update(this.photo), false);
+                this.photoService.update(this.photo));
         } else {
             this.subscribeToSaveResponse(
-                this.photoService.create(this.photo), true);
+                this.photoService.create(this.photo));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Photo>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Photo>) {
         result.subscribe((res: Photo) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Photo, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.photo.created'
-            : 'jDiasApp.photo.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Photo) {
         this.eventManager.broadcast({ name: 'photoListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -106,7 +100,6 @@ export class PhotoDialogComponent implements OnInit {
 })
 export class PhotoPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -117,11 +110,11 @@ export class PhotoPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.photoPopupService
-                    .open(PhotoDialogComponent, params['id']);
+                this.photoPopupService
+                    .open(PhotoDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.photoPopupService
-                    .open(PhotoDialogComponent);
+                this.photoPopupService
+                    .open(PhotoDialogComponent as Component);
             }
         });
     }

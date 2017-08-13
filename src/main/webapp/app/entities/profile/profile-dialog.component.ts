@@ -4,11 +4,13 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Profile } from './profile.model';
 import { ProfilePopupService } from './profile-popup.service';
 import { ProfileService } from './profile.service';
+import { Person, PersonService } from '../person';
+import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-profile-dialog',
@@ -17,22 +19,37 @@ import { ProfileService } from './profile.service';
 export class ProfileDialogComponent implements OnInit {
 
     profile: Profile;
-    authorities: any[];
     isSaving: boolean;
+
+    people: Person[];
     birthdayDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private profileService: ProfileService,
-        private eventManager: EventManager
+        private personService: PersonService,
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
+        this.personService
+            .query({filter: 'profile-is-null'})
+            .subscribe((res: ResponseWrapper) => {
+                if (!this.profile.person || !this.profile.person.id) {
+                    this.people = res.json;
+                } else {
+                    this.personService
+                        .find(this.profile.person.id)
+                        .subscribe((subRes: Person) => {
+                            this.people = [subRes].concat(res.json);
+                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
+                }
+            }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -41,24 +58,19 @@ export class ProfileDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.profile.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.profileService.update(this.profile), false);
+                this.profileService.update(this.profile));
         } else {
             this.subscribeToSaveResponse(
-                this.profileService.create(this.profile), true);
+                this.profileService.create(this.profile));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Profile>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Profile>) {
         result.subscribe((res: Profile) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Profile, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.profile.created'
-            : 'jDiasApp.profile.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Profile) {
         this.eventManager.broadcast({ name: 'profileListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -77,6 +89,10 @@ export class ProfileDialogComponent implements OnInit {
     private onError(error) {
         this.alertService.error(error.message, null, null);
     }
+
+    trackPersonById(index: number, item: Person) {
+        return item.id;
+    }
 }
 
 @Component({
@@ -85,7 +101,6 @@ export class ProfileDialogComponent implements OnInit {
 })
 export class ProfilePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -96,11 +111,11 @@ export class ProfilePopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.profilePopupService
-                    .open(ProfileDialogComponent, params['id']);
+                this.profilePopupService
+                    .open(ProfileDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.profilePopupService
-                    .open(ProfileDialogComponent);
+                this.profilePopupService
+                    .open(ProfileDialogComponent as Component);
             }
         });
     }

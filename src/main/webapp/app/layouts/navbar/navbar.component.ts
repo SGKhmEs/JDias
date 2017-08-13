@@ -2,15 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiLanguageService } from 'ng-jhipster';
-import {Observable} from 'rxjs/Observable';
-import { Http, Response } from '@angular/http';
 
 import { ProfileService } from '../profiles/profile.service';
 import { JhiLanguageHelper, Principal, LoginModalService, LoginService } from '../../shared';
 
 import { VERSION, DEBUG_INFO_ENABLED } from '../../app.constants';
-
-import {Person} from '../../entities/person/person.model';
 
 @Component({
     selector: 'jhi-navbar',
@@ -21,29 +17,24 @@ import {Person} from '../../entities/person/person.model';
 })
 export class NavbarComponent implements OnInit {
 
-    personUrl = 'api/people';
     inProduction: boolean;
     isNavbarCollapsed: boolean;
     languages: any[];
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
-    person: Person = new Person();
-    currentAccount: any;
 
     constructor(
         private loginService: LoginService,
-        private languageHelper: JhiLanguageHelper,
         private languageService: JhiLanguageService,
+        private languageHelper: JhiLanguageHelper,
         private principal: Principal,
         private loginModalService: LoginModalService,
         private profileService: ProfileService,
-        private router: Router,
-        private http: Http
+        private router: Router
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
-        this.languageService.addLocation('home');
     }
 
     ngOnInit() {
@@ -51,11 +42,6 @@ export class NavbarComponent implements OnInit {
             this.languages = languages;
         });
 
-        this.principal.identity().then((account) => {
-            this.currentAccount = account;
-            console.log(this.currentAccount);
-            this.load();
-        });
         this.profileService.getProfileInfo().subscribe((profileInfo) => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
@@ -90,19 +76,5 @@ export class NavbarComponent implements OnInit {
 
     getImageUrl() {
         return this.isAuthenticated() ? this.principal.getImageUrl() : null;
-    }
-
-    load() {
-        this.findPerson().subscribe((person) => {
-             this.person = person;
-            console.log(this.person);
-        });
-    }
-
-    findPerson(): Observable<Person> {
-        return this.http.get(`${this.personUrl}/${this.currentAccount.id}`).map((res: Response) => {
-            const jsonResponse = res.json();
-            return jsonResponse;
-        });
     }
 }

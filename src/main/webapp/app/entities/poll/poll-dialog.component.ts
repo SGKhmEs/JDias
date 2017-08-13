@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Poll } from './poll.model';
 import { PollPopupService } from './poll-popup.service';
@@ -17,47 +17,41 @@ import { PollService } from './poll.service';
 export class PollDialogComponent implements OnInit {
 
     poll: Poll;
-    authorities: any[];
     isSaving: boolean;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private pollService: PollService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
 
     save() {
         this.isSaving = true;
-        if (this.poll.poll_id !== undefined) {
+        if (this.poll.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.pollService.update(this.poll), false);
+                this.pollService.update(this.poll));
         } else {
             this.subscribeToSaveResponse(
-                this.pollService.create(this.poll), true);
+                this.pollService.create(this.poll));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Poll>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Poll>) {
         result.subscribe((res: Poll) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Poll, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.poll.created'
-            : 'jDiasApp.poll.updated',
-            { param : result.poll_id }, null);
-
+    private onSaveSuccess(result: Poll) {
         this.eventManager.broadcast({ name: 'pollListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -84,7 +78,6 @@ export class PollDialogComponent implements OnInit {
 })
 export class PollPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -95,11 +88,11 @@ export class PollPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.pollPopupService
-                    .open(PollDialogComponent, params['id']);
+                this.pollPopupService
+                    .open(PollDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.pollPopupService
-                    .open(PollDialogComponent);
+                this.pollPopupService
+                    .open(PollDialogComponent as Component);
             }
         });
     }

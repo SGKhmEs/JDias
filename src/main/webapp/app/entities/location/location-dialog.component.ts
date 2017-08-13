@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Location } from './location.model';
 import { LocationPopupService } from './location-popup.service';
@@ -17,28 +17,20 @@ import { LocationService } from './location.service';
 export class LocationDialogComponent implements OnInit {
 
     location: Location;
-    authorities: any[];
     isSaving: boolean;
-
-    options = {
-        enableHighAccuracy: true,
-        timeout: 1000,
-        maximumAge: 0
-    };
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private locationService: LocationService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
-        navigator.geolocation.getCurrentPosition(this.successCallback, this.errorCallback, this.options);
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -47,24 +39,19 @@ export class LocationDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.location.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.locationService.update(this.location), false);
+                this.locationService.update(this.location));
         } else {
             this.subscribeToSaveResponse(
-                this.locationService.create(this.location), true);
+                this.locationService.create(this.location));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Location>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Location>) {
         result.subscribe((res: Location) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Location, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.location.created'
-            : 'jDiasApp.location.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Location) {
         this.eventManager.broadcast({ name: 'locationListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -83,27 +70,6 @@ export class LocationDialogComponent implements OnInit {
     private onError(error) {
         this.alertService.error(error.message, null, null);
     }
-
-    successCallback = (position) => {
-        this.location.lat = position.coords.latitude;
-        this.location.lng = position.coords.longitude;
-    }
-
-    errorCallback = (error) => {
-        let errorMessage = 'Unknown error';
-        switch (error.code) {
-            case 1:
-                errorMessage = 'Permission denied';
-                break;
-            case 2:
-                errorMessage = 'Position unavailable';
-                break;
-            case 3:
-                errorMessage = 'Timeout';
-                break;
-        }
-        console.log(errorMessage);
-    }
 }
 
 @Component({
@@ -112,7 +78,6 @@ export class LocationDialogComponent implements OnInit {
 })
 export class LocationPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -123,11 +88,11 @@ export class LocationPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.locationPopupService
-                    .open(LocationDialogComponent, params['id']);
+                this.locationPopupService
+                    .open(LocationDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.locationPopupService
-                    .open(LocationDialogComponent);
+                this.locationPopupService
+                    .open(LocationDialogComponent as Component);
             }
         });
     }

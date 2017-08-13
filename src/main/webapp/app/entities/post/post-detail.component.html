@@ -1,355 +1,63 @@
+
 <div *ngIf="post">
-    <div class="container-fluid" id="container">
-        <div id="post.id">
-            <div id="single-post-container">
-                <div class="row">
-                    <div id="single-post-content" class="col-md-6 single-post-content">
-                        <div class="framed-content">
-                            <div id="head" class="head clearfix">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div id="post-info" class="col-md-8">
-                                            <div class="img pull-left">
-                                                <a routerLink="['/profile',post.person?.id]"
-                                                   class="author-name hovercardable">
-                                                    <img
-                                                        [src]="post.author.avatar.imageUrlSmall"
-                                                        class="medium avatar img-responsive center-block"
-                                                        title="{{post.author.diaspora_id}}"
-                                                        alt="{{post.author.diaspora_id}}">
-                                                </a>
-                                            </div>
-
-                                            <div class="bd">
-                                                <div class="info">
-                                                    <span class="post_scope" title="" data-original-title="Public">
-                                                        <i class="entypo-globe small"></i>
-                                                    </span>
-                                                    <span class="post-time">
-                                                        <a [routerLink]="['/post',post.id]">
-                                                            <time title="">{{post.created_at | date:'mediumDate' }}
-                                                            </time>
-                                                        </a>
-                                                    </span>
-                                                </div>
-                                                <span class="author">
-                                                    <a [routerLink]="['/profile',post.person?.id]"
-                                                       class="author-name hovercardable">
-                                                        {{post.author.diaspora_id}}
-                                                    </a>
-                                                </span>
-
-                                                <div id="single-post-moderation">
-                                                    <div class="control-icons">
-                                                        <div>
-                                                            <a href="https://#joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                               data-type="Post" class="post_report" title=""
-                                                               data-original-title="Report">
-                                                                <i class="entypo-warning"></i>
-                                                            </a>
-                                                            <a href="https://#joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                               data-type="post" class="block_user" title=""
-                                                               data-original-title="Ignore">
-                                                                <i class="entypo-block"></i>
-                                                            </a>
-                                                            <a href="https://#joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                               data-type="nofollow" class="create_participation"
-                                                               title=""
-                                                               data-original-title="Enable notifications for this post">
-                                                                <i class="entypo-bell"></i>
-                                                            </a>
-                                                            <a href="https://#joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                               data-type="post" class="hide_post" title=""
-                                                               data-original-title="Hide">
-                                                                <i class="entypo-cross"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div id="single-post-actions" class="col-md-4">
-                                            <div class="info">
-                                                <div class="pull-right">
-                                                    <a href="https://#joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                       class="like" title="" data-original-title=" Like ">
-                                                        <i class="entypo-heart gray large"></i>
-                                                    </a>
-
-                                                    <a href="https://#joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                       class="focus-comment" title="" data-original-title="Comment">
-                                                        <i class="entypo-comment gray large"></i>
-                                                    </a>
-
-                                                    <a href="https://#joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                       class="reshare" title="" data-original-title="Reshare">
-                                                        <i class="entypo-reshare gray large"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div id="body" class="body clearfix">
-                                    <div id="real-post-content" class="post-content col-md-12">
-                                        <div>
-                                            <div class="nsfw-shield">
-                                                <strong>
-                                                    #NSFW
-                                                </strong>
-                                                |
-                                                <a href="https://#joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                   class="show_nsfw_post">
-                                                    Show post
-                                                </a>
-                                                |
-                                                <a href="https://#joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                   class="toggle_nsfw_state">
-                                                    Show all
-                                                </a>
-                                            </div>
-
-                                            <div class="nsfw-off">
-                                                <strong>
-                                                    #NSFW
-                                                </strong>
-                                                |
-                                                <a href="https://#joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                   class="toggle_nsfw_state">
-                                                    Hide #nsfw posts
-                                                </a>
-                                            </div>
-
-                                            <div *ngFor="let photo of post.photos ;trackBy: trackId"
-                                                 class="photo_attachments nsfw-hidden">
-                                                <a [href]="photo.remotePhotoPath+photo.remotePhotoName"
-                                                   class="stream-photo-link gallery-picture">
-                                                    <img [src]="photo.remotePhotoPath+photo.remotePhotoName"
-                                                         class="stream-photo big_stream_photo">
-                                                </a>
-
-                                            </div>
-
-                                            <div class="collapsible nsfw-hidden">
-                                                <div class="markdown-content">
-                                                    <p>
-                                                        <!--<a href="https://#joindiaspora.com/tags/photo" class="tag">#photo</a>-->
-                                                        {{post.text}}
-                                                    </p>
-
-                                                </div>
-                                                <div class="oembed">
-                                                    <div></div>
-                                                </div>
-                                                <div class="opengraph">
-                                                    <div></div>
-                                                </div>
-                                                <div class="poll">
-                                                    <div></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="single-post-interactions" class="col-md-6 single-post-interactions">
-                        <div class="framed-content">
-                            <div id="interaction-counts">
-                                <div>
-                                    <div id="reshares" class="clearfix">
-                                        <div class="count">
-                                            <i class="entypo-reshare middle gray"></i>
-                                            <span>{{post.interactions.reshares_count > 0 ?post.interactions.reshares_count : 0 }}</span>
-                                        </div>
-                                        <!--<div class="interaction-avatars">
-                                            <a href="https://#joindiaspora.com/people/5098e7404e91013483ab0242ac110007"
-                                               class="author-name hovercardable"> <img
-                                                src="/content/images/thumb_small.jpg"
-                                                class="micro avatar img-responsive center-block" title=""
-                                                alt="Erik Rijnart" data-original-title="Erik Rijnart">
-                                            </a>
-                                        </div>-->
-                                    </div>
-                                    <div id="likes" class="clearfix">
-                                        <div class="count">
-                                            <i class="entypo-heart middle gray"></i>
-                                            <span>{{post.interactions.likes_count > 0 ?
-                                                                post.interactions.likes_count : 0 }}</span>
-                                        </div>
-                                        <!--<div class="interaction-avatars"
-                                             *ngFor="let like of post.interactions.likes ;trackBy: trackId">
-                                            <a [routerLink]="['/profile',post.person?.id]"
-                                               class="author-name hovercardable">
-                                                <img [src]="like.author.avatar.imageUrlSmall"
-                                                     class="micro avatar img-responsive center-block"
-                                                     title="{{like.author.diaspora_id}}"
-                                                     alt="{{like.author.diaspora_id}}">
-                                            </a>
-                                        </div>-->
-                                    </div>
-                                    <div id="comments-meta" class="clearfix">
-                                        <div class="count">
-                                            <i class="entypo-comment middle gray"></i>
-                                            <span>{{post.interactions.comments_count > 0 ?post.interactions.comments_count : 0 }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="comments">
-                                <div class="comment_stream">
-                                    <div class="show_comments comment  hidden ">
-                                        <div class="media">
-                                            <a href="https://##joindiaspora.com/posts/9325058#comments"
-                                               class="toggle_post_comments">
-                                                Show 1 more comments
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="loading-comments comment text-center hidden">
-                                        <div class="media">
-                                            <div class="loader">
-                                                <div class="spinner"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="comments"
-                                         *ngFor="let comment of post.interactions.comments ;trackBy: trackId">
-                                        <div class="comment media">
-                                            <div id="{{comment.id}}">
-                                                <div class="img">
-                                                    <a [routerLink]="['/profile',comment.author.id]"
-                                                       class="author-name hovercardable">
-                                                        <img [src]="comment.author.avatar.imageUrlSmall"
-                                                             class="small avatar img-responsive center-block"
-                                                             title="{{comment.author.diaspora_id}}"
-                                                             alt="{{comment.author.diaspora_id}}">
-                                                    </a></div>
-
-                                                <div class="bd">
-                                                    <div class="control-icons">
-                                                        <a [routerLink]="['/post',post.id]"
-                                                           data-type="Comment" class="comment_report" title=""
-                                                           data-original-title="Report">
-                                                            <i class="entypo-warning"></i>
-                                                        </a>
-                                                    </div>
-
-                                                    <a [routerLink]="['/profile',comment.author.id]"
-                                                       class="author-name hovercardable">{{comment.author.diaspora_id}}
-                                                    </a>
-                                                    <div class="collapsible comment-content markdown-content">
-                                                        <p>{{comment.text}}</p>
-
-                                                    </div>
-
-                                                    <div class="info">
-                                                        <a [routerLink]="['/post',post.id]"
-                                                           class="permalink_comment">
-                                                            <time class="timeago">{{comment.createdAt |
-                                                                date:'mediumDate' }}
-                                                            </time>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!--<div class="comment media">
-                                            <div id="5a536a301e5a01358bb20242ac110007">
-                                                <div class="img">
-                                                    <a href="https://#joindiaspora.com/people/991ef3e01e5601358b960242ac110007"
-                                                       class="author-name hovercardable"> <img
-                                                        src="/content/images/thumb_small.jpg"
-                                                        class="small avatar img-responsive center-block"
-                                                        title="orbiter2@#joindiaspora.com"
-                                                        alt="orbiter2@#joindiaspora.com">
-                                                    </a></div>
-
-                                                <div class="bd">
-                                                    <div class="control-icons">
-                                                        <a href="https://#joindiaspora.com/posts/e76847001e3001358b9c0242ac110007#"
-                                                           data-type="Comment" class="comment_report" title=""
-                                                           data-original-title="Report">
-                                                            <i class="entypo-warning"></i>
-                                                        </a>
-                                                    </div>
-
-                                                    <a href="https://#joindiaspora.com/people/991ef3e01e5601358b960242ac110007"
-                                                       class="author-name hovercardable"> orbiter2@#joindiaspora.com
-                                                    </a>
-                                                    <div class="collapsible comment-content markdown-content">
-                                                        <p>Is this portal called :“joineddiaspora” is real Diaspora
-                                                            services? why name is different?</p>
-                                                    </div>
-
-                                                    <div class="info">
-                                                        <a href="https://#joindiaspora.com/posts/9325058#5a536a301e5a01358bb20242ac110007"
-                                                           class="permalink_comment">
-                                                            <time class="timeago"
-                                                                  data-original-title="19.05.2017, 3:45:17"
-                                                                  datetime="2017-05-19T00:45:17.000Z">about a month ago
-                                                            </time>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>-->
-                                    </div>
-
-                                    <div class="comment media new-comment-form-wrapper">
-                                        <a href="https://#joindiaspora.com/people/3d4b7ee0348f0135f65c0242ac110007"
-                                           class="img">
-                                            <img
-                                                src="/content/images/default-avatar.png"
-                                                class="small avatar img-responsive center-block"
-                                                title="brownjone@#joindiaspora.com" alt="brownjone@#joindiaspora.com">
-                                        </a>
-
-                                        <div class="bd">
-                                            <form accept-charset="UTF-8"
-                                                  action="https://#joindiaspora.com/posts/9325058/comments"
-                                                  class="new_comment" id="new_comment_on_9325058" method="post">
-                                                <textarea class="comment_box form-control" id="comment_text_on_9325058"
-                                                          name="text" rows="1" required="" placeholder="Comment"
-                                                          style="overflow: hidden; word-wrap: break-word; height: 31.1333px;"></textarea>
-                                                <div class="submit_button">
-                                                    <input class="btn btn-primary" id="comment_submit_9325058"
-                                                           name="commit" type="submit" value="Comment">
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <h2><span jhiTranslate="jDiasApp.post.detail.title">Post</span> {{post.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="jDiasApp.post.author">Author</span></dt>
+        <dd>
+            <span>{{post.author}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.guid">Guid</span></dt>
+        <dd>
+            <span>{{post.guid}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.createdAt">Created At</span></dt>
+        <dd>
+            <span>{{post.createdAt | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.pub">Pub</span></dt>
+        <dd>
+            <span>{{post.pub}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.providerDisplayName">Provider Display Name</span></dt>
+        <dd>
+            <span>{{post.providerDisplayName}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.postType">Post Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'jDiasApp.PostType.' + post.postType}}">{{post.postType}}</span>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.person">Person</span></dt>
+        <dd>
+            <div *ngIf="post.person">
+                <a [routerLink]="['/person', post.person?.id]">{{post.person?.id}}</a>
             </div>
-        </div>
-    </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.reshare">Reshare</span></dt>
+        <dd>
+            <div *ngIf="post.reshare">
+                <a [routerLink]="['/reshare', post.reshare?.id]">{{post.reshare?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="jDiasApp.post.statusMessage">Status Message</span></dt>
+        <dd>
+            <div *ngIf="post.statusMessage">
+                <a [routerLink]="['/status-message', post.statusMessage?.id]">{{post.statusMessage?.id}}</a>
+            </div>
+        </dd>
+    </dl>
 
-    <!--<button type="button"
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
             [routerLink]="['/', { outlets: { popup: 'post/'+ post.id + '/edit'} }]"
             replaceUrl="true"
             class="btn btn-primary">
         <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-    </button>-->
-    <div class="container-fluid" id="back">
-        <div class="row center-block">
-            <div class="center">
-                <button type="submit" routerLink="/post/"
-                        class="btn btn-info">
-                    <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-                </button>
-            </div>
-        </div>
-    </div>
+    </button>
 </div>
-

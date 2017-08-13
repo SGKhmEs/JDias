@@ -1,13 +1,40 @@
-import { Interaction } from '../interaction';
-import { Author } from '../author';
-export class Like {
+import { BaseEntity } from './../../shared';
+
+const enum Type {
+    'ACCOUNTDELETION',
+    'COMMENT',
+    'CONTACT',
+    'CONVERSATION',
+    'EVENT',
+    'EVENTPARTICIPATION',
+    'LIKE',
+    'LOCATION',
+    'MESSAGE',
+    'PARTICIPATION',
+    'PHOTO',
+    'POLL',
+    'POLLANSWER',
+    'POLLPARTICIPATION',
+    'POST',
+    'PROFILE',
+    'RESHARE',
+    'RETRACTION',
+    'STATUSMESSAGE'
+}
+
+export class Like implements BaseEntity {
     constructor(
         public id?: number,
-        public post_id?: number,
+        public author?: string,
         public guid?: string,
-        public createdAt?: any,
-        public interaction?: Interaction,
-        public author?: Author,
+        public parentGuid?: string,
+        public parentType?: Type,
+        public positive?: boolean,
+        public authorSignature?: string,
+        public parentAuthorSignature?: string,
+        public post?: BaseEntity,
+        public person?: BaseEntity,
     ) {
+        this.positive = false;
     }
 }

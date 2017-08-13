@@ -12,28 +12,19 @@
             <input type="text" class="form-control" id="id" name="id"
                    [(ngModel)]="tagging.id" readonly />
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.tagging.context" for="field_context">Context</label>
-            <input type="text" class="form-control" name="context" id="field_context"
-                [(ngModel)]="tagging.context"
-             />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="jDiasApp.tagging.createdAt" for="field_createdAt">Created At</label>
-            <div class="input-group">
-                <input id="field_createdAt" type="text" class="form-control" name="createdAt" ngbDatepicker  #createdAtDp="ngbDatepicker" [(ngModel)]="tagging.createdAt"
-                />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="createdAtDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
-            </div>
-        </div>
 
         <div class="form-group">
             <label jhiTranslate="jDiasApp.tagging.tag" for="field_tag">Tag</label>
             <select class="form-control" id="field_tag" name="tag" [(ngModel)]="tagging.tag" >
                 <option [ngValue]="null"></option>
                 <option [ngValue]="tagOption.id === tagging.tag?.id ? tagging.tag : tagOption" *ngFor="let tagOption of tags; trackBy: trackTagById">{{tagOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="jDiasApp.tagging.post" for="field_post">Post</label>
+            <select class="form-control" id="field_post" name="post" [(ngModel)]="tagging.post" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="postOption.id === tagging.post?.id ? tagging.post : postOption" *ngFor="let postOption of posts; trackBy: trackPostById">{{postOption.id}}</option>
             </select>
         </div>
     </div>

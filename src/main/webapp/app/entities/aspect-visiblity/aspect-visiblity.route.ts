@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { PaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { AspectVisiblityComponent } from './aspect-visiblity.component';
 import { AspectVisiblityDetailComponent } from './aspect-visiblity-detail.component';
 import { AspectVisiblityPopupComponent } from './aspect-visiblity-dialog.component';
 import { AspectVisiblityDeletePopupComponent } from './aspect-visiblity-delete-dialog.component';
-
-import { Principal } from '../../shared';
 
 export const aspectVisiblityRoute: Routes = [
     {

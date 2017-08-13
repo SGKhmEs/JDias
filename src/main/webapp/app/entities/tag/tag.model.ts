@@ -1,15 +1,14 @@
-import { Post } from '../post';
-import { TagFollowing } from '../tag-following';
-import { Tagging } from '../tagging';
-export class Tag {
+import { BaseEntity } from './../../shared';
+
+export class Tag implements BaseEntity {
     constructor(
         public id?: number,
-        public name?: string,
-        public post?: Post,
-        public tagFollowings?: TagFollowing,
-        public taggings?: Tagging,
+        public tagContext?: string,
         public createdAt?: any,
-        public updatedAt?: any
+        public updatedAt?: any,
+        public taggings?: BaseEntity[],
+        public tagFollowings?: BaseEntity[],
+        public hashTag?: BaseEntity,
     ) {
     }
 }

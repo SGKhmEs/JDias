@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { StatusMessage } from './status-message.model';
 import { StatusMessagePopupService } from './status-message-popup.service';
@@ -20,7 +20,6 @@ import { ResponseWrapper } from '../../shared';
 export class StatusMessageDialogComponent implements OnInit {
 
     statusMessage: StatusMessage;
-    authorities: any[];
     isSaving: boolean;
 
     locations: Location[];
@@ -29,18 +28,17 @@ export class StatusMessageDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private statusMessageService: StatusMessageService,
         private locationService: LocationService,
         private pollService: PollService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        /*this.locationService
+        this.locationService
             .query({filter: 'statusmessage-is-null'})
             .subscribe((res: ResponseWrapper) => {
                 if (!this.statusMessage.location || !this.statusMessage.location.id) {
@@ -65,7 +63,7 @@ export class StatusMessageDialogComponent implements OnInit {
                             this.polls = [subRes].concat(res.json);
                         }, (subRes: ResponseWrapper) => this.onError(subRes.json));
                 }
-            }, (res: ResponseWrapper) => this.onError(res.json));*/
+            }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -76,24 +74,19 @@ export class StatusMessageDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.statusMessage.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.statusMessageService.update(this.statusMessage), false);
+                this.statusMessageService.update(this.statusMessage));
         } else {
             this.subscribeToSaveResponse(
-                this.statusMessageService.create(this.statusMessage), true);
+                this.statusMessageService.create(this.statusMessage));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<StatusMessage>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<StatusMessage>) {
         result.subscribe((res: StatusMessage) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: StatusMessage, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.statusMessage.created'
-            : 'jDiasApp.statusMessage.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: StatusMessage) {
         this.eventManager.broadcast({ name: 'statusMessageListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -118,7 +111,7 @@ export class StatusMessageDialogComponent implements OnInit {
     }
 
     trackPollById(index: number, item: Poll) {
-        return item.poll_id;
+        return item.id;
     }
 }
 
@@ -128,7 +121,6 @@ export class StatusMessageDialogComponent implements OnInit {
 })
 export class StatusMessagePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -139,11 +131,11 @@ export class StatusMessagePopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.statusMessagePopupService
-                    .open(StatusMessageDialogComponent, params['id']);
+                this.statusMessagePopupService
+                    .open(StatusMessageDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.statusMessagePopupService
-                    .open(StatusMessageDialogComponent);
+                this.statusMessagePopupService
+                    .open(StatusMessageDialogComponent as Component);
             }
         });
     }

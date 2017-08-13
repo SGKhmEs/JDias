@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Participation } from './participation.model';
 import { ParticipationPopupService } from './participation-popup.service';
@@ -19,26 +19,25 @@ import { ResponseWrapper } from '../../shared';
 export class ParticipationDialogComponent implements OnInit {
 
     participation: Participation;
-    authorities: any[];
     isSaving: boolean;
 
     people: Person[];
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private participationService: ParticipationService,
         private personService: PersonService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.personService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -47,24 +46,19 @@ export class ParticipationDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.participation.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.participationService.update(this.participation), false);
+                this.participationService.update(this.participation));
         } else {
             this.subscribeToSaveResponse(
-                this.participationService.create(this.participation), true);
+                this.participationService.create(this.participation));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Participation>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Participation>) {
         result.subscribe((res: Participation) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Participation, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.participation.created'
-            : 'jDiasApp.participation.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Participation) {
         this.eventManager.broadcast({ name: 'participationListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -95,7 +89,6 @@ export class ParticipationDialogComponent implements OnInit {
 })
 export class ParticipationPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -106,11 +99,11 @@ export class ParticipationPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.participationPopupService
-                    .open(ParticipationDialogComponent, params['id']);
+                this.participationPopupService
+                    .open(ParticipationDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.participationPopupService
-                    .open(ParticipationDialogComponent);
+                this.participationPopupService
+                    .open(ParticipationDialogComponent as Component);
             }
         });
     }

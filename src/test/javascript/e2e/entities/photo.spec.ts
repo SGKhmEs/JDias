@@ -31,7 +31,7 @@ describe('Photo e2e test', () => {
         });
     });
 
-    it('should load create Photo dialog', function () {
+    it('should load create Photo dialog', () => {
         element(by.css('button.create-photo')).click().then(() => {
             const expectVal = /jDiasApp.photo.home.createOrEditLabel/;
             element.all(by.css('h4.modal-title')).first().getAttribute('jhiTranslate').then((value) => {
@@ -42,7 +42,7 @@ describe('Photo e2e test', () => {
         });
     });
 
-    afterAll(function () {
+    afterAll(() => {
         accountMenu.click();
         logout.click();
     });

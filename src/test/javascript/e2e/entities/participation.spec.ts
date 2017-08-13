@@ -31,7 +31,7 @@ describe('Participation e2e test', () => {
         });
     });
 
-    it('should load create Participation dialog', function () {
+    it('should load create Participation dialog', () => {
         element(by.css('button.create-participation')).click().then(() => {
             const expectVal = /jDiasApp.participation.home.createOrEditLabel/;
             element.all(by.css('h4.modal-title')).first().getAttribute('jhiTranslate').then((value) => {
@@ -42,7 +42,7 @@ describe('Participation e2e test', () => {
         });
     });
 
-    afterAll(function () {
+    afterAll(() => {
         accountMenu.click();
         logout.click();
     });

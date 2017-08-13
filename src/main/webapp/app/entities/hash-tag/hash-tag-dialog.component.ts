@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { HashTag } from './hash-tag.model';
 import { HashTagPopupService } from './hash-tag-popup.service';
@@ -17,20 +17,18 @@ import { HashTagService } from './hash-tag.service';
 export class HashTagDialogComponent implements OnInit {
 
     hashTag: HashTag;
-    authorities: any[];
     isSaving: boolean;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private hashTagService: HashTagService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
 
     clear() {
@@ -41,24 +39,19 @@ export class HashTagDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.hashTag.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.hashTagService.update(this.hashTag), false);
+                this.hashTagService.update(this.hashTag));
         } else {
             this.subscribeToSaveResponse(
-                this.hashTagService.create(this.hashTag), true);
+                this.hashTagService.create(this.hashTag));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<HashTag>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<HashTag>) {
         result.subscribe((res: HashTag) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: HashTag, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.hashTag.created'
-            : 'jDiasApp.hashTag.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: HashTag) {
         this.eventManager.broadcast({ name: 'hashTagListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -85,7 +78,6 @@ export class HashTagDialogComponent implements OnInit {
 })
 export class HashTagPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -96,11 +88,11 @@ export class HashTagPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.hashTagPopupService
-                    .open(HashTagDialogComponent, params['id']);
+                this.hashTagPopupService
+                    .open(HashTagDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.hashTagPopupService
-                    .open(HashTagDialogComponent);
+                this.hashTagPopupService
+                    .open(HashTagDialogComponent as Component);
             }
         });
     }

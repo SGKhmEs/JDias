@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { PaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { PollAnswerComponent } from './poll-answer.component';
 import { PollAnswerDetailComponent } from './poll-answer-detail.component';
 import { PollAnswerPopupComponent } from './poll-answer-dialog.component';
 import { PollAnswerDeletePopupComponent } from './poll-answer-delete-dialog.component';
-
-import { Principal } from '../../shared';
 
 export const pollAnswerRoute: Routes = [
     {

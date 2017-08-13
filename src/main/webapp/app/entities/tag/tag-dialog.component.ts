@@ -4,12 +4,12 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Tag } from './tag.model';
 import { TagPopupService } from './tag-popup.service';
 import { TagService } from './tag.service';
-import { Post, PostService } from '../post';
+import { HashTag, HashTagService } from '../hash-tag';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -19,26 +19,26 @@ import { ResponseWrapper } from '../../shared';
 export class TagDialogComponent implements OnInit {
 
     tag: Tag;
-    authorities: any[];
     isSaving: boolean;
 
-    posts: Post[];
+    hashtags: HashTag[];
+    createdAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private tagService: TagService,
-        private postService: PostService,
-        private eventManager: EventManager
+        private hashTagService: HashTagService,
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.postService.query()
-            .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.hashTagService.query()
+            .subscribe((res: ResponseWrapper) => { this.hashtags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -47,24 +47,19 @@ export class TagDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.tag.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.tagService.update(this.tag), false);
+                this.tagService.update(this.tag));
         } else {
             this.subscribeToSaveResponse(
-                this.tagService.create(this.tag), true);
+                this.tagService.create(this.tag));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Tag>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Tag>) {
         result.subscribe((res: Tag) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Tag, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.tag.created'
-            : 'jDiasApp.tag.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Tag) {
         this.eventManager.broadcast({ name: 'tagListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -84,7 +79,7 @@ export class TagDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackPostById(index: number, item: Post) {
+    trackHashTagById(index: number, item: HashTag) {
         return item.id;
     }
 }
@@ -95,7 +90,6 @@ export class TagDialogComponent implements OnInit {
 })
 export class TagPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -106,11 +100,11 @@ export class TagPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.tagPopupService
-                    .open(TagDialogComponent, params['id']);
+                this.tagPopupService
+                    .open(TagDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.tagPopupService
-                    .open(TagDialogComponent);
+                this.tagPopupService
+                    .open(TagDialogComponent as Component);
             }
         });
     }

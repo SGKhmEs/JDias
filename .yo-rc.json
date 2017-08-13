@@ -4,7 +4,7 @@
       "packageName": "com.sgkhmjaes.jdias",
       "nativeLanguage": "en"
     },
-    "jhipsterVersion": "4.5.2",
+    "jhipsterVersion": "4.6.2",
     "baseName": "JDias",
     "packageName": "com.sgkhmjaes.jdias",
     "packageFolder": "com/sgkhmjaes/jdias",
@@ -17,11 +17,12 @@
     "devDatabaseType": "h2Disk",
     "prodDatabaseType": "postgresql",
     "searchEngine": "elasticsearch",
+    "messageBroker": false,
     "serviceDiscoveryType": false,
     "buildTool": "gradle",
     "enableSocialSignIn": true,
     "rememberMeKey": "1d902fb70725a1d5966d805d8f55b91d2c057656",
-    "clientFramework": "angular2",
+    "clientFramework": "angularX",
     "useSass": true,
     "clientPackageManager": "yarn",
     "applicationType": "monolith",
@@ -38,7 +39,7 @@
       },
       {
         "name": "generator-jhipster-nav-element",
-        "version": "1.0.2"
+        "version": "1.3.0"
       },
       {
         "name": "generator-jhipster-ci",
@@ -50,7 +51,7 @@
       },
       {
         "name": "generator-jhipster-entity-audit",
-        "version": "2.4.0"
+        "version": "2.5.0"
       },
       {
         "name": "generator-jhipster-entity-audit-and-delete",
@@ -90,7 +91,6 @@
     "languages": [
       "en",
       "ru"
-    ],
-    "messageBroker": false
+    ]
   }
 }

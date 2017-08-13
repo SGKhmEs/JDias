@@ -1,7 +1,7 @@
 <div>
     <h2>
         <span jhiTranslate="jDiasApp.message.home.title">Messages</span>
-        <button class="btn btn-primary float-right create-message" [routerLink]="['/', { outlets: { popup: ['message-new'] } }]">
+        <button class="btn btn-primary float-right jh-create-entity create-message" [routerLink]="['/', { outlets: { popup: ['message-new'] } }]">
             <span class="fa fa-plus"></span>
             <span class="hidden-sm-down"  jhiTranslate="jDiasApp.message.home.createLabel">
             Create new Message
@@ -36,6 +36,7 @@
             <th><span jhiTranslate="jDiasApp.message.text">Text</span></th>
             <th><span jhiTranslate="jDiasApp.message.createdAt">Created At</span></th>
             <th><span jhiTranslate="jDiasApp.message.conversation">Conversation</span></th>
+            <th><span jhiTranslate="jDiasApp.message.person">Person</span></th>
             <th></th>
             </tr>
             </thead>
@@ -46,10 +47,15 @@
                 <td>{{message.guid}}</td>
                 <td>{{message.conversationGuid}}</td>
                 <td>{{message.text}}</td>
-                <td>{{message.createdAt | date:'mediumDate'}}</td>
+                <td>{{message.createdAt | date:'medium'}}</td>
                 <td>
                     <div *ngIf="message.conversation">
                         <a [routerLink]="['../conversation', message.conversation?.id ]" >{{message.conversation?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="message.person">
+                        <a [routerLink]="['../person', message.person?.id ]" >{{message.person?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

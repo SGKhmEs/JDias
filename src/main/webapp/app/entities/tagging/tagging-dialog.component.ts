@@ -4,12 +4,13 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Tagging } from './tagging.model';
 import { TaggingPopupService } from './tagging-popup.service';
 import { TaggingService } from './tagging.service';
 import { Tag, TagService } from '../tag';
+import { Post, PostService } from '../post';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -19,27 +20,30 @@ import { ResponseWrapper } from '../../shared';
 export class TaggingDialogComponent implements OnInit {
 
     tagging: Tagging;
-    authorities: any[];
     isSaving: boolean;
 
     tags: Tag[];
-    createdAtDp: any;
+
+    posts: Post[];
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private taggingService: TaggingService,
         private tagService: TagService,
-        private eventManager: EventManager
+        private postService: PostService,
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.tagService.query()
             .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.postService.query()
+            .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -48,24 +52,19 @@ export class TaggingDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.tagging.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.taggingService.update(this.tagging), false);
+                this.taggingService.update(this.tagging));
         } else {
             this.subscribeToSaveResponse(
-                this.taggingService.create(this.tagging), true);
+                this.taggingService.create(this.tagging));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Tagging>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Tagging>) {
         result.subscribe((res: Tagging) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Tagging, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.tagging.created'
-            : 'jDiasApp.tagging.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Tagging) {
         this.eventManager.broadcast({ name: 'taggingListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -88,6 +87,10 @@ export class TaggingDialogComponent implements OnInit {
     trackTagById(index: number, item: Tag) {
         return item.id;
     }
+
+    trackPostById(index: number, item: Post) {
+        return item.id;
+    }
 }
 
 @Component({
@@ -96,7 +99,6 @@ export class TaggingDialogComponent implements OnInit {
 })
 export class TaggingPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -107,11 +109,11 @@ export class TaggingPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.taggingPopupService
-                    .open(TaggingDialogComponent, params['id']);
+                this.taggingPopupService
+                    .open(TaggingDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.taggingPopupService
-                    .open(TaggingDialogComponent);
+                this.taggingPopupService
+                    .open(TaggingDialogComponent as Component);
             }
         });
     }

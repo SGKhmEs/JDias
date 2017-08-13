@@ -4,39 +4,50 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { Aspect } from './aspect.model';
 import { AspectService } from './aspect.service';
+
 @Injectable()
 export class AspectPopupService {
-    private isOpen = false;
+    private ngbModalRef: NgbModalRef;
+
     constructor(
         private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private aspectService: AspectService
 
-    ) {}
+    ) {
+        this.ngbModalRef = null;
+    }
 
-    open(component: Component, id?: number | any): NgbModalRef {
-        if (this.isOpen) {
-            return;
-        }
-        this.isOpen = true;
+    open(component: Component, id?: number | any): Promise<NgbModalRef> {
+        return new Promise<NgbModalRef>((resolve, reject) => {
+            const isOpen = this.ngbModalRef !== null;
+            if (isOpen) {
+                resolve(this.ngbModalRef);
+            }
 
-        if (id) {
-            this.aspectService.find(id).subscribe((aspect) => {
-                if (aspect.createdAt) {
-                    aspect.createdAt = {
-                        year: aspect.createdAt.getFullYear(),
-                        month: aspect.createdAt.getMonth() + 1,
-                        day: aspect.createdAt.getDate()
-                    };
-                }
-                aspect.updatedAt = this.datePipe
-                    .transform(aspect.updatedAt, 'yyyy-MM-ddThh:mm');
-                this.aspectModalRef(component, aspect);
-            });
-        } else {
-            return this.aspectModalRef(component, new Aspect());
-        }
+            if (id) {
+                this.aspectService.find(id).subscribe((aspect) => {
+                    if (aspect.createdAt) {
+                        aspect.createdAt = {
+                            year: aspect.createdAt.getFullYear(),
+                            month: aspect.createdAt.getMonth() + 1,
+                            day: aspect.createdAt.getDate()
+                        };
+                    }
+                    aspect.updatedAt = this.datePipe
+                        .transform(aspect.updatedAt, 'yyyy-MM-ddThh:mm');
+                    this.ngbModalRef = this.aspectModalRef(component, aspect);
+                    resolve(this.ngbModalRef);
+                });
+            } else {
+                // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
+                setTimeout(() => {
+                    this.ngbModalRef = this.aspectModalRef(component, new Aspect());
+                    resolve(this.ngbModalRef);
+                }, 0);
+            }
+        });
     }
 
     aspectModalRef(component: Component, aspect: Aspect): NgbModalRef {
@@ -44,10 +55,10 @@ export class AspectPopupService {
         modalRef.componentInstance.aspect = aspect;
         modalRef.result.then((result) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
-            this.isOpen = false;
+            this.ngbModalRef = null;
         }, (reason) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
-            this.isOpen = false;
+            this.ngbModalRef = null;
         });
         return modalRef;
     }

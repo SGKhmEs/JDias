@@ -31,7 +31,7 @@ describe('TagFollowing e2e test', () => {
         });
     });
 
-    it('should load create TagFollowing dialog', function () {
+    it('should load create TagFollowing dialog', () => {
         element(by.css('button.create-tag-following')).click().then(() => {
             const expectVal = /jDiasApp.tagFollowing.home.createOrEditLabel/;
             element.all(by.css('h4.modal-title')).first().getAttribute('jhiTranslate').then((value) => {
@@ -42,7 +42,7 @@ describe('TagFollowing e2e test', () => {
         });
     });
 
-    afterAll(function () {
+    afterAll(() => {
         accountMenu.click();
         logout.click();
     });

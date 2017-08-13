@@ -3,36 +3,47 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Post } from './post.model';
 import { PostService } from './post.service';
+
 @Injectable()
 export class PostPopupService {
-    private isOpen = false;
+    private ngbModalRef: NgbModalRef;
+
     constructor(
         private modalService: NgbModal,
         private router: Router,
         private postService: PostService
 
-    ) {}
+    ) {
+        this.ngbModalRef = null;
+    }
 
-    open(component: Component, id?: number | any): NgbModalRef {
-        if (this.isOpen) {
-            return;
-        }
-        this.isOpen = true;
+    open(component: Component, id?: number | any): Promise<NgbModalRef> {
+        return new Promise<NgbModalRef>((resolve, reject) => {
+            const isOpen = this.ngbModalRef !== null;
+            if (isOpen) {
+                resolve(this.ngbModalRef);
+            }
 
-        if (id) {
-            this.postService.find(id).subscribe((post) => {
-                if (post.createdAt) {
-                    post.createdAt = {
-                        year: post.createdAt.getFullYear(),
-                        month: post.createdAt.getMonth() + 1,
-                        day: post.createdAt.getDate()
-                    };
-                }
-                this.postModalRef(component, post);
-            });
-        } else {
-            return this.postModalRef(component, new Post());
-        }
+            if (id) {
+                this.postService.find(id).subscribe((post) => {
+                    if (post.createdAt) {
+                        post.createdAt = {
+                            year: post.createdAt.getFullYear(),
+                            month: post.createdAt.getMonth() + 1,
+                            day: post.createdAt.getDate()
+                        };
+                    }
+                    this.ngbModalRef = this.postModalRef(component, post);
+                    resolve(this.ngbModalRef);
+                });
+            } else {
+                // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
+                setTimeout(() => {
+                    this.ngbModalRef = this.postModalRef(component, new Post());
+                    resolve(this.ngbModalRef);
+                }, 0);
+            }
+        });
     }
 
     postModalRef(component: Component, post: Post): NgbModalRef {
@@ -40,10 +51,10 @@ export class PostPopupService {
         modalRef.componentInstance.post = post;
         modalRef.result.then((result) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
-            this.isOpen = false;
+            this.ngbModalRef = null;
         }, (reason) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
-            this.isOpen = false;
+            this.ngbModalRef = null;
         });
         return modalRef;
     }

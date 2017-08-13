@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Reshare } from './reshare.model';
 import { ResharePopupService } from './reshare-popup.service';
@@ -17,21 +17,20 @@ import { ReshareService } from './reshare.service';
 export class ReshareDialogComponent implements OnInit {
 
     reshare: Reshare;
-    authorities: any[];
     isSaving: boolean;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private reshareService: ReshareService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -40,24 +39,19 @@ export class ReshareDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.reshare.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.reshareService.update(this.reshare), false);
+                this.reshareService.update(this.reshare));
         } else {
             this.subscribeToSaveResponse(
-                this.reshareService.create(this.reshare), true);
+                this.reshareService.create(this.reshare));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Reshare>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Reshare>) {
         result.subscribe((res: Reshare) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Reshare, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.reshare.created'
-            : 'jDiasApp.reshare.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Reshare) {
         this.eventManager.broadcast({ name: 'reshareListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -84,7 +78,6 @@ export class ReshareDialogComponent implements OnInit {
 })
 export class ResharePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -95,11 +88,11 @@ export class ResharePopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.resharePopupService
-                    .open(ReshareDialogComponent, params['id']);
+                this.resharePopupService
+                    .open(ReshareDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.resharePopupService
-                    .open(ReshareDialogComponent);
+                this.resharePopupService
+                    .open(ReshareDialogComponent as Component);
             }
         });
     }

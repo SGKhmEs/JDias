@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService, EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { TagFollowing } from './tag-following.model';
 import { TagFollowingPopupService } from './tag-following-popup.service';
@@ -19,8 +19,7 @@ export class TagFollowingDeleteDialogComponent {
     constructor(
         private tagFollowingService: TagFollowingService,
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -36,7 +35,6 @@ export class TagFollowingDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('jDiasApp.tagFollowing.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class TagFollowingDeleteDialogComponent {
 })
 export class TagFollowingDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class TagFollowingDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.tagFollowingPopupService
-                .open(TagFollowingDeleteDialogComponent, params['id']);
+            this.tagFollowingPopupService
+                .open(TagFollowingDeleteDialogComponent as Component, params['id']);
         });
     }
 

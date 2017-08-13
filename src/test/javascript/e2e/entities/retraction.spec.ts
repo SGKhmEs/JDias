@@ -31,7 +31,7 @@ describe('Retraction e2e test', () => {
         });
     });
 
-    it('should load create Retraction dialog', function () {
+    it('should load create Retraction dialog', () => {
         element(by.css('button.create-retraction')).click().then(() => {
             const expectVal = /jDiasApp.retraction.home.createOrEditLabel/;
             element.all(by.css('h4.modal-title')).first().getAttribute('jhiTranslate').then((value) => {
@@ -42,7 +42,7 @@ describe('Retraction e2e test', () => {
         });
     });
 
-    afterAll(function () {
+    afterAll(() => {
         accountMenu.click();
         logout.click();
     });

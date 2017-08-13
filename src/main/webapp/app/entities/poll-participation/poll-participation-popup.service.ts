@@ -3,29 +3,40 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PollParticipation } from './poll-participation.model';
 import { PollParticipationService } from './poll-participation.service';
+
 @Injectable()
 export class PollParticipationPopupService {
-    private isOpen = false;
+    private ngbModalRef: NgbModalRef;
+
     constructor(
         private modalService: NgbModal,
         private router: Router,
         private pollParticipationService: PollParticipationService
 
-    ) {}
+    ) {
+        this.ngbModalRef = null;
+    }
 
-    open(component: Component, id?: number | any): NgbModalRef {
-        if (this.isOpen) {
-            return;
-        }
-        this.isOpen = true;
+    open(component: Component, id?: number | any): Promise<NgbModalRef> {
+        return new Promise<NgbModalRef>((resolve, reject) => {
+            const isOpen = this.ngbModalRef !== null;
+            if (isOpen) {
+                resolve(this.ngbModalRef);
+            }
 
-        if (id) {
-            this.pollParticipationService.find(id).subscribe((pollParticipation) => {
-                this.pollParticipationModalRef(component, pollParticipation);
-            });
-        } else {
-            return this.pollParticipationModalRef(component, new PollParticipation());
-        }
+            if (id) {
+                this.pollParticipationService.find(id).subscribe((pollParticipation) => {
+                    this.ngbModalRef = this.pollParticipationModalRef(component, pollParticipation);
+                    resolve(this.ngbModalRef);
+                });
+            } else {
+                // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
+                setTimeout(() => {
+                    this.ngbModalRef = this.pollParticipationModalRef(component, new PollParticipation());
+                    resolve(this.ngbModalRef);
+                }, 0);
+            }
+        });
     }
 
     pollParticipationModalRef(component: Component, pollParticipation: PollParticipation): NgbModalRef {
@@ -33,10 +44,10 @@ export class PollParticipationPopupService {
         modalRef.componentInstance.pollParticipation = pollParticipation;
         modalRef.result.then((result) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
-            this.isOpen = false;
+            this.ngbModalRef = null;
         }, (reason) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
-            this.isOpen = false;
+            this.ngbModalRef = null;
         });
         return modalRef;
     }

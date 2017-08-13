@@ -28,7 +28,8 @@
             "location": "Location",
             "searchable": "Searchable",
             "nsfw": "Nsfw",
-            "tagString": "Tag String"
+            "tagString": "Tag String",
+            "person": "Person"
         }
     }
 }

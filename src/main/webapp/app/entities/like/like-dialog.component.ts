@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Like } from './like.model';
 import { LikePopupService } from './like-popup.service';
@@ -20,7 +20,6 @@ import { ResponseWrapper } from '../../shared';
 export class LikeDialogComponent implements OnInit {
 
     like: Like;
-    authorities: any[];
     isSaving: boolean;
 
     posts: Post[];
@@ -29,22 +28,22 @@ export class LikeDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private likeService: LikeService,
         private postService: PostService,
         private personService: PersonService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.postService.query()
             .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.personService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -53,24 +52,19 @@ export class LikeDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.like.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.likeService.update(this.like), false);
+                this.likeService.update(this.like));
         } else {
             this.subscribeToSaveResponse(
-                this.likeService.create(this.like), true);
+                this.likeService.create(this.like));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Like>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Like>) {
         result.subscribe((res: Like) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Like, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.like.created'
-            : 'jDiasApp.like.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Like) {
         this.eventManager.broadcast({ name: 'likeListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -105,7 +99,6 @@ export class LikeDialogComponent implements OnInit {
 })
 export class LikePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -116,11 +109,11 @@ export class LikePopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.likePopupService
-                    .open(LikeDialogComponent, params['id']);
+                this.likePopupService
+                    .open(LikeDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.likePopupService
-                    .open(LikeDialogComponent);
+                this.likePopupService
+                    .open(LikeDialogComponent as Component);
             }
         });
     }

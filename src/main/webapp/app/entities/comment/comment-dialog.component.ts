@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Comment } from './comment.model';
 import { CommentPopupService } from './comment-popup.service';
@@ -20,7 +20,6 @@ import { ResponseWrapper } from '../../shared';
 export class CommentDialogComponent implements OnInit {
 
     comment: Comment;
-    authorities: any[];
     isSaving: boolean;
 
     posts: Post[];
@@ -30,22 +29,22 @@ export class CommentDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private commentService: CommentService,
         private postService: PostService,
         private personService: PersonService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.postService.query()
             .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.personService.query()
             .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -54,24 +53,19 @@ export class CommentDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.comment.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.commentService.update(this.comment), false);
+                this.commentService.update(this.comment));
         } else {
             this.subscribeToSaveResponse(
-                this.commentService.create(this.comment), true);
+                this.commentService.create(this.comment));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Comment>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Comment>) {
         result.subscribe((res: Comment) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Comment, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.comment.created'
-            : 'jDiasApp.comment.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Comment) {
         this.eventManager.broadcast({ name: 'commentListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -106,7 +100,6 @@ export class CommentDialogComponent implements OnInit {
 })
 export class CommentPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -117,11 +110,11 @@ export class CommentPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.commentPopupService
-                    .open(CommentDialogComponent, params['id']);
+                this.commentPopupService
+                    .open(CommentDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.commentPopupService
-                    .open(CommentDialogComponent);
+                this.commentPopupService
+                    .open(CommentDialogComponent as Component);
             }
         });
     }

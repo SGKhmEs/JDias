@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Event } from './event.model';
 import { EventPopupService } from './event-popup.service';
@@ -17,23 +17,22 @@ import { EventService } from './event.service';
 export class EventDialogComponent implements OnInit {
 
     event: Event;
-    authorities: any[];
     isSaving: boolean;
     startDp: any;
     endDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private eventService: EventService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -42,24 +41,19 @@ export class EventDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.event.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.eventService.update(this.event), false);
+                this.eventService.update(this.event));
         } else {
             this.subscribeToSaveResponse(
-                this.eventService.create(this.event), true);
+                this.eventService.create(this.event));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Event>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Event>) {
         result.subscribe((res: Event) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Event, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.event.created'
-            : 'jDiasApp.event.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Event) {
         this.eventManager.broadcast({ name: 'eventListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -86,7 +80,6 @@ export class EventDialogComponent implements OnInit {
 })
 export class EventPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -97,11 +90,11 @@ export class EventPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.eventPopupService
-                    .open(EventDialogComponent, params['id']);
+                this.eventPopupService
+                    .open(EventDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.eventPopupService
-                    .open(EventDialogComponent);
+                this.eventPopupService
+                    .open(EventDialogComponent as Component);
             }
         });
     }

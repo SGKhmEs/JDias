@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { PaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { LikeComponent } from './like.component';
 import { LikeDetailComponent } from './like-detail.component';
 import { LikePopupComponent } from './like-dialog.component';
 import { LikeDeletePopupComponent } from './like-delete-dialog.component';
-
-import { Principal } from '../../shared';
 
 export const likeRoute: Routes = [
     {

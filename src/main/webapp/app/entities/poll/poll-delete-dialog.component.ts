@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService, EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Poll } from './poll.model';
 import { PollPopupService } from './poll-popup.service';
@@ -19,8 +19,7 @@ export class PollDeleteDialogComponent {
     constructor(
         private pollService: PollService,
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -36,7 +35,6 @@ export class PollDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('jDiasApp.poll.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class PollDeleteDialogComponent {
 })
 export class PollDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class PollDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.pollPopupService
-                .open(PollDeleteDialogComponent, params['id']);
+            this.pollPopupService
+                .open(PollDeleteDialogComponent as Component, params['id']);
         });
     }
 

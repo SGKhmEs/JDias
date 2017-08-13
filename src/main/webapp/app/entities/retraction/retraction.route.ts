@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { PaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { RetractionComponent } from './retraction.component';
 import { RetractionDetailComponent } from './retraction-detail.component';
 import { RetractionPopupComponent } from './retraction-dialog.component';
 import { RetractionDeletePopupComponent } from './retraction-delete-dialog.component';
-
-import { Principal } from '../../shared';
 
 export const retractionRoute: Routes = [
     {

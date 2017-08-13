@@ -31,7 +31,7 @@ describe('AccountDeletion e2e test', () => {
         });
     });
 
-    it('should load create AccountDeletion dialog', function () {
+    it('should load create AccountDeletion dialog', () => {
         element(by.css('button.create-account-deletion')).click().then(() => {
             const expectVal = /jDiasApp.accountDeletion.home.createOrEditLabel/;
             element.all(by.css('h4.modal-title')).first().getAttribute('jhiTranslate').then((value) => {
@@ -42,7 +42,7 @@ describe('AccountDeletion e2e test', () => {
         });
     });
 
-    afterAll(function () {
+    afterAll(() => {
         accountMenu.click();
         logout.click();
     });

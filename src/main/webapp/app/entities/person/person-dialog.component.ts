@@ -4,15 +4,15 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Person } from './person.model';
 import { PersonPopupService } from './person-popup.service';
 import { PersonService } from './person.service';
-import { Reshare, ReshareService } from '../reshare';
 import { Profile, ProfileService } from '../profile';
 import { AccountDeletion, AccountDeletionService } from '../account-deletion';
 import { Conversation, ConversationService } from '../conversation';
+import { UserAccount, UserAccountService } from '../user-account';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -22,36 +22,32 @@ import { ResponseWrapper } from '../../shared';
 export class PersonDialogComponent implements OnInit {
 
     person: Person;
-    authorities: any[];
     isSaving: boolean;
-
-    reshares: Reshare[];
 
     profiles: Profile[];
 
     accountdeletions: AccountDeletion[];
 
     conversations: Conversation[];
+
+    useraccounts: UserAccount[];
     createdAtDp: any;
     updatedAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private personService: PersonService,
-        private reshareService: ReshareService,
         private profileService: ProfileService,
         private accountDeletionService: AccountDeletionService,
         private conversationService: ConversationService,
-        private eventManager: EventManager
+        private userAccountService: UserAccountService,
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.reshareService.query()
-            .subscribe((res: ResponseWrapper) => { this.reshares = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.profileService
             .query({filter: 'person-is-null'})
             .subscribe((res: ResponseWrapper) => {
@@ -80,7 +76,21 @@ export class PersonDialogComponent implements OnInit {
             }, (res: ResponseWrapper) => this.onError(res.json));
         this.conversationService.query()
             .subscribe((res: ResponseWrapper) => { this.conversations = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.userAccountService
+            .query({filter: 'person-is-null'})
+            .subscribe((res: ResponseWrapper) => {
+                if (!this.person.userAccount || !this.person.userAccount.id) {
+                    this.useraccounts = res.json;
+                } else {
+                    this.userAccountService
+                        .find(this.person.userAccount.id)
+                        .subscribe((subRes: UserAccount) => {
+                            this.useraccounts = [subRes].concat(res.json);
+                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
+                }
+            }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -89,24 +99,19 @@ export class PersonDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.person.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.personService.update(this.person), false);
+                this.personService.update(this.person));
         } else {
             this.subscribeToSaveResponse(
-                this.personService.create(this.person), true);
+                this.personService.create(this.person));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Person>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Person>) {
         result.subscribe((res: Person) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Person, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.person.created'
-            : 'jDiasApp.person.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Person) {
         this.eventManager.broadcast({ name: 'personListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -126,10 +131,6 @@ export class PersonDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackReshareById(index: number, item: Reshare) {
-        return item.id;
-    }
-
     trackProfileById(index: number, item: Profile) {
         return item.id;
     }
@@ -141,6 +142,21 @@ export class PersonDialogComponent implements OnInit {
     trackConversationById(index: number, item: Conversation) {
         return item.id;
     }
+
+    trackUserAccountById(index: number, item: UserAccount) {
+        return item.id;
+    }
+
+    getSelected(selectedVals: Array<any>, option: any) {
+        if (selectedVals) {
+            for (let i = 0; i < selectedVals.length; i++) {
+                if (option.id === selectedVals[i].id) {
+                    return selectedVals[i];
+                }
+            }
+        }
+        return option;
+    }
 }
 
 @Component({
@@ -149,7 +165,6 @@ export class PersonDialogComponent implements OnInit {
 })
 export class PersonPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -160,11 +175,11 @@ export class PersonPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.personPopupService
-                    .open(PersonDialogComponent, params['id']);
+                this.personPopupService
+                    .open(PersonDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.personPopupService
-                    .open(PersonDialogComponent);
+                this.personPopupService
+                    .open(PersonDialogComponent as Component);
             }
         });
     }

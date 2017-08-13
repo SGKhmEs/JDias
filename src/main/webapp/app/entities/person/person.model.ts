@@ -1,13 +1,6 @@
-import { Profile } from '../profile';
-import { AccountDeletion } from '../account-deletion';
-import { Comment } from '../comment';
-import { Contact } from '../contact';
-import { EventParticipation } from '../event-participation';
-import { Participation } from '../participation';
-import { Photo } from '../photo';
-import { Post } from '../post';
-import { Conversation } from '../conversation';
-export class Person {
+import { BaseEntity } from './../../shared';
+
+export class Person implements BaseEntity {
     constructor(
         public id?: number,
         public guid?: string,
@@ -18,15 +11,18 @@ export class Person {
         public closedAccount?: boolean,
         public fetchStatus?: number,
         public podId?: number,
-        public profile?: Profile,
-        public accountdeletion?: AccountDeletion,
-        public comments?: Comment,
-        public contacts?: Contact,
-        public events?: EventParticipation,
-        public participations?: Participation,
-        public photos?: Photo,
-        public posts?: Post,
-        public conversation?: Conversation,
+        public profile?: BaseEntity,
+        public accountdeletion?: BaseEntity,
+        public contacts?: BaseEntity[],
+        public posts?: BaseEntity[],
+        public photos?: BaseEntity[],
+        public comments?: BaseEntity[],
+        public participations?: BaseEntity[],
+        public events?: BaseEntity[],
+        public messages?: BaseEntity[],
+        public conversations?: BaseEntity[],
+        public userAccount?: BaseEntity,
+        public aspects?: BaseEntity[],
     ) {
         this.closedAccount = false;
     }

@@ -31,7 +31,7 @@ describe('AspectVisiblity e2e test', () => {
         });
     });
 
-    it('should load create AspectVisiblity dialog', function () {
+    it('should load create AspectVisiblity dialog', () => {
         element(by.css('button.create-aspect-visiblity')).click().then(() => {
             const expectVal = /jDiasApp.aspectVisiblity.home.createOrEditLabel/;
             element.all(by.css('h4.modal-title')).first().getAttribute('jhiTranslate').then((value) => {
@@ -42,7 +42,7 @@ describe('AspectVisiblity e2e test', () => {
         });
     });
 
-    afterAll(function () {
+    afterAll(() => {
         accountMenu.click();
         logout.click();
     });

@@ -3,29 +3,40 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TagFollowing } from './tag-following.model';
 import { TagFollowingService } from './tag-following.service';
+
 @Injectable()
 export class TagFollowingPopupService {
-    private isOpen = false;
+    private ngbModalRef: NgbModalRef;
+
     constructor(
         private modalService: NgbModal,
         private router: Router,
         private tagFollowingService: TagFollowingService
 
-    ) {}
+    ) {
+        this.ngbModalRef = null;
+    }
 
-    open(component: Component, id?: number | any): NgbModalRef {
-        if (this.isOpen) {
-            return;
-        }
-        this.isOpen = true;
+    open(component: Component, id?: number | any): Promise<NgbModalRef> {
+        return new Promise<NgbModalRef>((resolve, reject) => {
+            const isOpen = this.ngbModalRef !== null;
+            if (isOpen) {
+                resolve(this.ngbModalRef);
+            }
 
-        if (id) {
-            this.tagFollowingService.find(id).subscribe((tagFollowing) => {
-                this.tagFollowingModalRef(component, tagFollowing);
-            });
-        } else {
-            return this.tagFollowingModalRef(component, new TagFollowing());
-        }
+            if (id) {
+                this.tagFollowingService.find(id).subscribe((tagFollowing) => {
+                    this.ngbModalRef = this.tagFollowingModalRef(component, tagFollowing);
+                    resolve(this.ngbModalRef);
+                });
+            } else {
+                // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
+                setTimeout(() => {
+                    this.ngbModalRef = this.tagFollowingModalRef(component, new TagFollowing());
+                    resolve(this.ngbModalRef);
+                }, 0);
+            }
+        });
     }
 
     tagFollowingModalRef(component: Component, tagFollowing: TagFollowing): NgbModalRef {
@@ -33,10 +44,10 @@ export class TagFollowingPopupService {
         modalRef.componentInstance.tagFollowing = tagFollowing;
         modalRef.result.then((result) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
-            this.isOpen = false;
+            this.ngbModalRef = null;
         }, (reason) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
-            this.isOpen = false;
+            this.ngbModalRef = null;
         });
         return modalRef;
     }

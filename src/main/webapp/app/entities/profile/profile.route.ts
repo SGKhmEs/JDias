@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { PaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { ProfileComponent } from './profile.component';
 import { ProfileDetailComponent } from './profile-detail.component';
 import { ProfilePopupComponent } from './profile-dialog.component';
 import { ProfileDeletePopupComponent } from './profile-delete-dialog.component';
-
-import { Principal } from '../../shared';
 
 export const profileRoute: Routes = [
     {
@@ -42,7 +40,6 @@ export const profilePopupRoute: Routes = [
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
     },
-    // comment by traster - move to not popup section
     {
         path: 'profile/:id/edit',
         component: ProfilePopupComponent,

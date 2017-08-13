@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { AspectVisiblity } from './aspect-visiblity.model';
 import { AspectVisiblityPopupService } from './aspect-visiblity-popup.service';
@@ -20,7 +20,6 @@ import { ResponseWrapper } from '../../shared';
 export class AspectVisiblityDialogComponent implements OnInit {
 
     aspectVisiblity: AspectVisiblity;
-    authorities: any[];
     isSaving: boolean;
 
     aspects: Aspect[];
@@ -29,22 +28,22 @@ export class AspectVisiblityDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private aspectVisiblityService: AspectVisiblityService,
         private aspectService: AspectService,
         private postService: PostService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.aspectService.query()
             .subscribe((res: ResponseWrapper) => { this.aspects = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.postService.query()
             .subscribe((res: ResponseWrapper) => { this.posts = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -53,24 +52,19 @@ export class AspectVisiblityDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.aspectVisiblity.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.aspectVisiblityService.update(this.aspectVisiblity), false);
+                this.aspectVisiblityService.update(this.aspectVisiblity));
         } else {
             this.subscribeToSaveResponse(
-                this.aspectVisiblityService.create(this.aspectVisiblity), true);
+                this.aspectVisiblityService.create(this.aspectVisiblity));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<AspectVisiblity>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<AspectVisiblity>) {
         result.subscribe((res: AspectVisiblity) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: AspectVisiblity, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.aspectVisiblity.created'
-            : 'jDiasApp.aspectVisiblity.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: AspectVisiblity) {
         this.eventManager.broadcast({ name: 'aspectVisiblityListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -105,7 +99,6 @@ export class AspectVisiblityDialogComponent implements OnInit {
 })
 export class AspectVisiblityPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -116,11 +109,11 @@ export class AspectVisiblityPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.aspectVisiblityPopupService
-                    .open(AspectVisiblityDialogComponent, params['id']);
+                this.aspectVisiblityPopupService
+                    .open(AspectVisiblityDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.aspectVisiblityPopupService
-                    .open(AspectVisiblityDialogComponent);
+                this.aspectVisiblityPopupService
+                    .open(AspectVisiblityDialogComponent as Component);
             }
         });
     }

@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { PollAnswer } from './poll-answer.model';
 import { PollAnswerPopupService } from './poll-answer-popup.service';
@@ -19,26 +19,25 @@ import { ResponseWrapper } from '../../shared';
 export class PollAnswerDialogComponent implements OnInit {
 
     pollAnswer: PollAnswer;
-    authorities: any[];
     isSaving: boolean;
 
     polls: Poll[];
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private pollAnswerService: PollAnswerService,
         private pollService: PollService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.pollService.query()
             .subscribe((res: ResponseWrapper) => { this.polls = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -47,24 +46,19 @@ export class PollAnswerDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.pollAnswer.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.pollAnswerService.update(this.pollAnswer), false);
+                this.pollAnswerService.update(this.pollAnswer));
         } else {
             this.subscribeToSaveResponse(
-                this.pollAnswerService.create(this.pollAnswer), true);
+                this.pollAnswerService.create(this.pollAnswer));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<PollAnswer>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<PollAnswer>) {
         result.subscribe((res: PollAnswer) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: PollAnswer, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.pollAnswer.created'
-            : 'jDiasApp.pollAnswer.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: PollAnswer) {
         this.eventManager.broadcast({ name: 'pollAnswerListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -85,7 +79,7 @@ export class PollAnswerDialogComponent implements OnInit {
     }
 
     trackPollById(index: number, item: Poll) {
-        return item.poll_id;
+        return item.id;
     }
 }
 
@@ -95,7 +89,6 @@ export class PollAnswerDialogComponent implements OnInit {
 })
 export class PollAnswerPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -106,11 +99,11 @@ export class PollAnswerPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.pollAnswerPopupService
-                    .open(PollAnswerDialogComponent, params['id']);
+                this.pollAnswerPopupService
+                    .open(PollAnswerDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.pollAnswerPopupService
-                    .open(PollAnswerDialogComponent);
+                this.pollAnswerPopupService
+                    .open(PollAnswerDialogComponent as Component);
             }
         });
     }

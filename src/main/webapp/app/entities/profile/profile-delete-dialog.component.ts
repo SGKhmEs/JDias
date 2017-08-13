@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService, EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Profile } from './profile.model';
 import { ProfilePopupService } from './profile-popup.service';
@@ -19,8 +19,7 @@ export class ProfileDeleteDialogComponent {
     constructor(
         private profileService: ProfileService,
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -36,7 +35,6 @@ export class ProfileDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('jDiasApp.profile.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class ProfileDeleteDialogComponent {
 })
 export class ProfileDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class ProfileDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.profilePopupService
-                .open(ProfileDeleteDialogComponent, params['id']);
+            this.profilePopupService
+                .open(ProfileDeleteDialogComponent as Component, params['id']);
         });
     }
 

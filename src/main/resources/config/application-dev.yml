@@ -26,15 +26,15 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://4sstudio.online:5432/jdias_database
-        username: jdias_user
-        password: enterprise
+        url: jdbc:h2:file:./build/h2db/db/jdias;DB_CLOSE_DELAY=-1
+        username: JDias
+        password:
     h2:
         console:
             enabled: false
     jpa:
-        database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
-        database: POSTGRESQL
+        database-platform: io.github.jhipster.domain.util.FixedH2Dialect
+        database: H2
         show-sql: true
         properties:
             hibernate.id.new_generator_mappings: true
@@ -51,16 +51,10 @@ spring:
                     logs: build/elasticsearch/log
                     data: build/elasticsearch/data
     mail:
-        host: smtp.gmail.com
-        port: 587
-        username: welcome.jdias@gmail.com  #Replace this field with your Gmail username.
-        password: Meg2g2nj2          #Replace this field with your Gmail password.
-        protocol: smtp
-        tls: true
-        properties.mail.smtp:
-            auth: true
-            starttls.enable: true
-            ssl.trust: smtp.gmail.com
+        host: localhost
+        port: 25
+        username:
+        password:
     messages:
         cache-seconds: 1
     thymeleaf:

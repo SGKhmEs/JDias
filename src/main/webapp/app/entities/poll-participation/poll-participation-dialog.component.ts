@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { PollParticipation } from './poll-participation.model';
 import { PollParticipationPopupService } from './poll-participation-popup.service';
@@ -20,7 +20,6 @@ import { ResponseWrapper } from '../../shared';
 export class PollParticipationDialogComponent implements OnInit {
 
     pollParticipation: PollParticipation;
-    authorities: any[];
     isSaving: boolean;
 
     polls: Poll[];
@@ -29,22 +28,22 @@ export class PollParticipationDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private pollParticipationService: PollParticipationService,
         private pollService: PollService,
         private pollAnswerService: PollAnswerService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.pollService.query()
             .subscribe((res: ResponseWrapper) => { this.polls = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.pollAnswerService.query()
             .subscribe((res: ResponseWrapper) => { this.pollanswers = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -53,24 +52,19 @@ export class PollParticipationDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.pollParticipation.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.pollParticipationService.update(this.pollParticipation), false);
+                this.pollParticipationService.update(this.pollParticipation));
         } else {
             this.subscribeToSaveResponse(
-                this.pollParticipationService.create(this.pollParticipation), true);
+                this.pollParticipationService.create(this.pollParticipation));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<PollParticipation>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<PollParticipation>) {
         result.subscribe((res: PollParticipation) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: PollParticipation, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.pollParticipation.created'
-            : 'jDiasApp.pollParticipation.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: PollParticipation) {
         this.eventManager.broadcast({ name: 'pollParticipationListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -91,7 +85,7 @@ export class PollParticipationDialogComponent implements OnInit {
     }
 
     trackPollById(index: number, item: Poll) {
-        return item.poll_id;
+        return item.id;
     }
 
     trackPollAnswerById(index: number, item: PollAnswer) {
@@ -105,7 +99,6 @@ export class PollParticipationDialogComponent implements OnInit {
 })
 export class PollParticipationPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -116,11 +109,11 @@ export class PollParticipationPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.pollParticipationPopupService
-                    .open(PollParticipationDialogComponent, params['id']);
+                this.pollParticipationPopupService
+                    .open(PollParticipationDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.pollParticipationPopupService
-                    .open(PollParticipationDialogComponent);
+                this.pollParticipationPopupService
+                    .open(PollParticipationDialogComponent as Component);
             }
         });
     }

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService, EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Retraction } from './retraction.model';
 import { RetractionPopupService } from './retraction-popup.service';
@@ -19,8 +19,7 @@ export class RetractionDeleteDialogComponent {
     constructor(
         private retractionService: RetractionService,
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -36,7 +35,6 @@ export class RetractionDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('jDiasApp.retraction.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class RetractionDeleteDialogComponent {
 })
 export class RetractionDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class RetractionDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.retractionPopupService
-                .open(RetractionDeleteDialogComponent, params['id']);
+            this.retractionPopupService
+                .open(RetractionDeleteDialogComponent as Component, params['id']);
         });
     }
 

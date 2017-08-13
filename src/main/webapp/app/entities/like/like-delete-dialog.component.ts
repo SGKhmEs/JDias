@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService, EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Like } from './like.model';
 import { LikePopupService } from './like-popup.service';
@@ -19,8 +19,7 @@ export class LikeDeleteDialogComponent {
     constructor(
         private likeService: LikeService,
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -36,7 +35,6 @@ export class LikeDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('jDiasApp.like.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class LikeDeleteDialogComponent {
 })
 export class LikeDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class LikeDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.likePopupService
-                .open(LikeDeleteDialogComponent, params['id']);
+            this.likePopupService
+                .open(LikeDeleteDialogComponent as Component, params['id']);
         });
     }
 

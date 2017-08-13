@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService, EventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Tagging } from './tagging.model';
 import { TaggingPopupService } from './tagging-popup.service';
@@ -19,8 +19,7 @@ export class TaggingDeleteDialogComponent {
     constructor(
         private taggingService: TaggingService,
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -36,7 +35,6 @@ export class TaggingDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('jDiasApp.tagging.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class TaggingDeleteDialogComponent {
 })
 export class TaggingDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class TaggingDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.taggingPopupService
-                .open(TaggingDeleteDialogComponent, params['id']);
+            this.taggingPopupService
+                .open(TaggingDeleteDialogComponent as Component, params['id']);
         });
     }
 

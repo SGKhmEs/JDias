@@ -4,11 +4,13 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Aspect } from './aspect.model';
 import { AspectPopupService } from './aspect-popup.service';
 import { AspectService } from './aspect.service';
+import { Person, PersonService } from '../person';
+import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-aspect-dialog',
@@ -17,22 +19,26 @@ import { AspectService } from './aspect.service';
 export class AspectDialogComponent implements OnInit {
 
     aspect: Aspect;
-    authorities: any[];
     isSaving: boolean;
+
+    people: Person[];
     createdAtDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private aspectService: AspectService,
-        private eventManager: EventManager
+        private PersonService: PersonService,
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
+        this.PersonService.query()
+            .subscribe((res: ResponseWrapper) => { this.people = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -41,24 +47,19 @@ export class AspectDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.aspect.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.aspectService.update(this.aspect), false);
+                this.aspectService.update(this.aspect));
         } else {
             this.subscribeToSaveResponse(
-                this.aspectService.create(this.aspect), true);
+                this.aspectService.create(this.aspect));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Aspect>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Aspect>) {
         result.subscribe((res: Aspect) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Aspect, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'jDiasApp.aspect.created'
-            : 'jDiasApp.aspect.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Aspect) {
         this.eventManager.broadcast({ name: 'aspectListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -77,6 +78,10 @@ export class AspectDialogComponent implements OnInit {
     private onError(error) {
         this.alertService.error(error.message, null, null);
     }
+
+    trackPersonById(index: number, item: Person) {
+        return item.id;
+    }
 }
 
 @Component({
@@ -85,7 +90,6 @@ export class AspectDialogComponent implements OnInit {
 })
 export class AspectPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -96,11 +100,11 @@ export class AspectPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.aspectPopupService
-                    .open(AspectDialogComponent, params['id']);
+                this.aspectPopupService
+                    .open(AspectDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.aspectPopupService
-                    .open(AspectDialogComponent);
+                this.aspectPopupService
+                    .open(AspectDialogComponent as Component);
             }
         });
     }
